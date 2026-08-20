@@ -1,0 +1,61 @@
+version: '3.8'
+
+services:
+  # Single unified database: PostgreSQL 16 + PostGIS + pgvector
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: bhoomi-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: bhoomi
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init-db.sql:/docker-entrypoint-initdb.d/init-db.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d bhoomi"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # S3-compatible Object Storage for voice, photo, and cadastral blobs
+  minio:
+    image: minio/minio:latest
+    container_name: bhoomi-minio
+    restart: unless-stopped
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - minio_data:/data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # MinIO client to create default bucket on startup
+  createbuckets:
+    image: minio/mc:latest
+    container_name: bhoomi-minio-setup
+    depends_on:
+      minio:
+        condition: service_healthy
+    entrypoint: >
+      /bin/sh -c "
+      /usr/bin/mc alias set myminio http://minio:9000 minioadmin minioadmin;
+      /usr/bin/mc mb myminio/bhoomi-assets;
+      /usr/bin/mc anonymous set public myminio/bhoomi-assets;
+      exit 0;
+      "
+
+volumes:
+  postgres_data:
+  minio_data:
