@@ -92,28 +92,42 @@ bhoomi/
 
 ## Getting started
 
-*Scaffold stage — most files are stubs. This is the intended local setup.*
+*Phase 0 Skeleton — stubs, in-memory repository fallbacks, and OpenAPI schemas are wired.*
+
+### Running the Backend API (Phase 0)
 
 ```bash
-# 1. Infrastructure (Postgres + PostGIS + pgvector, MinIO)
-cd infra && docker compose up -d
+# 1. (Optional) Infrastructure - Postgres 16 (PostGIS + pgvector) & MinIO
+cd infra
+docker compose up -d
+cd ..
 
-# 2. Backend API
+# 2. Start Backend API
 cd services/api
 pip install -r requirements.txt
-cp ../../.env.example .env   # fill in secrets + feature flags
-uvicorn app.main:app --reload
-# OpenAPI docs at http://localhost:8000/docs
+cp .env.example .env    # loads default stubs, feature flags, and thresholds
 
-# 3. Portals
-cd apps/officer-portal && npm install && npm run dev
-
-# 4. Farmer app
-cd apps/farmer-flutter && flutter pub get && flutter run
+# Run the API with uvicorn (boots with in-memory repos if Postgres is offline)
+uvicorn app.main:app --reload --port 8000
 ```
 
-Feature flags (in `.env`) let the demo flip between mocked and live paths:
-`LAND_API_MODE = mock | live` · `DIAGNOSIS_MODEL = real | stub`.
+- **Interactive Swagger / OpenAPI docs**: [http://localhost:8000/docs](http://localhost:8000/docs)
+- **ReDoc API Explorer**: [http://localhost:8000/redoc](http://localhost:8000/redoc)
+- **Health check probe**: `GET http://localhost:8000/health`
+
+### Running Backend Tests
+
+```bash
+cd services/api
+pytest -v
+```
+
+Feature flags (in `.env`) control adapter modes:
+- `LAND_API_MODE = mock | live`
+- `DIAGNOSIS_MODEL = real | stub`
+- `CONFIDENCE_GATE = 0.70`
+- `RAG_RELEVANCE_THRESHOLD = 0.35`
+
 
 ## Documentation
 
