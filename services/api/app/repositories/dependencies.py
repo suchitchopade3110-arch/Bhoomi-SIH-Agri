@@ -10,15 +10,16 @@ from app.core.db import get_db
 from app.repositories.health_context import (
     FarmHealthContextReader,
     InMemoryFarmHealthContextReader,
-    InMemoryProblemLoadReader,
     InMemoryTreatmentTrendReader,
     ProblemLoadReader,
     ProblemWriter,
     TreatmentTrendReader,
 )
+from app.repositories.case_repository import EscalationCaseRepository
 from app.repositories.health_snapshot_repository import HealthSnapshotRepository
 from app.repositories.interfaces import KnowledgeChunkReader
 from app.repositories.knowledge_chunk_repository import KnowledgeChunkRepository
+from app.repositories.problem_registry import ProblemRegistry
 from app.repositories.in_memory import (
     InMemoryAdvisoryRepository,
     InMemoryAssetRepository,
@@ -99,26 +100,42 @@ def get_health_snapshot_repository(
 
 
 # Placeholder readers for aggregates (Farm profile, Problem, FollowUp) that
-# don't have their own phase/migration yet — see repositories/health_context.py.
-_problem_load_reader = InMemoryProblemLoadReader()
+# don't have their own phase/migration yet — see repositories/health_context.py
+# and repositories/problem_registry.py.
+_problem_registry = ProblemRegistry()
 _treatment_trend_reader = InMemoryTreatmentTrendReader()
 _farm_health_context_reader = InMemoryFarmHealthContextReader()
 
 
 @lru_cache
 def get_problem_load_reader() -> ProblemLoadReader:
-    return _problem_load_reader
+    """``ProblemRegistry`` structurally satisfies this Phase-1 Protocol —
+    same singleton as ``get_problem_registry``, so a Phase-4 write is
+    immediately visible to the health engine's reads."""
+    return _problem_registry
 
 
 @lru_cache
 def get_problem_writer() -> ProblemWriter:
-    """Same singleton as ``get_problem_load_reader`` — a write here is
-    immediately visible to reads (see ``repositories.health_context.ProblemWriter``)."""
-    return _problem_load_reader
+    return _problem_registry
+
+
+@lru_cache
+def get_problem_registry() -> ProblemRegistry:
+    """The richer Phase-4 registry (escalation, follow-up, resolution) —
+    same singleton as ``get_problem_load_reader``/``get_problem_writer``."""
+    return _problem_registry
 
 
 @lru_cache
 def get_treatment_trend_reader() -> TreatmentTrendReader:
+    return _treatment_trend_reader
+
+
+@lru_cache
+def get_treatment_trend_writer() -> InMemoryTreatmentTrendReader:
+    """Same singleton as ``get_treatment_trend_reader``, typed concretely so
+    callers can reach its ``set_trend`` (Phase 4's follow-up/resolve flows)."""
     return _treatment_trend_reader
 
 
@@ -132,3 +149,9 @@ def get_knowledge_chunk_reader(
 ) -> KnowledgeChunkReader:
     """Real, pgvector-backed reader for the curated RAG corpus."""
     return KnowledgeChunkRepository(session)
+
+
+def get_escalation_case_repository(session: Annotated[AsyncSession, Depends(get_db)]) -> EscalationCaseRepository:
+    """Real, SQLAlchemy-backed repository for the Case aggregate (Phase 4) —
+    distinct from the Phase-0 ``get_case_repository`` dict-based placeholder."""
+    return EscalationCaseRepository(session)

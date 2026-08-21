@@ -67,6 +67,21 @@ class Settings(BaseSettings):
         default="stub",
         description="Crop disease diagnosis mode: 'real' runs PyTorch model, 'stub' returns settable confidence",
     )
+    ROUTING_MODE: Literal["real", "demo_fixed"] = Field(
+        default="demo_fixed",
+        description=(
+            "Escalation routing mode (PRD §5.11): 'real' queries the agronomist "
+            "roster for the nearest available agronomist, falling back to the next "
+            "available, raising OFFICER_UNAVAILABLE only if none are; "
+            "'demo_fixed' always assigns DEMO_FIXED_AGRONOMIST, for a "
+            "reliable pitch demo. The routing interface is real either way — "
+            "this flag only picks which answer it returns."
+        ),
+    )
+    DEMO_FIXED_AGRONOMIST: str = Field(
+        default="agronomist:kvk_erode",
+        description="The agronomist identifier ROUTING_MODE='demo_fixed' always assigns.",
+    )
 
     # Core Domain Thresholds (Enforced in orchestration layer)
     CONFIDENCE_GATE: float = Field(

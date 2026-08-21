@@ -1,38 +1,38 @@
-"""Agronomist portal case queue and resolution schemas."""
+"""Agronomist portal schemas — mirror contract §2.13 exactly."""
 
-from datetime import datetime
 from pydantic import BaseModel, Field
-from app.core.enums import CaseStatus, ProblemSeverity
-from app.schemas.case import CaseSummary
+
+from app.core.enums import HealthBand
+from app.schemas.case import CaseQueueItem
+from app.schemas.common import PaginatedResponse
 
 
-class AgronomistQueueItem(BaseModel):
-    """Item in KVK agronomist review queue."""
-    escalation_id: str = Field(...)
-    farm_id: str = Field(...)
-    farmer_name: str = Field(...)
-    village: str = Field(...)
-    crop: str = Field(...)
-    severity: ProblemSeverity = Field(...)
-    status: CaseStatus = Field(...)
-    health_score: float = Field(...)
-    escalated_at: datetime = Field(...)
+class CaseQueueResponse(PaginatedResponse[CaseQueueItem]):
+    """``GET /agronomist/case-queue``: assigned cases, newest first."""
 
 
 class ResolveCaseRequest(BaseModel):
-    """Agronomist resolution payload."""
-    escalation_id: str = Field(...)
-    agronomist_id: str = Field(...)
-    agronomist_name: str = Field(...)
-    confirmed_diagnosis: str = Field(..., description="Agronomist-validated diagnosis")
-    expert_advice: str = Field(..., description="Actionable prescription for farmer")
-    prescribed_inputs: list[str] = Field(default_factory=list)
-    audio_notes_asset_id: str | None = None
+    """``POST /cases/{id}/resolve`` request (contract §2.13)."""
+
+    diagnosis: str = Field(..., min_length=1)
+    treatment: str = Field(..., min_length=1)
+    notes: str | None = None
+
+
+class ResolveCaseHealthRef(BaseModel):
+    from_: int | None = Field(default=None, alias="from")
+    to: int | None = None
+    band: HealthBand
+
+    model_config = {"populate_by_name": True}
 
 
 class ResolveCaseResponse(BaseModel):
-    """Response confirming case resolution."""
-    escalation_id: str = Field(...)
-    status: CaseStatus = Field(default=CaseStatus.RESOLVED)
-    resolved_at: datetime = Field(default_factory=datetime.utcnow)
-    message: str = "Case successfully resolved and dispatched to farmer."
+    """``POST /cases/{id}/resolve`` response (contract §2.13):
+    ``{ "case_id": "c_5", "status": "resolved", "problem_status": "resolved", "health": { "from": 59, "to": 86, "band": "good" } }``.
+    """
+
+    case_id: str
+    status: str
+    problem_status: str | None = None
+    health: ResolveCaseHealthRef

@@ -81,9 +81,11 @@ def test_openapi_schema_generation(client):
         "/api/v1/farms/{farm_id}/diagnose",
         "/api/v1/advisory/query",
         "/api/v1/timeline/{farm_id}",
-        "/api/v1/followup/checkin",
-        "/api/v1/escalation/create",
-        "/api/v1/agronomist/queue",
+        "/api/v1/followups/{followup_id}/respond",
+        "/api/v1/problems/{problem_id}/escalate",
+        "/api/v1/cases/{case_id}",
+        "/api/v1/cases/{case_id}/resolve",
+        "/api/v1/agronomist/case-queue",
         "/api/v1/schemes/match",
         "/api/v1/weather/current",
     ]
@@ -116,7 +118,7 @@ def test_all_contract_enums():
     assert ProblemSeverity.EARLY == "early"
     assert ProblemStatus.OPEN == "open"
     assert FollowupResponse.IMPROVED == "improved"
-    assert CaseStatus.ESCALATED == "escalated"
+    assert CaseStatus.ASSIGNED == "assigned"
     assert SchemeStatus.ACTIVE == "active"
     assert AssetKind.AUDIO_QUERY == "audio_query"
     assert UserRole.FARMER == "farmer"

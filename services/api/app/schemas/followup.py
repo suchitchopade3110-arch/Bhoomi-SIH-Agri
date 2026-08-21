@@ -1,27 +1,39 @@
-"""Closed-loop follow-up check-in schemas."""
+"""Closed-loop follow-up schemas — mirror contract §2.12 exactly."""
 
-from datetime import datetime
-from pydantic import BaseModel, Field
-from app.core.enums import FollowupResponse
-from app.schemas.common import SpokenResponseMixin
-from app.schemas.health import HealthSnapshot
+from pydantic import BaseModel, ConfigDict, Field
+
+from app.core.enums import FollowupResponse, HealthBand
 
 
-class FollowupCheckinRequest(BaseModel):
-    """Farmer follow-up check-in on a previous advisory or problem."""
-    advisory_id: str = Field(..., description="UUID string of original advisory")
-    farm_id: str = Field(..., description="UUID string of farm")
-    response: FollowupResponse = Field(..., description="'improved', 'no_change', or 'got_worse'")
-    farmer_notes: str | None = Field(default=None, description="Optional spoken/text feedback")
-    photo_asset_id: str | None = Field(default=None, description="Optional updated crop photo")
+class FollowupRespondRequest(BaseModel):
+    """``POST /followups/{id}/respond`` request (contract §2.12)."""
+
+    response: FollowupResponse
+    image_asset_id: str | None = None
 
 
-class FollowupCheckinResponse(SpokenResponseMixin):
-    """Response from follow-up evaluation."""
-    followup_id: str = Field(..., description="UUID string of follow-up record")
-    advisory_id: str = Field(...)
-    response: FollowupResponse = Field(...)
-    auto_escalated: bool = Field(..., description="Whether 'got_worse' or persistent 'no_change' triggered auto-escalation")
-    escalation_id: str | None = Field(default=None, description="Escalation UUID if auto-escalated")
-    updated_health_snapshot: HealthSnapshot = Field(..., description="Recalculated health score reflecting check-in")
-    created_at: datetime = Field(default_factory=datetime.utcnow)
+class SeverityChange(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+
+    from_: str = Field(alias="from")
+    to: str
+
+
+class FollowupHealthRef(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+
+    from_: int | None = Field(default=None, alias="from")
+    to: int | None = None
+    band: HealthBand
+
+
+class FollowupRespondResponse(BaseModel):
+    """``POST /followups/{id}/respond`` response (contract §2.12):
+    ``{ "problem_id": "p_7", "severity_change": {"from":"early","to":"moderate"}, "health": {"from":68,"to":59,"band":"poor"}, "escalated": true, "case_id": "c_5" }``.
+    """
+
+    problem_id: str
+    severity_change: SeverityChange
+    health: FollowupHealthRef
+    escalated: bool
+    case_id: str | None = None

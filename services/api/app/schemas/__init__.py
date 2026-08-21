@@ -19,7 +19,7 @@ from app.schemas.advisory import (
     Citation,
     FivePointAdvisory,
 )
-from app.schemas.case import CaseSummary
+from app.schemas.case import CaseFarmRef, CaseHealthRef, CaseImageRef, CaseProblemRef, CaseQueueItem, CaseSummary, TimelineEvent
 from app.schemas.auth import (
     TokenResponse,
     UserLoginRequest,
@@ -74,15 +74,12 @@ from app.schemas.timeline import (
     TimelineResponse,
 )
 from app.schemas.followup import (
-    FollowupCheckinRequest,
-    FollowupCheckinResponse,
+    FollowupRespondRequest,
+    FollowupRespondResponse,
 )
-from app.schemas.escalation import (
-    EscalationCreateRequest,
-    EscalationResponse,
-)
+from app.schemas.escalation import EscalateResponse
 from app.schemas.agronomist import (
-    AgronomistQueueItem,
+    CaseQueueResponse,
     ResolveCaseRequest,
     ResolveCaseResponse,
 )
@@ -112,6 +109,12 @@ __all__ = [
     "AdvisoryQueryRequest",
     "AdvisoryQueryResponse",
     "CaseSummary",
+    "CaseFarmRef",
+    "CaseProblemRef",
+    "CaseImageRef",
+    "CaseHealthRef",
+    "CaseQueueItem",
+    "TimelineEvent",
     "UserRegisterRequest",
     "UserLoginRequest",
     "TokenResponse",
@@ -147,11 +150,10 @@ __all__ = [
     "EscalationRef",
     "TimelineEventResponse",
     "TimelineResponse",
-    "FollowupCheckinRequest",
-    "FollowupCheckinResponse",
-    "EscalationCreateRequest",
-    "EscalationResponse",
-    "AgronomistQueueItem",
+    "FollowupRespondRequest",
+    "FollowupRespondResponse",
+    "EscalateResponse",
+    "CaseQueueResponse",
     "ResolveCaseRequest",
     "ResolveCaseResponse",
     "SchemeResponse",

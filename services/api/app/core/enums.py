@@ -57,12 +57,10 @@ class FollowupResponse(str, Enum):
 
 
 class CaseStatus(str, Enum):
-    """Lifecycle status of an escalated case."""
+    """Lifecycle status of an escalated case (contract §2.2)."""
     OPEN = "open"
-    INVESTIGATING = "investigating"
-    ESCALATED = "escalated"
+    ASSIGNED = "assigned"
     RESOLVED = "resolved"
-    CLOSED = "closed"
 
 
 class SchemeStatus(str, Enum):
