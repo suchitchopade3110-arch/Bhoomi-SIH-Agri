@@ -91,6 +91,21 @@ class Settings(BaseSettings):
     # Health score default rubric version
     WEIGHTS_VERSION: str = "v1.0.0"
 
+    # Escalation routing (PRD §5.11)
+    AGRONOMIST_ROUTING_MODE: Literal["demo_fixed", "directory"] = Field(
+        default="demo_fixed",
+        description=(
+            "'demo_fixed' always assigns the seeded DEMO_AGRONOMIST_NAME row; "
+            "'directory' does a real nearest-district-then-any-available query "
+            "against the agronomists table (see services/escalation/routing.py). "
+            "Defaults to demo_fixed because no real agronomist geodata is seeded yet."
+        ),
+    )
+    DEMO_AGRONOMIST_NAME: str = Field(
+        default="Dr. Meena Krishnan",
+        description="Row name AGRONOMIST_ROUTING_MODE='demo_fixed' always assigns cases to (must match a seeded agronomists.name).",
+    )
+
 
 @lru_cache
 def get_settings() -> Settings:

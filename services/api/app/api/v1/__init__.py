@@ -5,6 +5,7 @@ from app.api.v1.advisory import router as advisory_router
 from app.api.v1.agronomist import router as agronomist_router
 from app.api.v1.assets import router as assets_router
 from app.api.v1.auth import router as auth_router
+from app.api.v1.cases import router as cases_router
 from app.api.v1.diagnose import router as diagnose_router
 from app.api.v1.escalation import router as escalation_router
 from app.api.v1.farms import router as farms_router
@@ -34,6 +35,7 @@ api_v1_router.include_router(timeline_router)
 api_v1_router.include_router(followup_router)
 api_v1_router.include_router(escalation_router)
 api_v1_router.include_router(agronomist_router)
+api_v1_router.include_router(cases_router)
 api_v1_router.include_router(schemes_router)
 api_v1_router.include_router(weather_router)
 

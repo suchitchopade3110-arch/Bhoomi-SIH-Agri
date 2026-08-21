@@ -14,10 +14,11 @@ from app.repositories.health_context import (
     InMemoryProblemLoadReader,
     InMemoryTreatmentTrendReader,
 )
-from app.repositories.in_memory import InMemoryCaseRepository
+from app.repositories.in_memory import InMemoryFarmRepository, InMemoryUserRepository
 from app.services.diagnosis_service import DiagnosisService
 from app.services.health_service import HealthService
 from app.services.rag.retrieval import RetrievalService
+from tests.escalation._helpers import build_escalation_service
 from tests.rag._helpers import build_ingested_repo
 
 SETTINGS = Settings(CONFIDENCE_GATE=0.70, RAG_RELEVANCE_THRESHOLD=0.18)
@@ -98,14 +99,20 @@ async def _make_service(image_confidence: float = 0.87, image_label: str = "bact
     image_port = StubImageDiagnosisAdapter(label=image_label, confidence=image_confidence)
     problem_reader = InMemoryProblemLoadReader()
     health_service = _make_health_service(problem_reader)
-    case_repo = InMemoryCaseRepository()
+    escalation_service = build_escalation_service(
+        farm_repo=InMemoryFarmRepository(),
+        user_repo=InMemoryUserRepository(),
+        health_service=health_service,
+        problem_reader=problem_reader,
+        treatment_reader=InMemoryTreatmentTrendReader(),
+    )
     return DiagnosisService(
         image_port=image_port,
         retrieval=retrieval,
         llm_port=StubLLMAdapter(),
         health_service=health_service,
         problem_writer=problem_reader,
-        case_repo=case_repo,
+        escalation_service=escalation_service,
         settings=SETTINGS,
     )
 

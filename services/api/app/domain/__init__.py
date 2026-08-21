@@ -1,6 +1,6 @@
 """Domain logic modules for Bhoomi."""
 
-from app.domain.escalation import build_case_summary
+from app.domain.escalation import build_case_summary, promote_severity, should_auto_escalate
 from app.domain.fao56 import calculate_fao56_irrigation
 from app.domain.gate import decide as decide_gate
 from app.domain.health import compute_health
@@ -13,5 +13,7 @@ __all__ = [
     "build_grounding_prompt",
     "chunk_text",
     "build_case_summary",
+    "promote_severity",
+    "should_auto_escalate",
     "calculate_fao56_irrigation",
 ]

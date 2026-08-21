@@ -7,14 +7,18 @@ from fastapi import Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.db import get_db
+from app.repositories.agronomist_repository import AgronomistDirectory, AgronomistRepository
+from app.repositories.case_repository import CaseRepository as EscalationCaseRepository
 from app.repositories.health_context import (
     FarmHealthContextReader,
+    FarmHealthContextWriter,
     InMemoryFarmHealthContextReader,
     InMemoryProblemLoadReader,
     InMemoryTreatmentTrendReader,
     ProblemLoadReader,
     ProblemWriter,
     TreatmentTrendReader,
+    TreatmentTrendWriter,
 )
 from app.repositories.health_snapshot_repository import HealthSnapshotRepository
 from app.repositories.interfaces import KnowledgeChunkReader
@@ -123,7 +127,21 @@ def get_treatment_trend_reader() -> TreatmentTrendReader:
 
 
 @lru_cache
+def get_treatment_trend_writer() -> TreatmentTrendWriter:
+    """Same singleton as ``get_treatment_trend_reader`` — a write here is
+    immediately visible to reads."""
+    return _treatment_trend_reader
+
+
+@lru_cache
 def get_farm_health_context_reader() -> FarmHealthContextReader:
+    return _farm_health_context_reader
+
+
+@lru_cache
+def get_farm_health_context_writer() -> FarmHealthContextWriter:
+    """Same singleton as ``get_farm_health_context_reader`` — a write here is
+    immediately visible to reads."""
     return _farm_health_context_reader
 
 
@@ -132,3 +150,17 @@ def get_knowledge_chunk_reader(
 ) -> KnowledgeChunkReader:
     """Real, pgvector-backed reader for the curated RAG corpus."""
     return KnowledgeChunkRepository(session)
+
+
+def get_escalation_case_repository(
+    session: Annotated[AsyncSession, Depends(get_db)],
+) -> EscalationCaseRepository:
+    """Real, Postgres-backed repository for the Case aggregate (Phase 4)."""
+    return EscalationCaseRepository(session)
+
+
+def get_agronomist_directory(
+    session: Annotated[AsyncSession, Depends(get_db)],
+) -> AgronomistDirectory:
+    """Real, Postgres-backed agronomist routing directory (Phase 4)."""
+    return AgronomistRepository(session)

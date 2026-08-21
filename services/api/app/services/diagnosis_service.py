@@ -4,13 +4,10 @@
 the gate call is domain.gate.decide, output validation is
 domain.rag.parse_advisory_output, and scoring is Phase-1's HealthService.
 
-Escalation routing and the durable Problem/Case aggregates don't have their
-own phase yet (PRD §5.11 is a later phase). This service creates the
-minimal records those two branches need — a Problem entry for the health
-engine (via the same ``ProblemWriter`` placeholder Phase 1 introduced) and a
-Case record via the existing (Phase-0) ``CaseRepository`` — rather than
-building the full escalation subsystem. ``DEFAULT_ASSIGNED_AGRONOMIST`` is a
-fixed stand-in for real nearest-KVK routing.
+Both escalation branches (below-gate/out-of-scope, and no-retrieval —
+Phase 4 item 1) route through ``EscalationService.create_escalation``, which
+compiles the Living Case Summary and assigns a real agronomist — this
+service no longer hand-rolls a placeholder Case record.
 """
 
 from dataclasses import dataclass
@@ -27,21 +24,18 @@ from app.domain.gate import decide
 from app.domain.health.inputs import TriggeringInput
 from app.domain.rag import FivePointAdvisory, GroundedCitation, parse_advisory_output
 from app.models.health_snapshot import HealthSnapshot
-from app.repositories.dependencies import get_case_repository, get_problem_writer
+from app.repositories.dependencies import get_problem_writer
 from app.repositories.health_context import OpenProblemRecord, ProblemWriter
-from app.repositories.interfaces import CaseRepository, RetrievedChunk
+from app.repositories.interfaces import RetrievedChunk
+from app.services.escalation.escalation_service import EscalationService, get_escalation_service
 from app.services.gate_service import SUPPORTED_DIAGNOSIS_LABELS
 from app.services.health_service import HealthService, get_health_service
 from app.services.rag.retrieval import RetrievalService, get_retrieval_service
 
 # A fresh diagnosis has no follow-up history yet, so it always starts at the
-# lightest severity tier — later follow-ups (Phase 1's treatment_response /
-# PRD §5.10) promote or resolve it from there.
+# lightest severity tier — later follow-ups (Phase 4's severity-promotion
+# ladder / PRD §5.10) promote or resolve it from there.
 INITIAL_PROBLEM_SEVERITY = ProblemSeverity.EARLY
-
-# Placeholder for PRD §5.11's real nearest-available-KVK routing, which
-# doesn't have its own phase yet.
-DEFAULT_ASSIGNED_AGRONOMIST = "agronomist:kvk_erode"
 
 ESCALATE_SPOKEN_SUMMARY_FALLBACK = "I'm not sure — I've sent this to an expert."
 COMPOSED_SPOKEN_SUMMARY = "Here's what I found, with sources."
@@ -92,7 +86,7 @@ class DiagnosisService:
         llm_port: LLMPort,
         health_service: HealthService,
         problem_writer: ProblemWriter,
-        case_repo: CaseRepository,
+        escalation_service: EscalationService,
         settings: Settings,
     ) -> None:
         self._image_port = image_port
@@ -100,7 +94,7 @@ class DiagnosisService:
         self._llm = llm_port
         self._health = health_service
         self._problem_writer = problem_writer
-        self._case_repo = case_repo
+        self._escalation = escalation_service
         self._settings = settings
 
     async def diagnose(
@@ -138,7 +132,7 @@ class DiagnosisService:
         )
 
         if decision.should_escalate:
-            escalation = await self._create_escalation(farm_id, decision.reason)
+            escalation = await self._create_escalation(farm_id, decision.error_code or "below_confidence_gate", decision.reason)
             return DiagnoseOutcome(
                 above_gate=False,
                 problem_id=None,
@@ -164,7 +158,7 @@ class DiagnosisService:
         if parsed.insufficient_context:
             # Gate passed on relevance, but the model still couldn't ground
             # an answer (or failed validation) — still escalate, never guess.
-            escalation = await self._create_escalation(farm_id, parsed.reason or "insufficient context")
+            escalation = await self._create_escalation(farm_id, "no_relevant_source", parsed.reason or "insufficient context")
             return DiagnoseOutcome(
                 above_gate=False,
                 problem_id=None,
@@ -219,16 +213,16 @@ class DiagnosisService:
         )
         return before_score, after_snapshot.score
 
-    async def _create_escalation(self, farm_id: str, reason: str | None) -> DiagnoseEscalation:
-        saved = await self._case_repo.save(
-            {
-                "farm_id": farm_id,
-                "reason": reason,
-                "assigned_to": DEFAULT_ASSIGNED_AGRONOMIST,
-                "status": "assigned",
-            }
+    async def _create_escalation(self, farm_id: str, trigger_type: str, reason: str | None) -> DiagnoseEscalation:
+        """Route through the shared escalation entrypoint (Phase 4 item 1) —
+        compiles a full CaseSummary and assigns a real agronomist, rather
+        than hand-rolling a placeholder record."""
+        result = await self._escalation.create_escalation(
+            farm_id=farm_id,
+            trigger_type=trigger_type,
+            reason=reason or "diagnosis escalation",
         )
-        return DiagnoseEscalation(case_id=saved["id"], assigned_to=DEFAULT_ASSIGNED_AGRONOMIST)
+        return DiagnoseEscalation(case_id=result.case_id, assigned_to=result.assigned_to)
 
 
 def get_diagnosis_service(
@@ -237,8 +231,8 @@ def get_diagnosis_service(
     llm_port: Annotated[LLMPort, Depends(get_llm_adapter)],
     health_service: Annotated[HealthService, Depends(get_health_service)],
     problem_writer: Annotated[ProblemWriter, Depends(get_problem_writer)],
-    case_repo: Annotated[CaseRepository, Depends(get_case_repository)],
+    escalation_service: Annotated[EscalationService, Depends(get_escalation_service)],
     settings: Annotated[Settings, Depends(get_settings)],
 ) -> DiagnosisService:
     """FastAPI dependency provider assembling ``DiagnosisService`` from its ports."""
-    return DiagnosisService(image_port, retrieval, llm_port, health_service, problem_writer, case_repo, settings)
+    return DiagnosisService(image_port, retrieval, llm_port, health_service, problem_writer, escalation_service, settings)
