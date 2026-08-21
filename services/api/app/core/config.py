@@ -74,8 +74,18 @@ class Settings(BaseSettings):
         description="Decision gate threshold: Below this confidence, diagnosis auto-escalates to KVK expert",
     )
     RAG_RELEVANCE_THRESHOLD: float = Field(
-        default=0.35,
-        description="TODO-tune: Cosine similarity cutoff for RAG retrieval; below this, system reports no relevant source",
+        default=0.18,
+        description=(
+            "Cosine similarity cutoff for RAG retrieval; below this, the system reports "
+            "no relevant source rather than fabricating an answer (PRD §5.7). Tuned "
+            "empirically (Phase 3) against the StubEmbeddingAdapter's token-hashing "
+            "vectors and the seed corpus: genuine on-topic queries scored 0.20-0.47, "
+            "off-topic/unrelated queries scored 0.00-0.14, so 0.18 sits in the gap. "
+            "This is deliberately low relative to typical cosine thresholds because the "
+            "stub is a crude bag-of-words hash, not a real semantic embedding — expect "
+            "to re-tune upward (likely 0.5-0.7) once a real BGE-m3 EmbeddingPort lands, "
+            "which will separate on-/off-topic queries far more cleanly."
+        ),
     )
 
     # Health score default rubric version

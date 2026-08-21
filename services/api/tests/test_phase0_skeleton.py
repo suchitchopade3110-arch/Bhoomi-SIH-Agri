@@ -78,8 +78,8 @@ def test_openapi_schema_generation(client):
         "/api/v1/farms/{farm_id}/health",
         "/api/v1/farms/{farm_id}/health/history",
         "/api/v1/farms/{farm_id}/health/recompute",
-        "/api/v1/diagnose/crop-disease",
-        "/api/v1/advisory/generate",
+        "/api/v1/farms/{farm_id}/diagnose",
+        "/api/v1/advisory/query",
         "/api/v1/timeline/{farm_id}",
         "/api/v1/followup/checkin",
         "/api/v1/escalation/create",
@@ -103,7 +103,7 @@ def test_stubs_and_error_envelope(client):
 def test_config_settings():
     settings = get_settings()
     assert settings.CONFIDENCE_GATE == 0.70
-    assert settings.RAG_RELEVANCE_THRESHOLD == 0.35
+    assert settings.RAG_RELEVANCE_THRESHOLD == 0.18
     assert settings.LAND_API_MODE in ["mock", "live"]
     assert settings.DIAGNOSIS_MODEL in ["real", "stub"]
 

@@ -1,7 +1,12 @@
 """In-memory dictionary-backed repository implementations for Phase 0 and fallback testing."""
 
+from dataclasses import dataclass
+from datetime import date
 from typing import Any
 import uuid
+
+from app.domain.rag.similarity import cosine_similarity
+from app.repositories.interfaces import RetrievedChunk
 
 
 class InMemoryUserRepository:
@@ -170,3 +175,58 @@ class InMemoryAssetRepository:
         asset_data["id"] = asset_id
         self._assets[asset_id] = asset_data
         return asset_data
+
+
+@dataclass(frozen=True)
+class _StoredChunk:
+    doc_id: str
+    title: str
+    reviewed_on: date
+    chunk_text: str
+    embedding: list[float]
+
+
+class InMemoryKnowledgeChunkRepository:
+    """Pure-Python stand-in for ``KnowledgeChunkRepository`` — no Postgres/
+    pgvector required. Computes cosine similarity directly, so it agrees
+    with the real repository's ranking for the same embeddings. Used in
+    tests to keep the RAG pipeline deterministic and offline."""
+
+    def __init__(self) -> None:
+        self._chunks: list[_StoredChunk] = []
+
+    # Same async method names/signatures as KnowledgeChunkRepository (minus
+    # chunk_index, which this store doesn't need to keep) so
+    # services.rag.ingest.ingest_corpus works unmodified against either.
+    async def delete_all(self) -> None:
+        self._chunks = []
+
+    async def add_chunk(
+        self,
+        doc_id: str,
+        title: str,
+        reviewed_on: date,
+        chunk_index: int,
+        chunk_text: str,
+        embedding: list[float],
+    ) -> None:
+        self._chunks.append(
+            _StoredChunk(doc_id=doc_id, title=title, reviewed_on=reviewed_on, chunk_text=chunk_text, embedding=embedding)
+        )
+
+    async def commit(self) -> None:
+        pass  # nothing to flush — writes are already visible
+
+    async def similarity_search(self, query_embedding: list[float], top_k: int) -> list[RetrievedChunk]:
+        scored = [
+            RetrievedChunk(
+                doc_id=c.doc_id,
+                title=c.title,
+                reviewed_on=c.reviewed_on,
+                chunk_text=c.chunk_text,
+                score=cosine_similarity(query_embedding, c.embedding),
+            )
+            for c in self._chunks
+        ]
+        scored.sort(key=lambda c: c.score, reverse=True)
+        return scored[:top_k]

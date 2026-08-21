@@ -13,9 +13,12 @@ from app.repositories.health_context import (
     InMemoryProblemLoadReader,
     InMemoryTreatmentTrendReader,
     ProblemLoadReader,
+    ProblemWriter,
     TreatmentTrendReader,
 )
 from app.repositories.health_snapshot_repository import HealthSnapshotRepository
+from app.repositories.interfaces import KnowledgeChunkReader
+from app.repositories.knowledge_chunk_repository import KnowledgeChunkRepository
 from app.repositories.in_memory import (
     InMemoryAdvisoryRepository,
     InMemoryAssetRepository,
@@ -108,6 +111,13 @@ def get_problem_load_reader() -> ProblemLoadReader:
 
 
 @lru_cache
+def get_problem_writer() -> ProblemWriter:
+    """Same singleton as ``get_problem_load_reader`` — a write here is
+    immediately visible to reads (see ``repositories.health_context.ProblemWriter``)."""
+    return _problem_load_reader
+
+
+@lru_cache
 def get_treatment_trend_reader() -> TreatmentTrendReader:
     return _treatment_trend_reader
 
@@ -115,3 +125,10 @@ def get_treatment_trend_reader() -> TreatmentTrendReader:
 @lru_cache
 def get_farm_health_context_reader() -> FarmHealthContextReader:
     return _farm_health_context_reader
+
+
+def get_knowledge_chunk_reader(
+    session: Annotated[AsyncSession, Depends(get_db)],
+) -> KnowledgeChunkReader:
+    """Real, pgvector-backed reader for the curated RAG corpus."""
+    return KnowledgeChunkRepository(session)

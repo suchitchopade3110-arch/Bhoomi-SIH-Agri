@@ -14,9 +14,10 @@ from app.schemas.health import (
 )
 from app.schemas.gate import Decision
 from app.schemas.advisory import (
-    Advisory,
-    AdvisoryGenerateRequest,
+    AdvisoryQueryRequest,
+    AdvisoryQueryResponse,
     Citation,
+    FivePointAdvisory,
 )
 from app.schemas.case import CaseSummary
 from app.schemas.auth import (
@@ -62,8 +63,11 @@ from app.schemas.resource_plan import (
     ResourcePlanResponse,
 )
 from app.schemas.diagnosis import (
-    CropDiagnosisRequest,
-    CropDiagnosisResponse,
+    DiagnoseRequest,
+    DiagnoseResponse,
+    DiagnosisResult,
+    EscalationRef,
+    HealthDelta,
 )
 from app.schemas.timeline import (
     TimelineEventResponse,
@@ -104,8 +108,9 @@ __all__ = [
     "HealthHistoryResponse",
     "Decision",
     "Citation",
-    "Advisory",
-    "AdvisoryGenerateRequest",
+    "FivePointAdvisory",
+    "AdvisoryQueryRequest",
+    "AdvisoryQueryResponse",
     "CaseSummary",
     "UserRegisterRequest",
     "UserLoginRequest",
@@ -135,8 +140,11 @@ __all__ = [
     "Fao56CalculateRequest",
     "Fao56CalculateResponse",
     "ResourcePlanResponse",
-    "CropDiagnosisRequest",
-    "CropDiagnosisResponse",
+    "DiagnoseRequest",
+    "DiagnoseResponse",
+    "DiagnosisResult",
+    "HealthDelta",
+    "EscalationRef",
     "TimelineEventResponse",
     "TimelineResponse",
     "FollowupCheckinRequest",

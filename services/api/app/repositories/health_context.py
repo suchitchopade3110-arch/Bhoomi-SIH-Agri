@@ -57,6 +57,18 @@ class ProblemLoadReader(Protocol):
     async def get_open_problems(self, farm_id: str) -> list[OpenProblemRecord]: ...
 
 
+class ProblemWriter(Protocol):
+    """Write access for originating a new open problem (Phase-3 diagnose flow).
+
+    Split from ``ProblemLoadReader`` so a pure read-only caller (the health
+    engine) never accidentally gets write access — but both are backed by
+    the same in-memory store today, so a write here is immediately visible
+    to reads.
+    """
+
+    async def add_open_problem(self, farm_id: str, problem: OpenProblemRecord) -> None: ...
+
+
 class TreatmentTrendReader(Protocol):
     """Read access to a farm's closed-loop follow-up trend (sub-index #6)."""
 
@@ -77,6 +89,11 @@ class InMemoryProblemLoadReader:
 
     def set_open_problems(self, farm_id: str, problems: list[OpenProblemRecord]) -> None:
         self._by_farm[farm_id] = problems
+
+    async def add_open_problem(self, farm_id: str, problem: OpenProblemRecord) -> None:
+        """Append one newly-diagnosed problem (Phase-3 diagnose flow) without
+        disturbing any problems already tracked for this farm."""
+        self._by_farm.setdefault(farm_id, []).append(problem)
 
     async def get_open_problems(self, farm_id: str) -> list[OpenProblemRecord]:
         return self._by_farm.get(farm_id, [])

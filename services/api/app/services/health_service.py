@@ -159,9 +159,20 @@ class HealthService:
         )
         return await self._snapshots.save(row)
 
-    async def recompute(self, farm_id: str, reason: str = RECOMPUTE_TRIGGER_TYPE) -> HealthSnapshot:
-        """Force a fresh computation and persist it (contract §2.9 recompute endpoint)."""
-        return await self._compute_and_persist(farm_id, TriggeringInput(type=reason))
+    async def recompute(
+        self,
+        farm_id: str,
+        reason: str = RECOMPUTE_TRIGGER_TYPE,
+        triggering_input: TriggeringInput | None = None,
+    ) -> HealthSnapshot:
+        """Force a fresh computation and persist it (contract §2.9 recompute endpoint).
+
+        Pass ``triggering_input`` for a richer audit trail (e.g. a Phase-3
+        diagnosis: ``TriggeringInput(type="diagnosis", details={"problem_id": ..., "severity": "early"})``)
+        — it takes precedence over ``reason``, which stays as the plain
+        default for the demo/admin recompute endpoint.
+        """
+        return await self._compute_and_persist(farm_id, triggering_input or TriggeringInput(type=reason))
 
     async def get_latest(self, farm_id: str) -> HealthSnapshot:
         """Most recent snapshot for a farm; computes and persists an initial

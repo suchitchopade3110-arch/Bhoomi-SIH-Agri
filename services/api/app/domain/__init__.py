@@ -4,13 +4,14 @@ from app.domain.escalation import build_case_summary
 from app.domain.fao56 import calculate_fao56_irrigation
 from app.domain.gate import decide as decide_gate
 from app.domain.health import compute_health
-from app.domain.rag_pipeline import format_5point_advisory, verify_grounded_citations
+from app.domain.rag import build_grounding_prompt, chunk_text, parse_advisory_output
 
 __all__ = [
     "compute_health",
     "decide_gate",
-    "verify_grounded_citations",
-    "format_5point_advisory",
+    "parse_advisory_output",
+    "build_grounding_prompt",
+    "chunk_text",
     "build_case_summary",
     "calculate_fao56_irrigation",
 ]
