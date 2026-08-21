@@ -24,12 +24,17 @@ from app.repositories.dependencies import (
     get_advisory_repository,
     get_asset_repository,
     get_case_repository,
+    get_farm_health_context_reader,
     get_farm_repository,
     get_health_repository,
+    get_health_snapshot_repository,
     get_land_repository,
+    get_problem_load_reader,
     get_scheme_repository,
+    get_treatment_trend_reader,
     get_user_repository,
 )
+from app.repositories.health_snapshot_repository import HealthSnapshotRepository
 
 __all__ = [
     "UserRepository",
@@ -48,12 +53,17 @@ __all__ = [
     "InMemoryHealthRepository",
     "InMemorySchemeRepository",
     "InMemoryAssetRepository",
+    "HealthSnapshotRepository",
     "get_user_repository",
     "get_farm_repository",
     "get_land_repository",
     "get_case_repository",
     "get_advisory_repository",
     "get_health_repository",
+    "get_health_snapshot_repository",
+    "get_problem_load_reader",
+    "get_treatment_trend_reader",
+    "get_farm_health_context_reader",
     "get_scheme_repository",
     "get_asset_repository",
 ]
