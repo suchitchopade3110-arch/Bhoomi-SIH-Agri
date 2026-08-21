@@ -83,7 +83,7 @@ bhoomi/
 
 | Member | Owns |
 | --- | --- |
-| **[You]** — *intelligence & integration* | `services/api/app/domain/` — health score, confidence gate, RAG pipeline, escalation; end-to-end integration |
+| **Suchit Sachin Chopade** — *intelligence & integration* | `services/api/app/domain/` — health score, confidence gate, RAG pipeline, escalation; end-to-end integration |
 | **Shreekumar** — *backend* | `services/api/` — FastAPI app, auth, CRUD, presigned uploads, deployment |
 | **Tharun** — *voice + research* | `services/ml/` ASR/TTS (Bhashini/Whisper); RAG corpus curation + FAO-56/Kc data |
 | **Shruthi** — *voice + database* | Voice endpoints; `services/api/app/db/` schema, PostGIS + pgvector, migrations |
