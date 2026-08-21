@@ -23,7 +23,6 @@ from tests.escalation._helpers import FakeCaseRepository, build_escalation_servi
 
 FARM_ID = "f_1"
 PROBLEM_ID = "p_7"
-DEMO_AGRONOMIST_ID = "agro_demo"
 
 _IDEAL = CropIdealConditions(
     temp_min_c=25.0, temp_max_c=35.0, humidity_min_pct=60.0, humidity_max_pct=80.0, soil_moisture_min_pct=65.0
@@ -151,18 +150,17 @@ async def test_resolve_lifts_score_to_86_above_baseline_reusing_phase1_engine():
     resolve_service = build_resolve_service(case_repo, problem_reader, treatment_reader, context_reader, health_service)
     resolution = await resolve_service.resolve(
         case_id=created.case_id,
-        agronomist_id=DEMO_AGRONOMIST_ID,
-        agronomist_name="Dr. Meena Krishnan",
-        confirmed_diagnosis="Bacterial leaf blight, moderate — confirmed and treated",
-        expert_advice="Apply recommended bactericide; drain standing water.",
-        prescribed_inputs=["Streptocycline"],
+        diagnosis="Bacterial leaf blight, moderate — confirmed and treated",
+        treatment="Apply recommended bactericide; drain standing water.",
+        notes="Recheck in 5 days.",
     )
 
     assert resolution.status == CaseStatus.RESOLVED
-    assert resolution.snapshot.score == 86
-    assert resolution.snapshot.band == HealthBand.GOOD.value
-    assert resolution.snapshot.score > worse.score
-    assert resolution.snapshot.score > 82  # above the original baseline (PRD §7.4)
+    assert resolution.problem_status.value == "resolved"
+    assert resolution.health_to == 86
+    assert resolution.health_band == HealthBand.GOOD
+    assert resolution.health_from == worse.score
+    assert resolution.health_to > 82  # above the original baseline (PRD §7.4)
 
     # The problem is cleared, the trend is a confirmed resolution, and
     # monitoring recency was touched — active_problem_load is back to 100.
@@ -170,12 +168,9 @@ async def test_resolve_lifts_score_to_86_above_baseline_reusing_phase1_engine():
     trend = await treatment_reader.get_treatment_trend(FARM_ID)
     assert trend.problem_resolved_with_confirmed_treatment is True
 
-    problem_load = next(s for s in resolution.snapshot.subindices if s["key"] == "active_problem_load")
-    assert problem_load["value"] == 100
-
     case = await case_repo.get_by_id(created.case_id)
     assert case.status == CaseStatus.RESOLVED.value
-    assert case.resolution["confirmed_diagnosis"].startswith("Bacterial leaf blight")
+    assert case.resolution["diagnosis"].startswith("Bacterial leaf blight")
 
 
 @pytest.mark.asyncio
@@ -197,10 +192,4 @@ async def test_resolve_unknown_case_raises_not_found():
     )
 
     with pytest.raises(NotFoundError):
-        await resolve_service.resolve(
-            case_id="no_such_case",
-            agronomist_id="agro_1",
-            agronomist_name="Dr. Meena Krishnan",
-            confirmed_diagnosis="x",
-            expert_advice="y",
-        )
+        await resolve_service.resolve(case_id="no_such_case", diagnosis="x", treatment="y")

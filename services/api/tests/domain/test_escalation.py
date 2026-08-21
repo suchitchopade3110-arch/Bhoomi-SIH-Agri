@@ -3,8 +3,9 @@ contract §2.13): severity promotion, the auto-escalation band check, and the
 CaseSummary assembler.
 """
 
-from app.core.enums import CaseStatus, HealthBand, ProblemSeverity
+from app.core.enums import CaseStatus, FollowupResponse, HealthBand, ProblemSeverity
 from app.domain.escalation import build_case_summary, promote_severity, should_auto_escalate
+from app.schemas.case import CaseImage, TimelineEvent
 
 # ---------------------------------------------------------------------------
 # promote_severity — the ladder is fixed, one tier at a time, capped at severe.
@@ -49,35 +50,33 @@ def test_build_case_summary_populates_every_contract_field():
     summary = build_case_summary(
         case_id="c_1",
         farm_id="f_1",
-        farmer_name="Murugan",
-        village="Thottipalayam",
-        district="Erode",
         crop="Paddy",
-        growth_stage="vegetative",
-        health_score=59.0,
-        land_verified=True,
-        problem_summary="Bacterial leaf blight, moderate severity, worsening.",
+        area_acres_verified=1.9,
+        soil_type="clay_loam",
+        problem_id="p_7",
+        problem_label="bacterial_leaf_blight",
         severity=ProblemSeverity.MODERATE,
-        status=CaseStatus.ESCALATED,
-        timeline_summary=[{"type": "diagnosis", "problem_id": "p_7"}],
-        latest_images=["asset_9"],
-        escalated_to="Dr. Meena Krishnan",
-        spoken_summary="Murugan's Paddy case has been sent to an expert.",
+        timeline=[TimelineEvent(at="2026-08-21T00:00:00Z", event="diagnosis", detail="bacterial_leaf_blight (moderate)")],
+        images=[CaseImage(asset_id="a_9", url="https://storage.example/a_9")],
+        treatments_tried=["field drainage"],
+        followup_trend=FollowupResponse.GOT_WORSE,
+        health_score=59,
+        health_band=HealthBand.POOR,
+        status=CaseStatus.ASSIGNED,
     )
 
     assert summary.case_id == "c_1"
-    assert summary.farm_id == "f_1"
-    assert summary.farmer_name == "Murugan"
-    assert summary.village == "Thottipalayam"
-    assert summary.district == "Erode"
-    assert summary.crop == "Paddy"
-    assert summary.growth_stage == "vegetative"
-    assert summary.health_score == 59.0
-    assert summary.land_verified is True
-    assert summary.problem_summary
-    assert summary.severity == ProblemSeverity.MODERATE
-    assert summary.status == CaseStatus.ESCALATED
-    assert summary.timeline_summary
-    assert summary.latest_images == ["asset_9"]
-    assert summary.escalated_to == "Dr. Meena Krishnan"
-    assert summary.spoken_summary
+    assert summary.farm.id == "f_1"
+    assert summary.farm.crop == "Paddy"
+    assert summary.farm.area_acres_verified == 1.9
+    assert summary.farm.soil_type == "clay_loam"
+    assert summary.problem.id == "p_7"
+    assert summary.problem.label == "bacterial_leaf_blight"
+    assert summary.problem.severity == ProblemSeverity.MODERATE
+    assert summary.timeline
+    assert summary.images
+    assert summary.treatments_tried
+    assert summary.followup_trend == FollowupResponse.GOT_WORSE
+    assert summary.current_health.score == 59
+    assert summary.current_health.band == HealthBand.POOR
+    assert summary.status == CaseStatus.ASSIGNED

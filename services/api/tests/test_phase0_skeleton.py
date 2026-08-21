@@ -116,7 +116,7 @@ def test_all_contract_enums():
     assert ProblemSeverity.EARLY == "early"
     assert ProblemStatus.OPEN == "open"
     assert FollowupResponse.IMPROVED == "improved"
-    assert CaseStatus.ESCALATED == "escalated"
+    assert CaseStatus.ASSIGNED == "assigned"
     assert SchemeStatus.ACTIVE == "active"
     assert AssetKind.AUDIO_QUERY == "audio_query"
     assert UserRole.FARMER == "farmer"

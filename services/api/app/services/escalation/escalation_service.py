@@ -7,12 +7,13 @@ see ``case_compiler.CaseSummaryCompiler`` and ``routing.AgronomistRouter``.
 """
 
 from dataclasses import dataclass
-from datetime import datetime
 from typing import Annotated
 from uuid import uuid4
 
 from fastapi import Depends
 
+from app.adapters.dependencies import get_storage_adapter
+from app.adapters.ports import StoragePort
 from app.core.config import Settings, get_settings
 from app.core.enums import CaseStatus, ProblemSeverity
 from app.core.errors import NotFoundError
@@ -35,20 +36,21 @@ from app.services.escalation.case_compiler import CaseSummaryCompiler
 from app.services.escalation.routing import AgronomistRouter
 from app.services.health_service import HealthService, get_health_service
 
+UNKNOWN_FARMER_NAME = "Unknown Farmer"
+UNKNOWN_VILLAGE = "Unknown village"
+
 
 @dataclass(frozen=True)
 class EscalationResult:
-    """Result of creating one escalation — everything a caller (a router, or
-    another service triggering an escalation) needs to respond."""
+    """Result of creating one escalation — mirrors contract §2.13's
+    ``POST /problems/{id}/escalate`` response, plus the full compiled
+    ``CaseSummary`` for callers (e.g. ``DiagnoseResponse.escalation``) that
+    need more than the lean contract shape."""
 
     case_id: str
-    farm_id: str
-    status: CaseStatus
-    severity: ProblemSeverity
     assigned_to: str
-    assigned_kvk_center: str
+    status: CaseStatus
     case_summary: CaseSummary
-    created_at: datetime
 
 
 class EscalationService:
@@ -58,11 +60,13 @@ class EscalationService:
         self,
         case_repo: CaseRepository,
         farm_repo: FarmRepository,
+        user_repo: UserRepository,
         compiler: CaseSummaryCompiler,
         router: AgronomistRouter,
     ) -> None:
         self._cases = case_repo
         self._farms = farm_repo
+        self._users = user_repo
         self._compiler = compiler
         self._router = router
 
@@ -87,12 +91,13 @@ class EscalationService:
             reason: Human-readable trigger reason, stored verbatim.
             severity: Assessed problem severity.
             problem_id: The open problem this case is about, if any.
-            notes: Optional extra context folded into the case summary.
-            latest_images: Presigned URLs / asset IDs of relevant photos.
+            notes: Optional extra context, used as the problem label when
+                no registered problem exists yet.
+            latest_images: Asset IDs of relevant photos.
 
         Returns:
             An ``EscalationResult`` with the persisted case's id and its
-            complete, non-empty ``CaseSummary``.
+            complete ``CaseSummary`` (contract §2.13).
         """
         farm = await self._farms.get_by_id(farm_id) or {}
         assigned = await self._router.assign(farm.get("district"))
@@ -101,12 +106,19 @@ class EscalationService:
         summary = await self._compiler.compile(
             case_id=case_id,
             farm_id=farm_id,
-            problem_summary=notes or reason,
             severity=severity,
-            status=CaseStatus.ESCALATED,
-            latest_images=latest_images or [],
-            escalated_to=assigned.name,
+            status=CaseStatus.ASSIGNED,
+            problem_id=problem_id,
+            problem_summary=notes or reason,
+            latest_image_asset_ids=latest_images,
         )
+
+        farmer_name = UNKNOWN_FARMER_NAME
+        farmer_id = farm.get("farmer_id")
+        if farmer_id:
+            user = await self._users.get_by_id(farmer_id)
+            if user:
+                farmer_name = user.get("full_name") or UNKNOWN_FARMER_NAME
 
         case = Case(
             id=case_id,
@@ -115,7 +127,10 @@ class EscalationService:
             trigger_type=trigger_type,
             reason=reason,
             severity=severity.value,
-            status=CaseStatus.ESCALATED.value,
+            status=CaseStatus.ASSIGNED.value,
+            farmer_name=farmer_name,
+            village=farm.get("village") or UNKNOWN_VILLAGE,
+            crop=summary.farm.crop,
             case_summary=summary.model_dump(mode="json"),
             assigned_to=assigned.agronomist_id,
             assigned_kvk_center=assigned.kvk_center,
@@ -124,13 +139,9 @@ class EscalationService:
 
         return EscalationResult(
             case_id=saved.id,
-            farm_id=farm_id,
-            status=CaseStatus.ESCALATED,
-            severity=severity,
             assigned_to=assigned.name,
-            assigned_kvk_center=assigned.kvk_center,
+            status=CaseStatus.ASSIGNED,
             case_summary=summary,
-            created_at=saved.created_at,
         )
 
     async def get_case(self, case_id: str) -> CaseSummary:
@@ -147,12 +158,12 @@ class EscalationService:
             AgronomistQueueItem(
                 escalation_id=row.id,
                 farm_id=row.farm_id,
-                farmer_name=row.case_summary.get("farmer_name", "Unknown Farmer"),
-                village=row.case_summary.get("village", "Unknown"),
-                crop=row.case_summary.get("crop", "Unknown crop"),
+                farmer_name=row.farmer_name or UNKNOWN_FARMER_NAME,
+                village=row.village or UNKNOWN_VILLAGE,
+                crop=row.crop or "Unknown crop",
                 severity=ProblemSeverity(row.severity),
                 status=CaseStatus(row.status),
-                health_score=row.case_summary.get("health_score", 0.0),
+                health_score=(row.case_summary.get("current_health") or {}).get("score") or 0,
                 escalated_at=row.created_at,
             )
             for row in rows
@@ -167,10 +178,11 @@ def get_escalation_service(
     problem_reader: Annotated[ProblemLoadReader, Depends(get_problem_load_reader)],
     treatment_reader: Annotated[TreatmentTrendReader, Depends(get_treatment_trend_reader)],
     agronomist_directory: Annotated[AgronomistDirectory, Depends(get_agronomist_directory)],
+    storage_port: Annotated[StoragePort, Depends(get_storage_adapter)],
     settings: Annotated[Settings, Depends(get_settings)],
 ) -> EscalationService:
     """FastAPI dependency provider assembling ``EscalationService`` from its
     compiler + router + repositories."""
-    compiler = CaseSummaryCompiler(farm_repo, user_repo, health_service, problem_reader, treatment_reader)
+    compiler = CaseSummaryCompiler(farm_repo, health_service, problem_reader, treatment_reader, storage_port)
     router = AgronomistRouter(agronomist_directory, settings)
-    return EscalationService(case_repo, farm_repo, compiler, router)
+    return EscalationService(case_repo, farm_repo, user_repo, compiler, router)

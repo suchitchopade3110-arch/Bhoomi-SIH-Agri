@@ -39,6 +39,15 @@ class Case(Base):
     severity: Mapped[str] = mapped_column(String(20), nullable=False)
     status: Mapped[str] = mapped_column(String(20), nullable=False, index=True)
 
+    # Denormalized for GET /agronomist/case-queue (contract §2.13: "assigned
+    # cases, newest first") — the full CaseSummary in case_summary already
+    # carries the contract's own farm/crop shape, but it's a JSONB blob, so a
+    # cheap queue list needs a couple of indexable columns rather than
+    # parsing every row's JSON on every queue read.
+    farmer_name: Mapped[str | None] = mapped_column(String(120), nullable=True)
+    village: Mapped[str | None] = mapped_column(String(120), nullable=True)
+    crop: Mapped[str | None] = mapped_column(String(80), nullable=True)
+
     case_summary: Mapped[dict] = mapped_column(JSONB, nullable=False)
 
     assigned_to: Mapped[str | None] = mapped_column(String(36), nullable=True, index=True)

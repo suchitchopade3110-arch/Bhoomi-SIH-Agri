@@ -22,6 +22,7 @@ class OpenProblemRecord:
 
     problem_id: str
     severity: ProblemSeverity
+    label: str | None = None
 
 
 @dataclass(frozen=True)
@@ -153,7 +154,7 @@ class InMemoryProblemLoadReader:
         for i, p in enumerate(problems):
             if p.problem_id == problem_id:
                 new_severity = promote_severity(p.severity)
-                problems[i] = OpenProblemRecord(problem_id=problem_id, severity=new_severity)
+                problems[i] = replace(p, severity=new_severity)
                 return new_severity
         return None
 

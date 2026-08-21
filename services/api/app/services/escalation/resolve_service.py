@@ -11,10 +11,9 @@ from typing import Annotated
 
 from fastapi import Depends
 
-from app.core.enums import CaseStatus
+from app.core.enums import CaseStatus, HealthBand, ProblemStatus
 from app.core.errors import NotFoundError
 from app.domain.health.inputs import TriggeringInput
-from app.models.health_snapshot import HealthSnapshot
 from app.repositories.case_repository import CaseRepository
 from app.repositories.dependencies import (
     get_escalation_case_repository,
@@ -30,12 +29,15 @@ RESOLUTION_TRIGGER_TYPE = "case_resolution"
 
 @dataclass(frozen=True)
 class CaseResolution:
-    """Result of resolving one case — its new status plus the recovered
-    health snapshot."""
+    """Result of resolving one case — mirrors contract §2.13's
+    ``POST /cases/{id}/resolve`` response exactly."""
 
     case_id: str
     status: CaseStatus
-    snapshot: HealthSnapshot
+    problem_status: ProblemStatus
+    health_from: int | None
+    health_to: int | None
+    health_band: HealthBand
 
 
 class ResolveService:
@@ -55,16 +57,8 @@ class ResolveService:
         self._context_writer = context_writer
         self._health = health_service
 
-    async def resolve(
-        self,
-        case_id: str,
-        agronomist_id: str,
-        agronomist_name: str,
-        confirmed_diagnosis: str,
-        expert_advice: str,
-        prescribed_inputs: list[str] | None = None,
-    ) -> CaseResolution:
-        """Resolve ``case_id`` (PRD §7.4).
+    async def resolve(self, case_id: str, diagnosis: str, treatment: str, notes: str | None = None) -> CaseResolution:
+        """Resolve ``case_id`` (PRD §7.4, contract §2.13).
 
         Clears the case's problem (``active_problem_load`` -> 100), marks
         the follow-up trend as a confirmed resolution (``treatment_response``
@@ -74,14 +68,12 @@ class ResolveService:
 
         Args:
             case_id: UUID string of the case to resolve.
-            agronomist_id: UUID string of the resolving agronomist.
-            agronomist_name: Display name, stored on the resolution record.
-            confirmed_diagnosis: Agronomist-validated diagnosis.
-            expert_advice: Actionable prescription for the farmer.
-            prescribed_inputs: Optional list of prescribed inputs.
+            diagnosis: Agronomist-confirmed diagnosis.
+            treatment: Prescribed treatment.
+            notes: Optional follow-up guidance.
 
         Returns:
-            A ``CaseResolution`` with the recovered health snapshot.
+            A ``CaseResolution`` with the recovered health movement.
 
         Raises:
             NotFoundError: No case with ``case_id`` exists.
@@ -89,6 +81,8 @@ class ResolveService:
         case = await self._cases.get_by_id(case_id)
         if case is None:
             raise NotFoundError(message=f"No case {case_id!r} found.")
+
+        before_snapshot = await self._health.get_latest(case.farm_id)
 
         if case.problem_id is not None:
             await self._problem_writer.resolve_problem(case.farm_id, case.problem_id)
@@ -103,16 +97,17 @@ class ResolveService:
         )
 
         case.status = CaseStatus.RESOLVED.value
-        case.resolution = {
-            "agronomist_id": agronomist_id,
-            "agronomist_name": agronomist_name,
-            "confirmed_diagnosis": confirmed_diagnosis,
-            "expert_advice": expert_advice,
-            "prescribed_inputs": prescribed_inputs or [],
-        }
+        case.resolution = {"diagnosis": diagnosis, "treatment": treatment, "notes": notes}
         case = await self._cases.update(case)
 
-        return CaseResolution(case_id=case.id, status=CaseStatus.RESOLVED, snapshot=snapshot)
+        return CaseResolution(
+            case_id=case.id,
+            status=CaseStatus.RESOLVED,
+            problem_status=ProblemStatus.RESOLVED,
+            health_from=before_snapshot.score,
+            health_to=snapshot.score,
+            health_band=HealthBand(snapshot.band),
+        )
 
 
 def get_resolve_service(

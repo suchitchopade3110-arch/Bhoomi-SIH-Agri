@@ -74,12 +74,17 @@ from app.schemas.timeline import (
     TimelineResponse,
 )
 from app.schemas.followup import (
-    FollowupCheckinRequest,
-    FollowupCheckinResponse,
+    FollowupRespondRequest,
+    FollowupRespondResponse,
+    SeverityChange,
 )
 from app.schemas.escalation import (
+    CaseResolveRequest,
+    CaseResolveResponse,
     EscalationCreateRequest,
     EscalationResponse,
+    ProblemEscalateRequest,
+    ProblemEscalateResponse,
 )
 from app.schemas.agronomist import (
     AgronomistQueueItem,
@@ -147,10 +152,15 @@ __all__ = [
     "EscalationRef",
     "TimelineEventResponse",
     "TimelineResponse",
-    "FollowupCheckinRequest",
-    "FollowupCheckinResponse",
+    "FollowupRespondRequest",
+    "FollowupRespondResponse",
+    "SeverityChange",
     "EscalationCreateRequest",
     "EscalationResponse",
+    "ProblemEscalateRequest",
+    "ProblemEscalateResponse",
+    "CaseResolveRequest",
+    "CaseResolveResponse",
     "AgronomistQueueItem",
     "ResolveCaseRequest",
     "ResolveCaseResponse",

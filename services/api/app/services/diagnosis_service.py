@@ -201,7 +201,7 @@ class DiagnosisService:
         before_score = before_snapshot.score
 
         await self._problem_writer.add_open_problem(
-            farm_id, OpenProblemRecord(problem_id=problem_id, severity=INITIAL_PROBLEM_SEVERITY)
+            farm_id, OpenProblemRecord(problem_id=problem_id, severity=INITIAL_PROBLEM_SEVERITY, label=label)
         )
 
         after_snapshot = await self._health.recompute(

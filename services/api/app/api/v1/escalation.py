@@ -14,16 +14,18 @@ router = APIRouter(prefix="/escalation", tags=["Expert Escalation"])
     "/create",
     response_model=EscalationResponse,
     status_code=status.HTTP_201_CREATED,
-    summary="Create escalation case and package living case file for KVK agronomist",
+    summary="[Superseded by POST /problems/{problem_id}/escalate] Create escalation case",
+    deprecated=True,
 )
 async def create_escalation(request: EscalationCreateRequest) -> EscalationResponse:
-    raise NotImplementedAPIError("Endpoint POST /escalation/create will be implemented in subsequent phases.")
+    raise NotImplementedAPIError("Superseded by POST /problems/{problem_id}/escalate (contract §2.13).")
 
 
 @router.get(
     "/{escalation_id}",
     response_model=EscalationResponse,
-    summary="Get escalation case details and status",
+    summary="[Superseded by GET /cases/{case_id}] Get escalation case details and status",
+    deprecated=True,
 )
 async def get_escalation(escalation_id: str) -> EscalationResponse:
-    raise NotImplementedAPIError("Endpoint GET /escalation/{escalation_id} will be implemented in subsequent phases.")
+    raise NotImplementedAPIError("Superseded by GET /cases/{case_id} (contract §2.13).")

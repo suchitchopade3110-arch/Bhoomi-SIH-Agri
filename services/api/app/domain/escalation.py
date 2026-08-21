@@ -4,10 +4,8 @@ no network — everything real-world (repositories, routing, persistence)
 lives in ``services/escalation/``.
 """
 
-from typing import Any
-
-from app.core.enums import CaseStatus, HealthBand, ProblemSeverity
-from app.schemas.case import CaseSummary
+from app.core.enums import CaseStatus, FollowupResponse, HealthBand, ProblemSeverity
+from app.schemas.case import CaseFarmRef, CaseHealthRef, CaseImage, CaseProblemRef, CaseSummary, TimelineEvent
 
 # --------------------------------------------------------------------------
 # Severity promotion ladder (PRD §5.10): a "got worse" follow-up promotes the
@@ -39,23 +37,22 @@ def should_auto_escalate(new_band: HealthBand) -> bool:
 def build_case_summary(
     case_id: str,
     farm_id: str,
-    farmer_name: str,
-    village: str,
-    district: str,
     crop: str,
-    growth_stage: str,
-    health_score: float,
-    land_verified: bool,
-    problem_summary: str,
+    area_acres_verified: float | None,
+    soil_type: str,
+    problem_id: str,
+    problem_label: str,
     severity: ProblemSeverity,
+    timeline: list[TimelineEvent],
+    images: list[CaseImage],
+    treatments_tried: list[str],
+    followup_trend: FollowupResponse | None,
+    health_score: int | None,
+    health_band: HealthBand,
     status: CaseStatus,
-    timeline_summary: list[dict[str, Any]],
-    latest_images: list[str],
-    escalated_to: str | None,
-    spoken_summary: str,
 ) -> CaseSummary:
-    """Assemble the Living Case Summary (contract §2.13) from its already
-    gathered, plain-value parts.
+    """Assemble the Living Case Summary (contract §2.13's ``GET /cases/{id}``
+    shape, exactly) from its already gathered, plain-value parts.
 
     This is the single point every escalation trigger — below-gate/
     out-of-scope diagnosis, no-retrieval diagnosis, a got_worse follow-up,
@@ -67,19 +64,12 @@ def build_case_summary(
     """
     return CaseSummary(
         case_id=case_id,
-        farm_id=farm_id,
-        farmer_name=farmer_name,
-        village=village,
-        district=district,
-        crop=crop,
-        growth_stage=growth_stage,
-        health_score=health_score,
-        land_verified=land_verified,
-        problem_summary=problem_summary,
-        severity=severity,
+        farm=CaseFarmRef(id=farm_id, crop=crop, area_acres_verified=area_acres_verified, soil_type=soil_type),
+        problem=CaseProblemRef(id=problem_id, label=problem_label, severity=severity),
+        timeline=timeline,
+        images=images,
+        treatments_tried=treatments_tried,
+        followup_trend=followup_trend,
+        current_health=CaseHealthRef(score=health_score, band=health_band),
         status=status,
-        timeline_summary=timeline_summary,
-        latest_images=latest_images,
-        escalated_to=escalated_to,
-        spoken_summary=spoken_summary,
     )

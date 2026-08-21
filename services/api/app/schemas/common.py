@@ -1,9 +1,23 @@
 """Common schemas for pagination, errors, and standard wrappers."""
 
 from typing import Any, Generic, TypeVar
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
+
+from app.core.enums import HealthBand
 
 T = TypeVar("T")
+
+
+class HealthMovement(BaseModel):
+    """Before/after health-score movement plus the new band — the
+    ``{"from": ..., "to": ..., "band": ...}`` shape used by both contract
+    §2.12 (follow-up respond) and §2.13 (case resolve)."""
+
+    model_config = ConfigDict(populate_by_name=True)
+
+    from_: int | None = Field(default=None, alias="from")
+    to: int | None = None
+    band: HealthBand
 
 
 class ErrorDetail(BaseModel):

@@ -1,109 +1,137 @@
-"""Assembles the Living Case Summary (contract §2.13) from repositories —
-farm + land/soil, the current health snapshot, open-problem timeline, and
-follow-up trend — then hands the plain, already-fetched values to the pure
-``domain.escalation.build_case_summary``. All I/O for the compiler lives
-here; the domain function does no fetching of its own.
+"""Assembles the Living Case Summary (contract §2.13's ``GET /cases/{id}``
+shape, exactly) from repositories — farm + soil, the problem, the current
+health snapshot, and the follow-up trend — then hands the plain,
+already-fetched values to the pure ``domain.escalation.build_case_summary``.
+All I/O for the compiler lives here; the domain function does no fetching
+of its own.
 """
 
-from app.core.enums import CaseStatus, LandStatus, ProblemSeverity
+from datetime import datetime, timezone
+
+from app.adapters.ports import StoragePort
+from app.core.enums import HealthBand, ProblemSeverity
 from app.domain.escalation import build_case_summary
-from app.repositories.health_context import ProblemLoadReader, TreatmentTrendReader
-from app.repositories.interfaces import FarmRepository, UserRepository
-from app.schemas.case import CaseSummary
+from app.repositories.health_context import OpenProblemRecord, ProblemLoadReader, TreatmentTrendReader
+from app.repositories.interfaces import FarmRepository
+from app.schemas.case import CaseImage, CaseSummary, TimelineEvent
 from app.services.health_service import HealthService
 
-UNKNOWN_FARMER_NAME = "Unknown Farmer"
-UNKNOWN_VILLAGE = "Unknown village"
-UNKNOWN_DISTRICT = "Unknown district"
 UNKNOWN_CROP = "Unknown crop"
-DEFAULT_GROWTH_STAGE = "unspecified"
+UNKNOWN_SOIL_TYPE = "Unknown"
+UNKNOWN_PROBLEM_LABEL = "Under investigation — not yet diagnosed"
 
 
-def _spoken_summary_for(farmer_name: str, crop: str, severity: ProblemSeverity, status: CaseStatus) -> str:
-    """Short PRD §1.4 spoken summary for the case handoff."""
-    if status == CaseStatus.RESOLVED:
-        return f"{farmer_name}'s {crop} case has been resolved by an expert."
-    return f"{farmer_name}'s {crop} case ({severity.value} severity) has been sent to an expert."
+def _now_iso() -> str:
+    return datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
 
 
 class CaseSummaryCompiler:
-    """Compiles one ``CaseSummary`` per escalation (Phase 4 item 2)."""
+    """Compiles one ``CaseSummary`` per escalation (contract §2.13)."""
 
     def __init__(
         self,
         farm_repo: FarmRepository,
-        user_repo: UserRepository,
         health_service: HealthService,
         problem_reader: ProblemLoadReader,
         treatment_reader: TreatmentTrendReader,
+        storage_port: StoragePort | None = None,
     ) -> None:
         self._farm_repo = farm_repo
-        self._user_repo = user_repo
         self._health = health_service
         self._problem_reader = problem_reader
         self._treatment_reader = treatment_reader
+        self._storage = storage_port
 
     async def compile(
         self,
         case_id: str,
         farm_id: str,
-        problem_summary: str,
         severity: ProblemSeverity,
-        status: CaseStatus,
-        latest_images: list[str],
-        escalated_to: str | None,
+        status,
+        problem_id: str | None = None,
+        problem_summary: str | None = None,
+        latest_image_asset_ids: list[str] | None = None,
     ) -> CaseSummary:
-        """Gather every field contract §2.13 requires and build the CaseSummary.
+        """Gather every field contract §2.13's ``GET /cases/{id}`` requires
+        and build the CaseSummary.
 
         Args:
             case_id: The new case's UUID string, assigned by the caller.
             farm_id: UUID string of the escalated farm.
-            problem_summary: A concise description of the problem/trigger.
             severity: Assessed problem severity.
             status: Case lifecycle status at the moment of compilation.
-            latest_images: Presigned URLs / asset IDs of relevant photos.
-            escalated_to: Display name of the assigned agronomist, if routed.
+            problem_id: The open problem this case is about, if any — a
+                below-gate/out-of-scope diagnosis escalation has none yet.
+            problem_summary: Fallback problem label when there is no
+                registered problem to look up (e.g. "confidence too low to
+                diagnose").
+            latest_image_asset_ids: Asset IDs of relevant photos.
 
         Returns:
-            A complete, non-empty ``CaseSummary``.
+            A complete ``CaseSummary`` matching contract §2.13 exactly.
         """
         farm = await self._farm_repo.get_by_id(farm_id) or {}
-        farmer_name = UNKNOWN_FARMER_NAME
-        farmer_id = farm.get("farmer_id")
-        if farmer_id:
-            user = await self._user_repo.get_by_id(farmer_id)
-            if user:
-                farmer_name = user.get("full_name") or UNKNOWN_FARMER_NAME
-
         snapshot = await self._health.get_latest(farm_id)
         open_problems = await self._problem_reader.get_open_problems(farm_id)
         trend = await self._treatment_reader.get_treatment_trend(farm_id)
-        timeline_summary = self._build_timeline(open_problems, trend, snapshot)
 
-        crop = farm.get("primary_crop") or UNKNOWN_CROP
-        land_verified = str(farm.get("land_status", "")) == LandStatus.VERIFIED.value
+        problem_record = self._resolve_problem(open_problems, problem_id)
+        resolved_problem_id = problem_record.problem_id if problem_record else (problem_id or "unassigned")
+        problem_label = (
+            problem_record.label if problem_record and problem_record.label else (problem_summary or UNKNOWN_PROBLEM_LABEL)
+        )
+
+        timeline = await self._build_timeline(open_problems, trend, snapshot)
+        images = await self._build_images(latest_image_asset_ids or [])
 
         return build_case_summary(
             case_id=case_id,
             farm_id=farm_id,
-            farmer_name=farmer_name,
-            village=farm.get("village") or UNKNOWN_VILLAGE,
-            district=farm.get("district") or UNKNOWN_DISTRICT,
-            crop=crop,
-            growth_stage=farm.get("growth_stage") or DEFAULT_GROWTH_STAGE,
-            health_score=float(snapshot.score) if snapshot.score is not None else 0.0,
-            land_verified=land_verified,
-            problem_summary=problem_summary,
+            crop=farm.get("primary_crop") or UNKNOWN_CROP,
+            # Land verification (PRD §5.3) isn't this phase's aggregate — the
+            # verified area is only known once that HITL flow lands; falls
+            # back to the self-reported area until then (flagged assumption).
+            area_acres_verified=farm.get("area_acres_verified") or farm.get("total_area_acres"),
+            soil_type=farm.get("soil_type") or UNKNOWN_SOIL_TYPE,
+            problem_id=resolved_problem_id,
+            problem_label=problem_label,
             severity=severity,
+            timeline=timeline,
+            images=images,
+            # No dedicated Treatment aggregate has its own phase yet — see
+            # the class docstring's cross-reference. Empty rather than
+            # fabricated.
+            treatments_tried=[],
+            followup_trend=trend.latest_followup_response,
+            health_score=snapshot.score,
+            health_band=HealthBand(snapshot.band),
             status=status,
-            timeline_summary=timeline_summary,
-            latest_images=latest_images,
-            escalated_to=escalated_to,
-            spoken_summary=_spoken_summary_for(farmer_name, crop, severity, status),
         )
 
     @staticmethod
-    def _build_timeline(open_problems, trend, snapshot) -> list[dict]:
+    def _resolve_problem(open_problems: list[OpenProblemRecord], problem_id: str | None) -> OpenProblemRecord | None:
+        if problem_id is not None:
+            match = next((p for p in open_problems if p.problem_id == problem_id), None)
+            if match is not None:
+                return match
+        # A below-gate/out-of-scope escalation has no registered problem yet
+        # — fall back to the farm's sole open problem, if it has exactly one.
+        return open_problems[0] if len(open_problems) == 1 else None
+
+    async def _build_images(self, asset_ids: list[str]) -> list[CaseImage]:
+        images: list[CaseImage] = []
+        for asset_id in asset_ids:
+            url = f"/api/v1/assets/{asset_id}"
+            if self._storage is not None:
+                try:
+                    url = await self._storage.generate_presigned_download_url(asset_id)
+                except Exception:  # pragma: no cover — storage unavailable, fall back to the asset path
+                    pass
+            images.append(CaseImage(asset_id=asset_id, url=url))
+        return images
+
+    @staticmethod
+    async def _build_timeline(open_problems, trend, snapshot) -> list[TimelineEvent]:
         """Key milestones leading to this escalation, assembled from the
         health engine's own read models.
 
@@ -113,18 +141,24 @@ class CaseSummaryCompiler:
         event log — swap in a real ``TimelineRepository`` here once that
         phase lands; nothing else in the escalation subsystem would change.
         """
-        timeline: list[dict] = [
-            {"type": "open_problem", "problem_id": p.problem_id, "severity": p.severity.value}
+        timeline: list[TimelineEvent] = [
+            TimelineEvent(at=_now_iso(), event="diagnosis", detail=f"{p.label or p.problem_id} ({p.severity.value})")
             for p in open_problems
         ]
         if trend.latest_followup_response is not None:
             timeline.append(
-                {
-                    "type": "followup",
-                    "response": trend.latest_followup_response.value,
-                    "consecutive_got_worse_count": trend.consecutive_got_worse_count,
-                }
+                TimelineEvent(
+                    at=_now_iso(),
+                    event="followup",
+                    detail=f"{trend.latest_followup_response.value} (x{trend.consecutive_got_worse_count} worse in a row)",
+                )
             )
         if snapshot is not None and snapshot.triggering_input:
-            timeline.append({"type": "health_snapshot", **snapshot.triggering_input})
+            timeline.append(
+                TimelineEvent(
+                    at=snapshot.computed_at.isoformat() if snapshot.computed_at else _now_iso(),
+                    event="health_recompute",
+                    detail=str(snapshot.triggering_input),
+                )
+            )
         return timeline

@@ -112,24 +112,24 @@ async def test_got_worse_promotes_severity_recomputes_and_auto_escalates_with_ca
         problem_reader, treatment_reader, context_reader, health_service, escalation_service
     )
 
-    outcome = await followup_service.respond(
-        problem_id=PROBLEM_ID, farm_id=FARM_ID, response=FollowupResponse.GOT_WORSE
-    )
+    outcome = await followup_service.respond(problem_id=PROBLEM_ID, response=FollowupResponse.GOT_WORSE)
 
     # PRD §7.4's exact "got worse" number: severity promotes early -> moderate,
     # and the recomputed score crosses below Watch.
-    assert outcome.snapshot.score == 59
-    assert outcome.snapshot.band == HealthBand.POOR.value
-    assert outcome.auto_escalated is True
-    assert outcome.escalation_id is not None
+    assert outcome.health_to == 59
+    assert outcome.health_band == HealthBand.POOR
+    assert outcome.severity_from == ProblemSeverity.EARLY
+    assert outcome.severity_to == ProblemSeverity.MODERATE
+    assert outcome.escalated is True
+    assert outcome.case_id is not None
 
     open_problems = await problem_reader.get_open_problems(FARM_ID)
     assert open_problems[0].severity == ProblemSeverity.MODERATE
 
     # The created case is real and fetchable.
-    case_summary = await escalation_service.get_case(outcome.escalation_id)
-    assert case_summary.case_id == outcome.escalation_id
-    assert case_summary.severity == ProblemSeverity.MODERATE
+    case_summary = await escalation_service.get_case(outcome.case_id)
+    assert case_summary.case_id == outcome.case_id
+    assert case_summary.problem.severity == ProblemSeverity.MODERATE
 
 
 @pytest.mark.asyncio
@@ -169,10 +169,12 @@ async def test_improved_response_does_not_escalate():
         problem_reader, treatment_reader, context_reader, health_service, escalation_service
     )
 
-    outcome = await followup_service.respond(problem_id=PROBLEM_ID, farm_id=FARM_ID, response=FollowupResponse.IMPROVED)
+    outcome = await followup_service.respond(problem_id=PROBLEM_ID, response=FollowupResponse.IMPROVED)
 
-    assert outcome.auto_escalated is False
-    assert outcome.escalation_id is None
+    assert outcome.escalated is False
+    assert outcome.case_id is None
+    assert outcome.severity_from is None
+    assert outcome.severity_to is None
     # Severity is untouched by a non-worsening response.
     open_problems = await problem_reader.get_open_problems(FARM_ID)
     assert open_problems[0].severity == ProblemSeverity.EARLY
@@ -200,4 +202,4 @@ async def test_respond_to_unknown_problem_raises_not_found():
     )
 
     with pytest.raises(NotFoundError):
-        await followup_service.respond(problem_id="no_such_problem", farm_id=FARM_ID, response=FollowupResponse.NO_CHANGE)
+        await followup_service.respond(problem_id="no_such_problem", response=FollowupResponse.NO_CHANGE)

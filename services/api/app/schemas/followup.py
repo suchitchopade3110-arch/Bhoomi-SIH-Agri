@@ -1,27 +1,40 @@
-"""Closed-loop follow-up check-in schemas."""
+"""Closed-loop follow-up schemas — mirror contract §2.12
+``POST /followups/{id}/respond`` exactly."""
 
-from datetime import datetime
-from pydantic import BaseModel, Field
-from app.core.enums import FollowupResponse
-from app.schemas.common import SpokenResponseMixin
-from app.schemas.health import HealthSnapshot
+from pydantic import BaseModel, ConfigDict, Field
+
+from app.core.enums import FollowupResponse, ProblemSeverity
+from app.schemas.common import HealthMovement
 
 
-class FollowupCheckinRequest(BaseModel):
-    """Farmer follow-up check-in on a previous advisory or problem."""
-    advisory_id: str = Field(..., description="UUID string of original advisory")
-    farm_id: str = Field(..., description="UUID string of farm")
+class FollowupRespondRequest(BaseModel):
+    """POST /followups/{problem_id}/respond request body (contract §2.12).
+
+    ``{problem_id}`` in the path identifies which open problem this
+    follow-up is about — the body carries only the farmer's response.
+    """
     response: FollowupResponse = Field(..., description="'improved', 'no_change', or 'got_worse'")
-    farmer_notes: str | None = Field(default=None, description="Optional spoken/text feedback")
-    photo_asset_id: str | None = Field(default=None, description="Optional updated crop photo")
+    image_asset_id: str | None = Field(default=None, description="Optional updated crop photo")
 
 
-class FollowupCheckinResponse(SpokenResponseMixin):
-    """Response from follow-up evaluation."""
-    followup_id: str = Field(..., description="UUID string of follow-up record")
-    advisory_id: str = Field(...)
-    response: FollowupResponse = Field(...)
-    auto_escalated: bool = Field(..., description="Whether 'got_worse' or persistent 'no_change' triggered auto-escalation")
-    escalation_id: str | None = Field(default=None, description="Escalation UUID if auto-escalated")
-    updated_health_snapshot: HealthSnapshot = Field(..., description="Recalculated health score reflecting check-in")
-    created_at: datetime = Field(default_factory=datetime.utcnow)
+class SeverityChange(BaseModel):
+    """Contract §2.12 ``severity_change`` — present only when 'got_worse'
+    promoted the problem a tier; ``null`` otherwise."""
+    from_: ProblemSeverity = Field(..., alias="from")
+    to: ProblemSeverity
+
+    model_config = ConfigDict(populate_by_name=True)
+
+
+class FollowupRespondResponse(BaseModel):
+    """POST /followups/{problem_id}/respond response (contract §2.12)."""
+    problem_id: str
+    severity_change: SeverityChange | None = Field(
+        default=None, description="Present only when 'got_worse' promoted the problem a severity tier"
+    )
+    health: HealthMovement
+    escalated: bool = Field(..., description="Whether 'got_worse' past the threshold auto-escalated")
+    case_id: str | None = Field(default=None, description="The new case's id, if auto-escalated")
+    spoken_summary: str | None = Field(
+        default=None, description="Concise localized summary text optimized for voice readback"
+    )

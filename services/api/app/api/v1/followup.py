@@ -3,8 +3,8 @@
 from fastapi import APIRouter
 from app.core.errors import NotImplementedAPIError
 from app.schemas.followup import (
-    FollowupCheckinRequest,
-    FollowupCheckinResponse,
+    FollowupRespondRequest,
+    FollowupRespondResponse,
 )
 
 router = APIRouter(prefix="/followup", tags=["Closed-Loop Follow-up"])
@@ -12,8 +12,9 @@ router = APIRouter(prefix="/followup", tags=["Closed-Loop Follow-up"])
 
 @router.post(
     "/checkin",
-    response_model=FollowupCheckinResponse,
-    summary="Farmer check-in (Improved / No Change / Got Worse) with score adjustment",
+    response_model=FollowupRespondResponse,
+    summary="[Superseded by POST /followups/{problem_id}/respond] Farmer check-in with score adjustment",
+    deprecated=True,
 )
-async def checkin(request: FollowupCheckinRequest) -> FollowupCheckinResponse:
-    raise NotImplementedAPIError("Endpoint POST /followup/checkin will be implemented in subsequent phases.")
+async def checkin(request: FollowupRespondRequest) -> FollowupRespondResponse:
+    raise NotImplementedAPIError("Superseded by POST /followups/{problem_id}/respond (contract §2.12).")

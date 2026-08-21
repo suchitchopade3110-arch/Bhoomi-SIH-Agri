@@ -113,30 +113,24 @@ async def test_create_escalation_yields_complete_non_empty_case_summary():
     )
 
     assert result.case_id
-    assert result.status == CaseStatus.ESCALATED
+    assert result.status == CaseStatus.ASSIGNED
     assert result.assigned_to == DEMO_AGRONOMIST.name
-    assert result.assigned_kvk_center == DEMO_AGRONOMIST.kvk_center
 
     summary = result.case_summary
     assert summary.case_id == result.case_id
-    assert summary.farm_id == FARM_ID
-    assert summary.farmer_name == "Murugan"
-    assert summary.village == "Thottipalayam"
-    assert summary.district == "Madurai"
-    assert summary.crop == "Paddy"
-    assert summary.growth_stage == "vegetative"
-    assert summary.health_score is not None
-    assert summary.land_verified is True
-    assert summary.problem_summary
-    assert summary.severity == ProblemSeverity.EARLY
-    assert summary.status == CaseStatus.ESCALATED
-    assert summary.escalated_to == DEMO_AGRONOMIST.name
-    assert summary.spoken_summary
+    assert summary.farm.id == FARM_ID
+    assert summary.farm.crop == "Paddy"
+    assert summary.farm.soil_type
+    assert summary.problem.id
+    assert summary.problem.label
+    assert summary.problem.severity == ProblemSeverity.EARLY
+    assert summary.current_health.score is not None
+    assert summary.status == CaseStatus.ASSIGNED
 
     # Fetched back by id, it's the identical case summary.
     fetched = await service.get_case(result.case_id)
     assert fetched.case_id == result.case_id
-    assert fetched.farmer_name == "Murugan"
+    assert fetched.farm.crop == "Paddy"
 
 
 @pytest.mark.asyncio
@@ -152,13 +146,13 @@ async def test_create_escalation_completes_even_with_no_farm_or_user_on_record()
 
     summary = result.case_summary
     assert summary.case_id
-    assert summary.farm_id == FARM_ID
-    assert summary.farmer_name
-    assert summary.village
-    assert summary.district
-    assert summary.crop
-    assert summary.problem_summary
-    assert summary.spoken_summary
+    assert summary.farm.id == FARM_ID
+    assert summary.farm.crop
+    assert summary.farm.soil_type
+    assert summary.problem.id
+    assert summary.problem.label
+    assert summary.current_health is not None
+    assert summary.status == CaseStatus.ASSIGNED
 
 
 @pytest.mark.asyncio

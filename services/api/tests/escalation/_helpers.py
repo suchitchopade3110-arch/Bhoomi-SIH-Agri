@@ -82,9 +82,9 @@ def build_escalation_service(
     settings = settings or Settings(AGRONOMIST_ROUTING_MODE="demo_fixed", DEMO_AGRONOMIST_NAME=DEMO_AGRONOMIST.name)
     case_repo = case_repo if case_repo is not None else FakeCaseRepository()
     directory = directory if directory is not None else FakeAgronomistDirectory()
-    compiler = CaseSummaryCompiler(farm_repo, user_repo, health_service, problem_reader, treatment_reader)
+    compiler = CaseSummaryCompiler(farm_repo, health_service, problem_reader, treatment_reader)
     router = AgronomistRouter(directory, settings)
-    return EscalationService(case_repo, farm_repo, compiler, router)
+    return EscalationService(case_repo, farm_repo, user_repo, compiler, router)
 
 
 def build_followup_service(
