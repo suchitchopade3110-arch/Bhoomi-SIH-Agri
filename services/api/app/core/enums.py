@@ -93,6 +93,9 @@ class UserRole(str, Enum):
 
 
 class GateOutcome(str, Enum):
-    """Confidence gate decision outcome."""
-    ANSWER = "answer"
+    """Confidence gate decision outcome (PRD §5.6, §5.7).
+
+    Exactly one of these two — never both, never neither (domain/gate/decide.py).
+    """
+    COMPOSE = "compose"
     ESCALATE = "escalate"

@@ -120,7 +120,7 @@ def test_all_contract_enums():
     assert SchemeStatus.ACTIVE == "active"
     assert AssetKind.AUDIO_QUERY == "audio_query"
     assert UserRole.FARMER == "farmer"
-    assert GateOutcome.ANSWER == "answer"
+    assert GateOutcome.COMPOSE == "compose"
 
 
 @pytest.mark.asyncio
