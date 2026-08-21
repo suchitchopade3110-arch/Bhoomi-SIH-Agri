@@ -2,6 +2,7 @@
 
 from datetime import date, datetime
 import hashlib
+import re
 from typing import Any
 import uuid
 
@@ -43,7 +44,15 @@ class StubWeatherAdapter:
 
 
 class StubLLMAdapter:
-    """Stub LLM adapter returning canned grounded 5-point advisory."""
+    """Stub LLM adapter honoring the grounding contract (PRD §5.7, §5.8):
+    it answers ONLY by constructing its response from the retrieved chunks
+    it was actually given — it never invents content — and signals
+    ``insufficient_context`` rather than guessing when no chunks are passed.
+
+    Deterministic given deterministic chunks: same query + chunks in, same
+    5-point output out. Real: Claude/GPT with the same grounding prompt
+    (``domain.rag.prompt.build_grounding_prompt``) sent as the instruction.
+    """
 
     async def generate_grounded_advisory(
         self,
@@ -51,16 +60,25 @@ class StubLLMAdapter:
         context_chunks: list[dict[str, Any]],
         farm_context: dict[str, Any],
     ) -> dict[str, Any]:
+        if not context_chunks:
+            return {
+                "insufficient_context": True,
+                "reason": "no retrieved chunks were provided to ground an answer",
+            }
+
+        top = context_chunks[0]
+        excerpt = top["chunk_text"].strip().splitlines()[0][:240]
+
         return {
-            "diagnosis": "Early Blight (Alternaria solani)",
-            "cause": "Fungal pathogen favored by warm temperatures (24-29°C) and alternating wet/dry cycles.",
-            "immediate_action": "Prune infected lower leaves and burn or bury away from field. Ensure drip lines do not splash soil.",
-            "preventative_action": "Apply copper oxychloride (2.5 g/L) or Mancozeb (2 g/L) as a prophylactic spray; implement crop rotation with non-solanaceous crops.",
-            "recommended_inputs": [
-                "Copper Oxychloride 50% WP @ 2.5g/liter",
-                "Neem Oil 10,000 ppm @ 3ml/liter for preventive cover",
+            "possible_issue": f"Based on \"{top['title']}\", this likely matches: {excerpt}",
+            "what_to_check": f"Compare the symptoms described in your query against the guidance in \"{top['title']}\".",
+            "what_to_do_next": "Follow the cultural and chemical control steps described in the cited source(s) below.",
+            "what_to_avoid": "Do not apply treatments that aren't covered by the cited guidance.",
+            "expert_triggers": "If symptoms spread or persist after following the cited guidance, escalate to an agronomist.",
+            "citations": [
+                {"doc_id": c["doc_id"], "title": c["title"], "reviewed_on": str(c["reviewed_on"])}
+                for c in context_chunks
             ],
-            "confidence_score": 0.88,
         }
 
     async def synthesize_case_summary(
@@ -76,18 +94,51 @@ class StubLLMAdapter:
 
 
 class StubEmbeddingAdapter:
-    """Stub embedding adapter returning deterministic 1024-dimensional hashed vectors."""
+    """Stub embedding adapter: deterministic token-level feature hashing
+    (the "hashing trick" — each token hashes to a dimension it increments),
+    not a whole-string hash.
+
+    This matters for RAG: a whole-string hash gives two different texts
+    essentially uncorrelated (near-orthogonal) vectors regardless of shared
+    vocabulary, which would make relevance scoring meaningless for tests and
+    for the demo. Token-level hashing means texts sharing vocabulary (e.g. a
+    query and a corpus chunk both mentioning "bacterial leaf blight") get
+    genuine cosine overlap, while unrelated text doesn't — deterministic and
+    dependency-free, without downloading real embedding weights.
+    """
+
+    # Common function words filtered out before hashing: every document and
+    # every query shares most of these, so leaving them in dilutes cosine
+    # similarity with noise unrelated to actual topical overlap.
+    _STOPWORDS = frozenset(
+        {
+            "a", "an", "and", "are", "as", "at", "be", "been", "by", "can", "do", "does",
+            "for", "from", "has", "have", "how", "if", "in", "into", "is", "it", "its",
+            "of", "on", "or", "should", "that", "the", "their", "then", "there", "this",
+            "to", "was", "were", "what", "when", "where", "which", "who", "will", "with",
+            "your", "you", "my", "i", "not", "than", "also",
+        }
+    )
+    _MIN_TOKEN_LENGTH = 3
 
     def __init__(self, dimension: int = 1024) -> None:
         self.dimension = dimension
 
+    def _tokenize(self, text: str) -> list[str]:
+        tokens = re.findall(r"[a-z0-9]+", text.lower())
+        return [t for t in tokens if len(t) >= self._MIN_TOKEN_LENGTH and t not in self._STOPWORDS]
+
     def _hash_to_vector(self, text: str) -> list[float]:
-        # Generate deterministic float vector from md5 hash
-        h = hashlib.md5(text.encode("utf-8")).hexdigest()
-        seed = int(h[:8], 16)
-        vec = [((seed * (i + 1)) % 1000) / 1000.0 for i in range(self.dimension)]
-        # Normalize
-        norm = sum(x * x for x in vec) ** 0.5 or 1.0
+        vec = [0.0] * self.dimension
+        for token in self._tokenize(text):
+            digest = hashlib.md5(token.encode("utf-8")).hexdigest()
+            index = int(digest[:8], 16) % self.dimension
+            sign = 1.0 if int(digest[8], 16) % 2 == 0 else -1.0
+            vec[index] += sign
+
+        norm = sum(x * x for x in vec) ** 0.5
+        if norm == 0.0:
+            return vec
         return [round(x / norm, 6) for x in vec]
 
     async def embed_text(self, text: str) -> list[float]:
@@ -98,9 +149,15 @@ class StubEmbeddingAdapter:
 
 
 class StubImageDiagnosisAdapter:
-    """Stub image disease model adapter with settable confidence score."""
+    """Stub image disease model adapter with settable confidence score.
 
-    def __init__(self, label: str = "Tomato Early Blight", confidence: float = 0.85) -> None:
+    Default label is one of ``gate_service.SUPPORTED_DIAGNOSIS_LABELS`` (the
+    bounded crop/disease set, PRD §5.6) so a default call is in-scope; tests
+    exercising the out-of-scope branch call ``set_label`` with anything
+    outside that set.
+    """
+
+    def __init__(self, label: str = "bacterial_leaf_blight", confidence: float = 0.85) -> None:
         self.label = label
         self.confidence = confidence
 

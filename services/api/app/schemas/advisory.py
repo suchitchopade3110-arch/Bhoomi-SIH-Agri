@@ -1,46 +1,49 @@
-"""Advisory and Citation schemas for Grounded 5-Point Advisory."""
+"""Grounded 5-point advisory schemas — mirror contract §2.10/§2.11 exactly."""
 
-from datetime import datetime
+from datetime import date
+
 from pydantic import BaseModel, Field
+
 from app.schemas.common import SpokenResponseMixin
 
 
+class FivePointAdvisory(BaseModel):
+    """The fixed 5-point structure (PRD §5.8), grounded strictly in cited sources."""
+
+    possible_issue: str = Field(..., description="Point 1: what it likely is, with confidence")
+    what_to_check: str = Field(..., description="Point 2: how to confirm")
+    what_to_do_next: str = Field(..., description="Point 3: concrete action")
+    what_to_avoid: str = Field(..., description="Point 4: common harmful mistakes")
+    expert_triggers: str = Field(..., description="Point 5: conditions under which to stop and escalate")
+
+
 class Citation(BaseModel):
-    """Grounded knowledge citation from curated agricultural corpus."""
-    source_id: str = Field(..., description="Unique document/entry identifier in knowledge base")
-    title: str = Field(..., description="Source title or university/KVK package of practice")
-    url: str | None = Field(default=None, description="External reference URL if available")
-    published_date: str | None = Field(default=None, description="Publication or validation date (YYYY-MM-DD)")
-    relevance_score: float = Field(..., ge=0.0, le=1.0, description="Vector similarity / relevance score")
-    snippet: str = Field(..., description="Exact cited text excerpt supporting the advice")
+    """One grounded source citation (contract §2.10/§2.11)."""
+
+    doc_id: str
+    title: str
+    reviewed_on: date
 
 
-class Advisory(SpokenResponseMixin):
-    """Grounded 5-Point Advisory output structure."""
-    id: str = Field(..., description="UUID string of the advisory record")
-    farm_id: str = Field(..., description="UUID string of the target farm")
-    
-    # 5-Point Core Fields
-    diagnosis: str = Field(..., description="Point 1: Identified disease, pest, or physiological condition")
-    cause: str = Field(..., description="Point 2: Underlying causal agent, environmental driver, or pathogen")
-    immediate_action: str = Field(..., description="Point 3: Prescribed immediate remediation or cultural control")
-    preventative_action: str = Field(..., description="Point 4: Long-term preventative measures and field hygiene")
-    recommended_inputs: list[str] = Field(
-        default_factory=list,
-        description="Point 5: Recommended organic or chemical inputs with exact dosage specifications",
-    )
+class AdvisoryQueryRequest(BaseModel):
+    """POST /advisory/query request (contract §2.11)."""
 
-    citations: list[Citation] = Field(
-        default_factory=list,
-        description="Grounded citations from verified research sources",
-    )
-    confidence_score: float = Field(..., ge=0.0, le=1.0, description="Overall RAG grounding confidence score")
-    created_at: datetime = Field(default_factory=datetime.utcnow, description="ISO 8601 UTC creation timestamp")
-
-
-class AdvisoryGenerateRequest(BaseModel):
-    """Request to generate a grounded advisory for a query or crop diagnosis."""
     farm_id: str = Field(..., description="UUID string of farm")
-    query_text: str | None = Field(default=None, description="Spoken or typed farmer query")
-    diagnosis_id: str | None = Field(default=None, description="Optional UUID string of verified crop diagnosis")
-    audio_asset_id: str | None = Field(default=None, description="Optional voice audio asset ID")
+    query_text: str = Field(..., min_length=1, description="Spoken or typed farmer query")
+    lang: str = Field(default="en-IN", description="BCP-47 language tag, e.g. ta-IN")
+
+
+class AdvisoryQueryResponse(SpokenResponseMixin):
+    """POST /advisory/query response — exactly one of the two contract shapes.
+
+    ``retrieved=True``: ``advisory`` and ``citations`` are populated,
+    ``reason``/``escalation_offered`` are ``None``.
+    ``retrieved=False``: ``advisory``/``citations`` are empty, ``reason`` is
+    the fixed literal ``"no_relevant_source"``, ``escalation_offered=True``.
+    """
+
+    retrieved: bool
+    advisory: FivePointAdvisory | None = None
+    citations: list[Citation] = Field(default_factory=list)
+    reason: str | None = None
+    escalation_offered: bool | None = None

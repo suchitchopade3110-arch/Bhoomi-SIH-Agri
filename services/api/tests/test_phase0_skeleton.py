@@ -75,9 +75,11 @@ def test_openapi_schema_generation(client):
         "/api/v1/land/verify",
         "/api/v1/officer/queue",
         "/api/v1/resource-plan/fao56",
-        "/api/v1/health/score/{farm_id}",
-        "/api/v1/diagnose/crop-disease",
-        "/api/v1/advisory/generate",
+        "/api/v1/farms/{farm_id}/health",
+        "/api/v1/farms/{farm_id}/health/history",
+        "/api/v1/farms/{farm_id}/health/recompute",
+        "/api/v1/farms/{farm_id}/diagnose",
+        "/api/v1/advisory/query",
         "/api/v1/timeline/{farm_id}",
         "/api/v1/followup/checkin",
         "/api/v1/escalation/create",
@@ -101,23 +103,24 @@ def test_stubs_and_error_envelope(client):
 def test_config_settings():
     settings = get_settings()
     assert settings.CONFIDENCE_GATE == 0.70
-    assert settings.RAG_RELEVANCE_THRESHOLD == 0.35
+    assert settings.RAG_RELEVANCE_THRESHOLD == 0.18
     assert settings.LAND_API_MODE in ["mock", "live"]
     assert settings.DIAGNOSIS_MODEL in ["real", "stub"]
 
 
 def test_all_contract_enums():
     assert LandStatus.VERIFIED == "verified"
-    assert HealthBand.OPTIMAL == "optimal"
-    assert SubIndexKey.SOIL_WATER == "soil_water"
-    assert ProblemSeverity.CRITICAL == "critical"
+    assert HealthBand.UNRATED == "unrated"
+    assert HealthBand.GOOD == "good"
+    assert SubIndexKey.ACTIVE_PROBLEM_LOAD == "active_problem_load"
+    assert ProblemSeverity.EARLY == "early"
     assert ProblemStatus.OPEN == "open"
     assert FollowupResponse.IMPROVED == "improved"
     assert CaseStatus.ESCALATED == "escalated"
     assert SchemeStatus.ACTIVE == "active"
     assert AssetKind.AUDIO_QUERY == "audio_query"
     assert UserRole.FARMER == "farmer"
-    assert GateOutcome.ANSWER == "answer"
+    assert GateOutcome.COMPOSE == "compose"
 
 
 @pytest.mark.asyncio

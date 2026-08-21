@@ -11,7 +11,7 @@ class EscalationCreateRequest(BaseModel):
     """Manual or system escalation request."""
     farm_id: str = Field(..., description="UUID string of farm")
     reason: str = Field(..., description="Trigger reason (e.g., 'below_confidence_gate', 'farmer_requested')")
-    severity: ProblemSeverity = Field(default=ProblemSeverity.MEDIUM)
+    severity: ProblemSeverity = Field(default=ProblemSeverity.EARLY)
     notes: str | None = None
     related_diagnosis_id: str | None = None
     related_advisory_id: str | None = None

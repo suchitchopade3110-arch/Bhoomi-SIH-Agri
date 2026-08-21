@@ -12,38 +12,41 @@ class LandStatus(str, Enum):
 
 
 class HealthBand(str, Enum):
-    """Farm health score categorical band."""
-    OPTIMAL = "optimal"       # 80 - 100
-    GOOD = "good"             # 65 - 79
-    MODERATE = "moderate"     # 50 - 64
-    AT_RISK = "at_risk"       # 35 - 49
-    CRITICAL = "critical"     # 0 - 34
+    """Farm health score categorical band (PRD §7.5, contract §2.2).
+
+    `UNRATED` is a distinct state, not a numeric score of zero — PRD §7.1:
+    "Day 0 with no inputs is Unrated (null). A *low* number means *bad
+    health*, never *no data*."
+    """
+    UNRATED = "unrated"
+    CRITICAL = "critical"     # 0 - 39
+    POOR = "poor"             # 40 - 59
+    WATCH = "watch"           # 60 - 74
+    GOOD = "good"             # 75 - 89
+    EXCELLENT = "excellent"   # 90 - 100
 
 
 class SubIndexKey(str, Enum):
-    """Keys for the six weighted sub-indices of the farm health score."""
-    SOIL_WATER = "soil_water"
-    CROP_VIGOR = "crop_vigor"
-    WEATHER_RISK = "weather_risk"
-    PEST_DISEASE = "pest_disease"
-    NUTRIENT_BALANCE = "nutrient_balance"
-    INTERVENTION_HISTORY = "intervention_history"
+    """Keys for the six weighted sub-indices of the farm health score (PRD §7.2, contract §2.2)."""
+    ENVIRONMENTAL_SUITABILITY = "environmental_suitability"
+    RESOURCE_ADEQUACY = "resource_adequacy"
+    CROP_STAGE_PROGRESSION = "crop_stage_progression"
+    ACTIVE_PROBLEM_LOAD = "active_problem_load"
+    MONITORING_RECENCY = "monitoring_recency"
+    TREATMENT_RESPONSE = "treatment_response"
 
 
 class ProblemSeverity(str, Enum):
-    """Severity level of identified crop problem."""
-    LOW = "low"
-    MEDIUM = "medium"
-    HIGH = "high"
-    CRITICAL = "critical"
+    """Severity level of an identified crop problem (PRD §7.3, contract §2.2)."""
+    EARLY = "early"
+    MODERATE = "moderate"
+    SEVERE = "severe"
 
 
 class ProblemStatus(str, Enum):
-    """Lifecycle status of a crop problem."""
+    """Lifecycle status of a crop problem (contract §2.2)."""
     OPEN = "open"
-    IN_PROGRESS = "in_progress"
     RESOLVED = "resolved"
-    ESCALATED = "escalated"
 
 
 class FollowupResponse(str, Enum):
@@ -90,6 +93,9 @@ class UserRole(str, Enum):
 
 
 class GateOutcome(str, Enum):
-    """Confidence gate decision outcome."""
-    ANSWER = "answer"
+    """Confidence gate decision outcome (PRD §5.6, §5.7).
+
+    Exactly one of these two — never both, never neither (domain/gate/decide.py).
+    """
+    COMPOSE = "compose"
     ESCALATE = "escalate"

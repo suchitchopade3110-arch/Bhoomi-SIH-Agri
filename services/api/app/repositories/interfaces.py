@@ -1,5 +1,7 @@
 """Repository interface protocols for all database aggregates."""
 
+from dataclasses import dataclass
+from datetime import date
 from typing import Any, Protocol
 
 
@@ -53,3 +55,25 @@ class SchemeRepository(Protocol):
 class AssetRepository(Protocol):
     async def get_by_id(self, asset_id: str) -> dict[str, Any] | None: ...
     async def save(self, asset_data: dict[str, Any]) -> dict[str, Any]: ...
+
+
+@dataclass(frozen=True)
+class RetrievedChunk:
+    """One corpus chunk returned by similarity search, with its score.
+
+    Decoupled from the ``KnowledgeChunk`` ORM model so callers (and tests)
+    never need a live Postgres/pgvector connection to work with retrieval
+    results.
+    """
+
+    doc_id: str
+    title: str
+    reviewed_on: date
+    chunk_text: str
+    score: float  # cosine similarity in [0.0, 1.0]; 1.0 = identical
+
+
+class KnowledgeChunkReader(Protocol):
+    """Read-only similarity search over the curated RAG corpus (PRD §5.7)."""
+
+    async def similarity_search(self, query_embedding: list[float], top_k: int) -> list[RetrievedChunk]: ...
