@@ -1,11 +1,13 @@
 """SQLAlchemy ORM Models package."""
 
+from app.models.advisory import Advisory
 from app.models.asset import Asset
 from app.models.base import Base
 from app.models.case import Case
 from app.models.farm import Farm
 from app.models.followup import FollowUp
 from app.models.health_snapshot import HealthSnapshot
+from app.models.kb_document import KBDocument
 from app.models.knowledge_chunk import KnowledgeChunk
 from app.models.land_parcel import LandParcel
 from app.models.problem import Problem
@@ -13,8 +15,10 @@ from app.models.scheme import Scheme
 from app.models.user import User
 
 __all__ = [
+    "Advisory",
     "Base",
     "HealthSnapshot",
+    "KBDocument",
     "KnowledgeChunk",
     "User",
     "Farm",
@@ -25,3 +29,4 @@ __all__ = [
     "Scheme",
     "Asset",
 ]
+

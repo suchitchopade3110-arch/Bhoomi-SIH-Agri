@@ -185,9 +185,31 @@ class StubImageDiagnosisAdapter:
 
 
 class StubAsrTtsAdapter:
-    """Stub speech adapter returning echo transcription and mock audio URL."""
+    """Stub speech adapter returning context-specific transcription and mock audio URL.
+
+    The transcript returned depends on a hint embedded in the ``audio_asset_url_or_id``:
+    - contains "onboarding" → Tamil farm onboarding text (crop + area)
+    - contains "diagnosis"  → Tamil leaf symptoms
+    - contains "followup"   → Tamil "got worse" response
+    - default               → generic Tamil greeting with tomato symptoms
+    """
+
+    # Context-specific response tuples: (transcript, confidence)
+    _CONTEXT_RESPONSES: dict[str, tuple[str, float]] = {
+        "onboarding": ("என் நிலம் இரண்டு ஏக்கர் சம்பா நெல்", 0.91),
+        "diagnosis": ("இலை நுனி மஞ்சள் நிறமாக உள்ளது", 0.88),
+        "followup": ("மோசமாகிவிட்டது", 0.93),
+        "followup_improved": ("சரியாகிவிட்டது", 0.92),
+        "followup_nochange": ("மாற்றமில்லை", 0.90),
+        "low_confidence": ("என் நிலம் இரண்டு ஏக்கர்", 0.60),
+    }
 
     async def transcribe_audio(self, audio_asset_url_or_id: str, language: str = "ta") -> tuple[str, float]:
+        asset_lower = audio_asset_url_or_id.lower()
+        for key, response in self._CONTEXT_RESPONSES.items():
+            if key in asset_lower:
+                return response
+        # Default response
         return ("வணக்கம், என் தக்காளி செடியில் இலைகளில் கரும்புள்ளிகள் காணப்படுகின்றன.", 0.94)
 
     async def synthesize_speech(self, text: str, language: str = "ta", gender: str = "female") -> tuple[str, str]:

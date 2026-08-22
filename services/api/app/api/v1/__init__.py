@@ -17,6 +17,7 @@ from app.api.v1.schemes import router as schemes_router
 from app.api.v1.timeline import router as timeline_router
 from app.api.v1.voice import router as voice_router
 from app.api.v1.weather import router as weather_router
+from app.api.v1.system import router as system_router
 
 api_v1_router = APIRouter()
 
@@ -36,5 +37,6 @@ api_v1_router.include_router(escalation_router)
 api_v1_router.include_router(agronomist_router)
 api_v1_router.include_router(schemes_router)
 api_v1_router.include_router(weather_router)
+api_v1_router.include_router(system_router)
 
 __all__ = ["api_v1_router"]

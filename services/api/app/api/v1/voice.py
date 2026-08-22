@@ -5,6 +5,7 @@ from typing import Annotated, Any
 from fastapi import APIRouter, Depends
 
 from app.core.security import get_current_token_payload
+from app.schemas.confirmation import ConfirmFieldRequest, ConfirmFieldResponse
 from app.schemas.voice import (
     VoiceQueryRequest,
     VoiceQueryResponse,
@@ -29,6 +30,25 @@ async def transcribe(
     _auth: Annotated[dict[str, Any], Depends(get_current_token_payload)],
 ) -> VoiceTranscribeResponse:
     return await service.transcribe(request)
+
+
+@router.post(
+    "/confirm",
+    response_model=ConfirmFieldResponse,
+    summary="Confirm or correct read-back values (PRD §5.1)",
+)
+async def confirm_voice_field(
+    request: ConfirmFieldRequest,
+    service: Annotated[VoiceService, Depends(get_voice_service)],
+    _auth: Annotated[dict[str, Any], Depends(get_current_token_payload)],
+) -> ConfirmFieldResponse:
+    result = await service.confirm_field(
+        field=request.field,
+        value=request.confirmed_value,
+        is_confirmed=request.is_confirmed,
+        correction_text=request.correction_text,
+    )
+    return ConfirmFieldResponse(**result)
 
 
 @router.post(
