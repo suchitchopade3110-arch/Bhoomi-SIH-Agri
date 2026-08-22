@@ -11,7 +11,7 @@ from typing import Annotated
 from fastapi import Depends
 
 from app.adapters.dependencies import get_weather_adapter
-from app.adapters.ports import WeatherPort
+from app.ports.weather import WeatherPort
 from app.domain.health import compute_health
 from app.domain.health.inputs import (
     CropIdealConditions,

@@ -20,7 +20,7 @@ from uuid import uuid4
 from fastapi import Depends
 
 from app.adapters.dependencies import get_image_diagnosis_adapter, get_llm_adapter
-from app.adapters.ports import ImageDiagnosisPort, LLMPort
+from app.ports import ImageDiagnosisPort, LLMPort
 from app.core.config import Settings, get_settings
 from app.core.enums import ProblemSeverity
 from app.domain.gate import decide

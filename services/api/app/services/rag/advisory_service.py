@@ -11,7 +11,7 @@ from typing import Annotated
 from fastapi import Depends
 
 from app.adapters.dependencies import get_llm_adapter
-from app.adapters.ports import LLMPort
+from app.ports.llm import LLMPort
 from app.core.config import Settings, get_settings
 from app.domain.gate import decide
 from app.domain.rag import FivePointAdvisory, GroundedCitation, parse_advisory_output

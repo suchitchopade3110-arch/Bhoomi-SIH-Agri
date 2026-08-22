@@ -33,12 +33,12 @@ _BASELINE_CONTEXT = FarmHealthContext(
     latitude=11.0,
     longitude=77.0,
     crop_ideal=_IDEAL,
-    soil_moisture_pct=55.0,
-    irrigation_delivered_mm=24.0,
+    soil_moisture_pct=53.0,
+    irrigation_delivered_mm=32.0,
     irrigation_required_mm=40.0,
-    days_since_planting=10,
+    days_since_planting=17,
     expected_stage_day=30,
-    days_since_last_scan=2,
+    days_since_last_scan=6,
 )
 
 

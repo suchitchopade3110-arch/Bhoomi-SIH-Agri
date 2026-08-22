@@ -13,7 +13,7 @@ re-insert), so re-running after editing ``corpus_data.py`` is always safe.
 import asyncio
 import logging
 
-from app.adapters.ports import EmbeddingPort
+from app.ports.embeddings import EmbeddingPort
 from app.core.db import AsyncSessionLocal
 from app.domain.rag.chunking import chunk_text
 from app.repositories.knowledge_chunk_repository import KnowledgeChunkRepository

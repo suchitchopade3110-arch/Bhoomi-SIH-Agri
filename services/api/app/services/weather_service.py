@@ -6,7 +6,7 @@ from typing import Annotated
 from fastapi import Depends
 
 from app.adapters.dependencies import get_weather_adapter
-from app.adapters.ports import WeatherPort
+from app.ports.weather import WeatherPort
 from app.domain.fao56 import effective_rainfall_mm
 from app.schemas.weather import DailyWeatherForecast, WeatherCurrentResponse, WeatherEt0Response, WeatherForecastResponse
 

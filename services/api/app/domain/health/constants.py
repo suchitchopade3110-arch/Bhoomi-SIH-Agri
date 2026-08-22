@@ -82,18 +82,21 @@ STAGE_DEVIATION_PENALTY_PER_DAY = 2.0
 # --------------------------------------------------------------------------
 # Sub-index #5 — monitoring_recency
 # Penalizes staleness of the last farm scan/data point.
+# Baseline neutral default is 70; expert verification achieves 90.
 # --------------------------------------------------------------------------
+MONITORING_RECENCY_DEFAULT = 70
+MONITORING_RECENCY_EXPERT_VERIFIED = 90
 MONITORING_RECENCY_PENALTY_PER_DAY = 5.0
 
 # --------------------------------------------------------------------------
 # Sub-index #6 — treatment_response
 # Discrete score driven by the latest closed-loop follow-up (PRD §5.10).
-# TREATMENT_RESPONSE_DEFAULT applies before any follow-up has been logged —
-# deliberately short of the perfect 100, since "no data yet" is weaker
-# evidence than a *confirmed* successful treatment.
+# Neutral baseline is 70; untreated active is 20; got_worse is 5; resolved is 90.
 # --------------------------------------------------------------------------
-TREATMENT_RESPONSE_DEFAULT = 90
+TREATMENT_RESPONSE_DEFAULT = 70
+TREATMENT_RESPONSE_UNTREATED_ACTIVE = 20
+TREATMENT_RESPONSE_GOT_WORSE = 5
 TREATMENT_RESPONSE_IMPROVED = 100
-TREATMENT_RESPONSE_NO_CHANGE = 90
-TREATMENT_RESPONSE_GOT_WORSE_PENALTY_STEP = 15
-TREATMENT_RESPONSE_CONFIRMED_RESOLVED = 100
+TREATMENT_RESPONSE_NO_CHANGE = 70
+TREATMENT_RESPONSE_CONFIRMED_RESOLVED = 90
+

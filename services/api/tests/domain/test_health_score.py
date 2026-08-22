@@ -168,20 +168,20 @@ def test_monitoring_recency_stale_scan():
 
 
 def test_treatment_response_no_followup_yet_is_below_max():
-    assert treatment_response(None, 0, False) == 90
+    assert treatment_response([], None, 0, False) == 70
+    assert treatment_response([OpenProblemInput(severity=ProblemSeverity.EARLY)], None, 0, False) == 20
 
 
 def test_treatment_response_improved():
-    assert treatment_response(FollowupResponse.IMPROVED, 0, False) == 100
+    assert treatment_response([], FollowupResponse.IMPROVED, 0, False) == 100
 
 
 def test_treatment_response_got_worse_steps_down():
-    assert treatment_response(FollowupResponse.GOT_WORSE, 1, False) == 75
-    assert treatment_response(FollowupResponse.GOT_WORSE, 2, False) == 60
+    assert treatment_response([OpenProblemInput(severity=ProblemSeverity.MODERATE)], FollowupResponse.GOT_WORSE, 1, False) == 5
 
 
 def test_treatment_response_confirmed_resolution_is_always_max():
-    assert treatment_response(FollowupResponse.GOT_WORSE, 3, True) == 100
+    assert treatment_response([], FollowupResponse.GOT_WORSE, 3, True) == 90
 
 
 # ---------------------------------------------------------------------------
@@ -190,8 +190,24 @@ def test_treatment_response_confirmed_resolution_is_always_max():
 
 
 def test_compute_health_is_deterministic():
-    inputs = _inputs()
-    assert compute_health(inputs) == compute_health(inputs)
+    inputs = _inputs(
+        weather=WeatherReading(temp_c=31.5, relative_humidity_pct=88.0),
+        soil_moisture_pct=52.0,
+        irrigation_delivered_mm=45.0,
+        irrigation_required_mm=50.0,
+        days_since_planting=42,
+        days_since_last_scan=3,
+        open_problems=[OpenProblemInput(severity=ProblemSeverity.MODERATE)],
+        latest_followup_response=FollowupResponse.GOT_WORSE,
+        consecutive_got_worse_count=1,
+    )
+    res1 = compute_health(inputs)
+    res2 = compute_health(inputs)
+    assert res1 == res2
+    assert res1.score == res2.score
+    assert res1.band == res2.band
+    assert res1.subindices == res2.subindices
+    assert res1.missing_fields == res2.missing_fields
 
 
 def test_compute_health_unrated_when_required_input_missing():
@@ -227,43 +243,51 @@ def test_compute_health_clamps_to_0_100():
 
 def test_prd_7_4_reconciliation():
     """Walks baseline 82 -> early BLB 68 -> got_worse 59 -> resolved 86 with
-    fixed fixture inputs, matching PRD §7.4 and the contract's own §2.12
-    (followup respond: 68 -> 59, poor) and §2.13 (case resolve: 59 -> 86,
-    good) examples exactly. See the PR description for the full fixture
-    walkthrough and per-sub-index contribution table.
+    fixed fixture inputs, matching PRD §7.4 single source of truth table.
     """
-    # --- Baseline: no active problems, ordinary real-world imperfection ---
+    # --- Baseline: no active problems, ordinary real-world imperfection (82) ---
     baseline_inputs = _inputs(
         triggering_input=TriggeringInput(type="baseline_calibration"),
-        weather=WeatherReading(temp_c=30.0, relative_humidity_pct=80.0),
-        soil_moisture_pct=55.0,
-        days_since_last_scan=2,
+        soil_moisture_pct=53.0,  # env: 76 -> 15.2
+        irrigation_delivered_mm=32.0,  # resource: 80 -> 12.0
+        irrigation_required_mm=40.0,
+        days_since_planting=17,  # stage: 74 -> 11.1
+        expected_stage_day=30,
+        days_since_last_scan=6,  # monitoring: 70 -> 7.0 (100 - 6*5)
     )
     baseline = compute_health(baseline_inputs)
     assert baseline.score == 82
     assert baseline.band == HealthBand.GOOD
+    assert [s.contribution for s in baseline.subindices] == [15.2, 12.0, 11.1, 30.0, 7.0, 7.0]
 
-    # --- Day 22: early Bacterial Leaf Blight diagnosed ---
+    # --- Day 22: early Bacterial Leaf Blight diagnosed (68) ---
     diagnosed_inputs = _inputs(
         triggering_input=TriggeringInput(
             type="diagnosis", details={"problem_id": "p_7", "severity": "early"}
         ),
-        weather=WeatherReading(temp_c=30.0, relative_humidity_pct=92.0),  # humid conditions that favor BLB
-        soil_moisture_pct=55.0,
+        soil_moisture_pct=53.0,
+        irrigation_delivered_mm=32.0,
+        irrigation_required_mm=40.0,
+        days_since_planting=17,
+        expected_stage_day=30,
         open_problems=[OpenProblemInput(severity=ProblemSeverity.EARLY)],
         days_since_last_scan=6,
     )
     diagnosed = compute_health(diagnosed_inputs)
     assert diagnosed.score == 68
     assert diagnosed.band == HealthBand.WATCH
+    assert [s.contribution for s in diagnosed.subindices] == [15.2, 12.0, 11.1, 21.0, 7.0, 2.0]
 
-    # --- Day 25: follow-up reports "Got Worse" -> severity promotes to moderate ---
+    # --- Day 25: follow-up reports "Got Worse" -> severity promotes to moderate (59) ---
     worse_inputs = _inputs(
         triggering_input=TriggeringInput(
             type="followup", details={"problem_id": "p_7", "response": "got_worse"}
         ),
-        weather=WeatherReading(temp_c=30.0, relative_humidity_pct=92.0),
-        soil_moisture_pct=55.0,
+        soil_moisture_pct=53.0,
+        irrigation_delivered_mm=32.0,
+        irrigation_required_mm=40.0,
+        days_since_planting=17,
+        expected_stage_day=30,
         open_problems=[OpenProblemInput(severity=ProblemSeverity.MODERATE)],
         days_since_last_scan=6,
         latest_followup_response=FollowupResponse.GOT_WORSE,
@@ -271,22 +295,28 @@ def test_prd_7_4_reconciliation():
     )
     worse = compute_health(worse_inputs)
     assert worse.score == 59
-    assert worse.band == HealthBand.POOR  # crosses below the Watch band -> auto-escalation trigger
+    assert worse.band == HealthBand.POOR  # auto-escalation trigger
+    assert [s.contribution for s in worse.subindices] == [15.2, 12.0, 11.1, 13.5, 7.0, 0.5]
 
-    # --- Expert resolves the case: problem clears, treatment confirmed successful ---
+    # --- Expert resolves the case: problem clears, treatment confirmed successful (86) ---
     resolved_inputs = _inputs(
         triggering_input=TriggeringInput(type="case_resolution", details={"problem_id": "p_7"}),
-        weather=WeatherReading(temp_c=30.0, relative_humidity_pct=80.0),
-        soil_moisture_pct=60.0,
+        soil_moisture_pct=53.0,
+        irrigation_delivered_mm=32.0,
+        irrigation_required_mm=40.0,
+        days_since_planting=17,
+        expected_stage_day=30,
         open_problems=[],
         days_since_last_scan=0,
+        is_expert_verified=True,
         latest_followup_response=FollowupResponse.GOT_WORSE,
         consecutive_got_worse_count=1,
         problem_resolved_with_confirmed_treatment=True,
     )
     resolved = compute_health(resolved_inputs)
     assert resolved.score == 86
-    assert resolved.band == HealthBand.GOOD  # lands above the original baseline (PRD §7.4)
+    assert resolved.band == HealthBand.GOOD  # lands above original baseline (+4)
+    assert [s.contribution for s in resolved.subindices] == [15.2, 12.0, 11.1, 30.0, 9.0, 9.0]
 
     # Every movement is traceable to its triggering input (PRD §7.1 audit trail).
     assert diagnosed.triggering_input.type == "diagnosis"

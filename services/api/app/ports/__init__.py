@@ -1,7 +1,9 @@
-"""Protocols (Ports) for all external dependencies in Bhoomi.
+"""Ports package — typed Protocol interfaces for all external dependencies.
 
-Canonical Protocol definitions live in ``app.ports.*`` per the AGENTS.md spec.
-This module re-exports them for backward compatibility.
+Each port lives in its own module (one file per port, per spec).
+The package re-exports every Protocol from its canonical submodule so both
+``from app.ports import WeatherPort`` and
+``from app.ports.weather import WeatherPort`` work.
 """
 
 from app.ports.asr_tts import AsrTtsPort

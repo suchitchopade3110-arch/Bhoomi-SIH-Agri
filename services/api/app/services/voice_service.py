@@ -5,7 +5,7 @@ from typing import Annotated
 from fastapi import Depends
 
 from app.adapters.dependencies import get_llm_adapter, get_speech_adapter
-from app.adapters.ports import AsrTtsPort, LLMPort
+from app.ports import AsrTtsPort, LLMPort
 from app.schemas.voice import (
     VoiceQueryRequest,
     VoiceQueryResponse,

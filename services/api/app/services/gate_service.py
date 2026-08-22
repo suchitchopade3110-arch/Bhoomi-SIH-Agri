@@ -1,10 +1,6 @@
-"""Orchestration for the confidence gate (Phase 2): runs the image model,
+"""Orchestration for the confidence gate: runs the image model,
 then hands its confidence — plus scope and retrieval-relevance signals — to
 the pure ``domain.gate.decide``. No decision logic lives here, only wiring.
-
-Retrieval relevance is stubbed until Phase 3 wires the RAG service; the
-full ``/diagnose`` response composition is also Phase 3's job — this
-service only makes the gate callable and inspectable in isolation.
 """
 
 from typing import Annotated
@@ -12,7 +8,7 @@ from typing import Annotated
 from fastapi import Depends
 
 from app.adapters.dependencies import get_image_diagnosis_adapter
-from app.adapters.ports import ImageDiagnosisPort
+from app.ports.image_diagnosis import ImageDiagnosisPort
 from app.core.config import Settings, get_settings
 from app.domain.gate import GateDecision, decide
 
@@ -29,11 +25,6 @@ SUPPORTED_DIAGNOSIS_LABELS: frozenset[str] = frozenset(
     }
 )
 
-# Stubbed until Phase 3 wires the RAG service's real top-relevance score.
-# ``None`` means "not evaluated here" — decide() skips a None signal rather
-# than treating it as a pass, so this stub can never fabricate a compose.
-STUB_RETRIEVAL_RELEVANCE: float | None = None
-
 
 class GateService:
     """Runs the image model, then the confidence gate, for one diagnosis attempt."""
@@ -43,13 +34,17 @@ class GateService:
         self._settings = settings
 
     async def evaluate_image_diagnosis(
-        self, image_asset_url_or_id: str, crop_hint: str | None = None
+        self,
+        image_asset_url_or_id: str,
+        crop_hint: str | None = None,
+        retrieval_relevance: float | None = None,
     ) -> tuple[GateDecision, str, float]:
         """Run ``ImageDiagnosisPort`` then the gate.
 
         Args:
             image_asset_url_or_id: The uploaded image's asset reference.
             crop_hint: Optional farmer-stated crop to constrain the model.
+            retrieval_relevance: Optional cosine-similarity score from RAG retrieval.
 
         Returns:
             ``(decision, label, confidence)`` — the label/confidence are
@@ -63,7 +58,7 @@ class GateService:
         decision = decide(
             image_confidence=confidence,
             in_scope=in_scope,
-            retrieval_relevance=STUB_RETRIEVAL_RELEVANCE,
+            retrieval_relevance=retrieval_relevance,
             confidence_gate=self._settings.CONFIDENCE_GATE,
             relevance_threshold=self._settings.RAG_RELEVANCE_THRESHOLD,
         )

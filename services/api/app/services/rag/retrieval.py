@@ -8,7 +8,7 @@ from typing import Annotated
 from fastapi import Depends
 
 from app.adapters.dependencies import get_embedding_adapter
-from app.adapters.ports import EmbeddingPort
+from app.ports.embeddings import EmbeddingPort
 from app.domain.rag.constants import DEFAULT_TOP_K
 from app.repositories.dependencies import get_knowledge_chunk_reader
 from app.repositories.interfaces import KnowledgeChunkReader, RetrievedChunk

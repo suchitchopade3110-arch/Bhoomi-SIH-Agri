@@ -9,7 +9,7 @@ from functools import lru_cache
 
 from app.adapters.image_diagnosis_real import RealImageDiagnosisAdapter
 from app.adapters.land_registry import LandRegistryPort, LiveLandRegistryAdapter, MockLandRegistryAdapter
-from app.adapters.ports import (
+from app.ports import (
     AsrTtsPort,
     EmbeddingPort,
     ImageDiagnosisPort,

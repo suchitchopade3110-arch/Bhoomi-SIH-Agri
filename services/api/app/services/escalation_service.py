@@ -8,7 +8,7 @@ from fastapi import Depends
 
 from app.core.enums import CaseStatus, ProblemSeverity
 from app.core.errors import NotFoundError
-from app.domain.escalation import build_case_summary
+from app.services.escalation.compiler import build_case_summary
 from app.repositories.dependencies import get_case_repository, get_farm_repository
 from app.repositories.interfaces import CaseRepository, FarmRepository
 from app.schemas.escalation import EscalationCreateRequest, EscalationResponse

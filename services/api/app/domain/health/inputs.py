@@ -91,6 +91,7 @@ class HealthScoreInputs:
     latest_followup_response: FollowupResponse | None
     consecutive_got_worse_count: int
     problem_resolved_with_confirmed_treatment: bool
+    is_expert_verified: bool = False
 
     def required_inputs_present(self) -> bool:
         """True once enough fields exist to compute a real (non-``unrated``)

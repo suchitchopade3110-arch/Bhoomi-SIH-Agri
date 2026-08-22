@@ -6,7 +6,7 @@ import uuid
 from fastapi import Depends
 
 from app.adapters.dependencies import get_storage_adapter
-from app.adapters.ports import StoragePort
+from app.ports.storage import StoragePort
 from app.core.errors import NotFoundError
 from app.repositories.dependencies import get_asset_repository
 from app.repositories.interfaces import AssetRepository

@@ -14,7 +14,7 @@ from typing import Annotated
 from fastapi import Depends
 
 from app.adapters.dependencies import get_weather_adapter
-from app.adapters.ports import WeatherPort
+from app.ports.weather import WeatherPort
 from app.core.errors import NotFoundError
 from app.domain.fao56 import calculate_fao56_irrigation, effective_rainfall_mm
 from app.domain.farm_reference_data import get_kc, get_seed_rate_kg_per_acre

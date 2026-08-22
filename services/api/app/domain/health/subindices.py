@@ -70,37 +70,44 @@ def active_problem_load(open_problems: list[OpenProblemInput]) -> int:
     return _clamp_int(100 - total_penalty)
 
 
-def monitoring_recency(days_since_last_scan: int) -> int:
+def monitoring_recency(days_since_last_scan: int, is_expert_verified: bool = False) -> int:
     """Sub-index #5: are scans/data recent enough to trust the score?
 
-    Weight: 0.10 (PRD §7.2).
+    Weight: 0.10 (PRD §7.2). Starts at 100 minus recency penalty (5/day).
+    Expert verified scans score 90 (PRD §7.4).
     """
+    if is_expert_verified:
+        return c.MONITORING_RECENCY_EXPERT_VERIFIED
     penalty = c.MONITORING_RECENCY_PENALTY_PER_DAY * days_since_last_scan
     return _clamp_int(100 - penalty)
 
 
 def treatment_response(
+    open_problems: list[OpenProblemInput],
     latest_followup_response: FollowupResponse | None,
     consecutive_got_worse_count: int,
     problem_resolved_with_confirmed_treatment: bool,
 ) -> int:
-    """Sub-index #6: follow-up trend (Improved / No Change / Got Worse).
+    """Sub-index #6: follow-up trend & treatment resolution (PRD §7.4 single source of truth).
 
-    Weight: 0.10 (PRD §7.2). A confirmed expert resolution always yields the
-    maximum score, regardless of the trend leading up to it (PRD §7.4:
-    "the farm is now well-monitored with a logged, successful treatment").
+    Weight: 0.10 (PRD §7.2).
+    - Neutral baseline (no active problems, no engagement history): 70
+    - Active problem diagnosed (untreated): 20
+    - Follow-up "got worse": 5
+    - Confirmed expert resolution: 90
+    - Follow-up "improved": 100
     """
     if problem_resolved_with_confirmed_treatment:
         return c.TREATMENT_RESPONSE_CONFIRMED_RESOLVED
-    if latest_followup_response is None:
-        return c.TREATMENT_RESPONSE_DEFAULT
+    if latest_followup_response == FollowupResponse.GOT_WORSE:
+        return c.TREATMENT_RESPONSE_GOT_WORSE
     if latest_followup_response == FollowupResponse.IMPROVED:
         return c.TREATMENT_RESPONSE_IMPROVED
     if latest_followup_response == FollowupResponse.NO_CHANGE:
         return c.TREATMENT_RESPONSE_NO_CHANGE
-    # GOT_WORSE: step down for every consecutive worsening report.
-    penalty = c.TREATMENT_RESPONSE_GOT_WORSE_PENALTY_STEP * max(1, consecutive_got_worse_count)
-    return _clamp_int(c.TREATMENT_RESPONSE_DEFAULT - penalty)
+    if open_problems:
+        return c.TREATMENT_RESPONSE_UNTREATED_ACTIVE
+    return c.TREATMENT_RESPONSE_DEFAULT
 
 
 @dataclass(frozen=True)
@@ -139,8 +146,11 @@ def compute_all_subindices(inputs: HealthScoreInputs) -> list[SubIndexBreakdown]
             inputs.days_since_planting, inputs.expected_stage_day
         ),
         SubIndexKey.ACTIVE_PROBLEM_LOAD: active_problem_load(inputs.open_problems),
-        SubIndexKey.MONITORING_RECENCY: monitoring_recency(inputs.days_since_last_scan),
+        SubIndexKey.MONITORING_RECENCY: monitoring_recency(
+            inputs.days_since_last_scan, inputs.is_expert_verified
+        ),
         SubIndexKey.TREATMENT_RESPONSE: treatment_response(
+            inputs.open_problems,
             inputs.latest_followup_response,
             inputs.consecutive_got_worse_count,
             inputs.problem_resolved_with_confirmed_treatment,
