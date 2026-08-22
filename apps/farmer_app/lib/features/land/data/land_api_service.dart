@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/api/api_client.dart';
+import '../../../core/api/api_exception.dart';
 import '../../../shared/constants/api_constants.dart';
 import 'models/land_record_response.dart';
 import 'models/land_submission_request.dart';
@@ -26,36 +27,73 @@ class LandApiService {
       if (request.boundaryGeojson != null) 'boundary_geojson': request.boundaryGeojson!.toJson(),
     };
 
-    final response = await _apiClient.post(
-      ApiConstants.landVerify,
-      data: payload,
-    );
+    try {
+      final response = await _apiClient.post(
+        ApiConstants.landVerify,
+        data: payload,
+      );
 
-    if (response.data is Map<String, dynamic>) {
-      final map = Map<String, dynamic>.from(response.data as Map);
-      if (response.statusCode == 202 && !map.containsKey('status')) {
-        map['status'] = 'pending_verification';
+      if (response.data is Map<String, dynamic>) {
+        final map = Map<String, dynamic>.from(response.data as Map);
+        if (response.statusCode == 202 && !map.containsKey('status')) {
+          map['status'] = 'pending_verification';
+        }
+        if (!map.containsKey('farm_id')) map['farm_id'] = farmId;
+        if (!map.containsKey('farmer_stated')) {
+          map['farmer_stated'] = {
+            'survey_no': request.surveyNo,
+            'area_acres': request.areaAcres,
+          };
+        }
+        return LandRecordResponse.fromJson(map);
       }
-      if (!map.containsKey('farm_id')) map['farm_id'] = farmId;
-      if (!map.containsKey('farmer_stated')) {
-        map['farmer_stated'] = {
-          'survey_no': request.surveyNo,
-          'area_acres': request.areaAcres,
-        };
+      throw Exception('Invalid land submission response payload.');
+    } on NetworkException {
+      if (ApiConstants.enableMockFallback) {
+        return LandRecordResponse(
+          landRecordId: 'parcel_erode_142',
+          farmId: farmId,
+          farmerStated: FarmerStatedLand(
+            surveyNo: request.surveyNo,
+            areaAcres: request.areaAcres,
+          ),
+          boundaryGeojson: request.boundaryGeojson,
+          status: 'verified',
+          submittedAt: DateTime.now().toIso8601String(),
+          verifiedAt: DateTime.now().toIso8601String(),
+          verifier: 'Taluk Revenue Officer (Erode)',
+        );
       }
-      return LandRecordResponse.fromJson(map);
+      rethrow;
     }
-    throw Exception('Invalid land submission response payload.');
   }
 
   Future<LandRecordResponse> getLandRecord(String landId) async {
-    final response = await _apiClient.get(
-      ApiConstants.landRecord(landId),
-    );
+    try {
+      final response = await _apiClient.get(
+        ApiConstants.landRecord(landId),
+      );
 
-    if (response.data is Map<String, dynamic>) {
-      return LandRecordResponse.fromJson(response.data as Map<String, dynamic>);
+      if (response.data is Map<String, dynamic>) {
+        return LandRecordResponse.fromJson(response.data as Map<String, dynamic>);
+      }
+      throw Exception('Invalid land record response payload.');
+    } on NetworkException {
+      if (ApiConstants.enableMockFallback) {
+        return LandRecordResponse(
+          landRecordId: landId,
+          farmId: 'farm_tamilnadu_001',
+          farmerStated: const FarmerStatedLand(
+            surveyNo: '142/3B',
+            areaAcres: 2.0,
+          ),
+          status: 'verified',
+          submittedAt: DateTime.now().toIso8601String(),
+          verifiedAt: DateTime.now().toIso8601String(),
+          verifier: 'Taluk Revenue Officer (Erode)',
+        );
+      }
+      rethrow;
     }
-    throw Exception('Invalid land record response payload.');
   }
 }

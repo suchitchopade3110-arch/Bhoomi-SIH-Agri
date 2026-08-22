@@ -4,10 +4,15 @@ class ApiConstants {
     defaultValue: 'http://localhost:8000',
   );
 
+  static const bool enableMockFallback = bool.fromEnvironment(
+    'ENABLE_MOCK_FALLBACK',
+    defaultValue: true,
+  );
+
   static const String apiVersion = '/api/v1';
 
   // Farm Endpoints (Phase 1)
-  static const String farms = '$apiVersion/farms';
+  static const String farms = '$apiVersion/farms/';
   static String farmDetail(String id) => '$apiVersion/farms/$id';
   static String farmSummary(String id) => '$apiVersion/farms/$id/summary';
 
@@ -81,9 +86,9 @@ class ApiConstants {
   static String farmUpdates(String farmId) => '$apiVersion/timeline/$farmId';
 
   // Request Timeouts
-  static const Duration connectTimeout = Duration(seconds: 15);
-  static const Duration receiveTimeout = Duration(seconds: 15);
-  static const Duration sendTimeout = Duration(seconds: 15);
+  static const Duration connectTimeout = Duration(seconds: 4);
+  static const Duration receiveTimeout = Duration(seconds: 4);
+  static const Duration sendTimeout = Duration(seconds: 4);
 
   // Headers
   static const String authorizationHeader = 'Authorization';

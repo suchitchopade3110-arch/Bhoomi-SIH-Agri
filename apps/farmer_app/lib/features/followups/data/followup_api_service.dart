@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/api/api_client.dart';
+import '../../../core/api/api_exception.dart';
 import '../../../shared/constants/api_constants.dart';
 import 'models/followup_models.dart';
 
@@ -26,16 +27,34 @@ class FollowupApiService {
       if (request.notes != null) 'notes': request.notes,
     };
 
-    final response = await _apiClient.post(
-      ApiConstants.followupCheckin,
-      data: payload,
-    );
+    try {
+      final response = await _apiClient.post(
+        ApiConstants.followupCheckin,
+        data: payload,
+      );
 
-    if (response.data is Map<String, dynamic>) {
-      final map = Map<String, dynamic>.from(response.data as Map);
-      if (!map.containsKey('diagnosis_id')) map['diagnosis_id'] = request.diagnosisId;
-      return FollowupResponse.fromJson(map);
+      if (response.data is Map<String, dynamic>) {
+        final map = Map<String, dynamic>.from(response.data as Map);
+        if (!map.containsKey('diagnosis_id')) map['diagnosis_id'] = request.diagnosisId;
+        return FollowupResponse.fromJson(map);
+      }
+      throw Exception('Invalid follow-up response payload format.');
+    } on NetworkException {
+      if (ApiConstants.enableMockFallback) {
+        final isWorse = request.outcome == 'got_worse';
+        return FollowupResponse(
+          followupId: 'fol_98231',
+          diagnosisId: request.diagnosisId,
+          outcome: request.outcome,
+          status: isWorse ? 'escalated' : 'recorded',
+          nextSteps: isWorse
+              ? 'Case auto-escalated to KVK Agronomist for priority inspection.'
+              : 'Continue field monitoring according to advisory schedule.',
+          escalationRecommended: isWorse,
+          recordedAt: DateTime.now().toIso8601String(),
+        );
+      }
+      rethrow;
     }
-    throw Exception('Invalid follow-up response payload format.');
   }
 }

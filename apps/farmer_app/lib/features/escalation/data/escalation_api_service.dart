@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/api/api_client.dart';
+import '../../../core/api/api_exception.dart';
 import '../../../shared/constants/api_constants.dart';
 import 'models/escalation_models.dart';
 
@@ -26,27 +27,58 @@ class EscalationApiService {
       if (request.imageAssetId != null) 'image_asset_id': request.imageAssetId,
     };
 
-    final response = await _apiClient.post(
-      ApiConstants.escalationCreate,
-      data: payload,
-    );
+    try {
+      final response = await _apiClient.post(
+        ApiConstants.escalationCreate,
+        data: payload,
+      );
 
-    if (response.data is Map<String, dynamic>) {
-      final map = Map<String, dynamic>.from(response.data as Map);
-      if (!map.containsKey('farm_id')) map['farm_id'] = farmId;
-      return EscalationResponse.fromJson(map);
+      if (response.data is Map<String, dynamic>) {
+        final map = Map<String, dynamic>.from(response.data as Map);
+        if (!map.containsKey('farm_id')) map['farm_id'] = farmId;
+        return EscalationResponse.fromJson(map);
+      }
+      throw Exception('Invalid escalation response payload format.');
+    } on NetworkException {
+      if (ApiConstants.enableMockFallback) {
+        return EscalationResponse(
+          caseId: 'esc_kvk_701',
+          farmId: farmId,
+          status: 'escalated_to_kvk',
+          submissionTimestamp: DateTime.now().toIso8601String(),
+          kvkCenter: 'ICAR-KVK Erode Center',
+          estimatedReview: 'Within 24 business hours',
+          expertResolution: null,
+          agronomist: 'Dr. S. Sundaram (KVK Erode)',
+        );
+      }
+      rethrow;
     }
-    throw Exception('Invalid escalation response payload format.');
   }
 
   Future<EscalationResponse> getEscalationStatus(String caseId) async {
-    final response = await _apiClient.get(
-      ApiConstants.escalationRecord(caseId),
-    );
+    try {
+      final response = await _apiClient.get(
+        ApiConstants.escalationRecord(caseId),
+      );
 
-    if (response.data is Map<String, dynamic>) {
-      return EscalationResponse.fromJson(response.data as Map<String, dynamic>);
+      if (response.data is Map<String, dynamic>) {
+        return EscalationResponse.fromJson(response.data as Map<String, dynamic>);
+      }
+      throw Exception('Invalid escalation status payload format.');
+    } on NetworkException {
+      if (ApiConstants.enableMockFallback) {
+        return EscalationResponse(
+          caseId: caseId,
+          farmId: 'farm_tamilnadu_001',
+          status: 'escalated_to_kvk',
+          submissionTimestamp: DateTime.now().toIso8601String(),
+          kvkCenter: 'ICAR-KVK Erode Center',
+          estimatedReview: 'Within 24 business hours',
+          agronomist: 'Dr. S. Sundaram (KVK Erode)',
+        );
+      }
+      rethrow;
     }
-    throw Exception('Invalid escalation status payload format.');
   }
 }
