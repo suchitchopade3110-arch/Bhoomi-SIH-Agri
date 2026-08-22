@@ -67,7 +67,20 @@ def get_image_diagnosis_adapter() -> ImageDiagnosisPort:
 
 @lru_cache
 def get_speech_adapter() -> AsrTtsPort:
-    """Return AsrTtsPort adapter based on settings."""
+    """Return AsrTtsPort adapter based on ``ASR_PROVIDER`` / ``TTS_PROVIDER`` settings."""
+    settings = get_settings()
+    provider = getattr(settings, "ASR_PROVIDER", "stub").lower()
+    
+    if provider == "bhashini":
+        from app.adapters.bhashini_asr import BhashiniAsrTtsAdapter
+        return BhashiniAsrTtsAdapter()
+    elif provider == "whisper":
+        from app.adapters.whisper_asr import WhisperAsrAdapter
+        return WhisperAsrAdapter()
+    elif getattr(settings, "TTS_PROVIDER", "stub").lower() == "gtts":
+        from app.adapters.gtts_adapter import GttsAdapter
+        return GttsAdapter()
+        
     return StubAsrTtsAdapter()
 
 

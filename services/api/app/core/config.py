@@ -91,6 +91,35 @@ class Settings(BaseSettings):
     # Health score default rubric version
     WEIGHTS_VERSION: str = "v1.0.0"
 
+    # Voice / ASR / TTS
+    ASR_PROVIDER: str = Field(
+        default="stub",
+        description="ASR provider: 'bhashini' | 'whisper' | 'stub'",
+    )
+    TTS_PROVIDER: str = Field(
+        default="stub",
+        description="TTS provider: 'bhashini' | 'gtts' | 'stub'",
+    )
+    CONFIRMATION_CONFIDENCE_FLOOR: float = Field(
+        default=0.85,
+        description="ASR confidence below this triggers read-back confirmation (PRD §5.1)",
+    )
+
+    # Bhashini API (optional — needed only when ASR_PROVIDER/TTS_PROVIDER = bhashini)
+    BHASHINI_USER_ID: str = ""
+    BHASHINI_API_KEY: str = ""
+    BHASHINI_PIPELINE_ID: str = ""
+
+    # Embedding
+    EMBEDDING_DIM: int = 1024
+
+    # Storage
+    STORAGE_BACKEND: str = Field(
+        default="local",
+        description="Storage backend: 'local' | 's3'",
+    )
+    LOCAL_STORAGE_PATH: str = "./storage"
+
 
 @lru_cache
 def get_settings() -> Settings:
