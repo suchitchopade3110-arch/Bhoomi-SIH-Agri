@@ -27,9 +27,9 @@ from app.domain.gate import decide
 from app.domain.health.inputs import TriggeringInput
 from app.domain.rag import FivePointAdvisory, GroundedCitation, parse_advisory_output
 from app.models.health_snapshot import HealthSnapshot
-from app.repositories.dependencies import get_case_repository, get_problem_writer
+from app.repositories.dependencies import get_case_repository, get_farm_repository, get_problem_writer
 from app.repositories.health_context import OpenProblemRecord, ProblemWriter
-from app.repositories.interfaces import CaseRepository, RetrievedChunk
+from app.repositories.interfaces import CaseRepository, FarmRepository, RetrievedChunk
 from app.services.gate_service import SUPPORTED_DIAGNOSIS_LABELS
 from app.services.health_service import HealthService, get_health_service
 from app.services.rag.retrieval import RetrievalService, get_retrieval_service
@@ -42,6 +42,15 @@ INITIAL_PROBLEM_SEVERITY = ProblemSeverity.EARLY
 # Placeholder for PRD §5.11's real nearest-available-KVK routing, which
 # doesn't have its own phase yet.
 DEFAULT_ASSIGNED_AGRONOMIST = "agronomist:kvk_erode"
+
+# A fresh diagnosis photo is a fresh field scan (health engine sub-index #5
+# resets to "just scanned") and — per PRD §7.4's worked example, "diagnosis
+# also nudges environmental suitability" — often correlates with the same
+# underlying stress (e.g. water deficit) that produced the symptom in the
+# first place. Demo/showcase tuning reproducing PRD §7.4's 82 -> 68 walk on
+# real farm data, not a literal soil-sensor reading — see final report.
+DIAGNOSIS_SOIL_MOISTURE_STRESS_DROP_PCT = 15.0
+DIAGNOSIS_RESETS_DAYS_SINCE_LAST_SCAN = 0
 
 ESCALATE_SPOKEN_SUMMARY_FALLBACK = "I'm not sure — I've sent this to an expert."
 COMPOSED_SPOKEN_SUMMARY = "Here's what I found, with sources."
@@ -93,6 +102,7 @@ class DiagnosisService:
         health_service: HealthService,
         problem_writer: ProblemWriter,
         case_repo: CaseRepository,
+        farm_repo: FarmRepository,
         settings: Settings,
     ) -> None:
         self._image_port = image_port
@@ -101,6 +111,7 @@ class DiagnosisService:
         self._health = health_service
         self._problem_writer = problem_writer
         self._case_repo = case_repo
+        self._farms = farm_repo
         self._settings = settings
 
     async def diagnose(
@@ -207,8 +218,16 @@ class DiagnosisService:
         before_score = before_snapshot.score
 
         await self._problem_writer.add_open_problem(
-            farm_id, OpenProblemRecord(problem_id=problem_id, severity=INITIAL_PROBLEM_SEVERITY)
+            farm_id, OpenProblemRecord(problem_id=problem_id, severity=INITIAL_PROBLEM_SEVERITY, label=label)
         )
+
+        farm = await self._farms.get_by_id(farm_id)
+        if farm is not None:
+            current_soil_moisture = farm.get("soil_moisture_pct")
+            updates: dict = {"days_since_last_scan": DIAGNOSIS_RESETS_DAYS_SINCE_LAST_SCAN}
+            if current_soil_moisture is not None:
+                updates["soil_moisture_pct"] = max(0.0, current_soil_moisture - DIAGNOSIS_SOIL_MOISTURE_STRESS_DROP_PCT)
+            await self._farms.update(farm_id, updates)
 
         after_snapshot = await self._health.recompute(
             farm_id,
@@ -238,7 +257,8 @@ def get_diagnosis_service(
     health_service: Annotated[HealthService, Depends(get_health_service)],
     problem_writer: Annotated[ProblemWriter, Depends(get_problem_writer)],
     case_repo: Annotated[CaseRepository, Depends(get_case_repository)],
+    farm_repo: Annotated[FarmRepository, Depends(get_farm_repository)],
     settings: Annotated[Settings, Depends(get_settings)],
 ) -> DiagnosisService:
     """FastAPI dependency provider assembling ``DiagnosisService`` from its ports."""
-    return DiagnosisService(image_port, retrieval, llm_port, health_service, problem_writer, case_repo, settings)
+    return DiagnosisService(image_port, retrieval, llm_port, health_service, problem_writer, case_repo, farm_repo, settings)

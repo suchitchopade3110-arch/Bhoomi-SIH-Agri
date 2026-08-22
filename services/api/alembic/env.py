@@ -5,6 +5,12 @@ from sqlalchemy import pool
 from sqlalchemy.engine import Connection
 from sqlalchemy.ext.asyncio import async_engine_from_config
 from app.core.config import get_settings
+
+# Import the models package (not just Base) so every ORM model registers on
+# Base.metadata before Alembic compares/creates tables — a bare `from
+# app.models.base import Base` would leave every table but the first-ever
+# one invisible to migrations.
+import app.models as models  # noqa: F401
 from app.models.base import Base
 
 # this is the Alembic Config object, which provides
