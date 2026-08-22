@@ -14,7 +14,7 @@ from app.repositories.health_context import (
     InMemoryProblemLoadReader,
     InMemoryTreatmentTrendReader,
 )
-from app.repositories.in_memory import InMemoryCaseRepository
+from app.repositories.in_memory import InMemoryCaseRepository, InMemoryFarmRepository
 from app.services.diagnosis_service import DiagnosisService
 from app.services.health_service import HealthService
 from app.services.rag.retrieval import RetrievalService
@@ -99,6 +99,8 @@ async def _make_service(image_confidence: float = 0.87, image_label: str = "bact
     problem_reader = InMemoryProblemLoadReader()
     health_service = _make_health_service(problem_reader)
     case_repo = InMemoryCaseRepository()
+    farm_repo = InMemoryFarmRepository()
+    await farm_repo.save({"id": FARM_ID, "farmer_id": "u_1", "soil_moisture_pct": 55.0})
     return DiagnosisService(
         image_port=image_port,
         retrieval=retrieval,
@@ -106,6 +108,7 @@ async def _make_service(image_confidence: float = 0.87, image_label: str = "bact
         health_service=health_service,
         problem_writer=problem_reader,
         case_repo=case_repo,
+        farm_repo=farm_repo,
         settings=SETTINGS,
     )
 

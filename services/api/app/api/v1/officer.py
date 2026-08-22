@@ -1,13 +1,17 @@
-"""Extension Officer portal API router."""
+"""Extension Officer portal API router (contract §2.7 officer-portal section)."""
 
-from fastapi import APIRouter
-from app.core.errors import NotImplementedAPIError
+from typing import Annotated, Any
+
+from fastapi import APIRouter, Depends, Query
+
+from app.core.security import get_current_token_payload
 from app.schemas.officer import (
     OfficerActionRequest,
     OfficerActionResponse,
     OfficerQueueItem,
     OfficerReviewDetail,
 )
+from app.services.officer_service import OfficerService, get_officer_service
 
 router = APIRouter(prefix="/officer", tags=["Officer Portal"])
 
@@ -17,23 +21,35 @@ router = APIRouter(prefix="/officer", tags=["Officer Portal"])
     response_model=list[OfficerQueueItem],
     summary="Get pending land verification queue for officer jurisdiction",
 )
-async def get_queue() -> list[OfficerQueueItem]:
-    raise NotImplementedAPIError("Endpoint GET /officer/queue will be implemented in subsequent phases.")
+async def get_queue(
+    service: Annotated[OfficerService, Depends(get_officer_service)],
+    _auth: Annotated[dict[str, Any], Depends(get_current_token_payload)],
+    district: Annotated[str | None, Query()] = None,
+) -> list[OfficerQueueItem]:
+    return await service.get_queue(district)
 
 
 @router.get(
     "/review/{parcel_id}",
     response_model=OfficerReviewDetail,
-    summary="Get detailed parcel boundary and satellite overlay for editing",
+    summary="Get detailed parcel boundary for editing",
 )
-async def get_review_detail(parcel_id: str) -> OfficerReviewDetail:
-    raise NotImplementedAPIError("Endpoint GET /officer/review/{parcel_id} will be implemented in subsequent phases.")
+async def get_review_detail(
+    parcel_id: str,
+    service: Annotated[OfficerService, Depends(get_officer_service)],
+    _auth: Annotated[dict[str, Any], Depends(get_current_token_payload)],
+) -> OfficerReviewDetail:
+    return await service.get_parcel_detail(parcel_id)
 
 
 @router.post(
     "/action",
     response_model=OfficerActionResponse,
-    summary="Submit officer decision (verify boundary or reject)",
+    summary="Submit officer decision (verify boundary or reject) — contract §2.7 review endpoint",
 )
-async def process_action(request: OfficerActionRequest) -> OfficerActionResponse:
-    raise NotImplementedAPIError("Endpoint POST /officer/action will be implemented in subsequent phases.")
+async def process_action(
+    request: OfficerActionRequest,
+    service: Annotated[OfficerService, Depends(get_officer_service)],
+    _auth: Annotated[dict[str, Any], Depends(get_current_token_payload)],
+) -> OfficerActionResponse:
+    return await service.process_action(request)

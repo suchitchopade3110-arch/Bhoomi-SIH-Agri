@@ -1,6 +1,14 @@
-"""FastAPI dependency providers for external adapter ports."""
+"""FastAPI dependency providers for external adapter ports.
+
+Selection is by config only (PRD §1.5) — no call site outside this module
+ever imports a concrete adapter class, so flipping ``LAND_API_MODE`` or
+``DIAGNOSIS_MODEL`` in ``.env`` changes behavior everywhere for free.
+"""
 
 from functools import lru_cache
+
+from app.adapters.image_diagnosis_real import RealImageDiagnosisAdapter
+from app.adapters.land_registry import LandRegistryPort, LiveLandRegistryAdapter, MockLandRegistryAdapter
 from app.adapters.ports import (
     AsrTtsPort,
     EmbeddingPort,
@@ -22,7 +30,12 @@ from app.core.config import get_settings
 
 @lru_cache
 def get_weather_adapter() -> WeatherPort:
-    """Return WeatherPort adapter based on settings."""
+    """Return WeatherPort adapter based on settings.
+
+    A real Open-Meteo adapter is a documented follow-up (see final report) —
+    left on the stub for this phase so health/resource-plan scoring stays
+    deterministic offline, matching the runbook's fixed expected numbers.
+    """
     return StubWeatherAdapter()
 
 
@@ -40,9 +53,15 @@ def get_embedding_adapter() -> EmbeddingPort:
 
 @lru_cache
 def get_image_diagnosis_adapter() -> ImageDiagnosisPort:
-    """Return ImageDiagnosisPort adapter based on settings."""
+    """Return ImageDiagnosisPort adapter based on ``DIAGNOSIS_MODEL``.
+
+    ``real`` calls out to the (separately-phased) ML inference service —
+    see ``adapters/image_diagnosis_real.py`` for why that's an honest
+    integration point rather than a fake model.
+    """
     settings = get_settings()
-    # In Phase 0, both stub and real flag use the stub
+    if settings.DIAGNOSIS_MODEL == "real":
+        return RealImageDiagnosisAdapter(settings.ML_SERVICE_URL)
     return StubImageDiagnosisAdapter(confidence=0.85)
 
 
@@ -56,3 +75,16 @@ def get_speech_adapter() -> AsrTtsPort:
 def get_storage_adapter() -> StoragePort:
     """Return StoragePort adapter based on settings."""
     return StubStorageAdapter()
+
+
+@lru_cache
+def get_land_registry_adapter() -> LandRegistryPort:
+    """Return LandRegistryPort adapter based on ``LAND_API_MODE`` (PRD §1.5,
+    §5.3). ``mock`` accelerates a small whitelist of survey numbers; ``live``
+    represents the real (unavailable) state portal and always falls into
+    HITL — flipping this flag alone demonstrates both contract §2.7 response
+    shapes from one build."""
+    settings = get_settings()
+    if settings.LAND_API_MODE == "live":
+        return LiveLandRegistryAdapter()
+    return MockLandRegistryAdapter()

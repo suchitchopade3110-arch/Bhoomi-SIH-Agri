@@ -20,9 +20,18 @@ class FarmCreateRequest(BaseModel):
     total_area_acres: float = Field(..., gt=0.0, description="Total farm area in acres")
     survey_number: str | None = Field(default=None, description="Cadastral survey number")
     primary_crop: str = Field(..., description="Main active crop (e.g. Paddy, Tomato, Cotton)")
+    growth_stage: str = Field(default="vegetative", description="Current growth stage: initial, vegetative, mid_season, late_season")
     sowing_date: date | None = Field(default=None, description="Crop sowing date")
     soil_type: str = Field(default="Clay Loam", description="Soil classification")
     irrigation_source: str = Field(default="Borewell", description="Primary irrigation source")
+
+    # Optional self-reported monitoring inputs the health engine needs
+    # (PRD §7.2 sub-indices #1/#3/#5). Left unset, the farm stays `unrated`
+    # (PRD §5.2) until these — and irrigation_delivered/required_mm, filled
+    # in by the resource-plan step — are all present.
+    soil_moisture_pct: float | None = Field(default=None, ge=0.0, le=100.0, description="Self-reported/sensor soil moisture %")
+    days_since_planting: int | None = Field(default=None, ge=0, description="Days since sowing, as of onboarding")
+    days_since_last_scan: int | None = Field(default=None, ge=0, description="Days since the last field scan/photo")
 
 
 class FarmUpdateRequest(BaseModel):

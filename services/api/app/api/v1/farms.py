@@ -1,13 +1,17 @@
-"""Farms API router."""
+"""Farms API router (contract §2.6)."""
 
-from fastapi import APIRouter, status
-from app.core.errors import NotImplementedAPIError
+from typing import Annotated, Any
+
+from fastapi import APIRouter, Depends, status
+
+from app.core.security import get_current_token_payload
 from app.schemas.farm import (
     FarmCreateRequest,
     FarmResponse,
     FarmSummaryResponse,
     FarmUpdateRequest,
 )
+from app.services.farm_service import FarmService, get_farm_service
 
 router = APIRouter(prefix="/farms", tags=["Farms"])
 
@@ -18,8 +22,12 @@ router = APIRouter(prefix="/farms", tags=["Farms"])
     status_code=status.HTTP_201_CREATED,
     summary="Register a new farm profile",
 )
-async def create_farm(request: FarmCreateRequest) -> FarmResponse:
-    raise NotImplementedAPIError("Endpoint POST /farms will be implemented in subsequent phases.")
+async def create_farm(
+    request: FarmCreateRequest,
+    service: Annotated[FarmService, Depends(get_farm_service)],
+    _auth: Annotated[dict[str, Any], Depends(get_current_token_payload)],
+) -> FarmResponse:
+    return await service.create_farm(request)
 
 
 @router.get(
@@ -27,8 +35,12 @@ async def create_farm(request: FarmCreateRequest) -> FarmResponse:
     response_model=FarmResponse,
     summary="Get farm details by UUID",
 )
-async def get_farm(farm_id: str) -> FarmResponse:
-    raise NotImplementedAPIError("Endpoint GET /farms/{farm_id} will be implemented in subsequent phases.")
+async def get_farm(
+    farm_id: str,
+    service: Annotated[FarmService, Depends(get_farm_service)],
+    _auth: Annotated[dict[str, Any], Depends(get_current_token_payload)],
+) -> FarmResponse:
+    return await service.get_farm(farm_id)
 
 
 @router.put(
@@ -36,8 +48,13 @@ async def get_farm(farm_id: str) -> FarmResponse:
     response_model=FarmResponse,
     summary="Update farm profile details",
 )
-async def update_farm(farm_id: str, request: FarmUpdateRequest) -> FarmResponse:
-    raise NotImplementedAPIError("Endpoint PUT /farms/{farm_id} will be implemented in subsequent phases.")
+async def update_farm(
+    farm_id: str,
+    request: FarmUpdateRequest,
+    service: Annotated[FarmService, Depends(get_farm_service)],
+    _auth: Annotated[dict[str, Any], Depends(get_current_token_payload)],
+) -> FarmResponse:
+    return await service.update_farm(farm_id, request)
 
 
 @router.get(
@@ -45,5 +62,9 @@ async def update_farm(farm_id: str, request: FarmUpdateRequest) -> FarmResponse:
     response_model=FarmSummaryResponse,
     summary="Get comprehensive farm summary with weather, health, and open tasks",
 )
-async def get_farm_summary(farm_id: str) -> FarmSummaryResponse:
-    raise NotImplementedAPIError("Endpoint GET /farms/{farm_id}/summary will be implemented in subsequent phases.")
+async def get_farm_summary(
+    farm_id: str,
+    service: Annotated[FarmService, Depends(get_farm_service)],
+    _auth: Annotated[dict[str, Any], Depends(get_current_token_payload)],
+) -> FarmSummaryResponse:
+    return await service.get_farm_summary(farm_id)

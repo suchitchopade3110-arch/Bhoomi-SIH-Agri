@@ -74,7 +74,7 @@ def test_openapi_schema_generation(client):
         "/api/v1/farms",
         "/api/v1/land/verify",
         "/api/v1/officer/queue",
-        "/api/v1/resource-plan/fao56",
+        "/api/v1/resource-plan/{farm_id}",
         "/api/v1/farms/{farm_id}/health",
         "/api/v1/farms/{farm_id}/health/history",
         "/api/v1/farms/{farm_id}/health/recompute",
@@ -92,12 +92,14 @@ def test_openapi_schema_generation(client):
 
 
 def test_stubs_and_error_envelope(client):
-    # Call a scaffolded route that returns 501
+    # Phase 5: every route is wired to a real service now — an
+    # unauthenticated call to a protected route returns the error envelope
+    # with UNAUTHENTICATED rather than the old Phase-0 NOT_IMPLEMENTED stub.
     response = client.get("/api/v1/officer/queue")
-    assert response.status_code == 501
+    assert response.status_code == 401
     data = response.json()
     assert "error" in data
-    assert data["error"]["code"] == "NOT_IMPLEMENTED"
+    assert data["error"]["code"] == "UNAUTHENTICATED"
 
 
 def test_config_settings():

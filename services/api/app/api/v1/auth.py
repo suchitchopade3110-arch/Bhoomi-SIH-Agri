@@ -1,13 +1,17 @@
-"""Authentication API router."""
+"""Authentication API router (contract §2.3)."""
 
-from fastapi import APIRouter, status
-from app.core.errors import NotImplementedAPIError
+from typing import Annotated, Any
+
+from fastapi import APIRouter, Depends, status
+
+from app.core.security import get_current_token_payload
 from app.schemas.auth import (
     TokenResponse,
     UserLoginRequest,
     UserRegisterRequest,
     UserResponse,
 )
+from app.services.auth_service import AuthService, get_auth_service
 
 router = APIRouter(prefix="/auth", tags=["Authentication"])
 
@@ -16,28 +20,25 @@ router = APIRouter(prefix="/auth", tags=["Authentication"])
     "/register",
     response_model=UserResponse,
     status_code=status.HTTP_201_CREATED,
-    summary="Register new farmer or officer user",
+    summary="Register new farmer, officer, or agronomist user",
 )
-async def register(request: UserRegisterRequest) -> UserResponse:
-    raise NotImplementedAPIError("Endpoint POST /auth/register will be implemented in subsequent phases.")
+async def register(
+    request: UserRegisterRequest,
+    service: Annotated[AuthService, Depends(get_auth_service)],
+) -> UserResponse:
+    return await service.register_user(request)
 
 
 @router.post(
     "/login",
     response_model=TokenResponse,
-    summary="Authenticate user and issue JWT token",
+    summary="Authenticate user and issue role-claim JWT",
 )
-async def login(request: UserLoginRequest) -> TokenResponse:
-    raise NotImplementedAPIError("Endpoint POST /auth/login will be implemented in subsequent phases.")
-
-
-@router.post(
-    "/refresh",
-    response_model=TokenResponse,
-    summary="Refresh JWT access token",
-)
-async def refresh_token() -> TokenResponse:
-    raise NotImplementedAPIError("Endpoint POST /auth/refresh will be implemented in subsequent phases.")
+async def login(
+    request: UserLoginRequest,
+    service: Annotated[AuthService, Depends(get_auth_service)],
+) -> TokenResponse:
+    return await service.login_user(request)
 
 
 @router.get(
@@ -45,5 +46,8 @@ async def refresh_token() -> TokenResponse:
     response_model=UserResponse,
     summary="Get current authenticated user profile",
 )
-async def get_me() -> UserResponse:
-    raise NotImplementedAPIError("Endpoint GET /auth/me will be implemented in subsequent phases.")
+async def get_me(
+    service: Annotated[AuthService, Depends(get_auth_service)],
+    payload: Annotated[dict[str, Any], Depends(get_current_token_payload)],
+) -> UserResponse:
+    return await service.get_current_user(payload["sub"])

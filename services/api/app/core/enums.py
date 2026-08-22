@@ -57,8 +57,10 @@ class FollowupResponse(str, Enum):
 
 
 class CaseStatus(str, Enum):
-    """Lifecycle status of an escalated case."""
+    """Lifecycle status of an escalated case (contract §2.13: open | assigned | resolved,
+    plus a couple of internal-only states this codebase also tracks)."""
     OPEN = "open"
+    ASSIGNED = "assigned"
     INVESTIGATING = "investigating"
     ESCALATED = "escalated"
     RESOLVED = "resolved"
@@ -66,10 +68,11 @@ class CaseStatus(str, Enum):
 
 
 class SchemeStatus(str, Enum):
-    """Government scheme match status."""
+    """Government scheme match status (contract §2.2: active | expiring | expired)."""
     ACTIVE = "active"
-    UPCOMING = "upcoming"
+    EXPIRING = "expiring"
     EXPIRED = "expired"
+    UPCOMING = "upcoming"
     APPLIED = "applied"
     APPROVED = "approved"
     REJECTED = "rejected"
