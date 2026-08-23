@@ -115,6 +115,59 @@ uvicorn app.main:app --reload --port 8000
 - **ReDoc API Explorer**: [http://localhost:8000/redoc](http://localhost:8000/redoc)
 - **Health check probe**: `GET http://localhost:8000/health`
 
+### Running the Frontend & Mobile Applications
+
+#### 1. Farmer Mobile App (`apps/farmer_app`)
+```bash
+cd apps/farmer_app
+
+# Install Flutter dependencies
+flutter pub get
+
+# Run all test suites
+flutter test
+
+# Analyze for zero warnings
+flutter analyze
+
+# Run on Android emulator / physical device
+flutter run --dart-define=API_BASE_URL=http://10.0.2.2:8000
+
+# Run on Chrome (Web) or Desktop (Windows)
+flutter run -d chrome
+flutter run -d windows
+```
+
+#### 2. KVK Agronomist Portal (`apps/kvk_portal`)
+```bash
+cd apps/kvk_portal
+
+# Install dependencies
+npm install
+
+# Start Vite dev server
+npm run dev
+
+# Type-check and production build
+npm run build
+```
+Access at: [http://localhost:5174](http://localhost:5174)
+
+#### 3. Revenue Officer Portal (`apps/officer_portal`)
+```bash
+cd apps/officer_portal
+
+# Install dependencies
+npm install
+
+# Start Vite dev server
+npm run dev
+
+# Type-check and production build
+npm run build
+```
+Access at: [http://localhost:5173](http://localhost:5173)
+
 ### Running Backend Tests
 
 ```bash
@@ -127,7 +180,6 @@ Feature flags (in `.env`) control adapter modes:
 - `DIAGNOSIS_MODEL = real | stub`
 - `CONFIDENCE_GATE = 0.70`
 - `RAG_RELEVANCE_THRESHOLD = 0.35`
-
 
 ## Documentation
 
