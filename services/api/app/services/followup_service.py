@@ -100,9 +100,10 @@ class FollowupService:
                 await self._problems.set_problem_severity(problem_id, demoted)
         # NO_CHANGE: severity untouched.
 
-        farm = await self._farms.get_by_id(request.farm_id)
-        if farm is not None:
-            await self._farms.update(request.farm_id, {"days_since_last_scan": FOLLOWUP_RESETS_DAYS_SINCE_LAST_SCAN})
+        if request.photo_asset_id is not None:
+            farm = await self._farms.get_by_id(request.farm_id)
+            if farm is not None:
+                await self._farms.update(request.farm_id, {"days_since_last_scan": FOLLOWUP_RESETS_DAYS_SINCE_LAST_SCAN})
 
         snapshot = await self._health.recompute(
             request.farm_id,

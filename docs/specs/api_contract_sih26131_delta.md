@@ -57,16 +57,20 @@ The following routes are active under `sih25076` and are unmounted (respond with
 
 ## 3. New Routes (SIH26131 Additions)
 
-### 3.1 Pest Diagnosis Extension (`POST /api/v1/farms/{id}/diagnose/pest`)
-> [!IMPORTANT]
-> **Decision Flag (Blocked on Suchit's Confidence Gate Extension):**  
-> We recommend a dedicated endpoint `POST /farms/{id}/diagnose/pest` rather than overloading the disease diagnosis endpoint with a `type: pest|disease` parameter.  
-> **Rationale:** Pest detection typically employs an object-detection model (YOLOv8 bounding boxes with count density) with a separate confidence gate (e.g., $0.65$) rather than disease classification ($0.70$). A dedicated endpoint provides distinct request/response contracts while reusing the same RAG citation pipeline.
+### 3.1 Pest Diagnosis Integration (`POST /api/v1/diagnose` with `target_type: "pest"`)
+> [!NOTE]
+> **Resolved Architectural Decision (Confidence Gate Extension):**  
+> We use a single unified `POST /api/v1/diagnose` endpoint with a `target_type: Literal["disease", "pest"] = "disease"` discriminator (per API Contract §8).  
+> **Confidence Gate Mechanism:** The gate evaluates `target_type` internally against independent thresholds:
+> - `CONFIDENCE_GATE = 0.70` for `target_type="disease"` (checked against `DISEASE_SCOPE`)
+> - `PEST_CONFIDENCE_GATE = 0.70` for `target_type="pest"` (checked against `PEST_SCOPE`, independently tunable)
 
 **Request Schema:**
 ```json
 {
+  "farm_id": "f_123",
   "image_asset_id": "asset_pest_102",
+  "target_type": "pest",
   "pest_type_hint": "stem_borer",
   "crop_stage": "vegetative",
   "additional_notes": "Larvae holes visible on central shoot"
@@ -76,10 +80,11 @@ The following routes are active under `sih25076` and are unmounted (respond with
 **Response Schema:**
 ```json
 {
-  "pest_name": "Yellow Stem Borer (Scirpophaga incertulas)",
-  "confidence": 0.88,
   "above_gate": true,
-  "infestation_level": "moderate",
+  "target_type": "pest",
+  "label": "Yellow Stem Borer (Scirpophaga incertulas)",
+  "confidence": 0.88,
+  "stage": "moderate",
   "pest_count_estimate": 4,
   "advisory": {
     "possible_issue": "Yellow Stem Borer vegetative damage (Deadheart)",
@@ -95,7 +100,12 @@ The following routes are active under `sih25076` and are unmounted (respond with
       }
     ]
   },
-  "escalation": null
+  "health_delta": {
+    "from": 82,
+    "to": 68
+  },
+  "escalation": null,
+  "spoken_summary": "Identified Yellow Stem Borer with 88% confidence. Install 5 pheromone traps per acre."
 }
 ```
 
@@ -150,8 +160,7 @@ The following routes are active under `sih25076` and are unmounted (respond with
 | `GET` | `/api/v1/farms/{id}` | Farmer | All | Read farm profile & health status |
 | `GET` | `/api/v1/farms/{id}/health` | Farmer | All | Transparent 6-part HealthSnapshot |
 | `POST` | `/api/v1/farms/{id}/health/recompute` | Farmer/Admin | All | Deterministic health score recompute |
-| `POST` | `/api/v1/farms/{id}/diagnose` | Farmer | All | Image diagnosis + cited advisory (Gate 0.70) |
-| `POST` | `/api/v1/farms/{id}/diagnose/pest`| Farmer | `sih26131` | Pest detection & bounding-box advisory |
+| `POST` | `/api/v1/diagnose` | Farmer | All | Image diagnosis (`target_type: disease\|pest`, Gate 0.70 / Pest Gate 0.70) |
 | `GET` | `/api/v1/farms/{id}/alerts` | Farmer | `sih26131` | Early-warning outbreak alerts |
 | `POST` | `/api/v1/alerts/{id}/dismiss` | Farmer | `sih26131` | Dismiss/acknowledge active alert |
 | `POST` | `/api/v1/followup/checkin` | Farmer | All | Closed-loop follow-up (`improved`/`got_worse`) |

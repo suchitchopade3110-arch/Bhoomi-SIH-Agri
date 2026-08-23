@@ -211,9 +211,8 @@ async def test_full_runbook_walks_82_68_86():
         assert followup["auto_escalated"] is True
         case_id = followup["escalation_id"]
         assert case_id is not None
-        # Score fell further than the diagnosis alone (severity promoted
-        # early -> moderate, treatment-response penalized) — PRD §7.4.
-        assert followup["updated_health_snapshot"]["score"] < 68
+        # Score fell to exactly 59 (severity promoted early -> moderate, treatment-response penalized) — PRD §7.4.
+        assert followup["updated_health_snapshot"]["score"] == 59
 
         # --- 8. Agronomist resolves -> 86 -------------------------------
         resp = await client.get("/agronomist/queue", headers=_auth(agronomist_token))
