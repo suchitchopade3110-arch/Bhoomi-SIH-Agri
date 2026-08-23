@@ -13,7 +13,7 @@ from app.services.rag.advisory_service import AdvisoryService, NO_RELEVANT_SOURC
 from app.services.rag.retrieval import RetrievalService
 from tests.rag._helpers import build_ingested_repo
 
-SETTINGS = Settings(CONFIDENCE_GATE=0.70, RAG_RELEVANCE_THRESHOLD=0.18)
+SETTINGS = Settings(CONFIDENCE_GATE=0.70, EMBEDDING_PROVIDER="stub")
 
 
 async def _make_service(repo=None) -> AdvisoryService:
@@ -95,7 +95,7 @@ async def test_high_threshold_forces_escalation_even_for_a_relevant_query():
     escalate — proves the gate, not luck, is what's deciding."""
     repo = await build_ingested_repo()
     retrieval = RetrievalService(repo, StubEmbeddingAdapter())
-    strict_settings = Settings(CONFIDENCE_GATE=0.70, RAG_RELEVANCE_THRESHOLD=0.99)
+    strict_settings = Settings(CONFIDENCE_GATE=0.70, RAG_RELEVANCE_THRESHOLD_OVERRIDE=0.99)
     service = AdvisoryService(retrieval, StubLLMAdapter(), strict_settings)
 
     outcome = await service.answer_query("f_1", "bacterial leaf blight treatment")

@@ -2,8 +2,16 @@
 
 from functools import lru_cache
 from typing import Literal
-from pydantic import Field
+from pydantic import Field, computed_field
 from pydantic_settings import BaseSettings, SettingsConfigDict
+
+
+from app.domain.constants import (
+    CONFIDENCE_GATE as DOMAIN_CONFIDENCE_GATE,
+    PEST_CONFIDENCE_GATE as DOMAIN_PEST_CONFIDENCE_GATE,
+    RAG_RELEVANCE_THRESHOLD_PRODUCTION,
+    RAG_RELEVANCE_THRESHOLD_STUB,
+)
 
 
 class Settings(BaseSettings):
@@ -67,26 +75,40 @@ class Settings(BaseSettings):
         default="stub",
         description="Crop disease diagnosis mode: 'real' runs PyTorch model, 'stub' returns settable confidence",
     )
+    EMBEDDING_PROVIDER: Literal["bge_m3", "stub"] = Field(
+        default="stub",
+        description="Embedding provider mode: 'bge_m3' (dense embeddings) | 'stub' (token-hashing vectors)",
+    )
 
     # Core Domain Thresholds (Enforced in orchestration layer)
     CONFIDENCE_GATE: float = Field(
-        default=0.70,
+        default=DOMAIN_CONFIDENCE_GATE,
         description="Decision gate threshold: Below this confidence, diagnosis auto-escalates to KVK expert",
     )
-    RAG_RELEVANCE_THRESHOLD: float = Field(
-        default=0.18,
-        description=(
-            "Cosine similarity cutoff for RAG retrieval; below this, the system reports "
-            "no relevant source rather than fabricating an answer (PRD §5.7). Tuned "
-            "empirically (Phase 3) against the StubEmbeddingAdapter's token-hashing "
-            "vectors and the seed corpus: genuine on-topic queries scored 0.20-0.47, "
-            "off-topic/unrelated queries scored 0.00-0.14, so 0.18 sits in the gap. "
-            "This is deliberately low relative to typical cosine thresholds because the "
-            "stub is a crude bag-of-words hash, not a real semantic embedding — expect "
-            "to re-tune upward (likely 0.5-0.7) once a real BGE-m3 EmbeddingPort lands, "
-            "which will separate on-/off-topic queries far more cleanly."
-        ),
+    PEST_CONFIDENCE_GATE: float = Field(
+        default=DOMAIN_PEST_CONFIDENCE_GATE,
+        description="Decision gate threshold for pest diagnosis (independently tunable from CONFIDENCE_GATE)",
     )
+
+    # RAG relevance thresholds: calibrated per embedding provider (sourced from domain constants)
+    RAG_RELEVANCE_THRESHOLD_STUB: float = RAG_RELEVANCE_THRESHOLD_STUB
+    RAG_RELEVANCE_THRESHOLD_PRODUCTION: float = RAG_RELEVANCE_THRESHOLD_PRODUCTION
+    RAG_RELEVANCE_THRESHOLD_OVERRIDE: float | None = Field(
+        default=None,
+        description="Optional manual override for RAG relevance threshold",
+    )
+
+    @computed_field
+    @property
+    def RAG_RELEVANCE_THRESHOLD(self) -> float:
+        """Computed relevance threshold: automatically aligns with active embedding adapter."""
+        if self.RAG_RELEVANCE_THRESHOLD_OVERRIDE is not None:
+            return self.RAG_RELEVANCE_THRESHOLD_OVERRIDE
+        return (
+            self.RAG_RELEVANCE_THRESHOLD_PRODUCTION
+            if self.EMBEDDING_PROVIDER == "bge_m3"
+            else self.RAG_RELEVANCE_THRESHOLD_STUB
+        )
 
     # Health score default rubric version
     WEIGHTS_VERSION: str = "v1.0.0"

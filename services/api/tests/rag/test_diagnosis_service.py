@@ -20,7 +20,7 @@ from app.services.health_service import HealthService
 from app.services.rag.retrieval import RetrievalService
 from tests.rag._helpers import build_ingested_repo
 
-SETTINGS = Settings(CONFIDENCE_GATE=0.70, RAG_RELEVANCE_THRESHOLD=0.18)
+SETTINGS = Settings(CONFIDENCE_GATE=0.70, EMBEDDING_PROVIDER="stub")
 
 FARM_ID = "f_1"
 

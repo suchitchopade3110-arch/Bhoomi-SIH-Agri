@@ -20,11 +20,13 @@ from app.domain.health.constants import (  # noqa: F401  (re-export)
     WEIGHTS_VERSION,
 )
 
-# Gate thresholds re-exported for domain-layer references.
-# The authoritative runtime value is always ``settings.CONFIDENCE_GATE`` /
-# ``settings.RAG_RELEVANCE_THRESHOLD`` — these are the compile-time defaults.
+# Pure domain gate thresholds (no I/O, no Settings dependencies)
 CONFIDENCE_GATE: float = 0.70
-RAG_RELEVANCE_THRESHOLD: float = 0.60
+PEST_CONFIDENCE_GATE: float = 0.70
+
+# RAG relevance thresholds: calibrated per embedding modality
+RAG_RELEVANCE_THRESHOLD_STUB: float = 0.18        # calibrated for token-hashing stub vectors
+RAG_RELEVANCE_THRESHOLD_PRODUCTION: float = 0.60  # target for real BGE-m3 dense embeddings
 
 __all__ = [
     "WEIGHTS",
@@ -33,5 +35,7 @@ __all__ = [
     "SUBINDEX_ORDER",
     "WEIGHTS_VERSION",
     "CONFIDENCE_GATE",
-    "RAG_RELEVANCE_THRESHOLD",
+    "PEST_CONFIDENCE_GATE",
+    "RAG_RELEVANCE_THRESHOLD_STUB",
+    "RAG_RELEVANCE_THRESHOLD_PRODUCTION",
 ]

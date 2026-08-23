@@ -3,9 +3,6 @@
 # Confidence gate threshold below which model escalates to human expert
 CONFIDENCE_GATE_THRESHOLD: float = 0.70
 
-# RAG cosine similarity relevance cutoff (TODO-tune: calibrate on gold-standard Q&A dataset)
-RAG_RELEVANCE_THRESHOLD: float = 0.35
-
 # Health score model version
 DEFAULT_WEIGHTS_VERSION: str = "v1.0.0"
 
