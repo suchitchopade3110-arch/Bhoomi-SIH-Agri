@@ -2,7 +2,7 @@
 
 import pytest
 from fastapi.testclient import TestClient
-from app.core.config import get_settings
+from app.core.config import Settings, get_settings
 from app.core.enums import (
     AssetKind,
     CaseStatus,
@@ -108,6 +108,13 @@ def test_config_settings():
     assert settings.RAG_RELEVANCE_THRESHOLD == 0.18
     assert settings.LAND_API_MODE in ["mock", "live"]
     assert settings.DIAGNOSIS_MODEL in ["real", "stub"]
+    assert settings.EMBEDDING_PROVIDER in ["bge_m3", "stub"]
+
+    # Derived RAG threshold checks
+    stub_s = Settings(EMBEDDING_PROVIDER="stub")
+    assert stub_s.RAG_RELEVANCE_THRESHOLD == 0.18
+    prod_s = Settings(EMBEDDING_PROVIDER="bge_m3")
+    assert prod_s.RAG_RELEVANCE_THRESHOLD == 0.60
 
 
 def test_all_contract_enums():

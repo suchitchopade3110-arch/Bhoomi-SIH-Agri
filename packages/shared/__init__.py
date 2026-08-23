@@ -16,7 +16,6 @@ from packages.shared.enums import (
 from packages.shared.constants import (
     CONFIDENCE_GATE_THRESHOLD,
     DEFAULT_WEIGHTS_VERSION,
-    RAG_RELEVANCE_THRESHOLD,
 )
 
 __all__ = [
@@ -33,5 +32,4 @@ __all__ = [
     "UserRole",
     "CONFIDENCE_GATE_THRESHOLD",
     "DEFAULT_WEIGHTS_VERSION",
-    "RAG_RELEVANCE_THRESHOLD",
 ]

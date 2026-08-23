@@ -28,7 +28,7 @@ from app.services.health_service import HealthService, get_health_service
 # deliver before any real irrigation telemetry exists — feeds the health
 # engine's resource_adequacy sub-index (PRD §7.2 #2) with an honest "not yet
 # instrumented" default rather than assuming perfect compliance.
-DEFAULT_IRRIGATION_COMPLIANCE_RATIO = 0.75
+DEFAULT_IRRIGATION_COMPLIANCE_RATIO = 0.80
 
 
 class ResourcePlanService:

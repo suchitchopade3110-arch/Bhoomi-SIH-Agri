@@ -2,7 +2,7 @@
 
 > **Document ID:** SPEC-CONTRACT-DELTA-001  
 > **Status:** Stage A Spec (Pending Team Alignment)  
-> **Author:** Shreekumar (Backend Intelligence)  
+> **Author:** Drafted on Shreekumar's behalf — pending his review, not yet authored/approved by him.  
 > **Target Release:** SIH26131 Transition (Flag-Gated)  
 > **Guiding Principle:** **Zero Regression** — SIH25076 routes remain functional under `PROBLEM_STATEMENT=sih25076`.
 
@@ -20,40 +20,59 @@ PROBLEM_STATEMENT: Literal["sih25076", "sih26131"] = Field(
 ```
 
 In `app/main.py`, routers are mounted conditionally:
-- SIH25076-specific routers (`land`, `resource_plan`, `schemes`) mount only when `settings.PROBLEM_STATEMENT == "sih25076"`.
-- SIH26131-specific routers (`alerts`, `efficacy`, `pest_diagnosis`) mount when `settings.PROBLEM_STATEMENT == "sih26131"`.
-- Core intelligence routers (`auth`, `farms`, `health`, `diagnose`, `followup`, `agronomist`, `voice`) remain active across both modes.
+- **`sih25076` (Default Mode):** SIH25076-specific routers (`land`, `resource_plan`, `schemes`, `officer`) mount alongside core intelligence.
+- **`sih26131` (Surveillance & Efficacy Mode):** SIH25076-specific routes are unmounted (return `404 Not Found`). SIH26131-specific routers (`alerts`, `efficacy`) mount alongside core intelligence.
+- **Core Intelligence (Active in All Modes):** `auth`, `farms`, `health`, `diagnose`, `followup`, `agronomist`, `voice`, `assets`, `timeline`, `weather`, and `system` remain active across both modes.
 
 ---
 
 ## 2. Deprecated Routes (SIH25076 Only)
 
-The following routes are active under `sih25076` and respond with `404 Not Found` (or `410 Gone`) under `sih26131`:
+The following routes are active under `sih25076` and are unmounted (respond with `404 Not Found`) when `PROBLEM_STATEMENT=sih26131`:
 
-| Method | Path | Original Purpose | Deprecation Reason in SIH26131 |
-| :--- | :--- | :--- | :--- |
-| `POST` | `/api/v1/land/verify` | Cadastral land auto-lookup | SIH26131 focuses on pest/disease surveillance, not land registry |
-| `GET` | `/api/v1/land/{id}` | Land parcel boundary & status | Land verification HITL removed from scope |
-| `GET` | `/api/v1/officer/queue` | Revenue officer land review queue | Officer portal superseded by KVK agronomist dashboard |
-| `POST` | `/api/v1/officer/action` | Officer boundary verification | Replaced by agronomist case review |
-| `POST` | `/api/v1/resource-plan/{farm_id}` | FAO-56 irrigation/seed planner | Resource planning cut from SIH26131 core workflow |
-| `GET` | `/api/v1/resource-plan/{farm_id}/latest`| Read active resource plan | Cut from SIH26131 core workflow |
-| `POST` | `/api/v1/schemes/match` | Scheme eligibility matching | Scheme discovery cut from SIH26131 core workflow |
+### 2.1 Cadastral Land & Officer Review Routers (`app/api/v1/land.py`, `app/api/v1/officer.py`)
+- **Mounted Router Paths**:
+  - `POST /api/v1/land/verify` (and spec alias `POST /api/v1/farms/{id}/land`)
+  - `GET /api/v1/land/{farm_id}` (and spec alias `GET /api/v1/land/{id}`)
+  - `POST /api/v1/land/cadastral-lookup`
+  - `GET /api/v1/officer/queue` (and spec alias `GET /api/v1/officer/land-queue`)
+  - `GET /api/v1/officer/review/{parcel_id}`
+  - `POST /api/v1/officer/action` (and spec alias `POST /api/v1/officer/land/{id}/review`)
+- **Deprecation Rationale**: SIH26131 focuses on pest surveillance and closed-loop treatment efficacy rather than land title verification and revenue officer boundary workflows.
+
+### 2.2 Resource Planning Router (`app/api/v1/resource_plan.py`)
+- **Mounted Router Paths**:
+  - `POST /api/v1/resource-plan/{farm_id}` (and spec alias `POST /api/v1/farms/{id}/resource-plan`)
+  - `GET /api/v1/resource-plan/{farm_id}/latest` (and spec alias `GET /api/v1/farms/{id}/resource-plan/latest`)
+- **Deprecation Rationale**: Resource calculation (FAO-56 irrigation and seed budgeting) is de-scoped from SIH26131.
+
+### 2.3 Government Scheme Discovery Router (`app/api/v1/schemes.py`)
+- **Mounted Router Paths**:
+  - `POST /api/v1/schemes/match` (and spec alias `GET /api/v1/farms/{id}/schemes`)
+  - `GET /api/v1/schemes/active`
+  - `GET /api/v1/schemes/{scheme_id}`
+- **Deprecation Rationale**: Scheme discovery is de-scoped from SIH26131.
 
 ---
 
 ## 3. New Routes (SIH26131 Additions)
 
-### 3.1 Pest Diagnosis Extension (`POST /api/v1/farms/{id}/diagnose/pest`)
-> [!IMPORTANT]
-> **Decision Flag (Blocked on Suchit's Confidence Gate Extension):**  
-> We recommend a dedicated endpoint `POST /farms/{id}/diagnose/pest` rather than overloading the disease diagnosis endpoint with a `type: pest|disease` parameter.  
-> **Rationale:** Pest detection typically employs an object-detection model (YOLOv8 bounding boxes with count density) with a separate confidence gate (e.g., $0.65$) rather than disease classification ($0.70$). A dedicated endpoint provides distinct request/response contracts while reusing the same RAG citation pipeline.
+### 3.1 Pest Diagnosis Integration (`POST /api/v1/diagnose` with `target_type: "pest"`)
+> [!NOTE]
+> **Resolved Architectural Decision (Confidence Gate Extension):**  
+> We use a single unified `POST /api/v1/diagnose` endpoint with a `target_type: Literal["disease", "pest"] = "disease"` discriminator (per API Contract §8).  
+> **Confidence Gate Mechanism:** The gate evaluates `target_type` internally against independent thresholds:
+> - `CONFIDENCE_GATE = 0.70` for `target_type="disease"` (checked against `DISEASE_SCOPE`)
+> - `PEST_CONFIDENCE_GATE = 0.70` for `target_type="pest"` (checked against `PEST_SCOPE`, independently tunable)
+> 
+> **Retrieval & Grounding Guarantee:** `RAG_RELEVANCE_THRESHOLD` is computed dynamically from `EMBEDDING_PROVIDER` — `0.18` against the stub adapter, `0.60` against real BGE-m3 embeddings. Swapping the adapter swaps the threshold automatically; there is no manual step to remember. Pest advisories use the same threshold and no-fabrication guarantee as disease advisories — no separate, weaker threshold.
 
 **Request Schema:**
 ```json
 {
+  "farm_id": "f_123",
   "image_asset_id": "asset_pest_102",
+  "target_type": "pest",
   "pest_type_hint": "stem_borer",
   "crop_stage": "vegetative",
   "additional_notes": "Larvae holes visible on central shoot"
@@ -63,10 +82,11 @@ The following routes are active under `sih25076` and respond with `404 Not Found
 **Response Schema:**
 ```json
 {
-  "pest_name": "Yellow Stem Borer (Scirpophaga incertulas)",
-  "confidence": 0.88,
   "above_gate": true,
-  "infestation_level": "moderate",
+  "target_type": "pest",
+  "label": "Yellow Stem Borer (Scirpophaga incertulas)",
+  "confidence": 0.88,
+  "stage": "moderate",
   "pest_count_estimate": 4,
   "advisory": {
     "possible_issue": "Yellow Stem Borer vegetative damage (Deadheart)",
@@ -82,9 +102,12 @@ The following routes are active under `sih25076` and respond with `404 Not Found
       }
     ]
   },
-  "escalation": null
+  "health_delta": null,
+  "escalation": null,
+  "spoken_summary": "Identified Yellow Stem Borer with 88% confidence. Install 5 pheromone traps per acre."
 }
 ```
+*Note on `health_delta`: Set to `null` in this illustrative response. Exact score movement depends on pest severity tiers — pending Tharun's severity criteria spec. The underlying mechanism is identical to disease: the active problem load sub-index drops per severity penalty. The fields `stage: "moderate"` and `pest_count_estimate: 4` are illustrative placeholders pending Tharun's pest classification schema.*
 
 ### 3.2 Early-Warning Alerts (`GET /api/v1/farms/{id}/alerts`)
 - **Method:** `GET`
@@ -126,29 +149,51 @@ The following routes are active under `sih25076` and respond with `404 Not Found
 
 ## 4. Realigned Complete Endpoint Index (§2.16 Replacement)
 
+> [!WARNING]
+> **⚠️ DEVIATION FROM PRD §2.3:** Current backend implementation uses generic authentication (`/auth/register`, `/auth/login`, `/auth/me`) across all roles; PRD §2.3 specifies farmer phone-OTP (`/auth/otp/request`, `/auth/otp/verify`) and officer/agronomist password auth. Needs a separate decision, out of scope for this delta doc.
+
 | Method | Path | Role / Access | Mode Gating | Description |
 | :--- | :--- | :--- | :--- | :--- |
 | `POST` | `/api/v1/auth/register` | Public | All | Register farmer, officer, or agronomist |
-| `POST` | `/api/v1/auth/login` | Public | All | OAuth2 password login, returns JWT |
+| `POST` | `/api/v1/auth/login` | Public | All | Password login, returns role-claim JWT |
+| `GET` | `/api/v1/auth/me` | Authenticated | All | Retrieve authenticated user profile |
 | `GET` | `/api/v1/system/health` | Public | All | System health, DB connectivity, version |
+| `POST` | `/api/v1/assets/presign` | Authenticated | All | Presigned URL upload for audio/photos |
+| `GET` | `/api/v1/assets/{asset_id}` | Authenticated | All | Retrieve metadata/stream for stored asset |
 | `POST` | `/api/v1/voice/transcribe` | Farmer | All | ASR transcription + intent extraction |
 | `POST` | `/api/v1/voice/confirm` | Farmer | All | Voice read-back field confirmation gate |
-| `POST` | `/api/v1/farms` | Farmer | All | Create farm profile (Day 0 Unrated) |
-| `GET` | `/api/v1/farms/{id}` | Farmer | All | Read farm profile & health status |
+| `POST` | `/api/v1/voice/synthesize` | Farmer | All | Text-to-speech synthesis for responses |
+| `POST` | `/api/v1/voice/process` | Farmer | All | Full audio-in / audio-out processing |
+| `POST` | `/api/v1/farms` | Farmer | All | Create farm profile *(Note: Request schema differs by `PROBLEM_STATEMENT` — `sih25076`: 6 fields [crop, area, growth_stage, soil_type, irrigation_access, season]; `sih26131`: 3 fields [crop, growth_stage, region]. See Bhoomi_Feature_Realignment_SIH26131.md Rework table.)* |
+| `GET` | `/api/v1/farms/{id}` | Farmer | All | Read farm profile & status |
+| `PUT` | `/api/v1/farms/{id}` | Farmer | All | Update farm profile attributes |
+| `GET` | `/api/v1/farms/{id}/summary` | Farmer | All | Spoken & visual farm summary |
 | `GET` | `/api/v1/farms/{id}/health` | Farmer | All | Transparent 6-part HealthSnapshot |
+| `GET` | `/api/v1/farms/{id}/health/history` | Farmer | All | Historical health score snapshots |
 | `POST` | `/api/v1/farms/{id}/health/recompute` | Farmer/Admin | All | Deterministic health score recompute |
-| `POST` | `/api/v1/farms/{id}/diagnose` | Farmer | All | Image diagnosis + cited advisory (Gate 0.70) |
-| `POST` | `/api/v1/farms/{id}/diagnose/pest`| Farmer | `sih26131` | Pest detection & bounding-box advisory |
+| `GET` | `/api/v1/farms/{id}/weather` | Farmer | All | Current weather & observation data |
+| `GET` | `/api/v1/farms/{id}/weather/forecast`| Farmer | All | Multi-day meteorological forecast |
+| `GET` | `/api/v1/farms/{id}/weather/et0` | Farmer | All | Daily ET0 evapotranspiration values |
+| `GET` | `/api/v1/farms/{id}/timeline` | Farmer | All | Chronological events timeline |
+| `POST` | `/api/v1/farms/{id}/timeline/event` | Farmer | All | Append manual event to timeline |
+| `POST` | `/api/v1/diagnose` | Farmer | All | Image diagnosis (`target_type: disease\|pest`, Gate 0.70 / Pest Gate 0.70) |
+| `POST` | `/api/v1/advisory` | Farmer | All | 5-point ICAR PoP grounded advisory |
+| `POST` | `/api/v1/followup/checkin` | Farmer | All | Closed-loop follow-up (`improved`/`got_worse`) |
+| `POST` | `/api/v1/escalation` | Farmer/System | All | Create manual/automatic escalation case |
+| `GET` | `/api/v1/cases/{id}` | Agronomist/Farmer | All | Read living case summary by ID |
+| `GET` | `/api/v1/agronomist/queue` | Agronomist | All | Case summary queue for escalated problems |
+| `GET` | `/api/v1/agronomist/cases/{id}` | Agronomist | All | Agronomist detail view of living case |
+| `POST` | `/api/v1/agronomist/resolve` | Agronomist | All | Expert prescription resolution (86 Health) |
 | `GET` | `/api/v1/farms/{id}/alerts` | Farmer | `sih26131` | Early-warning outbreak alerts |
 | `POST` | `/api/v1/alerts/{id}/dismiss` | Farmer | `sih26131` | Dismiss/acknowledge active alert |
-| `POST` | `/api/v1/followup/checkin` | Farmer | All | Closed-loop follow-up (`improved`/`got_worse`) |
-| `GET` | `/api/v1/agronomist/queue` | Agronomist | All | Case summary queue for escalated problems |
-| `POST` | `/api/v1/agronomist/resolve` | Agronomist | All | Expert prescription resolution (86 Health) |
 | `GET` | `/api/v1/treatments/{id}/efficacy`| Agronomist | `sih26131` | Treatment efficacy analytics |
 | `POST` | `/api/v1/land/verify` | Farmer | `sih25076` | Land registry auto-lookup / HITL queue |
+| `POST` | `/api/v1/land/cadastral-lookup` | Farmer | `sih25076` | Cadastral survey lookup |
 | `GET` | `/api/v1/land/{id}` | Farmer/Officer | `sih25076` | Cadastral land parcel status |
 | `GET` | `/api/v1/officer/queue` | Officer | `sih25076` | Revenue officer land review queue |
+| `GET` | `/api/v1/officer/review/{id}` | Officer | `sih25076` | Officer detail review for parcel |
 | `POST` | `/api/v1/officer/action` | Officer | `sih25076` | Boundary review approval/rejection |
 | `POST` | `/api/v1/resource-plan/{farm_id}` | Farmer | `sih25076` | FAO-56 resource planning calculation |
 | `GET` | `/api/v1/resource-plan/{id}/latest`| Farmer | `sih25076` | Inspect active resource plan |
 | `POST` | `/api/v1/schemes/match` | Farmer | `sih25076` | Scheme matching for verified farmers |
+| `GET` | `/api/v1/schemes/active` | Farmer | `sih25076` | List currently active government schemes |

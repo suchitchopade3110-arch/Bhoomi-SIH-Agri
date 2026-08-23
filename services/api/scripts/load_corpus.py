@@ -154,12 +154,12 @@ async def load_corpus(
                 session.add(kb_chunk)
 
             await session.commit()
-            print(f"    ✓ Inserted into DB")
+            print(f"    [OK] Inserted into DB")
 
     print()
     print(f"Summary: {total_docs} documents, {total_chunks} chunks")
     if dry_run:
-        print("(dry run — no data was written)")
+        print("(dry run -- no data was written)")
 
     return {"documents": total_docs, "chunks": total_chunks}
 
