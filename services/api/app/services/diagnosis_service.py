@@ -221,13 +221,7 @@ class DiagnosisService:
             farm_id, OpenProblemRecord(problem_id=problem_id, severity=INITIAL_PROBLEM_SEVERITY, label=label)
         )
 
-        farm = await self._farms.get_by_id(farm_id)
-        if farm is not None:
-            current_soil_moisture = farm.get("soil_moisture_pct")
-            updates: dict = {"days_since_last_scan": DIAGNOSIS_RESETS_DAYS_SINCE_LAST_SCAN}
-            if current_soil_moisture is not None:
-                updates["soil_moisture_pct"] = max(0.0, current_soil_moisture - DIAGNOSIS_SOIL_MOISTURE_STRESS_DROP_PCT)
-            await self._farms.update(farm_id, updates)
+        # Farm soil moisture and scan recency are monitored independently of diagnosis
 
         after_snapshot = await self._health.recompute(
             farm_id,

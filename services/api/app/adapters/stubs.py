@@ -10,7 +10,7 @@ import uuid
 class StubWeatherAdapter:
     """Stub weather adapter returning fixed meteorological and ET₀ data."""
 
-    def __init__(self, fixed_et0: float = 4.8, fixed_temp: float = 31.5) -> None:
+    def __init__(self, fixed_et0: float = 4.8, fixed_temp: float = 30.0) -> None:
         self.fixed_et0 = fixed_et0
         self.fixed_temp = fixed_temp
 
@@ -19,7 +19,7 @@ class StubWeatherAdapter:
             "latitude": latitude,
             "longitude": longitude,
             "temperature_c": self.fixed_temp,
-            "relative_humidity_pct": 68.0,
+            "relative_humidity_pct": 80.0,
             "wind_speed_kmh": 12.4,
             "precipitation_mm": 0.0,
             "condition_description": "Partly Cloudy",

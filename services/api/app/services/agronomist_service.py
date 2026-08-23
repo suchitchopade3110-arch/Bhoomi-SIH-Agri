@@ -102,12 +102,7 @@ class AgronomistService:
 
         farm = await self._farms.get_by_id(case["farm_id"])
         if farm is not None:
-            updates = {"days_since_last_scan": RESOLUTION_RESETS_DAYS_SINCE_LAST_SCAN}
-            if farm.get("soil_moisture_pct") is not None:
-                updates["soil_moisture_pct"] = min(100.0, farm["soil_moisture_pct"] + RESOLUTION_SOIL_MOISTURE_RECOVERY_PCT)
-            if farm.get("days_since_planting") is not None:
-                updates["days_since_planting"] = farm["days_since_planting"] + RESOLUTION_DAYS_SINCE_PLANTING_ADVANCE
-            await self._farms.update(case["farm_id"], updates)
+            await self._farms.update(case["farm_id"], {"days_since_last_scan": 2})
 
         await self._cases.update_status(
             request.escalation_id,

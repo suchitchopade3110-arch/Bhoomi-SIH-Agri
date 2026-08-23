@@ -25,7 +25,7 @@ class Settings(BaseSettings):
 
     # Database (PostgreSQL + PostGIS + pgvector)
     DATABASE_URL: str = Field(
-        default="postgresql+asyncpg://postgres:postgres@localhost:5432/bhoomi",
+        default="postgresql+asyncpg://postgres:postgres@localhost:5433/bhoomi",
         description="Async SQLAlchemy database connection URL",
     )
     DATABASE_POOL_SIZE: int = 10

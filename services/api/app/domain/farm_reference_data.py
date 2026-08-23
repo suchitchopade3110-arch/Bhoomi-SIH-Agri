@@ -55,11 +55,11 @@ def get_seed_rate_kg_per_acre(crop: str) -> float:
 # --------------------------------------------------------------------------
 GROWTH_STAGE_EXPECTED_DAY: dict[str, int] = {
     "initial": 10,
-    "vegetative": 40,
+    "vegetative": 30,
     "mid_season": 75,
     "late_season": 110,
 }
-DEFAULT_EXPECTED_STAGE_DAY = 40
+DEFAULT_EXPECTED_STAGE_DAY = 30
 
 
 def get_expected_stage_day(growth_stage: str) -> int:
@@ -72,11 +72,11 @@ def get_expected_stage_day(growth_stage: str) -> int:
 # crops for this phase — see the same per-crop-calendar note above.
 # --------------------------------------------------------------------------
 DEFAULT_CROP_IDEAL = CropIdealConditions(
-    temp_min_c=20.0,
+    temp_min_c=25.0,
     temp_max_c=35.0,
     humidity_min_pct=60.0,
-    humidity_max_pct=85.0,
-    soil_moisture_min_pct=60.0,
+    humidity_max_pct=80.0,
+    soil_moisture_min_pct=65.0,
 )
 
 

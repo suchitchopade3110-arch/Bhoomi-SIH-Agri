@@ -28,17 +28,30 @@ In `app/main.py`, routers are mounted conditionally:
 
 ## 2. Deprecated Routes (SIH25076 Only)
 
-The following routes are active under `sih25076` and respond with `404 Not Found` (or `410 Gone`) under `sih26131`:
+The following routes are active under `sih25076` and are unmounted (respond with `404 Not Found`) when `PROBLEM_STATEMENT=sih26131`:
 
-| Method | Path | Original Purpose | Deprecation Reason in SIH26131 |
-| :--- | :--- | :--- | :--- |
-| `POST` | `/api/v1/land/verify` | Cadastral land auto-lookup | SIH26131 focuses on pest/disease surveillance, not land registry |
-| `GET` | `/api/v1/land/{id}` | Land parcel boundary & status | Land verification HITL removed from scope |
-| `GET` | `/api/v1/officer/queue` | Revenue officer land review queue | Officer portal superseded by KVK agronomist dashboard |
-| `POST` | `/api/v1/officer/action` | Officer boundary verification | Replaced by agronomist case review |
-| `POST` | `/api/v1/resource-plan/{farm_id}` | FAO-56 irrigation/seed planner | Resource planning cut from SIH26131 core workflow |
-| `GET` | `/api/v1/resource-plan/{farm_id}/latest`| Read active resource plan | Cut from SIH26131 core workflow |
-| `POST` | `/api/v1/schemes/match` | Scheme eligibility matching | Scheme discovery cut from SIH26131 core workflow |
+### 2.1 Cadastral Land & Officer Review Routers (`app/api/v1/land.py`, `app/api/v1/officer.py`)
+- **Mounted Router Paths**:
+  - `POST /api/v1/land/verify` (and spec alias `POST /api/v1/farms/{id}/land`)
+  - `GET /api/v1/land/{farm_id}` (and spec alias `GET /api/v1/land/{id}`)
+  - `POST /api/v1/land/cadastral-lookup`
+  - `GET /api/v1/officer/queue` (and spec alias `GET /api/v1/officer/land-queue`)
+  - `GET /api/v1/officer/review/{parcel_id}`
+  - `POST /api/v1/officer/action` (and spec alias `POST /api/v1/officer/land/{id}/review`)
+- **Deprecation Rationale**: SIH26131 focuses on pest surveillance and closed-loop treatment efficacy rather than land title verification and revenue officer boundary workflows.
+
+### 2.2 Resource Planning Router (`app/api/v1/resource_plan.py`)
+- **Mounted Router Paths**:
+  - `POST /api/v1/resource-plan/{farm_id}` (and spec alias `POST /api/v1/farms/{id}/resource-plan`)
+  - `GET /api/v1/resource-plan/{farm_id}/latest` (and spec alias `GET /api/v1/farms/{id}/resource-plan/latest`)
+- **Deprecation Rationale**: Resource calculation (FAO-56 irrigation and seed budgeting) is de-scoped from SIH26131.
+
+### 2.3 Government Scheme Discovery Router (`app/api/v1/schemes.py`)
+- **Mounted Router Paths**:
+  - `POST /api/v1/schemes/match` (and spec alias `GET /api/v1/farms/{id}/schemes`)
+  - `GET /api/v1/schemes/active`
+  - `GET /api/v1/schemes/{scheme_id}`
+- **Deprecation Rationale**: Scheme discovery is de-scoped from SIH26131.
 
 ---
 

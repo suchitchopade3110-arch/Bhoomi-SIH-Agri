@@ -117,9 +117,9 @@ async def test_full_runbook_walks_82_68_86():
                 "growth_stage": "vegetative",
                 "soil_type": "clay_loam",
                 "irrigation_source": "canal",
-                "soil_moisture_pct": 45.0,
-                "days_since_planting": 20,
-                "days_since_last_scan": 2,
+                "soil_moisture_pct": 53.0,
+                "days_since_planting": 17,
+                "days_since_last_scan": 6,
             },
         )
         assert resp.status_code == 201, resp.text
