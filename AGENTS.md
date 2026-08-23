@@ -43,7 +43,11 @@ Bhoomi-SIH-Agri/
 │       │   │   ├── enums.py        # All shared enums (spec §2.2)
 │       │   │   ├── models.py       # Pydantic v2 domain models
 │       │   │   ├── constants.py    # WEIGHTS, SEVERITY_PENALTY, gate thresholds
-│       │   │   └── errors.py       # Stable error codes + domain exceptions
+│       │   │   ├── errors.py       # Stable error codes + domain exceptions
+│       │   │   ├── gate/           # Pure gate domain logic (decide.py)
+│       │   │   ├── health/         # Pure health score computation (score.py, subindices.py)
+│       │   │   ├── rag/            # Pure chunking, similarity, prompt templates
+│       │   │   └── escalation/     # Pure escalation summary assembler
 │       │   ├── ports/              # Typed Protocol interfaces (one file per port)
 │       │   │   ├── weather.py
 │       │   │   ├── llm.py
@@ -52,17 +56,23 @@ Bhoomi-SIH-Agri/
 │       │   │   ├── asr_tts.py
 │       │   │   └── storage.py
 │       │   ├── services/           # Orchestration & use-cases
-│       │   │   ├── health/         # Health-score engine
-│       │   │   ├── gate/           # Confidence gate
-│       │   │   ├── rag/            # RAG pipeline
-│       │   │   └── escalation/     # Escalation compiler
+│       │   │   ├── health/         # Health engine (engine.py; re-exports + orchestrates)
+│       │   │   ├── health_service.py # Health persistence & context orchestrator
+│       │   │   ├── gate/           # Confidence gate (gate.py; re-exports)
+│       │   │   ├── gate_service.py # Image + retrieval gating service
+│       │   │   ├── rag/            # RAG pipeline (pipeline.py, advisory_service.py)
+│       │   │   ├── diagnosis_service.py # Image diagnosis orchestration
+│       │   │   ├── escalation/     # Escalation compiler (compiler.py)
+│       │   │   └── escalation_service.py # DB-backed case summary & routing
 │       │   ├── adapters/           # Concrete + stub port implementations
-│       │   └── repositories/       # DB persistence
-│       ├── corpus/                 # Curated advisory docs (paddy/BLB slice)
+│       │   └── repositories/       # DB persistence (SQLAlchemy async + pgvector)
+│       ├── corpus/                 # Curated advisory docs (8 ICAR PoP markdown docs)
 │       ├── db/                     # SQLAlchemy ORM + Alembic migrations
 │       └── tests/
 │           ├── unit/
-│           └── integration/
+│           ├── domain/
+│           ├── rag/
+│           └── e2e/
 └── infra/
     └── docker-compose.yml          # Postgres+PostGIS+pgvector + MinIO
 ```
