@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { authStore } from '../../core/auth/auth_store';
 import { Bell, UserCircle2 } from 'lucide-react';
 import bhoomiLogo from '../../assets/bhoomi.png';
@@ -38,7 +39,10 @@ export const AppHeader: React.FC = () => {
 
         <div className="h-6 w-px bg-slate-200" />
 
-        <div className="flex items-center gap-3">
+        <Link
+          to="/settings"
+          className="flex items-center gap-3 cursor-pointer hover:opacity-80 transition-opacity select-none"
+        >
           <div className="text-right">
             <div className="text-xs font-bold text-slate-900">{agronomist.name}</div>
             <div className="text-[10px] font-medium text-slate-500">{agronomist.specialization}</div>
@@ -46,7 +50,7 @@ export const AppHeader: React.FC = () => {
           <div className="flex h-8 w-8 items-center justify-center rounded-full bg-slate-100 text-slate-600">
             <UserCircle2 className="h-6 w-6" />
           </div>
-        </div>
+        </Link>
       </div>
     </header>
   );
