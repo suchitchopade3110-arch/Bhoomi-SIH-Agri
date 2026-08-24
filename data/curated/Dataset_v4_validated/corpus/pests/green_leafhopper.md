@@ -9,7 +9,7 @@ aliases:
   - "துங்ரோ பூச்சி"
   - "Rice green leafhopper"
   - "Rice leafhopper"
-source_organization: "ICAR-IIRR"
+source_organization: "ICAR-IIRR / TNAU"
 source_title: "ICAR Rice Production Manual — Green Leafhopper"
 source_url: "https://iirr.icar.gov.in/"
 review_date: "2026-08-24"
@@ -52,17 +52,29 @@ The impact of GLH varies fundamentally depending on crop stage and Tungro virus 
 
 ## 6. Economic Threshold Level (ETL)
 Thresholds for GLH are dual-tiered, depending strictly on whether the area is endemic to Rice Tungro Virus:
+- **ETL Classification**: `NUMERIC_ETL`
 - **Seedling / Nursery Stage**: $\ge 5\text{ hoppers per hill}$ (`SOURCE_SUPPORTED_WITH_CONTEXT`).
   - *Tungro Endemic Modifier*: In Tungro endemic tracts or seasons, the threshold drops to $\mathbf{1\text{–}2\text{ hoppers per hill}}$.
 - **Vegetative Stage**: $\ge 10\text{ to }15\text{ hoppers per hill}$ (`SOURCE_SUPPORTED_WITH_CONTEXT`).
   - *Tungro Vicinity Modifier*: If active Tungro virus symptoms are present in neighboring plots, the threshold drops to $\mathbf{2\text{ hoppers per hill}}$.
 - **Reproductive Stage**: $\ge 20\text{ hoppers per hill}$ (`SOURCE_SUPPORTED_WITH_CONTEXT`).
   - *Post-Heading Modifier*: Standard direct feeding threshold when virus transmission risk diminishes.
+- *Distinction from Severity*: ETL specifies the hopper count requiring immediate knockdown to block virus spread. Severity tracks the resultant viral stunting and foliar chlorosis.
 
 ## 7. Severity Indicators
-- **Low / Sub-ETL ($<2\text{ hoppers/hill}$ in Tungro zone)**: Monitor nursery and main field twice weekly; maintain neem sprays.
-- **Moderate / At-ETL ($5\text{ hoppers/hill}$ in normal zone or $2/\text{hill}$ in Tungro zone)**: Vector threshold breached; immediate vector suppression required to break virus transmission chain.
-- **High / Severe ($>15\text{ hoppers/hill}$ or Initial Tungro Yellowing Stunting)**: Vector control emergency; rogue out virus-infected hills and apply systemic neonicotinoid.
+- **A. Observable Severity Indicators**:
+  - *Early Severity*: Low adult activity ($<5\text{ hoppers/hill}$ in non-endemic or $<1/\text{hill}$ in Tungro zone); slight leaf tip yellowing; no viral stunting.
+  - *Moderate Severity*: Active jumping in canopy ($6\text{–}15\text{ hoppers/hill}$ in vegetative or $1\text{–}2/\text{hill}$ in Tungro endemic area); marginal chlorosis on middle leaves.
+  - *Severe Severity*: Heavy sap drainage ($16\text{–}30\text{ hoppers/hill}$); widespread yellow-orange leaf discoloration; stunted tiller vigor.
+  - *Catastrophic*: $>30\text{ hoppers/hill}$ OR active Tungro virus epidemic spreading across field with severe stunting and sterile panicles.
+- **B. Quantitative Severity Thresholds**:
+  - *ICAR-IIRR Rice Pest Evaluation System*:
+    - SES 1–3 (Early): $<5\text{ hoppers/hill}$ (`SOURCE_SUPPORTED_WITH_CONTEXT`).
+    - SES 5 (Moderate): $6\text{–}15\text{ hoppers/hill}$ (vegetative) or $1\text{–}2\text{ hoppers/hill}$ (Tungro endemic) (`SOURCE_SUPPORTED_WITH_CONTEXT`).
+    - SES 7 (Severe): $16\text{–}30\text{ hoppers/hill}$ (`SOURCE_SUPPORTED`).
+    - SES 9 (Catastrophic): $>30\text{ hoppers/hill}$ or active Tungro epidemic (`SOURCE_SUPPORTED_WITH_CONTEXT`).
+  - *Threshold Status*: `SOURCE_SUPPORTED_WITH_CONTEXT` (Tungro endemic context modifier documented).
+  - *Internal Engine Penalty Mapping*: Early = 30, Moderate = 55, Severe = 80 (`PROJECT_DERIVED_RULE` for Farm Health Score sub-index).
 
 ## 8. Cultural and Mechanical Management
 - **Resistant Varieties**: Cultivate Tungro and GLH resistant cultivars recommended by ICAR/TNAU, such as CO 51, ADT 45, and IR 36.

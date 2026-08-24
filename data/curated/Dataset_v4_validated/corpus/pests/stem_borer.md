@@ -9,11 +9,11 @@ aliases:
   - "குருத்துப் பூச்சி"
   - "வெண்கதிர்"
   - "Dead heart"
-source_organization: "TNAU"
+source_organization: "TNAU / IRRI / ICAR-IIRR"
 source_title: "TNAU Rice Pest Management Guide — Stem Borer"
 source_url: "https://agritech.tnau.ac.in/crop_protection/rice_pest.html"
 review_date: "2026-08-24"
-authority_level: "High (University Extension Bulletin - Authority Tier 8)"
+authority_level: "High (University Extension & IRRI Standard - Authority Tier 8)"
 ---
 
 # TNAU Rice Pest Management Guide: Stem Borer
@@ -54,14 +54,25 @@ Stem borer attacks rice crops across all vegetative and reproductive phases:
 
 ## 6. Economic Threshold Level (ETL)
 Field chemical or biological interventions should only be triggered when systematic field scouting confirms that populations have reached or exceeded the following source-quoted thresholds:
+- **ETL Classification**: `NUMERIC_ETL`
 - **Vegetative Stage**: $\ge 1\text{ egg mass per m}^2$ OR $\ge 10\%\text{ dead hearts}$ (`SOURCE_SUPPORTED`).
 - **Reproductive Stage**: $\ge 1\text{ egg mass per m}^2$ OR $\ge 5\%\text{ white ears}$ (`SOURCE_SUPPORTED`).
+- *Distinction from Severity*: ETL represents the specific pest density or damage percentage at which control costs equal yield loss prevented. Severity measures the cumulative physiological crop damage across early, moderate, and severe stages.
 
 ## 7. Severity Indicators
-Scouting data should be classified into severity tiers to guide agronomic action:
-- **Low / Sub-ETL ($<5\%\text{ dead hearts}$)**: Pest present but within natural biological buffer; monitor twice weekly; no synthetic chemical spray required.
-- **Moderate / At-ETL ($5\text{–}10\%\text{ dead hearts}$)**: Initiate biological control (parasitoids) or botanical sprays; prepare for intervention if egg masses exceed $1/\text{m}^2$.
-- **High / Severe ($>10\%\text{ dead hearts}$ or $>5\%\text{ white ears}$)**: Critical threshold exceeded; immediate targeted chemical application required to protect flag leaves and grain yield.
+- **A. Observable Severity Indicators**:
+  - *Early Severity*: Scattered yellowing leaves with isolated dead heart shoots that pull out easily ($<5\%$ dead hearts); minimal egg mass activity.
+  - *Moderate Severity*: Noticeable dead hearts across tillers ($6\%\text{–}10\%$) and initial white earhead formation; active larval boring inside stem base.
+  - *Severe Severity*: Widespread tiller death and prominent erect white panicles devoid of grain ($11\%\text{–}25\%$ dead hearts or $6\%\text{–}15\%$ white ears); substantial yield reduction underway.
+  - *Catastrophic*: $>25\%$ dead hearts or $>15\%$ white ears with total panicle sterility across the field.
+- **B. Quantitative Severity Thresholds**:
+  - *Standard Evaluation System (IRRI/ICAR SES Scale 1–9 for Stem Borer)*:
+    - SES 1–3 (Early): $<5\%$ dead hearts (vegetative) or $<1\%$ white ears (reproductive) (`SOURCE_SUPPORTED`).
+    - SES 5 (Moderate): $6\%\text{–}10\%$ dead hearts (vegetative) or $1\%\text{–}5\%$ white ears (reproductive) (`SOURCE_SUPPORTED`).
+    - SES 7 (Severe): $11\%\text{–}25\%$ dead hearts (vegetative) or $6\%\text{–}15\%$ white ears (reproductive) (`SOURCE_SUPPORTED`).
+    - SES 9 (Catastrophic): $>25\%$ dead hearts or $>15\%$ white ears (`SOURCE_SUPPORTED`).
+  - *Threshold Status*: `SOURCE_SUPPORTED` (IRRI SES 5th Ed. / ICAR PoP).
+  - *Internal Engine Penalty Mapping*: Early = 30, Moderate = 55, Severe = 80 (`PROJECT_DERIVED_RULE` for Farm Health Score Active Problem Load sub-index).
 
 ## 8. Cultural and Mechanical Management
 - **Resistant & Tolerant Cultivars**: Cultivate recommended regional rice varieties possessing moderate stem borer tolerance, such as CO 51, ADT 43, and IR 20.
@@ -92,8 +103,8 @@ Farmers and extension scouts should escalate the case to the District Assistant 
 
 ## 13. Source Citations
 - **Primary Source**: Tamil Nadu Agricultural University (TNAU) Agritech Portal — Crop Protection / Rice Pest Management / Stem Borer (`https://agritech.tnau.ac.in/crop_protection/rice_pest.html`).
-- **Secondary Citation**: Central Insecticides Board & Registration Committee (CIBRC) — Approved Label Claims for Insecticides on Rice (2024 Gazette).
-- **Authority Level**: Tier 8 (State Agricultural University Extension Protocol).
+- **Secondary Citation**: IRRI Standard Evaluation System for Rice (5th Ed.) & Central Insecticides Board & Registration Committee (CIBRC) Approved Label Claims (2024 Gazette).
+- **Authority Level**: Tier 8 (State Agricultural University Extension & IRRI Standard).
 
 ## 14. Review Metadata
 - **Last Review Date**: 2026-08-24

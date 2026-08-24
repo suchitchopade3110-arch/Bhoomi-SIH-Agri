@@ -9,11 +9,11 @@ aliases:
   - "சுருட்டுப் புழு"
   - "பச்சை புழு"
   - "Folded leaf caterpillar"
-source_organization: "TNAU"
+source_organization: "TNAU / IRRI / ICAR"
 source_title: "TNAU Rice Pest Management Guide — Leaf Folder"
 source_url: "https://agritech.tnau.ac.in/crop_protection/rice_pest.html"
 review_date: "2026-08-24"
-authority_level: "High (University Extension Bulletin - Authority Tier 8)"
+authority_level: "High (University Extension & IRRI Standard - Authority Tier 8)"
 ---
 
 # TNAU Rice Pest Management Guide: Leaf Folder
@@ -52,14 +52,26 @@ Leaf folder attacks rice from the vegetative phase through flowering:
 
 ## 6. Economic Threshold Level (ETL)
 Field chemical interventions must be strictly initiated when pest scouting confirms that leaf folder populations have reached or exceeded the following source-quoted thresholds:
+- **ETL Classification**: `NUMERIC_ETL`
 - **Vegetative Stage**: $\ge 1\text{ larva per hill}$ OR $\ge 10\%\text{ damaged/folded leaves}$ (`SOURCE_SUPPORTED`).
 - **Reproductive Stage**: $\ge 2\text{ larvae per hill}$ OR $\ge 20\%\text{ damaged/folded leaves}$ (`SOURCE_SUPPORTED_WITH_CONTEXT`).
   - *Booting / Flag Leaf Modifier*: During the flag leaf emergence and booting stage, the action threshold drops to $\mathbf{5\text{–}10\%\text{ damaged flag leaves}}$ due to the disproportionate impact of flag leaf loss on panicle yield.
+- *Distinction from Severity*: ETL sets the actionable boundary for pesticide intervention, whereas severity tracks the cumulative foliar destruction across early, moderate, and severe tiers.
 
 ## 7. Severity Indicators
-- **Low / Sub-ETL ($<5\%\text{ folded leaves}$)**: Minor foliar rolling; natural parasitoids active; monitor twice weekly; no synthetic chemical required.
-- **Moderate / At-ETL ($5\text{–}10\%\text{ folded leaves in vegetative / flag leaf}$)**: Threshold reached; initiate biological releases or targeted diamide application.
-- **High / Severe ($>20\%\text{ folded leaves}$)**: Extensive canopy bleaching; urgent foliar spray required to prevent flag leaf destruction.
+- **A. Observable Severity Indicators**:
+  - *Early Severity*: Isolated folded leaves with fine white scraped longitudinal streaks ($<5\%$ folded leaves, $<1\text{ larva/2–3 hills}$); plant vigor unaffected.
+  - *Moderate Severity*: Multiple folded leaves per hill ($6\%\text{–}15\%$ folded leaves in vegetative or $5\%\text{–}10\%$ damaged flag leaves at booting); larvae actively scraping chlorophyll inside rolls.
+  - *Severe Severity*: Severe leaf rolling across canopy ($16\%\text{–}30\%$ folded leaves); significant photosynthesis reduction; white papery appearance on upper third of crop.
+  - *Catastrophic*: $>30\%$ folded leaves; extensive flag leaf destruction leading to grain unfilled chaffiness across the field.
+- **B. Quantitative Severity Thresholds**:
+  - *IRRI SES Scale for Leaf Folder & TNAU Guidelines*:
+    - SES 1–3 (Early): $<5\%$ folded leaves (`SOURCE_SUPPORTED`).
+    - SES 5 (Moderate): $6\%\text{–}15\%$ folded leaves (or $5\%\text{–}10\%$ damaged flag leaves at booting) (`SOURCE_SUPPORTED_WITH_CONTEXT`).
+    - SES 7 (Severe): $16\%\text{–}30\%$ folded leaves (`SOURCE_SUPPORTED`).
+    - SES 9 (Catastrophic): $>30\%$ folded leaves (`SOURCE_SUPPORTED`).
+  - *Threshold Status*: `SOURCE_SUPPORTED_WITH_CONTEXT` (Booting flag leaf modifier documented).
+  - *Internal Engine Penalty Mapping*: Early = 30, Moderate = 55, Severe = 80 (`PROJECT_DERIVED_RULE` for Farm Health Score Active Problem Load sub-index).
 
 ## 8. Cultural and Mechanical Management
 - **Optimal Spacing**: Adopt wider spacing ($20\text{ cm} \times 15\text{ cm}$ or $20\text{ cm} \times 20\text{ cm}$) to avoid excessive canopy shading and dense microclimates.
@@ -91,8 +103,8 @@ Escalate immediately to the District Agriculture Extension Officer or KVK Agrono
 
 ## 13. Source Citations
 - **Primary Source**: Tamil Nadu Agricultural University (TNAU) Agritech Portal — Crop Protection / Rice Pest Management / Leaf Folder (`https://agritech.tnau.ac.in/crop_protection/rice_pest.html`).
-- **Secondary Citation**: Central Insecticides Board & Registration Committee (CIBRC) Major Uses of Pesticides Registered in India on Rice.
-- **Authority Level**: Tier 8 (State Agricultural University Extension Protocol).
+- **Secondary Citation**: IRRI Standard Evaluation System for Rice & CIBRC Major Uses of Pesticides Registered in India on Rice.
+- **Authority Level**: Tier 8 (State Agricultural University Extension & IRRI Standard).
 
 ## 14. Review Metadata
 - **Last Review Date**: 2026-08-24

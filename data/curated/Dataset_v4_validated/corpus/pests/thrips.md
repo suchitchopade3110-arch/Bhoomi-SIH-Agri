@@ -9,7 +9,7 @@ aliases:
   - "சுருள் பேன்"
   - "Paddy thrips"
   - "Nursery thrips"
-source_organization: "KVK"
+source_organization: "KVK / TNAU"
 source_title: "KVK Rice Nursery Management — Thrips Control"
 source_url: "https://kvk.icar.gov.in/"
 review_date: "2026-08-24"
@@ -51,13 +51,25 @@ Thrips attack rice exclusively during the early stages of crop establishment:
 
 ## 6. Economic Threshold Level (ETL)
 Chemical intervention should be initiated when nursery or field scouting reaches the following source-quoted action thresholds:
+- **ETL Classification**: `NUMERIC_ETL`
 - **Seedling / Nursery Stage**: $\ge 5\text{ thrips per seedling}$ (`SOURCE_SUPPORTED`).
 - **Vegetative (Tillering) Stage**: $\ge 25\text{ thrips per hill}$ (`SOURCE_SUPPORTED`).
+- *Distinction from Severity*: ETL sets the actionable boundary for flooding or foliar application. Severity tracks the percentage of leaf roll drying and seedling stand mortality.
 
 ## 7. Severity Indicators
-- **Low / Sub-ETL ($<2\text{ thrips/seedling}$)**: Minor silvery speckling; flood nursery beds for 24 hours; no synthetic chemical spray needed.
-- **Moderate / At-ETL ($2\text{–}5\text{ thrips/seedling}$ or Initial Tip Curling)**: Action threshold reached; maintain continuous shallow flooding; apply botanical neem formulation.
-- **High / Severe ($>5\text{ thrips/seedling}$ or Scorched Nursery Patches)**: Critical threshold breached; apply systemic neonicotinoid foliar spray to save seedlings.
+- **A. Observable Severity Indicators**:
+  - *Early Severity*: Minute silvery spots on upper leaf surfaces; mild inward rolling of leaf tips ($1\text{–}4\text{ thrips/seedling}$ in nursery).
+  - *Moderate Severity*: Conspicuous needle-like leaf rolling; tips drying and yellowing ($5\text{–}10\text{ thrips/seedling}$ in nursery or $10\text{–}25/\text{hill}$ at tillering).
+  - *Severe Severity*: Extensive leaf curling and drying across seedling bed ($>25\text{ thrips/hill}$, $>50\%$ rolled leaves); scorched appearance of nursery.
+  - *Catastrophic*: Complete nursery seedling mortality or field-wide dry-out with total loss of transplantable stand.
+- **B. Quantitative Severity Thresholds**:
+  - *KVK / TNAU Nursery Damage Scale*:
+    - SES 1–3 (Early): $1\text{–}4\text{ thrips/seedling}$ in nursery (`SOURCE_SUPPORTED`).
+    - SES 5 (Moderate): $5\text{–}10\text{ thrips/seedling}$ (nursery) or $10\text{–}25\text{ thrips/hill}$ (tillering) (`SOURCE_SUPPORTED`).
+    - SES 7 (Severe): $>25\text{ thrips/hill}$, $>50\%$ rolled leaves (`SOURCE_SUPPORTED`).
+    - SES 9 (Catastrophic): Complete nursery seedling collapse (`SOURCE_SUPPORTED`).
+  - *Threshold Status*: `SOURCE_SUPPORTED` (KVK Extension Advisory).
+  - *Internal Engine Penalty Mapping*: Early = 30, Moderate = 55, Severe = 80 (`PROJECT_DERIVED_RULE` for Farm Health Score sub-index).
 
 ## 8. Cultural and Mechanical Management
 - **Nursery Submersion (Flooding)**: Completely submerge nursery beds under water for 24 to 48 hours to drown nymphs and adults, dislodging them from the leaves.

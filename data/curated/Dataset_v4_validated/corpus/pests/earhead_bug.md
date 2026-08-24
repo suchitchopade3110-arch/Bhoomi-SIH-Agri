@@ -10,7 +10,7 @@ aliases:
   - "சாற்றுப்பூச்சி"
   - "குந்தி பூச்சி"
   - "Rice stink bug"
-source_organization: "ICAR-IIRR"
+source_organization: "ICAR-IIRR / TNAU"
 source_title: "ICAR Rice Insect Pest Management — Earhead Bug"
 source_url: "https://iirr.icar.gov.in/"
 review_date: "2026-08-24"
@@ -53,14 +53,26 @@ Earhead bug attacks rice exclusively during panicle emergence and grain developm
 
 ## 6. Economic Threshold Level (ETL)
 Field chemical interventions must be strictly based on the following source-quoted action thresholds:
+- **ETL Classification**: `NUMERIC_ETL`
 - **Flowering Stage**: $\ge 5\text{ bugs per 100 panicles}$ (`SOURCE_SUPPORTED`).
 - **Milking / Grain-Filling Stage**: $\ge 10\text{ bugs per 100 panicles}$ (`SOURCE_SUPPORTED_WITH_CONTEXT`).
   - *Sampling Modifier*: Equivalent to $\mathbf{1\text{–}2\text{ bugs per hill}}$ in standard hill-based field sampling.
+- *Distinction from Severity*: ETL identifies the precise bug density per panicle requiring immediate insecticide application. Severity evaluates the resultant grain chalkiness, pecky rice percentage, and market damage.
 
 ## 7. Severity Indicators
-- **Low / Sub-ETL ($<3\text{ bugs/100 panicles}$)**: Trace bug presence; clear bund grasses; deploy light traps; avoid synthetic spraying.
-- **Moderate / At-ETL ($5\text{–}10\text{ bugs/100 panicles}$ during milking)**: Action threshold reached; apply botanical or approved insecticide during early morning or late evening.
-- **High / Severe ($>15\text{ bugs/100 panicles}$)**: Critical grain loss emergency; apply targeted insecticide immediately with strict Pre-Harvest Interval (PHI) compliance.
+- **A. Observable Severity Indicators**:
+  - *Early Severity*: Isolated adult bugs feeding during morning hours ($1\text{–}4\text{ bugs/100 panicles}$, $<1\text{ bug/hill}$); rare localized brownish puncture spots on glumes.
+  - *Moderate Severity*: Milky grains being pierced ($5\text{–}10\text{ bugs/100 panicles}$, $1\text{–}2\text{ bugs/hill}$); foul odor noticeable upon entering field; brown spots on maturing grains.
+  - *Severe Severity*: Numerous damaged, shriveled, partially filled grains ($11\text{–}25\text{ bugs/100 panicles}$, $2\text{–}4\text{ bugs/hill}$) with blackened feeding punctures; strong pungent odor.
+  - *Catastrophic*: $>25\text{ bugs/100 panicles}$ ($>4\text{ bugs/hill}$); over 30% empty/chaffy erect panicles with massive economic loss.
+- **B. Quantitative Severity Thresholds**:
+  - *ICAR-IIRR Earhead Bug Damage Scale*:
+    - SES 1–3 (Early): $1\text{–}4\text{ bugs/100 panicles}$ ($<1\text{ bug/hill}$) (`SOURCE_SUPPORTED`).
+    - SES 5 (Moderate): $5\text{–}10\text{ bugs/100 panicles}$ ($1\text{–}2\text{ bugs/hill}$) (`SOURCE_SUPPORTED_WITH_CONTEXT`).
+    - SES 7 (Severe): $11\text{–}25\text{ bugs/100 panicles}$ ($2\text{–}4\text{ bugs/hill}$) (`SOURCE_SUPPORTED`).
+    - SES 9 (Catastrophic): $>25\text{ bugs/100 panicles}$ (`SOURCE_SUPPORTED`).
+  - *Threshold Status*: `SOURCE_SUPPORTED_WITH_CONTEXT` (Hill-based sampling duality documented).
+  - *Internal Engine Penalty Mapping*: Early = 30, Moderate = 55, Severe = 80 (`PROJECT_DERIVED_RULE` for Farm Health Score sub-index).
 
 ## 8. Cultural and Mechanical Management
 - **Synchronous Community Planting**: Synchronize sowing and transplanting across adjacent fields in a village tract so that all crops flower simultaneously, preventing pest concentration on early or late-flowering fields.

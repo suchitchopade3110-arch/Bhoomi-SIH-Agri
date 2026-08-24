@@ -9,7 +9,7 @@ aliases:
   - "இலை ஈ"
   - "Paddy whorl maggot"
   - "Hydrellia maggot"
-source_organization: "TNAU"
+source_organization: "TNAU / ICAR-IIRR"
 source_title: "TNAU Whorl Maggot Management in Rice"
 source_url: "https://agritech.tnau.ac.in/crop_protection/rice_pest.html"
 review_date: "2026-08-24"
@@ -52,13 +52,25 @@ Whorl maggot infests rice strictly during the early vegetative establishment win
 
 ## 6. Economic Threshold Level (ETL)
 Field chemical interventions must be strictly based on the following source-quoted thresholds during the first 30 days of crop growth:
+- **ETL Classification**: `NUMERIC_ETL`
 - **Seedling / Nursery Stage**: $\ge 1\text{ to }2\text{ maggots per seedling}$ (`SOURCE_SUPPORTED`).
 - **Vegetative Stage (Up to 30 DAT)**: $\ge 10\%\text{ damaged/ragged leaves}$ (`SOURCE_SUPPORTED`).
+- *Distinction from Severity*: ETL sets the 30-day intervention boundary beyond which spraying is unviable. Severity tracks foliar laceration and tiller stunting.
 
 ## 7. Severity Indicators
-- **Low / Sub-ETL ($<5\%\text{ damaged leaves}$)**: Minor leaf margin tearing; drain field for 2 days; no synthetic chemical spray needed.
-- **Moderate / At-ETL ($5\text{–}10\%\text{ damaged leaves}$)**: Action threshold reached; conduct intermittent field drainage; apply botanical soil amendment.
-- **High / Severe ($>10\%\text{ damaged leaves before 30 DAT}$)**: Critical threshold breached; apply validated systemic treatment before the 30-day window closes.
+- **A. Observable Severity Indicators**:
+  - *Early Severity*: Small yellowish feeding streaks on newly expanded central leaves ($<5\%$ damaged leaves within 30 DAT); seedling vigor unaffected.
+  - *Moderate Severity*: Ragged serrated leaf margins visible on multiple expanding leaves per hill ($6\%\text{–}15\%$ damaged leaves).
+  - *Severe Severity*: Conspicuous broken serrated leaf blades and distorted central whorls across the plot ($16\%\text{–}30\%$ damaged leaves).
+  - *Catastrophic*: $>30\%$ damaged leaves with severe seedling stunting and delayed canopy closure in flooded plots.
+- **B. Quantitative Severity Thresholds**:
+  - *TNAU Agritech Whorl Maggot Scale*:
+    - SES 1–3 (Early): $<5\%$ damaged leaves within 30 DAT (`SOURCE_SUPPORTED`).
+    - SES 5 (Moderate): $6\%\text{–}15\%$ damaged leaves (`SOURCE_SUPPORTED`).
+    - SES 7 (Severe): $16\%\text{–}30\%$ damaged leaves (`SOURCE_SUPPORTED`).
+    - SES 9 (Catastrophic): $>30\%$ damaged leaves with severe stunting (`SOURCE_SUPPORTED`).
+  - *Threshold Status*: `SOURCE_SUPPORTED` (TNAU Extension Bulletin).
+  - *Internal Engine Penalty Mapping*: Early = 30, Moderate = 55, Severe = 80 (`PROJECT_DERIVED_RULE` for Farm Health Score sub-index).
 
 ## 8. Cultural and Mechanical Management
 - **Intermittent Field Drainage (AWD)**: Drain standing water from the field for 2 to 3 days periodically during the first 3 weeks after transplanting to expose eggs and maggots to desiccation and natural enemies.

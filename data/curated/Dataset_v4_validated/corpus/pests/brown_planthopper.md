@@ -9,7 +9,7 @@ aliases:
   - "பழுப்பு தத்துப்பூச்சி"
   - "சாறு உறிஞ்சும் பூச்சி"
   - "Hopper burn"
-source_organization: "ICAR-IRRI"
+source_organization: "ICAR-IRRI / TNAU"
 source_title: "IRRI Rice Knowledge Bank — Brown Planthopper Management"
 source_url: "https://www.knowledgebank.irri.org/training/fact-sheets/pest-management/insect-pests/item/brown-planthopper"
 review_date: "2026-08-24"
@@ -53,16 +53,28 @@ BPH infests rice crops from the late vegetative stage through maturity:
 
 ## 6. Economic Threshold Level (ETL)
 Field chemical interventions must be strictly based on pest density per hill across growth stages:
+- **ETL Classification**: `NUMERIC_ETL`
 - **Seedling Stage**: $\ge 1\text{ to }2\text{ nymphs per hill}$ (`SOURCE_SUPPORTED`).
 - **Vegetative Stage**: $\ge 5\text{ to }10\text{ nymphs per hill}$ (`SOURCE_SUPPORTED_WITH_CONTEXT`).
   - *Predator Modifier*: The threshold increases to $10\text{–}15\text{ nymphs/hill}$ if beneficial natural predators (mirid bugs *Cyrtorhinus lividipennis* or wolf spiders *Lycosa pseudoannulata*) are present at $\ge 1\text{ per hill}$.
 - **Reproductive Stage**: $\ge 10\text{ to }20\text{ nymphs per hill}$ (`SOURCE_SUPPORTED_WITH_CONTEXT`).
   - *Context Modifier*: Upper threshold ($20/\text{hill}$) applies when natural biological control is intact.
+- *Distinction from Severity*: ETL defines the density triggering pesticide application to avoid economic loss. Severity reflects the physical damage and hopper burn acreage.
 
 ## 7. Severity Indicators
-- **Low / Sub-ETL ($<5\text{ nymphs/hill}$)**: Trace population; monitor weekly; avoid all broad-spectrum pyrethroid sprays.
-- **Moderate / At-ETL ($5\text{–}10\text{ nymphs/hill}$)**: Drain standing water; open "alleyways" (pathways) in the field to increase airflow and sunlight penetration.
-- **High / Severe ($>10\text{ nymphs/hill}$ or Initial Hopper Burn Patches)**: Critical emergency; apply targeted Insect Growth Regulators (IGR) directing spray to tiller bases.
+- **A. Observable Severity Indicators**:
+  - *Early Severity*: Initial nymph colonization at base of tillers ($1\text{–}5\text{ nymphs/hill}$ in vegetative); slight yellowing of lowest older leaves; no lodging.
+  - *Moderate Severity*: Noticeable yellowing extending up tiller canopy ($6\text{–}15\text{ nymphs/hill}$ in vegetative or $10\text{–}20/\text{hill}$ in reproductive); visible honeydew and sooty mold at tiller base.
+  - *Severe Severity*: Severe sap depletion ($16\text{–}30\text{ nymphs/hill}$); localized circular drying patches (early hopper burn); tillers wilting and becoming brittle.
+  - *Catastrophic*: $>30\text{ nymphs/hill}$ with contiguous coalescing hopper burn patches; widespread plant collapse and field drying.
+- **B. Quantitative Severity Thresholds**:
+  - *IRRI BPH Damage Scale & TNAU IPM Guidelines*:
+    - SES 1–3 (Early): $1\text{–}5\text{ nymphs/hill}$ during vegetative stage (`SOURCE_SUPPORTED`).
+    - SES 5 (Moderate): $6\text{–}15\text{ nymphs/hill}$ (vegetative) or $10\text{–}20\text{ nymphs/hill}$ (reproductive) (`SOURCE_SUPPORTED_WITH_CONTEXT`).
+    - SES 7 (Severe): $16\text{–}30\text{ nymphs/hill}$ (`SOURCE_SUPPORTED`).
+    - SES 9 (Catastrophic): $>30\text{ nymphs/hill}$ with expanding hopper burn (`SOURCE_SUPPORTED`).
+  - *Threshold Status*: `SOURCE_SUPPORTED_WITH_CONTEXT` (Predator density modifier documented).
+  - *Internal Engine Penalty Mapping*: Early = 30, Moderate = 55, Severe = 80 (`PROJECT_DERIVED_RULE` for Farm Health Score sub-index computation).
 
 ## 8. Cultural and Mechanical Management
 - **Resistant & Tolerant Cultivars**: Plant resistant paddy varieties suited for South India, such as ADT 36, ASD 16, CO 42, and PY 3.
@@ -94,7 +106,7 @@ Escalate immediately to the District Agricultural Officer or KVK Entomology Spec
 
 ## 13. Source Citations
 - **Primary Source**: International Rice Research Institute (IRRI) — Rice Knowledge Bank Factsheets / Insect Pests / Brown Planthopper (`https://www.knowledgebank.irri.org/training/fact-sheets/pest-management/insect-pests/item/brown-planthopper`).
-- **Secondary Source**: ICAR-Indian Institute of Rice Research (IIRR) Technical Bulletin on Hopper Management in Rice.
+- **Secondary Source**: ICAR-Indian Institute of Rice Research (IIRR) Technical Bulletin & TNAU Crop Protection Guide.
 - **Authority Level**: Tier 9 (National / International Rice Research Institute Protocol).
 
 ## 14. Review Metadata

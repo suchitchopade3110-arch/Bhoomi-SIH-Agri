@@ -9,7 +9,7 @@ aliases:
   - "வெள்ளிக்குருத்து"
   - "வெங்காயத்தாள் புழு"
   - "Silver shoot fly"
-source_organization: "TNAU"
+source_organization: "TNAU / ICAR-IIRR"
 source_title: "TNAU Gall Midge Management in Rice"
 source_url: "https://agritech.tnau.ac.in/crop_protection/rice_pest.html"
 review_date: "2026-08-24"
@@ -52,12 +52,24 @@ Gall midge attacks rice exclusively during the early vegetative development wind
 
 ## 6. Economic Threshold Level (ETL)
 Field chemical interventions must be strictly initiated when pest scouting confirms that gall midge populations have reached or exceeded the following source-quoted threshold:
+- **ETL Classification**: `NUMERIC_ETL`
 - **Vegetative (Tillering) Stage**: $\ge 5\%\text{ silver shoots}$ OR $\ge 1\text{ adult midge per 100 net sweeps}$ (`SOURCE_SUPPORTED`).
+- *Distinction from Severity*: ETL marks the point where tillering loss justifies treatment cost. Severity tracks the percentage of sterile galled tillers.
 
 ## 7. Severity Indicators
-- **Low / Sub-ETL ($<2\%\text{ silver shoots}$)**: Trace incidence; natural parasitoids active; monitor twice weekly; avoid synthetic chemical spraying.
-- **Moderate / At-ETL ($2\text{–}5\%\text{ silver shoots}$)**: Threshold approaching; prepare biological releases or soil-applied systemic controls.
-- **High / Severe ($>5\%\text{ silver shoots}$)**: Critical threshold breached; apply systemic granular/foliar treatment immediately before tillering phase closes.
+- **A. Observable Severity Indicators**:
+  - *Early Severity*: Occasional silver shoots (onion galls) visible at tiller base ($1\%\text{–}4\%$ silver shoots at tillering); plant vegetative compensation still possible.
+  - *Moderate Severity*: Noticeable silver shoots ($5\%\text{–}10\%$) causing sterile tiller loss in primary shoots.
+  - *Severe Severity*: Extensive tiller galling ($11\%\text{–}25\%$ silver shoots); high proportion of shoots unable to develop productive earheads.
+  - *Catastrophic*: $>25\%$ silver shoots across field; stunted bushy appearance of hills with massive yield loss.
+- **B. Quantitative Severity Thresholds**:
+  - *TNAU / ICAR Gall Midge SES Scale*:
+    - SES 1–3 (Early): $1\%\text{–}4\%$ silver shoots at tillering (`SOURCE_SUPPORTED`).
+    - SES 5 (Moderate): $5\%\text{–}10\%$ silver shoots (`SOURCE_SUPPORTED`).
+    - SES 7 (Severe): $11\%\text{–}25\%$ silver shoots (`SOURCE_SUPPORTED`).
+    - SES 9 (Catastrophic): $>25\%$ silver shoots (`SOURCE_SUPPORTED`).
+  - *Threshold Status*: `SOURCE_SUPPORTED` (TNAU / ICAR-IIRR Protocol).
+  - *Internal Engine Penalty Mapping*: Early = 30, Moderate = 55, Severe = 80 (`PROJECT_DERIVED_RULE` for Farm Health Score sub-index).
 
 ## 8. Cultural and Mechanical Management
 - **Resistant Cultivars (Primary Defense)**: Plant gall midge resistant paddy varieties suited for South India, such as Kavya, Surekha, Shakthi, Vikram, and IR 36.
