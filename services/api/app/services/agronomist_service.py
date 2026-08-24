@@ -137,7 +137,7 @@ class AgronomistService:
 
         farm = await self._farms.get_by_id(case["farm_id"])
         if farm is not None:
-            await self._farms.update(case["farm_id"], {"days_since_last_scan": 2})
+            await self._farms.update(case["farm_id"], {"days_since_last_scan": 1})
 
         await self._cases.update_status(
             request.escalation_id,

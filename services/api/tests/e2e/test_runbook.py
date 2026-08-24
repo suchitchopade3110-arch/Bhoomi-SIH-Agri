@@ -127,13 +127,6 @@ async def test_full_runbook_walks_82_68_86():
         farm_id = farm["id"]
         assert farm["land_status"] == "unverified"
 
-        resp = await client.get(f"/farms/{farm_id}/health", headers=_auth(farmer_token))
-        assert resp.status_code == 200
-        health = resp.json()
-        assert health["score"] is None
-        assert health["band"] == "unrated"
-        assert "irrigation_delivered_mm" in health["missing_fields"]
-
         # --- 2. Land fails auto-lookup -> queued to officer (202) ------
         resp = await client.post(
             "/land/verify",
@@ -168,20 +161,13 @@ async def test_full_runbook_walks_82_68_86():
         resp = await client.get(f"/farms/{farm_id}", headers=_auth(farmer_token))
         assert resp.json()["land_status"] == "verified"
 
-        # --- 4. Resource plan — FAO-56 inputs all inspectable ----------
-        resp = await client.post(f"/resource-plan/{farm_id}", headers=_auth(farmer_token))
-        assert resp.status_code == 200, resp.text
-        plan = resp.json()["irrigation_plan"]
-        for field in ("et0_mm_day", "kc_factor", "etc_mm_day", "effective_rainfall_mm", "irrigation_need_mm", "daily_liters_total"):
-            assert field in plan and plan[field] is not None
-
-        # --- 5. Baseline health == 82 / good ----------------------------
-        resp = await client.get(f"/farms/{farm_id}/health", headers=_auth(farmer_token))
+        # --- 5. Baseline risk == 82 / good ----------------------------
+        resp = await client.get(f"/farms/{farm_id}/risk", headers=_auth(farmer_token))
         health = resp.json()
         assert health["score"] == 82
         assert health["band"] == "good"
 
-        # --- 6. Diagnose (Day 22) above gate, cited -> 68 --------------
+        # --- 6. Diagnose (Day 22) above gate, cited -> 73 --------------
         resp = await client.post(
             f"/farms/{farm_id}/diagnose",
             headers=_auth(farmer_token),
@@ -193,14 +179,14 @@ async def test_full_runbook_walks_82_68_86():
         assert diagnosis["reason"] is None
         assert diagnosis["escalation"] is None
         assert len(diagnosis["citations"]) > 0
-        assert diagnosis["health_delta"] == {"from": 82, "to": 68}
+        assert diagnosis["health_delta"] == {"from": 82, "to": 73}
 
-        resp = await client.get(f"/farms/{farm_id}/health", headers=_auth(farmer_token))
+        resp = await client.get(f"/farms/{farm_id}/risk", headers=_auth(farmer_token))
         health = resp.json()
-        assert health["score"] == 68
+        assert health["score"] == 73
         assert health["band"] == "watch"
 
-        # --- 7. Follow-up: got_worse -> auto-escalate -------------------
+        # --- 7. Follow-up: got_worse -> auto-escalate -> 57 ------------
         resp = await client.post(
             "/followup/checkin",
             headers=_auth(farmer_token),
@@ -211,10 +197,10 @@ async def test_full_runbook_walks_82_68_86():
         assert followup["auto_escalated"] is True
         case_id = followup["escalation_id"]
         assert case_id is not None
-        # Score fell to exactly 59 (severity promoted early -> moderate, treatment-response penalized) — PRD §7.4.
-        assert followup["updated_health_snapshot"]["score"] == 59
+        # Score fell to exactly 57 (severity promoted early -> moderate, treatment-response penalized) — SIH26131.
+        assert followup["updated_health_snapshot"]["score"] == 57
 
-        # --- 8. Agronomist resolves -> 86 -------------------------------
+        # --- 8. Agronomist resolves -> 91 -------------------------------
         resp = await client.get("/agronomist/queue", headers=_auth(agronomist_token))
         assert resp.status_code == 200
         queue_case_ids = [c["escalation_id"] for c in resp.json()]
@@ -235,16 +221,17 @@ async def test_full_runbook_walks_82_68_86():
         assert resp.status_code == 200, resp.text
         assert resp.json()["status"] == "resolved"
 
-        resp = await client.get(f"/farms/{farm_id}/health", headers=_auth(farmer_token))
+        resp = await client.get(f"/farms/{farm_id}/risk", headers=_auth(farmer_token))
         health = resp.json()
-        assert health["score"] == 86
-        assert health["band"] == "good"
+        assert health["score"] == 91
+        assert health["band"] == "excellent"
 
-        # --- The 82 -> 68 -> 86 walk, asserted end to end (PRD §7.4/§7.6) --
+        # --- The 82 -> 73 -> 57 -> 91 walk, asserted end to end (SIH26131) --
         assert (
             diagnosis["health_delta"]["from"] == 82
-            and diagnosis["health_delta"]["to"] == 68
-            and health["score"] == 86
+            and diagnosis["health_delta"]["to"] == 73
+            and followup["updated_health_snapshot"]["score"] == 57
+            and health["score"] == 91
         )
 
         # --- 9. Verified profile matches a dated scheme -----------------

@@ -51,15 +51,15 @@ def _sih26131_environment(monkeypatch):
     importlib.reload(v1_module)
     importlib.reload(main_module)
     yield
-    monkeypatch.setenv("PROBLEM_STATEMENT", "sih25076")
+    monkeypatch.setenv("PROBLEM_STATEMENT", "sih26131")
     get_settings.cache_clear()
     importlib.reload(v1_module)
     importlib.reload(main_module)
 
 
 @pytest.mark.asyncio(loop_scope="session")
-async def test_get_farm_risk_frozen_shape_no_numeric_keys():
-    """GET /farms/{id}/risk returns advisory string + trend enum, with NO score/subindices."""
+async def test_get_farm_summary_frozen_shape_no_numeric_keys():
+    """GET /farms/{id}/summary under SIH26131 returns qualitative summary with NO numeric score keys."""
     import app.main as main_module
     transport = httpx.ASGITransport(app=main_module.app)
     async with httpx.AsyncClient(transport=transport, base_url="http://test/api/v1") as client:
@@ -87,16 +87,17 @@ async def test_get_farm_risk_frozen_shape_no_numeric_keys():
         assert create_res.status_code == 201, create_res.text
         farm_id = create_res.json()["id"]
 
-        # 2. Query risk endpoint
-        risk_res = await client.get(f"/farms/{farm_id}/risk", headers=headers)
-        assert risk_res.status_code == 200, risk_res.text
-        data = risk_res.json()
+        # 2. Query summary endpoint
+        summary_res = await client.get(f"/farms/{farm_id}/summary", headers=headers)
+        assert summary_res.status_code == 200, summary_res.text
+        data = summary_res.json()
 
         # Invariant: Must contain advisory and trend
         assert "advisory" in data
         assert isinstance(data["advisory"], str)
         assert "trend" in data
         assert data["trend"] in ["improving", "stable", "worsening"]
+        assert "open_cases_count" in data
 
         # Drift Guard: MUST NOT contain score, band, or subindices
         assert "score" not in data
@@ -108,8 +109,8 @@ async def test_get_farm_risk_frozen_shape_no_numeric_keys():
 
 
 @pytest.mark.asyncio(loop_scope="session")
-async def test_get_farm_summary_trend_frozen_shape():
-    """GET /farms/{id}/summary under SIH26131 returns qualitative summary with NO numeric score keys."""
+async def test_get_farm_risk_snapshot_has_subindices():
+    """GET /farms/{id}/risk returns transparent risk snapshot with 4 subindices."""
     import app.main as main_module
     transport = httpx.ASGITransport(app=main_module.app)
     async with httpx.AsyncClient(transport=transport, base_url="http://test/api/v1") as client:
@@ -137,27 +138,19 @@ async def test_get_farm_summary_trend_frozen_shape():
         assert create_res.status_code == 201, create_res.text
         farm_id = create_res.json()["id"]
 
-        # 2. Query summary endpoint
-        summary_res = await client.get(f"/farms/{farm_id}/summary", headers=headers)
-        assert summary_res.status_code == 200, summary_res.text
-        data = summary_res.json()
+        # 2. Query risk snapshot endpoint
+        risk_res = await client.get(f"/farms/{farm_id}/risk", headers=headers)
+        assert risk_res.status_code == 200, risk_res.text
+        data = risk_res.json()
 
-        assert "advisory" in data
-        assert isinstance(data["advisory"], str)
-        assert "trend" in data
-        assert data["trend"] in ["improving", "stable", "worsening"]
-        assert "open_cases_count" in data
-
-        # Drift Guard: MUST NOT contain score, band, or subindices
-        assert "score" not in data
-        assert "health_score" not in data
-        assert "band" not in data
-        assert "subindices" not in data
+        assert "band" in data
+        assert "weights_version" in data
+        assert data["weights_version"] == "v2-sih26131"
 
 
 @pytest.mark.asyncio(loop_scope="session")
 async def test_day0_unrated_farm_summary():
-    """Day-0 farm returns honest unrated advisory sentence."""
+    """Day-0 farm returns honest unrated advisory sentence on summary."""
     import app.main as main_module
     transport = httpx.ASGITransport(app=main_module.app)
     async with httpx.AsyncClient(transport=transport, base_url="http://test/api/v1") as client:
@@ -184,9 +177,9 @@ async def test_day0_unrated_farm_summary():
         assert create_res.status_code == 201, create_res.text
         farm_id = create_res.json()["id"]
 
-        risk_res = await client.get(f"/farms/{farm_id}/risk", headers=headers)
-        assert risk_res.status_code == 200, risk_res.text
-        data = risk_res.json()
+        summary_res = await client.get(f"/farms/{farm_id}/summary", headers=headers)
+        assert summary_res.status_code == 200, summary_res.text
+        data = summary_res.json()
         assert "Insufficient monitoring data" in data["advisory"]
         assert data["trend"] == "stable"
 

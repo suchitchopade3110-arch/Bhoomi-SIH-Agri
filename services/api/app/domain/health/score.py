@@ -45,16 +45,10 @@ def _missing_fields(inputs: HealthScoreInputs) -> list[str]:
     missing = []
     if inputs.weather is None:
         missing.append("weather")
-    if inputs.soil_moisture_pct is None:
-        missing.append("soil_moisture_pct")
-    if inputs.irrigation_delivered_mm is None:
-        missing.append("irrigation_delivered_mm")
-    if inputs.irrigation_required_mm is None:
-        missing.append("irrigation_required_mm")
-    if inputs.days_since_planting is None:
-        missing.append("days_since_planting")
-    if inputs.days_since_last_scan is None:
-        missing.append("days_since_last_scan")
+    if inputs.crop_ideal is None:
+        missing.append("crop_ideal")
+    if not inputs.has_interaction:
+        missing.append("interactions")
     return missing
 
 
