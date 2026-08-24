@@ -1,0 +1,442 @@
+{
+  "report_title": "BHOOMI Chemical Regulatory & Safety Validation Report",
+  "total_chemicals_audited": 26,
+  "status_breakdown": {
+    "VERIFIED_CURRENT": 21,
+    "RESTRICTED": 3,
+    "PROHIBITED": 2,
+    "HISTORICAL": 0,
+    "UNVERIFIED": 0,
+    "CONFLICTING": 0,
+    "NOT_APPLICABLE": 0
+  },
+  "missing_safety_metadata_count": 0,
+  "overall_status": "READY_WITH_WARNINGS",
+  "results": [
+    {
+      "chemical_id": "CHEM-001",
+      "active_ingredient": "Chlorantraniliprole",
+      "formulation": "18.5 SC",
+      "regulatory_status": "VERIFIED_CURRENT",
+      "phi": "47 days",
+      "dose": "150 ml/ha (30 ml/acre) in 500 L water",
+      "evidence_count": 2,
+      "warnings_count": 0,
+      "warnings": [],
+      "farmer_action_allowed": true,
+      "missing_fields": [],
+      "validation_status": "VALID"
+    },
+    {
+      "chemical_id": "CHEM-002",
+      "active_ingredient": "Buprofezin",
+      "formulation": "25 SC",
+      "regulatory_status": "VERIFIED_CURRENT",
+      "phi": "30 days",
+      "dose": "400-800 ml/ha (160-320 ml/acre) in 500 L water",
+      "evidence_count": 2,
+      "warnings_count": 1,
+      "warnings": [
+        "Direct spray strictly to base of tillers"
+      ],
+      "farmer_action_allowed": true,
+      "missing_fields": [],
+      "validation_status": "VALID_WITH_WARNINGS"
+    },
+    {
+      "chemical_id": "CHEM-003",
+      "active_ingredient": "Imidacloprid",
+      "formulation": "17.8 SL",
+      "regulatory_status": "VERIFIED_CURRENT",
+      "phi": "21 days",
+      "dose": "100-125 ml/ha (20-25 ml/acre) in 500 L water",
+      "evidence_count": 2,
+      "warnings_count": 1,
+      "warnings": [
+        "Neonicotinoid foliar spray; observe 21-day PHI"
+      ],
+      "farmer_action_allowed": true,
+      "missing_fields": [],
+      "validation_status": "VALID_WITH_WARNINGS"
+    },
+    {
+      "chemical_id": "CHEM-004",
+      "active_ingredient": "Thiamethoxam",
+      "formulation": "25 WG",
+      "regulatory_status": "VERIFIED_CURRENT",
+      "phi": "14 days",
+      "dose": "100 g/ha (40 g/acre) in 500 L water",
+      "evidence_count": 2,
+      "warnings_count": 0,
+      "warnings": [],
+      "farmer_action_allowed": true,
+      "missing_fields": [],
+      "validation_status": "VALID"
+    },
+    {
+      "chemical_id": "CHEM-005",
+      "active_ingredient": "Carbofuran",
+      "formulation": "3G",
+      "regulatory_status": "RESTRICTED",
+      "phi": "60 days",
+      "dose": "33 kg/ha at basal planting",
+      "evidence_count": 2,
+      "warnings_count": 4,
+      "warnings": [
+        "Class Ib high toxicity carbamate pesticide",
+        "Subject to state-level bans/restrictions (e.g. banned in Kerala; restricted in Tamil Nadu)",
+        "Severe avian, aquatic, and groundwater leaching hazard",
+        "NOT recommended as first-line farmer action; safer CIBRC-registered diamides/neonicotinoids must be used"
+      ],
+      "farmer_action_allowed": false,
+      "missing_fields": [],
+      "validation_status": "VALID_WITH_WARNINGS"
+    },
+    {
+      "chemical_id": "CHEM-006",
+      "active_ingredient": "Malathion",
+      "formulation": "50 EC",
+      "regulatory_status": "RESTRICTED",
+      "phi": "10 days (mandatory minimum 7-10 days)",
+      "dose": "500-1000 ml/ha (100-200 ml/acre) in 500 L water",
+      "evidence_count": 2,
+      "warnings_count": 4,
+      "warnings": [
+        "Direct panicle application during grain milking carries severe grain residue (MRL) hazard",
+        "Mandatory minimum Pre-Harvest Interval (PHI) of 7-10 days must be strictly enforced before harvest",
+        "Do NOT spray within 7 days of harvest",
+        "Controlled advisory only with mandatory PHI warning; botanical Azadirachtin preferred for late milking"
+      ],
+      "farmer_action_allowed": false,
+      "missing_fields": [],
+      "validation_status": "VALID_WITH_WARNINGS"
+    },
+    {
+      "chemical_id": "CHEM-007",
+      "active_ingredient": "Copper Hydroxide",
+      "formulation": "77 WP",
+      "regulatory_status": "VERIFIED_CURRENT",
+      "phi": "15 days",
+      "dose": "1.25 kg/ha in 500 L water",
+      "evidence_count": 2,
+      "warnings_count": 2,
+      "warnings": [
+        "Non-antibiotic inorganic copper bactericide; gold-standard alternative to restricted agricultural antibiotics",
+        "Do NOT apply during open anthesis/flowering (9:00 to 11:30 AM) to avoid floret sterility"
+      ],
+      "farmer_action_allowed": true,
+      "missing_fields": [],
+      "validation_status": "VALID_WITH_WARNINGS"
+    },
+    {
+      "chemical_id": "CHEM-008",
+      "active_ingredient": "Tricyclazole",
+      "formulation": "75 WP",
+      "regulatory_status": "VERIFIED_CURRENT",
+      "phi": "30 days",
+      "dose": "500 g/ha (0.6 g/L water) in 500 L water",
+      "evidence_count": 2,
+      "warnings_count": 1,
+      "warnings": [
+        "Gold standard systemic blasticide; highly effective at 50% boot leaf stage"
+      ],
+      "farmer_action_allowed": true,
+      "missing_fields": [],
+      "validation_status": "VALID_WITH_WARNINGS"
+    },
+    {
+      "chemical_id": "CHEM-009",
+      "active_ingredient": "Isoprothiolane",
+      "formulation": "40 EC",
+      "regulatory_status": "VERIFIED_CURRENT",
+      "phi": "30 days",
+      "dose": "750 ml/ha (1.5 ml/L water) in 500 L water",
+      "evidence_count": 2,
+      "warnings_count": 0,
+      "warnings": [],
+      "farmer_action_allowed": true,
+      "missing_fields": [],
+      "validation_status": "VALID"
+    },
+    {
+      "chemical_id": "CHEM-010",
+      "active_ingredient": "Hexaconazole",
+      "formulation": "5 SC / 5 EC",
+      "regulatory_status": "VERIFIED_CURRENT",
+      "phi": "30 days",
+      "dose": "1000 ml/ha (2 ml/L water) in 500 L water",
+      "evidence_count": 2,
+      "warnings_count": 1,
+      "warnings": [
+        "Direct spray to plant base and lower sheaths"
+      ],
+      "farmer_action_allowed": true,
+      "missing_fields": [],
+      "validation_status": "VALID_WITH_WARNINGS"
+    },
+    {
+      "chemical_id": "CHEM-011",
+      "active_ingredient": "Validamycin",
+      "formulation": "3 L",
+      "regulatory_status": "VERIFIED_CURRENT",
+      "phi": "14 days",
+      "dose": "1000 ml/ha (2 ml/L water) in 500 L water",
+      "evidence_count": 2,
+      "warnings_count": 1,
+      "warnings": [
+        "Microbial antibiotic fungicide derived from Streptomyces hygroscopicus; safe to spiders and beneficial fauna"
+      ],
+      "farmer_action_allowed": true,
+      "missing_fields": [],
+      "validation_status": "VALID_WITH_WARNINGS"
+    },
+    {
+      "chemical_id": "CHEM-012",
+      "active_ingredient": "Azoxystrobin + Difenoconazole",
+      "formulation": "18.2% + 11.4% SC (29.6 SC)",
+      "regulatory_status": "VERIFIED_CURRENT",
+      "phi": "31 days",
+      "dose": "500 ml/ha (1 ml/L water) in 500 L water",
+      "evidence_count": 2,
+      "warnings_count": 1,
+      "warnings": [
+        "Broad-spectrum dual systemic combination"
+      ],
+      "farmer_action_allowed": true,
+      "missing_fields": [],
+      "validation_status": "VALID_WITH_WARNINGS"
+    },
+    {
+      "chemical_id": "CHEM-013",
+      "active_ingredient": "Propiconazole",
+      "formulation": "25 EC",
+      "regulatory_status": "VERIFIED_CURRENT",
+      "phi": "30 days",
+      "dose": "500 ml/ha (1 ml/L water) in 500 L water",
+      "evidence_count": 2,
+      "warnings_count": 2,
+      "warnings": [
+        "For False Smut: Must be sprayed strictly at 50% boot leaf stage prior to panicle emergence",
+        "Never spray during open flowering (anthesis)"
+      ],
+      "farmer_action_allowed": true,
+      "missing_fields": [],
+      "validation_status": "VALID_WITH_WARNINGS"
+    },
+    {
+      "chemical_id": "CHEM-014",
+      "active_ingredient": "Streptocycline (Streptomycin Sulphate 90% + Tetracycline Hydrochloride 10%)",
+      "formulation": "SP + Copper Oxychloride 50 WP",
+      "regulatory_status": "RESTRICTED",
+      "phi": "30 days",
+      "dose": "100 g + 500 g per hectare in 500 L water",
+      "evidence_count": 2,
+      "warnings_count": 4,
+      "warnings": [
+        "Agricultural antibiotic formulation subject to Antimicrobial Resistance (AMR) regulatory restrictions in Indian agriculture",
+        "Streptomycin + Tetracycline combinations are phased down under CIBRC/MoAFW directives to prevent clinical resistance spillover",
+        "NOT recommended as first-line farmer action; Copper Hydroxide 77 WP is the certified non-antibiotic recommendation",
+        "Retained as historical/monitored recommendation with mandatory AMR alert"
+      ],
+      "farmer_action_allowed": false,
+      "missing_fields": [],
+      "validation_status": "VALID_WITH_WARNINGS"
+    },
+    {
+      "chemical_id": "CHEM-015",
+      "active_ingredient": "Flubendiamide",
+      "formulation": "39.35 SC",
+      "regulatory_status": "VERIFIED_CURRENT",
+      "phi": "30 days",
+      "dose": "50 ml/ha (10 ml/acre) in 500 L water",
+      "evidence_count": 2,
+      "warnings_count": 1,
+      "warnings": [
+        "Ryanodine receptor modulator; rapid larval feeding cessation"
+      ],
+      "farmer_action_allowed": true,
+      "missing_fields": [],
+      "validation_status": "VALID_WITH_WARNINGS"
+    },
+    {
+      "chemical_id": "CHEM-016",
+      "active_ingredient": "Fipronil",
+      "formulation": "5 SC",
+      "regulatory_status": "VERIFIED_CURRENT",
+      "phi": "32 days",
+      "dose": "1000-1500 ml/ha in 500 L water",
+      "evidence_count": 2,
+      "warnings_count": 1,
+      "warnings": [
+        "Phenylpyrazole systemic insecticide; apply within 15-30 DAT"
+      ],
+      "farmer_action_allowed": true,
+      "missing_fields": [],
+      "validation_status": "VALID_WITH_WARNINGS"
+    },
+    {
+      "chemical_id": "CHEM-017",
+      "active_ingredient": "Pymetrozine",
+      "formulation": "50 WG",
+      "regulatory_status": "VERIFIED_CURRENT",
+      "phi": "19 days",
+      "dose": "300 g/ha (120 g/acre) in 500 L water",
+      "evidence_count": 2,
+      "warnings_count": 1,
+      "warnings": [
+        "Selective chordotonal organ feeding blocker; highly safe to mirid predators and spiders"
+      ],
+      "farmer_action_allowed": true,
+      "missing_fields": [],
+      "validation_status": "VALID_WITH_WARNINGS"
+    },
+    {
+      "chemical_id": "CHEM-018",
+      "active_ingredient": "Azadirachtin (Neem extract)",
+      "formulation": "1% (10,000 ppm) EC",
+      "regulatory_status": "VERIFIED_CURRENT",
+      "phi": "3 days",
+      "dose": "1000 ml/ha (200 ml/acre) in 500 L water",
+      "evidence_count": 2,
+      "warnings_count": 1,
+      "warnings": [
+        "Botanical antifeedant; zero residue hazard; ideal for late milking stage of earhead bug"
+      ],
+      "farmer_action_allowed": true,
+      "missing_fields": [],
+      "validation_status": "VALID_WITH_WARNINGS"
+    },
+    {
+      "chemical_id": "CHEM-019",
+      "active_ingredient": "Cypermethrin",
+      "formulation": "10 EC / 25 EC",
+      "regulatory_status": "PROHIBITED",
+      "phi": "N/A",
+      "dose": "N/A (Prohibited for BPH)",
+      "evidence_count": 2,
+      "warnings_count": 3,
+      "warnings": [
+        "PROHIBITED FOR BROWN PLANTHOPPER (BPH)",
+        "Synthetic pyrethroid application causes catastrophic pest resurgence by decimating natural predators (Lycosa spiders, Cyrtorhinus mirid bugs)",
+        "Must NEVER be recommended or prescribed for BPH"
+      ],
+      "farmer_action_allowed": false,
+      "missing_fields": [],
+      "validation_status": "VALID_WITH_WARNINGS"
+    },
+    {
+      "chemical_id": "CHEM-020",
+      "active_ingredient": "Lambda-cyhalothrin / Deltamethrin",
+      "formulation": "5 EC / 2.8 EC",
+      "regulatory_status": "PROHIBITED",
+      "phi": "N/A",
+      "dose": "N/A (Prohibited for BPH)",
+      "evidence_count": 2,
+      "warnings_count": 3,
+      "warnings": [
+        "PROHIBITED FOR BROWN PLANTHOPPER (BPH)",
+        "Synthetic pyrethroids trigger explosive hopper resurgence and rapid hopper burn",
+        "Must NEVER be recommended for BPH"
+      ],
+      "farmer_action_allowed": false,
+      "missing_fields": [],
+      "validation_status": "VALID_WITH_WARNINGS"
+    },
+    {
+      "chemical_id": "CHEM-021",
+      "active_ingredient": "Kasugamycin",
+      "formulation": "3% SL",
+      "regulatory_status": "VERIFIED_CURRENT",
+      "phi": "30 days",
+      "dose": "1000-1250 ml/ha in 500 L water",
+      "evidence_count": 2,
+      "warnings_count": 1,
+      "warnings": [
+        "Agricultural microbial antibiotic fungicide derived from Streptomyces kasugaensis; CIBRC registered on rice"
+      ],
+      "farmer_action_allowed": true,
+      "missing_fields": [],
+      "validation_status": "VALID_WITH_WARNINGS"
+    },
+    {
+      "chemical_id": "CHEM-022",
+      "active_ingredient": "Mancozeb",
+      "formulation": "75 WP",
+      "regulatory_status": "VERIFIED_CURRENT",
+      "phi": "15 days",
+      "dose": "1000 g/ha (2 g/L water) in 500 L water",
+      "evidence_count": 2,
+      "warnings_count": 1,
+      "warnings": [
+        "Broad-spectrum contact dithiocarbamate fungicide; spray at early tillering and booting"
+      ],
+      "farmer_action_allowed": true,
+      "missing_fields": [],
+      "validation_status": "VALID_WITH_WARNINGS"
+    },
+    {
+      "chemical_id": "CHEM-023",
+      "active_ingredient": "Carbendazim + Mancozeb",
+      "formulation": "12% + 63% WP (75 WP)",
+      "regulatory_status": "VERIFIED_CURRENT",
+      "phi": "30 days",
+      "dose": "750 g/ha (1.5 g/L water) in 500 L water",
+      "evidence_count": 2,
+      "warnings_count": 1,
+      "warnings": [
+        "Dual-action systemic (Carbendazim) and contact (Mancozeb) formulation"
+      ],
+      "farmer_action_allowed": true,
+      "missing_fields": [],
+      "validation_status": "VALID_WITH_WARNINGS"
+    },
+    {
+      "chemical_id": "CHEM-024",
+      "active_ingredient": "Carbendazim",
+      "formulation": "50 WP",
+      "regulatory_status": "VERIFIED_CURRENT",
+      "phi": "30 days",
+      "dose": "500 g/ha (1 g/L water) or 2 g/kg seed",
+      "evidence_count": 2,
+      "warnings_count": 1,
+      "warnings": [
+        "Systemic benzimidazole fungicide; effective seed treatment against seed-borne inoculum"
+      ],
+      "farmer_action_allowed": true,
+      "missing_fields": [],
+      "validation_status": "VALID_WITH_WARNINGS"
+    },
+    {
+      "chemical_id": "CHEM-025",
+      "active_ingredient": "Copper Oxychloride",
+      "formulation": "50 WP",
+      "regulatory_status": "VERIFIED_CURRENT",
+      "phi": "15 days",
+      "dose": "1.25 kg/ha in 500 L water",
+      "evidence_count": 2,
+      "warnings_count": 1,
+      "warnings": [
+        "Inorganic copper contact bactericide/fungicide"
+      ],
+      "farmer_action_allowed": true,
+      "missing_fields": [],
+      "validation_status": "VALID_WITH_WARNINGS"
+    },
+    {
+      "chemical_id": "CHEM-026",
+      "active_ingredient": "Thifluzamide",
+      "formulation": "24 SC",
+      "regulatory_status": "VERIFIED_CURRENT",
+      "phi": "30 days",
+      "dose": "375 ml/ha in 500 L water",
+      "evidence_count": 2,
+      "warnings_count": 1,
+      "warnings": [
+        "SDHI systemic fungicide; highly active against Rhizoctonia"
+      ],
+      "farmer_action_allowed": true,
+      "missing_fields": [],
+      "validation_status": "VALID_WITH_WARNINGS"
+    }
+  ]
+}

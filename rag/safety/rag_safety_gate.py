@@ -112,7 +112,19 @@ class RagSafetyGate:
                     "response_tamil": "சுடோமோனாஸ் (Pseudomonas) போன்ற நுண்ணுயிர் உயிர் உரங்களை காப்பர் அல்லது ரசாயன பூஞ்சாண மருந்துகளுடன் கலக்கக்கூடாது. இரண்டிற்கும் இடையே குறைந்தபட்சம் 7 நாட்கள் இடைவெளி அவசியம்."
                 }
 
-        # 4. Check Restricted & Banned Chemicals / Overdose (in query OR retrieved candidate)
+        # 4. Check Prohibited Synthetic Pyrethroids on Brown Planthopper (Resurgence Trigger)
+        pyrethroid_tokens = ["cypermethrin", "deltamethrin", "lambda-cyhalothrin", "சைபர்மெத்ரின்", "டெல்டாமெத்ரின்", "லாம்டா", "பைரித்ராய்டு"]
+        bph_tokens = ["bph", "brown planthopper", "புகையான்", "புகையானு", "புகை", "சாறு உறிஞ்சும்", "பழுப்பு தத்துப்பூச்சி"]
+        if any(p in query_text for p in pyrethroid_tokens) and any(b in query_text for b in bph_tokens):
+            return {
+                "is_safe": False,
+                "safety_status": "PROHIBITION_RESURGENCE_BLOCKED",
+                "decision": "SAFETY_INTERVENTION_WARNING",
+                "reason": "Synthetic Pyrethroid BPH Prohibition: Cypermethrin/Deltamethrin causes catastrophic Brown Planthopper resurgence by killing predatory wolf spiders and mirid bugs. Prohibited for BPH.",
+                "response_tamil": "எச்சரிக்கை: புகையான் (BPH) பூச்சிக்கு சைபர்மெத்ரின் அல்லது டெல்டாமெத்ரின் போன்ற சிந்தடிக் பைரித்ராய்டு மருந்துகளை அடிக்கக்கூடாது. இவை நன்மை செய்யும் சிலந்திகளை அழித்து புகையான் மறுஉயிர்ப்புக்கு (Pest Resurgence) வழிவகுக்கும். புப்ரோபெசின் (Buprofezin) அல்லது பைமெட்ரோசின் (Pymetrozine) மட்டுமே பயன்படுத்தவும்."
+            }
+
+        # 5. Check Restricted & Banned Chemicals / Overdose (in query OR retrieved candidate)
         if any(w in query_text for w in self.restricted_tokens) or any(w in candidate_text for w in ["carbofuran 3g", "கார்போபியூரான் 3ஜி", "streptocycline + copper"]):
             return {
                 "is_safe": False,
