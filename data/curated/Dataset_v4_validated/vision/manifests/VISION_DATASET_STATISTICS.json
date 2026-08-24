@@ -1,0 +1,221 @@
+{
+  "statistics_version": "1.0.0",
+  "audit_date": "2026-08-24",
+  "dataset_summary": {
+    "total_external_records_discovered": 21,
+    "total_downloaded": 17,
+    "total_valid": 17,
+    "total_corrupt": 0,
+    "total_duplicates": 0,
+    "total_near_duplicates": 0,
+    "total_license_approved": 0,
+    "total_license_blocked": 17,
+    "total_exact_mappings": 17,
+    "total_strong_mappings": 0,
+    "total_weak_mappings": 0,
+    "total_unmapped": 0,
+    "total_training_eligible": 0,
+    "total_quarantined": 21
+  },
+  "source_dataset_breakdown": {
+    "SRC-DS-01 (Paddy Doctor - External Pipeline Target)": {"status": "APPROVED_FOR_TRAINING", "external_available_images": 10407, "local_ingested": 0},
+    "SRC-DS-02 (PlantVillage - External Pipeline Target)": {"status": "APPROVED_FOR_TRAINING", "external_available_images": 3000, "local_ingested": 0},
+    "SRC-DS-03 (PlantDoc - External Pipeline Target)": {"status": "APPROVED_FOR_TRAINING", "external_available_images": 500, "local_ingested": 0},
+    "SRC-DS-04 (Roboflow Rice - External Pipeline Target)": {"status": "APPROVED_FOR_TRAINING", "external_available_images": 2500, "local_ingested": 0},
+    "SRC-DS-05 (ICAR-IIRR - External Pipeline Target)": {"status": "TRAINING_USE_RESTRICTED", "external_available_images": 1200, "local_ingested": 0},
+    "SRC-DS-06 (TNAU Agritech - Local Harvest)": {"status": "TRAINING_USE_BLOCKED", "external_available_images": 17, "local_ingested": 17}
+  },
+  "license_breakdown": {
+    "APPROVED_FOR_TRAINING": 0,
+    "TRAINING_USE_BLOCKED": 17,
+    "LICENSE_UNKNOWN": 17,
+    "QUARANTINED_MISSING_FILES": 4
+  },
+  "target_gap_summary": {
+    "current_valid_training_images": 0,
+    "minimum_target_per_class": 100,
+    "total_minimum_target": 1600,
+    "total_gap_to_minimum": 1600,
+    "production_target_per_class": 500,
+    "total_production_target": 8000,
+    "total_gap_to_production": 8000
+  },
+  "classes": [
+    {
+      "canonical_id": "PEST_001",
+      "canonical_name": "Stem borer",
+      "current_count": 0,
+      "exemplar_count": 3,
+      "minimum_target": 100,
+      "production_target": 500,
+      "gap_to_minimum": 100,
+      "gap_to_production": 500,
+      "status": "EXEMPLARS_AVAILABLE_TRAINING_BLOCKED"
+    },
+    {
+      "canonical_id": "PEST_002",
+      "canonical_name": "Brown planthopper",
+      "current_count": 0,
+      "exemplar_count": 3,
+      "minimum_target": 100,
+      "production_target": 500,
+      "gap_to_minimum": 100,
+      "gap_to_production": 500,
+      "status": "EXEMPLARS_AVAILABLE_TRAINING_BLOCKED"
+    },
+    {
+      "canonical_id": "PEST_003",
+      "canonical_name": "Leaf folder",
+      "current_count": 0,
+      "exemplar_count": 3,
+      "minimum_target": 100,
+      "production_target": 500,
+      "gap_to_minimum": 100,
+      "gap_to_production": 500,
+      "status": "EXEMPLARS_AVAILABLE_TRAINING_BLOCKED"
+    },
+    {
+      "canonical_id": "PEST_004",
+      "canonical_name": "Green leafhopper",
+      "current_count": 0,
+      "exemplar_count": 2,
+      "minimum_target": 100,
+      "production_target": 500,
+      "gap_to_minimum": 100,
+      "gap_to_production": 500,
+      "status": "EXEMPLARS_AVAILABLE_TRAINING_BLOCKED"
+    },
+    {
+      "canonical_id": "PEST_005",
+      "canonical_name": "Gall midge",
+      "current_count": 0,
+      "exemplar_count": 2,
+      "minimum_target": 100,
+      "production_target": 500,
+      "gap_to_minimum": 100,
+      "gap_to_production": 500,
+      "status": "EXEMPLARS_AVAILABLE_TRAINING_BLOCKED"
+    },
+    {
+      "canonical_id": "PEST_006",
+      "canonical_name": "Thrips",
+      "current_count": 0,
+      "exemplar_count": 2,
+      "minimum_target": 100,
+      "production_target": 500,
+      "gap_to_minimum": 100,
+      "gap_to_production": 500,
+      "status": "EXEMPLARS_AVAILABLE_TRAINING_BLOCKED"
+    },
+    {
+      "canonical_id": "PEST_007",
+      "canonical_name": "Whorl maggot",
+      "current_count": 0,
+      "exemplar_count": 0,
+      "minimum_target": 100,
+      "production_target": 500,
+      "gap_to_minimum": 100,
+      "gap_to_production": 500,
+      "status": "NO_VERIFIED_SOURCE_AVAILABLE"
+    },
+    {
+      "canonical_id": "PEST_008",
+      "canonical_name": "Earhead bug",
+      "current_count": 0,
+      "exemplar_count": 2,
+      "minimum_target": 100,
+      "production_target": 500,
+      "gap_to_minimum": 100,
+      "gap_to_production": 500,
+      "status": "EXEMPLARS_AVAILABLE_TRAINING_BLOCKED"
+    },
+    {
+      "canonical_id": "DISEASE_001",
+      "canonical_name": "Bacterial Leaf Blight",
+      "current_count": 0,
+      "exemplar_count": 0,
+      "minimum_target": 100,
+      "production_target": 500,
+      "gap_to_minimum": 100,
+      "gap_to_production": 500,
+      "status": "PIPELINE_TARGET_ACQUISITION_PENDING"
+    },
+    {
+      "canonical_id": "DISEASE_002",
+      "canonical_name": "Bacterial Leaf Streak",
+      "current_count": 0,
+      "exemplar_count": 0,
+      "minimum_target": 100,
+      "production_target": 500,
+      "gap_to_minimum": 100,
+      "gap_to_production": 500,
+      "status": "PIPELINE_TARGET_ACQUISITION_PENDING"
+    },
+    {
+      "canonical_id": "DISEASE_003",
+      "canonical_name": "Rice Blast",
+      "current_count": 0,
+      "exemplar_count": 0,
+      "minimum_target": 100,
+      "production_target": 500,
+      "gap_to_minimum": 100,
+      "gap_to_production": 500,
+      "status": "PIPELINE_TARGET_ACQUISITION_PENDING"
+    },
+    {
+      "canonical_id": "DISEASE_004",
+      "canonical_name": "Brown Spot",
+      "current_count": 0,
+      "exemplar_count": 0,
+      "minimum_target": 100,
+      "production_target": 500,
+      "gap_to_minimum": 100,
+      "gap_to_production": 500,
+      "status": "PIPELINE_TARGET_ACQUISITION_PENDING"
+    },
+    {
+      "canonical_id": "DISEASE_005",
+      "canonical_name": "False Smut",
+      "current_count": 0,
+      "exemplar_count": 0,
+      "minimum_target": 100,
+      "production_target": 500,
+      "gap_to_minimum": 100,
+      "gap_to_production": 500,
+      "status": "PIPELINE_TARGET_ACQUISITION_PENDING"
+    },
+    {
+      "canonical_id": "DISEASE_006",
+      "canonical_name": "Sheath Blight",
+      "current_count": 0,
+      "exemplar_count": 0,
+      "minimum_target": 100,
+      "production_target": 500,
+      "gap_to_minimum": 100,
+      "gap_to_production": 500,
+      "status": "PIPELINE_TARGET_ACQUISITION_PENDING"
+    },
+    {
+      "canonical_id": "DISEASE_007",
+      "canonical_name": "Sheath Rot",
+      "current_count": 0,
+      "exemplar_count": 0,
+      "minimum_target": 100,
+      "production_target": 500,
+      "gap_to_minimum": 100,
+      "gap_to_production": 500,
+      "status": "PIPELINE_TARGET_ACQUISITION_PENDING"
+    },
+    {
+      "canonical_id": "DISEASE_008",
+      "canonical_name": "Tungro Virus",
+      "current_count": 0,
+      "exemplar_count": 0,
+      "minimum_target": 100,
+      "production_target": 500,
+      "gap_to_minimum": 100,
+      "gap_to_production": 500,
+      "status": "PIPELINE_TARGET_ACQUISITION_PENDING"
+    }
+  ]
+}

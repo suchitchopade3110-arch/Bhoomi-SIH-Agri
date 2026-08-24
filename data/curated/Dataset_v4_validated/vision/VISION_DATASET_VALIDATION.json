@@ -1,25 +1,24 @@
 {
-  "total_references": 21,
-  "real_images": 17,
-  "missing_files": 4,
-  "corrupt_files": 0,
-  "duplicates": 0,
-  "unresolved_labels": 0,
-  "valid_diagnostic_exemplars": 17,
+  "total_manifest_records": 17,
+  "real_images_decoded": 17,
+  "quarantined_records": 21,
   "valid_training_images": 0,
   "zero_image_classes_count": 9,
   "zero_image_classes": [
-    "DISEASE_006",
     "PEST_007",
+    "DISEASE_001",
+    "DISEASE_002",
     "DISEASE_003",
     "DISEASE_004",
-    "DISEASE_002",
-    "DISEASE_001",
+    "DISEASE_005",
+    "DISEASE_006",
     "DISEASE_007",
-    "DISEASE_008",
-    "DISEASE_005"
+    "DISEASE_008"
   ],
   "classes_below_training_minimum_count": 16,
-  "license_blocked_count": 17,
-  "status": "DATASET_INCOMPLETE_DIAGNOSTIC_EXEMPLARS_ONLY"
+  "classes_below_target_count": 16,
+  "legal_integrity_passed": true,
+  "errors": [],
+  "warnings": [],
+  "status": "VALID_CANONICAL_SCHEMA_TRAINING_BLOCKED_PENDING_ACQUISITION"
 }
