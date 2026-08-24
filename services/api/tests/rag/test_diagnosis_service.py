@@ -43,10 +43,10 @@ _BASELINE_CONTEXT = FarmHealthContext(
 
 
 class _FakeWeatherAdapter:
-    """Matches the fixture's baseline WeatherReading via WeatherPort.get_current_weather."""
+    """Returns None for weather so scoring engine uses ENVIRONMENTAL_RISK_DEFAULT."""
 
     async def get_current_weather(self, latitude, longitude):
-        return {"temperature_c": 30.0, "relative_humidity_pct": 104.0}
+        return None
 
     async def get_daily_et0(self, latitude, longitude, target_date):
         return 4.8

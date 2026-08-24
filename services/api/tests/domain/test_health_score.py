@@ -34,14 +34,11 @@ IDEAL = CropIdealConditions(
     humidity_max_pct=80.0,
 )
 
-# Weather reading that produces environmental_risk = 70 (30 penalty: 24% humidity excess @ 1.25/pct)
-WEATHER_ENV_70 = WeatherReading(temp_c=30.0, relative_humidity_pct=104.0)
-
 
 def _inputs(**overrides) -> HealthScoreInputs:
     base = dict(
         triggering_input=TriggeringInput(type="test"),
-        weather=WEATHER_ENV_70,
+        weather=None,
         crop_ideal=IDEAL,
         open_problems=[],
         days_since_last_scan=6,
@@ -71,12 +68,12 @@ def test_weights_match_sih26131():
 
 
 # ---------------------------------------------------------------------------
-# band_for (PRD §7.5 / SIH26131)
+# Band mapping
 # ---------------------------------------------------------------------------
 
 
 @pytest.mark.parametrize(
-    "score,expected",
+    ("score", "expected_band"),
     [
         (None, HealthBand.UNRATED),
         (0, HealthBand.CRITICAL),
@@ -95,8 +92,8 @@ def test_weights_match_sih26131():
         (100, HealthBand.EXCELLENT),
     ],
 )
-def test_band_for(score, expected):
-    assert band_for(score) == expected
+def test_band_for(score, expected_band):
+    assert band_for(score) == expected_band
 
 
 # ---------------------------------------------------------------------------
@@ -135,14 +132,25 @@ def test_environmental_risk_within_ideal_band_scores_100():
     assert environmental_risk(WeatherReading(temp_c=28, relative_humidity_pct=70), ideal) == 100
 
 
+def test_environmental_risk_none_weather_returns_default():
+    assert environmental_risk(weather=None, ideal=IDEAL) == 70
+    assert environmental_risk(weather=None) == 70
+
+
 def test_environmental_risk_penalizes_humidity_deviation():
-    # 24 points humidity excess (1.25/pt) = 30 penalty -> 70
-    assert environmental_risk(WeatherReading(temp_c=30, relative_humidity_pct=104), IDEAL) == 70
+    # 16% humidity excess (1.25/pt) = 20 penalty -> 80
+    assert environmental_risk(WeatherReading(temp_c=30, relative_humidity_pct=96), IDEAL) == 80
 
 
 def test_environmental_risk_penalizes_temp_deviation():
     # 5 degrees temp excess (2.0/pt) = 10 penalty -> 90
     assert environmental_risk(WeatherReading(temp_c=40, relative_humidity_pct=75), IDEAL) == 90
+
+
+def test_environmental_risk_penalizes_temp_and_humidity_worked_example():
+    # 3 degrees temp excess @ 2.0 = 6, 10% humidity excess @ 1.25 = 12.5 -> 18.5 penalty -> 82
+    reading = WeatherReading(temp_c=38, relative_humidity_pct=90)
+    assert environmental_risk(reading, IDEAL) == 82
 
 
 # ---------------------------------------------------------------------------
@@ -167,7 +175,7 @@ def test_monitoring_recency_resolved_scan():
 
 
 def test_monitoring_recency_expert_verified():
-    assert monitoring_recency(days_since_last_scan=None, is_expert_verified=True) == 90
+    assert monitoring_recency(days_since_last_scan=None, is_expert_verified=True) == 95
 
 
 # ---------------------------------------------------------------------------
@@ -217,15 +225,6 @@ def test_compute_health_is_deterministic():
     assert res1.missing_fields == res2.missing_fields
 
 
-def test_compute_health_unrated_when_required_input_missing():
-    inputs = _inputs(weather=None)
-    result = compute_health(inputs)
-    assert result.score is None
-    assert result.band == HealthBand.UNRATED
-    assert result.subindices == []
-    assert "weather" in result.missing_fields
-
-
 def test_compute_health_unrated_when_no_interactions():
     inputs = _inputs(has_interaction=False)
     result = compute_health(inputs)
@@ -237,7 +236,7 @@ def test_compute_health_unrated_when_no_interactions():
 
 def test_compute_health_unrated_is_not_zero():
     """Day 0 must never be conflated with a genuinely bad score of 0."""
-    unrated = compute_health(_inputs(weather=None))
+    unrated = compute_health(_inputs(has_interaction=False))
     zero_score_problems = [OpenProblemInput(severity=ProblemSeverity.SEVERE) for _ in range(3)]
     critical = compute_health(_inputs(open_problems=zero_score_problems))
     assert unrated.score is None

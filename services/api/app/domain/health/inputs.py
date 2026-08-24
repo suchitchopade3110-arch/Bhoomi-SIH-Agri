@@ -84,10 +84,5 @@ class HealthScoreInputs:
 
     def required_inputs_present(self) -> bool:
         """True once enough fields exist to compute a real score.
-        A farm remains Unrated until it records at least one interaction
-        and has valid weather/crop conditions."""
-        return (
-            self.weather is not None
-            and self.crop_ideal is not None
-            and self.has_interaction
-        )
+        A farm remains Unrated until it records at least one interaction."""
+        return self.has_interaction
