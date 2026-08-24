@@ -1,0 +1,24 @@
+{
+  "registry_name": "BHOOMI_RAG_VERSION_REGISTRY",
+  "active_production": {
+    "rag_version": "1.0.0",
+    "knowledge_version": "KNOWLEDGE_VERSION_v4_3_0_PROD",
+    "schema_version": "1.0.0",
+    "status": "PRODUCTION_ACTIVE",
+    "certified_date": "2026-08-24T20:41:30+05:30",
+    "git_commit": "ed2cef728b3823182e2a4aaee41e5f259bd24da8"
+  },
+  "operational_rollback": {
+    "rag_version": "0.9.0",
+    "knowledge_version": "v4.2.0-validated",
+    "schema_version": "1.0.0",
+    "status": "ROLLBACK_READY",
+    "switchover_sla_ms": 1.87
+  },
+  "historical_baseline": {
+    "rag_version": "0.8.0",
+    "knowledge_version": "v4.1.0-validated",
+    "schema_version": "1.0.0",
+    "status": "DISASTER_RECOVERY_READY"
+  }
+}

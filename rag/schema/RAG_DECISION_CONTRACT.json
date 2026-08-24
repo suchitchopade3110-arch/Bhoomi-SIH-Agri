@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "BhoomiRagDecisionContract",
-  "description": "Output schema from RAG decision and safety layers passed to generation and TTS",
+  "description": "Output schema from RAG decision and safety layers passed to downstream response policy and TTS",
   "type": "object",
   "required": [
     "query_id",
@@ -24,13 +24,16 @@
       "type": "string",
       "enum": [
         "DIRECT_ADVISORY",
+        "CONDITIONAL_ADVISORY",
         "ASK_CLARIFYING_QUESTION",
+        "INSUFFICIENT_EVIDENCE",
+        "EVIDENCE_CONFLICT",
+        "SAFETY_BLOCKED",
+        "ESCALATE_TO_KVK_OFFICER",
+        "OUT_OF_SCOPE",
         "SAFETY_INTERVENTION_WARNING",
         "SAFETY_REJECTION_MRL_HAZARD",
-        "REJECT_CROP_MISMATCH",
-        "CONDITIONAL_ADVISORY",
-        "ESCALATE_TO_KVK_OFFICER",
-        "INSUFFICIENT_EVIDENCE"
+        "REJECT_CROP_MISMATCH"
       ]
     },
     "confidence": {
@@ -74,7 +77,8 @@
         "PREDATOR_MODIFIER_PRESERVED",
         "BIO_COMPATIBILITY_ENFORCED",
         "DRONE_SAFETY_ENFORCED",
-        "CHEMICAL_RECOMMENDATION_BLOCKED"
+        "CHEMICAL_RECOMMENDATION_BLOCKED",
+        "SAFETY_BLOCKED"
       ]
     },
     "clarification_required": {
@@ -117,11 +121,12 @@
     "latency_breakdown_ms": {
       "type": "object",
       "properties": {
-        "query_parsing": { "type": "number" },
-        "retrieval": { "type": "number" },
-        "reranking": { "type": "number" },
-        "decision_and_safety": { "type": "number" },
-        "total_turn": { "type": "number" }
+        "query_parsing_ms": { "type": "number" },
+        "query_expansion_ms": { "type": "number" },
+        "multi_retrieval_ms": { "type": "number" },
+        "rrf_and_rerank_ms": { "type": "number" },
+        "decision_and_safety_ms": { "type": "number" },
+        "total_turn_ms": { "type": "number" }
       }
     },
     "knowledge_version": {

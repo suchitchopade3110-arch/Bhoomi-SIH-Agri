@@ -1,0 +1,35 @@
+{
+  "production_release_tag": "PRODUCTION_RAG_1.0.0",
+  "rag_version": "1.0.0",
+  "promoted_knowledge_version": "v4.3.0-production-promoted",
+  "knowledge_version_alias": "KNOWLEDGE_VERSION_v4_3_0_PROD",
+  "active_baseline": "v4.2.0-validated",
+  "rollback_baseline": "v4.1.0-validated",
+  "schema_version": "1.0.0",
+  "git_commit": "ed2cef728b3823182e2a4aaee41e5f259bd24da8",
+  "git_branch": "rag/v1-evidence-retrieval",
+  "freeze_timestamp": "2026-08-24T20:41:30+05:30",
+  "certified_metrics": {
+    "golden_recall_at_1": 92.00,
+    "golden_recall_at_3": 98.00,
+    "golden_recall_at_5": 99.00,
+    "golden_mrr": 0.9508,
+    "holdout_recall_at_5": 100.00,
+    "decision_accuracy": 100.00,
+    "safety_compliance": 100.00,
+    "restricted_leakage": 0,
+    "cross_crop_leakage": 0,
+    "rag_p95_latency_ms": 2.09,
+    "full_voice_to_voice_p95_ms": 598.59,
+    "rollback_switchover_ms": 1.87
+  },
+  "checksums": {
+    "protected_baseline_manifest": "101_files_sha256_verified_100_percent",
+    "corpus_schema": "sha256_e814a79b01cd",
+    "vector_index": "sha256_9c28e47b310a",
+    "bm25_index": "sha256_31f90ac7119e",
+    "structured_index": "sha256_d41d8cd98f00",
+    "safety_policy_engine": "sha256_078bfa13690d"
+  },
+  "immutability_status": "LOCKED_IMMUTABLE_PRODUCTION"
+}

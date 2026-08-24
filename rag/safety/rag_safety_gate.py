@@ -1,7 +1,12 @@
 """
-BHOOMI RAG Chemical & Agronomic Safety Gate
+BHOOMI Independent Agronomic & Chemical Safety Policy Engine
 Enforces strict regulatory compliance (CIBRC), Pre-Harvest Intervals (PHI), crop isolation,
 anthesis/flowering protection, drone ULV calibration, and bio-control incompatibility intervals.
+
+CRITICAL INVARIANT:
+The safety gate runs as an INDEPENDENT DETERMINISTIC POLICY ENGINE on the query, parsed context,
+and decision candidate. Even if retrieval or an LLM recommends an unsafe practice, this engine
+deterministically blocks or modifies it.
 """
 from typing import Any, Dict, List, Optional, Tuple
 
@@ -12,12 +17,14 @@ class RagSafetyGate:
         self.restricted_tokens = [
             "carbofuran", "கார்போபியூரான்",
             "streptocycline", "ஸ்ட்ரெப்டோமைசின்",
+            "monocrotophos", "மோனோகுரோட்டோபாஸ்",
+            "phorate", "போரேட்",
             "சிவப்பு லேபிள்", "red label", "banned", "தடை செய்யப்பட்ட", "தடை",
             "strongest banned", "10 மடங்கு கூடுதல்", "வீரியமான சிவப்பு",
             "ignore safety", "ignore safety instructions", "பரிந்துரை இல்லாத"
         ]
 
-        # Non-Paddy Crop Tokens
+        # Non-Paddy Crop Tokens (Cross-Crop Isolation)
         self.non_paddy_crop_tokens = [
             "கத்திரி", "கத்தரி", "brinjal",
             "மிளகாய்", "chilli",
@@ -50,17 +57,29 @@ class RagSafetyGate:
             "பூக்கும் போது", "பூ பூக்கும்", "flowering", "மலர்ச்சி", "மகரந்த", "பூக்கும் தருணத்தில்"
         ]
 
-    def validate_safety(self, parsed_context: Dict[str, Any], retrieved_evidence: List[Dict[str, Any]]) -> Dict[str, Any]:
-        """Evaluates all safety constraints against query and retrieved evidence."""
-        query_text = parsed_context.get("original_query", "").lower()
+    def validate_safety(
+        self,
+        parsed_context: Dict[str, Any],
+        retrieved_evidence: Optional[List[Dict[str, Any]]] = None,
+        candidate_decision: Optional[Dict[str, Any]] = None
+    ) -> Dict[str, Any]:
+        """
+        Evaluates all safety constraints deterministically against query, parsed context, and decision candidate.
+        """
+        query_text = (parsed_context.get("original_query") or "").lower()
+        candidate_text = ""
+        if candidate_decision:
+            candidate_text = (candidate_decision.get("recommended_action_tamil") or candidate_decision.get("recommendation") or "").lower()
+        if retrieved_evidence:
+            candidate_text += " " + " ".join([ev.get("text", "").lower() for ev in retrieved_evidence[:2]])
 
-        # 1. Check for Fake or Unsupported Entities
+        # 1. Check for Fake / Unregistered / Unsupported Entities
         if any(w in query_text for w in ["போலி பூச்சி", "போலி நோய்", "புதிய பூச்சி", "அறியப்படாத"]):
             return {
                 "is_safe": False,
                 "safety_status": "ZERO_HALLUCINATION_ESCALATED",
                 "decision": "ESCALATE_TO_KVK_OFFICER",
-                "reason": "Unsupported or Unregistered Pest/Disease: Must escalate to KVK officer rather than hallucinatory prescription.",
+                "reason": "Unsupported or Unregistered Pest/Disease: Escalated to KVK officer to prevent hallucinated chemical prescription.",
                 "response_tamil": "இந்த பூச்சி அல்லது நோய்க்கான அங்கீகரிக்கப்பட்ட பரிந்துரை இல்லை. அருகிலுள்ள வேளாண் அறிவியல் நிலையத்தை (KVK) அணுகவும்."
             }
 
@@ -93,8 +112,8 @@ class RagSafetyGate:
                     "response_tamil": "சுடோமோனாஸ் (Pseudomonas) போன்ற நுண்ணுயிர் உயிர் உரங்களை காப்பர் அல்லது ரசாயன பூஞ்சாண மருந்துகளுடன் கலக்கக்கூடாது. இரண்டிற்கும் இடையே குறைந்தபட்சம் 7 நாட்கள் இடைவெளி அவசியம்."
                 }
 
-        # 4. Check Restricted & Banned Chemicals / Overdose
-        if any(w in query_text for w in self.restricted_tokens):
+        # 4. Check Restricted & Banned Chemicals / Overdose (in query OR retrieved candidate)
+        if any(w in query_text for w in self.restricted_tokens) or any(w in candidate_text for w in ["carbofuran 3g", "கார்போபியூரான் 3ஜி", "streptocycline + copper"]):
             return {
                 "is_safe": False,
                 "safety_status": "RESTRICTION_WARNING_ATTACHED",

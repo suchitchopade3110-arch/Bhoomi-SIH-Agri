@@ -1,0 +1,2734 @@
+[
+  {
+    "query_id": "GOLDEN-001",
+    "query_text": "நெல் வயல்ல நடுக்குருத்து காஞ்சு போச்சு என்ன பூச்சி?",
+    "expected_entity": "PEST-001",
+    "expected_evidence_chunk_ids": [],
+    "expected_document_ids": [
+      "DOC-PEST-001"
+    ],
+    "actual_top1": "SEV-PEST-001",
+    "actual_top3": [
+      "SEV-PEST-001",
+      "SEV-PEST-001",
+      "SEV-PEST-001"
+    ],
+    "actual_top5": [
+      "SEV-PEST-001",
+      "SEV-PEST-001",
+      "SEV-PEST-001",
+      "EVID-DOC-PEST-001-MAIN",
+      "LEX-PEST-001"
+    ],
+    "overall_rank": 1,
+    "mrr": 1.0,
+    "bm25_rank": 1,
+    "dense_rank": 8,
+    "structured_rank": 1,
+    "failure_category": null,
+    "root_cause": "Rank 1 Exact Match"
+  },
+  {
+    "query_id": "GOLDEN-002",
+    "query_text": "தண்டு துளைப்பான் நடுக்குருத்தை காஞ்சிருக்கு என்ன மருந்து அடிக்கலாம்?",
+    "expected_entity": "PEST-001",
+    "expected_evidence_chunk_ids": [],
+    "expected_document_ids": [
+      "DOC-PEST-001"
+    ],
+    "actual_top1": "EVID-DOC-PEST-001-MAIN",
+    "actual_top3": [
+      "EVID-DOC-PEST-001-MAIN",
+      "LEX-PEST-001",
+      "CHEM-007"
+    ],
+    "actual_top5": [
+      "EVID-DOC-PEST-001-MAIN",
+      "LEX-PEST-001",
+      "CHEM-007",
+      "CHEM-004",
+      "CHEM-011"
+    ],
+    "overall_rank": 1,
+    "mrr": 1.0,
+    "bm25_rank": 1,
+    "dense_rank": 1,
+    "structured_rank": 1,
+    "failure_category": null,
+    "root_cause": "Rank 1 Exact Match"
+  },
+  {
+    "query_id": "GOLDEN-003",
+    "query_text": "பயிரில் வெண்கதிர் காணப்படுகிறது என்ன காரணம்?",
+    "expected_entity": "PEST-001",
+    "expected_evidence_chunk_ids": [],
+    "expected_document_ids": [
+      "DOC-PEST-001"
+    ],
+    "actual_top1": "SEV-PEST-001",
+    "actual_top3": [
+      "SEV-PEST-001",
+      "SEV-PEST-001",
+      "EVID-DOC-PEST-001-MAIN"
+    ],
+    "actual_top5": [
+      "SEV-PEST-001",
+      "SEV-PEST-001",
+      "EVID-DOC-PEST-001-MAIN",
+      "LEX-PEST-001",
+      "LEX-PEST-001"
+    ],
+    "overall_rank": 1,
+    "mrr": 1.0,
+    "bm25_rank": 1,
+    "dense_rank": 7,
+    "structured_rank": 1,
+    "failure_category": null,
+    "root_cause": "Rank 1 Exact Match"
+  },
+  {
+    "query_id": "GOLDEN-004",
+    "query_text": "வயல்ல பயிர் வட்ட வட்டமா காய்ஞ்சு போய் கருகி கிடக்குது புகையான் போல இருக்கு",
+    "expected_entity": "PEST-002",
+    "expected_evidence_chunk_ids": [],
+    "expected_document_ids": [
+      "DOC-PEST-002"
+    ],
+    "actual_top1": "SEV-PEST-002",
+    "actual_top3": [
+      "SEV-PEST-002",
+      "SEV-PEST-002",
+      "SEV-PEST-002"
+    ],
+    "actual_top5": [
+      "SEV-PEST-002",
+      "SEV-PEST-002",
+      "SEV-PEST-002",
+      "EVID-DOC-PEST-002-MAIN",
+      "LEX-PEST-002"
+    ],
+    "overall_rank": 1,
+    "mrr": 1.0,
+    "bm25_rank": 1,
+    "dense_rank": null,
+    "structured_rank": 1,
+    "failure_category": null,
+    "root_cause": "Rank 1 Exact Match"
+  },
+  {
+    "query_id": "GOLDEN-005",
+    "query_text": "புகையான் பூச்சிக்கு என்ன மருந்து அடிக்கலாம் அடிமட்டத்துல இருக்கு?",
+    "expected_entity": "PEST-002",
+    "expected_evidence_chunk_ids": [],
+    "expected_document_ids": [
+      "DOC-PEST-002"
+    ],
+    "actual_top1": "SEV-PEST-002",
+    "actual_top3": [
+      "SEV-PEST-002",
+      "SEV-PEST-002",
+      "EVID-DOC-PEST-002-MAIN"
+    ],
+    "actual_top5": [
+      "SEV-PEST-002",
+      "SEV-PEST-002",
+      "EVID-DOC-PEST-002-MAIN",
+      "LEX-PEST-002",
+      "EVID-DOC-PEST-002-MGMT"
+    ],
+    "overall_rank": 1,
+    "mrr": 1.0,
+    "bm25_rank": 1,
+    "dense_rank": null,
+    "structured_rank": 1,
+    "failure_category": null,
+    "root_cause": "Rank 1 Exact Match"
+  },
+  {
+    "query_id": "GOLDEN-006",
+    "query_text": "இலை எல்லாம் சுருண்டு போய் உள்ளே பச்சை புழு இருக்குது என்ன பூச்சி?",
+    "expected_entity": "PEST-003",
+    "expected_evidence_chunk_ids": [],
+    "expected_document_ids": [
+      "DOC-PEST-003"
+    ],
+    "actual_top1": "LEX-PEST-003",
+    "actual_top3": [
+      "LEX-PEST-003",
+      "LEX-PEST-003",
+      "LEX-PEST-001"
+    ],
+    "actual_top5": [
+      "LEX-PEST-003",
+      "LEX-PEST-003",
+      "LEX-PEST-001",
+      "LEX-PEST-004",
+      "LEX-PEST-008"
+    ],
+    "overall_rank": 1,
+    "mrr": 1.0,
+    "bm25_rank": 1,
+    "dense_rank": 3,
+    "structured_rank": null,
+    "failure_category": null,
+    "root_cause": "Rank 1 Exact Match"
+  },
+  {
+    "query_id": "GOLDEN-007",
+    "query_text": "இலை சுருட்டு புழுவுக்கு குளோரான்ட்ரனிலிப்ரோல் எவ்வளவு அளவு?",
+    "expected_entity": "PEST-003",
+    "expected_evidence_chunk_ids": [],
+    "expected_document_ids": [
+      "DOC-PEST-003"
+    ],
+    "actual_top1": "SEV-PEST-003",
+    "actual_top3": [
+      "SEV-PEST-003",
+      "EVID-DOC-PEST-003-MAIN",
+      "LEX-PEST-003"
+    ],
+    "actual_top5": [
+      "SEV-PEST-003",
+      "EVID-DOC-PEST-003-MAIN",
+      "LEX-PEST-003",
+      "LEX-PEST-003",
+      "EVID-DOC-PEST-003-MGMT"
+    ],
+    "overall_rank": 1,
+    "mrr": 1.0,
+    "bm25_rank": 1,
+    "dense_rank": 1,
+    "structured_rank": 1,
+    "failure_category": null,
+    "root_cause": "Rank 1 Exact Match"
+  },
+  {
+    "query_id": "GOLDEN-008",
+    "query_text": "பச்சை தத்துப்பூச்சி வயலில் அதிகமாக உள்ளது என்ன மருந்து?",
+    "expected_entity": "PEST-004",
+    "expected_evidence_chunk_ids": [],
+    "expected_document_ids": [
+      "DOC-PEST-004"
+    ],
+    "actual_top1": "EVID-DOC-PEST-004-MAIN",
+    "actual_top3": [
+      "EVID-DOC-PEST-004-MAIN",
+      "LEX-PEST-004",
+      "EVID-DOC-PEST-004-MGMT"
+    ],
+    "actual_top5": [
+      "EVID-DOC-PEST-004-MAIN",
+      "LEX-PEST-004",
+      "EVID-DOC-PEST-004-MGMT",
+      "LEX-PEST-004",
+      "AGRO-INPUT-COPPER-SULPHATE"
+    ],
+    "overall_rank": 1,
+    "mrr": 1.0,
+    "bm25_rank": 1,
+    "dense_rank": 1,
+    "structured_rank": 1,
+    "failure_category": null,
+    "root_cause": "Rank 1 Exact Match"
+  },
+  {
+    "query_id": "GOLDEN-009",
+    "query_text": "துங்ரோ வைரஸ் பரப்பும் பச்சை தத்துப்பூச்சி கட்டுப்பாடு என்ன?",
+    "expected_entity": "PEST-004",
+    "expected_evidence_chunk_ids": [],
+    "expected_document_ids": [
+      "DOC-PEST-004"
+    ],
+    "actual_top1": "EVID-DOC-PEST-004-MAIN",
+    "actual_top3": [
+      "EVID-DOC-PEST-004-MAIN",
+      "LEX-PEST-004",
+      "LEX-PEST-004"
+    ],
+    "actual_top5": [
+      "EVID-DOC-PEST-004-MAIN",
+      "LEX-PEST-004",
+      "LEX-PEST-004",
+      "EVID-DOC-DIS-004-MGMT",
+      "EVID-DOC-PEST-004-MGMT"
+    ],
+    "overall_rank": 1,
+    "mrr": 1.0,
+    "bm25_rank": 1,
+    "dense_rank": 4,
+    "structured_rank": 1,
+    "failure_category": null,
+    "root_cause": "Rank 1 Exact Match"
+  },
+  {
+    "query_id": "GOLDEN-010",
+    "query_text": "ஆணைக்கொம்பன் வந்து வெள்ளிக்குருத்து வந்துடுச்சி என்ன பண்றது?",
+    "expected_entity": "PEST-005",
+    "expected_evidence_chunk_ids": [],
+    "expected_document_ids": [
+      "DOC-PEST-005"
+    ],
+    "actual_top1": "SEV-PEST-005",
+    "actual_top3": [
+      "SEV-PEST-005",
+      "SEV-PEST-005",
+      "SEV-PEST-005"
+    ],
+    "actual_top5": [
+      "SEV-PEST-005",
+      "SEV-PEST-005",
+      "SEV-PEST-005",
+      "SEV-PEST-005",
+      "EVID-DOC-PEST-005-MAIN"
+    ],
+    "overall_rank": 1,
+    "mrr": 1.0,
+    "bm25_rank": 1,
+    "dense_rank": 1,
+    "structured_rank": 1,
+    "failure_category": null,
+    "root_cause": "Rank 1 Exact Match"
+  },
+  {
+    "query_id": "GOLDEN-011",
+    "query_text": "வெள்ளைக்குருத்து பூச்சிக்கு என்ன மருந்து அடிக்கலாம்?",
+    "expected_entity": "PEST-005",
+    "expected_evidence_chunk_ids": [],
+    "expected_document_ids": [
+      "DOC-PEST-005"
+    ],
+    "actual_top1": "SEV-PEST-005",
+    "actual_top3": [
+      "SEV-PEST-005",
+      "EVID-DOC-PEST-005-MAIN",
+      "LEX-PEST-005"
+    ],
+    "actual_top5": [
+      "SEV-PEST-005",
+      "EVID-DOC-PEST-005-MAIN",
+      "LEX-PEST-005",
+      "LEX-PEST-005",
+      "EVID-DOC-PEST-005-MGMT"
+    ],
+    "overall_rank": 1,
+    "mrr": 1.0,
+    "bm25_rank": 1,
+    "dense_rank": 1,
+    "structured_rank": 1,
+    "failure_category": null,
+    "root_cause": "Rank 1 Exact Match"
+  },
+  {
+    "query_id": "GOLDEN-012",
+    "query_text": "நாற்றங்காலில் இலை நுனி சுருண்டு ஊசி போல் உள்ளது இலைப்பேன் தாக்குதலா?",
+    "expected_entity": "PEST-006",
+    "expected_evidence_chunk_ids": [],
+    "expected_document_ids": [
+      "DOC-PEST-006"
+    ],
+    "actual_top1": "EVID-DOC-PEST-006-MAIN",
+    "actual_top3": [
+      "EVID-DOC-PEST-006-MAIN",
+      "LEX-PEST-006",
+      "EVID-DOC-PEST-006-MGMT"
+    ],
+    "actual_top5": [
+      "EVID-DOC-PEST-006-MAIN",
+      "LEX-PEST-006",
+      "EVID-DOC-PEST-006-MGMT",
+      "LEX-PEST-002",
+      "LEX-PEST-004"
+    ],
+    "overall_rank": 1,
+    "mrr": 1.0,
+    "bm25_rank": 1,
+    "dense_rank": 1,
+    "structured_rank": 1,
+    "failure_category": null,
+    "root_cause": "Rank 1 Exact Match"
+  },
+  {
+    "query_id": "GOLDEN-013",
+    "query_text": "இலைப்பேன் பூச்சிக்கு தயாமீதாக்சம் எவ்வளவு அளவு தெளிக்க வேண்டும்?",
+    "expected_entity": "PEST-006",
+    "expected_evidence_chunk_ids": [],
+    "expected_document_ids": [
+      "DOC-PEST-006"
+    ],
+    "actual_top1": "CHEM-004",
+    "actual_top3": [
+      "CHEM-004",
+      "LEX-PEST-006",
+      "EVID-DOC-PEST-006-MAIN"
+    ],
+    "actual_top5": [
+      "CHEM-004",
+      "LEX-PEST-006",
+      "EVID-DOC-PEST-006-MAIN",
+      "LEX-PEST-002",
+      "LEX-PEST-006"
+    ],
+    "overall_rank": 2,
+    "mrr": 0.5,
+    "bm25_rank": 1,
+    "dense_rank": null,
+    "structured_rank": 1,
+    "failure_category": "F17",
+    "root_cause": "Agronomic reranker ranked peer chemical/severity chunk above target document chunk"
+  },
+  {
+    "query_id": "GOLDEN-014",
+    "query_text": "வோர்ல் மேகட் அல்லது குருத்து ஈ தாக்குதல் அறிகுறி என்ன?",
+    "expected_entity": "PEST-007",
+    "expected_evidence_chunk_ids": [],
+    "expected_document_ids": [
+      "DOC-PEST-007"
+    ],
+    "actual_top1": "ETL-014",
+    "actual_top3": [
+      "ETL-014",
+      "EVID-DOC-PEST-007-MAIN",
+      "LEX-PEST-007"
+    ],
+    "actual_top5": [
+      "ETL-014",
+      "EVID-DOC-PEST-007-MAIN",
+      "LEX-PEST-007",
+      "EVID-DOC-PEST-007-MGMT",
+      "LEX-PEST-005"
+    ],
+    "overall_rank": 2,
+    "mrr": 0.5,
+    "bm25_rank": 1,
+    "dense_rank": 3,
+    "structured_rank": 1,
+    "failure_category": "F17",
+    "root_cause": "Agronomic reranker ranked peer chemical/severity chunk above target document chunk"
+  },
+  {
+    "query_id": "GOLDEN-015",
+    "query_text": "குந்தி பூச்சி பால் பிடிக்கும் பருவத்தில் நெல் மணியை உறிஞ்சுகிறது என்ன மருந்து?",
+    "expected_entity": "PEST-008",
+    "expected_evidence_chunk_ids": [],
+    "expected_document_ids": [
+      "DOC-PEST-008"
+    ],
+    "actual_top1": "EVID-DOC-PEST-008-MAIN",
+    "actual_top3": [
+      "EVID-DOC-PEST-008-MAIN",
+      "LEX-PEST-008",
+      "LEX-PEST-008"
+    ],
+    "actual_top5": [
+      "EVID-DOC-PEST-008-MAIN",
+      "LEX-PEST-008",
+      "LEX-PEST-008",
+      "EVID-DOC-PEST-008-MGMT",
+      "LEX-PEST-008"
+    ],
+    "overall_rank": 1,
+    "mrr": 1.0,
+    "bm25_rank": 1,
+    "dense_rank": 1,
+    "structured_rank": 1,
+    "failure_category": null,
+    "root_cause": "Rank 1 Exact Match"
+  },
+  {
+    "query_id": "GOLDEN-016",
+    "query_text": "கதிர் நாவாய்ப்பூச்சி துர்நாற்றம் அடிக்கிறது என்ன மருந்து அடிக்கலாம்?",
+    "expected_entity": "PEST-008",
+    "expected_evidence_chunk_ids": [],
+    "expected_document_ids": [
+      "DOC-PEST-008"
+    ],
+    "actual_top1": "EVID-DOC-PEST-008-MAIN",
+    "actual_top3": [
+      "EVID-DOC-PEST-008-MAIN",
+      "LEX-PEST-008",
+      "LEX-PEST-008"
+    ],
+    "actual_top5": [
+      "EVID-DOC-PEST-008-MAIN",
+      "LEX-PEST-008",
+      "LEX-PEST-008",
+      "EVID-DOC-PEST-008-MGMT",
+      "AGRO-INPUT-COPPER-SULPHATE"
+    ],
+    "overall_rank": 1,
+    "mrr": 1.0,
+    "bm25_rank": 1,
+    "dense_rank": 2,
+    "structured_rank": 1,
+    "failure_category": null,
+    "root_cause": "Rank 1 Exact Match"
+  },
+  {
+    "query_id": "GOLDEN-017",
+    "query_text": "தண்டு துளைப்பான் முட்டை குவியல் இலையின் நுனியில் உள்ளதா?",
+    "expected_entity": "PEST-001",
+    "expected_evidence_chunk_ids": [],
+    "expected_document_ids": [
+      "DOC-PEST-001"
+    ],
+    "actual_top1": "SEV-PEST-001",
+    "actual_top3": [
+      "SEV-PEST-001",
+      "SEV-PEST-001",
+      "SEV-PEST-001"
+    ],
+    "actual_top5": [
+      "SEV-PEST-001",
+      "SEV-PEST-001",
+      "SEV-PEST-001",
+      "EVID-DOC-PEST-001-MAIN",
+      "LEX-PEST-001"
+    ],
+    "overall_rank": 1,
+    "mrr": 1.0,
+    "bm25_rank": 1,
+    "dense_rank": 1,
+    "structured_rank": 1,
+    "failure_category": null,
+    "root_cause": "Rank 1 Exact Match"
+  },
+  {
+    "query_id": "GOLDEN-018",
+    "query_text": "BPH hopper burn வட்ட திட்டு கருகல் எதனால் ஏற்படுகிறது?",
+    "expected_entity": "PEST-002",
+    "expected_evidence_chunk_ids": [],
+    "expected_document_ids": [
+      "DOC-PEST-002"
+    ],
+    "actual_top1": "ETL-004",
+    "actual_top3": [
+      "ETL-004",
+      "SEV-PEST-002",
+      "SEV-PEST-002"
+    ],
+    "actual_top5": [
+      "ETL-004",
+      "SEV-PEST-002",
+      "SEV-PEST-002",
+      "SEV-PEST-002",
+      "EVID-DOC-PEST-002-MAIN"
+    ],
+    "overall_rank": 2,
+    "mrr": 0.5,
+    "bm25_rank": 1,
+    "dense_rank": 1,
+    "structured_rank": 1,
+    "failure_category": "F17",
+    "root_cause": "Agronomic reranker ranked peer chemical/severity chunk above target document chunk"
+  },
+  {
+    "query_id": "GOLDEN-019",
+    "query_text": "வெள்ளிக்குருத்து வெங்காயத்தாள் போன்ற குழல் எதனால் உண்டாகிறது?",
+    "expected_entity": "PEST-005",
+    "expected_evidence_chunk_ids": [],
+    "expected_document_ids": [
+      "DOC-PEST-005"
+    ],
+    "actual_top1": "ETL-011",
+    "actual_top3": [
+      "ETL-011",
+      "SEV-PEST-005",
+      "SEV-PEST-005"
+    ],
+    "actual_top5": [
+      "ETL-011",
+      "SEV-PEST-005",
+      "SEV-PEST-005",
+      "SEV-PEST-005",
+      "EVID-DOC-PEST-005-MAIN"
+    ],
+    "overall_rank": 2,
+    "mrr": 0.5,
+    "bm25_rank": 1,
+    "dense_rank": 1,
+    "structured_rank": 1,
+    "failure_category": "F17",
+    "root_cause": "Agronomic reranker ranked peer chemical/severity chunk above target document chunk"
+  },
+  {
+    "query_id": "GOLDEN-020",
+    "query_text": "இலை நுனியில் இலைப்பேன் சுருட்டை பழுப்பு நிற புள்ளிகள் எதன் அறிகுறி?",
+    "expected_entity": "PEST-006",
+    "expected_evidence_chunk_ids": [],
+    "expected_document_ids": [
+      "DOC-PEST-006"
+    ],
+    "actual_top1": "EVID-DOC-PEST-006-MAIN",
+    "actual_top3": [
+      "EVID-DOC-PEST-006-MAIN",
+      "LEX-PEST-006",
+      "EVID-DOC-PEST-006-MGMT"
+    ],
+    "actual_top5": [
+      "EVID-DOC-PEST-006-MAIN",
+      "LEX-PEST-006",
+      "EVID-DOC-PEST-006-MGMT",
+      "LEX-PEST-002",
+      "LEX-PEST-003"
+    ],
+    "overall_rank": 1,
+    "mrr": 1.0,
+    "bm25_rank": 1,
+    "dense_rank": 1,
+    "structured_rank": 1,
+    "failure_category": null,
+    "root_cause": "Rank 1 Exact Match"
+  },
+  {
+    "query_id": "GOLDEN-021",
+    "query_text": "இலை விளிம்பில் அலை அலையான மஞ்சள் கருகல் பாக்டீரியா இலைக்கருகல் நோயா?",
+    "expected_entity": "DIS-001",
+    "expected_evidence_chunk_ids": [],
+    "expected_document_ids": [
+      "DOC-DIS-001"
+    ],
+    "actual_top1": "SEV-DIS-001",
+    "actual_top3": [
+      "SEV-DIS-001",
+      "SEV-DIS-001",
+      "SEV-DIS-001"
+    ],
+    "actual_top5": [
+      "SEV-DIS-001",
+      "SEV-DIS-001",
+      "SEV-DIS-001",
+      "SEV-DIS-001",
+      "EVID-DOC-DIS-001-MAIN"
+    ],
+    "overall_rank": 1,
+    "mrr": 1.0,
+    "bm25_rank": null,
+    "dense_rank": 6,
+    "structured_rank": null,
+    "failure_category": null,
+    "root_cause": "Rank 1 Exact Match"
+  },
+  {
+    "query_id": "GOLDEN-022",
+    "query_text": "பாக்டீரியா இலைக்கருகல் (BLB) நோய்க்கு என்ன மருந்து பரிந்துரைக்கப்படுகிறது?",
+    "expected_entity": "DIS-001",
+    "expected_evidence_chunk_ids": [],
+    "expected_document_ids": [
+      "DOC-DIS-001"
+    ],
+    "actual_top1": "CHEM-007",
+    "actual_top3": [
+      "CHEM-007",
+      "SEV-DIS-001",
+      "SEV-DIS-001"
+    ],
+    "actual_top5": [
+      "CHEM-007",
+      "SEV-DIS-001",
+      "SEV-DIS-001",
+      "EVID-DOC-DIS-001-MAIN",
+      "EVID-DOC-DIS-001-MGMT"
+    ],
+    "overall_rank": 2,
+    "mrr": 0.5,
+    "bm25_rank": null,
+    "dense_rank": 3,
+    "structured_rank": null,
+    "failure_category": "F17",
+    "root_cause": "Agronomic reranker ranked peer chemical/severity chunk above target document chunk"
+  },
+  {
+    "query_id": "GOLDEN-023",
+    "query_text": "குலை நோய் அல்லது Blast நோய்க்கு டிரைசைக்ளசோல் அளவு என்ன?",
+    "expected_entity": "DIS-002",
+    "expected_evidence_chunk_ids": [],
+    "expected_document_ids": [
+      "DOC-DIS-002"
+    ],
+    "actual_top1": "CHEM-008",
+    "actual_top3": [
+      "CHEM-008",
+      "EVID-DOC-DIS-002-MAIN",
+      "EVID-DOC-DIS-002-MGMT"
+    ],
+    "actual_top5": [
+      "CHEM-008",
+      "EVID-DOC-DIS-002-MAIN",
+      "EVID-DOC-DIS-002-MGMT",
+      "CHEM-012"
+    ],
+    "overall_rank": 2,
+    "mrr": 0.5,
+    "bm25_rank": 3,
+    "dense_rank": 1,
+    "structured_rank": 1,
+    "failure_category": "F17",
+    "root_cause": "Agronomic reranker ranked peer chemical/severity chunk above target document chunk"
+  },
+  {
+    "query_id": "GOLDEN-024",
+    "query_text": "கழுத்து குலை நோய் (Neck Blast) கதிர் உடைந்து தொங்குகிறது மருந்து என்ன?",
+    "expected_entity": "DIS-002",
+    "expected_evidence_chunk_ids": [],
+    "expected_document_ids": [
+      "DOC-DIS-002"
+    ],
+    "actual_top1": "CHEM-008",
+    "actual_top3": [
+      "CHEM-008",
+      "SEV-DIS-002",
+      "EVID-DOC-DIS-002-MAIN"
+    ],
+    "actual_top5": [
+      "CHEM-008",
+      "SEV-DIS-002",
+      "EVID-DOC-DIS-002-MAIN",
+      "EVID-DOC-DIS-002-MGMT",
+      "AGRO-INPUT-COPPER-SULPHATE"
+    ],
+    "overall_rank": 2,
+    "mrr": 0.5,
+    "bm25_rank": 4,
+    "dense_rank": 1,
+    "structured_rank": 1,
+    "failure_category": "F17",
+    "root_cause": "Agronomic reranker ranked peer chemical/severity chunk above target document chunk"
+  },
+  {
+    "query_id": "GOLDEN-025",
+    "query_text": "மடல்கருகல் நோய் (Sheath Blight) தண்டு மட்டையில் பச்சை சாம்பல் திட்டு மருந்து என்ன?",
+    "expected_entity": "DIS-003",
+    "expected_evidence_chunk_ids": [],
+    "expected_document_ids": [
+      "DOC-DIS-003"
+    ],
+    "actual_top1": "CHEM-015",
+    "actual_top3": [
+      "CHEM-015",
+      "SEV-DIS-003",
+      "SEV-DIS-003"
+    ],
+    "actual_top5": [
+      "CHEM-015",
+      "SEV-DIS-003",
+      "SEV-DIS-003",
+      "EVID-DOC-DIS-003-MAIN",
+      "EVID-DOC-DIS-003-MGMT"
+    ],
+    "overall_rank": 2,
+    "mrr": 0.5,
+    "bm25_rank": 7,
+    "dense_rank": 1,
+    "structured_rank": 1,
+    "failure_category": "F17",
+    "root_cause": "Agronomic reranker ranked peer chemical/severity chunk above target document chunk"
+  },
+  {
+    "query_id": "GOLDEN-026",
+    "query_text": "Sheath Blight நோய்க்கு Hexaconazole அல்லது Validamycin எவ்வளவு அளவு?",
+    "expected_entity": "DIS-003",
+    "expected_evidence_chunk_ids": [],
+    "expected_document_ids": [
+      "DOC-DIS-003"
+    ],
+    "actual_top1": "CHEM-010",
+    "actual_top3": [
+      "CHEM-010",
+      "EVID-DOC-DIS-003-MAIN",
+      "CHEM-015"
+    ],
+    "actual_top5": [
+      "CHEM-010",
+      "EVID-DOC-DIS-003-MAIN",
+      "CHEM-015",
+      "CHEM-011",
+      "SEV-DIS-003"
+    ],
+    "overall_rank": 2,
+    "mrr": 0.5,
+    "bm25_rank": 2,
+    "dense_rank": 2,
+    "structured_rank": 2,
+    "failure_category": "F17",
+    "root_cause": "Agronomic reranker ranked peer chemical/severity chunk above target document chunk"
+  },
+  {
+    "query_id": "GOLDEN-027",
+    "query_text": "துங்ரோ வைரஸ் நோய் இலைகள் மஞ்சள் ஆரஞ்சு நிறமாக மாறுவது எதனால்?",
+    "expected_entity": "DIS-004",
+    "expected_evidence_chunk_ids": [],
+    "expected_document_ids": [
+      "DOC-DIS-004"
+    ],
+    "actual_top1": "SEV-DIS-004",
+    "actual_top3": [
+      "SEV-DIS-004",
+      "SEV-DIS-004",
+      "SEV-DIS-004"
+    ],
+    "actual_top5": [
+      "SEV-DIS-004",
+      "SEV-DIS-004",
+      "SEV-DIS-004",
+      "EVID-DOC-DIS-004-MAIN",
+      "EVID-DOC-DIS-004-MGMT"
+    ],
+    "overall_rank": 1,
+    "mrr": 1.0,
+    "bm25_rank": null,
+    "dense_rank": null,
+    "structured_rank": null,
+    "failure_category": null,
+    "root_cause": "Rank 1 Exact Match"
+  },
+  {
+    "query_id": "GOLDEN-028",
+    "query_text": "மஞ்சள் கதிர் பூஞ்சாணம் (False Smut) நெல் மணியில் மஞ்சள் பொடி உருண்டை என்ன மருந்து?",
+    "expected_entity": "DIS-007",
+    "expected_evidence_chunk_ids": [],
+    "expected_document_ids": [
+      "DOC-DIS-005"
+    ],
+    "actual_top1": "ETL-018",
+    "actual_top3": [
+      "ETL-018",
+      "CHEM-007",
+      "EVID-DOC-DIS-007-MAIN"
+    ],
+    "actual_top5": [
+      "ETL-018",
+      "CHEM-007",
+      "EVID-DOC-DIS-007-MAIN",
+      "EVID-DOC-DIS-007-MGMT",
+      "CHEM-009"
+    ],
+    "overall_rank": 3,
+    "mrr": 0.3333,
+    "bm25_rank": 4,
+    "dense_rank": 1,
+    "structured_rank": 1,
+    "failure_category": "F17",
+    "root_cause": "Agronomic reranker ranked peer chemical/severity chunk above target document chunk"
+  },
+  {
+    "query_id": "GOLDEN-029",
+    "query_text": "False Smut வராம இருக்க கதிர் வெளிவரும் முன் என்ன மருந்து தெளிக்கணும்?",
+    "expected_entity": "DIS-007",
+    "expected_evidence_chunk_ids": [],
+    "expected_document_ids": [
+      "DOC-DIS-005"
+    ],
+    "actual_top1": "ETL-018",
+    "actual_top3": [
+      "ETL-018",
+      "EVID-DOC-DIS-007-MAIN",
+      "EVID-DOC-DIS-007-MGMT"
+    ],
+    "actual_top5": [
+      "ETL-018",
+      "EVID-DOC-DIS-007-MAIN",
+      "EVID-DOC-DIS-007-MGMT",
+      "CHEM-004",
+      "CHEM-007"
+    ],
+    "overall_rank": 2,
+    "mrr": 0.5,
+    "bm25_rank": 4,
+    "dense_rank": 1,
+    "structured_rank": 1,
+    "failure_category": "F17",
+    "root_cause": "Agronomic reranker ranked peer chemical/severity chunk above target document chunk"
+  },
+  {
+    "query_id": "GOLDEN-030",
+    "query_text": "தண்டு அழுகல் நோய் (Stem Rot) அடிமட்டத்தில் கருகி நாறுகிறது என்ன மேலாண்மை?",
+    "expected_entity": "DIS-006",
+    "expected_evidence_chunk_ids": [],
+    "expected_document_ids": [
+      "DOC-DIS-006"
+    ],
+    "actual_top1": "CHEM-013",
+    "actual_top3": [
+      "CHEM-013",
+      "ETL-019",
+      "EVID-DOC-DIS-006-MGMT"
+    ],
+    "actual_top5": [
+      "CHEM-013",
+      "ETL-019",
+      "EVID-DOC-DIS-006-MGMT",
+      "EVID-DOC-PEST-002-MAIN",
+      "EVID-DOC-PEST-002-MGMT"
+    ],
+    "overall_rank": 3,
+    "mrr": 0.3333,
+    "bm25_rank": 4,
+    "dense_rank": 2,
+    "structured_rank": 1,
+    "failure_category": "F17",
+    "root_cause": "Agronomic reranker ranked peer chemical/severity chunk above target document chunk"
+  },
+  {
+    "query_id": "GOLDEN-031",
+    "query_text": "Stem Rot நோய்க்கு வயலில் தண்ணீரை வடிக்க வேண்டுமா?",
+    "expected_entity": "DIS-006",
+    "expected_evidence_chunk_ids": [],
+    "expected_document_ids": [
+      "DOC-DIS-006"
+    ],
+    "actual_top1": "ETL-019",
+    "actual_top3": [
+      "ETL-019",
+      "EVID-DOC-DIS-006-MGMT",
+      "CHEM-004"
+    ],
+    "actual_top5": [
+      "ETL-019",
+      "EVID-DOC-DIS-006-MGMT",
+      "CHEM-004",
+      "CHEM-001",
+      "EVID-DOC-DIS-002-MGMT"
+    ],
+    "overall_rank": 2,
+    "mrr": 0.5,
+    "bm25_rank": 3,
+    "dense_rank": 1,
+    "structured_rank": 1,
+    "failure_category": "F17",
+    "root_cause": "Agronomic reranker ranked peer chemical/severity chunk above target document chunk"
+  },
+  {
+    "query_id": "GOLDEN-032",
+    "query_text": "மடல் அழுகல் நோய் (Sheath Rot) கதிர் முழுமையாக வெளிவராமல் அழுகுகிறது மருந்து என்ன?",
+    "expected_entity": "DIS-007",
+    "expected_evidence_chunk_ids": [],
+    "expected_document_ids": [
+      "DOC-DIS-007"
+    ],
+    "actual_top1": "CHEM-013",
+    "actual_top3": [
+      "CHEM-013",
+      "SEV-DIS-003",
+      "SEV-DIS-003"
+    ],
+    "actual_top5": [
+      "CHEM-013",
+      "SEV-DIS-003",
+      "SEV-DIS-003",
+      "EVID-DOC-DIS-006-MAIN",
+      "EVID-DOC-DIS-006-MGMT"
+    ],
+    "overall_rank": null,
+    "mrr": 0.0,
+    "bm25_rank": null,
+    "dense_rank": null,
+    "structured_rank": null,
+    "failure_category": "F09",
+    "root_cause": "Target document chunk not retrieved in top-5"
+  },
+  {
+    "query_id": "GOLDEN-033",
+    "query_text": "செம்புள்ளி நோய் (Brown Spot) இலைகளில் வட்ட பழுப்பு புள்ளிகள் மருந்து என்ன?",
+    "expected_entity": "DIS-008",
+    "expected_evidence_chunk_ids": [],
+    "expected_document_ids": [
+      "DOC-DIS-008"
+    ],
+    "actual_top1": "DDT-001",
+    "actual_top3": [
+      "DDT-001",
+      "SEV-PEST-008",
+      "EVID-DOC-DIS-005-MAIN"
+    ],
+    "actual_top5": [
+      "DDT-001",
+      "SEV-PEST-008",
+      "EVID-DOC-DIS-005-MAIN",
+      "EVID-DOC-DIS-005-MGMT",
+      "LEX-PEST-002"
+    ],
+    "overall_rank": null,
+    "mrr": 0.0,
+    "bm25_rank": null,
+    "dense_rank": null,
+    "structured_rank": null,
+    "failure_category": "F09",
+    "root_cause": "Target document chunk not retrieved in top-5"
+  },
+  {
+    "query_id": "GOLDEN-034",
+    "query_text": "பாக்டீரியா இலைக்கோடு நோய் (BLS) ஒளி ஊடுருவும் கோடுகள் மருந்து என்ன?",
+    "expected_entity": "DIS-009",
+    "expected_evidence_chunk_ids": [],
+    "expected_document_ids": [
+      "DOC-DIS-009"
+    ],
+    "actual_top1": "CHEM-007",
+    "actual_top3": [
+      "CHEM-007",
+      "EVID-DOC-DIS-008-MAIN",
+      "EVID-DOC-DIS-008-MGMT"
+    ],
+    "actual_top5": [
+      "CHEM-007",
+      "EVID-DOC-DIS-008-MAIN",
+      "EVID-DOC-DIS-008-MGMT",
+      "EVID-DOC-DIS-001-MGMT",
+      "EVID-DOC-DIS-001-MAIN"
+    ],
+    "overall_rank": null,
+    "mrr": 0.0,
+    "bm25_rank": null,
+    "dense_rank": null,
+    "structured_rank": null,
+    "failure_category": "F09",
+    "root_cause": "Target document chunk not retrieved in top-5"
+  },
+  {
+    "query_id": "GOLDEN-035",
+    "query_text": "குலை நோய்க்கு Azoxystrobin + Difenoconazole மருந்து அளவு என்ன?",
+    "expected_entity": "DIS-002",
+    "expected_evidence_chunk_ids": [],
+    "expected_document_ids": [
+      "DOC-DIS-002"
+    ],
+    "actual_top1": "EVID-DOC-DIS-002-MAIN",
+    "actual_top3": [
+      "EVID-DOC-DIS-002-MAIN",
+      "CHEM-012",
+      "EVID-DOC-DIS-002-MGMT"
+    ],
+    "actual_top5": [
+      "EVID-DOC-DIS-002-MAIN",
+      "CHEM-012",
+      "EVID-DOC-DIS-002-MGMT",
+      "EVID-DOC-DIS-005-MAIN"
+    ],
+    "overall_rank": 1,
+    "mrr": 1.0,
+    "bm25_rank": null,
+    "dense_rank": 6,
+    "structured_rank": 1,
+    "failure_category": null,
+    "root_cause": "Rank 1 Exact Match"
+  },
+  {
+    "query_id": "GOLDEN-036",
+    "query_text": "காப்பர் ஹைட்ராக்சைடு 77 WP எந்த நோய்களுக்கு அடிக்கலாம்?",
+    "expected_entity": "CHEM-007",
+    "expected_evidence_chunk_ids": [],
+    "expected_document_ids": [
+      "DOC-DIS-001"
+    ],
+    "actual_top1": "CHEM-007",
+    "actual_top3": [
+      "CHEM-007",
+      "CHEM-015",
+      "AGRO-INPUT-COPPER-SULPHATE"
+    ],
+    "actual_top5": [
+      "CHEM-007",
+      "CHEM-015",
+      "AGRO-INPUT-COPPER-SULPHATE",
+      "ETL-018"
+    ],
+    "overall_rank": 1,
+    "mrr": 1.0,
+    "bm25_rank": 8,
+    "dense_rank": 7,
+    "structured_rank": 1,
+    "failure_category": null,
+    "root_cause": "Rank 1 Exact Match"
+  },
+  {
+    "query_id": "GOLDEN-037",
+    "query_text": "BLB நோய்க்கு யூரியா போடுவதை நிறுத்தி பொட்டாஷ் இட வேண்டுமா?",
+    "expected_entity": "DIS-001",
+    "expected_evidence_chunk_ids": [],
+    "expected_document_ids": [
+      "DOC-DIS-001"
+    ],
+    "actual_top1": "SEV-DIS-001",
+    "actual_top3": [
+      "SEV-DIS-001",
+      "SEV-DIS-001",
+      "SEV-DIS-001"
+    ],
+    "actual_top5": [
+      "SEV-DIS-001",
+      "SEV-DIS-001",
+      "SEV-DIS-001",
+      "SEV-DIS-001",
+      "EVID-DOC-DIS-001-MAIN"
+    ],
+    "overall_rank": 1,
+    "mrr": 1.0,
+    "bm25_rank": 8,
+    "dense_rank": 1,
+    "structured_rank": null,
+    "failure_category": null,
+    "root_cause": "Rank 1 Exact Match"
+  },
+  {
+    "query_id": "GOLDEN-038",
+    "query_text": "கழுத்து குலை நோய்க்கு முன் கூட்டியே தெளிக்க வேண்டிய மருந்து எது?",
+    "expected_entity": "DIS-002",
+    "expected_evidence_chunk_ids": [],
+    "expected_document_ids": [
+      "DOC-DIS-002"
+    ],
+    "actual_top1": "EVID-DOC-DIS-002-MAIN",
+    "actual_top3": [
+      "EVID-DOC-DIS-002-MAIN",
+      "EVID-DOC-DIS-002-MGMT",
+      "SEV-DIS-002"
+    ],
+    "actual_top5": [
+      "EVID-DOC-DIS-002-MAIN",
+      "EVID-DOC-DIS-002-MGMT",
+      "SEV-DIS-002",
+      "CHEM-009"
+    ],
+    "overall_rank": 1,
+    "mrr": 1.0,
+    "bm25_rank": null,
+    "dense_rank": null,
+    "structured_rank": 1,
+    "failure_category": null,
+    "root_cause": "Rank 1 Exact Match"
+  },
+  {
+    "query_id": "GOLDEN-039",
+    "query_text": "மடல்கருகல் நோய் பரவுவதை தடுக்க நடவு இடைவெளி அதிகப்படுத்த வேண்டுமா?",
+    "expected_entity": "DIS-003",
+    "expected_evidence_chunk_ids": [],
+    "expected_document_ids": [
+      "DOC-DIS-003"
+    ],
+    "actual_top1": "SEV-DIS-003",
+    "actual_top3": [
+      "SEV-DIS-003",
+      "SEV-DIS-003",
+      "SEV-DIS-003"
+    ],
+    "actual_top5": [
+      "SEV-DIS-003",
+      "SEV-DIS-003",
+      "SEV-DIS-003",
+      "EVID-DOC-DIS-003-MAIN",
+      "EVID-DOC-DIS-003-MGMT"
+    ],
+    "overall_rank": 1,
+    "mrr": 1.0,
+    "bm25_rank": null,
+    "dense_rank": 1,
+    "structured_rank": 1,
+    "failure_category": null,
+    "root_cause": "Rank 1 Exact Match"
+  },
+  {
+    "query_id": "GOLDEN-040",
+    "query_text": "துங்ரோ நோய்க்கு எதிர்ப்பு ரகங்கள் என்னென்ன உள்ளன?",
+    "expected_entity": "DIS-004",
+    "expected_evidence_chunk_ids": [],
+    "expected_document_ids": [
+      "DOC-DIS-004"
+    ],
+    "actual_top1": "SEV-DIS-004",
+    "actual_top3": [
+      "SEV-DIS-004",
+      "SEV-DIS-004",
+      "SEV-DIS-004"
+    ],
+    "actual_top5": [
+      "SEV-DIS-004",
+      "SEV-DIS-004",
+      "SEV-DIS-004",
+      "EVID-DOC-DIS-004-MAIN",
+      "EVID-DOC-DIS-004-MGMT"
+    ],
+    "overall_rank": 1,
+    "mrr": 1.0,
+    "bm25_rank": null,
+    "dense_rank": null,
+    "structured_rank": null,
+    "failure_category": null,
+    "root_cause": "Rank 1 Exact Match"
+  },
+  {
+    "query_id": "GOLDEN-041",
+    "query_text": "தண்டு துளைப்பானுக்கு எத்தனை சதவீதம் குருத்து காஞ்சா மருந்து அடிக்கணும்?",
+    "expected_entity": "PEST-001",
+    "expected_evidence_chunk_ids": [
+      "ETL-001"
+    ],
+    "expected_document_ids": [],
+    "actual_top1": "LEX-PEST-001",
+    "actual_top3": [
+      "LEX-PEST-001",
+      "LEX-PEST-007",
+      "LEX-PEST-003"
+    ],
+    "actual_top5": [
+      "LEX-PEST-001",
+      "LEX-PEST-007",
+      "LEX-PEST-003",
+      "CHEM-010",
+      "CHEM-012"
+    ],
+    "overall_rank": 1,
+    "mrr": 1.0,
+    "bm25_rank": 1,
+    "dense_rank": 1,
+    "structured_rank": null,
+    "failure_category": null,
+    "root_cause": "Rank 1 Exact Match"
+  },
+  {
+    "query_id": "GOLDEN-042",
+    "query_text": "ஒரு குத்துக்கு எத்தனை புகையான் பூச்சி இருந்தா மருந்து தெளிக்க வேண்டும்?",
+    "expected_entity": "PEST-002",
+    "expected_evidence_chunk_ids": [
+      "ETL-004"
+    ],
+    "expected_document_ids": [],
+    "actual_top1": "SEV-PEST-002",
+    "actual_top3": [
+      "SEV-PEST-002",
+      "SEV-PEST-002",
+      "EVID-DOC-PEST-002-MAIN"
+    ],
+    "actual_top5": [
+      "SEV-PEST-002",
+      "SEV-PEST-002",
+      "EVID-DOC-PEST-002-MAIN",
+      "LEX-PEST-002",
+      "LEX-PEST-002"
+    ],
+    "overall_rank": 1,
+    "mrr": 1.0,
+    "bm25_rank": 1,
+    "dense_rank": 2,
+    "structured_rank": 1,
+    "failure_category": null,
+    "root_cause": "Rank 1 Exact Match"
+  },
+  {
+    "query_id": "GOLDEN-043",
+    "query_text": "வயலில் சிலந்திகள் நிறைய இருந்தால் புகையான் பொருளாதார சேத நிலை என்ன?",
+    "expected_entity": "PEST-002",
+    "expected_evidence_chunk_ids": [
+      "ETL-004"
+    ],
+    "expected_document_ids": [],
+    "actual_top1": "ETL-003",
+    "actual_top3": [
+      "ETL-003",
+      "ETL-004",
+      "ETL-005"
+    ],
+    "actual_top5": [
+      "ETL-003",
+      "ETL-004",
+      "ETL-005",
+      "SEV-PEST-002",
+      "EVID-DOC-PEST-002-MAIN"
+    ],
+    "overall_rank": 2,
+    "mrr": 0.5,
+    "bm25_rank": 1,
+    "dense_rank": 1,
+    "structured_rank": 1,
+    "failure_category": "F12",
+    "root_cause": "ETL record outranked or rank collision with SES severity chunk"
+  },
+  {
+    "query_id": "GOLDEN-044",
+    "query_text": "இலை சுருட்டு புழு எத்தனை சதவீதம் இலை மடிப்பு இருந்தால் மருந்து அடிக்கலாம்?",
+    "expected_entity": "PEST-003",
+    "expected_evidence_chunk_ids": [
+      "ETL-006"
+    ],
+    "expected_document_ids": [],
+    "actual_top1": "EVID-DOC-PEST-003-MAIN",
+    "actual_top3": [
+      "EVID-DOC-PEST-003-MAIN",
+      "LEX-PEST-003",
+      "LEX-PEST-003"
+    ],
+    "actual_top5": [
+      "EVID-DOC-PEST-003-MAIN",
+      "LEX-PEST-003",
+      "LEX-PEST-003",
+      "LEX-PEST-003",
+      "EVID-DOC-PEST-003-MGMT"
+    ],
+    "overall_rank": 1,
+    "mrr": 1.0,
+    "bm25_rank": 1,
+    "dense_rank": 1,
+    "structured_rank": 1,
+    "failure_category": null,
+    "root_cause": "Rank 1 Exact Match"
+  },
+  {
+    "query_id": "GOLDEN-045",
+    "query_text": "கொடி இலை (Flag leaf) பருவத்தில் இலை சுருட்டு புழு சேத நிலை என்ன?",
+    "expected_entity": "PEST-003",
+    "expected_evidence_chunk_ids": [
+      "ETL-007"
+    ],
+    "expected_document_ids": [],
+    "actual_top1": "SEV-PEST-003",
+    "actual_top3": [
+      "SEV-PEST-003",
+      "SEV-PEST-003",
+      "EVID-DOC-PEST-003-MAIN"
+    ],
+    "actual_top5": [
+      "SEV-PEST-003",
+      "SEV-PEST-003",
+      "EVID-DOC-PEST-003-MAIN",
+      "LEX-PEST-003",
+      "LEX-PEST-003"
+    ],
+    "overall_rank": 1,
+    "mrr": 1.0,
+    "bm25_rank": 1,
+    "dense_rank": 1,
+    "structured_rank": 1,
+    "failure_category": null,
+    "root_cause": "Rank 1 Exact Match"
+  },
+  {
+    "query_id": "GOLDEN-046",
+    "query_text": "பச்சை தத்துப்பூச்சி ஒரு குத்துக்கு எத்தனை எண்ணிக்கை தாண்டினால் மருந்து?",
+    "expected_entity": "PEST-004",
+    "expected_evidence_chunk_ids": [
+      "ETL-008"
+    ],
+    "expected_document_ids": [],
+    "actual_top1": "EVID-DOC-PEST-004-MAIN",
+    "actual_top3": [
+      "EVID-DOC-PEST-004-MAIN",
+      "LEX-PEST-004",
+      "EVID-DOC-PEST-004-MGMT"
+    ],
+    "actual_top5": [
+      "EVID-DOC-PEST-004-MAIN",
+      "LEX-PEST-004",
+      "EVID-DOC-PEST-004-MGMT",
+      "AGRO-INPUT-COPPER-SULPHATE",
+      "LEX-PEST-004"
+    ],
+    "overall_rank": 1,
+    "mrr": 1.0,
+    "bm25_rank": 1,
+    "dense_rank": 1,
+    "structured_rank": 1,
+    "failure_category": null,
+    "root_cause": "Rank 1 Exact Match"
+  },
+  {
+    "query_id": "GOLDEN-047",
+    "query_text": "துங்ரோ தாக்கம் உள்ள பகுதிகளில் பச்சை தத்துப்பூச்சி சேத நிலை என்ன?",
+    "expected_entity": "PEST-004",
+    "expected_evidence_chunk_ids": [
+      "ETL-009"
+    ],
+    "expected_document_ids": [],
+    "actual_top1": "EVID-DOC-PEST-004-MAIN",
+    "actual_top3": [
+      "EVID-DOC-PEST-004-MAIN",
+      "LEX-PEST-004",
+      "LEX-PEST-004"
+    ],
+    "actual_top5": [
+      "EVID-DOC-PEST-004-MAIN",
+      "LEX-PEST-004",
+      "LEX-PEST-004",
+      "EVID-DOC-DIS-004-MGMT",
+      "EVID-DOC-PEST-004-MGMT"
+    ],
+    "overall_rank": 1,
+    "mrr": 1.0,
+    "bm25_rank": 1,
+    "dense_rank": 1,
+    "structured_rank": 1,
+    "failure_category": null,
+    "root_cause": "Rank 1 Exact Match"
+  },
+  {
+    "query_id": "GOLDEN-048",
+    "query_text": "ஆணைக்கொம்பன் பூச்சிக்கு எத்தனை சதவீதம் வெள்ளிக்குருத்து இருந்தால் மருந்து?",
+    "expected_entity": "PEST-005",
+    "expected_evidence_chunk_ids": [
+      "ETL-011"
+    ],
+    "expected_document_ids": [],
+    "actual_top1": "SEV-PEST-005",
+    "actual_top3": [
+      "SEV-PEST-005",
+      "SEV-PEST-005",
+      "EVID-DOC-PEST-005-MAIN"
+    ],
+    "actual_top5": [
+      "SEV-PEST-005",
+      "SEV-PEST-005",
+      "EVID-DOC-PEST-005-MAIN",
+      "LEX-PEST-005",
+      "EVID-DOC-PEST-005-MGMT"
+    ],
+    "overall_rank": 1,
+    "mrr": 1.0,
+    "bm25_rank": 1,
+    "dense_rank": 1,
+    "structured_rank": 1,
+    "failure_category": null,
+    "root_cause": "Rank 1 Exact Match"
+  },
+  {
+    "query_id": "GOLDEN-049",
+    "query_text": "இலைப்பேன் நாற்றங்காலில் எத்தனை பூச்சிகள் இருந்தால் மருந்து தெளிக்க வேண்டும்?",
+    "expected_entity": "PEST-006",
+    "expected_evidence_chunk_ids": [
+      "ETL-013"
+    ],
+    "expected_document_ids": [],
+    "actual_top1": "EVID-DOC-PEST-006-MAIN",
+    "actual_top3": [
+      "EVID-DOC-PEST-006-MAIN",
+      "LEX-PEST-006",
+      "LEX-PEST-008"
+    ],
+    "actual_top5": [
+      "EVID-DOC-PEST-006-MAIN",
+      "LEX-PEST-006",
+      "LEX-PEST-008",
+      "CHEM-004",
+      "CHEM-015"
+    ],
+    "overall_rank": 1,
+    "mrr": 1.0,
+    "bm25_rank": 1,
+    "dense_rank": 2,
+    "structured_rank": 1,
+    "failure_category": null,
+    "root_cause": "Rank 1 Exact Match"
+  },
+  {
+    "query_id": "GOLDEN-050",
+    "query_text": "கதிர் நாவாய்ப்பூச்சி 100 கதிர்களுக்கு எத்தனை பூச்சிகள் இருந்தால் மருந்து?",
+    "expected_entity": "PEST-008",
+    "expected_evidence_chunk_ids": [
+      "ETL-017"
+    ],
+    "expected_document_ids": [],
+    "actual_top1": "SEV-PEST-008",
+    "actual_top3": [
+      "SEV-PEST-008",
+      "LEX-PEST-008",
+      "LEX-PEST-008"
+    ],
+    "actual_top5": [
+      "SEV-PEST-008",
+      "LEX-PEST-008",
+      "LEX-PEST-008",
+      "EVID-DOC-PEST-008-MGMT",
+      "EVID-DOC-PEST-008-MAIN"
+    ],
+    "overall_rank": 1,
+    "mrr": 1.0,
+    "bm25_rank": 1,
+    "dense_rank": 1,
+    "structured_rank": 1,
+    "failure_category": null,
+    "root_cause": "Rank 1 Exact Match"
+  },
+  {
+    "query_id": "GOLDEN-051",
+    "query_text": "தண்டு துளைப்பான் 1 சதுர மீட்டருக்கு எத்தனை முட்டை குவியல் இருந்தால் மருந்து?",
+    "expected_entity": "PEST-001",
+    "expected_evidence_chunk_ids": [
+      "ETL-001"
+    ],
+    "expected_document_ids": [],
+    "actual_top1": "SEV-PEST-001",
+    "actual_top3": [
+      "SEV-PEST-001",
+      "SEV-PEST-001",
+      "ETL-001"
+    ],
+    "actual_top5": [
+      "SEV-PEST-001",
+      "SEV-PEST-001",
+      "ETL-001",
+      "LEX-PEST-001",
+      "EVID-DOC-PEST-001-MAIN"
+    ],
+    "overall_rank": 1,
+    "mrr": 1.0,
+    "bm25_rank": 1,
+    "dense_rank": 1,
+    "structured_rank": 1,
+    "failure_category": null,
+    "root_cause": "Rank 1 Exact Match"
+  },
+  {
+    "query_id": "GOLDEN-052",
+    "query_text": "வோர்ல் மேகட் இலைகளில் எத்தனை சதவீதம் சேதம் இருந்தால் மருந்து?",
+    "expected_entity": "PEST-007",
+    "expected_evidence_chunk_ids": [
+      "ETL-015"
+    ],
+    "expected_document_ids": [],
+    "actual_top1": "ETL-014",
+    "actual_top3": [
+      "ETL-014",
+      "EVID-DOC-PEST-007-MAIN",
+      "LEX-PEST-007"
+    ],
+    "actual_top5": [
+      "ETL-014",
+      "EVID-DOC-PEST-007-MAIN",
+      "LEX-PEST-007",
+      "EVID-DOC-PEST-007-MGMT",
+      "LEX-PEST-007"
+    ],
+    "overall_rank": 2,
+    "mrr": 0.5,
+    "bm25_rank": 4,
+    "dense_rank": null,
+    "structured_rank": 1,
+    "failure_category": "F17",
+    "root_cause": "Agronomic reranker ranked peer chemical/severity chunk above target document chunk"
+  },
+  {
+    "query_id": "GOLDEN-053",
+    "query_text": "BPH வேட்டையாடி பூச்சிகள் இருக்கும் போது மருந்து அடிக்க அவசரப்பட வேண்டுமா?",
+    "expected_entity": "PEST-002",
+    "expected_evidence_chunk_ids": [
+      "ETL-004"
+    ],
+    "expected_document_ids": [],
+    "actual_top1": "EVID-DOC-PEST-002-MAIN",
+    "actual_top3": [
+      "EVID-DOC-PEST-002-MAIN",
+      "EVID-DOC-PEST-002-MGMT",
+      "SEV-PEST-002"
+    ],
+    "actual_top5": [
+      "EVID-DOC-PEST-002-MAIN",
+      "EVID-DOC-PEST-002-MGMT",
+      "SEV-PEST-002",
+      "CHEM-007",
+      "CHEM-003"
+    ],
+    "overall_rank": 1,
+    "mrr": 1.0,
+    "bm25_rank": 1,
+    "dense_rank": null,
+    "structured_rank": 1,
+    "failure_category": null,
+    "root_cause": "Rank 1 Exact Match"
+  },
+  {
+    "query_id": "GOLDEN-054",
+    "query_text": "மடல்கருகல் நோய்க்கு எந்த SES அளவில் பூஞ்சாண மருந்து தெளிக்க வேண்டும்?",
+    "expected_entity": "DIS-003",
+    "expected_evidence_chunk_ids": [
+      "SEV-DIS-003"
+    ],
+    "expected_document_ids": [],
+    "actual_top1": "EVID-DOC-DIS-003-MAIN",
+    "actual_top3": [
+      "EVID-DOC-DIS-003-MAIN",
+      "EVID-DOC-DIS-003-MGMT",
+      "CHEM-012"
+    ],
+    "actual_top5": [
+      "EVID-DOC-DIS-003-MAIN",
+      "EVID-DOC-DIS-003-MGMT",
+      "CHEM-012",
+      "CHEM-015",
+      "SEV-DIS-003"
+    ],
+    "overall_rank": 1,
+    "mrr": 1.0,
+    "bm25_rank": null,
+    "dense_rank": null,
+    "structured_rank": 1,
+    "failure_category": null,
+    "root_cause": "Rank 1 Exact Match"
+  },
+  {
+    "query_id": "GOLDEN-055",
+    "query_text": "குலை நோய் இலைகளில் எத்தனை சதவீத புள்ளிகள் இருந்தால் மருந்து?",
+    "expected_entity": "DIS-002",
+    "expected_evidence_chunk_ids": [
+      "SEV-DIS-002"
+    ],
+    "expected_document_ids": [],
+    "actual_top1": "SEV-DIS-002",
+    "actual_top3": [
+      "SEV-DIS-002",
+      "SEV-DIS-002",
+      "EVID-DOC-DIS-002-MAIN"
+    ],
+    "actual_top5": [
+      "SEV-DIS-002",
+      "SEV-DIS-002",
+      "EVID-DOC-DIS-002-MAIN",
+      "EVID-DOC-DIS-002-MGMT",
+      "AGRO-INPUT-COPPER-SULPHATE"
+    ],
+    "overall_rank": 1,
+    "mrr": 1.0,
+    "bm25_rank": null,
+    "dense_rank": null,
+    "structured_rank": 1,
+    "failure_category": null,
+    "root_cause": "Rank 1 Exact Match"
+  },
+  {
+    "query_id": "GOLDEN-056",
+    "query_text": "False Smut நோய்க்கு எப்போது மருந்து தெளிக்க வேண்டும்?",
+    "expected_entity": "DIS-007",
+    "expected_evidence_chunk_ids": [
+      "ETL-018"
+    ],
+    "expected_document_ids": [],
+    "actual_top1": "ETL-018",
+    "actual_top3": [
+      "ETL-018",
+      "CHEM-007",
+      "EVID-DOC-DIS-007-MAIN"
+    ],
+    "actual_top5": [
+      "ETL-018",
+      "CHEM-007",
+      "EVID-DOC-DIS-007-MAIN",
+      "EVID-DOC-DIS-007-MGMT",
+      "CHEM-013"
+    ],
+    "overall_rank": 1,
+    "mrr": 1.0,
+    "bm25_rank": 2,
+    "dense_rank": 1,
+    "structured_rank": 1,
+    "failure_category": null,
+    "root_cause": "Rank 1 Exact Match"
+  },
+  {
+    "query_id": "GOLDEN-057",
+    "query_text": "Stem Rot நோய்க்கு எத்தனை சதவீதம் தூர் பாதிக்கப்பட்டால் மருந்து?",
+    "expected_entity": "DIS-006",
+    "expected_evidence_chunk_ids": [
+      "ETL-019"
+    ],
+    "expected_document_ids": [],
+    "actual_top1": "ETL-019",
+    "actual_top3": [
+      "ETL-019",
+      "EVID-DOC-DIS-006-MGMT",
+      "LEX-PEST-001"
+    ],
+    "actual_top5": [
+      "ETL-019",
+      "EVID-DOC-DIS-006-MGMT",
+      "LEX-PEST-001",
+      "LEX-PEST-003",
+      "EVID-DOC-DIS-006-MAIN"
+    ],
+    "overall_rank": 1,
+    "mrr": 1.0,
+    "bm25_rank": 2,
+    "dense_rank": 1,
+    "structured_rank": 1,
+    "failure_category": null,
+    "root_cause": "Rank 1 Exact Match"
+  },
+  {
+    "query_id": "GOLDEN-058",
+    "query_text": "தண்டு துளைப்பான் வெள்ளைக்கதிர் 5% இருக்கும் போது மருந்து அடிக்கலாமா?",
+    "expected_entity": "PEST-001",
+    "expected_evidence_chunk_ids": [
+      "ETL-002"
+    ],
+    "expected_document_ids": [],
+    "actual_top1": "SEV-PEST-001",
+    "actual_top3": [
+      "SEV-PEST-001",
+      "SEV-PEST-001",
+      "SEV-PEST-001"
+    ],
+    "actual_top5": [
+      "SEV-PEST-001",
+      "SEV-PEST-001",
+      "SEV-PEST-001",
+      "EVID-DOC-PEST-001-MAIN",
+      "LEX-PEST-001"
+    ],
+    "overall_rank": 1,
+    "mrr": 1.0,
+    "bm25_rank": 1,
+    "dense_rank": 6,
+    "structured_rank": 1,
+    "failure_category": null,
+    "root_cause": "Rank 1 Exact Match"
+  },
+  {
+    "query_id": "GOLDEN-059",
+    "query_text": "பால் பிடிக்கும் பருவத்தில் நாவாய்ப்பூச்சி ஒரு குத்துக்கு 2 பூச்சி இருந்தால் அடிக்கவா?",
+    "expected_entity": "PEST-008",
+    "expected_evidence_chunk_ids": [
+      "ETL-017"
+    ],
+    "expected_document_ids": [],
+    "actual_top1": "EVID-DOC-PEST-008-MAIN",
+    "actual_top3": [
+      "EVID-DOC-PEST-008-MAIN",
+      "AGRO-INPUT-COPPER-SULPHATE",
+      "LEX-PEST-008"
+    ],
+    "actual_top5": [
+      "EVID-DOC-PEST-008-MAIN",
+      "AGRO-INPUT-COPPER-SULPHATE",
+      "LEX-PEST-008",
+      "LEX-PEST-008",
+      "LEX-PEST-008"
+    ],
+    "overall_rank": 1,
+    "mrr": 1.0,
+    "bm25_rank": 1,
+    "dense_rank": 1,
+    "structured_rank": 1,
+    "failure_category": null,
+    "root_cause": "Rank 1 Exact Match"
+  },
+  {
+    "query_id": "GOLDEN-060",
+    "query_text": "பச்சை தத்துப்பூச்சி நாற்றங்காலில் 1 பூச்சி இருந்தால் அடிக்க வேண்டுமா?",
+    "expected_entity": "PEST-004",
+    "expected_evidence_chunk_ids": [
+      "ETL-008"
+    ],
+    "expected_document_ids": [],
+    "actual_top1": "EVID-DOC-PEST-004-MAIN",
+    "actual_top3": [
+      "EVID-DOC-PEST-004-MAIN",
+      "LEX-PEST-004",
+      "LEX-PEST-004"
+    ],
+    "actual_top5": [
+      "EVID-DOC-PEST-004-MAIN",
+      "LEX-PEST-004",
+      "LEX-PEST-004",
+      "LEX-PEST-002",
+      "AGRO-INPUT-COPPER-SULPHATE"
+    ],
+    "overall_rank": 1,
+    "mrr": 1.0,
+    "bm25_rank": 1,
+    "dense_rank": 1,
+    "structured_rank": 1,
+    "failure_category": null,
+    "root_cause": "Rank 1 Exact Match"
+  },
+  {
+    "query_id": "GOLDEN-061",
+    "query_text": "வெள்ளைக்குருத்து பூச்சிக்கு என்ன மருந்து அடிக்கலாம் டெல்டா பகுதி?",
+    "expected_entity": "PEST-005",
+    "expected_evidence_chunk_ids": [],
+    "expected_document_ids": [],
+    "actual_top1": "EVID-DOC-PEST-005-MAIN",
+    "actual_top3": [
+      "EVID-DOC-PEST-005-MAIN",
+      "LEX-PEST-005",
+      "AGRO-INPUT-COPPER-SULPHATE"
+    ],
+    "actual_top5": [
+      "EVID-DOC-PEST-005-MAIN",
+      "LEX-PEST-005",
+      "AGRO-INPUT-COPPER-SULPHATE",
+      "LEX-PEST-005",
+      "EVID-DOC-PEST-005-MGMT"
+    ],
+    "overall_rank": 1,
+    "mrr": 1.0,
+    "bm25_rank": 1,
+    "dense_rank": 1,
+    "structured_rank": 1,
+    "failure_category": null,
+    "root_cause": "Rank 1 Exact Match"
+  },
+  {
+    "query_id": "GOLDEN-062",
+    "query_text": "குந்தி பூச்சி பால் பிடிக்கும் போது தாக்குது என்ன மருந்து?",
+    "expected_entity": "PEST-008",
+    "expected_evidence_chunk_ids": [],
+    "expected_document_ids": [],
+    "actual_top1": "EVID-DOC-PEST-008-MAIN",
+    "actual_top3": [
+      "EVID-DOC-PEST-008-MAIN",
+      "LEX-PEST-008",
+      "LEX-PEST-008"
+    ],
+    "actual_top5": [
+      "EVID-DOC-PEST-008-MAIN",
+      "LEX-PEST-008",
+      "LEX-PEST-008",
+      "LEX-PEST-008",
+      "EVID-DOC-PEST-008-MGMT"
+    ],
+    "overall_rank": 1,
+    "mrr": 1.0,
+    "bm25_rank": 1,
+    "dense_rank": 1,
+    "structured_rank": 1,
+    "failure_category": null,
+    "root_cause": "Rank 1 Exact Match"
+  },
+  {
+    "query_id": "GOLDEN-063",
+    "query_text": "மயில் துத்தம் வயலில் பாசி பிடிக்காமல் இருக்க எவ்வளவு போடணும்?",
+    "expected_entity": "AGRO-INPUT-COPPER-SULPHATE",
+    "expected_evidence_chunk_ids": [],
+    "expected_document_ids": [],
+    "actual_top1": "AGRO-INPUT-COPPER-SULPHATE",
+    "actual_top3": [
+      "AGRO-INPUT-COPPER-SULPHATE",
+      "SEV-DIS-002",
+      "CHEM-013"
+    ],
+    "actual_top5": [
+      "AGRO-INPUT-COPPER-SULPHATE",
+      "SEV-DIS-002",
+      "CHEM-013",
+      "CHEM-010"
+    ],
+    "overall_rank": 1,
+    "mrr": 1.0,
+    "bm25_rank": 1,
+    "dense_rank": 1,
+    "structured_rank": 1,
+    "failure_category": null,
+    "root_cause": "Rank 1 Exact Match"
+  },
+  {
+    "query_id": "GOLDEN-064",
+    "query_text": "அண்ணாமலை கலவை இலை வெளுத்து போனால் எப்படி தயார் செய்வது?",
+    "expected_entity": "AGRO-NUTRITION-IRON-CHLOROSIS",
+    "expected_evidence_chunk_ids": [],
+    "expected_document_ids": [],
+    "actual_top1": "SEV-PEST-001",
+    "actual_top3": [
+      "SEV-PEST-001",
+      "AGRO-NUTRITION-IRON-CHLOROSIS",
+      "AGRO-INPUT-COPPER-SULPHATE"
+    ],
+    "actual_top5": [
+      "SEV-PEST-001",
+      "AGRO-NUTRITION-IRON-CHLOROSIS",
+      "AGRO-INPUT-COPPER-SULPHATE",
+      "LEX-PEST-003",
+      "LEX-PEST-005"
+    ],
+    "overall_rank": 2,
+    "mrr": 0.5,
+    "bm25_rank": 1,
+    "dense_rank": 1,
+    "structured_rank": 1,
+    "failure_category": "F17",
+    "root_cause": "Agronomic reranker ranked peer chemical/severity chunk above target document chunk"
+  },
+  {
+    "query_id": "GOLDEN-065",
+    "query_text": "வயல்ல பயிர் வட்ட வட்டமா காய்ஞ்சு போய் கருகி கிடக்குதுங்க என்ன பண்ணலாம்?",
+    "expected_entity": "PEST-002",
+    "expected_evidence_chunk_ids": [],
+    "expected_document_ids": [],
+    "actual_top1": "SEV-PEST-002",
+    "actual_top3": [
+      "SEV-PEST-002",
+      "SEV-PEST-002",
+      "EVID-DOC-PEST-002-MAIN"
+    ],
+    "actual_top5": [
+      "SEV-PEST-002",
+      "SEV-PEST-002",
+      "EVID-DOC-PEST-002-MAIN",
+      "LEX-PEST-002",
+      "EVID-DOC-PEST-002-MGMT"
+    ],
+    "overall_rank": 1,
+    "mrr": 1.0,
+    "bm25_rank": 3,
+    "dense_rank": null,
+    "structured_rank": null,
+    "failure_category": null,
+    "root_cause": "Rank 1 Exact Match"
+  },
+  {
+    "query_id": "GOLDEN-066",
+    "query_text": "Chlorantraniliprole ஒரு ஏக்கருக்கு எவ்வளவு மில்லி டோஸ் கலக்கணும்?",
+    "expected_entity": "CHEM-001",
+    "expected_evidence_chunk_ids": [],
+    "expected_document_ids": [],
+    "actual_top1": "CHEM-001",
+    "actual_top3": [
+      "CHEM-001",
+      "CHEM-002",
+      "CHEM-012"
+    ],
+    "actual_top5": [
+      "CHEM-001",
+      "CHEM-002",
+      "CHEM-012",
+      "CHEM-010",
+      "LEX-PEST-002"
+    ],
+    "overall_rank": 1,
+    "mrr": 1.0,
+    "bm25_rank": 3,
+    "dense_rank": 1,
+    "structured_rank": 1,
+    "failure_category": null,
+    "root_cause": "Rank 1 Exact Match"
+  },
+  {
+    "query_id": "GOLDEN-067",
+    "query_text": "Buprofezin 25 SC மருந்து புகையானுக்கு எவ்வளவு அளவு அடிக்கணும்?",
+    "expected_entity": "CHEM-002",
+    "expected_evidence_chunk_ids": [],
+    "expected_document_ids": [],
+    "actual_top1": "CHEM-002",
+    "actual_top3": [
+      "CHEM-002",
+      "CHEM-012",
+      "CHEM-004"
+    ],
+    "actual_top5": [
+      "CHEM-002",
+      "CHEM-012",
+      "CHEM-004",
+      "CHEM-010",
+      "CHEM-003"
+    ],
+    "overall_rank": 1,
+    "mrr": 1.0,
+    "bm25_rank": 3,
+    "dense_rank": 2,
+    "structured_rank": 1,
+    "failure_category": null,
+    "root_cause": "Rank 1 Exact Match"
+  },
+  {
+    "query_id": "GOLDEN-068",
+    "query_text": "Coragen மருந்து ஒரு டேங்குக்கு எவ்வளவு மில்லி ஊத்தணும்?",
+    "expected_entity": "CHEM-001",
+    "expected_evidence_chunk_ids": [],
+    "expected_document_ids": [],
+    "actual_top1": "CHEM-001",
+    "actual_top3": [
+      "CHEM-001",
+      "CHEM-010",
+      "CHEM-002"
+    ],
+    "actual_top5": [
+      "CHEM-001",
+      "CHEM-010",
+      "CHEM-002",
+      "CHEM-012",
+      "CHEM-009"
+    ],
+    "overall_rank": 1,
+    "mrr": 1.0,
+    "bm25_rank": null,
+    "dense_rank": null,
+    "structured_rank": 1,
+    "failure_category": null,
+    "root_cause": "Rank 1 Exact Match"
+  },
+  {
+    "query_id": "GOLDEN-069",
+    "query_text": "சுருட்டுப் புழு தென் மாவட்டங்களில் அதிகம் உள்ளது மருந்து என்ன?",
+    "expected_entity": "PEST-003",
+    "expected_evidence_chunk_ids": [],
+    "expected_document_ids": [],
+    "actual_top1": "SEV-PEST-003",
+    "actual_top3": [
+      "SEV-PEST-003",
+      "SEV-PEST-003",
+      "EVID-DOC-PEST-003-MAIN"
+    ],
+    "actual_top5": [
+      "SEV-PEST-003",
+      "SEV-PEST-003",
+      "EVID-DOC-PEST-003-MAIN",
+      "LEX-PEST-003",
+      "LEX-PEST-003"
+    ],
+    "overall_rank": 1,
+    "mrr": 1.0,
+    "bm25_rank": 1,
+    "dense_rank": 1,
+    "structured_rank": 1,
+    "failure_category": null,
+    "root_cause": "Rank 1 Exact Match"
+  },
+  {
+    "query_id": "GOLDEN-070",
+    "query_text": "வெங்காயத்தாள் புழு தூர்கட்டும் போது தாக்கியுள்ளது என்ன மருந்து?",
+    "expected_entity": "PEST-005",
+    "expected_evidence_chunk_ids": [],
+    "expected_document_ids": [],
+    "actual_top1": "SEV-PEST-005",
+    "actual_top3": [
+      "SEV-PEST-005",
+      "SEV-PEST-005",
+      "LEX-PEST-005"
+    ],
+    "actual_top5": [
+      "SEV-PEST-005",
+      "SEV-PEST-005",
+      "LEX-PEST-005",
+      "EVID-DOC-PEST-005-MAIN",
+      "EVID-DOC-PEST-005-MGMT"
+    ],
+    "overall_rank": 1,
+    "mrr": 1.0,
+    "bm25_rank": 1,
+    "dense_rank": 1,
+    "structured_rank": null,
+    "failure_category": null,
+    "root_cause": "Rank 1 Exact Match"
+  },
+  {
+    "query_id": "GOLDEN-071",
+    "query_text": "குலை நோய்க்கு Tricyclazole ஸ்ப்ரே பண்ணலாமா?",
+    "expected_entity": "DIS-002",
+    "expected_evidence_chunk_ids": [],
+    "expected_document_ids": [],
+    "actual_top1": "CHEM-008",
+    "actual_top3": [
+      "CHEM-008",
+      "EVID-DOC-DIS-002-MAIN",
+      "CHEM-015"
+    ],
+    "actual_top5": [
+      "CHEM-008",
+      "EVID-DOC-DIS-002-MAIN",
+      "CHEM-015",
+      "EVID-DOC-DIS-002-MGMT"
+    ],
+    "overall_rank": 2,
+    "mrr": 0.5,
+    "bm25_rank": null,
+    "dense_rank": null,
+    "structured_rank": 2,
+    "failure_category": "F17",
+    "root_cause": "Agronomic reranker ranked peer chemical/severity chunk above target document chunk"
+  },
+  {
+    "query_id": "GOLDEN-072",
+    "query_text": "பழுப்பு தத்துப்பூச்சிக்கு என்ன மருந்து அடிக்கலாம்?",
+    "expected_entity": "PEST-002",
+    "expected_evidence_chunk_ids": [],
+    "expected_document_ids": [],
+    "actual_top1": "EVID-DOC-PEST-002-MAIN",
+    "actual_top3": [
+      "EVID-DOC-PEST-002-MAIN",
+      "LEX-PEST-002",
+      "EVID-DOC-PEST-002-MGMT"
+    ],
+    "actual_top5": [
+      "EVID-DOC-PEST-002-MAIN",
+      "LEX-PEST-002",
+      "EVID-DOC-PEST-002-MGMT",
+      "CHEM-003",
+      "CHEM-007"
+    ],
+    "overall_rank": 1,
+    "mrr": 1.0,
+    "bm25_rank": 1,
+    "dense_rank": 1,
+    "structured_rank": 1,
+    "failure_category": null,
+    "root_cause": "Rank 1 Exact Match"
+  },
+  {
+    "query_id": "GOLDEN-073",
+    "query_text": "இலைப்பேன் சுருள் பேன் தாக்குதலுக்கு என்ன மருந்து?",
+    "expected_entity": "PEST-006",
+    "expected_evidence_chunk_ids": [],
+    "expected_document_ids": [],
+    "actual_top1": "CHEM-015",
+    "actual_top3": [
+      "CHEM-015",
+      "EVID-DOC-PEST-006-MAIN",
+      "LEX-PEST-006"
+    ],
+    "actual_top5": [
+      "CHEM-015",
+      "EVID-DOC-PEST-006-MAIN",
+      "LEX-PEST-006",
+      "LEX-PEST-006",
+      "EVID-DOC-PEST-006-MGMT"
+    ],
+    "overall_rank": 2,
+    "mrr": 0.5,
+    "bm25_rank": 1,
+    "dense_rank": 1,
+    "structured_rank": 1,
+    "failure_category": "F17",
+    "root_cause": "Agronomic reranker ranked peer chemical/severity chunk above target document chunk"
+  },
+  {
+    "query_id": "GOLDEN-074",
+    "query_text": "குருத்துப் பூச்சி நடுக்குருத்தை தின்னுடுச்சு மருந்து என்ன?",
+    "expected_entity": "PEST-001",
+    "expected_evidence_chunk_ids": [],
+    "expected_document_ids": [],
+    "actual_top1": "SEV-PEST-001",
+    "actual_top3": [
+      "SEV-PEST-001",
+      "SEV-PEST-001",
+      "EVID-DOC-PEST-001-MAIN"
+    ],
+    "actual_top5": [
+      "SEV-PEST-001",
+      "SEV-PEST-001",
+      "EVID-DOC-PEST-001-MAIN",
+      "LEX-PEST-001",
+      "LEX-PEST-001"
+    ],
+    "overall_rank": 1,
+    "mrr": 1.0,
+    "bm25_rank": 1,
+    "dense_rank": 1,
+    "structured_rank": 1,
+    "failure_category": null,
+    "root_cause": "Rank 1 Exact Match"
+  },
+  {
+    "query_id": "GOLDEN-075",
+    "query_text": "சாற்றுப்பூச்சி கதிரில் பால் உறிஞ்சுகிறது என்ன மருந்து?",
+    "expected_entity": "PEST-008",
+    "expected_evidence_chunk_ids": [],
+    "expected_document_ids": [],
+    "actual_top1": "EVID-DOC-PEST-008-MAIN",
+    "actual_top3": [
+      "EVID-DOC-PEST-008-MAIN",
+      "LEX-PEST-008",
+      "LEX-PEST-008"
+    ],
+    "actual_top5": [
+      "EVID-DOC-PEST-008-MAIN",
+      "LEX-PEST-008",
+      "LEX-PEST-008",
+      "EVID-DOC-PEST-008-MGMT",
+      "AGRO-INPUT-COPPER-SULPHATE"
+    ],
+    "overall_rank": 1,
+    "mrr": 1.0,
+    "bm25_rank": 1,
+    "dense_rank": 1,
+    "structured_rank": 1,
+    "failure_category": null,
+    "root_cause": "Rank 1 Exact Match"
+  },
+  {
+    "query_id": "GOLDEN-076",
+    "query_text": "Tricyclazole 75 WP dose per acre எவ்வளவு?",
+    "expected_entity": "CHEM-008",
+    "expected_evidence_chunk_ids": [],
+    "expected_document_ids": [],
+    "actual_top1": "CHEM-008",
+    "actual_top3": [
+      "CHEM-008",
+      "CHEM-015",
+      "CHEM-007"
+    ],
+    "actual_top5": [
+      "CHEM-008",
+      "CHEM-015",
+      "CHEM-007"
+    ],
+    "overall_rank": 1,
+    "mrr": 1.0,
+    "bm25_rank": 1,
+    "dense_rank": 3,
+    "structured_rank": 1,
+    "failure_category": null,
+    "root_cause": "Rank 1 Exact Match"
+  },
+  {
+    "query_id": "GOLDEN-077",
+    "query_text": "காப்பர் ஹைட்ராக்சைடு 77 WP ஏக்கருக்கு 1 கிலோ போதுமா?",
+    "expected_entity": "CHEM-007",
+    "expected_evidence_chunk_ids": [],
+    "expected_document_ids": [],
+    "actual_top1": "CHEM-007",
+    "actual_top3": [
+      "CHEM-007",
+      "ETL-018",
+      "AGRO-INPUT-COPPER-SULPHATE"
+    ],
+    "actual_top5": [
+      "CHEM-007",
+      "ETL-018",
+      "AGRO-INPUT-COPPER-SULPHATE",
+      "SEV-PEST-004"
+    ],
+    "overall_rank": 1,
+    "mrr": 1.0,
+    "bm25_rank": 8,
+    "dense_rank": 7,
+    "structured_rank": 1,
+    "failure_category": null,
+    "root_cause": "Rank 1 Exact Match"
+  },
+  {
+    "query_id": "GOLDEN-078",
+    "query_text": "சுடோமோனாஸ் விதை நேர்த்தி செய்ய எவ்வளவு அளவு கிராம்?",
+    "expected_entity": "CHEM-015",
+    "expected_evidence_chunk_ids": [],
+    "expected_document_ids": [],
+    "actual_top1": "CHEM-015",
+    "actual_top3": [
+      "CHEM-015",
+      "AGRO-INPUT-COPPER-SULPHATE",
+      "CHEM-012"
+    ],
+    "actual_top5": [
+      "CHEM-015",
+      "AGRO-INPUT-COPPER-SULPHATE",
+      "CHEM-012",
+      "AGRO-NUTRITION-IRON-CHLOROSIS"
+    ],
+    "overall_rank": 1,
+    "mrr": 1.0,
+    "bm25_rank": null,
+    "dense_rank": null,
+    "structured_rank": null,
+    "failure_category": null,
+    "root_cause": "Rank 1 Exact Match"
+  },
+  {
+    "query_id": "GOLDEN-079",
+    "query_text": "சூடோமோனாஸ் இலை வழி தெளிப்புக்கு ஏக்கருக்கு எவ்வளவு கிலோ?",
+    "expected_entity": "CHEM-015",
+    "expected_evidence_chunk_ids": [],
+    "expected_document_ids": [],
+    "actual_top1": "CHEM-015",
+    "actual_top3": [
+      "CHEM-015",
+      "CHEM-002",
+      "CHEM-003"
+    ],
+    "actual_top5": [
+      "CHEM-015",
+      "CHEM-002",
+      "CHEM-003",
+      "SEV-DIS-002"
+    ],
+    "overall_rank": 1,
+    "mrr": 1.0,
+    "bm25_rank": null,
+    "dense_rank": null,
+    "structured_rank": null,
+    "failure_category": null,
+    "root_cause": "Rank 1 Exact Match"
+  },
+  {
+    "query_id": "GOLDEN-080",
+    "query_text": "மஞ்சள் கதிர் பூஞ்சாணம் வந்து நெல் மணி கருப்பாக மாறுது மருந்து என்ன?",
+    "expected_entity": "DIS-007",
+    "expected_evidence_chunk_ids": [],
+    "expected_document_ids": [],
+    "actual_top1": "ETL-018",
+    "actual_top3": [
+      "ETL-018",
+      "EVID-DOC-DIS-007-MAIN",
+      "EVID-DOC-DIS-007-MGMT"
+    ],
+    "actual_top5": [
+      "ETL-018",
+      "EVID-DOC-DIS-007-MAIN",
+      "EVID-DOC-DIS-007-MGMT",
+      "CHEM-007",
+      "CHEM-013"
+    ],
+    "overall_rank": 2,
+    "mrr": 0.5,
+    "bm25_rank": null,
+    "dense_rank": null,
+    "structured_rank": 1,
+    "failure_category": "F17",
+    "root_cause": "Agronomic reranker ranked peer chemical/severity chunk above target document chunk"
+  },
+  {
+    "query_id": "GOLDEN-081",
+    "query_text": "Carbofuran குருணை மருந்து வயல் முழுக்க போடலாமா?",
+    "expected_entity": "",
+    "expected_evidence_chunk_ids": [],
+    "expected_document_ids": [],
+    "actual_top1": "LEX-PEST-003",
+    "actual_top3": [
+      "LEX-PEST-003",
+      "AGRO-NUTRITION-IRON-CHLOROSIS"
+    ],
+    "actual_top5": [
+      "LEX-PEST-003",
+      "AGRO-NUTRITION-IRON-CHLOROSIS"
+    ],
+    "overall_rank": 1,
+    "mrr": 1.0,
+    "bm25_rank": null,
+    "dense_rank": null,
+    "structured_rank": null,
+    "failure_category": null,
+    "root_cause": "Non-retrieval conversational / safety intervention"
+  },
+  {
+    "query_id": "GOLDEN-082",
+    "query_text": "கார்போபியூரான் 3ஜி தமிழ்நாட்டில் தடை செய்யப்பட்டுள்ளதா?",
+    "expected_entity": "",
+    "expected_evidence_chunk_ids": [],
+    "expected_document_ids": [],
+    "actual_top1": "LEX-PEST-008",
+    "actual_top3": [
+      "LEX-PEST-008",
+      "CHEM-012"
+    ],
+    "actual_top5": [
+      "LEX-PEST-008",
+      "CHEM-012"
+    ],
+    "overall_rank": 1,
+    "mrr": 1.0,
+    "bm25_rank": null,
+    "dense_rank": null,
+    "structured_rank": null,
+    "failure_category": null,
+    "root_cause": "Non-retrieval conversational / safety intervention"
+  },
+  {
+    "query_id": "GOLDEN-083",
+    "query_text": "அறுவடைக்கு இன்னும் 4 நாள் இருக்கு மலாத்தியான் அடிக்கலாமா?",
+    "expected_entity": "",
+    "expected_evidence_chunk_ids": [],
+    "expected_document_ids": [],
+    "actual_top1": "AGRO-INPUT-COPPER-SULPHATE",
+    "actual_top3": [
+      "AGRO-INPUT-COPPER-SULPHATE",
+      "LEX-PEST-005"
+    ],
+    "actual_top5": [
+      "AGRO-INPUT-COPPER-SULPHATE",
+      "LEX-PEST-005"
+    ],
+    "overall_rank": 1,
+    "mrr": 1.0,
+    "bm25_rank": null,
+    "dense_rank": null,
+    "structured_rank": null,
+    "failure_category": null,
+    "root_cause": "Non-retrieval conversational / safety intervention"
+  },
+  {
+    "query_id": "GOLDEN-084",
+    "query_text": "அடுத்த வாரம் அறுவடை மலாத்தியான் அடிக்கலாமா நாவாய்ப்பூச்சிக்கு?",
+    "expected_entity": "",
+    "expected_evidence_chunk_ids": [],
+    "expected_document_ids": [],
+    "actual_top1": "SEV-PEST-008",
+    "actual_top3": [
+      "SEV-PEST-008",
+      "EVID-DOC-PEST-008-MAIN"
+    ],
+    "actual_top5": [
+      "SEV-PEST-008",
+      "EVID-DOC-PEST-008-MAIN"
+    ],
+    "overall_rank": 1,
+    "mrr": 1.0,
+    "bm25_rank": null,
+    "dense_rank": null,
+    "structured_rank": null,
+    "failure_category": null,
+    "root_cause": "Non-retrieval conversational / safety intervention"
+  },
+  {
+    "query_id": "GOLDEN-085",
+    "query_text": "கத்திரி செடியில தண்டு துளைப்பான் இருக்கு நெல் மருந்து அடிக்கலாமா?",
+    "expected_entity": "",
+    "expected_evidence_chunk_ids": [],
+    "expected_document_ids": [],
+    "actual_top1": "EVID-DOC-PEST-001-MAIN",
+    "actual_top3": [
+      "EVID-DOC-PEST-001-MAIN",
+      "LEX-PEST-001"
+    ],
+    "actual_top5": [
+      "EVID-DOC-PEST-001-MAIN",
+      "LEX-PEST-001"
+    ],
+    "overall_rank": 1,
+    "mrr": 1.0,
+    "bm25_rank": null,
+    "dense_rank": null,
+    "structured_rank": null,
+    "failure_category": null,
+    "root_cause": "Non-retrieval conversational / safety intervention"
+  },
+  {
+    "query_id": "GOLDEN-086",
+    "query_text": "மிளகாய் பயிருக்கு நெல் புகையான் மருந்து பப்ரோபெசின் அடிக்கலாமா?",
+    "expected_entity": "",
+    "expected_evidence_chunk_ids": [],
+    "expected_document_ids": [],
+    "actual_top1": "CHEM-002",
+    "actual_top3": [
+      "CHEM-002",
+      "SEV-PEST-002"
+    ],
+    "actual_top5": [
+      "CHEM-002",
+      "SEV-PEST-002"
+    ],
+    "overall_rank": 1,
+    "mrr": 1.0,
+    "bm25_rank": null,
+    "dense_rank": null,
+    "structured_rank": null,
+    "failure_category": null,
+    "root_cause": "Non-retrieval conversational / safety intervention"
+  },
+  {
+    "query_id": "GOLDEN-087",
+    "query_text": "BLB நோய்க்கு ஸ்ட்ரெப்டோமைசின் ஆண்டிபயாடிக் அடிக்கலாமா?",
+    "expected_entity": "",
+    "expected_evidence_chunk_ids": [],
+    "expected_document_ids": [],
+    "actual_top1": "CHEM-007",
+    "actual_top3": [
+      "CHEM-007",
+      "EVID-DOC-DIS-001-MAIN"
+    ],
+    "actual_top5": [
+      "CHEM-007",
+      "EVID-DOC-DIS-001-MAIN"
+    ],
+    "overall_rank": 1,
+    "mrr": 1.0,
+    "bm25_rank": null,
+    "dense_rank": null,
+    "structured_rank": null,
+    "failure_category": null,
+    "root_cause": "Non-retrieval conversational / safety intervention"
+  },
+  {
+    "query_id": "GOLDEN-088",
+    "query_text": "ட்ரோன் மூலமா மருந்து அடிக்க ஏக்கருக்கு எவ்வளவு தண்ணி கலக்கணும்?",
+    "expected_entity": "",
+    "expected_evidence_chunk_ids": [],
+    "expected_document_ids": [],
+    "actual_top1": "CHEM-003",
+    "actual_top3": [
+      "CHEM-003",
+      "SEV-PEST-003",
+      "LEX-PEST-005"
+    ],
+    "actual_top5": [
+      "CHEM-003",
+      "SEV-PEST-003",
+      "LEX-PEST-005",
+      "AGRO-INPUT-COPPER-SULPHATE",
+      "AGRO-NUTRITION-IRON-CHLOROSIS"
+    ],
+    "overall_rank": null,
+    "mrr": 0.0,
+    "bm25_rank": null,
+    "dense_rank": null,
+    "structured_rank": null,
+    "failure_category": "F09",
+    "root_cause": "Target document chunk not retrieved in top-5"
+  },
+  {
+    "query_id": "GOLDEN-089",
+    "query_text": "ட்ரோன் ஸ்ப்ரே பண்ணும்போது காற்றின் வேகம் எவ்வளவு இருக்க வேண்டும்?",
+    "expected_entity": "",
+    "expected_evidence_chunk_ids": [],
+    "expected_document_ids": [],
+    "actual_top1": "CHEM-003",
+    "actual_top3": [
+      "CHEM-003",
+      "AGRO-INPUT-COPPER-SULPHATE",
+      "CHEM-004"
+    ],
+    "actual_top5": [
+      "CHEM-003",
+      "AGRO-INPUT-COPPER-SULPHATE",
+      "CHEM-004",
+      "CHEM-012",
+      "AGRO-NUTRITION-IRON-CHLOROSIS"
+    ],
+    "overall_rank": null,
+    "mrr": 0.0,
+    "bm25_rank": null,
+    "dense_rank": null,
+    "structured_rank": null,
+    "failure_category": "F09",
+    "root_cause": "Target document chunk not retrieved in top-5"
+  },
+  {
+    "query_id": "GOLDEN-090",
+    "query_text": "நெல் பூக்கும் போது False Smut-க்கு Propiconazole அடிக்கலாமா?",
+    "expected_entity": "",
+    "expected_evidence_chunk_ids": [],
+    "expected_document_ids": [],
+    "actual_top1": "CHEM-013",
+    "actual_top3": [
+      "CHEM-013",
+      "ETL-018"
+    ],
+    "actual_top5": [
+      "CHEM-013",
+      "ETL-018"
+    ],
+    "overall_rank": 1,
+    "mrr": 1.0,
+    "bm25_rank": null,
+    "dense_rank": null,
+    "structured_rank": null,
+    "failure_category": null,
+    "root_cause": "Non-retrieval conversational / safety intervention"
+  },
+  {
+    "query_id": "GOLDEN-091",
+    "query_text": "சுடோமோனாஸ் கூட காப்பர் பூஞ்சாண மருந்து கலந்து ஒண்ணா அடிக்கலாமா?",
+    "expected_entity": "",
+    "expected_evidence_chunk_ids": [],
+    "expected_document_ids": [],
+    "actual_top1": "CHEM-015",
+    "actual_top3": [
+      "CHEM-015",
+      "CHEM-012"
+    ],
+    "actual_top5": [
+      "CHEM-015",
+      "CHEM-012"
+    ],
+    "overall_rank": 1,
+    "mrr": 1.0,
+    "bm25_rank": null,
+    "dense_rank": null,
+    "structured_rank": null,
+    "failure_category": null,
+    "root_cause": "Non-retrieval conversational / safety intervention"
+  },
+  {
+    "query_id": "GOLDEN-092",
+    "query_text": "Pseudomonas தெளித்த எத்தனை நாட்கள் கழித்து பூஞ்சாண மருந்து அடிக்கலாம்?",
+    "expected_entity": "",
+    "expected_evidence_chunk_ids": [],
+    "expected_document_ids": [],
+    "actual_top1": "CHEM-015",
+    "actual_top3": [
+      "CHEM-015",
+      "AGRO-INPUT-COPPER-SULPHATE",
+      "AGRO-NUTRITION-IRON-CHLOROSIS"
+    ],
+    "actual_top5": [
+      "CHEM-015",
+      "AGRO-INPUT-COPPER-SULPHATE",
+      "AGRO-NUTRITION-IRON-CHLOROSIS",
+      "LEX-PEST-005",
+      "EVID-DOC-DIS-005-MGMT"
+    ],
+    "overall_rank": null,
+    "mrr": 0.0,
+    "bm25_rank": null,
+    "dense_rank": null,
+    "structured_rank": null,
+    "failure_category": "F09",
+    "root_cause": "Target document chunk not retrieved in top-5"
+  },
+  {
+    "query_id": "GOLDEN-093",
+    "query_text": "இலை மஞ்சளா இருக்குதுங்க என்ன பண்றது?",
+    "expected_entity": "",
+    "expected_evidence_chunk_ids": [],
+    "expected_document_ids": [],
+    "actual_top1": null,
+    "actual_top3": [],
+    "actual_top5": [],
+    "overall_rank": 1,
+    "mrr": 1.0,
+    "bm25_rank": null,
+    "dense_rank": null,
+    "structured_rank": null,
+    "failure_category": null,
+    "root_cause": "Non-retrieval conversational / safety intervention"
+  },
+  {
+    "query_id": "GOLDEN-094",
+    "query_text": "வயல்ல ஏதோ பூச்சி பறக்குது மருந்து சொல்லுங்க",
+    "expected_entity": "",
+    "expected_evidence_chunk_ids": [],
+    "expected_document_ids": [],
+    "actual_top1": null,
+    "actual_top3": [],
+    "actual_top5": [],
+    "overall_rank": 1,
+    "mrr": 1.0,
+    "bm25_rank": null,
+    "dense_rank": null,
+    "structured_rank": null,
+    "failure_category": null,
+    "root_cause": "Non-retrieval conversational / safety intervention"
+  },
+  {
+    "query_id": "GOLDEN-095",
+    "query_text": "இலை மேலெல்லாம் செம்புள்ளி இருக்கு ஜிங்க் குறைபாடா இல்ல நோயா?",
+    "expected_entity": "",
+    "expected_evidence_chunk_ids": [],
+    "expected_document_ids": [],
+    "actual_top1": "DDT-001",
+    "actual_top3": [
+      "DDT-001"
+    ],
+    "actual_top5": [
+      "DDT-001"
+    ],
+    "overall_rank": 1,
+    "mrr": 1.0,
+    "bm25_rank": null,
+    "dense_rank": null,
+    "structured_rank": null,
+    "failure_category": null,
+    "root_cause": "Non-retrieval conversational / safety intervention"
+  },
+  {
+    "query_id": "GOLDEN-096",
+    "query_text": "மட்ட பூச்சிக்கு என்ன மருந்து அடிக்கலாம் கொங்கு பகுதியில்?",
+    "expected_entity": "",
+    "expected_evidence_chunk_ids": [],
+    "expected_document_ids": [],
+    "actual_top1": null,
+    "actual_top3": [],
+    "actual_top5": [],
+    "overall_rank": 1,
+    "mrr": 1.0,
+    "bm25_rank": null,
+    "dense_rank": null,
+    "structured_rank": null,
+    "failure_category": null,
+    "root_cause": "Non-retrieval conversational / safety intervention"
+  },
+  {
+    "query_id": "GOLDEN-097",
+    "query_text": "தண்டு துளைப்பானுக்கு Chlorantraniliprole 18.5 SC காத்திருப்பு காலம் (PHI) எத்தனை நாட்கள்?",
+    "expected_entity": "",
+    "expected_evidence_chunk_ids": [],
+    "expected_document_ids": [],
+    "actual_top1": "CHEM-001",
+    "actual_top3": [
+      "CHEM-001",
+      "CHEM-012",
+      "CHEM-010"
+    ],
+    "actual_top5": [
+      "CHEM-001",
+      "CHEM-012",
+      "CHEM-010",
+      "LEX-PEST-001",
+      "SEV-DIS-001"
+    ],
+    "overall_rank": null,
+    "mrr": 0.0,
+    "bm25_rank": null,
+    "dense_rank": null,
+    "structured_rank": null,
+    "failure_category": "F11",
+    "root_cause": "Chemical entity outranked doc chunk or vice versa"
+  },
+  {
+    "query_id": "GOLDEN-098",
+    "query_text": "Thiamethoxam 25 WG மருந்துக்கு PHI நாட்கள் எத்தனை?",
+    "expected_entity": "",
+    "expected_evidence_chunk_ids": [],
+    "expected_document_ids": [],
+    "actual_top1": "CHEM-004",
+    "actual_top3": [
+      "CHEM-004",
+      "CHEM-002",
+      "CHEM-013"
+    ],
+    "actual_top5": [
+      "CHEM-004",
+      "CHEM-002",
+      "CHEM-013",
+      "AGRO-INPUT-COPPER-SULPHATE"
+    ],
+    "overall_rank": null,
+    "mrr": 0.0,
+    "bm25_rank": null,
+    "dense_rank": null,
+    "structured_rank": null,
+    "failure_category": "F09",
+    "root_cause": "Target document chunk not retrieved in top-5"
+  },
+  {
+    "query_id": "GOLDEN-099",
+    "query_text": "Buprofezin 25 SC மருந்து பச்சை லேபிளா நீல லேபிளா?",
+    "expected_entity": "",
+    "expected_evidence_chunk_ids": [],
+    "expected_document_ids": [],
+    "actual_top1": "CHEM-002",
+    "actual_top3": [
+      "CHEM-002",
+      "CHEM-004",
+      "SEV-PEST-008"
+    ],
+    "actual_top5": [
+      "CHEM-002",
+      "CHEM-004",
+      "SEV-PEST-008",
+      "CHEM-012",
+      "CHEM-010"
+    ],
+    "overall_rank": null,
+    "mrr": 0.0,
+    "bm25_rank": null,
+    "dense_rank": null,
+    "structured_rank": null,
+    "failure_category": "F11",
+    "root_cause": "Chemical entity outranked doc chunk or vice versa"
+  },
+  {
+    "query_id": "GOLDEN-100",
+    "query_text": "அறியப்படாத புதிய பூச்சிக்கு பரிந்துரை இல்லாத மருந்தை அடிக்கலாமா?",
+    "expected_entity": "",
+    "expected_evidence_chunk_ids": [],
+    "expected_document_ids": [],
+    "actual_top1": "LEX-PEST-004",
+    "actual_top3": [
+      "LEX-PEST-004",
+      "AGRO-INPUT-COPPER-SULPHATE"
+    ],
+    "actual_top5": [
+      "LEX-PEST-004",
+      "AGRO-INPUT-COPPER-SULPHATE"
+    ],
+    "overall_rank": 1,
+    "mrr": 1.0,
+    "bm25_rank": null,
+    "dense_rank": null,
+    "structured_rank": null,
+    "failure_category": null,
+    "root_cause": "Non-retrieval conversational / safety intervention"
+  }
+]

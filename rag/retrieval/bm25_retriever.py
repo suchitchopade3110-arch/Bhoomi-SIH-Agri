@@ -38,9 +38,16 @@ class BM25Retriever:
         if not text:
             return []
         text_clean = text.lower()
-        # Keep Tamil unicode (0B80-0BFF), Latin alphanumeric, and standard symbols (% / .)
-        tokens = re.findall(r'[\u0b80-\u0bff]+|[a-z0-9\.\%]+', text_clean)
-        return tokens
+        # Keep Tamil unicode (0B80-0BFF), Latin alphanumeric, and standard symbols (% / . - _)
+        tokens = re.findall(r'[\u0b80-\u0bff]+|[a-z0-9\.\%\-\_]+', text_clean)
+        
+        # Add character 3-grams for Tamil words of length >= 4 for subword/morphological recall
+        subwords = []
+        for t in tokens:
+            if re.match(r'[\u0b80-\u0bff]+', t) and len(t) >= 4:
+                for i in range(len(t) - 2):
+                    subwords.append(t[i:i+3])
+        return tokens + subwords
 
     def _load_and_index(self):
         """Loads semantic chunks and builds the BM25 inverted index."""
@@ -59,10 +66,9 @@ class BM25Retriever:
         self.inverted_index = {}
 
         for doc_idx, chk in enumerate(self.chunks):
-            # Form an indexable document text string combining text and relevant metadata
             meta = chk.get("metadata", {})
             meta_str = " ".join([str(v) for v in meta.values() if v is not None])
-            full_text = f"{chk.get('text', '')} {meta_str}"
+            full_text = f"{chk.get('text', '')} {chk.get('evidence_id', '')} {chk.get('entity_id', '')} {meta_str}"
             
             tokens = self._tokenize(full_text)
             self.corpus_tokens.append(tokens)
@@ -107,14 +113,12 @@ class BM25Retriever:
                 score_contribution = idf * (numerator / denominator)
                 doc_scores[doc_idx] = doc_scores.get(doc_idx, 0.0) + score_contribution
 
-        # Sort and apply optional metadata filter
         sorted_indices = sorted(doc_scores.items(), key=lambda x: x[1], reverse=True)
         results = []
 
         for doc_idx, score in sorted_indices:
             chunk = self.chunks[doc_idx]
             
-            # Apply hard metadata filter if provided
             if metadata_filter:
                 match = True
                 meta = chunk.get("metadata", {})

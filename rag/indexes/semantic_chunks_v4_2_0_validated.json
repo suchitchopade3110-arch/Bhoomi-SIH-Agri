@@ -14,6 +14,7 @@
       "dialect_region": "Standard Tamil / TNAU",
       "term_type": "canonical_name",
       "lexicon_status": "VERIFIED",
+      "source_authority": 8,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -35,6 +36,7 @@
       "dialect_region": "Cauvery Delta",
       "term_type": "colloquial_alias",
       "lexicon_status": "NEEDS_REVIEW",
+      "source_authority": 8,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -56,6 +58,7 @@
       "dialect_region": "Standard Tamil",
       "term_type": "symptom_phrase",
       "lexicon_status": "VERIFIED",
+      "source_authority": 8,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -77,6 +80,7 @@
       "dialect_region": "Tanglish",
       "term_type": "colloquial_alias",
       "lexicon_status": "VERIFIED",
+      "source_authority": 8,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -98,6 +102,7 @@
       "dialect_region": "Cauvery Delta / Standard Tamil",
       "term_type": "canonical_name",
       "lexicon_status": "VERIFIED",
+      "source_authority": 8,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -119,6 +124,7 @@
       "dialect_region": "Standard Tamil",
       "term_type": "canonical_name",
       "lexicon_status": "VERIFIED",
+      "source_authority": 8,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -140,6 +146,7 @@
       "dialect_region": "General Tamil",
       "term_type": "colloquial_alias",
       "lexicon_status": "NEEDS_REVIEW",
+      "source_authority": 8,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -161,6 +168,7 @@
       "dialect_region": "Tanglish",
       "term_type": "symptom_phrase",
       "lexicon_status": "VERIFIED",
+      "source_authority": 8,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -182,6 +190,7 @@
       "dialect_region": "Standard Tamil / TNAU",
       "term_type": "canonical_name",
       "lexicon_status": "VERIFIED",
+      "source_authority": 8,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -203,6 +212,7 @@
       "dialect_region": "Southern Tamil Nadu",
       "term_type": "colloquial_alias",
       "lexicon_status": "VERIFIED",
+      "source_authority": 8,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -224,6 +234,7 @@
       "dialect_region": "Kongu Tamil",
       "term_type": "colloquial_alias",
       "lexicon_status": "NEEDS_REVIEW",
+      "source_authority": 8,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -245,6 +256,7 @@
       "dialect_region": "Standard Tamil / TNAU",
       "term_type": "canonical_name",
       "lexicon_status": "VERIFIED",
+      "source_authority": 8,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -266,6 +278,7 @@
       "dialect_region": "Cauvery Delta",
       "term_type": "colloquial_alias",
       "lexicon_status": "NEEDS_REVIEW",
+      "source_authority": 8,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -287,6 +300,7 @@
       "dialect_region": "Cauvery Delta / Standard Tamil",
       "term_type": "canonical_name",
       "lexicon_status": "VERIFIED",
+      "source_authority": 8,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -308,6 +322,7 @@
       "dialect_region": "Standard Tamil",
       "term_type": "symptom_phrase",
       "lexicon_status": "VERIFIED",
+      "source_authority": 8,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -329,6 +344,7 @@
       "dialect_region": "Southern Tamil Nadu",
       "term_type": "colloquial_alias",
       "lexicon_status": "NEEDS_REVIEW",
+      "source_authority": 8,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -350,6 +366,7 @@
       "dialect_region": "Standard Tamil / TNAU",
       "term_type": "canonical_name",
       "lexicon_status": "VERIFIED",
+      "source_authority": 8,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -371,6 +388,7 @@
       "dialect_region": "Cauvery Delta",
       "term_type": "colloquial_alias",
       "lexicon_status": "NEEDS_REVIEW",
+      "source_authority": 8,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -392,6 +410,7 @@
       "dialect_region": "Standard Tamil / TNAU",
       "term_type": "canonical_name",
       "lexicon_status": "VERIFIED",
+      "source_authority": 8,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -413,6 +432,7 @@
       "dialect_region": "Western Tamil Nadu",
       "term_type": "colloquial_alias",
       "lexicon_status": "NEEDS_REVIEW",
+      "source_authority": 8,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -434,6 +454,7 @@
       "dialect_region": "Standard Tamil / TNAU",
       "term_type": "canonical_name",
       "lexicon_status": "VERIFIED",
+      "source_authority": 8,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -455,6 +476,7 @@
       "dialect_region": "Cauvery Delta",
       "term_type": "colloquial_alias",
       "lexicon_status": "NEEDS_REVIEW",
+      "source_authority": 8,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -476,6 +498,7 @@
       "dialect_region": "Northern Tamil Nadu",
       "term_type": "colloquial_alias",
       "lexicon_status": "NEEDS_REVIEW",
+      "source_authority": 8,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -488,7 +511,7 @@
     "evidence_id": "EVID-DOC-DIS-001-MAIN",
     "entity_id": "DIS_001",
     "chunk_type": "ENTITY",
-    "text": "Document: TNAU & ICAR Rice Disease Management Guide — Bacterial Leaf Blight. Crop: Rice (Oryza sativa). Entity: Bacterial Leaf Blight (BLB) (Xanthomonas oryzae pv. oryzae). Source: TNAU / ICAR-IIRR.",
+    "text": "Document: TNAU & ICAR Rice Disease Management Guide — Bacterial Leaf Blight (DOC-DIS-001). Crop: Rice (Oryza sativa). Entity: Bacterial Leaf Blight (BLB) (Xanthomonas oryzae pv. oryzae). Source: TNAU / ICAR-IIRR. Complete integrated pest/disease management guide for Tamil Nadu.",
     "metadata": {
       "doc_id": "DOC-DIS-001",
       "title": "TNAU & ICAR Rice Disease Management Guide — Bacterial Leaf Blight",
@@ -497,6 +520,27 @@
       "scientific_name": "Xanthomonas oryzae pv. oryzae",
       "crop": "Rice (Oryza sativa)",
       "source": "TNAU / ICAR-IIRR",
+      "source_authority": 8,
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "corpus/rice_bacterial_leaf_blight.md"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-DOC-DIS-001-MANAGEMENT",
+    "parent_record_id": "DOC-DIS-001",
+    "evidence_id": "EVID-DOC-DIS-001-MGMT",
+    "entity_id": "DIS_001",
+    "chunk_type": "MANAGEMENT",
+    "text": "Agronomic Management for Bacterial Leaf Blight (BLB) (DOC-DIS-001): # TNAU & ICAR Rice Disease Management Guide: Bacterial Leaf Blight (BLB)\n\n## 1. Overview & Crop Stages Affected\nBacterial Leaf Blight (BLB), caused by *Xanthomonas oryzae* pv. *oryzae*, is one of the most destructive vascular bacterial diseases of rice across Tamil Nadu, especially in the Cauvery Delta.\n\nThe disease manifests in two distinct phases:\n1. **Kresek Phase (Seedling/Early Tillering)**: Acute systemic wilt occurring 1 to 3 weeks after transplanting, causing entire tillers to wither and",
+    "metadata": {
+      "doc_id": "DOC-DIS-001",
+      "entity_id": "DIS_001",
+      "canonical_name": "Bacterial Leaf Blight (BLB)",
+      "crop": "Rice (Oryza sativa)",
+      "source": "TNAU / ICAR-IIRR",
+      "source_authority": 8,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -509,7 +553,7 @@
     "evidence_id": "EVID-DOC-DIS-008-MAIN",
     "entity_id": "DIS_008",
     "chunk_type": "ENTITY",
-    "text": "Document: TNAU & ICAR Rice Disease Management Guide — Bacterial Leaf Streak. Crop: Rice (Oryza sativa). Entity: Bacterial Leaf Streak (BLS) (Xanthomonas oryzae pv. oryzicola). Source: TNAU / ICAR-IIRR.",
+    "text": "Document: TNAU & ICAR Rice Disease Management Guide — Bacterial Leaf Streak (DOC-DIS-008). Crop: Rice (Oryza sativa). Entity: Bacterial Leaf Streak (BLS) (Xanthomonas oryzae pv. oryzicola). Source: TNAU / ICAR-IIRR. Complete integrated pest/disease management guide for Tamil Nadu.",
     "metadata": {
       "doc_id": "DOC-DIS-008",
       "title": "TNAU & ICAR Rice Disease Management Guide — Bacterial Leaf Streak",
@@ -518,6 +562,27 @@
       "scientific_name": "Xanthomonas oryzae pv. oryzicola",
       "crop": "Rice (Oryza sativa)",
       "source": "TNAU / ICAR-IIRR",
+      "source_authority": 8,
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "corpus/rice_bacterial_leaf_streak.md"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-DOC-DIS-008-MANAGEMENT",
+    "parent_record_id": "DOC-DIS-008",
+    "evidence_id": "EVID-DOC-DIS-008-MGMT",
+    "entity_id": "DIS_008",
+    "chunk_type": "MANAGEMENT",
+    "text": "Agronomic Management for Bacterial Leaf Streak (BLS) (DOC-DIS-008): # TNAU & ICAR Rice Disease Management Guide: Bacterial Leaf Streak (BLS)\n\n## 1. Overview & Crop Stages Affected\nBacterial Leaf Streak (BLS), caused by *Xanthomonas oryzae* pv. *oryzicola*, enters the leaf blade through stomata and mechanical wounds. Unlike BLB, which attacks the vascular system, BLS infects the parenchymatous mesophyll tissue between veins.\n\n## 2. Distinguishing Field Identification Cues\n- Fine, narrow, water-soaked, translucent interveinal streaks confined between leaf veins (u",
+    "metadata": {
+      "doc_id": "DOC-DIS-008",
+      "entity_id": "DIS_008",
+      "canonical_name": "Bacterial Leaf Streak (BLS)",
+      "crop": "Rice (Oryza sativa)",
+      "source": "TNAU / ICAR-IIRR",
+      "source_authority": 8,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -530,7 +595,7 @@
     "evidence_id": "EVID-DOC-DIS-002-MAIN",
     "entity_id": "DIS_002",
     "chunk_type": "ENTITY",
-    "text": "Document: TNAU & ICAR Rice Disease Management Guide — Rice Blast. Crop: Rice (Oryza sativa). Entity: Rice Blast (Magnaporthe oryzae (Pyricularia oryzae)). Source: TNAU / ICAR-IIRR.",
+    "text": "Document: TNAU & ICAR Rice Disease Management Guide — Rice Blast (DOC-DIS-002). Crop: Rice (Oryza sativa). Entity: Rice Blast (Magnaporthe oryzae (Pyricularia oryzae)). Source: TNAU / ICAR-IIRR. Complete integrated pest/disease management guide for Tamil Nadu.",
     "metadata": {
       "doc_id": "DOC-DIS-002",
       "title": "TNAU & ICAR Rice Disease Management Guide — Rice Blast",
@@ -539,6 +604,27 @@
       "scientific_name": "Magnaporthe oryzae (Pyricularia oryzae)",
       "crop": "Rice (Oryza sativa)",
       "source": "TNAU / ICAR-IIRR",
+      "source_authority": 8,
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "corpus/rice_blast.md"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-DOC-DIS-002-MANAGEMENT",
+    "parent_record_id": "DOC-DIS-002",
+    "evidence_id": "EVID-DOC-DIS-002-MGMT",
+    "entity_id": "DIS_002",
+    "chunk_type": "MANAGEMENT",
+    "text": "Agronomic Management for Rice Blast (DOC-DIS-002): # TNAU & ICAR Rice Disease Management Guide: Rice Blast\n\n## 1. Overview & Crop Stages Affected\nRice Blast, caused by the ascomycete fungus *Magnaporthe oryzae* (*Pyricularia oryzae*), is an airborne fungal disease attacking rice at all developmental phases.\n\nDepending on the plant organ infected, the disease is termed:\n1. **Leaf Blast**: Most prevalent from nursery through tillering.\n2. **Node Blast**: Attack on stem nodes turning them black and brittle.\n3. **Neck Blast (Rotten Neck)**: Attack o",
+    "metadata": {
+      "doc_id": "DOC-DIS-002",
+      "entity_id": "DIS_002",
+      "canonical_name": "Rice Blast",
+      "crop": "Rice (Oryza sativa)",
+      "source": "TNAU / ICAR-IIRR",
+      "source_authority": 8,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -551,7 +637,7 @@
     "evidence_id": "EVID-DOC-PEST-002-MAIN",
     "entity_id": "PEST_002",
     "chunk_type": "ENTITY",
-    "text": "Document: IRRI Rice Knowledge Bank — Brown Planthopper Management. Crop: Rice (Oryza sativa). Entity: Brown planthopper (BPH) (Nilaparvata lugens). Source: ICAR-IRRI.",
+    "text": "Document: IRRI Rice Knowledge Bank — Brown Planthopper Management (DOC-PEST-002). Crop: Rice (Oryza sativa). Entity: Brown planthopper (BPH) (Nilaparvata lugens). Source: ICAR-IRRI. Complete integrated pest/disease management guide for Tamil Nadu.",
     "metadata": {
       "doc_id": "DOC-PEST-002",
       "title": "IRRI Rice Knowledge Bank — Brown Planthopper Management",
@@ -560,6 +646,27 @@
       "scientific_name": "Nilaparvata lugens",
       "crop": "Rice (Oryza sativa)",
       "source": "ICAR-IRRI",
+      "source_authority": 8,
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "corpus/rice_brown_planthopper.md"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-DOC-PEST-002-MANAGEMENT",
+    "parent_record_id": "DOC-PEST-002",
+    "evidence_id": "EVID-DOC-PEST-002-MGMT",
+    "entity_id": "PEST_002",
+    "chunk_type": "MANAGEMENT",
+    "text": "Agronomic Management for Brown planthopper (BPH) (DOC-PEST-002): # IRRI Rice Knowledge Bank: Brown Planthopper (BPH) Management\n\n## 1. Overview & Crop Stages Affected\nBrown planthopper (*Nilaparvata lugens*) is a destructive sap-sucking pest affecting rice across Tamil Nadu and South India. It can infest crops at all growth stages, with damage peaking between the tillering and flowering stages.\n\nBoth nymphs and adults gather at the base of rice tillers near the water line, sucking plant sap. Heavy infestation leads to extensive yellowing and rapid drying of c",
+    "metadata": {
+      "doc_id": "DOC-PEST-002",
+      "entity_id": "PEST_002",
+      "canonical_name": "Brown planthopper (BPH)",
+      "crop": "Rice (Oryza sativa)",
+      "source": "ICAR-IRRI",
+      "source_authority": 8,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -572,7 +679,7 @@
     "evidence_id": "EVID-DOC-DIS-005-MAIN",
     "entity_id": "DIS_005",
     "chunk_type": "ENTITY",
-    "text": "Document: TNAU & ICAR Rice Disease Management Guide — Brown Spot. Crop: Rice (Oryza sativa). Entity: Brown Spot (Bipolaris oryzae (Helminthosporium oryzae)). Source: TNAU / ICAR-IIRR.",
+    "text": "Document: TNAU & ICAR Rice Disease Management Guide — Brown Spot (DOC-DIS-005). Crop: Rice (Oryza sativa). Entity: Brown Spot (Bipolaris oryzae (Helminthosporium oryzae)). Source: TNAU / ICAR-IIRR. Complete integrated pest/disease management guide for Tamil Nadu.",
     "metadata": {
       "doc_id": "DOC-DIS-005",
       "title": "TNAU & ICAR Rice Disease Management Guide — Brown Spot",
@@ -581,6 +688,27 @@
       "scientific_name": "Bipolaris oryzae (Helminthosporium oryzae)",
       "crop": "Rice (Oryza sativa)",
       "source": "TNAU / ICAR-IIRR",
+      "source_authority": 8,
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "corpus/rice_brown_spot.md"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-DOC-DIS-005-MANAGEMENT",
+    "parent_record_id": "DOC-DIS-005",
+    "evidence_id": "EVID-DOC-DIS-005-MGMT",
+    "entity_id": "DIS_005",
+    "chunk_type": "MANAGEMENT",
+    "text": "Agronomic Management for Brown Spot (DOC-DIS-005): # TNAU & ICAR Rice Disease Management Guide: Brown Spot\n\n## 1. Overview & Crop Stages Affected\nBrown spot, caused by *Bipolaris oryzae* (*Helminthosporium oryzae*), is a seed-borne and airborne fungal disease strongly associated with poor soil fertility, zinc/potassium deficiencies, and moisture stress. It occurs from nursery to mature grain stages.\n\n## 2. Distinguishing Field Identification Cues\n- Oval, circular, or sesame seed-shaped dark brown spots on leaf blades, sheaths, and glumes.\n- Matu",
+    "metadata": {
+      "doc_id": "DOC-DIS-005",
+      "entity_id": "DIS_005",
+      "canonical_name": "Brown Spot",
+      "crop": "Rice (Oryza sativa)",
+      "source": "TNAU / ICAR-IIRR",
+      "source_authority": 8,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -593,7 +721,7 @@
     "evidence_id": "EVID-DOC-PEST-008-MAIN",
     "entity_id": "PEST_008",
     "chunk_type": "ENTITY",
-    "text": "Document: ICAR Rice Insect Pest Management — Earhead Bug. Crop: Rice (Oryza sativa). Entity: Earhead bug (Leptocorisa acuta). Source: ICAR-IIRR.",
+    "text": "Document: ICAR Rice Insect Pest Management — Earhead Bug (DOC-PEST-008). Crop: Rice (Oryza sativa). Entity: Earhead bug (Leptocorisa acuta). Source: ICAR-IIRR. Complete integrated pest/disease management guide for Tamil Nadu.",
     "metadata": {
       "doc_id": "DOC-PEST-008",
       "title": "ICAR Rice Insect Pest Management — Earhead Bug",
@@ -602,6 +730,27 @@
       "scientific_name": "Leptocorisa acuta",
       "crop": "Rice (Oryza sativa)",
       "source": "ICAR-IIRR",
+      "source_authority": 8,
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "corpus/rice_earhead_bug.md"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-DOC-PEST-008-MANAGEMENT",
+    "parent_record_id": "DOC-PEST-008",
+    "evidence_id": "EVID-DOC-PEST-008-MGMT",
+    "entity_id": "PEST_008",
+    "chunk_type": "MANAGEMENT",
+    "text": "Agronomic Management for Earhead bug (DOC-PEST-008): # ICAR Rice Insect Pest Management: Earhead Bug\n\n## 1. Overview & Crop Stages Affected\nRice earhead bug or gundhi bug (*Leptocorisa acuta*) attacks paddy specifically during the flowering, milking, and soft-dough stages of grain development.\n\nBoth adults and nymphs pierce the developing milky grains and suck the liquid contents, causing the grains to become partially filled, discolored, shriveled, or completely empty (chaffy). Heavy infestation imparts an unpleasant offensive odor to the field a",
+    "metadata": {
+      "doc_id": "DOC-PEST-008",
+      "entity_id": "PEST_008",
+      "canonical_name": "Earhead bug",
+      "crop": "Rice (Oryza sativa)",
+      "source": "ICAR-IIRR",
+      "source_authority": 8,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -614,7 +763,7 @@
     "evidence_id": "EVID-DOC-DIS-007-MAIN",
     "entity_id": "DIS_007",
     "chunk_type": "ENTITY",
-    "text": "Document: TNAU & ICAR Rice Disease Management Guide — False Smut. Crop: Rice (Oryza sativa). Entity: False Smut (Ustilaginoidea virens (Villosiclava virens)). Source: TNAU / ICAR-IIRR.",
+    "text": "Document: TNAU & ICAR Rice Disease Management Guide — False Smut (DOC-DIS-007). Crop: Rice (Oryza sativa). Entity: False Smut (Ustilaginoidea virens (Villosiclava virens)). Source: TNAU / ICAR-IIRR. Complete integrated pest/disease management guide for Tamil Nadu.",
     "metadata": {
       "doc_id": "DOC-DIS-007",
       "title": "TNAU & ICAR Rice Disease Management Guide — False Smut",
@@ -623,6 +772,27 @@
       "scientific_name": "Ustilaginoidea virens (Villosiclava virens)",
       "crop": "Rice (Oryza sativa)",
       "source": "TNAU / ICAR-IIRR",
+      "source_authority": 8,
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "corpus/rice_false_smut.md"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-DOC-DIS-007-MANAGEMENT",
+    "parent_record_id": "DOC-DIS-007",
+    "evidence_id": "EVID-DOC-DIS-007-MGMT",
+    "entity_id": "DIS_007",
+    "chunk_type": "MANAGEMENT",
+    "text": "Agronomic Management for False Smut (DOC-DIS-007): # TNAU & ICAR Rice Disease Management Guide: False Smut\n\n## 1. Overview & Crop Stages Affected\nFalse smut, caused by *Ustilaginoidea virens*, transforms individual grains in a panicle into large velvety spore balls. It occurs during flowering and grain maturation.\n\nHigh relative humidity (>90%) and rainfall during the flowering stage favor severe infection.\n\n## 2. Distinguishing Field Identification Cues\n- Individual grains on the panicle transformed into large, spherical, velvety smut balls (up",
+    "metadata": {
+      "doc_id": "DOC-DIS-007",
+      "entity_id": "DIS_007",
+      "canonical_name": "False Smut",
+      "crop": "Rice (Oryza sativa)",
+      "source": "TNAU / ICAR-IIRR",
+      "source_authority": 8,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -635,7 +805,7 @@
     "evidence_id": "EVID-DOC-PEST-005-MAIN",
     "entity_id": "PEST_005",
     "chunk_type": "ENTITY",
-    "text": "Document: TNAU Gall Midge Management in Rice. Crop: Rice (Oryza sativa). Entity: Gall midge (Orseolia oryzae). Source: TNAU.",
+    "text": "Document: TNAU Gall Midge Management in Rice (DOC-PEST-005). Crop: Rice (Oryza sativa). Entity: Gall midge (Orseolia oryzae). Source: TNAU. Complete integrated pest/disease management guide for Tamil Nadu.",
     "metadata": {
       "doc_id": "DOC-PEST-005",
       "title": "TNAU Gall Midge Management in Rice",
@@ -644,6 +814,27 @@
       "scientific_name": "Orseolia oryzae",
       "crop": "Rice (Oryza sativa)",
       "source": "TNAU",
+      "source_authority": 8,
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "corpus/rice_gall_midge.md"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-DOC-PEST-005-MANAGEMENT",
+    "parent_record_id": "DOC-PEST-005",
+    "evidence_id": "EVID-DOC-PEST-005-MGMT",
+    "entity_id": "PEST_005",
+    "chunk_type": "MANAGEMENT",
+    "text": "Agronomic Management for Gall midge (DOC-PEST-005): # TNAU Gall Midge Management in Rice\n\n## 1. Overview & Crop Stages Affected\nRice gall midge (*Orseolia oryzae*) is an internal feeder causing severe damage primarily during the tillering stage. It is endemic in the Cauvery delta and coastal districts of Tamil Nadu.\n\nThe maggot feeds at the growing apical tip of the tiller, causing the leaf sheath to transform into a hollow, tubular elongation resembling an onion leaf or silver shoot, rendering the tiller sterile and incapable of producing a pani",
+    "metadata": {
+      "doc_id": "DOC-PEST-005",
+      "entity_id": "PEST_005",
+      "canonical_name": "Gall midge",
+      "crop": "Rice (Oryza sativa)",
+      "source": "TNAU",
+      "source_authority": 8,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -656,7 +847,7 @@
     "evidence_id": "EVID-DOC-PEST-004-MAIN",
     "entity_id": "PEST_004",
     "chunk_type": "ENTITY",
-    "text": "Document: ICAR Rice Production Manual — Green Leafhopper. Crop: Rice (Oryza sativa). Entity: Green leafhopper (GLH) (Nephotettix virescens). Source: ICAR-IIRR.",
+    "text": "Document: ICAR Rice Production Manual — Green Leafhopper (DOC-PEST-004). Crop: Rice (Oryza sativa). Entity: Green leafhopper (GLH) (Nephotettix virescens). Source: ICAR-IIRR. Complete integrated pest/disease management guide for Tamil Nadu.",
     "metadata": {
       "doc_id": "DOC-PEST-004",
       "title": "ICAR Rice Production Manual — Green Leafhopper",
@@ -665,6 +856,27 @@
       "scientific_name": "Nephotettix virescens",
       "crop": "Rice (Oryza sativa)",
       "source": "ICAR-IIRR",
+      "source_authority": 8,
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "corpus/rice_green_leafhopper.md"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-DOC-PEST-004-MANAGEMENT",
+    "parent_record_id": "DOC-PEST-004",
+    "evidence_id": "EVID-DOC-PEST-004-MGMT",
+    "entity_id": "PEST_004",
+    "chunk_type": "MANAGEMENT",
+    "text": "Agronomic Management for Green leafhopper (GLH) (DOC-PEST-004): # ICAR Rice Production Manual: Green Leafhopper (GLH)\n\n## 1. Overview & Crop Stages Affected\nGreen leafhopper (*Nephotettix virescens*) infests paddy across all growth stages. Direct feeding causes foliage yellowing, but its primary economic significance lies in its role as the active vector transmitting Rice Tungro Virus (RTV), making early management in nursery and vegetative stages critical.\n\n## 2. Distinguishing Field Identification Cues\n- Slender, bright-green wedge-shaped insect with disti",
+    "metadata": {
+      "doc_id": "DOC-PEST-004",
+      "entity_id": "PEST_004",
+      "canonical_name": "Green leafhopper (GLH)",
+      "crop": "Rice (Oryza sativa)",
+      "source": "ICAR-IIRR",
+      "source_authority": 8,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -677,7 +889,7 @@
     "evidence_id": "EVID-DOC-PEST-003-MAIN",
     "entity_id": "PEST_003",
     "chunk_type": "ENTITY",
-    "text": "Document: TNAU Rice Pest Management Guide — Leaf Folder. Crop: Rice (Oryza sativa). Entity: Leaf folder (Cnaphalocrocis medinalis). Source: TNAU.",
+    "text": "Document: TNAU Rice Pest Management Guide — Leaf Folder (DOC-PEST-003). Crop: Rice (Oryza sativa). Entity: Leaf folder (Cnaphalocrocis medinalis). Source: TNAU. Complete integrated pest/disease management guide for Tamil Nadu.",
     "metadata": {
       "doc_id": "DOC-PEST-003",
       "title": "TNAU Rice Pest Management Guide — Leaf Folder",
@@ -686,6 +898,27 @@
       "scientific_name": "Cnaphalocrocis medinalis",
       "crop": "Rice (Oryza sativa)",
       "source": "TNAU",
+      "source_authority": 8,
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "corpus/rice_leaf_folder.md"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-DOC-PEST-003-MANAGEMENT",
+    "parent_record_id": "DOC-PEST-003",
+    "evidence_id": "EVID-DOC-PEST-003-MGMT",
+    "entity_id": "PEST_003",
+    "chunk_type": "MANAGEMENT",
+    "text": "Agronomic Management for Leaf folder (DOC-PEST-003): # TNAU Rice Pest Management Guide: Leaf Folder\n\n## 1. Overview & Crop Stages Affected\nRice leaf folder (*Cnaphalocrocis medinalis*) is a widespread foliage feeder of paddy across Tamil Nadu. It damages crops primarily from the vegetative stage through the boot leaf and panicle emergence stages.\n\nThe larva folds the leaf blade longitudinally using silken threads and feeds on the green mesophyll tissue from within the protective roll, leaving transparent white streaks and significantly impairing p",
+    "metadata": {
+      "doc_id": "DOC-PEST-003",
+      "entity_id": "PEST_003",
+      "canonical_name": "Leaf folder",
+      "crop": "Rice (Oryza sativa)",
+      "source": "TNAU",
+      "source_authority": 8,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -698,7 +931,7 @@
     "evidence_id": "EVID-DOC-DIS-003-MAIN",
     "entity_id": "DIS_003",
     "chunk_type": "ENTITY",
-    "text": "Document: TNAU & IRRI Rice Disease Management Guide — Sheath Blight. Crop: Rice (Oryza sativa). Entity: Sheath Blight (Rhizoctonia solani). Source: TNAU / IRRI.",
+    "text": "Document: TNAU & IRRI Rice Disease Management Guide — Sheath Blight (DOC-DIS-003). Crop: Rice (Oryza sativa). Entity: Sheath Blight (Rhizoctonia solani). Source: TNAU / IRRI. Complete integrated pest/disease management guide for Tamil Nadu.",
     "metadata": {
       "doc_id": "DOC-DIS-003",
       "title": "TNAU & IRRI Rice Disease Management Guide — Sheath Blight",
@@ -707,6 +940,27 @@
       "scientific_name": "Rhizoctonia solani",
       "crop": "Rice (Oryza sativa)",
       "source": "TNAU / IRRI",
+      "source_authority": 8,
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "corpus/rice_sheath_blight.md"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-DOC-DIS-003-MANAGEMENT",
+    "parent_record_id": "DOC-DIS-003",
+    "evidence_id": "EVID-DOC-DIS-003-MGMT",
+    "entity_id": "DIS_003",
+    "chunk_type": "MANAGEMENT",
+    "text": "Agronomic Management for Sheath Blight (DOC-DIS-003): # TNAU & IRRI Rice Disease Management Guide: Sheath Blight\n\n## 1. Overview & Crop Stages Affected\nSheath Blight, caused by the soil-borne sclerotial fungus *Rhizoctonia solani*, is a major fungal disease of rice in high-density, heavily fertilized plantings. It typically initiates during maximum tillering and advances rapidly through the panicle emergence stage.\n\nThe sclerotia survive in soil and floating crop debris, floating onto emerging leaf sheaths during initial flooding and penetrating ep",
+    "metadata": {
+      "doc_id": "DOC-DIS-003",
+      "entity_id": "DIS_003",
+      "canonical_name": "Sheath Blight",
+      "crop": "Rice (Oryza sativa)",
+      "source": "TNAU / IRRI",
+      "source_authority": 8,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -719,7 +973,7 @@
     "evidence_id": "EVID-DOC-DIS-006-MAIN",
     "entity_id": "DIS_006",
     "chunk_type": "ENTITY",
-    "text": "Document: TNAU & ICAR Rice Disease Management Guide — Sheath Rot. Crop: Rice (Oryza sativa). Entity: Sheath Rot (Sarocladium oryzae). Source: TNAU / ICAR-IIRR.",
+    "text": "Document: TNAU & ICAR Rice Disease Management Guide — Sheath Rot (DOC-DIS-006). Crop: Rice (Oryza sativa). Entity: Sheath Rot (Sarocladium oryzae). Source: TNAU / ICAR-IIRR. Complete integrated pest/disease management guide for Tamil Nadu.",
     "metadata": {
       "doc_id": "DOC-DIS-006",
       "title": "TNAU & ICAR Rice Disease Management Guide — Sheath Rot",
@@ -728,6 +982,27 @@
       "scientific_name": "Sarocladium oryzae",
       "crop": "Rice (Oryza sativa)",
       "source": "TNAU / ICAR-IIRR",
+      "source_authority": 8,
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "corpus/rice_sheath_rot.md"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-DOC-DIS-006-MANAGEMENT",
+    "parent_record_id": "DOC-DIS-006",
+    "evidence_id": "EVID-DOC-DIS-006-MGMT",
+    "entity_id": "DIS_006",
+    "chunk_type": "MANAGEMENT",
+    "text": "Agronomic Management for Sheath Rot (DOC-DIS-006): # TNAU & ICAR Rice Disease Management Guide: Sheath Rot\n\n## 1. Overview & Crop Stages Affected\nSheath rot, caused by *Sarocladium oryzae*, attacks the uppermost flag leaf sheath enclosing the young panicle during the booting to heading stages. The disease is frequently aggravated by stem borer or mite damage to the sheath.\n\n## 2. Distinguishing Field Identification Cues\n- Irregular, oblong, or oblong-elliptical spots on the flag leaf sheath with grey-white centers and dark brown margins.\n- Young",
+    "metadata": {
+      "doc_id": "DOC-DIS-006",
+      "entity_id": "DIS_006",
+      "canonical_name": "Sheath Rot",
+      "crop": "Rice (Oryza sativa)",
+      "source": "TNAU / ICAR-IIRR",
+      "source_authority": 8,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -740,7 +1015,7 @@
     "evidence_id": "EVID-DOC-PEST-001-MAIN",
     "entity_id": "PEST_001",
     "chunk_type": "ENTITY",
-    "text": "Document: TNAU Rice Pest Management Guide — Stem Borer. Crop: Rice (Oryza sativa). Entity: Stem borer (Scirpophaga incertulas). Source: TNAU.",
+    "text": "Document: TNAU Rice Pest Management Guide — Stem Borer (DOC-PEST-001). Crop: Rice (Oryza sativa). Entity: Stem borer (Scirpophaga incertulas). Source: TNAU. Complete integrated pest/disease management guide for Tamil Nadu.",
     "metadata": {
       "doc_id": "DOC-PEST-001",
       "title": "TNAU Rice Pest Management Guide — Stem Borer",
@@ -749,6 +1024,27 @@
       "scientific_name": "Scirpophaga incertulas",
       "crop": "Rice (Oryza sativa)",
       "source": "TNAU",
+      "source_authority": 8,
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "corpus/rice_stem_borer.md"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-DOC-PEST-001-MANAGEMENT",
+    "parent_record_id": "DOC-PEST-001",
+    "evidence_id": "EVID-DOC-PEST-001-MGMT",
+    "entity_id": "PEST_001",
+    "chunk_type": "MANAGEMENT",
+    "text": "Agronomic Management for Stem borer (DOC-PEST-001): # TNAU Rice Pest Management Guide: Stem Borer\n\n## 1. Overview & Crop Stages Affected\nStem borer is one of the major insect pests of paddy across Tamil Nadu and South India. It attacks rice crops across all growth stages, with distinct symptoms manifesting during the vegetative and reproductive phases.\n\nDuring the vegetative stage, larval feeding inside the stem causes the central shoot to dry up and die, producing the classic \"dead heart\" symptom. During the reproductive stage, feeding at the ba",
+    "metadata": {
+      "doc_id": "DOC-PEST-001",
+      "entity_id": "PEST_001",
+      "canonical_name": "Stem borer",
+      "crop": "Rice (Oryza sativa)",
+      "source": "TNAU",
+      "source_authority": 8,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -761,7 +1057,7 @@
     "evidence_id": "EVID-DOC-PEST-006-MAIN",
     "entity_id": "PEST_006",
     "chunk_type": "ENTITY",
-    "text": "Document: KVK Rice Nursery Management — Thrips Control. Crop: Rice (Oryza sativa). Entity: Thrips (Stenchaetothrips biformis). Source: KVK.",
+    "text": "Document: KVK Rice Nursery Management — Thrips Control (DOC-PEST-006). Crop: Rice (Oryza sativa). Entity: Thrips (Stenchaetothrips biformis). Source: KVK. Complete integrated pest/disease management guide for Tamil Nadu.",
     "metadata": {
       "doc_id": "DOC-PEST-006",
       "title": "KVK Rice Nursery Management — Thrips Control",
@@ -770,6 +1066,27 @@
       "scientific_name": "Stenchaetothrips biformis",
       "crop": "Rice (Oryza sativa)",
       "source": "KVK",
+      "source_authority": 8,
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "corpus/rice_thrips.md"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-DOC-PEST-006-MANAGEMENT",
+    "parent_record_id": "DOC-PEST-006",
+    "evidence_id": "EVID-DOC-PEST-006-MGMT",
+    "entity_id": "PEST_006",
+    "chunk_type": "MANAGEMENT",
+    "text": "Agronomic Management for Thrips (DOC-PEST-006): # KVK Rice Nursery Management: Thrips Control\n\n## 1. Overview & Crop Stages Affected\nRice thrips (*Stenchaetothrips biformis*) is a common nursery and early vegetative pest of paddy across Tamil Nadu. It causes severe leaf rolling and seedling stunting, particularly under dry nursery conditions and water deficit stress.\n\nBoth nymphs and adults lacerate the tender leaf surface and suck the plant sap, causing the leaf margins to curl inward and the tips to wither.\n\n## 2. Distinguishing Field Ident",
+    "metadata": {
+      "doc_id": "DOC-PEST-006",
+      "entity_id": "PEST_006",
+      "canonical_name": "Thrips",
+      "crop": "Rice (Oryza sativa)",
+      "source": "KVK",
+      "source_authority": 8,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -782,7 +1099,7 @@
     "evidence_id": "EVID-DOC-DIS-004-MAIN",
     "entity_id": "DIS_004",
     "chunk_type": "ENTITY",
-    "text": "Document: TNAU & ICAR Rice Disease Management Guide — Rice Tungro Disease. Crop: Rice (Oryza sativa). Entity: Rice Tungro Virus (RTV) (Rice Tungro Bacilliform Virus (RTBV) & Rice Tungro Spherical Virus (RTSV)). Source: TNAU / ICAR-IIRR.",
+    "text": "Document: TNAU & ICAR Rice Disease Management Guide — Rice Tungro Disease (DOC-DIS-004). Crop: Rice (Oryza sativa). Entity: Rice Tungro Virus (RTV) (Rice Tungro Bacilliform Virus (RTBV) & Rice Tungro Spherical Virus (RTSV)). Source: TNAU / ICAR-IIRR. Complete integrated pest/disease management guide for Tamil Nadu.",
     "metadata": {
       "doc_id": "DOC-DIS-004",
       "title": "TNAU & ICAR Rice Disease Management Guide — Rice Tungro Disease",
@@ -791,6 +1108,27 @@
       "scientific_name": "Rice Tungro Bacilliform Virus (RTBV) & Rice Tungro Spherical Virus (RTSV)",
       "crop": "Rice (Oryza sativa)",
       "source": "TNAU / ICAR-IIRR",
+      "source_authority": 8,
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "corpus/rice_tungro_virus.md"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-DOC-DIS-004-MANAGEMENT",
+    "parent_record_id": "DOC-DIS-004",
+    "evidence_id": "EVID-DOC-DIS-004-MGMT",
+    "entity_id": "DIS_004",
+    "chunk_type": "MANAGEMENT",
+    "text": "Agronomic Management for Rice Tungro Virus (RTV) (DOC-DIS-004): # TNAU & ICAR Rice Disease Management Guide: Rice Tungro Disease (RTV)\n\n## 1. Overview & Crop Stages Affected\nRice Tungro Disease is caused by a composite infection of two distinct viruses:\n1. **Rice Tungro Bacilliform Virus (RTBV)**: Causes disease symptoms (stunting and yellowing).\n2. **Rice Tungro Spherical Virus (RTSV)**: Required for insect vector acquisition and transmission.\n\nThe disease is transmitted in a semi-persistent manner primarily by the **Green Leafhopper (*Nephotettix virescens",
+    "metadata": {
+      "doc_id": "DOC-DIS-004",
+      "entity_id": "DIS_004",
+      "canonical_name": "Rice Tungro Virus (RTV)",
+      "crop": "Rice (Oryza sativa)",
+      "source": "TNAU / ICAR-IIRR",
+      "source_authority": 8,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -803,7 +1141,7 @@
     "evidence_id": "EVID-DOC-PEST-007-MAIN",
     "entity_id": "PEST_007",
     "chunk_type": "ENTITY",
-    "text": "Document: TNAU Whorl Maggot Management in Rice. Crop: Rice (Oryza sativa). Entity: Whorl maggot (Hydrellia philippina). Source: TNAU.",
+    "text": "Document: TNAU Whorl Maggot Management in Rice (DOC-PEST-007). Crop: Rice (Oryza sativa). Entity: Whorl maggot (Hydrellia philippina). Source: TNAU. Complete integrated pest/disease management guide for Tamil Nadu.",
     "metadata": {
       "doc_id": "DOC-PEST-007",
       "title": "TNAU Whorl Maggot Management in Rice",
@@ -812,6 +1150,27 @@
       "scientific_name": "Hydrellia philippina",
       "crop": "Rice (Oryza sativa)",
       "source": "TNAU",
+      "source_authority": 8,
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "corpus/rice_whorl_maggot.md"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-DOC-PEST-007-MANAGEMENT",
+    "parent_record_id": "DOC-PEST-007",
+    "evidence_id": "EVID-DOC-PEST-007-MGMT",
+    "entity_id": "PEST_007",
+    "chunk_type": "MANAGEMENT",
+    "text": "Agronomic Management for Whorl maggot (DOC-PEST-007): # TNAU Whorl Maggot Management in Rice\n\n## 1. Overview & Crop Stages Affected\nRice whorl maggot (*Hydrellia philippina*) attacks seedlings in nursery beds and newly transplanted rice up to 30 days after transplanting (early vegetative phase).\n\nThe maggot enters the unexpanded central leaf whorl and feeds on the inner margin of the developing leaf. When the leaf expands, the damaged portions appear as conspicuous yellowish-white streaks and ragged, serrated leaf margins.\n\n## 2. Distinguishing Fie",
+    "metadata": {
+      "doc_id": "DOC-PEST-007",
+      "entity_id": "PEST_007",
+      "canonical_name": "Whorl maggot",
+      "crop": "Rice (Oryza sativa)",
+      "source": "TNAU",
+      "source_authority": 8,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -824,7 +1183,7 @@
     "evidence_id": "ETL-001",
     "entity_id": "PEST_001",
     "chunk_type": "ETL",
-    "text": "Economic Threshold Level (ETL) for None at vegetative stage: Base threshold is None.",
+    "text": "Economic Threshold Level (ETL) for Stem borer at vegetative stage: Base threshold is None.",
     "metadata": {
       "pest_id": "PEST_001",
       "crop": "Rice (Oryza sativa)",
@@ -834,6 +1193,7 @@
       "modifier_condition": null,
       "adjusted_threshold": null,
       "source": "TNAU",
+      "source_authority": 9,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -846,7 +1206,7 @@
     "evidence_id": "ETL-002",
     "entity_id": "PEST_001",
     "chunk_type": "ETL",
-    "text": "Economic Threshold Level (ETL) for None at reproductive stage: Base threshold is None.",
+    "text": "Economic Threshold Level (ETL) for Stem borer at reproductive stage: Base threshold is None.",
     "metadata": {
       "pest_id": "PEST_001",
       "crop": "Rice (Oryza sativa)",
@@ -856,6 +1216,7 @@
       "modifier_condition": null,
       "adjusted_threshold": null,
       "source": "TNAU",
+      "source_authority": 9,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -868,7 +1229,7 @@
     "evidence_id": "ETL-003",
     "entity_id": "PEST_002",
     "chunk_type": "ETL",
-    "text": "Economic Threshold Level (ETL) for None at seedling stage: Base threshold is None.",
+    "text": "Economic Threshold Level (ETL) for Brown planthopper (BPH) at seedling stage: Base threshold is None.",
     "metadata": {
       "pest_id": "PEST_002",
       "crop": "Rice (Oryza sativa)",
@@ -878,6 +1239,7 @@
       "modifier_condition": null,
       "adjusted_threshold": null,
       "source": "ICAR-IRRI",
+      "source_authority": 9,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -890,7 +1252,7 @@
     "evidence_id": "ETL-004",
     "entity_id": "PEST_002",
     "chunk_type": "ETL",
-    "text": "Economic Threshold Level (ETL) for None at vegetative stage: Base threshold is None.",
+    "text": "Economic Threshold Level (ETL) for Brown planthopper (BPH) at vegetative stage: Base threshold is None.",
     "metadata": {
       "pest_id": "PEST_002",
       "crop": "Rice (Oryza sativa)",
@@ -900,6 +1262,7 @@
       "modifier_condition": null,
       "adjusted_threshold": null,
       "source": "ICAR-IRRI",
+      "source_authority": 9,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -912,7 +1275,7 @@
     "evidence_id": "ETL-005",
     "entity_id": "PEST_002",
     "chunk_type": "ETL",
-    "text": "Economic Threshold Level (ETL) for None at reproductive stage: Base threshold is None.",
+    "text": "Economic Threshold Level (ETL) for Brown planthopper (BPH) at reproductive stage: Base threshold is None.",
     "metadata": {
       "pest_id": "PEST_002",
       "crop": "Rice (Oryza sativa)",
@@ -922,6 +1285,7 @@
       "modifier_condition": null,
       "adjusted_threshold": null,
       "source": "ICAR-IRRI",
+      "source_authority": 9,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -934,7 +1298,7 @@
     "evidence_id": "ETL-006",
     "entity_id": "PEST_003",
     "chunk_type": "ETL",
-    "text": "Economic Threshold Level (ETL) for None at vegetative stage: Base threshold is None.",
+    "text": "Economic Threshold Level (ETL) for Leaf folder at vegetative stage: Base threshold is None.",
     "metadata": {
       "pest_id": "PEST_003",
       "crop": "Rice (Oryza sativa)",
@@ -944,6 +1308,7 @@
       "modifier_condition": null,
       "adjusted_threshold": null,
       "source": "TNAU",
+      "source_authority": 9,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -956,7 +1321,7 @@
     "evidence_id": "ETL-007",
     "entity_id": "PEST_003",
     "chunk_type": "ETL",
-    "text": "Economic Threshold Level (ETL) for None at reproductive stage: Base threshold is None.",
+    "text": "Economic Threshold Level (ETL) for Leaf folder at reproductive stage: Base threshold is None.",
     "metadata": {
       "pest_id": "PEST_003",
       "crop": "Rice (Oryza sativa)",
@@ -966,6 +1331,7 @@
       "modifier_condition": null,
       "adjusted_threshold": null,
       "source": "TNAU",
+      "source_authority": 9,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -978,7 +1344,7 @@
     "evidence_id": "ETL-008",
     "entity_id": "PEST_004",
     "chunk_type": "ETL",
-    "text": "Economic Threshold Level (ETL) for None at seedling stage: Base threshold is None.",
+    "text": "Economic Threshold Level (ETL) for Green leafhopper (GLH) at seedling stage: Base threshold is None.",
     "metadata": {
       "pest_id": "PEST_004",
       "crop": "Rice (Oryza sativa)",
@@ -988,6 +1354,7 @@
       "modifier_condition": null,
       "adjusted_threshold": null,
       "source": "ICAR-IIRR",
+      "source_authority": 9,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -1000,7 +1367,7 @@
     "evidence_id": "ETL-009",
     "entity_id": "PEST_004",
     "chunk_type": "ETL",
-    "text": "Economic Threshold Level (ETL) for None at vegetative stage: Base threshold is None.",
+    "text": "Economic Threshold Level (ETL) for Green leafhopper (GLH) at vegetative stage: Base threshold is None.",
     "metadata": {
       "pest_id": "PEST_004",
       "crop": "Rice (Oryza sativa)",
@@ -1010,6 +1377,7 @@
       "modifier_condition": null,
       "adjusted_threshold": null,
       "source": "ICAR-IIRR",
+      "source_authority": 9,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -1022,7 +1390,7 @@
     "evidence_id": "ETL-010",
     "entity_id": "PEST_004",
     "chunk_type": "ETL",
-    "text": "Economic Threshold Level (ETL) for None at reproductive stage: Base threshold is None.",
+    "text": "Economic Threshold Level (ETL) for Green leafhopper (GLH) at reproductive stage: Base threshold is None.",
     "metadata": {
       "pest_id": "PEST_004",
       "crop": "Rice (Oryza sativa)",
@@ -1032,6 +1400,7 @@
       "modifier_condition": null,
       "adjusted_threshold": null,
       "source": "ICAR-IIRR",
+      "source_authority": 9,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -1044,7 +1413,7 @@
     "evidence_id": "ETL-011",
     "entity_id": "PEST_005",
     "chunk_type": "ETL",
-    "text": "Economic Threshold Level (ETL) for None at vegetative stage: Base threshold is None.",
+    "text": "Economic Threshold Level (ETL) for Gall midge at vegetative stage: Base threshold is None.",
     "metadata": {
       "pest_id": "PEST_005",
       "crop": "Rice (Oryza sativa)",
@@ -1054,6 +1423,7 @@
       "modifier_condition": null,
       "adjusted_threshold": null,
       "source": "TNAU",
+      "source_authority": 9,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -1066,7 +1436,7 @@
     "evidence_id": "ETL-012",
     "entity_id": "PEST_006",
     "chunk_type": "ETL",
-    "text": "Economic Threshold Level (ETL) for None at seedling stage: Base threshold is None.",
+    "text": "Economic Threshold Level (ETL) for Thrips at seedling stage: Base threshold is None.",
     "metadata": {
       "pest_id": "PEST_006",
       "crop": "Rice (Oryza sativa)",
@@ -1076,6 +1446,7 @@
       "modifier_condition": null,
       "adjusted_threshold": null,
       "source": "KVK",
+      "source_authority": 9,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -1088,7 +1459,7 @@
     "evidence_id": "ETL-013",
     "entity_id": "PEST_006",
     "chunk_type": "ETL",
-    "text": "Economic Threshold Level (ETL) for None at vegetative stage: Base threshold is None.",
+    "text": "Economic Threshold Level (ETL) for Thrips at vegetative stage: Base threshold is None.",
     "metadata": {
       "pest_id": "PEST_006",
       "crop": "Rice (Oryza sativa)",
@@ -1098,6 +1469,7 @@
       "modifier_condition": null,
       "adjusted_threshold": null,
       "source": "KVK",
+      "source_authority": 9,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -1110,7 +1482,7 @@
     "evidence_id": "ETL-014",
     "entity_id": "PEST_007",
     "chunk_type": "ETL",
-    "text": "Economic Threshold Level (ETL) for None at seedling stage: Base threshold is None.",
+    "text": "Economic Threshold Level (ETL) for Whorl maggot at seedling stage: Base threshold is None.",
     "metadata": {
       "pest_id": "PEST_007",
       "crop": "Rice (Oryza sativa)",
@@ -1120,6 +1492,7 @@
       "modifier_condition": null,
       "adjusted_threshold": null,
       "source": "TNAU",
+      "source_authority": 9,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -1132,7 +1505,7 @@
     "evidence_id": "ETL-015",
     "entity_id": "PEST_007",
     "chunk_type": "ETL",
-    "text": "Economic Threshold Level (ETL) for None at vegetative stage: Base threshold is None.",
+    "text": "Economic Threshold Level (ETL) for Whorl maggot at vegetative stage: Base threshold is None.",
     "metadata": {
       "pest_id": "PEST_007",
       "crop": "Rice (Oryza sativa)",
@@ -1142,6 +1515,7 @@
       "modifier_condition": null,
       "adjusted_threshold": null,
       "source": "TNAU",
+      "source_authority": 9,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -1154,7 +1528,7 @@
     "evidence_id": "ETL-016",
     "entity_id": "PEST_008",
     "chunk_type": "ETL",
-    "text": "Economic Threshold Level (ETL) for None at flowering stage: Base threshold is None.",
+    "text": "Economic Threshold Level (ETL) for Earhead bug at flowering stage: Base threshold is None.",
     "metadata": {
       "pest_id": "PEST_008",
       "crop": "Rice (Oryza sativa)",
@@ -1164,6 +1538,7 @@
       "modifier_condition": null,
       "adjusted_threshold": null,
       "source": "ICAR-IIRR",
+      "source_authority": 9,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -1176,7 +1551,7 @@
     "evidence_id": "ETL-017",
     "entity_id": "PEST_008",
     "chunk_type": "ETL",
-    "text": "Economic Threshold Level (ETL) for None at milking stage: Base threshold is None.",
+    "text": "Economic Threshold Level (ETL) for Earhead bug at milking stage: Base threshold is None.",
     "metadata": {
       "pest_id": "PEST_008",
       "crop": "Rice (Oryza sativa)",
@@ -1186,10 +1561,49 @@
       "modifier_condition": null,
       "adjusted_threshold": null,
       "source": "ICAR-IIRR",
+      "source_authority": 9,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
       "ICAR Rice Insect Pest Management — Earhead Bug"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-ETL-018",
+    "parent_record_id": "REC-ETL-018",
+    "evidence_id": "ETL-018",
+    "entity_id": "DIS_007",
+    "chunk_type": "ETL",
+    "text": "Economic threshold for False Smut: Preventive fungicide spray (Copper Hydroxide 77 WP @ 1.25 kg/ha or Propiconazole 25 EC @ 500 ml/ha) at late booting stage (5-7 days before panicle emergence). No chemical spray permitted during full flowering.",
+    "metadata": {
+      "name": "Rice False Smut",
+      "crop_stage": "booting_to_flowering",
+      "base_threshold": "Preventive spray at late booting stage (5-7 days before panicle emergence)",
+      "source": "TNAU / ICAR-IIRR",
+      "source_authority": 9,
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "ETL-018.jsonl"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-ETL-019",
+    "parent_record_id": "REC-ETL-019",
+    "evidence_id": "ETL-019",
+    "entity_id": "DIS_006",
+    "chunk_type": "ETL",
+    "text": "Economic threshold for Stem Rot: When 5%-10% tillers exhibit waterline sclerotial lesions or black rotting at water level. Drain field completely for 3-5 days and apply Validamycin 3 L @ 1000 ml/ha to tiller base.",
+    "metadata": {
+      "name": "Rice Stem Rot",
+      "crop_stage": "tillering_to_heading",
+      "base_threshold": "5%-10% infected tillers at water line",
+      "source": "TNAU / ICAR-IIRR",
+      "source_authority": 9,
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "ETL-019.jsonl"
     ]
   },
   {
@@ -1205,6 +1619,7 @@
       "ses_scale": "1-3",
       "cutoff_range": "<5% dead hearts (veg) or <1% white ears (rep)",
       "source": "IRRI / ICAR / TNAU",
+      "source_authority": 9,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -1224,6 +1639,7 @@
       "ses_scale": "5",
       "cutoff_range": "6%-10% dead hearts (veg) or 1%-5% white ears (rep)",
       "source": "IRRI / ICAR / TNAU",
+      "source_authority": 9,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -1243,6 +1659,7 @@
       "ses_scale": "7",
       "cutoff_range": "11%-25% dead hearts (veg) or 6%-15% white ears (rep)",
       "source": "IRRI / ICAR / TNAU",
+      "source_authority": 9,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -1262,6 +1679,7 @@
       "ses_scale": "9",
       "cutoff_range": ">25% dead hearts or >15% white ears",
       "source": "IRRI / ICAR / TNAU",
+      "source_authority": 9,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -1281,6 +1699,7 @@
       "ses_scale": "1-3",
       "cutoff_range": "1-5 nymphs/hill (veg)",
       "source": "IRRI / TNAU",
+      "source_authority": 9,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -1300,6 +1719,7 @@
       "ses_scale": "5",
       "cutoff_range": "6-15 nymphs/hill (veg) or 10-20 nymphs/hill (rep)",
       "source": "IRRI / TNAU",
+      "source_authority": 9,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -1319,6 +1739,7 @@
       "ses_scale": "7",
       "cutoff_range": "16-30 nymphs/hill",
       "source": "IRRI / TNAU",
+      "source_authority": 9,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -1338,6 +1759,7 @@
       "ses_scale": "9",
       "cutoff_range": ">30 nymphs/hill with coalescing hopper burn",
       "source": "IRRI / TNAU",
+      "source_authority": 9,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -1357,6 +1779,7 @@
       "ses_scale": "1-3",
       "cutoff_range": "<5% folded leaves, <1 larva/2-3 hills",
       "source": "TNAU / ICAR",
+      "source_authority": 9,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -1376,6 +1799,7 @@
       "ses_scale": "5",
       "cutoff_range": "6%-15% folded leaves (or 5%-10% damaged flag leaves at booting)",
       "source": "TNAU / ICAR",
+      "source_authority": 9,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -1395,6 +1819,7 @@
       "ses_scale": "7",
       "cutoff_range": "16%-30% folded leaves",
       "source": "TNAU / ICAR",
+      "source_authority": 9,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -1414,6 +1839,7 @@
       "ses_scale": "9",
       "cutoff_range": ">30% folded leaves",
       "source": "TNAU / ICAR",
+      "source_authority": 9,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -1433,6 +1859,7 @@
       "ses_scale": "1-3",
       "cutoff_range": "<5 hoppers/hill (non-endemic) or <1 hopper/hill (Tungro area)",
       "source": "ICAR-IIRR",
+      "source_authority": 9,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -1452,6 +1879,7 @@
       "ses_scale": "5",
       "cutoff_range": "6-15 hoppers/hill (veg) or 1-2 hoppers/hill (Tungro endemic)",
       "source": "ICAR-IIRR",
+      "source_authority": 9,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -1471,6 +1899,7 @@
       "ses_scale": "7",
       "cutoff_range": "16-30 hoppers/hill",
       "source": "ICAR-IIRR",
+      "source_authority": 9,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -1490,6 +1919,7 @@
       "ses_scale": "9",
       "cutoff_range": ">30 hoppers/hill or active Tungro epidemic spreading",
       "source": "ICAR-IIRR",
+      "source_authority": 9,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -1509,6 +1939,7 @@
       "ses_scale": "1-3",
       "cutoff_range": "1%-4% silver shoots at tillering",
       "source": "TNAU / ICAR-IIRR",
+      "source_authority": 9,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -1528,6 +1959,7 @@
       "ses_scale": "5",
       "cutoff_range": "5%-10% silver shoots",
       "source": "TNAU / ICAR-IIRR",
+      "source_authority": 9,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -1547,6 +1979,7 @@
       "ses_scale": "7",
       "cutoff_range": "11%-25% silver shoots",
       "source": "TNAU / ICAR-IIRR",
+      "source_authority": 9,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -1566,6 +1999,7 @@
       "ses_scale": "9",
       "cutoff_range": ">25% silver shoots",
       "source": "TNAU / ICAR-IIRR",
+      "source_authority": 9,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -1585,6 +2019,7 @@
       "ses_scale": "1-3",
       "cutoff_range": "1-4 thrips/seedling in nursery",
       "source": "KVK / TNAU",
+      "source_authority": 9,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -1604,6 +2039,7 @@
       "ses_scale": "5",
       "cutoff_range": "5-10 thrips/seedling (nursery) or 10-25 thrips/hill (tillering)",
       "source": "KVK / TNAU",
+      "source_authority": 9,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -1623,6 +2059,7 @@
       "ses_scale": "7",
       "cutoff_range": ">25 thrips/hill, >50% rolled leaves",
       "source": "KVK / TNAU",
+      "source_authority": 9,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -1642,6 +2079,7 @@
       "ses_scale": "9",
       "cutoff_range": "Complete nursery seedling mortality or field-wide dry-out",
       "source": "KVK / TNAU",
+      "source_authority": 9,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -1661,6 +2099,7 @@
       "ses_scale": "1-3",
       "cutoff_range": "<5% damaged leaves within 30 DAT",
       "source": "TNAU",
+      "source_authority": 9,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -1680,6 +2119,7 @@
       "ses_scale": "5",
       "cutoff_range": "6%-15% damaged leaves",
       "source": "TNAU",
+      "source_authority": 9,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -1699,6 +2139,7 @@
       "ses_scale": "7",
       "cutoff_range": "16%-30% damaged leaves",
       "source": "TNAU",
+      "source_authority": 9,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -1718,6 +2159,7 @@
       "ses_scale": "9",
       "cutoff_range": ">30% damaged leaves with severe seedling stunting",
       "source": "TNAU",
+      "source_authority": 9,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -1737,6 +2179,7 @@
       "ses_scale": "1-3",
       "cutoff_range": "1-4 bugs/100 panicles (<1 bug/hill)",
       "source": "ICAR-IIRR",
+      "source_authority": 9,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -1756,6 +2199,7 @@
       "ses_scale": "5",
       "cutoff_range": "5-10 bugs/100 panicles (1-2 bugs/hill)",
       "source": "ICAR-IIRR",
+      "source_authority": 9,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -1775,6 +2219,7 @@
       "ses_scale": "7",
       "cutoff_range": "11-25 bugs/100 panicles (2-4 bugs/hill)",
       "source": "ICAR-IIRR",
+      "source_authority": 9,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -1794,6 +2239,7 @@
       "ses_scale": "9",
       "cutoff_range": ">25 bugs/100 panicles (>4 bugs/hill)",
       "source": "ICAR-IIRR",
+      "source_authority": 9,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -1813,6 +2259,7 @@
       "ses_scale": "1-3",
       "cutoff_range": "1%-5% leaf area affected",
       "source": "ICAR / IRRI / TNAU",
+      "source_authority": 9,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -1832,6 +2279,7 @@
       "ses_scale": "5",
       "cutoff_range": "6%-12% leaf area affected",
       "source": "ICAR / IRRI / TNAU",
+      "source_authority": 9,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -1851,6 +2299,7 @@
       "ses_scale": "7",
       "cutoff_range": "13%-25% leaf area affected",
       "source": "ICAR / IRRI / TNAU",
+      "source_authority": 9,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -1870,6 +2319,7 @@
       "ses_scale": "9",
       "cutoff_range": ">25%-50% leaf area affected or severe kresek phase",
       "source": "ICAR / IRRI / TNAU",
+      "source_authority": 9,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -1889,6 +2339,7 @@
       "ses_scale": "1-3",
       "cutoff_range": "<1%-5% leaf area with pinhead/small spindle lesions",
       "source": "ICAR / IRRI / TNAU",
+      "source_authority": 9,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -1908,6 +2359,7 @@
       "ses_scale": "5",
       "cutoff_range": "6%-10% leaf area with typical spindle-shaped lesions",
       "source": "ICAR / IRRI / TNAU",
+      "source_authority": 9,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -1927,6 +2379,7 @@
       "ses_scale": "7",
       "cutoff_range": "11%-25% leaf area affected or initial neck blast",
       "source": "ICAR / IRRI / TNAU",
+      "source_authority": 9,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -1946,6 +2399,7 @@
       "ses_scale": "9",
       "cutoff_range": ">25% leaf area affected or >10% rotten neck blast",
       "source": "ICAR / IRRI / TNAU",
+      "source_authority": 9,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -1965,6 +2419,7 @@
       "ses_scale": "1-3",
       "cutoff_range": "RLH <= 20% (lesions restricted to lower sheaths near waterline)",
       "source": "IRRI / TNAU",
+      "source_authority": 9,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -1984,6 +2439,7 @@
       "ses_scale": "5",
       "cutoff_range": "RLH 21%-40% (lesions reaching 3rd or 4th leaf sheath)",
       "source": "IRRI / TNAU",
+      "source_authority": 9,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -2003,6 +2459,7 @@
       "ses_scale": "7",
       "cutoff_range": "RLH 41%-60% (lesions reaching flag leaf sheath)",
       "source": "IRRI / TNAU",
+      "source_authority": 9,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -2022,6 +2479,7 @@
       "ses_scale": "9",
       "cutoff_range": "RLH > 60% (lesions spreading into flag leaf blade and panicle)",
       "source": "IRRI / TNAU",
+      "source_authority": 9,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -2041,6 +2499,7 @@
       "ses_scale": "1-3",
       "cutoff_range": "<5% infected hills in isolated patches",
       "source": "IRRI / ICAR-IIRR / TNAU",
+      "source_authority": 9,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -2060,6 +2519,7 @@
       "ses_scale": "5",
       "cutoff_range": "6%-15% infected hills",
       "source": "IRRI / ICAR-IIRR / TNAU",
+      "source_authority": 9,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -2079,6 +2539,7 @@
       "ses_scale": "7",
       "cutoff_range": "16%-30% infected hills",
       "source": "IRRI / ICAR-IIRR / TNAU",
+      "source_authority": 9,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -2098,6 +2559,7 @@
       "ses_scale": "9",
       "cutoff_range": ">30% infected hills across field",
       "source": "IRRI / ICAR-IIRR / TNAU",
+      "source_authority": 9,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -2110,7 +2572,7 @@
     "evidence_id": "CHEM-001",
     "entity_id": "CHEM_CHEM-001",
     "chunk_type": "CHEMICAL",
-    "text": "Chemical Prescription: Chlorantraniliprole 18.5 SC for Stem borer, Leaf folder. Dosage: 150 ml/ha in 500 L water. Regulatory Status: VERIFIED_CURRENT (Approved). Pre-Harvest Interval (PHI): 47 days. Toxicity: Green Label (Low mammalian toxicity). Notes: CIBRC registered for Rice Stem Borer and Leaf Folder. Safe to natural enemies.",
+    "text": "Chemical / Bio-control Prescription: Chlorantraniliprole 18.5 SC for Stem borer, Leaf folder. Dosage: 150 ml/ha in 500 L water. Regulatory Status: VERIFIED_CURRENT (Approved). Pre-Harvest Interval (PHI): 47 days. Toxicity: Green Label (Low mammalian toxicity). Notes: CIBRC registered for Rice Stem Borer and Leaf Folder. Safe to natural enemies.",
     "metadata": {
       "active_ingredient": "Chlorantraniliprole",
       "formulation": "18.5 SC",
@@ -2124,6 +2586,7 @@
       "toxicity": "Green Label (Low mammalian toxicity)",
       "drone_guidelines": null,
       "source": "CIBRC / TNAU",
+      "source_authority": 10,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -2136,7 +2599,7 @@
     "evidence_id": "CHEM-002",
     "entity_id": "CHEM_CHEM-002",
     "chunk_type": "CHEMICAL",
-    "text": "Chemical Prescription: Buprofezin 25 SC for Brown planthopper (BPH), Green leafhopper (GLH). Dosage: 400-800 ml/ha in 500 L water. Regulatory Status: VERIFIED_CURRENT (Approved). Pre-Harvest Interval (PHI): 30 days. Toxicity: Blue Label (Insect Growth Regulator). Notes: CIBRC approved for rice hoppers. Direct spray to base of tillers.",
+    "text": "Chemical / Bio-control Prescription: Buprofezin 25 SC for Brown planthopper (BPH), Green leafhopper (GLH). Dosage: 400-800 ml/ha in 500 L water. Regulatory Status: VERIFIED_CURRENT (Approved). Pre-Harvest Interval (PHI): 30 days. Toxicity: Blue Label (Insect Growth Regulator). Notes: CIBRC approved for rice hoppers. Direct spray to base of tillers.",
     "metadata": {
       "active_ingredient": "Buprofezin",
       "formulation": "25 SC",
@@ -2150,6 +2613,7 @@
       "toxicity": "Blue Label (Insect Growth Regulator)",
       "drone_guidelines": null,
       "source": "CIBRC / IRRI",
+      "source_authority": 10,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -2162,7 +2626,7 @@
     "evidence_id": "CHEM-003",
     "entity_id": "CHEM_CHEM-003",
     "chunk_type": "CHEMICAL",
-    "text": "Chemical Prescription: Imidacloprid 17.8 SL for Green leafhopper (GLH), Brown planthopper (BPH). Dosage: 100-125 ml/ha in 500 L water. Regulatory Status: VERIFIED_CURRENT (Approved). Pre-Harvest Interval (PHI): 21 days. Toxicity: Yellow Label (Neonicotinoid). Notes: Approved for rice hoppers; suppresses GLH vector to prevent Tungro virus transmission.",
+    "text": "Chemical / Bio-control Prescription: Imidacloprid 17.8 SL for Green leafhopper (GLH), Brown planthopper (BPH). Dosage: 100-125 ml/ha in 500 L water. Regulatory Status: VERIFIED_CURRENT (Approved). Pre-Harvest Interval (PHI): 21 days. Toxicity: Yellow Label (Neonicotinoid). Notes: Approved for rice hoppers; suppresses GLH vector to prevent Tungro virus transmission.",
     "metadata": {
       "active_ingredient": "Imidacloprid",
       "formulation": "17.8 SL",
@@ -2176,6 +2640,7 @@
       "toxicity": "Yellow Label (Neonicotinoid)",
       "drone_guidelines": null,
       "source": "CIBRC / ICAR-IIRR",
+      "source_authority": 10,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -2188,7 +2653,7 @@
     "evidence_id": "CHEM-004",
     "entity_id": "CHEM_CHEM-004",
     "chunk_type": "CHEMICAL",
-    "text": "Chemical Prescription: Thiamethoxam 25 WG for Thrips, Stem borer, GLH. Dosage: 100 g/ha in 500 L water. Regulatory Status: VERIFIED_CURRENT (Approved). Pre-Harvest Interval (PHI): 14 days. Toxicity: Green Label (Neonicotinoid). Notes: Approved for rice thrips and stem borer. Suitable for nursery and tillering.",
+    "text": "Chemical / Bio-control Prescription: Thiamethoxam 25 WG for Thrips, Stem borer, GLH. Dosage: 100 g/ha in 500 L water. Regulatory Status: VERIFIED_CURRENT (Approved). Pre-Harvest Interval (PHI): 14 days. Toxicity: Green Label (Neonicotinoid). Notes: Approved for rice thrips and stem borer. Suitable for nursery and tillering.",
     "metadata": {
       "active_ingredient": "Thiamethoxam",
       "formulation": "25 WG",
@@ -2203,6 +2668,7 @@
       "toxicity": "Green Label (Neonicotinoid)",
       "drone_guidelines": null,
       "source": "CIBRC / KVK",
+      "source_authority": 10,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -2215,7 +2681,7 @@
     "evidence_id": "CHEM-005",
     "entity_id": "CHEM_CHEM-005",
     "chunk_type": "CHEMICAL",
-    "text": "Chemical Prescription: Carbofuran 3G for Stem borer, Gall midge, Whorl maggot. Dosage: 33 kg/ha at planting. Regulatory Status: RESTRICTED (Restricted / Phased Ban). Pre-Harvest Interval (PHI): 60 days. Toxicity: Red Label (Class Ib High Toxicity). Notes: Carbamate with high avian and groundwater toxicity. Restricted/banned across several states. Requires warning.",
+    "text": "Chemical / Bio-control Prescription: Carbofuran 3G for Stem borer, Gall midge, Whorl maggot. Dosage: 33 kg/ha at planting. Regulatory Status: RESTRICTED (Restricted / Phased Ban). Pre-Harvest Interval (PHI): 60 days. Toxicity: Red Label (Class Ib High Toxicity). Notes: Carbamate with high avian and groundwater toxicity. Restricted/banned across several states. Requires warning.",
     "metadata": {
       "active_ingredient": "Carbofuran",
       "formulation": "3G",
@@ -2230,6 +2696,7 @@
       "toxicity": "Red Label (Class Ib High Toxicity)",
       "drone_guidelines": null,
       "source": "CIBRC Restricted List / TNAU",
+      "source_authority": 10,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -2242,7 +2709,7 @@
     "evidence_id": "CHEM-006",
     "entity_id": "CHEM_CHEM-006",
     "chunk_type": "CHEMICAL",
-    "text": "Chemical Prescription: Malathion 50 EC for Earhead bug. Dosage: 500-1000 ml/ha in 500 L water. Regulatory Status: RESTRICTED (Approved with Strict PHI). Pre-Harvest Interval (PHI): 10 days. Toxicity: Blue Label (Organophosphate). Notes: Applied during grain milking; high grain residue risk. Mandatory minimum 7-10 days PHI.",
+    "text": "Chemical / Bio-control Prescription: Malathion 50 EC for Earhead bug. Dosage: 500-1000 ml/ha in 500 L water. Regulatory Status: RESTRICTED (Approved with Strict PHI). Pre-Harvest Interval (PHI): 10 days. Toxicity: Blue Label (Organophosphate). Notes: Applied during grain milking; high grain residue risk. Mandatory minimum 7-10 days PHI.",
     "metadata": {
       "active_ingredient": "Malathion",
       "formulation": "50 EC",
@@ -2255,6 +2722,7 @@
       "toxicity": "Blue Label (Organophosphate)",
       "drone_guidelines": null,
       "source": "CIBRC / ICAR-IIRR",
+      "source_authority": 10,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -2267,7 +2735,7 @@
     "evidence_id": "CHEM-007",
     "entity_id": "CHEM_CHEM-007",
     "chunk_type": "CHEMICAL",
-    "text": "Chemical Prescription: Copper hydroxide 77 WP for Bacterial Leaf Blight (BLB), False Smut, Bacterial Leaf Streak (BLS). Dosage: 1.25 kg/ha in 500 L water. Regulatory Status: VERIFIED_CURRENT (Approved). Pre-Harvest Interval (PHI): 15 days. Toxicity: Blue Label (Inorganic Copper). Notes: Approved for bacterial blight and false smut. Apply preventively at boot leaf.",
+    "text": "Chemical / Bio-control Prescription: Copper hydroxide 77 WP for Bacterial Leaf Blight (BLB), False Smut, Bacterial Leaf Streak (BLS). Dosage: 1.25 kg/ha in 500 L water. Regulatory Status: VERIFIED_CURRENT (Approved). Pre-Harvest Interval (PHI): 15 days. Toxicity: Blue Label (Inorganic Copper). Notes: Approved for bacterial blight and false smut. Apply preventively at boot leaf.",
     "metadata": {
       "active_ingredient": "Copper hydroxide",
       "formulation": "77 WP",
@@ -2282,6 +2750,7 @@
       "toxicity": "Blue Label (Inorganic Copper)",
       "drone_guidelines": null,
       "source": "CIBRC / TNAU",
+      "source_authority": 10,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -2294,7 +2763,7 @@
     "evidence_id": "CHEM-008",
     "entity_id": "CHEM_CHEM-008",
     "chunk_type": "CHEMICAL",
-    "text": "Chemical Prescription: Tricyclazole 75 WP for Rice Blast (Leaf & Neck). Dosage: 500 g/ha (0.6 g/L water). Regulatory Status: VERIFIED_CURRENT (Approved). Pre-Harvest Interval (PHI): 30 days. Toxicity: Blue Label (Triazole). Notes: Gold standard blasticide; highly systemic; prevents appressorial melanization.",
+    "text": "Chemical / Bio-control Prescription: Tricyclazole 75 WP for Rice Blast (Leaf & Neck). Dosage: 500 g/ha (0.6 g/L water). Regulatory Status: VERIFIED_CURRENT (Approved). Pre-Harvest Interval (PHI): 30 days. Toxicity: Blue Label (Triazole). Notes: Gold standard blasticide; highly systemic; prevents appressorial melanization.",
     "metadata": {
       "active_ingredient": "Tricyclazole",
       "formulation": "75 WP",
@@ -2307,6 +2776,7 @@
       "toxicity": "Blue Label (Triazole)",
       "drone_guidelines": null,
       "source": "CIBRC / TNAU",
+      "source_authority": 10,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -2319,7 +2789,7 @@
     "evidence_id": "CHEM-009",
     "entity_id": "CHEM_CHEM-009",
     "chunk_type": "CHEMICAL",
-    "text": "Chemical Prescription: Isoprothiolane 40 EC for Rice Blast. Dosage: 750 ml/ha in 500 L water. Regulatory Status: VERIFIED_CURRENT (Approved). Pre-Harvest Interval (PHI): 30 days. Toxicity: Blue Label (Dithiolane). Notes: Approved for rice blast; inhibits phospholipid biosynthesis.",
+    "text": "Chemical / Bio-control Prescription: Isoprothiolane 40 EC for Rice Blast. Dosage: 750 ml/ha in 500 L water. Regulatory Status: VERIFIED_CURRENT (Approved). Pre-Harvest Interval (PHI): 30 days. Toxicity: Blue Label (Dithiolane). Notes: Approved for rice blast; inhibits phospholipid biosynthesis.",
     "metadata": {
       "active_ingredient": "Isoprothiolane",
       "formulation": "40 EC",
@@ -2332,6 +2802,7 @@
       "toxicity": "Blue Label (Dithiolane)",
       "drone_guidelines": null,
       "source": "CIBRC / ICAR-IIRR",
+      "source_authority": 10,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -2344,7 +2815,7 @@
     "evidence_id": "CHEM-010",
     "entity_id": "CHEM_CHEM-010",
     "chunk_type": "CHEMICAL",
-    "text": "Chemical Prescription: Hexaconazole 5 SC / 5 EC for Sheath Blight. Dosage: 1000 ml/ha in 500 L water. Regulatory Status: VERIFIED_CURRENT (Approved). Pre-Harvest Interval (PHI): 30 days. Toxicity: Green Label (Triazole). Notes: Systemic triazole fungicide targeting ergosterol biosynthesis.",
+    "text": "Chemical / Bio-control Prescription: Hexaconazole 5 SC / 5 EC for Sheath Blight. Dosage: 1000 ml/ha in 500 L water. Regulatory Status: VERIFIED_CURRENT (Approved). Pre-Harvest Interval (PHI): 30 days. Toxicity: Green Label (Triazole). Notes: Systemic triazole fungicide targeting ergosterol biosynthesis.",
     "metadata": {
       "active_ingredient": "Hexaconazole",
       "formulation": "5 SC / 5 EC",
@@ -2357,6 +2828,7 @@
       "toxicity": "Green Label (Triazole)",
       "drone_guidelines": null,
       "source": "CIBRC / TNAU",
+      "source_authority": 10,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -2369,7 +2841,7 @@
     "evidence_id": "CHEM-011",
     "entity_id": "CHEM_CHEM-011",
     "chunk_type": "CHEMICAL",
-    "text": "Chemical Prescription: Validamycin 3 L for Sheath Blight. Dosage: 1000 ml/ha in 500 L water. Regulatory Status: VERIFIED_CURRENT (Approved). Pre-Harvest Interval (PHI): 14 days. Toxicity: Green Label (Antibiotic/Fungicide). Notes: Antibiotic fungicide derived from Streptomyces hygroscopicus; inhibits trehalase.",
+    "text": "Chemical / Bio-control Prescription: Validamycin 3 L for Sheath Blight. Dosage: 1000 ml/ha in 500 L water. Regulatory Status: VERIFIED_CURRENT (Approved). Pre-Harvest Interval (PHI): 14 days. Toxicity: Green Label (Antibiotic/Fungicide). Notes: Antibiotic fungicide derived from Streptomyces hygroscopicus; inhibits trehalase.",
     "metadata": {
       "active_ingredient": "Validamycin",
       "formulation": "3 L",
@@ -2382,6 +2854,7 @@
       "toxicity": "Green Label (Antibiotic/Fungicide)",
       "drone_guidelines": null,
       "source": "CIBRC / IRRI",
+      "source_authority": 10,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -2394,7 +2867,7 @@
     "evidence_id": "CHEM-012",
     "entity_id": "CHEM_CHEM-012",
     "chunk_type": "CHEMICAL",
-    "text": "Chemical Prescription: Azoxystrobin + Difenoconazole 18.2% + 11.4% SC (29.6 SC) for Sheath Blight, Rice Blast. Dosage: 500 ml/ha in 500 L water. Regulatory Status: VERIFIED_CURRENT (Approved). Pre-Harvest Interval (PHI): 31 days. Toxicity: Blue Label (Strobilurin + Triazole). Notes: Broad-spectrum combination with dual translaminar and systemic modes of action.",
+    "text": "Chemical / Bio-control Prescription: Azoxystrobin + Difenoconazole 18.2% + 11.4% SC (29.6 SC) for Sheath Blight, Rice Blast. Dosage: 500 ml/ha in 500 L water. Regulatory Status: VERIFIED_CURRENT (Approved). Pre-Harvest Interval (PHI): 31 days. Toxicity: Blue Label (Strobilurin + Triazole). Notes: Broad-spectrum combination with dual translaminar and systemic modes of action.",
     "metadata": {
       "active_ingredient": "Azoxystrobin + Difenoconazole",
       "formulation": "18.2% + 11.4% SC (29.6 SC)",
@@ -2408,6 +2881,7 @@
       "toxicity": "Blue Label (Strobilurin + Triazole)",
       "drone_guidelines": null,
       "source": "CIBRC / TNAU",
+      "source_authority": 10,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -2420,7 +2894,7 @@
     "evidence_id": "CHEM-013",
     "entity_id": "CHEM_CHEM-013",
     "chunk_type": "CHEMICAL",
-    "text": "Chemical Prescription: Propiconazole 25 EC for Sheath Rot, False Smut. Dosage: 500 ml/ha in 500 L water. Regulatory Status: VERIFIED_CURRENT (Approved). Pre-Harvest Interval (PHI): 30 days. Toxicity: Yellow Label (Triazole). Notes: Approved for sheath rot and false smut. Must be applied at booting stage for false smut.",
+    "text": "Chemical / Bio-control Prescription: Propiconazole 25 EC for Sheath Rot, False Smut. Dosage: 500 ml/ha in 500 L water. Regulatory Status: VERIFIED_CURRENT (Approved). Pre-Harvest Interval (PHI): 30 days. Toxicity: Yellow Label (Triazole). Notes: Approved for sheath rot and false smut. Must be applied at booting stage for false smut.",
     "metadata": {
       "active_ingredient": "Propiconazole",
       "formulation": "25 EC",
@@ -2434,6 +2908,7 @@
       "toxicity": "Yellow Label (Triazole)",
       "drone_guidelines": null,
       "source": "CIBRC / TNAU",
+      "source_authority": 10,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
@@ -2446,7 +2921,7 @@
     "evidence_id": "CHEM-014",
     "entity_id": "CHEM_CHEM-014",
     "chunk_type": "CHEMICAL",
-    "text": "Chemical Prescription: Streptocycline + Copper Oxychloride 90:10 SP + 50 WP for Bacterial Leaf Blight (BLB). Dosage: 100 g + 500 g per hectare. Regulatory Status: RESTRICTED (Restricted / Under Review). Pre-Harvest Interval (PHI): 30 days. Toxicity: Red/Yellow Label (Agricultural Antibiotic). Notes: Streptocycline is an antibiotic subject to Antimicrobial Resistance (AMR) regulatory restrictions in Indian agriculture. Non-antibiotic alternatives (Copper Hydroxide) preferred.",
+    "text": "Chemical / Bio-control Prescription: Streptocycline + Copper Oxychloride 90:10 SP + 50 WP for Bacterial Leaf Blight (BLB). Dosage: 100 g + 500 g per hectare. Regulatory Status: RESTRICTED (Restricted / Under Review). Pre-Harvest Interval (PHI): 30 days. Toxicity: Red/Yellow Label (Agricultural Antibiotic). Notes: Streptocycline is an antibiotic subject to Antimicrobial Resistance (AMR) regulatory restrictions in Indian agriculture. Non-antibiotic alternatives (Copper Hydroxide) preferred.",
     "metadata": {
       "active_ingredient": "Streptocycline + Copper Oxychloride",
       "formulation": "90:10 SP + 50 WP",
@@ -2459,10 +2934,100 @@
       "toxicity": "Red/Yellow Label (Agricultural Antibiotic)",
       "drone_guidelines": null,
       "source": "CIBRC / DPPQS",
+      "source_authority": 10,
       "knowledge_version": "v4.2.0-validated"
     },
     "provenance": [
       "https://ppqs.gov.in/"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-CHEM-015",
+    "parent_record_id": "REC-CHEM-015",
+    "evidence_id": "CHEM-015",
+    "entity_id": "CHEM_CHEM-015",
+    "chunk_type": "CHEMICAL",
+    "text": "Chemical / Bio-control Prescription: Pseudomonas fluorescens 0.5% WP / 1.5% LF for Bacterial Leaf Blight (BLB), Sheath Blight, Rice Blast, Sheath Rot. Dosage: Seed treatment: 10 g/kg seed; Foliar spray: 1 kg/ha (2.5 g/L water) at 45 & 60 DAT. Regulatory Status: VERIFIED_CURRENT (Approved Bio-Control). Pre-Harvest Interval (PHI): 0 days. Toxicity: Green Label (Biological Inoculant / Zero residue). Notes: Biological control agent. Mandatory 7-day interval required before or after chemical/copper fungicides.",
+    "metadata": {
+      "active_ingredient": "Pseudomonas fluorescens",
+      "formulation": "0.5% WP / 1.5% LF",
+      "targets": [
+        "Bacterial Leaf Blight (BLB)",
+        "Sheath Blight",
+        "Rice Blast",
+        "Sheath Rot"
+      ],
+      "dosage": "Seed treatment: 10 g/kg seed; Foliar spray: 1 kg/ha (2.5 g/L water) at 45 & 60 DAT",
+      "regulatory_status": "VERIFIED_CURRENT",
+      "phi_days": 0,
+      "toxicity": "Green Label (Biological Inoculant / Zero residue)",
+      "drone_guidelines": null,
+      "source": "TNAU / CIBRC Bio-Control Guidelines",
+      "source_authority": 10,
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "https://agritech.tnau.ac.in/crop_protection/rice_bio_inputs.html"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-AGRO-COPPER-SULPHATE",
+    "parent_record_id": "REC-AGRO-COPPER-SULPHATE",
+    "evidence_id": "AGRO_INPUT_COPPER_SULPHATE",
+    "entity_id": "AGRO_INPUT_COPPER_SULPHATE",
+    "chunk_type": "TRADITIONAL_INPUT",
+    "text": "Copper Sulphate (CuSO4 / மயில் துத்தம்): Applied at 1-2 kg/ha tied in irrigation water channel or dusted on standing water for controlling green algae (பாசி), Chara, and algal blooms in flooded paddy fields; also acts as an inorganic copper fungicidal supplement.",
+    "metadata": {
+      "name": "Copper Sulphate (CuSO4) / மயில் துத்தம்",
+      "tamil_name": "மயில் துத்தம்",
+      "dosage": "1.0 - 2.0 kg/ha in irrigation channel",
+      "crop_stage": "all_stages",
+      "source": "TNAU Agritech Crop Protection & Traditional Practices Guide",
+      "source_authority": 8,
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "TNAU Traditional & Nutritional Practices Guide"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-AGRO-ANNAMALAI-MIXTURE",
+    "parent_record_id": "REC-AGRO-ANNAMALAI-MIXTURE",
+    "evidence_id": "AGRO_NUTRITION_IRON_CHLOROSIS",
+    "entity_id": "AGRO_NUTRITION_IRON_CHLOROSIS",
+    "chunk_type": "TRADITIONAL_INPUT",
+    "text": "Annamalai Mixture (அண்ணாமலை கலவை): Specially formulated foliar spray for correcting severe Iron (Fe) chlorosis and seedling yellowing in calcareous/alkaline Delta and Cuddalore soils. Preparation: 1% Ferrous Sulphate (FeSO4 @ 10 g/L) + 1% Ammonium Sulphate ((NH4)2SO4 @ 10 g/L) + Citric Acid (1 g/L) dissolved in water and sprayed during early morning hours.",
+    "metadata": {
+      "name": "Annamalai Mixture (அண்ணாமலை கலவை) / Iron Chlorosis Foliar Spray",
+      "tamil_name": "அண்ணாமலை கலவை",
+      "dosage": "1% FeSO4 + 1% (NH4)2SO4 (100 L/acre foliar spray)",
+      "crop_stage": "nursery_and_early_vegetative",
+      "source": "TNAU / Annamalai University Department of Soil Science & Agricultural Chemistry",
+      "source_authority": 8,
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "TNAU Traditional & Nutritional Practices Guide"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-DDT-001",
+    "parent_record_id": "REC-DDT-001",
+    "evidence_id": "DDT-001",
+    "entity_id": "DDT_ZINC_VS_BROWN_SPOT",
+    "chunk_type": "DECISION_TREE",
+    "text": "Diagnostic Decision Tree: Zinc Deficiency (Khaira Disease) vs Fungal Brown Spot (Bipolaris oryzae) Differential Decision Tree. Primary trigger: brown_foliar_spots_and_leaf_discoloration. Nodes: 4 structured decision nodes.",
+    "metadata": {
+      "tree_id": "DDT-001",
+      "name": "Zinc Deficiency (Khaira Disease) vs Fungal Brown Spot (Bipolaris oryzae) Differential Decision Tree",
+      "trigger": "brown_foliar_spots_and_leaf_discoloration",
+      "nodes_count": 4,
+      "source": "TNAU / IRRI / ICAR-IIRR",
+      "source_authority": 9,
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "DIAGNOSTIC_DECISION_TREES.jsonl"
     ]
   }
 ]

@@ -759,10 +759,10 @@
     "chunk_type": "ETL",
     "entity_id": "PEST_001",
     "entity_type": "pest",
-    "canonical_name": "Unknown",
+    "canonical_name": "Stem borer",
     "scientific_name": null,
     "local_names": [
-      ""
+      "Stem borer"
     ],
     "tamil_aliases": [],
     "crop": "Rice (Oryza sativa)",
@@ -781,7 +781,7 @@
       "modifier_condition": null,
       "adjusted_threshold": null
     },
-    "recommendation": "Spray intervention threshold for None: Base ETL = None.",
+    "recommendation": "Spray intervention threshold for Stem borer: Base ETL = None.",
     "management_type": "cultural",
     "chemical": null,
     "formulation": null,
@@ -814,10 +814,10 @@
     "chunk_type": "ETL",
     "entity_id": "PEST_001",
     "entity_type": "pest",
-    "canonical_name": "Unknown",
+    "canonical_name": "Stem borer",
     "scientific_name": null,
     "local_names": [
-      ""
+      "Stem borer"
     ],
     "tamil_aliases": [],
     "crop": "Rice (Oryza sativa)",
@@ -836,7 +836,7 @@
       "modifier_condition": null,
       "adjusted_threshold": null
     },
-    "recommendation": "Spray intervention threshold for None: Base ETL = None.",
+    "recommendation": "Spray intervention threshold for Stem borer: Base ETL = None.",
     "management_type": "cultural",
     "chemical": null,
     "formulation": null,
@@ -869,10 +869,10 @@
     "chunk_type": "ETL",
     "entity_id": "PEST_002",
     "entity_type": "pest",
-    "canonical_name": "Unknown",
+    "canonical_name": "Brown planthopper (BPH)",
     "scientific_name": null,
     "local_names": [
-      ""
+      "Brown planthopper (BPH)"
     ],
     "tamil_aliases": [],
     "crop": "Rice (Oryza sativa)",
@@ -891,7 +891,7 @@
       "modifier_condition": null,
       "adjusted_threshold": null
     },
-    "recommendation": "Spray intervention threshold for None: Base ETL = None.",
+    "recommendation": "Spray intervention threshold for Brown planthopper (BPH): Base ETL = None.",
     "management_type": "cultural",
     "chemical": null,
     "formulation": null,
@@ -924,10 +924,10 @@
     "chunk_type": "ETL",
     "entity_id": "PEST_002",
     "entity_type": "pest",
-    "canonical_name": "Unknown",
+    "canonical_name": "Brown planthopper (BPH)",
     "scientific_name": null,
     "local_names": [
-      ""
+      "Brown planthopper (BPH)"
     ],
     "tamil_aliases": [],
     "crop": "Rice (Oryza sativa)",
@@ -946,7 +946,7 @@
       "modifier_condition": null,
       "adjusted_threshold": null
     },
-    "recommendation": "Spray intervention threshold for None: Base ETL = None.",
+    "recommendation": "Spray intervention threshold for Brown planthopper (BPH): Base ETL = None.",
     "management_type": "cultural",
     "chemical": null,
     "formulation": null,
@@ -963,7 +963,7 @@
     "source_type": "research_manual",
     "source_authority": 9,
     "source_date": "2026-08-24",
-    "evidence_status": "SOURCE_SUPPORTED",
+    "evidence_status": "SOURCE_SUPPORTED_WITH_CONTEXT",
     "confidence": 0.95,
     "license_status": "CC-BY-NC-4.0",
     "provenance_chain": [
@@ -979,10 +979,10 @@
     "chunk_type": "ETL",
     "entity_id": "PEST_002",
     "entity_type": "pest",
-    "canonical_name": "Unknown",
+    "canonical_name": "Brown planthopper (BPH)",
     "scientific_name": null,
     "local_names": [
-      ""
+      "Brown planthopper (BPH)"
     ],
     "tamil_aliases": [],
     "crop": "Rice (Oryza sativa)",
@@ -1001,7 +1001,7 @@
       "modifier_condition": null,
       "adjusted_threshold": null
     },
-    "recommendation": "Spray intervention threshold for None: Base ETL = None.",
+    "recommendation": "Spray intervention threshold for Brown planthopper (BPH): Base ETL = None.",
     "management_type": "cultural",
     "chemical": null,
     "formulation": null,
@@ -1018,7 +1018,7 @@
     "source_type": "research_manual",
     "source_authority": 9,
     "source_date": "2026-08-24",
-    "evidence_status": "SOURCE_SUPPORTED",
+    "evidence_status": "SOURCE_SUPPORTED_WITH_CONTEXT",
     "confidence": 0.95,
     "license_status": "CC-BY-NC-4.0",
     "provenance_chain": [
@@ -1034,10 +1034,10 @@
     "chunk_type": "ETL",
     "entity_id": "PEST_003",
     "entity_type": "pest",
-    "canonical_name": "Unknown",
+    "canonical_name": "Leaf folder",
     "scientific_name": null,
     "local_names": [
-      ""
+      "Leaf folder"
     ],
     "tamil_aliases": [],
     "crop": "Rice (Oryza sativa)",
@@ -1056,7 +1056,7 @@
       "modifier_condition": null,
       "adjusted_threshold": null
     },
-    "recommendation": "Spray intervention threshold for None: Base ETL = None.",
+    "recommendation": "Spray intervention threshold for Leaf folder: Base ETL = None.",
     "management_type": "cultural",
     "chemical": null,
     "formulation": null,
@@ -1089,10 +1089,10 @@
     "chunk_type": "ETL",
     "entity_id": "PEST_003",
     "entity_type": "pest",
-    "canonical_name": "Unknown",
+    "canonical_name": "Leaf folder",
     "scientific_name": null,
     "local_names": [
-      ""
+      "Leaf folder"
     ],
     "tamil_aliases": [],
     "crop": "Rice (Oryza sativa)",
@@ -1111,7 +1111,7 @@
       "modifier_condition": null,
       "adjusted_threshold": null
     },
-    "recommendation": "Spray intervention threshold for None: Base ETL = None.",
+    "recommendation": "Spray intervention threshold for Leaf folder: Base ETL = None.",
     "management_type": "cultural",
     "chemical": null,
     "formulation": null,
@@ -1128,7 +1128,7 @@
     "source_type": "research_manual",
     "source_authority": 9,
     "source_date": "2026-08-24",
-    "evidence_status": "SOURCE_SUPPORTED",
+    "evidence_status": "SOURCE_SUPPORTED_WITH_CONTEXT",
     "confidence": 0.95,
     "license_status": "CC-BY-NC-4.0",
     "provenance_chain": [
@@ -1144,10 +1144,10 @@
     "chunk_type": "ETL",
     "entity_id": "PEST_004",
     "entity_type": "pest",
-    "canonical_name": "Unknown",
+    "canonical_name": "Green leafhopper (GLH)",
     "scientific_name": null,
     "local_names": [
-      ""
+      "Green leafhopper (GLH)"
     ],
     "tamil_aliases": [],
     "crop": "Rice (Oryza sativa)",
@@ -1166,7 +1166,7 @@
       "modifier_condition": null,
       "adjusted_threshold": null
     },
-    "recommendation": "Spray intervention threshold for None: Base ETL = None.",
+    "recommendation": "Spray intervention threshold for Green leafhopper (GLH): Base ETL = None.",
     "management_type": "cultural",
     "chemical": null,
     "formulation": null,
@@ -1183,7 +1183,7 @@
     "source_type": "research_manual",
     "source_authority": 9,
     "source_date": "2026-08-24",
-    "evidence_status": "SOURCE_SUPPORTED",
+    "evidence_status": "SOURCE_SUPPORTED_WITH_CONTEXT",
     "confidence": 0.95,
     "license_status": "CC-BY-NC-4.0",
     "provenance_chain": [
@@ -1199,10 +1199,10 @@
     "chunk_type": "ETL",
     "entity_id": "PEST_004",
     "entity_type": "pest",
-    "canonical_name": "Unknown",
+    "canonical_name": "Green leafhopper (GLH)",
     "scientific_name": null,
     "local_names": [
-      ""
+      "Green leafhopper (GLH)"
     ],
     "tamil_aliases": [],
     "crop": "Rice (Oryza sativa)",
@@ -1221,7 +1221,7 @@
       "modifier_condition": null,
       "adjusted_threshold": null
     },
-    "recommendation": "Spray intervention threshold for None: Base ETL = None.",
+    "recommendation": "Spray intervention threshold for Green leafhopper (GLH): Base ETL = None.",
     "management_type": "cultural",
     "chemical": null,
     "formulation": null,
@@ -1238,7 +1238,7 @@
     "source_type": "research_manual",
     "source_authority": 9,
     "source_date": "2026-08-24",
-    "evidence_status": "SOURCE_SUPPORTED",
+    "evidence_status": "SOURCE_SUPPORTED_WITH_CONTEXT",
     "confidence": 0.95,
     "license_status": "CC-BY-NC-4.0",
     "provenance_chain": [
@@ -1254,10 +1254,10 @@
     "chunk_type": "ETL",
     "entity_id": "PEST_004",
     "entity_type": "pest",
-    "canonical_name": "Unknown",
+    "canonical_name": "Green leafhopper (GLH)",
     "scientific_name": null,
     "local_names": [
-      ""
+      "Green leafhopper (GLH)"
     ],
     "tamil_aliases": [],
     "crop": "Rice (Oryza sativa)",
@@ -1276,7 +1276,7 @@
       "modifier_condition": null,
       "adjusted_threshold": null
     },
-    "recommendation": "Spray intervention threshold for None: Base ETL = None.",
+    "recommendation": "Spray intervention threshold for Green leafhopper (GLH): Base ETL = None.",
     "management_type": "cultural",
     "chemical": null,
     "formulation": null,
@@ -1293,7 +1293,7 @@
     "source_type": "research_manual",
     "source_authority": 9,
     "source_date": "2026-08-24",
-    "evidence_status": "SOURCE_SUPPORTED",
+    "evidence_status": "SOURCE_SUPPORTED_WITH_CONTEXT",
     "confidence": 0.95,
     "license_status": "CC-BY-NC-4.0",
     "provenance_chain": [
@@ -1309,10 +1309,10 @@
     "chunk_type": "ETL",
     "entity_id": "PEST_005",
     "entity_type": "pest",
-    "canonical_name": "Unknown",
+    "canonical_name": "Gall midge",
     "scientific_name": null,
     "local_names": [
-      ""
+      "Gall midge"
     ],
     "tamil_aliases": [],
     "crop": "Rice (Oryza sativa)",
@@ -1331,7 +1331,7 @@
       "modifier_condition": null,
       "adjusted_threshold": null
     },
-    "recommendation": "Spray intervention threshold for None: Base ETL = None.",
+    "recommendation": "Spray intervention threshold for Gall midge: Base ETL = None.",
     "management_type": "cultural",
     "chemical": null,
     "formulation": null,
@@ -1364,10 +1364,10 @@
     "chunk_type": "ETL",
     "entity_id": "PEST_006",
     "entity_type": "pest",
-    "canonical_name": "Unknown",
+    "canonical_name": "Thrips",
     "scientific_name": null,
     "local_names": [
-      ""
+      "Thrips"
     ],
     "tamil_aliases": [],
     "crop": "Rice (Oryza sativa)",
@@ -1386,7 +1386,7 @@
       "modifier_condition": null,
       "adjusted_threshold": null
     },
-    "recommendation": "Spray intervention threshold for None: Base ETL = None.",
+    "recommendation": "Spray intervention threshold for Thrips: Base ETL = None.",
     "management_type": "cultural",
     "chemical": null,
     "formulation": null,
@@ -1419,10 +1419,10 @@
     "chunk_type": "ETL",
     "entity_id": "PEST_006",
     "entity_type": "pest",
-    "canonical_name": "Unknown",
+    "canonical_name": "Thrips",
     "scientific_name": null,
     "local_names": [
-      ""
+      "Thrips"
     ],
     "tamil_aliases": [],
     "crop": "Rice (Oryza sativa)",
@@ -1441,7 +1441,7 @@
       "modifier_condition": null,
       "adjusted_threshold": null
     },
-    "recommendation": "Spray intervention threshold for None: Base ETL = None.",
+    "recommendation": "Spray intervention threshold for Thrips: Base ETL = None.",
     "management_type": "cultural",
     "chemical": null,
     "formulation": null,
@@ -1474,10 +1474,10 @@
     "chunk_type": "ETL",
     "entity_id": "PEST_007",
     "entity_type": "pest",
-    "canonical_name": "Unknown",
+    "canonical_name": "Whorl maggot",
     "scientific_name": null,
     "local_names": [
-      ""
+      "Whorl maggot"
     ],
     "tamil_aliases": [],
     "crop": "Rice (Oryza sativa)",
@@ -1496,7 +1496,7 @@
       "modifier_condition": null,
       "adjusted_threshold": null
     },
-    "recommendation": "Spray intervention threshold for None: Base ETL = None.",
+    "recommendation": "Spray intervention threshold for Whorl maggot: Base ETL = None.",
     "management_type": "cultural",
     "chemical": null,
     "formulation": null,
@@ -1529,10 +1529,10 @@
     "chunk_type": "ETL",
     "entity_id": "PEST_007",
     "entity_type": "pest",
-    "canonical_name": "Unknown",
+    "canonical_name": "Whorl maggot",
     "scientific_name": null,
     "local_names": [
-      ""
+      "Whorl maggot"
     ],
     "tamil_aliases": [],
     "crop": "Rice (Oryza sativa)",
@@ -1551,7 +1551,7 @@
       "modifier_condition": null,
       "adjusted_threshold": null
     },
-    "recommendation": "Spray intervention threshold for None: Base ETL = None.",
+    "recommendation": "Spray intervention threshold for Whorl maggot: Base ETL = None.",
     "management_type": "cultural",
     "chemical": null,
     "formulation": null,
@@ -1584,10 +1584,10 @@
     "chunk_type": "ETL",
     "entity_id": "PEST_008",
     "entity_type": "pest",
-    "canonical_name": "Unknown",
+    "canonical_name": "Earhead bug",
     "scientific_name": null,
     "local_names": [
-      ""
+      "Earhead bug"
     ],
     "tamil_aliases": [],
     "crop": "Rice (Oryza sativa)",
@@ -1606,7 +1606,7 @@
       "modifier_condition": null,
       "adjusted_threshold": null
     },
-    "recommendation": "Spray intervention threshold for None: Base ETL = None.",
+    "recommendation": "Spray intervention threshold for Earhead bug: Base ETL = None.",
     "management_type": "cultural",
     "chemical": null,
     "formulation": null,
@@ -1639,10 +1639,10 @@
     "chunk_type": "ETL",
     "entity_id": "PEST_008",
     "entity_type": "pest",
-    "canonical_name": "Unknown",
+    "canonical_name": "Earhead bug",
     "scientific_name": null,
     "local_names": [
-      ""
+      "Earhead bug"
     ],
     "tamil_aliases": [],
     "crop": "Rice (Oryza sativa)",
@@ -1661,7 +1661,7 @@
       "modifier_condition": null,
       "adjusted_threshold": null
     },
-    "recommendation": "Spray intervention threshold for None: Base ETL = None.",
+    "recommendation": "Spray intervention threshold for Earhead bug: Base ETL = None.",
     "management_type": "cultural",
     "chemical": null,
     "formulation": null,
@@ -1678,11 +1678,63 @@
     "source_type": "research_manual",
     "source_authority": 9,
     "source_date": "2026-08-24",
-    "evidence_status": "SOURCE_SUPPORTED",
+    "evidence_status": "SOURCE_SUPPORTED_WITH_CONTEXT",
     "confidence": 0.95,
     "license_status": "CC-BY-NC-4.0",
     "provenance_chain": [
       "ICAR Rice Insect Pest Management — Earhead Bug"
+    ],
+    "knowledge_version": "v4.2.0-validated"
+  },
+  {
+    "record_id": "REC-ETL-018",
+    "document_id": null,
+    "evidence_id": "ETL-018",
+    "chunk_id": "CHUNK-ETL-018",
+    "chunk_type": "ETL",
+    "entity_id": "DIS_007",
+    "entity_type": "disease",
+    "canonical_name": "Rice False Smut",
+    "crop": "Rice (Oryza sativa)",
+    "crop_stage": "booting_to_flowering",
+    "recommendation": "Economic threshold for False Smut: Preventive fungicide spray (Copper Hydroxide 77 WP @ 1.25 kg/ha or Propiconazole 25 EC @ 500 ml/ha) at late booting stage (5-7 days before panicle emergence). No chemical spray permitted during full flowering.",
+    "etl": {
+      "base_threshold": "Preventive spray at late booting stage (5-7 days before panicle emergence)",
+      "has_modifier": false
+    },
+    "source": "TNAU / ICAR-IIRR",
+    "source_authority": 9,
+    "source_date": "2026-08-24",
+    "evidence_status": "SOURCE_SUPPORTED",
+    "confidence": 0.95,
+    "provenance_chain": [
+      "ETL-018.jsonl"
+    ],
+    "knowledge_version": "v4.2.0-validated"
+  },
+  {
+    "record_id": "REC-ETL-019",
+    "document_id": null,
+    "evidence_id": "ETL-019",
+    "chunk_id": "CHUNK-ETL-019",
+    "chunk_type": "ETL",
+    "entity_id": "DIS_006",
+    "entity_type": "disease",
+    "canonical_name": "Rice Stem Rot",
+    "crop": "Rice (Oryza sativa)",
+    "crop_stage": "tillering_to_heading",
+    "recommendation": "Economic threshold for Stem Rot: When 5%-10% tillers exhibit waterline sclerotial lesions or black rotting at water level. Drain field completely for 3-5 days and apply Validamycin 3 L @ 1000 ml/ha to tiller base.",
+    "etl": {
+      "base_threshold": "5%-10% infected tillers at water line",
+      "has_modifier": false
+    },
+    "source": "TNAU / ICAR-IIRR",
+    "source_authority": 9,
+    "source_date": "2026-08-24",
+    "evidence_status": "SOURCE_SUPPORTED",
+    "confidence": 0.95,
+    "provenance_chain": [
+      "ETL-019.jsonl"
     ],
     "knowledge_version": "v4.2.0-validated"
   },
@@ -2680,7 +2732,7 @@
     "diagnostic_features": null,
     "severity": null,
     "etl": null,
-    "recommendation": "Chemical Prescription: Chlorantraniliprole 18.5 SC for Stem borer, Leaf folder. Dosage: 150 ml/ha in 500 L water. Regulatory Status: VERIFIED_CURRENT (Approved). Pre-Harvest Interval (PHI): 47 days. Toxicity: Green Label (Low mammalian toxicity). Notes: CIBRC registered for Rice Stem Borer and Leaf Folder. Safe to natural enemies.",
+    "recommendation": "Chemical / Bio-control Prescription: Chlorantraniliprole 18.5 SC for Stem borer, Leaf folder. Dosage: 150 ml/ha in 500 L water. Regulatory Status: VERIFIED_CURRENT (Approved). Pre-Harvest Interval (PHI): 47 days. Toxicity: Green Label (Low mammalian toxicity). Notes: CIBRC registered for Rice Stem Borer and Leaf Folder. Safe to natural enemies.",
     "management_type": "chemical",
     "chemical": "Chlorantraniliprole",
     "formulation": "18.5 SC",
@@ -2730,7 +2782,7 @@
     "diagnostic_features": null,
     "severity": null,
     "etl": null,
-    "recommendation": "Chemical Prescription: Buprofezin 25 SC for Brown planthopper (BPH), Green leafhopper (GLH). Dosage: 400-800 ml/ha in 500 L water. Regulatory Status: VERIFIED_CURRENT (Approved). Pre-Harvest Interval (PHI): 30 days. Toxicity: Blue Label (Insect Growth Regulator). Notes: CIBRC approved for rice hoppers. Direct spray to base of tillers.",
+    "recommendation": "Chemical / Bio-control Prescription: Buprofezin 25 SC for Brown planthopper (BPH), Green leafhopper (GLH). Dosage: 400-800 ml/ha in 500 L water. Regulatory Status: VERIFIED_CURRENT (Approved). Pre-Harvest Interval (PHI): 30 days. Toxicity: Blue Label (Insect Growth Regulator). Notes: CIBRC approved for rice hoppers. Direct spray to base of tillers.",
     "management_type": "chemical",
     "chemical": "Buprofezin",
     "formulation": "25 SC",
@@ -2780,7 +2832,7 @@
     "diagnostic_features": null,
     "severity": null,
     "etl": null,
-    "recommendation": "Chemical Prescription: Imidacloprid 17.8 SL for Green leafhopper (GLH), Brown planthopper (BPH). Dosage: 100-125 ml/ha in 500 L water. Regulatory Status: VERIFIED_CURRENT (Approved). Pre-Harvest Interval (PHI): 21 days. Toxicity: Yellow Label (Neonicotinoid). Notes: Approved for rice hoppers; suppresses GLH vector to prevent Tungro virus transmission.",
+    "recommendation": "Chemical / Bio-control Prescription: Imidacloprid 17.8 SL for Green leafhopper (GLH), Brown planthopper (BPH). Dosage: 100-125 ml/ha in 500 L water. Regulatory Status: VERIFIED_CURRENT (Approved). Pre-Harvest Interval (PHI): 21 days. Toxicity: Yellow Label (Neonicotinoid). Notes: Approved for rice hoppers; suppresses GLH vector to prevent Tungro virus transmission.",
     "management_type": "chemical",
     "chemical": "Imidacloprid",
     "formulation": "17.8 SL",
@@ -2830,7 +2882,7 @@
     "diagnostic_features": null,
     "severity": null,
     "etl": null,
-    "recommendation": "Chemical Prescription: Thiamethoxam 25 WG for Thrips, Stem borer, GLH. Dosage: 100 g/ha in 500 L water. Regulatory Status: VERIFIED_CURRENT (Approved). Pre-Harvest Interval (PHI): 14 days. Toxicity: Green Label (Neonicotinoid). Notes: Approved for rice thrips and stem borer. Suitable for nursery and tillering.",
+    "recommendation": "Chemical / Bio-control Prescription: Thiamethoxam 25 WG for Thrips, Stem borer, GLH. Dosage: 100 g/ha in 500 L water. Regulatory Status: VERIFIED_CURRENT (Approved). Pre-Harvest Interval (PHI): 14 days. Toxicity: Green Label (Neonicotinoid). Notes: Approved for rice thrips and stem borer. Suitable for nursery and tillering.",
     "management_type": "chemical",
     "chemical": "Thiamethoxam",
     "formulation": "25 WG",
@@ -2880,7 +2932,7 @@
     "diagnostic_features": null,
     "severity": null,
     "etl": null,
-    "recommendation": "Chemical Prescription: Carbofuran 3G for Stem borer, Gall midge, Whorl maggot. Dosage: 33 kg/ha at planting. Regulatory Status: RESTRICTED (Restricted / Phased Ban). Pre-Harvest Interval (PHI): 60 days. Toxicity: Red Label (Class Ib High Toxicity). Notes: Carbamate with high avian and groundwater toxicity. Restricted/banned across several states. Requires warning.",
+    "recommendation": "Chemical / Bio-control Prescription: Carbofuran 3G for Stem borer, Gall midge, Whorl maggot. Dosage: 33 kg/ha at planting. Regulatory Status: RESTRICTED (Restricted / Phased Ban). Pre-Harvest Interval (PHI): 60 days. Toxicity: Red Label (Class Ib High Toxicity). Notes: Carbamate with high avian and groundwater toxicity. Restricted/banned across several states. Requires warning.",
     "management_type": "chemical",
     "chemical": "Carbofuran",
     "formulation": "3G",
@@ -2930,7 +2982,7 @@
     "diagnostic_features": null,
     "severity": null,
     "etl": null,
-    "recommendation": "Chemical Prescription: Malathion 50 EC for Earhead bug. Dosage: 500-1000 ml/ha in 500 L water. Regulatory Status: RESTRICTED (Approved with Strict PHI). Pre-Harvest Interval (PHI): 10 days. Toxicity: Blue Label (Organophosphate). Notes: Applied during grain milking; high grain residue risk. Mandatory minimum 7-10 days PHI.",
+    "recommendation": "Chemical / Bio-control Prescription: Malathion 50 EC for Earhead bug. Dosage: 500-1000 ml/ha in 500 L water. Regulatory Status: RESTRICTED (Approved with Strict PHI). Pre-Harvest Interval (PHI): 10 days. Toxicity: Blue Label (Organophosphate). Notes: Applied during grain milking; high grain residue risk. Mandatory minimum 7-10 days PHI.",
     "management_type": "chemical",
     "chemical": "Malathion",
     "formulation": "50 EC",
@@ -2980,7 +3032,7 @@
     "diagnostic_features": null,
     "severity": null,
     "etl": null,
-    "recommendation": "Chemical Prescription: Copper hydroxide 77 WP for Bacterial Leaf Blight (BLB), False Smut, Bacterial Leaf Streak (BLS). Dosage: 1.25 kg/ha in 500 L water. Regulatory Status: VERIFIED_CURRENT (Approved). Pre-Harvest Interval (PHI): 15 days. Toxicity: Blue Label (Inorganic Copper). Notes: Approved for bacterial blight and false smut. Apply preventively at boot leaf.",
+    "recommendation": "Chemical / Bio-control Prescription: Copper hydroxide 77 WP for Bacterial Leaf Blight (BLB), False Smut, Bacterial Leaf Streak (BLS). Dosage: 1.25 kg/ha in 500 L water. Regulatory Status: VERIFIED_CURRENT (Approved). Pre-Harvest Interval (PHI): 15 days. Toxicity: Blue Label (Inorganic Copper). Notes: Approved for bacterial blight and false smut. Apply preventively at boot leaf.",
     "management_type": "chemical",
     "chemical": "Copper hydroxide",
     "formulation": "77 WP",
@@ -3030,7 +3082,7 @@
     "diagnostic_features": null,
     "severity": null,
     "etl": null,
-    "recommendation": "Chemical Prescription: Tricyclazole 75 WP for Rice Blast (Leaf & Neck). Dosage: 500 g/ha (0.6 g/L water). Regulatory Status: VERIFIED_CURRENT (Approved). Pre-Harvest Interval (PHI): 30 days. Toxicity: Blue Label (Triazole). Notes: Gold standard blasticide; highly systemic; prevents appressorial melanization.",
+    "recommendation": "Chemical / Bio-control Prescription: Tricyclazole 75 WP for Rice Blast (Leaf & Neck). Dosage: 500 g/ha (0.6 g/L water). Regulatory Status: VERIFIED_CURRENT (Approved). Pre-Harvest Interval (PHI): 30 days. Toxicity: Blue Label (Triazole). Notes: Gold standard blasticide; highly systemic; prevents appressorial melanization.",
     "management_type": "chemical",
     "chemical": "Tricyclazole",
     "formulation": "75 WP",
@@ -3080,7 +3132,7 @@
     "diagnostic_features": null,
     "severity": null,
     "etl": null,
-    "recommendation": "Chemical Prescription: Isoprothiolane 40 EC for Rice Blast. Dosage: 750 ml/ha in 500 L water. Regulatory Status: VERIFIED_CURRENT (Approved). Pre-Harvest Interval (PHI): 30 days. Toxicity: Blue Label (Dithiolane). Notes: Approved for rice blast; inhibits phospholipid biosynthesis.",
+    "recommendation": "Chemical / Bio-control Prescription: Isoprothiolane 40 EC for Rice Blast. Dosage: 750 ml/ha in 500 L water. Regulatory Status: VERIFIED_CURRENT (Approved). Pre-Harvest Interval (PHI): 30 days. Toxicity: Blue Label (Dithiolane). Notes: Approved for rice blast; inhibits phospholipid biosynthesis.",
     "management_type": "chemical",
     "chemical": "Isoprothiolane",
     "formulation": "40 EC",
@@ -3130,7 +3182,7 @@
     "diagnostic_features": null,
     "severity": null,
     "etl": null,
-    "recommendation": "Chemical Prescription: Hexaconazole 5 SC / 5 EC for Sheath Blight. Dosage: 1000 ml/ha in 500 L water. Regulatory Status: VERIFIED_CURRENT (Approved). Pre-Harvest Interval (PHI): 30 days. Toxicity: Green Label (Triazole). Notes: Systemic triazole fungicide targeting ergosterol biosynthesis.",
+    "recommendation": "Chemical / Bio-control Prescription: Hexaconazole 5 SC / 5 EC for Sheath Blight. Dosage: 1000 ml/ha in 500 L water. Regulatory Status: VERIFIED_CURRENT (Approved). Pre-Harvest Interval (PHI): 30 days. Toxicity: Green Label (Triazole). Notes: Systemic triazole fungicide targeting ergosterol biosynthesis.",
     "management_type": "chemical",
     "chemical": "Hexaconazole",
     "formulation": "5 SC / 5 EC",
@@ -3180,7 +3232,7 @@
     "diagnostic_features": null,
     "severity": null,
     "etl": null,
-    "recommendation": "Chemical Prescription: Validamycin 3 L for Sheath Blight. Dosage: 1000 ml/ha in 500 L water. Regulatory Status: VERIFIED_CURRENT (Approved). Pre-Harvest Interval (PHI): 14 days. Toxicity: Green Label (Antibiotic/Fungicide). Notes: Antibiotic fungicide derived from Streptomyces hygroscopicus; inhibits trehalase.",
+    "recommendation": "Chemical / Bio-control Prescription: Validamycin 3 L for Sheath Blight. Dosage: 1000 ml/ha in 500 L water. Regulatory Status: VERIFIED_CURRENT (Approved). Pre-Harvest Interval (PHI): 14 days. Toxicity: Green Label (Antibiotic/Fungicide). Notes: Antibiotic fungicide derived from Streptomyces hygroscopicus; inhibits trehalase.",
     "management_type": "chemical",
     "chemical": "Validamycin",
     "formulation": "3 L",
@@ -3230,7 +3282,7 @@
     "diagnostic_features": null,
     "severity": null,
     "etl": null,
-    "recommendation": "Chemical Prescription: Azoxystrobin + Difenoconazole 18.2% + 11.4% SC (29.6 SC) for Sheath Blight, Rice Blast. Dosage: 500 ml/ha in 500 L water. Regulatory Status: VERIFIED_CURRENT (Approved). Pre-Harvest Interval (PHI): 31 days. Toxicity: Blue Label (Strobilurin + Triazole). Notes: Broad-spectrum combination with dual translaminar and systemic modes of action.",
+    "recommendation": "Chemical / Bio-control Prescription: Azoxystrobin + Difenoconazole 18.2% + 11.4% SC (29.6 SC) for Sheath Blight, Rice Blast. Dosage: 500 ml/ha in 500 L water. Regulatory Status: VERIFIED_CURRENT (Approved). Pre-Harvest Interval (PHI): 31 days. Toxicity: Blue Label (Strobilurin + Triazole). Notes: Broad-spectrum combination with dual translaminar and systemic modes of action.",
     "management_type": "chemical",
     "chemical": "Azoxystrobin + Difenoconazole",
     "formulation": "18.2% + 11.4% SC (29.6 SC)",
@@ -3280,7 +3332,7 @@
     "diagnostic_features": null,
     "severity": null,
     "etl": null,
-    "recommendation": "Chemical Prescription: Propiconazole 25 EC for Sheath Rot, False Smut. Dosage: 500 ml/ha in 500 L water. Regulatory Status: VERIFIED_CURRENT (Approved). Pre-Harvest Interval (PHI): 30 days. Toxicity: Yellow Label (Triazole). Notes: Approved for sheath rot and false smut. Must be applied at booting stage for false smut.",
+    "recommendation": "Chemical / Bio-control Prescription: Propiconazole 25 EC for Sheath Rot, False Smut. Dosage: 500 ml/ha in 500 L water. Regulatory Status: VERIFIED_CURRENT (Approved). Pre-Harvest Interval (PHI): 30 days. Toxicity: Yellow Label (Triazole). Notes: Approved for sheath rot and false smut. Must be applied at booting stage for false smut.",
     "management_type": "chemical",
     "chemical": "Propiconazole",
     "formulation": "25 EC",
@@ -3330,7 +3382,7 @@
     "diagnostic_features": null,
     "severity": null,
     "etl": null,
-    "recommendation": "Chemical Prescription: Streptocycline + Copper Oxychloride 90:10 SP + 50 WP for Bacterial Leaf Blight (BLB). Dosage: 100 g + 500 g per hectare. Regulatory Status: RESTRICTED (Restricted / Under Review). Pre-Harvest Interval (PHI): 30 days. Toxicity: Red/Yellow Label (Agricultural Antibiotic). Notes: Streptocycline is an antibiotic subject to Antimicrobial Resistance (AMR) regulatory restrictions in Indian agriculture. Non-antibiotic alternatives (Copper Hydroxide) preferred.",
+    "recommendation": "Chemical / Bio-control Prescription: Streptocycline + Copper Oxychloride 90:10 SP + 50 WP for Bacterial Leaf Blight (BLB). Dosage: 100 g + 500 g per hectare. Regulatory Status: RESTRICTED (Restricted / Under Review). Pre-Harvest Interval (PHI): 30 days. Toxicity: Red/Yellow Label (Agricultural Antibiotic). Notes: Streptocycline is an antibiotic subject to Antimicrobial Resistance (AMR) regulatory restrictions in Indian agriculture. Non-antibiotic alternatives (Copper Hydroxide) preferred.",
     "management_type": "chemical",
     "chemical": "Streptocycline + Copper Oxychloride",
     "formulation": "90:10 SP + 50 WP",
@@ -3355,6 +3407,247 @@
     "license_status": "GOVERNMENT_OPEN_ACCESS",
     "provenance_chain": [
       "https://ppqs.gov.in/"
+    ],
+    "knowledge_version": "v4.2.0-validated"
+  },
+  {
+    "record_id": "REC-CHEM-015",
+    "document_id": null,
+    "evidence_id": "CHEM-015",
+    "chunk_id": "CHUNK-CHEM-015",
+    "chunk_type": "CHEMICAL",
+    "entity_id": "CHEM_CHEM-015",
+    "entity_type": "bio_control",
+    "canonical_name": "Pseudomonas fluorescens 0.5% WP / 1.5% LF",
+    "scientific_name": "Pseudomonas fluorescens",
+    "local_names": [
+      "Pseudomonas fluorescens"
+    ],
+    "tamil_aliases": [],
+    "crop": "Rice (Oryza sativa)",
+    "crop_stage": "all_stages",
+    "agro_ecological_region": "All Tamil Nadu",
+    "symptoms": [],
+    "distinguishing_cues": [],
+    "diagnostic_features": null,
+    "severity": null,
+    "etl": null,
+    "recommendation": "Chemical / Bio-control Prescription: Pseudomonas fluorescens 0.5% WP / 1.5% LF for Bacterial Leaf Blight (BLB), Sheath Blight, Rice Blast, Sheath Rot. Dosage: Seed treatment: 10 g/kg seed; Foliar spray: 1 kg/ha (2.5 g/L water) at 45 & 60 DAT. Regulatory Status: VERIFIED_CURRENT (Approved Bio-Control). Pre-Harvest Interval (PHI): 0 days. Toxicity: Green Label (Biological Inoculant / Zero residue). Notes: Biological control agent. Mandatory 7-day interval required before or after chemical/copper fungicides.",
+    "management_type": "biological",
+    "chemical": "Pseudomonas fluorescens",
+    "formulation": "0.5% WP / 1.5% LF",
+    "chemical_status": "VERIFIED_CURRENT",
+    "dose": "Seed treatment: 10 g/kg seed; Foliar spray: 1 kg/ha (2.5 g/L water) at 45 & 60 DAT",
+    "dose_unit": "per hectare",
+    "application_method": "knapsack_foliar",
+    "timing": "As per ETL thresholds",
+    "phi": 0,
+    "safety_constraints": [
+      "Green Label (Biological Inoculant / Zero residue)",
+      "Biological control agent. Mandatory 7-day interval required before or after chemical/copper fungicides."
+    ],
+    "drone_guidelines": null,
+    "geographic_scope": "National (CIBRC Approved)",
+    "source": "TNAU / CIBRC Bio-Control Guidelines",
+    "source_type": "regulatory_schedule",
+    "source_authority": 10,
+    "source_date": "2026-08-24",
+    "evidence_status": "SOURCE_SUPPORTED_CIBRC_ALIGNED",
+    "confidence": 0.98,
+    "license_status": "GOVERNMENT_OPEN_ACCESS",
+    "provenance_chain": [
+      "https://agritech.tnau.ac.in/crop_protection/rice_bio_inputs.html"
+    ],
+    "knowledge_version": "v4.2.0-validated"
+  },
+  {
+    "record_id": "REC-AGRO-COPPER-SULPHATE",
+    "document_id": null,
+    "evidence_id": "AGRO_INPUT_COPPER_SULPHATE",
+    "chunk_id": "CHUNK-AGRO-COPPER-SULPHATE",
+    "chunk_type": "TRADITIONAL_INPUT",
+    "entity_id": "AGRO_INPUT_COPPER_SULPHATE",
+    "entity_type": "agro_input",
+    "canonical_name": "Copper Sulphate (CuSO4) / மயில் துத்தம்",
+    "scientific_name": null,
+    "local_names": [
+      "மயில் துத்தம்"
+    ],
+    "tamil_aliases": [
+      "மயில் துத்தம்"
+    ],
+    "crop": "Rice (Oryza sativa)",
+    "crop_stage": "all_stages",
+    "agro_ecological_region": "All Tamil Nadu",
+    "symptoms": [
+      "algal bloom",
+      "iron chlorosis",
+      "seedling yellowing in calcareous soil"
+    ],
+    "distinguishing_cues": [],
+    "diagnostic_features": null,
+    "severity": null,
+    "etl": null,
+    "recommendation": "Copper Sulphate (CuSO4 / மயில் துத்தம்): Applied at 1-2 kg/ha tied in irrigation water channel or dusted on standing water for controlling green algae (பாசி), Chara, and algal blooms in flooded paddy fields; also acts as an inorganic copper fungicidal supplement.",
+    "management_type": "nutritional_and_algal_management",
+    "chemical": "Copper Sulphate (CuSO4) / மயில் துத்தம்",
+    "formulation": "Soluble Salt",
+    "chemical_status": "APPROVED_TRADITIONAL",
+    "dose": "1.0 - 2.0 kg/ha in irrigation channel",
+    "dose_unit": "per hectare / per acre",
+    "application_method": "foliar_or_irrigation",
+    "timing": "all_stages",
+    "phi": 0,
+    "safety_constraints": [
+      "Do not overdose foliar iron mixture under hot midday sun"
+    ],
+    "drone_guidelines": null,
+    "geographic_scope": "Tamil Nadu",
+    "source": "TNAU Agritech Crop Protection & Traditional Practices Guide",
+    "source_type": "extension_guideline",
+    "source_authority": 8,
+    "source_date": "2026-08-24",
+    "evidence_status": "SOURCE_SUPPORTED",
+    "confidence": 0.96,
+    "license_status": "GOVERNMENT_OPEN_ACCESS",
+    "provenance_chain": [
+      "TNAU Traditional & Nutritional Practices Guide"
+    ],
+    "knowledge_version": "v4.2.0-validated"
+  },
+  {
+    "record_id": "REC-AGRO-ANNAMALAI-MIXTURE",
+    "document_id": null,
+    "evidence_id": "AGRO_NUTRITION_IRON_CHLOROSIS",
+    "chunk_id": "CHUNK-AGRO-ANNAMALAI-MIXTURE",
+    "chunk_type": "TRADITIONAL_INPUT",
+    "entity_id": "AGRO_NUTRITION_IRON_CHLOROSIS",
+    "entity_type": "agro_input",
+    "canonical_name": "Annamalai Mixture (அண்ணாமலை கலவை) / Iron Chlorosis Foliar Spray",
+    "scientific_name": null,
+    "local_names": [
+      "அண்ணாமலை கலவை"
+    ],
+    "tamil_aliases": [
+      "அண்ணாமலை கலவை"
+    ],
+    "crop": "Rice (Oryza sativa)",
+    "crop_stage": "nursery_and_early_vegetative",
+    "agro_ecological_region": "All Tamil Nadu",
+    "symptoms": [
+      "algal bloom",
+      "iron chlorosis",
+      "seedling yellowing in calcareous soil"
+    ],
+    "distinguishing_cues": [],
+    "diagnostic_features": null,
+    "severity": null,
+    "etl": null,
+    "recommendation": "Annamalai Mixture (அண்ணாமலை கலவை): Specially formulated foliar spray for correcting severe Iron (Fe) chlorosis and seedling yellowing in calcareous/alkaline Delta and Cuddalore soils. Preparation: 1% Ferrous Sulphate (FeSO4 @ 10 g/L) + 1% Ammonium Sulphate ((NH4)2SO4 @ 10 g/L) + Citric Acid (1 g/L) dissolved in water and sprayed during early morning hours.",
+    "management_type": "nutritional_and_algal_management",
+    "chemical": "Annamalai Mixture (அண்ணாமலை கலவை) / Iron Chlorosis Foliar Spray",
+    "formulation": "Soluble Salt",
+    "chemical_status": "APPROVED_TRADITIONAL",
+    "dose": "1% FeSO4 + 1% (NH4)2SO4 (100 L/acre foliar spray)",
+    "dose_unit": "per hectare / per acre",
+    "application_method": "foliar_or_irrigation",
+    "timing": "nursery_and_early_vegetative",
+    "phi": 0,
+    "safety_constraints": [
+      "Do not overdose foliar iron mixture under hot midday sun"
+    ],
+    "drone_guidelines": null,
+    "geographic_scope": "Tamil Nadu",
+    "source": "TNAU / Annamalai University Department of Soil Science & Agricultural Chemistry",
+    "source_type": "extension_guideline",
+    "source_authority": 8,
+    "source_date": "2026-08-24",
+    "evidence_status": "SOURCE_SUPPORTED",
+    "confidence": 0.96,
+    "license_status": "GOVERNMENT_OPEN_ACCESS",
+    "provenance_chain": [
+      "TNAU Traditional & Nutritional Practices Guide"
+    ],
+    "knowledge_version": "v4.2.0-validated"
+  },
+  {
+    "record_id": "REC-DDT-001",
+    "document_id": null,
+    "evidence_id": "DDT-001",
+    "chunk_id": "CHUNK-DDT-001",
+    "chunk_type": "DECISION_TREE",
+    "entity_id": "DDT_ZINC_VS_BROWN_SPOT",
+    "entity_type": "disease",
+    "canonical_name": "Zinc Deficiency (Khaira Disease) vs Fungal Brown Spot (Bipolaris oryzae) Differential Decision Tree",
+    "scientific_name": null,
+    "local_names": [
+      "Zinc Deficiency (Khaira Disease) vs Fungal Brown Spot (Bipolaris oryzae) Differential Decision Tree"
+    ],
+    "tamil_aliases": [
+      "செம்புள்ளி vs துத்தநாக குறைபாடு"
+    ],
+    "crop": "Rice (Oryza sativa)",
+    "crop_stage": "2_to_4_WAT",
+    "agro_ecological_region": "All Tamil Nadu",
+    "symptoms": [
+      "brown spots on leaf",
+      "rusty pigmentation along midrib",
+      "oval brown spots with yellow halo"
+    ],
+    "distinguishing_cues": [
+      "midrib bronze vs oval halos",
+      "alkaline soil patches vs uniform poor soil"
+    ],
+    "diagnostic_features": {
+      "decision_nodes": [
+        {
+          "node_id": "NODE_01_STAGE",
+          "feature": "crop_growth_stage",
+          "question_tamil": "பயிரின் பருவம் என்ன? நட்டு எத்தனை நாட்கள் ஆகிறது?"
+        },
+        {
+          "node_id": "NODE_02_SOIL_WATER",
+          "feature": "soil_and_water_condition",
+          "question_tamil": "மண்ணின் தன்மை எப்படிப்பட்டது? வயலில் நீர் தேங்கி வடிகால் வசதி குறைவாக உள்ளதா?"
+        },
+        {
+          "node_id": "NODE_03_LESION_MORPHOLOGY",
+          "feature": "lesion_morphology_and_distribution",
+          "question_tamil": "புள்ளிகள் இலை நரம்பின் நடுப்பகுதியில் செம்பழுப்பு நிறமாக உள்ளதா அல்லது இலை முழுக்க முட்டை வடிவில் மஞ்சள் வளையத்துடன் உள்ளதா?"
+        },
+        {
+          "node_id": "NODE_04_FIELD_PATTERN",
+          "feature": "field_distribution_and_plant_height",
+          "question_tamil": "வயலில் ஆங்காங்கே திட்டு திட்டாக பயிர் குட்டையாக தேங்கி நிற்கிறதா?"
+        }
+      ]
+    },
+    "severity": null,
+    "etl": null,
+    "recommendation": "Follow multi-turn decision tree for differential diagnosis of Zinc Deficiency vs Brown Spot.",
+    "management_type": "diagnostic_clarification",
+    "chemical": null,
+    "formulation": null,
+    "chemical_status": null,
+    "dose": null,
+    "dose_unit": null,
+    "application_method": null,
+    "timing": null,
+    "phi": null,
+    "safety_constraints": [
+      "Do not apply fungicides to nutritional zinc deficiency"
+    ],
+    "drone_guidelines": null,
+    "geographic_scope": "Tamil Nadu",
+    "source": "TNAU / IRRI / ICAR-IIRR",
+    "source_type": "research_manual",
+    "source_authority": 9,
+    "source_date": "2026-08-24",
+    "evidence_status": "SOURCE_SUPPORTED",
+    "confidence": 0.96,
+    "license_status": "CC-BY-NC-4.0",
+    "provenance_chain": [
+      "DIAGNOSTIC_DECISION_TREES.jsonl"
     ],
     "knowledge_version": "v4.2.0-validated"
   }
