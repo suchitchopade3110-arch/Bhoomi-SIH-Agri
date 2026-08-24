@@ -1,0 +1,25 @@
+{
+  "total_references": 21,
+  "real_images": 17,
+  "missing_files": 4,
+  "corrupt_files": 0,
+  "duplicates": 0,
+  "unresolved_labels": 0,
+  "valid_diagnostic_exemplars": 17,
+  "valid_training_images": 0,
+  "zero_image_classes_count": 9,
+  "zero_image_classes": [
+    "DISEASE_006",
+    "PEST_007",
+    "DISEASE_003",
+    "DISEASE_004",
+    "DISEASE_002",
+    "DISEASE_001",
+    "DISEASE_007",
+    "DISEASE_008",
+    "DISEASE_005"
+  ],
+  "classes_below_training_minimum_count": 16,
+  "license_blocked_count": 17,
+  "status": "DATASET_INCOMPLETE_DIAGNOSTIC_EXEMPLARS_ONLY"
+}
