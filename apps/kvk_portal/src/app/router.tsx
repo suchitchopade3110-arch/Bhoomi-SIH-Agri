@@ -4,6 +4,7 @@ import { AppHeader } from '../components/layout/app_header';
 import { AppSidebar } from '../components/layout/app_sidebar';
 import { CaseQueuePage } from '../features/cases/pages/case_queue_page';
 import { TreatmentEfficacyPage } from '../features/cases/pages/treatment_efficacy_page';
+import { SettingsPage } from '../features/cases/pages/settings_page';
 
 export const AppRouter: React.FC = () => {
   return (
@@ -18,6 +19,7 @@ export const AppRouter: React.FC = () => {
               <Route path="/review" element={<CaseQueuePage statusFilter="under_review" />} />
               <Route path="/history" element={<CaseQueuePage statusFilter="resolved" />} />
               <Route path="/efficacy" element={<TreatmentEfficacyPage />} />
+              <Route path="/settings" element={<SettingsPage />} />
               <Route path="/logs" element={<CaseQueuePage />} />
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>

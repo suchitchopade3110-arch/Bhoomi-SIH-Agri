@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { UserCheck, Activity } from 'lucide-react';
 import { authStore } from '../../core/auth/auth_store';
 import bhoomiLogo from '../../assets/bhoomi.png';
@@ -43,7 +44,10 @@ export const AppHeader: React.FC = () => {
         </div>
 
         {/* Officer Badge */}
-        <div className="flex items-center gap-3 border-l border-slate-200 pl-4">
+        <Link
+          to="/settings"
+          className="flex items-center gap-3 border-l border-slate-200 pl-4 cursor-pointer hover:opacity-80 transition-opacity select-none"
+        >
           <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#2E7D32]/10 text-[#2E7D32]">
             <UserCheck className="h-4 w-4" />
           </div>
@@ -58,7 +62,7 @@ export const AppHeader: React.FC = () => {
               {officer.jurisdiction}
             </p>
           </div>
-        </div>
+        </Link>
       </div>
     </header>
   );

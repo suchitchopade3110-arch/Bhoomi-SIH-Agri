@@ -7,6 +7,7 @@ import {
   History,
   HelpCircle,
   Activity,
+  Settings,
 } from 'lucide-react';
 
 export const AppSidebar: React.FC = () => {
@@ -18,6 +19,9 @@ export const AppSidebar: React.FC = () => {
     { label: 'Activity Logs', path: '/logs', icon: History },
   ];
 
+  const systemItems = [
+    { label: 'Settings', path: '/settings', icon: Settings },
+  ];
 
   return (
     <aside className="flex h-[calc(100vh-4rem)] w-64 flex-col justify-between border-r border-slate-200 bg-white p-4">
@@ -54,6 +58,30 @@ export const AppSidebar: React.FC = () => {
                     {item.badge}
                   </span>
                 )}
+              </NavLink>
+            ))}
+          </nav>
+        </div>
+
+        <div>
+          <div className="px-3 text-[11px] font-bold uppercase tracking-wider text-slate-400">
+            System
+          </div>
+          <nav className="mt-2 space-y-1">
+            {systemItems.map((item) => (
+              <NavLink
+                key={item.path}
+                to={item.path}
+                className={({ isActive }) =>
+                  `flex items-center gap-3 rounded-xl px-3 py-2.5 text-xs font-bold transition-all ${
+                    isActive
+                      ? 'bg-[#2E7D32] text-white shadow-xs'
+                      : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'
+                  }`
+                }
+              >
+                <item.icon className="h-4 w-4" />
+                <span>{item.label}</span>
               </NavLink>
             ))}
           </nav>

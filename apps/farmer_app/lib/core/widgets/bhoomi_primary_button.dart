@@ -51,11 +51,15 @@ class BhoomiPrimaryButton extends StatelessWidget {
                     Icon(icon, size: 20.0, color: Colors.white),
                     const SizedBox(width: AppSpacing.sm),
                   ],
-                  Text(
-                    text,
-                    style: AppTypography.labelLarge.copyWith(
-                      color: Colors.white,
-                      fontSize: 16.0,
+                  Flexible(
+                    child: Text(
+                      text,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: AppTypography.labelLarge.copyWith(
+                        color: Colors.white,
+                        fontSize: 16.0,
+                      ),
                     ),
                   ),
                 ],
