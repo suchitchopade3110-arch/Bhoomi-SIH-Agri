@@ -21,6 +21,8 @@ from app.repositories.health_context import ProblemWriter
 from app.repositories.interfaces import CaseRepository, FarmRepository
 from app.schemas.agronomist import AgronomistQueueItem, ResolveCaseRequest, ResolveCaseResponse
 from app.schemas.case import CaseSummary
+from app.schemas.case_pdf import CasePDFPayload
+from app.services.escalation.pdf_payload import build_case_pdf_payload
 from app.services.health_service import HealthService, get_health_service
 
 # A confirmed expert resolution is treated as real recovery, not just "no
@@ -109,6 +111,20 @@ class AgronomistService:
             problem_details={"severity": ProblemSeverity(case["severity"])},
             assigned_officer_or_kvk=case.get("assigned_to"),
             status=CaseStatus(case["status"]),
+        )
+
+    async def get_case_pdf_payload(self, escalation_id: str) -> CasePDFPayload:
+        """PRD §5.11 / Phase 4: Return structured PDF / share-sheet data payload."""
+        case_summary = await self.get_case_detail(escalation_id)
+        case = await self._cases.get_by_id(escalation_id)
+        res_summary = None
+        if case and case.get("resolution"):
+            res = case["resolution"]
+            res_summary = f"Diagnosis: {res.get('confirmed_diagnosis')}. Advice: {res.get('expert_advice')}"
+        return build_case_pdf_payload(
+            case_summary=case_summary,
+            assigned_kvk=case.get("assigned_to") if case else None,
+            prescribed_actions_summary=res_summary,
         )
 
     async def resolve_case(self, request: ResolveCaseRequest) -> ResolveCaseResponse:

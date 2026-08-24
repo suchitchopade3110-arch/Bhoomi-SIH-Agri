@@ -22,11 +22,15 @@ class SchemeService:
         farm = await self._farms.get_by_id(request.farm_id)
         if farm is None:
             raise NotFoundError("Farm not found.", details={"farm_id": request.farm_id})
-        if farm["land_status"] != LandStatus.VERIFIED.value:
-            raise LandNotVerifiedError(details={"land_status": farm["land_status"]})
+        
+        land_status = farm.get("land_status")
+        if land_status != "verified" and land_status != LandStatus.VERIFIED.value:
+            raise LandNotVerifiedError(details={"land_status": land_status or "unverified"})
 
         rows = await self._schemes.match_schemes(
-            crop=farm["primary_crop"], category=request.farmer_category or "Small/Marginal", acres=farm["total_area_acres"]
+            crop=farm.get("primary_crop", ""),
+            category=request.farmer_category or "Small/Marginal",
+            acres=farm.get("total_area_acres") or 2.0,
         )
         matched = [_to_scheme_response(r) for r in rows]
         return SchemeListResponse(

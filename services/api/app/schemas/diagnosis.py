@@ -4,6 +4,7 @@ from pydantic import BaseModel, ConfigDict, Field
 
 from app.schemas.advisory import Citation, FivePointAdvisory
 from app.schemas.common import SpokenResponseMixin
+from app.schemas.gate import GateObject
 
 
 class DiagnoseRequest(BaseModel):
@@ -48,9 +49,12 @@ class DiagnoseResponse(SpokenResponseMixin):
     are ``None``.
     ``above_gate=False``: only ``reason``/``escalation`` are populated —
     the model is never allowed to compose advice it isn't sure of.
+
+    The ``gate`` object is populated on BOTH branches (contract §8).
     """
 
     above_gate: bool
+    gate: GateObject | None = None
     problem_id: str | None = None
     diagnosis: DiagnosisResult | None = None
     advisory: FivePointAdvisory | None = None
@@ -58,3 +62,4 @@ class DiagnoseResponse(SpokenResponseMixin):
     health_delta: HealthDelta | None = None
     reason: str | None = None
     escalation: EscalationRef | None = None
+

@@ -12,6 +12,7 @@ from fastapi import Depends
 
 from app.adapters.dependencies import get_weather_adapter
 from app.ports.weather import WeatherPort
+from app.domain.advisory import derive_qualitative_advisory
 from app.domain.health import compute_health
 from app.domain.health.inputs import (
     CropIdealConditions,
@@ -21,6 +22,7 @@ from app.domain.health.inputs import (
     WeatherReading,
 )
 from app.models.health_snapshot import HealthSnapshot
+from app.schemas.farm import FarmRiskTrendResponse, FarmSummaryTrendResponse
 from app.repositories.health_context import (
     FarmHealthContextReader,
     ProblemLoadReader,
@@ -188,6 +190,65 @@ class HealthService:
     ) -> tuple[list[HealthSnapshot], str | None]:
         """Newest-first, cursor-paginated snapshot history for a farm."""
         return await self._snapshots.get_history(farm_id, limit, cursor)
+
+    async def get_farm_risk(self, farm_id: str) -> FarmRiskTrendResponse:
+        """Derive qualitative farm risk summary (no weights, no sub-indices) per SIH26131."""
+        context = await self._context_reader.get_context(farm_id)
+        open_problems = await self._problem_reader.get_open_problems(farm_id)
+        trend = await self._treatment_reader.get_treatment_trend(farm_id)
+
+        highest_sev = None
+        primary_label = None
+        if open_problems:
+            primary_label = open_problems[0].label or None
+            sevs = [p.severity.value for p in open_problems]
+            if "severe" in sevs:
+                highest_sev = "severe"
+            elif "moderate" in sevs:
+                highest_sev = "moderate"
+            else:
+                highest_sev = "early"
+
+        days_since_scan = context.days_since_last_scan if context else None
+        followup_resp = (
+            trend.latest_followup_response.value
+            if (trend and trend.latest_followup_response)
+            else None
+        )
+
+        res = derive_qualitative_advisory(
+            open_problems_count=len(open_problems),
+            highest_severity=highest_sev,
+            primary_problem_label=primary_label,
+            days_since_last_scan=days_since_scan,
+            latest_followup_response=followup_resp,
+        )
+
+        return FarmRiskTrendResponse(
+            farm_id=farm_id,
+            advisory=res.advisory,
+            trend=res.trend.value,
+            spoken_summary=f"Condition is {res.trend.value}. {res.advisory}",
+        )
+
+    async def get_farm_summary_trend(
+        self,
+        farm_id: str,
+        farm_name: str = "",
+        village: str = "",
+        primary_crop: str = "",
+    ) -> FarmSummaryTrendResponse:
+        """Derive qualitative farm summary card for SIH26131."""
+        risk = await self.get_farm_risk(farm_id)
+        open_problems = await self._problem_reader.get_open_problems(farm_id)
+        return FarmSummaryTrendResponse(
+            farm_id=farm_id,
+            advisory=risk.advisory,
+            trend=risk.trend,
+            open_cases_count=len(open_problems),
+            last_interaction_at=risk.updated_at,
+            spoken_summary=risk.spoken_summary,
+        )
 
 
 def get_health_service(

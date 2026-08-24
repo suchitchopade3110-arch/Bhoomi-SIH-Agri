@@ -5,6 +5,7 @@ from typing import Annotated, Any
 from fastapi import APIRouter, Depends, Query
 
 from app.core.security import get_current_token_payload
+from app.schemas.farm import FarmRiskTrendResponse
 from app.schemas.health import HealthHistoryResponse, HealthSnapshot
 from app.services.health_service import HealthService, get_health_service
 from app.services.health_snapshot_mapping import snapshot_row_to_schema
@@ -15,6 +16,21 @@ DEFAULT_PAGE_LIMIT = 20
 MAX_PAGE_LIMIT = 100
 
 _to_schema = snapshot_row_to_schema
+
+
+@router.get(
+    "/{farm_id}/risk",
+    response_model=FarmRiskTrendResponse,
+    summary="Get the qualitative condition risk summary for a farm (SIH26131)",
+)
+async def get_risk(
+    farm_id: str,
+    service: Annotated[HealthService, Depends(get_health_service)],
+    _auth: Annotated[dict[str, Any], Depends(get_current_token_payload)],
+) -> FarmRiskTrendResponse:
+    """PRD §7 / contract §2.9 / SIH26131. Returns the qualitative advisory
+    and trend indicator without numeric scores or sub-indices."""
+    return await service.get_farm_risk(farm_id)
 
 
 @router.get(

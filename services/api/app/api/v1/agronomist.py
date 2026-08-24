@@ -11,6 +11,7 @@ from app.schemas.agronomist import (
     ResolveCaseResponse,
 )
 from app.schemas.case import CaseSummary
+from app.schemas.case_pdf import CasePDFPayload
 from app.services.agronomist_service import AgronomistService, get_agronomist_service
 
 router = APIRouter(prefix="/agronomist", tags=["Agronomist Portal"])
@@ -39,6 +40,19 @@ async def get_case_detail(
     _auth: Annotated[dict[str, Any], Depends(get_current_token_payload)],
 ) -> CaseSummary:
     return await service.get_case_detail(escalation_id)
+
+
+@router.get(
+    "/case/{escalation_id}/pdf-payload",
+    response_model=CasePDFPayload,
+    summary="Get structured case PDF / share-sheet payload for app-side rendering",
+)
+async def get_case_pdf_payload(
+    escalation_id: str,
+    service: Annotated[AgronomistService, Depends(get_agronomist_service)],
+    _auth: Annotated[dict[str, Any], Depends(get_current_token_payload)],
+) -> CasePDFPayload:
+    return await service.get_case_pdf_payload(escalation_id)
 
 
 @router.post(

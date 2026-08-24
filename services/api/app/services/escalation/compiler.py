@@ -12,12 +12,13 @@ Triggers that call this function:
 
 from typing import Any
 
-from app.domain.enums import CaseStatus, ProblemSeverity
+from app.core.enums import CaseStatus, ProblemSeverity
 from app.domain.escalation import (
     FALLBACK_PROBLEM_SUMMARY_TEMPLATE,
     build_case_summary as domain_build_case_summary,
+    compile_case_summary_bundle,
 )
-from app.domain.models import CaseSummary
+from app.schemas.case import CaseSummary, CaseSummaryBundle
 
 
 def build_case_summary(
@@ -25,18 +26,19 @@ def build_case_summary(
     problem_id: str,
     farm_info: dict[str, Any],
     recent_events: list[dict[str, Any]],
-    images: list[dict[str, Any]],
+    images: list[Any],
     treatments_tried: list[str],
     followup_trend: str | None,
-    current_health: dict[str, Any],
+    current_health: dict[str, Any] | float | None = 0.0,
     assigned_to: str | None = None,
     severity: ProblemSeverity | str = ProblemSeverity.EARLY,
     status: CaseStatus = CaseStatus.ESCALATED,
     problem_summary_text: str | None = None,
+    current_advisory_text: str | None = None,
 ) -> CaseSummary:
     """Compile a pre-analyzed Farm Case Summary for expert handoff (PRD §5.11).
 
-    Gathers farm + land/soil context, problem timeline, linked image ``asset_id``s,
+    Gathers farm crop context, problem timeline, linked images,
     treatments tried, follow-up trend, and current health score.
 
     Args:
@@ -44,7 +46,7 @@ def build_case_summary(
         problem_id: UUID of the problem being escalated.
         farm_info: Dict containing crop, farmer_name, village, district, etc.
         recent_events: Chronological event list (diagnoses, follow-ups, treatments).
-        images: List of ``{"asset_id": ..., "url": ...}`` dicts for linked photos.
+        images: List of image asset IDs or dicts.
         treatments_tried: Plain-language list of treatments the farmer has applied.
         followup_trend: Latest ``followup_response`` value or ``None``.
         current_health: Dict with ``score`` and ``band`` of the current snapshot (or float score).
@@ -52,12 +54,13 @@ def build_case_summary(
         severity: Problem severity tier.
         status: Lifecycle status of case.
         problem_summary_text: Pre-synthesized LLM summary or None for template fallback.
+        current_advisory_text: Phase 2 qualitative advisory text/trend.
 
     Returns:
         A populated ``CaseSummary`` domain model.
     """
     health_score = (
-        current_health.get("score", 0.0) if isinstance(current_health, dict) else float(current_health)
+        current_health.get("score", 0.0) if isinstance(current_health, dict) else float(current_health or 0.0)
     )
     if health_score is None:
         health_score = 0.0
@@ -82,9 +85,11 @@ def build_case_summary(
         current_health_score=float(health_score),
         problem_details=problem_details,
         assigned_officer_or_kvk=assigned_to,
-        status=status,
+        status=status if isinstance(status, CaseStatus) else CaseStatus(status),
         problem_summary_text=problem_summary_text,
+        current_advisory_text=current_advisory_text,
     )
 
 
-__all__ = ["build_case_summary"]
+__all__ = ["build_case_summary", "compile_case_summary_bundle", "CaseSummaryBundle"]
+

@@ -13,7 +13,7 @@ building the full escalation subsystem. ``DEFAULT_ASSIGNED_AGRONOMIST`` is a
 fixed stand-in for real nearest-KVK routing.
 """
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Annotated
 from uuid import uuid4
 
@@ -57,6 +57,21 @@ DIAGNOSIS_RESETS_DAYS_SINCE_LAST_SCAN = 0
 ESCALATE_SPOKEN_SUMMARY_FALLBACK = "I'm not sure — I've sent this to an expert."
 COMPOSED_SPOKEN_SUMMARY = "Here's what I found, with sources."
 
+# Fixed 2-item candidate pair stub pending Tharun's real multi-label top-k model output
+STUB_ALTERNATIVES_MAP: dict[str, list[str]] = {
+    "bacterial_leaf_blight": ["blast", "brown_spot"],
+    "blast": ["bacterial_leaf_blight", "sheath_blight"],
+    "brown_spot": ["bacterial_leaf_blight", "blast"],
+    "sheath_blight": ["blast", "brown_spot"],
+}
+
+
+def _get_stub_alternatives(label: str | None) -> list[str]:
+    """Stubbed top-k candidate alternatives paired with image model (marked as _stub)."""
+    if label and label in STUB_ALTERNATIVES_MAP:
+        return STUB_ALTERNATIVES_MAP[label]
+    return ["bacterial_leaf_blight", "blast"]  # _stub: true fixed 2-item fallback
+
 
 @dataclass(frozen=True)
 class DiagnoseEscalation:
@@ -70,17 +85,21 @@ class DiagnoseOutcome:
     response shapes, never a mix."""
 
     above_gate: bool
-    problem_id: str | None
-    label: str | None
-    stage: str | None
-    confidence: float | None
-    advisory: FivePointAdvisory | None
-    citations: list[GroundedCitation]
-    health_delta_from: int | None
-    health_delta_to: int | None
-    reason: str | None
-    escalation: DiagnoseEscalation | None
-    spoken_summary: str
+    gate_confidence: float = 0.0
+    gate_threshold: float = 0.70
+    gate_reason_code: str | None = None
+    gate_alternatives: list[str] = field(default_factory=list)
+    problem_id: str | None = None
+    label: str | None = None
+    stage: str | None = None
+    confidence: float | None = None
+    advisory: FivePointAdvisory | None = None
+    citations: list[GroundedCitation] = field(default_factory=list)
+    health_delta_from: int | None = None
+    health_delta_to: int | None = None
+    reason: str | None = None
+    escalation: DiagnoseEscalation | None = None
+    spoken_summary: str = ""
 
 
 def _chunk_to_dict(chunk: RetrievedChunk) -> dict:
@@ -152,10 +171,16 @@ class DiagnosisService:
             relevance_threshold=self._settings.RAG_RELEVANCE_THRESHOLD,
         )
 
+        alternatives = _get_stub_alternatives(label)
+
         if decision.should_escalate:
             escalation = await self._create_escalation(farm_id, decision.reason)
             return DiagnoseOutcome(
                 above_gate=False,
+                gate_confidence=confidence if confidence is not None else 0.0,
+                gate_threshold=self._settings.CONFIDENCE_GATE,
+                gate_reason_code=decision.error_code,
+                gate_alternatives=alternatives,
                 problem_id=None,
                 label=None,
                 stage=None,
@@ -182,6 +207,10 @@ class DiagnosisService:
             escalation = await self._create_escalation(farm_id, parsed.reason or "insufficient context")
             return DiagnoseOutcome(
                 above_gate=False,
+                gate_confidence=confidence if confidence is not None else 0.0,
+                gate_threshold=self._settings.CONFIDENCE_GATE,
+                gate_reason_code="NO_RELEVANT_SOURCE",
+                gate_alternatives=alternatives,
                 problem_id=None,
                 label=None,
                 stage=None,
@@ -200,6 +229,10 @@ class DiagnosisService:
 
         return DiagnoseOutcome(
             above_gate=True,
+            gate_confidence=confidence if confidence is not None else 1.0,
+            gate_threshold=self._settings.CONFIDENCE_GATE,
+            gate_reason_code=None,
+            gate_alternatives=alternatives,
             problem_id=problem_id,
             label=label,
             stage=INITIAL_PROBLEM_SEVERITY.value,
@@ -212,6 +245,7 @@ class DiagnosisService:
             escalation=None,
             spoken_summary=COMPOSED_SPOKEN_SUMMARY,
         )
+
 
     async def _register_problem_and_recompute(
         self, farm_id: str, problem_id: str, label: str

@@ -7,6 +7,7 @@ from fastapi import APIRouter, Depends
 from app.core.security import get_current_token_payload
 from app.schemas.advisory import Citation, FivePointAdvisory
 from app.schemas.diagnosis import DiagnoseRequest, DiagnoseResponse, DiagnosisResult, EscalationRef, HealthDelta
+from app.schemas.gate import GateObject
 from app.services.diagnosis_service import DiagnoseOutcome, DiagnosisService, get_diagnosis_service
 
 router = APIRouter(prefix="/farms", tags=["Diagnosis & Advisory"])
@@ -17,6 +18,13 @@ def _to_schema(outcome: DiagnoseOutcome) -> DiagnoseResponse:
         DiagnosisResult(label=outcome.label, stage=outcome.stage, confidence=outcome.confidence)
         if outcome.above_gate
         else None
+    )
+    gate = GateObject(
+        above_gate=outcome.above_gate,
+        confidence=outcome.gate_confidence,
+        threshold=outcome.gate_threshold,
+        reason_code=outcome.gate_reason_code,
+        alternatives=outcome.gate_alternatives,
     )
     advisory = (
         FivePointAdvisory(
@@ -40,6 +48,7 @@ def _to_schema(outcome: DiagnoseOutcome) -> DiagnoseResponse:
     )
     return DiagnoseResponse(
         above_gate=outcome.above_gate,
+        gate=gate,
         problem_id=outcome.problem_id,
         diagnosis=diagnosis,
         advisory=advisory,

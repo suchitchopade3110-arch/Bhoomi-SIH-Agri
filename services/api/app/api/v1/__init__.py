@@ -22,6 +22,7 @@ from app.api.v1.diagnose import router as diagnose_router
 from app.api.v1.escalation import router as escalation_router
 from app.api.v1.farms import router as farms_router
 from app.api.v1.followup import router as followup_router
+from app.api.v1.guidance import router as guidance_router
 from app.api.v1.health import router as health_router
 from app.api.v1.land import router as land_router
 from app.api.v1.officer import router as officer_router
@@ -43,6 +44,7 @@ api_v1_router.include_router(farms_router)
 api_v1_router.include_router(health_router)
 api_v1_router.include_router(diagnose_router)
 api_v1_router.include_router(advisory_router)
+api_v1_router.include_router(guidance_router)
 api_v1_router.include_router(timeline_router)
 api_v1_router.include_router(followup_router)
 api_v1_router.include_router(escalation_router)

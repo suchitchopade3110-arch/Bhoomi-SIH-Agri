@@ -178,3 +178,39 @@ async def test_escalation_never_carries_advisory_and_compose_never_carries_reaso
 
     escalated = await (await _make_service(image_confidence=0.10)).diagnose(FARM_ID, "a_9")
     assert not escalated.above_gate and escalated.advisory is None and escalated.reason is not None and escalated.escalation is not None
+
+
+@pytest.mark.asyncio
+async def test_gate_object_populated_on_both_branches():
+    """GateObject fields must be present and valid on both above-gate and below-gate branches."""
+    # 1. Above gate
+    composed = await (await _make_service(image_confidence=0.88, image_label="bacterial_leaf_blight")).diagnose(
+        FARM_ID, "a_9", description_text="yellow lesions"
+    )
+    assert composed.above_gate is True
+    assert composed.gate_confidence == 0.88
+    assert composed.gate_threshold == 0.70
+    assert composed.gate_reason_code is None
+    assert isinstance(composed.gate_alternatives, list)
+    assert len(composed.gate_alternatives) == 2
+    assert "blast" in composed.gate_alternatives
+
+    # 2. Below gate (low confidence)
+    escalated = await (await _make_service(image_confidence=0.15, image_label="bacterial_leaf_blight")).diagnose(
+        FARM_ID, "a_9"
+    )
+    assert escalated.above_gate is False
+    assert escalated.gate_confidence == 0.15
+    assert escalated.gate_threshold == 0.70
+    assert escalated.gate_reason_code == "BELOW_CONFIDENCE_GATE"
+    assert isinstance(escalated.gate_alternatives, list)
+    assert len(escalated.gate_alternatives) == 2
+
+    # 3. Below gate (out of scope)
+    out_of_scope = await (await _make_service(image_confidence=0.95, image_label="tomato_yellow_leaf_curl")).diagnose(
+        FARM_ID, "a_9"
+    )
+    assert out_of_scope.above_gate is False
+    assert out_of_scope.gate_reason_code == "OUT_OF_SCOPE_TARGET"
+    assert len(out_of_scope.gate_alternatives) == 2
+
