@@ -1,0 +1,53 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "BhoomiRagRetrievalLogSchema",
+  "description": "Structured schema for logging RAG telemetry, retrieval scores, safety gate activations, and latency without farmer PII",
+  "type": "object",
+  "required": [
+    "query_id",
+    "timestamp",
+    "knowledge_version",
+    "anonymized_query",
+    "parsed_context",
+    "retrieved_chunk_ids",
+    "retrieval_scores",
+    "safety_status",
+    "final_decision",
+    "latency_ms"
+  ],
+  "properties": {
+    "query_id": { "type": "string" },
+    "timestamp": { "type": "string" },
+    "knowledge_version": { "type": "string" },
+    "dialect_zone": { "type": ["string", "null"] },
+    "anonymized_query": { "type": "string" },
+    "parsed_context": {
+      "type": "object",
+      "properties": {
+        "crop": { "type": "string" },
+        "stage": { "type": ["string", "null"] },
+        "extracted_entity": { "type": ["string", "null"] },
+        "intent": { "type": "string" },
+        "symptoms": { "type": "array", "items": { "type": "string" } },
+        "aliases_detected": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "retrieved_chunk_ids": { "type": "array", "items": { "type": "string" } },
+    "retrieval_scores": {
+      "type": "object",
+      "properties": {
+        "dense_score": { "type": "number" },
+        "bm25_score": { "type": "number" },
+        "structured_score": { "type": "number" },
+        "combined_rrf": { "type": "number" }
+      }
+    },
+    "rejected_evidence_ids": { "type": "array", "items": { "type": "string" } },
+    "rejection_reasons": { "type": "array", "items": { "type": "string" } },
+    "safety_flags": { "type": "array", "items": { "type": "string" } },
+    "safety_status": { "type": "string" },
+    "final_decision": { "type": "string" },
+    "clarification_requested": { "type": "boolean" },
+    "latency_ms": { "type": "number" }
+  }
+}

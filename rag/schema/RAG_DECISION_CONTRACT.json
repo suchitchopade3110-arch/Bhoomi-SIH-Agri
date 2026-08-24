@@ -1,0 +1,140 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "BhoomiRagDecisionContract",
+  "description": "Output schema from RAG decision and safety layers passed to generation and TTS",
+  "type": "object",
+  "required": [
+    "query_id",
+    "decision",
+    "confidence",
+    "safety_status",
+    "clarification_required",
+    "evidence_ids",
+    "source_ids",
+    "knowledge_version",
+    "schema_version",
+    "retriever_version",
+    "safety_rules_version"
+  ],
+  "properties": {
+    "query_id": {
+      "type": "string"
+    },
+    "decision": {
+      "type": "string",
+      "enum": [
+        "DIRECT_ADVISORY",
+        "ASK_CLARIFYING_QUESTION",
+        "SAFETY_INTERVENTION_WARNING",
+        "SAFETY_REJECTION_MRL_HAZARD",
+        "REJECT_CROP_MISMATCH",
+        "CONDITIONAL_ADVISORY",
+        "ESCALATE_TO_KVK_OFFICER",
+        "INSUFFICIENT_EVIDENCE"
+      ]
+    },
+    "confidence": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0
+    },
+    "matched_entity": {
+      "type": ["object", "null"],
+      "properties": {
+        "entity_id": { "type": "string" },
+        "canonical_name": { "type": "string" },
+        "tamil_name": { "type": "string" },
+        "entity_type": { "type": "string" }
+      }
+    },
+    "evidence_ids": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "List of evidence IDs grounding this decision"
+    },
+    "source_ids": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Authoritative citations supporting the decision"
+    },
+    "reasoning_cues": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Structured agronomic reasons for the decision"
+    },
+    "safety_status": {
+      "type": "string",
+      "enum": [
+        "PASSED_SAFE",
+        "RESTRICTION_WARNING_ATTACHED",
+        "MANDATORY_PHI_ENFORCED",
+        "CROP_MISMATCH_BLOCKED",
+        "ZERO_FORCED_DIAGNOSIS",
+        "ZERO_HALLUCINATION_ESCALATED",
+        "PREDATOR_MODIFIER_PRESERVED",
+        "BIO_COMPATIBILITY_ENFORCED",
+        "DRONE_SAFETY_ENFORCED",
+        "CHEMICAL_RECOMMENDATION_BLOCKED"
+      ]
+    },
+    "clarification_required": {
+      "type": "boolean"
+    },
+    "clarifying_question_tamil": {
+      "type": ["string", "null"],
+      "description": "Targeted disambiguation question in Tamil if clarification_required is true"
+    },
+    "recommended_action_tamil": {
+      "type": ["string", "null"],
+      "description": "Validated agronomic advice text in Tamil"
+    },
+    "etl_advice": {
+      "type": ["object", "null"],
+      "properties": {
+        "base_threshold": { "type": "string" },
+        "modifier_applied": { "type": "boolean" },
+        "modifier_condition": { "type": ["string", "null"] },
+        "effective_threshold": { "type": "string" }
+      }
+    },
+    "chemical_advice": {
+      "type": ["object", "null"],
+      "properties": {
+        "chemical_name": { "type": "string" },
+        "formulation": { "type": "string" },
+        "dosage": { "type": "string" },
+        "water_volume": { "type": "string" },
+        "phi_days": { "type": "integer" },
+        "toxicity_label": { "type": "string" },
+        "cibrc_status": { "type": "string" },
+        "application_method": { "type": "string" }
+      }
+    },
+    "missing_context": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "latency_breakdown_ms": {
+      "type": "object",
+      "properties": {
+        "query_parsing": { "type": "number" },
+        "retrieval": { "type": "number" },
+        "reranking": { "type": "number" },
+        "decision_and_safety": { "type": "number" },
+        "total_turn": { "type": "number" }
+      }
+    },
+    "knowledge_version": {
+      "type": "string"
+    },
+    "schema_version": {
+      "type": "string"
+    },
+    "retriever_version": {
+      "type": "string"
+    },
+    "safety_rules_version": {
+      "type": "string"
+    }
+  }
+}
