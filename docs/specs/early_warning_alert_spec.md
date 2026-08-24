@@ -4,7 +4,7 @@
 > **Status:** Stage A Spec (Revised & Aligned)  
 > **Author:** Drafted on Shreekumar's behalf — pending his review, not yet authored/approved by him.  
 > **Target Release:** SIH26131 Realignment  
-> **Dependencies:** Agronomic thresholds backed by ICAR PoP corpus (`rice_bacterial_leaf_blight.md`); full pathogen matrix pending Tharun's criteria.
+> **Dependencies:** Agronomic thresholds backed by ICAR PoP corpus (`services/api/corpus/rice_blb.md`, doc_id `rice_blb` — corrected from this doc's original `rice_bacterial_leaf_blight.md` reference, which doesn't exist in the corpus; see Phase 3 build order); full pathogen matrix pending Tharun's criteria.
 
 ---
 
@@ -20,7 +20,7 @@ In SIH26131, Bhoomi evolves from a purely reactive advisory platform (where the 
 
 We specify a **two-tier hybrid trigger model** combining:
 1. **Macro-Meteorological Thresholds**: Temperature, relative humidity, and rainfall duration crossing pathogen-favorable multiplication bands.
-   - *Example (Bacterial Leaf Blight)*: $RH \ge 80\%$, $Temp \in [25^\circ C, 32^\circ C]$ sustained for $\ge 48\text{h}$ *(sourced directly from ICAR PoP Samba Paddy corpus, doc_id: `rice_bacterial_leaf_blight.md`)*.
+   - *Example (Bacterial Leaf Blight)*: $RH \ge 80\%$, $Temp \in [25^\circ C, 32^\circ C]$ sustained for $\ge 48\text{h}$ *(doc_id: `rice_blb` — `services/api/corpus/rice_blb.md`; note the corpus prose itself only states "high humidity (above 70%)" with no explicit temp/duration figures, so the tighter band above is this spec's own directed value, not a literal corpus quote)*.
    - *Other Pathogens*: Illustrative defaults, pending Tharun's full pathogen risk threshold matrix.
 2. **Micro-Geospatial Outbreak Density**: Confirmed diagnoses recorded in neighboring farms within a geographic radius $R$ crossing a density threshold $K$ within a sliding time window $T$ (e.g., $\ge 3$ confirmed cases within $10\text{ km}$ over the past $7\text{ days}$).
 
@@ -48,6 +48,20 @@ We specify a **two-tier hybrid trigger model** combining:
   - 48-hour average temperature ($^\circ\text{C}$)
   - 48-hour average relative humidity ($\%$)
   - Rainfall accumulation (mm)
+
+> [!WARNING]
+> **Phase 3 implementation note (deviation from "48-hour average"):**
+> `WeatherPort.get_current_weather()` returns a single current-moment
+> reading (`app/ports/weather.py`) — there is no historical weather store
+> backing a true 48-hour rolling average or a "sustained N hours" signal.
+> `AlertService` (`app/services/alert_service.py`) uses an honest, documented
+> approximation instead: a current reading that already falls inside a
+> pathogen's temp/humidity band is treated as having been sustained for
+> exactly the threshold's required duration; a reading outside the band is
+> treated as zero sustained hours. This is flagged in code, not silently
+> assumed — swap in a real historical aggregation once a weather-history
+> store exists, with no change to `evaluate_alert` itself (it only consumes
+> `WeatherMetrics`, never `WeatherPort` directly).
 
 ### 3.3 Spatial Cluster Query (Repository Layered)
 
@@ -79,10 +93,11 @@ We specify a **two-tier hybrid trigger model** combining:
 >     self, target_farm_id: str, radius_meters: float, window_days: int
 > ) -> list[ClusterCase]: ...
 > ```
-> Internally it (1) SQL-filters `problems`/`farms` rows to a bounding box +
-> time window, then (2) calls `app.domain.geo.haversine_distance_km`
-> per candidate to apply the exact radius cutoff and compute
-> `min_distance_meters` before grouping by `(label, severity)`.
+> Internally it (1) looks up the target farm's own coordinates, (2) SQL-
+> filters `problems`/`farms` rows to a bounding box + time window, then
+> (3) calls `app.domain.geo.haversine_distance_km` per candidate to apply
+> the exact radius cutoff and compute `min_distance_km` before grouping by
+> `(label, severity)` into `ClusterCase` rows.
 
 > [!WARNING]
 > **Phase 1 `problem_status` Decision (corrects this section's original filter):**
@@ -268,4 +283,4 @@ To avoid inserting tens of thousands of duplicate alert rows across all farms in
 
 1. Unit tests for pure `evaluate_alert` using deterministic weather/cluster fixtures.
 2. `AlertRepository` implementation with PostGIS spatial query.
-3. Integration of `GET /farms/{id}/alerts` and `POST /alerts/{id}/dismiss` routes in `app/api/v1/alerts.py`.
+3. Integration of `GET /farms/{id}/alerts` and `POST /alerts/{id}/acknowledge` routes in `app/api/v1/alerts.py` (Phase 3 build order Step 4 renamed `/dismiss` to `/acknowledge` — see `docs/specs/api_contract_sih26131_delta.md` §3.3's correction note).

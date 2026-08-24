@@ -1,6 +1,7 @@
 """SQLAlchemy ORM Models package."""
 
 from app.models.advisory import Advisory
+from app.models.alert import Alert
 from app.models.asset import Asset
 from app.models.base import Base
 from app.models.case import Case
@@ -16,6 +17,7 @@ from app.models.user import User
 
 __all__ = [
     "Advisory",
+    "Alert",
     "Base",
     "HealthSnapshot",
     "KBDocument",

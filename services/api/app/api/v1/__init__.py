@@ -5,9 +5,9 @@ docs/specs/api_contract_sih26131_delta.md:
 
 - ``sih25076`` (default): cadastral/resource routers (``land``, ``officer``,
   ``resource_plan``, ``schemes``) mount alongside core intelligence.
-- ``sih26131``: those four routers unmount (404) and ``alerts``/``efficacy``
-  mount instead. Those two routers are Phase 3/4 greenfield work and are not
-  yet implemented; they will be added here once built.
+- ``sih26131``: those four routers unmount (404) and ``alerts`` mounts
+  instead (``efficacy`` is Phase 4, not yet implemented — will be added
+  here once built).
 - Core intelligence routers (auth, farms, health, diagnose, followup,
   agronomist, voice, assets, timeline, weather, system) mount in both modes.
 """
@@ -15,6 +15,7 @@ docs/specs/api_contract_sih26131_delta.md:
 from fastapi import APIRouter
 from app.api.v1.advisory import router as advisory_router
 from app.api.v1.agronomist import router as agronomist_router
+from app.api.v1.alerts import router as alerts_router
 from app.api.v1.assets import router as assets_router
 from app.api.v1.auth import router as auth_router
 from app.api.v1.diagnose import router as diagnose_router
@@ -56,7 +57,7 @@ if get_settings().PROBLEM_STATEMENT == "sih25076":
     api_v1_router.include_router(schemes_router)
 else:
     # sih26131: land/officer/resource_plan/schemes unmount (404).
-    # alerts_router / efficacy_router mount here once Phase 3/4 land.
-    pass
+    api_v1_router.include_router(alerts_router)
+    # efficacy_router mounts here once Phase 4 lands.
 
 __all__ = ["api_v1_router"]

@@ -49,6 +49,10 @@ def test_sih25076_mounts_legacy_routers(monkeypatch):
     assert "/api/v1/resource-plan/{farm_id}" in paths
     assert "/api/v1/schemes/match" in paths
 
+    # Phase 3: alerts routers are sih26131-only, absent here.
+    assert "/api/v1/farms/{farm_id}/alerts" not in paths
+    assert "/api/v1/alerts/{alert_id}/acknowledge" not in paths
+
 
 def test_sih26131_unmounts_legacy_routers_and_keeps_core(monkeypatch):
     app = _reload_app_with_problem_statement(monkeypatch, "sih26131")
@@ -71,6 +75,10 @@ def test_sih26131_unmounts_legacy_routers_and_keeps_core(monkeypatch):
     response = client.get("/api/v1/schemes/active")
     assert response.status_code == 404
 
+    # Phase 3: alerts routers mount under sih26131.
+    assert "/api/v1/farms/{farm_id}/alerts" in paths
+    assert "/api/v1/alerts/{alert_id}/acknowledge" in paths
+
     # Core intelligence routers remain mounted in every mode.
     assert "/api/v1/auth/register" in paths
     assert "/api/v1/farms" in paths
@@ -82,6 +90,21 @@ def test_sih26131_unmounts_legacy_routers_and_keeps_core(monkeypatch):
     assert "/api/v1/assets/presigned-url" in paths
     assert "/api/v1/timeline/{farm_id}" in paths
     assert "/api/v1/weather/current" in paths
+
+
+def test_alerts_routes_dependency_chain_resolves_without_db(monkeypatch):
+    """Proves the alerts router's DI graph (AlertService -> AlertRepository/
+    FarmRepository/WeatherPort -> get_db) builds cleanly under sih26131 —
+    an unauthenticated call hits the auth gate (401), never a 500 from
+    broken wiring, matching every other protected route's contract."""
+    app = _reload_app_with_problem_statement(monkeypatch, "sih26131")
+    client = TestClient(app)
+
+    response = client.get("/api/v1/farms/f_1/alerts")
+    assert response.status_code == 401
+
+    response = client.post("/api/v1/alerts/alt_1/acknowledge", json={"farm_id": "f_1", "reason": "action_taken"})
+    assert response.status_code == 401
 
 
 def test_root_reports_active_contract(monkeypatch):

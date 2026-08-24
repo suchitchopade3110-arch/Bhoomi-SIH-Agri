@@ -1,34 +1,32 @@
-"""Orchestrates next-available KVK routing (PRD §5.11, Phase 2).
+"""Orchestrates next-available agronomist routing (PRD §5.11, Phase 2).
 
-Replaces the ``DEFAULT_ASSIGNED_AGRONOMIST`` single-center stand-in
+Replaces the ``DEFAULT_ASSIGNED_AGRONOMIST`` flat-constant stand-in
 previously duplicated in ``escalation_service.py`` and
-``diagnosis_service.py``. Fetches current per-center caseload from
-``CaseRepository`` (already available on every ``get_agronomist_queue()``
-row — no repository interface change needed) and hands it to the pure
-``domain.routing.select_next_available_kvk``.
+``diagnosis_service.py``. Reads the roster from ``AgronomistRosterPort``
+and current open-case counts from ``CaseRepository.get_open_case_counts()``
+(both typed, no SQL here), then hands them to the pure
+``domain.routing.select_next_available_agronomist``.
 """
 
-from app.core.enums import CaseStatus
-from app.domain.kvk_directory import KVK_CENTERS
-from app.domain.routing import select_next_available_kvk
+from app.domain.routing import select_next_available_agronomist
+from app.ports.roster import AgronomistRosterPort
 from app.repositories.interfaces import CaseRepository
 
-# A case still counts against a center's capacity until it's resolved or
-# closed — everything else ("open", "assigned", "escalated", "investigating")
-# is active work.
-_INACTIVE_STATUSES = {CaseStatus.RESOLVED.value, CaseStatus.CLOSED.value}
 
+async def route_to_next_available_agronomist(
+    case_repo: CaseRepository,
+    roster: AgronomistRosterPort,
+    default_agronomist: str,
+) -> str:
+    """Returns the agronomist id a new case should route to.
 
-async def route_to_next_available_kvk(case_repo: CaseRepository, farm_lat: float, farm_lon: float) -> str:
-    """Returns the ``center_id`` a new case for this farm should route to."""
-    queue = await case_repo.get_agronomist_queue()
-    caseload: dict[str, int] = {}
-    for case in queue:
-        if case.get("status") in _INACTIVE_STATUSES:
-            continue
-        center_id = case.get("assigned_to")
-        if center_id:
-            caseload[center_id] = caseload.get(center_id, 0) + 1
+    Falls back to ``default_agronomist`` only when the roster has no
+    entries — i.e. no capacity data exists to route against — so nothing
+    regresses if the roster adapter is ever empty.
+    """
+    agronomist_ids = await roster.list_agronomist_ids()
+    if not agronomist_ids:
+        return default_agronomist
 
-    center = select_next_available_kvk(farm_lat, farm_lon, centers=KVK_CENTERS, current_caseload=caseload)
-    return center.center_id
+    open_case_counts = await case_repo.get_open_case_counts()
+    return select_next_available_agronomist(agronomist_ids, open_case_counts)

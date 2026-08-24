@@ -1,10 +1,13 @@
 """In-memory dictionary-backed repository implementations for Phase 0 and fallback testing."""
 
 from dataclasses import dataclass
-from datetime import date
+from datetime import date, datetime, timedelta
 from typing import Any
 import uuid
 
+from app.core.errors import NotFoundError
+from app.domain.alerts.models import ClusterCase
+from app.domain.geo import haversine_distance_km
 from app.domain.rag.similarity import cosine_similarity
 from app.repositories.interfaces import RetrievedChunk
 
@@ -100,6 +103,16 @@ class InMemoryCaseRepository:
         if status:
             return [c for c in self._cases.values() if c.get("status") == status]
         return list(self._cases.values())
+
+    async def get_open_case_counts(self) -> dict[str, int]:
+        counts: dict[str, int] = {}
+        for case in self._cases.values():
+            if case.get("status") in ("resolved", "closed"):
+                continue
+            assigned_to = case.get("assigned_to")
+            if assigned_to:
+                counts[assigned_to] = counts.get(assigned_to, 0) + 1
+        return counts
 
     async def save(self, case_data: dict[str, Any]) -> dict[str, Any]:
         case_id = case_data.get("id") or str(uuid.uuid4())
@@ -230,3 +243,111 @@ class InMemoryKnowledgeChunkRepository:
         ]
         scored.sort(key=lambda c: c.score, reverse=True)
         return scored[:top_k]
+
+
+class InMemoryAlertRepository:
+    """In-memory ``AlertRepository`` (Phase 3) — tests seed nearby confirmed
+    diagnoses directly via ``seed_nearby_case`` rather than joining live
+    ``farms``/``problems`` state, keeping this repository double self
+    contained and independent of other repositories' internal storage."""
+
+    def __init__(self) -> None:
+        self._alerts: dict[str, dict[str, Any]] = {}
+        self._nearby_cases: list[dict[str, Any]] = []
+        self._farm_locations: dict[str, tuple[float, float]] = {}
+
+    def register_farm(self, farm_id: str, latitude: float, longitude: float) -> None:
+        """Register a farm's own coordinates — needed so
+        ``get_nearby_cluster_summary(target_farm_id, ...)`` can look up
+        ``target_farm_id``'s location itself, matching the Postgres
+        implementation's internal ``Farm`` lookup."""
+        self._farm_locations[farm_id] = (latitude, longitude)
+
+    def seed_nearby_case(
+        self, *, farm_id: str, latitude: float, longitude: float, label: str, severity: str, created_at: datetime
+    ) -> None:
+        self._farm_locations[farm_id] = (latitude, longitude)
+        self._nearby_cases.append(
+            {
+                "farm_id": farm_id,
+                "latitude": latitude,
+                "longitude": longitude,
+                "label": label,
+                "severity": severity,
+                "created_at": created_at,
+            }
+        )
+
+    async def get_nearby_cluster_summary(
+        self, target_farm_id: str, radius_meters: float, window_days: int
+    ) -> list[ClusterCase]:
+        if target_farm_id not in self._farm_locations:
+            raise NotFoundError("Farm not found.", details={"farm_id": target_farm_id})
+        target_farm_lat, target_farm_lon = self._farm_locations[target_farm_id]
+        radius_km = radius_meters / 1000.0
+
+        cutoff = datetime.utcnow() - timedelta(days=window_days)
+        grouped: dict[tuple[str, str], list[float]] = {}
+        for case in self._nearby_cases:
+            if case["farm_id"] == target_farm_id:
+                continue
+            if case["created_at"] < cutoff:
+                continue
+            distance = haversine_distance_km(target_farm_lat, target_farm_lon, case["latitude"], case["longitude"])
+            if distance > radius_km:
+                continue
+            key = (case["label"], case["severity"])
+            grouped.setdefault(key, []).append(distance)
+
+        return [
+            ClusterCase(label=label, severity=severity, case_count=len(distances), min_distance_km=min(distances))
+            for (label, severity), distances in grouped.items()
+        ]
+
+    async def get_active_cooldown(self, cooldown_key: str, as_of: datetime) -> dict[str, Any] | None:
+        for alert in self._alerts.values():
+            if (
+                alert["cooldown_key"] == cooldown_key
+                and alert["status"] == "active"
+                and alert["expires_at"] > as_of
+            ):
+                return alert
+        return None
+
+    async def supersede_active_alerts(self, subject: str, pathogen_id: str, as_of: datetime) -> None:
+        for alert in self._alerts.values():
+            if (
+                alert["cooldown_key"].startswith(f"{subject}:{pathogen_id}:")
+                and alert["status"] == "active"
+                and alert["expires_at"] > as_of
+            ):
+                alert["status"] = "superseded"
+
+    async def save(self, alert_data: dict[str, Any]) -> dict[str, Any]:
+        alert_id = alert_data["id"]
+        alert_data.setdefault("status", "active")
+        self._alerts[alert_id] = alert_data
+        return alert_data
+
+    async def get_farm_alerts(self, farm_id: str, district: str, crop: str | None, as_of: datetime) -> list[dict[str, Any]]:
+        results = []
+        for alert in self._alerts.values():
+            if alert["status"] != "active" or alert["expires_at"] <= as_of:
+                continue
+            per_farm_match = alert.get("farm_id") == farm_id
+            broadcast_match = alert.get("farm_id") is None and alert["district"] == district and (
+                alert.get("target_crop") is None or alert.get("target_crop") == crop
+            )
+            if per_farm_match or broadcast_match:
+                results.append(alert)
+        results.sort(key=lambda a: a["created_at"], reverse=True)
+        return results
+
+    async def dismiss(self, alert_id: str, farm_id: str, reason: str, as_of: datetime) -> dict[str, Any] | None:
+        alert = self._alerts.get(alert_id)
+        if alert is None:
+            return None
+        alert["status"] = "dismissed"
+        alert["dismissed_at"] = as_of
+        alert["dismiss_reason"] = reason
+        return alert

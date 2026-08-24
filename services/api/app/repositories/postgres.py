@@ -18,7 +18,7 @@ from datetime import datetime
 from typing import Any
 import uuid
 
-from sqlalchemy import select
+from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.models.asset import Asset
@@ -183,6 +183,15 @@ class PostgresCaseRepository:
         result = await self._session.execute(stmt)
         return [_row_to_dict(r) for r in result.scalars().all()]
 
+    async def get_open_case_counts(self) -> dict[str, int]:
+        stmt = (
+            select(Case.assigned_to, func.count(Case.id))
+            .where(Case.status.in_(["open", "assigned", "escalated", "investigating"]))
+            .group_by(Case.assigned_to)
+        )
+        result = await self._session.execute(stmt)
+        return {assigned_to: count for assigned_to, count in result.all() if assigned_to is not None}
+
     async def save(self, case_data: dict[str, Any]) -> dict[str, Any]:
         case_id = case_data.get("id") or str(uuid.uuid4())
         case_data["id"] = case_id
@@ -254,3 +263,4 @@ class PostgresAssetRepository:
         await self._session.commit()
         await self._session.refresh(row)
         return _row_to_dict(row)
+

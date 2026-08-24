@@ -25,4 +25,6 @@ class EscalationResponse(SpokenResponseMixin):
     severity: ProblemSeverity = Field(...)
     assigned_kvk_center: str = Field(default="TNAU KVK - Madurai", description="Assigned Krishi Vigyan Kendra center")
     case_summary: CaseSummary = Field(..., description="Auto-compiled living case file summary")
+    queue_position: int = Field(..., description="1-based position in the assigned agronomist's queue")
+    eta: datetime = Field(..., description="Estimated time this case will be reached, e.g. 'you're 3rd, ~24 min'")
     created_at: datetime = Field(default_factory=datetime.utcnow)
