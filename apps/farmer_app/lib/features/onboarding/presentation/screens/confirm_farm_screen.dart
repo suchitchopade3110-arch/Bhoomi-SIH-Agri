@@ -5,6 +5,7 @@ import '../../../../app/theme/app_colors.dart';
 import '../../../../app/theme/app_spacing.dart';
 import '../../../../app/theme/app_typography.dart';
 import '../../../../core/connectivity/connectivity_service.dart';
+import '../../../../core/localization/bhoomi_localizations.dart';
 import '../../../../core/widgets/bhoomi_card.dart';
 import '../../../../core/widgets/bhoomi_primary_button.dart';
 import '../../../../core/widgets/degraded_network_banner.dart';
@@ -13,53 +14,17 @@ import '../../application/onboarding_controller.dart';
 class ConfirmFarmScreen extends ConsumerWidget {
   const ConfirmFarmScreen({super.key});
 
-  String _formatCrop(String crop) {
-    switch (crop) {
-      case 'samba_paddy':
-        return 'Samba Paddy';
-      case 'kuruvai_paddy':
-        return 'Kuruvai Paddy';
-      case 'sugarcane':
-        return 'Sugarcane';
-      case 'cotton':
-        return 'Cotton';
-      case 'banana':
-        return 'Banana';
-      case 'maize':
-        return 'Maize (Corn)';
-      default:
-        return crop.replaceAll('_', ' ').toUpperCase();
-    }
-  }
-
-  String _formatStage(String stage) {
-    switch (stage) {
-      case 'vegetative':
-        return 'Vegetative';
-      case 'flowering':
-        return 'Flowering';
-      case 'grain_filling':
-        return 'Grain Filling';
-      case 'maturity':
-        return 'Maturity';
-      case 'harvest_ready':
-        return 'Harvest Ready';
-      default:
-        return stage.replaceAll('_', ' ');
-    }
-  }
-
   @override
-
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(onboardingControllerProvider);
     final controller = ref.read(onboardingControllerProvider.notifier);
     final networkState = ref.watch(networkStateProvider);
+    final strings = ref.watch(bhoomiStringsProvider);
 
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
-        title: const Text('Confirm Farm Profile'),
+        title: Text(strings.confirmProfileTitle),
       ),
       body: SafeArea(
         child: Column(
@@ -104,9 +69,9 @@ class ConfirmFarmScreen extends ConsumerWidget {
                                 ),
                               ),
                               const SizedBox(width: AppSpacing.md),
-                              const Text(
-                                'Your Farm Profile',
-                                style: TextStyle(
+                              Text(
+                                strings.yourFarmProfile,
+                                style: const TextStyle(
                                   color: Colors.white,
                                   fontSize: 20.0,
                                   fontWeight: FontWeight.w700,
@@ -116,10 +81,11 @@ class ConfirmFarmScreen extends ConsumerWidget {
                           ),
                           const SizedBox(height: AppSpacing.sm),
                           Text(
-                            'Please review your self-reported farm details before submitting for official registration.',
+                            strings.confirmProfileReviewDesc,
                             style: TextStyle(
                               color: Colors.white.withValues(alpha: 0.9),
                               fontSize: 14.0,
+                              height: 1.4,
                             ),
                           ),
                         ],
@@ -163,8 +129,8 @@ class ConfirmFarmScreen extends ConsumerWidget {
                         children: [
                           _buildReviewRow(
                             icon: Icons.grass_rounded,
-                            label: 'Crop',
-                            value: _formatCrop(state.crop),
+                            label: strings.labelCrop,
+                            value: strings.cropName(state.crop),
                             onEdit: () {
                               controller.goToStep(0);
                               context.pop();
@@ -173,8 +139,8 @@ class ConfirmFarmScreen extends ConsumerWidget {
                           const Divider(color: AppColors.divider, height: AppSpacing.lg),
                           _buildReviewRow(
                             icon: Icons.square_foot_rounded,
-                            label: 'Land Area',
-                            value: '${state.areaAcresSelfReported} Acres',
+                            label: strings.labelLandArea,
+                            value: strings.formatAcres(state.areaAcresSelfReported),
                             onEdit: () {
                               controller.goToStep(1);
                               context.pop();
@@ -183,8 +149,8 @@ class ConfirmFarmScreen extends ConsumerWidget {
                           const Divider(color: AppColors.divider, height: AppSpacing.lg),
                           _buildReviewRow(
                             icon: Icons.spa_rounded,
-                            label: 'Growth Stage',
-                            value: _formatStage(state.growthStage),
+                            label: strings.labelGrowthStage,
+                            value: strings.stageName(state.growthStage),
                             onEdit: () {
                               controller.goToStep(2);
                               context.pop();
@@ -193,7 +159,6 @@ class ConfirmFarmScreen extends ConsumerWidget {
                         ],
                       ),
                     ),
-
 
                     const SizedBox(height: AppSpacing.xl),
                   ],
@@ -211,7 +176,7 @@ class ConfirmFarmScreen extends ConsumerWidget {
                 ),
               ),
               child: BhoomiPrimaryButton(
-                text: 'Save My Farm',
+                text: strings.saveMyFarm,
                 isLoading: state.isSubmitting,
                 icon: Icons.save_rounded,
                 onPressed: () async {

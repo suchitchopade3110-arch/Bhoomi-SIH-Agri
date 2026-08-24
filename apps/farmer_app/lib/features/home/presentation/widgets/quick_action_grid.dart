@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../app/theme/app_colors.dart';
 import '../../../../app/theme/app_spacing.dart';
+import '../../../../core/localization/bhoomi_localizations.dart';
 
-class QuickActionGrid extends StatelessWidget {
+class QuickActionGrid extends ConsumerWidget {
   final String farmId;
   final bool isLandVerified;
 
@@ -14,13 +16,15 @@ class QuickActionGrid extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final strings = ref.watch(bhoomiStringsProvider);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          'What would you like to do?',
-          style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w800, color: AppColors.textPrimary),
+        Text(
+          strings.whatWouldYouLikeToDo,
+          style: const TextStyle(fontSize: 16.0, fontWeight: FontWeight.w800, color: AppColors.textPrimary),
         ),
         const SizedBox(height: AppSpacing.md),
         GridView.count(
@@ -32,29 +36,29 @@ class QuickActionGrid extends StatelessWidget {
           childAspectRatio: 1.25,
           children: [
             _buildActionTile(
-              title: 'Ask BHOOMI',
-              subtitle: 'Voice Assistant',
+              title: strings.askBhoomi,
+              subtitle: strings.voiceAssistant,
               icon: Icons.mic_rounded,
               color: AppColors.primaryGreen,
               onTap: () => context.push('/ask/$farmId'),
             ),
             _buildActionTile(
-              title: 'Show Problem',
-              subtitle: 'Upload Crop Photo',
+              title: strings.showProblem,
+              subtitle: strings.uploadCropPhoto,
               icon: Icons.camera_alt_rounded,
               color: const Color(0xFFD97706),
               onTap: () => context.push('/ask/$farmId'),
             ),
             _buildActionTile(
-              title: 'Government Support',
-              subtitle: isLandVerified ? 'Schemes & Subsidies' : 'Requires Verified Land',
+              title: strings.govSupport,
+              subtitle: isLandVerified ? strings.schemesAndSubsidies : strings.requiresVerifiedLand,
               icon: isLandVerified ? Icons.account_balance_rounded : Icons.lock_outline_rounded,
               color: isLandVerified ? const Color(0xFF0284C7) : const Color(0xFF64748B),
               onTap: () => context.push('/schemes/$farmId'),
             ),
             _buildActionTile(
-              title: 'My Farm Journey',
-              subtitle: 'Activity Timeline',
+              title: strings.myFarmJourney,
+              subtitle: strings.activityTimeline,
               icon: Icons.history_edu_rounded,
               color: const Color(0xFF9333EA),
               onTap: () => context.push('/timeline/$farmId'),
