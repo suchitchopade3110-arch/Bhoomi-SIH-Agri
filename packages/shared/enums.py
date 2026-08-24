@@ -24,12 +24,12 @@ class HealthBand(str, Enum):
 
 class SubIndexKey(str, Enum):
     """Keys for the six weighted sub-indices of the farm health score."""
-    SOIL_WATER = "soil_water"
-    CROP_VIGOR = "crop_vigor"
-    WEATHER_RISK = "weather_risk"
-    PEST_DISEASE = "pest_disease"
-    NUTRIENT_BALANCE = "nutrient_balance"
-    INTERVENTION_HISTORY = "intervention_history"
+    ENVIRONMENTAL_SUITABILITY = "environmental_suitability"
+    RESOURCE_ADEQUACY = "resource_adequacy"
+    CROP_STAGE_PROGRESSION = "crop_stage_progression"
+    ACTIVE_PROBLEM_LOAD = "active_problem_load"
+    MONITORING_RECENCY = "monitoring_recency"
+    TREATMENT_RESPONSE = "treatment_response"
 
 
 class ProblemSeverity(str, Enum):

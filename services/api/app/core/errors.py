@@ -45,7 +45,7 @@ class ValidationError(AppError):
 
 class LandNotVerifiedError(AppError):
     def __init__(self, message: str = "Action requires a verified land parcel. Complete HITL verification first.", details: dict[str, Any] | None = None) -> None:
-        super().__init__(code="LAND_NOT_VERIFIED", message=message, details=details, status_code=status.HTTP_400_BAD_REQUEST)
+        super().__init__(code="LAND_NOT_VERIFIED", message=message, details=details, status_code=status.HTTP_409_CONFLICT)
 
 
 class BelowConfidenceGateError(AppError):
