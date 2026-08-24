@@ -138,6 +138,7 @@ def evaluate_alert(
         severity=severity,
         trigger_reason=trigger_reason,
         preventative_action=threshold.preventative_action,
+        inspection_tasks=threshold.inspection_tasks,
         spoken_summary=spoken_summary,
         delivery_channels=_delivery_channels(severity),
         created_at=evaluated_at,

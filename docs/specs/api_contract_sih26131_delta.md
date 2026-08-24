@@ -133,11 +133,16 @@ The following routes are active under `sih25076` and are unmounted (respond with
 }
 ```
 
-### 3.3 Alert Dismissal (`POST /api/v1/alerts/{alert_id}/dismiss`)
+### 3.3 Alert Acknowledgement (`POST /api/v1/alerts/{alert_id}/acknowledge`)
+> [!NOTE]
+> **Phase 3 build-order correction:** this route was originally drafted as
+> `POST /api/v1/alerts/{alert_id}/dismiss`; the Phase 3 build order names it
+> `/acknowledge` instead ("farmer dismiss/confirm-seen"). Implemented as
+> `/acknowledge` — the path below reflects the corrected, implemented route.
 - **Method:** `POST`
-- **Path:** `/api/v1/alerts/{alert_id}/dismiss`
+- **Path:** `/api/v1/alerts/{alert_id}/acknowledge`
 - **Request:** `{"farm_id": "f_123", "reason": "action_taken"}`
-- **Response:** `200 OK` `{"status": "dismissed", "alert_id": "alt_889"}`
+- **Response:** `200 OK` `{"status": "acknowledged", "alert_id": "alt_889"}`
 
 ### 3.4 Treatment Efficacy Query (`GET /api/v1/treatments/{treatment_id}/efficacy`)
 - **Method:** `GET`
@@ -185,7 +190,7 @@ The following routes are active under `sih25076` and are unmounted (respond with
 | `GET` | `/api/v1/agronomist/cases/{id}` | Agronomist | All | Agronomist detail view of living case |
 | `POST` | `/api/v1/agronomist/resolve` | Agronomist | All | Expert prescription resolution (86 Health) |
 | `GET` | `/api/v1/farms/{id}/alerts` | Farmer | `sih26131` | Early-warning outbreak alerts |
-| `POST` | `/api/v1/alerts/{id}/dismiss` | Farmer | `sih26131` | Dismiss/acknowledge active alert |
+| `POST` | `/api/v1/alerts/{id}/acknowledge` | Farmer | `sih26131` | Dismiss/acknowledge active alert |
 | `GET` | `/api/v1/treatments/{id}/efficacy`| Agronomist | `sih26131` | Treatment efficacy analytics |
 | `POST` | `/api/v1/land/verify` | Farmer | `sih25076` | Land registry auto-lookup / HITL queue |
 | `POST` | `/api/v1/land/cadastral-lookup` | Farmer | `sih25076` | Cadastral survey lookup |

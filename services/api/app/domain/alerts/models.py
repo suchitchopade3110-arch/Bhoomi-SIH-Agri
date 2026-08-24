@@ -70,12 +70,20 @@ class PathogenRiskThreshold:
     cluster_radius_km: float
     cluster_count_threshold: int
     preventative_action: str
+    inspection_tasks: tuple[str, ...]
 
 
 @dataclass(frozen=True)
 class AlertDraft:
     """Pure ``evaluate_alert`` output — an alert that *would* fire, before
-    ``AlertService`` applies cooldown gating (spec §4.2) and persists it."""
+    ``AlertService`` applies cooldown gating (spec §4.2) and persists it.
+
+    ``inspection_tasks`` is on the "never cut" list (Phase 3 build order
+    §Step 3): an alert cannot be issued without at least one task sourced
+    from the corpus. This dataclass alone doesn't enforce non-empty at
+    construction (a caller building a bad ``PathogenRiskThreshold`` could
+    still set it to ``()``) — the hard enforcement point is
+    ``AlertService``, deliberately, per the phase spec."""
 
     alert_id: str
     farm_id: str | None
@@ -86,6 +94,7 @@ class AlertDraft:
     severity: AlertSeverity
     trigger_reason: str
     preventative_action: str
+    inspection_tasks: tuple[str, ...]
     spoken_summary: str
     delivery_channels: tuple[DeliveryChannel, ...]
     created_at: datetime

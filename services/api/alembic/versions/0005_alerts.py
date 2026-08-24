@@ -37,6 +37,9 @@ def upgrade() -> None:
         sa.Column("severity", sa.String(length=20), nullable=False),
         sa.Column("trigger_reason", sa.String(length=1000), nullable=False),
         sa.Column("preventative_action", sa.String(length=1000), nullable=False),
+        # Non-nullable by design (Phase 3 "never cut" list) — see
+        # app/models/alert.py and app/services/alerts/alert_service.py.
+        sa.Column("inspection_tasks", sa.ARRAY(sa.String()), nullable=False),
         sa.Column("spoken_summary", sa.String(length=1000), nullable=False),
         sa.Column("delivery_channels", sa.ARRAY(sa.String()), nullable=False, server_default="{}"),
         sa.Column("cooldown_key", sa.String(length=255), nullable=False),

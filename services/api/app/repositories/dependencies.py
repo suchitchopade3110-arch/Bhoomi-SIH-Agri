@@ -25,11 +25,11 @@ from app.repositories.health_context_postgres import (
     PostgresProblemLoadReader,
     PostgresTreatmentTrendReader,
 )
+from app.repositories.alert_repo import PostgresAlertRepository
 from app.repositories.health_snapshot_repository import HealthSnapshotRepository
 from app.repositories.interfaces import KnowledgeChunkReader
 from app.repositories.knowledge_chunk_repository import KnowledgeChunkRepository
 from app.repositories.postgres import (
-    PostgresAlertRepository,
     PostgresAssetRepository,
     PostgresCaseRepository,
     PostgresFarmRepository,

@@ -1,8 +1,8 @@
-"""Early-Warning Alerts API router (SPEC-ALERT-001, delta spec §3.2-3.3).
+"""Early-Warning Alerts API router (SPEC-ALERT-001, Phase 3 build order Step 4).
 
 Two resources without a shared prefix — ``/farms/{id}/alerts`` (read) and
-``/alerts/{id}/dismiss`` (write) — so this router declares both full paths
-rather than using a single ``APIRouter(prefix=...)``.
+``/alerts/{id}/acknowledge`` (write) — so this router declares both full
+paths rather than using a single ``APIRouter(prefix=...)``.
 """
 
 from typing import Annotated, Any
@@ -10,8 +10,8 @@ from typing import Annotated, Any
 from fastapi import APIRouter, Depends
 
 from app.core.security import get_current_token_payload
-from app.schemas.alert import AlertDismissRequest, AlertDismissResponse, AlertItem, FarmAlertsResponse
-from app.services.alert_service import AlertService, get_alert_service
+from app.schemas.alert import AlertAcknowledgeRequest, AlertAcknowledgeResponse, AlertItem, FarmAlertsResponse
+from app.services.alerts.alert_service import AlertService, get_alert_service
 
 router = APIRouter(tags=["Early-Warning Alerts"])
 
@@ -36,6 +36,7 @@ async def get_farm_alerts(
                 severity=a["severity"],
                 trigger_reason=a["trigger_reason"],
                 preventative_action=a["preventative_action"],
+                inspection_tasks=a["inspection_tasks"],
                 spoken_summary=a["spoken_summary"],
                 created_at=a["created_at"],
                 expires_at=a["expires_at"],
@@ -46,15 +47,15 @@ async def get_farm_alerts(
 
 
 @router.post(
-    "/alerts/{alert_id}/dismiss",
-    response_model=AlertDismissResponse,
-    summary="Dismiss/acknowledge an active alert",
+    "/alerts/{alert_id}/acknowledge",
+    response_model=AlertAcknowledgeResponse,
+    summary="Farmer dismiss/confirm-seen for an active alert",
 )
-async def dismiss_alert(
+async def acknowledge_alert(
     alert_id: str,
-    request: AlertDismissRequest,
+    request: AlertAcknowledgeRequest,
     service: Annotated[AlertService, Depends(get_alert_service)],
     _auth: Annotated[dict[str, Any], Depends(get_current_token_payload)],
-) -> AlertDismissResponse:
-    await service.dismiss(alert_id, request.farm_id, request.reason)
-    return AlertDismissResponse(status="dismissed", alert_id=alert_id)
+) -> AlertAcknowledgeResponse:
+    await service.acknowledge(alert_id, request.farm_id, request.reason)
+    return AlertAcknowledgeResponse(status="acknowledged", alert_id=alert_id)

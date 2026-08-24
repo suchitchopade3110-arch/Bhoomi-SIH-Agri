@@ -18,17 +18,19 @@ NOW = datetime(2026, 8, 24, 6, 0, 0)
 @pytest.mark.asyncio
 async def test_cluster_summary_excludes_target_farm():
     repo = InMemoryAlertRepository()
+    repo.register_farm("f_target", *ERODE)
     repo.seed_nearby_case(
         farm_id="f_target", latitude=ERODE[0], longitude=ERODE[1],
         label="bacterial_leaf_blight", severity="moderate", created_at=NOW,
     )
-    summary = await repo.get_nearby_cluster_summary(*ERODE, target_farm_id="f_target", radius_km=10, window_days=7)
+    summary = await repo.get_nearby_cluster_summary(target_farm_id="f_target", radius_meters=10_000, window_days=7)
     assert summary == []
 
 
 @pytest.mark.asyncio
 async def test_cluster_summary_excludes_out_of_radius_and_stale_cases():
     repo = InMemoryAlertRepository()
+    repo.register_farm("f_target", *ERODE)
     repo.seed_nearby_case(
         farm_id="f_far", latitude=FAR_AWAY[0], longitude=FAR_AWAY[1],
         label="bacterial_leaf_blight", severity="moderate", created_at=NOW,
@@ -37,13 +39,14 @@ async def test_cluster_summary_excludes_out_of_radius_and_stale_cases():
         farm_id="f_stale", latitude=NEARBY[0], longitude=NEARBY[1],
         label="bacterial_leaf_blight", severity="moderate", created_at=NOW - timedelta(days=30),
     )
-    summary = await repo.get_nearby_cluster_summary(*ERODE, target_farm_id="f_target", radius_km=10, window_days=7)
+    summary = await repo.get_nearby_cluster_summary(target_farm_id="f_target", radius_meters=10_000, window_days=7)
     assert summary == []
 
 
 @pytest.mark.asyncio
 async def test_cluster_summary_groups_by_label_and_severity():
     repo = InMemoryAlertRepository()
+    repo.register_farm("f_target", *ERODE)
     for i in range(3):
         repo.seed_nearby_case(
             farm_id=f"f_{i}", latitude=NEARBY[0], longitude=NEARBY[1],
@@ -54,10 +57,19 @@ async def test_cluster_summary_groups_by_label_and_severity():
         label="powdery_mildew", severity="early", created_at=NOW,
     )
 
-    summary = await repo.get_nearby_cluster_summary(*ERODE, target_farm_id="f_target", radius_km=10, window_days=7)
+    summary = await repo.get_nearby_cluster_summary(target_farm_id="f_target", radius_meters=10_000, window_days=7)
     blb = next(c for c in summary if c.label == "bacterial_leaf_blight")
     assert blb.case_count == 3
     assert len(summary) == 2
+
+
+@pytest.mark.asyncio
+async def test_cluster_summary_unregistered_target_farm_raises_not_found():
+    from app.core.errors import NotFoundError
+
+    repo = InMemoryAlertRepository()
+    with pytest.raises(NotFoundError):
+        await repo.get_nearby_cluster_summary(target_farm_id="nonexistent", radius_meters=10_000, window_days=7)
 
 
 @pytest.mark.asyncio

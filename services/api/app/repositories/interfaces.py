@@ -74,8 +74,12 @@ class AlertRepository(Protocol):
     """
 
     async def get_nearby_cluster_summary(
-        self, target_farm_lat: float, target_farm_lon: float, target_farm_id: str | None, radius_km: float, window_days: int
-    ) -> list[ClusterCase]: ...
+        self, target_farm_id: str, radius_meters: float, window_days: int
+    ) -> list[ClusterCase]:
+        """Confirmed-diagnosis clusters near ``target_farm_id`` — the
+        repository looks up that farm's own coordinates internally (a
+        caller never passes lat/lon)."""
+        ...
 
     async def get_active_cooldown(self, cooldown_key: str, as_of: datetime) -> dict[str, Any] | None: ...
 

@@ -5,6 +5,7 @@ from datetime import date, datetime, timedelta
 from typing import Any
 import uuid
 
+from app.core.errors import NotFoundError
 from app.domain.alerts.models import ClusterCase
 from app.domain.geo import haversine_distance_km
 from app.domain.rag.similarity import cosine_similarity
@@ -253,10 +254,19 @@ class InMemoryAlertRepository:
     def __init__(self) -> None:
         self._alerts: dict[str, dict[str, Any]] = {}
         self._nearby_cases: list[dict[str, Any]] = []
+        self._farm_locations: dict[str, tuple[float, float]] = {}
+
+    def register_farm(self, farm_id: str, latitude: float, longitude: float) -> None:
+        """Register a farm's own coordinates — needed so
+        ``get_nearby_cluster_summary(target_farm_id, ...)`` can look up
+        ``target_farm_id``'s location itself, matching the Postgres
+        implementation's internal ``Farm`` lookup."""
+        self._farm_locations[farm_id] = (latitude, longitude)
 
     def seed_nearby_case(
         self, *, farm_id: str, latitude: float, longitude: float, label: str, severity: str, created_at: datetime
     ) -> None:
+        self._farm_locations[farm_id] = (latitude, longitude)
         self._nearby_cases.append(
             {
                 "farm_id": farm_id,
@@ -269,8 +279,13 @@ class InMemoryAlertRepository:
         )
 
     async def get_nearby_cluster_summary(
-        self, target_farm_lat: float, target_farm_lon: float, target_farm_id: str | None, radius_km: float, window_days: int
+        self, target_farm_id: str, radius_meters: float, window_days: int
     ) -> list[ClusterCase]:
+        if target_farm_id not in self._farm_locations:
+            raise NotFoundError("Farm not found.", details={"farm_id": target_farm_id})
+        target_farm_lat, target_farm_lon = self._farm_locations[target_farm_id]
+        radius_km = radius_meters / 1000.0
+
         cutoff = datetime.utcnow() - timedelta(days=window_days)
         grouped: dict[tuple[str, str], list[float]] = {}
         for case in self._nearby_cases:

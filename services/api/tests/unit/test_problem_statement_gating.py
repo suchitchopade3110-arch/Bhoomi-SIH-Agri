@@ -51,7 +51,7 @@ def test_sih25076_mounts_legacy_routers(monkeypatch):
 
     # Phase 3: alerts routers are sih26131-only, absent here.
     assert "/api/v1/farms/{farm_id}/alerts" not in paths
-    assert "/api/v1/alerts/{alert_id}/dismiss" not in paths
+    assert "/api/v1/alerts/{alert_id}/acknowledge" not in paths
 
 
 def test_sih26131_unmounts_legacy_routers_and_keeps_core(monkeypatch):
@@ -77,7 +77,7 @@ def test_sih26131_unmounts_legacy_routers_and_keeps_core(monkeypatch):
 
     # Phase 3: alerts routers mount under sih26131.
     assert "/api/v1/farms/{farm_id}/alerts" in paths
-    assert "/api/v1/alerts/{alert_id}/dismiss" in paths
+    assert "/api/v1/alerts/{alert_id}/acknowledge" in paths
 
     # Core intelligence routers remain mounted in every mode.
     assert "/api/v1/auth/register" in paths
@@ -103,7 +103,7 @@ def test_alerts_routes_dependency_chain_resolves_without_db(monkeypatch):
     response = client.get("/api/v1/farms/f_1/alerts")
     assert response.status_code == 401
 
-    response = client.post("/api/v1/alerts/alt_1/dismiss", json={"farm_id": "f_1", "reason": "action_taken"})
+    response = client.post("/api/v1/alerts/alt_1/acknowledge", json={"farm_id": "f_1", "reason": "action_taken"})
     assert response.status_code == 401
 
 

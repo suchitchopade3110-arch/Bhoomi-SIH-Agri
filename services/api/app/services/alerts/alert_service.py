@@ -12,6 +12,21 @@ Orchestrates the three-step pipeline the spec mandates:
 return every currently active alert for the farm — both newly created ones
 and pre-existing regional broadcasts). Nothing here runs as a background
 job in this phase; evaluation is on-demand, driven by the read.
+
+No SQL: meteorology comes only through ``WeatherPort``; spatial/persistence
+queries live only in ``app.repositories.alert_repo``.
+
+Alert -> Problem relationship (spec §4.3): ``info``/``advisory``/``warning``
+never create a ``Problem`` row or touch the health score — this service has
+no ``ProblemWriter``/``HealthService`` dependency at all, so that's
+structurally guaranteed, not just a convention. ``emergency`` is the same:
+it still only writes an ``Alert`` row here. A ``Problem`` (and the health
+score deduction that comes with it) is created only later, by
+``DiagnosisService``, once a farmer's own ``/diagnose`` call actually
+confirms the pathogen on their field — this service never creates one
+itself. A follow-up item (see early_warning_alert_spec.md §4.3) is wiring
+the farm Timeline event and the "I see symptoms" / "Sprayed preventative"
+prompt for ``emergency`` alerts; not built in this phase.
 """
 
 from datetime import datetime
@@ -20,7 +35,7 @@ from typing import Annotated
 from fastapi import Depends
 
 from app.adapters.dependencies import get_weather_adapter
-from app.core.errors import NotFoundError
+from app.core.errors import NotFoundError, ValidationError
 from app.domain.alerts.evaluate import evaluate_alert
 from app.domain.alerts.models import AlertDraft, ClusterCase, WeatherMetrics
 from app.domain.alerts.thresholds import PATHOGEN_RISK_THRESHOLDS
@@ -30,6 +45,8 @@ from app.repositories.interfaces import AlertRepository, FarmRepository
 
 # Spec §2.1's cluster window ("past 7 days").
 CLUSTER_WINDOW_DAYS = 7
+
+METERS_PER_KM = 1000.0
 
 # WeatherPort exposes only a current point-in-time reading, not a 48h
 # historical series (spec §3.2 wants "48-hour average ... sustained >=Xh").
@@ -70,10 +87,8 @@ class AlertService:
             weather = _weather_metrics_from_current_reading(reading, threshold)
 
             cluster_summary: list[ClusterCase] = await self._alerts.get_nearby_cluster_summary(
-                target_farm_lat=lat,
-                target_farm_lon=lon,
                 target_farm_id=farm["id"],
-                radius_km=threshold.cluster_radius_km,
+                radius_meters=threshold.cluster_radius_km * METERS_PER_KM,
                 window_days=CLUSTER_WINDOW_DAYS,
             )
 
@@ -94,7 +109,18 @@ class AlertService:
 
     async def _gate_and_persist(self, draft: AlertDraft, evaluated_at: datetime) -> None:
         """Spec §4.2 step 2-3: cooldown gate, then persist (and supersede
-        any prior lower-severity alert for the same subject+pathogen)."""
+        any prior lower-severity alert for the same subject+pathogen).
+
+        ``inspection_tasks`` is on the "never cut" list (Phase 3 build
+        order): enforced here, at the one point every alert must pass
+        through before persistence, rather than left to the UI to check.
+        """
+        if not draft.inspection_tasks:
+            raise ValidationError(
+                "Alert cannot be issued without at least one inspection task.",
+                details={"pathogen_name": draft.pathogen_name, "alert_id": draft.alert_id},
+            )
+
         existing = await self._alerts.get_active_cooldown(draft.cooldown_key, as_of=evaluated_at)
         if existing is not None:
             return  # same or higher severity already active — suppressed
@@ -114,6 +140,7 @@ class AlertService:
                 "severity": draft.severity.value,
                 "trigger_reason": draft.trigger_reason,
                 "preventative_action": draft.preventative_action,
+                "inspection_tasks": list(draft.inspection_tasks),
                 "spoken_summary": draft.spoken_summary,
                 "delivery_channels": [c.value for c in draft.delivery_channels],
                 "cooldown_key": draft.cooldown_key,
@@ -140,11 +167,12 @@ class AlertService:
             as_of=evaluated_at,
         )
 
-    async def dismiss(self, alert_id: str, farm_id: str, reason: str) -> dict:
-        dismissed = await self._alerts.dismiss(alert_id, farm_id, reason, as_of=datetime.utcnow())
-        if dismissed is None:
+    async def acknowledge(self, alert_id: str, farm_id: str, reason: str) -> dict:
+        """Farmer dismiss/confirm-seen (spec delta doc §3.3 `/acknowledge`)."""
+        acknowledged = await self._alerts.dismiss(alert_id, farm_id, reason, as_of=datetime.utcnow())
+        if acknowledged is None:
             raise NotFoundError("Alert not found.", details={"alert_id": alert_id})
-        return dismissed
+        return acknowledged
 
 
 def get_alert_service(

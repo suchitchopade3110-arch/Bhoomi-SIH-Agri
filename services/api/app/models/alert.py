@@ -8,7 +8,7 @@ same primary key, not a duplicate row.
 
 from datetime import datetime
 
-from sqlalchemy import DateTime, Float, Integer, String
+from sqlalchemy import DateTime, String
 from sqlalchemy.dialects.postgresql import ARRAY
 from sqlalchemy.orm import Mapped, mapped_column
 
@@ -28,6 +28,10 @@ class Alert(Base):
     severity: Mapped[str] = mapped_column(String(20), nullable=False, index=True)
     trigger_reason: Mapped[str] = mapped_column(String(1000), nullable=False)
     preventative_action: Mapped[str] = mapped_column(String(1000), nullable=False)
+    # Non-nullable by design (Phase 3 "never cut" list) — an alert cannot be
+    # issued without at least one corpus-sourced inspection task. Enforced
+    # in app/services/alerts/alert_service.py, not just this NOT NULL.
+    inspection_tasks: Mapped[list[str]] = mapped_column(ARRAY(String), nullable=False)
     spoken_summary: Mapped[str] = mapped_column(String(1000), nullable=False)
     delivery_channels: Mapped[list[str]] = mapped_column(ARRAY(String), nullable=False, default=list)
 

@@ -145,3 +145,17 @@ def test_emergency_and_warning_include_push_advisory_does_not():
 def test_created_at_is_the_injected_evaluated_at_never_wall_clock():
     draft = _evaluate(FAVORABLE_WEATHER, TRIGGERING_CLUSTER)
     assert draft.created_at == NOW
+
+
+def test_inspection_tasks_propagated_from_threshold_and_never_empty():
+    """Phase 3 'never cut' item: every issued AlertDraft carries the
+    threshold's corpus-sourced inspection tasks."""
+    for weather, cluster in [
+        (FAVORABLE_WEATHER, NO_CLUSTER),
+        (UNFAVORABLE_WEATHER, TRIGGERING_CLUSTER),
+        (FAVORABLE_WEATHER, TRIGGERING_CLUSTER),
+    ]:
+        draft = _evaluate(weather, cluster)
+        assert draft is not None
+        assert len(draft.inspection_tasks) >= 1
+        assert draft.inspection_tasks == BLB.inspection_tasks
