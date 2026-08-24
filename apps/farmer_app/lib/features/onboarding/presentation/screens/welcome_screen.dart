@@ -97,7 +97,7 @@ class WelcomeScreen extends StatelessWidget {
                 text: 'Get Started',
                 icon: Icons.arrow_forward_rounded,
                 onPressed: () {
-                  context.push('/onboarding');
+                  context.push('/language-select');
                 },
               ),
 
