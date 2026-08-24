@@ -121,22 +121,24 @@ class HealthService:
             problem_resolved_with_confirmed_treatment=trend.problem_resolved_with_confirmed_treatment,
         )
 
-    async def _get_weather_or_fallback(self, latitude: float, longitude: float) -> WeatherReading:
-        """Read live weather via ``WeatherPort``; fall back to a fixed,
-        self-reported reading if the port is unavailable (PRD §1.4)."""
+    async def _get_weather_or_fallback(self, latitude: float, longitude: float) -> WeatherReading | None:
+        """Read live weather via ``WeatherPort``; returns None when unavailable
+        so the scoring engine uses ENVIRONMENTAL_RISK_DEFAULT (PRD §1.4)."""
         try:
             current = await self._weather.get_current_weather(latitude, longitude)
+            if not current:
+                return None
             return WeatherReading(
                 temp_c=float(current["temperature_c"]),
                 relative_humidity_pct=float(current["relative_humidity_pct"]),
             )
         except Exception:
             logger.warning(
-                "WeatherPort unavailable for (%s, %s); falling back to a fixed, self-reported reading.",
+                "WeatherPort unavailable for (%s, %s); falling back to default baseline.",
                 latitude,
                 longitude,
             )
-            return WeatherReading(temp_c=FALLBACK_TEMP_C, relative_humidity_pct=FALLBACK_HUMIDITY_PCT)
+            return None
 
     async def _compute_and_persist(self, farm_id: str, triggering_input: TriggeringInput) -> HealthSnapshot:
         inputs = await self._build_inputs(farm_id, triggering_input)

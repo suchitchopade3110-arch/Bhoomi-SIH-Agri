@@ -43,10 +43,6 @@ def band_for(score: int | None) -> HealthBand:
 
 def _missing_fields(inputs: HealthScoreInputs) -> list[str]:
     missing = []
-    if inputs.weather is None:
-        missing.append("weather")
-    if inputs.crop_ideal is None:
-        missing.append("crop_ideal")
     if not inputs.has_interaction:
         missing.append("interactions")
     return missing

@@ -56,23 +56,29 @@ WEIGHTS_VERSION = "v2-sih26131"
 # Sub-index #2 — environmental_risk
 # Penalizes deviation of the current weather reading from the crop's
 # ideal range at its current growth stage.
+# Baseline environmental risk when no live weather reading is available.
+# Mirrors MONITORING_RECENCY_DEFAULT: an honest "no data yet" anchor rather
+# than a computed value. Pinned to the SIH26131 spec §1.5 fixture baseline.
 # --------------------------------------------------------------------------
+ENVIRONMENTAL_RISK_DEFAULT = 70
 TEMP_DEVIATION_PENALTY_PER_DEGREE_C = 2.0
 HUMIDITY_DEVIATION_PENALTY_PER_PCT = 1.25
 
 # --------------------------------------------------------------------------
 # Sub-index #3 — monitoring_recency
 # Penalizes staleness of the last farm scan/data point.
-# Baseline neutral default is 70; expert verification achieves 90.
+# Baseline neutral default is 70; expert verification achieves 90 / 95.
 # --------------------------------------------------------------------------
 MONITORING_RECENCY_DEFAULT = 70
-MONITORING_RECENCY_EXPERT_VERIFIED = 90
+MONITORING_RECENCY_EXPERT_VERIFIED = 95
 MONITORING_RECENCY_PENALTY_PER_DAY = 5.0
 
 # --------------------------------------------------------------------------
 # Sub-index #4 — treatment_response
 # Driven by the latest closed-loop follow-up and expert resolution.
-# Baseline is 70; got_worse is 40; no_change is 50; improved is 90; resolved is 95.
+# Baseline is 70 (spec §1.4); got_worse is 40 (spec §1.4);
+# no_change is 50 (spec §1.4 ratified); improved is 90 (spec §1.4 ratified);
+# confirmed resolution is 95 (spec §1.4).
 # --------------------------------------------------------------------------
 TREATMENT_RESPONSE_DEFAULT = 70
 TREATMENT_RESPONSE_GOT_WORSE = 40

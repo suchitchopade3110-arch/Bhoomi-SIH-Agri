@@ -31,12 +31,15 @@ def active_problem_severity(open_problems: list[OpenProblemInput]) -> int:
     return _clamp_int(100 - total_penalty)
 
 
-def environmental_risk(weather: WeatherReading | None, ideal: CropIdealConditions | None) -> int:
+def environmental_risk(weather: WeatherReading | None, ideal: CropIdealConditions | None = None) -> int:
     """Sub-index #2: weather deviation from crop's ideal band (Weight: 0.25).
 
-    Starts at 100 and subtracts penalties for temperature and humidity deviations.
+    Returns ENVIRONMENTAL_RISK_DEFAULT (70) when weather is None/unavailable.
+    Otherwise starts at 100 and subtracts penalties for temperature and humidity deviations.
     """
-    if weather is None or ideal is None:
+    if weather is None:
+        return c.ENVIRONMENTAL_RISK_DEFAULT
+    if ideal is None:
         return 100
     penalty = 0.0
     penalty += c.TEMP_DEVIATION_PENALTY_PER_DEGREE_C * max(0.0, ideal.temp_min_c - weather.temp_c)
@@ -99,9 +102,6 @@ def compute_all_subindices(inputs: HealthScoreInputs) -> list[SubIndexBreakdown]
     """Run all four calculators against ``inputs`` and return them in the
     fixed contract order, each carrying its weight and weighted contribution.
     """
-    assert inputs.weather is not None
-    assert inputs.crop_ideal is not None
-
     values: dict[SubIndexKey, int] = {
         SubIndexKey.ACTIVE_PROBLEM_SEVERITY: active_problem_severity(inputs.open_problems),
         SubIndexKey.ENVIRONMENTAL_RISK: environmental_risk(inputs.weather, inputs.crop_ideal),
