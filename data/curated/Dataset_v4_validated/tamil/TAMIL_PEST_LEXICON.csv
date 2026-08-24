@@ -1,0 +1,24 @@
+pest_id,english_name,tamil_script,transliteration,dialect_region,term_type,lexicon_status,source_reference
+PEST_001,Stem borer,தண்டு துளைப்பான்,thandu thulaippan,Standard Tamil / TNAU,canonical_name,VERIFIED,TNAU Agritech Crop Protection Glossary
+PEST_001,Stem borer,குருத்துப் பூச்சி,kuruthu poochi,Cauvery Delta,colloquial_alias,NEEDS_REVIEW,Farmer interview transcripts (Thanjavur)
+PEST_001,Stem borer,வெண்கதிர்,venkathir,Standard Tamil,symptom_phrase,VERIFIED,TNAU Paddy Protection Guide
+PEST_001,Stem borer,dead heart,dead heart,Tanglish,colloquial_alias,VERIFIED,Bhoomi Voice Corpus Pilot
+PEST_002,Brown planthopper (BPH),புகையான்,pukaiyaan,Cauvery Delta / Standard Tamil,canonical_name,VERIFIED,TNAU Agritech Crop Protection Glossary
+PEST_002,Brown planthopper (BPH),பழுப்பு தத்துப்பூச்சி,paluppu thathupoochi,Standard Tamil,canonical_name,VERIFIED,TNAU Agritech Glossary
+PEST_002,Brown planthopper (BPH),சாறு உறிஞ்சும் பூச்சி,saaru urinjum poochi,General Tamil,colloquial_alias,NEEDS_REVIEW,Field extension notes
+PEST_002,Brown planthopper (BPH),hopper burn,hopper burn,Tanglish,symptom_phrase,VERIFIED,Bhoomi Voice Corpus Pilot
+PEST_003,Leaf folder,இலை சுருட்டு புழு,ilai suruttu pulu,Standard Tamil / TNAU,canonical_name,VERIFIED,TNAU Agritech Crop Protection Glossary
+PEST_003,Leaf folder,சுருட்டுப் புழு,suruttu pulu,Southern Tamil Nadu,colloquial_alias,VERIFIED,TNAU Agritech Extension Bulletin
+PEST_003,Leaf folder,பச்சை புழு,pachai pulu,Kongu Tamil,colloquial_alias,NEEDS_REVIEW,Regional farmer survey
+PEST_004,Green leafhopper (GLH),பச்சை தத்துப்பூச்சி,pachai thathupoochi,Standard Tamil / TNAU,canonical_name,VERIFIED,TNAU Agritech Crop Protection Glossary
+PEST_004,Green leafhopper (GLH),துங்ரோ பூச்சி,tungro poochi,Cauvery Delta,colloquial_alias,NEEDS_REVIEW,Field advisory transcripts
+PEST_005,Gall midge,ஆணைக்கொம்பன்,aanaikomban,Cauvery Delta / Standard Tamil,canonical_name,VERIFIED,TNAU Agritech Crop Protection Glossary
+PEST_005,Gall midge,வெள்ளிக்குருத்து,vellikkuruthu,Standard Tamil,symptom_phrase,VERIFIED,TNAU Agritech Glossary
+PEST_005,Gall midge,வெங்காயத்தாள் புழு,vengayathal pulu,Southern Tamil Nadu,colloquial_alias,NEEDS_REVIEW,Regional farmer survey (Tirunelveli)
+PEST_006,Thrips,இலைப்பேன்,ilaippaen,Standard Tamil / TNAU,canonical_name,VERIFIED,TNAU Agritech Crop Protection Glossary
+PEST_006,Thrips,சுருள் பேன்,surul paen,Cauvery Delta,colloquial_alias,NEEDS_REVIEW,Nursery scout reports
+PEST_007,Whorl maggot,குருத்து ஈ,kuruthu ee,Standard Tamil / TNAU,canonical_name,VERIFIED,TNAU Agritech Crop Protection Glossary
+PEST_007,Whorl maggot,இலை ஈ,ilai ee,Western Tamil Nadu,colloquial_alias,NEEDS_REVIEW,Extension training guide
+PEST_008,Earhead bug,கதிர் நாவாய்ப்பூச்சி,kathir naavayppoochi,Standard Tamil / TNAU,canonical_name,VERIFIED,TNAU Agritech Crop Protection Glossary
+PEST_008,Earhead bug,சாற்றுப்பூச்சி,saattruppoochi,Cauvery Delta,colloquial_alias,NEEDS_REVIEW,Field extension notes
+PEST_008,Earhead bug,குந்தி பூச்சி,gundhi poochi,Northern Tamil Nadu,colloquial_alias,NEEDS_REVIEW,ICAR Hindi loan word in border taluks

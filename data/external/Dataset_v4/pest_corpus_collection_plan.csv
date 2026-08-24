@@ -1,0 +1,9 @@
+pest,minimum_vetted_docs,recommended_roles,priority
+Stem borer,3,identification; ETL/crop-stage risk; IPM/current advisory,P0
+Brown planthopper (BPH),3,identification/monitoring; ETL/IPM/resurgence; current Tamil Nadu advisory,P0
+Leaf folder,3,identification; ETL/IPM; current Tamil Nadu advisory,P0
+Green leafhopper (GLH),3,identification/vector role; ETL/IPM; current advisory,P0
+Gall midge,2,identification/ETL; IPM/current advisory,P1
+Thrips,2,identification/ETL; nursery management/current advisory,P1
+Whorl maggot,2,identification/ETL; IPM/current advisory,P1
+Earhead bug,2,identification/ETL; grain-stage management/current advisory,P1

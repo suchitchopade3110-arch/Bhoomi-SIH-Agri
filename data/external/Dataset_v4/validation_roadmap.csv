@@ -1,0 +1,14 @@
+priority,task,acceptance_criterion
+P0,Verify all 8 source URLs and original documents,Every claim must be traceable to the original page/PDF.
+P0,Replace NOT EXPOSED publication dates with verified dates or explicitly retain unknown,Never infer publication dates.
+P0,Extract exact page/section/figure references,Enables citation-level RAG answers.
+P0,Validate every ETL against the authoritative source,Resolve conflicts rather than averaging thresholds.
+P0,Current-label/regulatory verification for every chemical recommendation,Historical chemical advice must not be surfaced as a current prescription without validation.
+P0,"Add pest severity records using the framework, with expert-approved pest-specific cutoffs",ETL and severity are separate concepts.
+P0,"Add IPM subfields: cultural, mechanical, biological, monitoring, chemical",Improves grounded action planning.
+P1,Add Tamil canonical names and spoken variants,Supports ASR normalization and retrieval.
+P1,Add differential diagnosis / look-alike cues,Critical for vision routing.
+P1,Add crop-stage vulnerability and risk factors,Supports stage-aware recommendations.
+P1,"Add image records with image_id, source, license, label, stage, severity",The current pasted dataset claims images exist but contains no image manifest.
+P1,Add negative/unknown examples,Prevents overconfident diagnosis.
+P2,Expand beyond 8 pests after pilot validation,Do not sacrifice source quality for corpus size.

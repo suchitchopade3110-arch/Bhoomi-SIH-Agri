@@ -1,0 +1,434 @@
+[
+  {
+    "pest_id": "PEST_001",
+    "document_id": "DOC-PEST-001",
+    "canonical_name": "Stem borer",
+    "scientific_name": null,
+    "crop": "Rice (Oryza sativa)",
+    "region": "Tamil Nadu, India",
+    "growth_stage": "All stages; dead heart in vegetative, white earhead in reproductive",
+    "identification_cues": [
+      "Egg masses on leaf tips",
+      "Larvae with brown head and white body inside stem",
+      "Moth with silvery white wings with black spots",
+      "Dead heart symptom in vegetative stage",
+      "White earhead (empty panicle) in reproductive stage"
+    ],
+    "threshold": {
+      "raw": "Vegetative: 1 egg mass/m² or 10% dead hearts; Reproductive: 1 egg mass/m² or 5% white ears",
+      "threshold_type": "ETL/action threshold",
+      "structured": false,
+      "source_exactness": "source-quoted/normalized field; values require verification before production"
+    },
+    "severity": {
+      "tier": null,
+      "criteria": null,
+      "status": "MISSING — must be derived from expert/source evidence, not invented"
+    },
+    "management": {
+      "raw_summary": "Use resistant varieties (CO 51, ADT 43); remove and destroy egg masses; apply carbofuran 3G @ 33 kg/ha at planting; release Trichogramma japonicum @ 50,000/ha; spray chlorantraniliprole 18.5 SC @ 150 ml/ha if ETL exceeded.",
+      "ipm": null,
+      "chemical": "Present in source summary; current registration/label validation required",
+      "biological": "Some records mention natural enemies/biocontrol",
+      "cultural": "Some records mention cultural controls"
+    },
+    "provenance": {
+      "organization": "TNAU",
+      "source_type": "Extension Bulletin",
+      "title": "TNAU Rice Pest Management Guide — Stem Borer",
+      "source_url": "https://agritech.tnau.ac.in/crop_protection/rice_pest.html",
+      "citation": "TNAU Agritech Portal, Rice Pest Management",
+      "authority_level": "High",
+      "publication_date": null,
+      "publication_date_status": "not_exposed",
+      "retrieved_date": "2026-08-24",
+      "last_reviewed": "2026-08-24",
+      "review_due": "2027-02-24"
+    },
+    "validation": {
+      "source_url_verified": false,
+      "content_verified_against_original": false,
+      "chemical_advice_currently_verified": false,
+      "expert_validated": false,
+      "status": "source-derived; validation required"
+    }
+  },
+  {
+    "pest_id": "PEST_002",
+    "document_id": "DOC-PEST-002",
+    "canonical_name": "Brown planthopper (BPH)",
+    "scientific_name": null,
+    "crop": "Rice (Oryza sativa)",
+    "region": "Tamil Nadu, India; applicable across South India",
+    "growth_stage": "All stages; most damaging at tillering to flowering",
+    "identification_cues": [
+      "Brown body with white bands on mid-dorsal abdomen",
+      "Wings held roof-like over body",
+      "Nymphs with white waxy filaments",
+      "Hopper burn — yellowing and drying of crop in circular patches",
+      "Honeydew secretion leading to sooty mold"
+    ],
+    "threshold": {
+      "raw": "Seedling: 1-2 nymphs/hill; Vegetative: 5-10 nymphs/hill; Reproductive: 10-20 nymphs/hill",
+      "threshold_type": "ETL/action threshold",
+      "structured": false,
+      "source_exactness": "source-quoted/normalized field; values require verification before production"
+    },
+    "severity": {
+      "tier": null,
+      "criteria": null,
+      "status": "MISSING — must be derived from expert/source evidence, not invented"
+    },
+    "management": {
+      "raw_summary": "Use resistant varieties (ADT 36, ASD 16); avoid excessive nitrogen; maintain 2-5 cm water level; apply buprofezin 25 SC @ 400 ml/ha; conserve natural enemies like Cyrtorhinus lividipennis.",
+      "ipm": null,
+      "chemical": "Present in source summary; current registration/label validation required",
+      "biological": "Some records mention natural enemies/biocontrol",
+      "cultural": "Some records mention cultural controls"
+    },
+    "provenance": {
+      "organization": "ICAR-IRRI",
+      "source_type": "Research Paper",
+      "title": "IRRI Rice Knowledge Bank — Brown Planthopper Management",
+      "source_url": "https://www.knowledgebank.irri.org/training/fact-sheets/pest-management/insect-pests/item/brown-planthopper",
+      "citation": "IRRI Rice Knowledge Bank - BPH Management",
+      "authority_level": "High",
+      "publication_date": null,
+      "publication_date_status": "not_exposed",
+      "retrieved_date": "2026-08-24",
+      "last_reviewed": "2026-08-24",
+      "review_due": "2027-02-24"
+    },
+    "validation": {
+      "source_url_verified": false,
+      "content_verified_against_original": false,
+      "chemical_advice_currently_verified": false,
+      "expert_validated": false,
+      "status": "source-derived; validation required"
+    }
+  },
+  {
+    "pest_id": "PEST_003",
+    "document_id": "DOC-PEST-003",
+    "canonical_name": "Leaf folder",
+    "scientific_name": null,
+    "crop": "Rice (Oryza sativa)",
+    "region": "Tamil Nadu, India",
+    "growth_stage": "Vegetative to boot leaf stage",
+    "identification_cues": [
+      "Leaves folded longitudinally with silken threads",
+      "Larvae inside folded leaves feeding on green tissue",
+      "White streaks on leaves due to feeding",
+      "Adult moth with golden yellow wings",
+      "Reduced photosynthetic area"
+    ],
+    "threshold": {
+      "raw": "Vegetative: 1 larva/hill or 10% folded leaves; Reproductive: 2 larvae/hill or 20% folded leaves",
+      "threshold_type": "ETL/action threshold",
+      "structured": false,
+      "source_exactness": "source-quoted/normalized field; values require verification before production"
+    },
+    "severity": {
+      "tier": null,
+      "criteria": null,
+      "status": "MISSING — must be derived from expert/source evidence, not invented"
+    },
+    "management": {
+      "raw_summary": "Avoid close planting; remove grassy weeds from bunds; apply chlorantraniliprole 18.5 SC @ 150 ml/ha; use light traps for moth monitoring; conserve parasitoids like Trichogramma chilonis.",
+      "ipm": null,
+      "chemical": "Present in source summary; current registration/label validation required",
+      "biological": "Some records mention natural enemies/biocontrol",
+      "cultural": "Some records mention cultural controls"
+    },
+    "provenance": {
+      "organization": "TNAU",
+      "source_type": "Extension Bulletin",
+      "title": "TNAU Rice Pest Management Guide — Leaf Folder",
+      "source_url": "https://agritech.tnau.ac.in/crop_protection/rice_pest.html",
+      "citation": "TNAU Rice Pest Management Guide",
+      "authority_level": "High",
+      "publication_date": null,
+      "publication_date_status": "not_exposed",
+      "retrieved_date": "2026-08-24",
+      "last_reviewed": "2026-08-24",
+      "review_due": "2027-02-24"
+    },
+    "validation": {
+      "source_url_verified": false,
+      "content_verified_against_original": false,
+      "chemical_advice_currently_verified": false,
+      "expert_validated": false,
+      "status": "source-derived; validation required"
+    }
+  },
+  {
+    "pest_id": "PEST_004",
+    "document_id": "DOC-PEST-004",
+    "canonical_name": "Green leafhopper (GLH)",
+    "scientific_name": null,
+    "crop": "Rice (Oryza sativa)",
+    "region": "Tamil Nadu, India; all rice-growing regions of India",
+    "growth_stage": "All stages; vector activity critical in early vegetative",
+    "identification_cues": [
+      "Bright green body with black markings",
+      "Wings with black spots",
+      "Active jumping when disturbed",
+      "Yellowing of leaves from tip downwards",
+      "Vector for rice tungro virus"
+    ],
+    "threshold": {
+      "raw": "Seedling: 5 hoppers/hill; Vegetative: 10-15 hoppers/hill; Reproductive: 20 hoppers/hill",
+      "threshold_type": "ETL/action threshold",
+      "structured": false,
+      "source_exactness": "source-quoted/normalized field; values require verification before production"
+    },
+    "severity": {
+      "tier": null,
+      "criteria": null,
+      "status": "MISSING — must be derived from expert/source evidence, not invented"
+    },
+    "management": {
+      "raw_summary": "Use resistant varieties (CO 51); remove weed hosts; apply imidacloprid 17.8 SL @ 100 ml/ha; control virus by managing vector population; apply neem-based insecticides as preventive.",
+      "ipm": null,
+      "chemical": "Present in source summary; current registration/label validation required",
+      "biological": "Some records mention natural enemies/biocontrol",
+      "cultural": "Some records mention cultural controls"
+    },
+    "provenance": {
+      "organization": "ICAR-IIRR",
+      "source_type": "Technical Bulletin",
+      "title": "ICAR Rice Production Manual — Green Leafhopper",
+      "source_url": "https://iirr.icar.gov.in/",
+      "citation": "ICAR Rice Production Manual",
+      "authority_level": "High",
+      "publication_date": null,
+      "publication_date_status": "not_exposed",
+      "retrieved_date": "2026-08-24",
+      "last_reviewed": "2026-08-24",
+      "review_due": "2027-02-24"
+    },
+    "validation": {
+      "source_url_verified": false,
+      "content_verified_against_original": false,
+      "chemical_advice_currently_verified": false,
+      "expert_validated": false,
+      "status": "source-derived; validation required"
+    }
+  },
+  {
+    "pest_id": "PEST_005",
+    "document_id": "DOC-PEST-005",
+    "canonical_name": "Gall midge",
+    "scientific_name": null,
+    "crop": "Rice (Oryza sativa)",
+    "region": "Tamil Nadu, India; endemic in Cauvery delta and coastal districts",
+    "growth_stage": "Tillering stage primarily",
+    "identification_cues": [
+      "Silver shoot or onion shoot formation at base of tillers",
+      "Galls at base of tillers containing maggot",
+      "Empty panicles in affected tillers",
+      "Adult fly with long legs and antennae",
+      "Reddish brown pupa at base of gall"
+    ],
+    "threshold": {
+      "raw": "Vegetative: 5% silver shoots or 1 adult/100 sweeps",
+      "threshold_type": "ETL/action threshold",
+      "structured": false,
+      "source_exactness": "source-quoted/normalized field; values require verification before production"
+    },
+    "severity": {
+      "tier": null,
+      "criteria": null,
+      "status": "MISSING — must be derived from expert/source evidence, not invented"
+    },
+    "management": {
+      "raw_summary": "Use resistant varieties (Kavya, Surekha); plough during summer to destroy pupae; apply carbofuran 3G @ 33 kg/ha at planting; avoid late planting in gall midge endemic areas; release Platygaster orseoliae parasitoids.",
+      "ipm": null,
+      "chemical": "Present in source summary; current registration/label validation required",
+      "biological": "Some records mention natural enemies/biocontrol",
+      "cultural": "Some records mention cultural controls"
+    },
+    "provenance": {
+      "organization": "TNAU",
+      "source_type": "Extension Bulletin",
+      "title": "TNAU Gall Midge Management in Rice",
+      "source_url": "https://agritech.tnau.ac.in/crop_protection/rice_pest.html",
+      "citation": "TNAU Gall Midge Management",
+      "authority_level": "High",
+      "publication_date": null,
+      "publication_date_status": "not_exposed",
+      "retrieved_date": "2026-08-24",
+      "last_reviewed": "2026-08-24",
+      "review_due": "2027-02-24"
+    },
+    "validation": {
+      "source_url_verified": false,
+      "content_verified_against_original": false,
+      "chemical_advice_currently_verified": false,
+      "expert_validated": false,
+      "status": "source-derived; validation required"
+    }
+  },
+  {
+    "pest_id": "PEST_006",
+    "document_id": "DOC-PEST-006",
+    "canonical_name": "Thrips",
+    "scientific_name": null,
+    "crop": "Rice (Oryza sativa)",
+    "region": "Tamil Nadu, India; nursery stage",
+    "growth_stage": "Nursery and early vegetative",
+    "identification_cues": [
+      "Tiny slender insects (1-2 mm) with fringed wings",
+      "Dark brown to black body",
+      "Yellow to orange discoloration of leaves",
+      "Silvery patches on leaf surface",
+      "Rolling of leaf tips inward"
+    ],
+    "threshold": {
+      "raw": "Seedling: 5 thrips/seedling; Vegetative: 25 thrips/hill",
+      "threshold_type": "ETL/action threshold",
+      "structured": false,
+      "source_exactness": "source-quoted/normalized field; values require verification before production"
+    },
+    "severity": {
+      "tier": null,
+      "criteria": null,
+      "status": "MISSING — must be derived from expert/source evidence, not invented"
+    },
+    "management": {
+      "raw_summary": "Submerge nursery periodically; avoid dry conditions in nursery; apply thiamethoxam 25 WG @ 100 g/ha; use blue sticky traps for monitoring; maintain adequate water level in field.",
+      "ipm": null,
+      "chemical": "Present in source summary; current registration/label validation required",
+      "biological": "Some records mention natural enemies/biocontrol",
+      "cultural": "Some records mention cultural controls"
+    },
+    "provenance": {
+      "organization": "KVK",
+      "source_type": "Extension Advisory",
+      "title": "KVK Rice Nursery Management — Thrips Control",
+      "source_url": "https://kvk.icar.gov.in/",
+      "citation": "KVK Rice Nursery Management",
+      "authority_level": "Medium-High",
+      "publication_date": null,
+      "publication_date_status": "not_exposed",
+      "retrieved_date": "2026-08-24",
+      "last_reviewed": "2026-08-24",
+      "review_due": "2027-02-24"
+    },
+    "validation": {
+      "source_url_verified": false,
+      "content_verified_against_original": false,
+      "chemical_advice_currently_verified": false,
+      "expert_validated": false,
+      "status": "source-derived; validation required"
+    }
+  },
+  {
+    "pest_id": "PEST_007",
+    "document_id": "DOC-PEST-007",
+    "canonical_name": "Whorl maggot",
+    "scientific_name": null,
+    "crop": "Rice (Oryza sativa)",
+    "region": "Tamil Nadu, India",
+    "growth_stage": "Seedling to early vegetative",
+    "identification_cues": [
+      "Maggot inside leaf whorl feeding on central leaf tissue",
+      "Typical feeding marks on young leaves",
+      "Damaged leaves unfold with ragged appearance",
+      "Small black fly with smoky wings",
+      "Eggs on leaf surface near water line"
+    ],
+    "threshold": {
+      "raw": "Seedling: 1-2 maggots/seedling; Vegetative: 10% damaged leaves",
+      "threshold_type": "ETL/action threshold",
+      "structured": false,
+      "source_exactness": "source-quoted/normalized field; values require verification before production"
+    },
+    "severity": {
+      "tier": null,
+      "criteria": null,
+      "status": "MISSING — must be derived from expert/source evidence, not invented"
+    },
+    "management": {
+      "raw_summary": "Drain water periodically to expose maggots; apply carbofuran 3G @ 33 kg/ha; use neem cake @ 250 kg/ha in nursery; avoid continuous flooding in early stages; conserve natural enemies.",
+      "ipm": null,
+      "chemical": "Present in source summary; current registration/label validation required",
+      "biological": "Some records mention natural enemies/biocontrol",
+      "cultural": "Some records mention cultural controls"
+    },
+    "provenance": {
+      "organization": "TNAU",
+      "source_type": "Extension Bulletin",
+      "title": "TNAU Whorl Maggot Management in Rice",
+      "source_url": "https://agritech.tnau.ac.in/crop_protection/rice_pest.html",
+      "citation": "TNAU Whorl Maggot Management",
+      "authority_level": "High",
+      "publication_date": null,
+      "publication_date_status": "not_exposed",
+      "retrieved_date": "2026-08-24",
+      "last_reviewed": "2026-08-24",
+      "review_due": "2027-02-24"
+    },
+    "validation": {
+      "source_url_verified": false,
+      "content_verified_against_original": false,
+      "chemical_advice_currently_verified": false,
+      "expert_validated": false,
+      "status": "source-derived; validation required"
+    }
+  },
+  {
+    "pest_id": "PEST_008",
+    "document_id": "DOC-PEST-008",
+    "canonical_name": "Earhead bug",
+    "scientific_name": null,
+    "crop": "Rice (Oryza sativa)",
+    "region": "Tamil Nadu, India; all rice-growing regions",
+    "growth_stage": "Flowering to grain filling (milking)",
+    "identification_cues": [
+      "Slender greenish-brown bug (15-20 mm) with long antennae and legs",
+      "Nymphs with black and white bands",
+      "Empty and chaffy grains",
+      "Discolored and shriveled grains",
+      "Reduced grain quality and market value"
+    ],
+    "threshold": {
+      "raw": "Flowering: 5 bugs/100 panicles; Milking: 10 bugs/100 panicles",
+      "threshold_type": "ETL/action threshold",
+      "structured": false,
+      "source_exactness": "source-quoted/normalized field; values require verification before production"
+    },
+    "severity": {
+      "tier": null,
+      "criteria": null,
+      "status": "MISSING — must be derived from expert/source evidence, not invented"
+    },
+    "management": {
+      "raw_summary": "Use light traps to monitor adult activity; apply malathion 50 EC @ 500 ml/ha; avoid staggered planting; synchronize planting in area; remove alternate hosts.",
+      "ipm": null,
+      "chemical": "Present in source summary; current registration/label validation required",
+      "biological": "Some records mention natural enemies/biocontrol",
+      "cultural": "Some records mention cultural controls"
+    },
+    "provenance": {
+      "organization": "ICAR-IIRR",
+      "source_type": "Technical Bulletin",
+      "title": "ICAR Rice Insect Pest Management — Earhead Bug",
+      "source_url": "https://iirr.icar.gov.in/",
+      "citation": "ICAR Rice Insect Pest Management",
+      "authority_level": "High",
+      "publication_date": null,
+      "publication_date_status": "not_exposed",
+      "retrieved_date": "2026-08-24",
+      "last_reviewed": "2026-08-24",
+      "review_due": "2027-02-24"
+    },
+    "validation": {
+      "source_url_verified": false,
+      "content_verified_against_original": false,
+      "chemical_advice_currently_verified": false,
+      "expert_validated": false,
+      "status": "source-derived; validation required"
+    }
+  }
+]
