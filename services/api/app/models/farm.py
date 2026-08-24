@@ -24,15 +24,16 @@ class Farm(Base):
 
     farmer_id: Mapped[str] = mapped_column(String(36), nullable=False, index=True)
 
-    farm_name: Mapped[str] = mapped_column(String(255), nullable=False)
-    village: Mapped[str] = mapped_column(String(255), nullable=False)
-    taluk: Mapped[str] = mapped_column(String(255), nullable=False)
-    district: Mapped[str] = mapped_column(String(255), nullable=False)
+    farm_name: Mapped[str | None] = mapped_column(String(255), nullable=True)
+    village: Mapped[str | None] = mapped_column(String(255), nullable=True)
+    taluk: Mapped[str | None] = mapped_column(String(255), nullable=True)
+    district: Mapped[str | None] = mapped_column(String(255), nullable=True)
+    region: Mapped[str | None] = mapped_column(String(255), nullable=True, index=True)
     state: Mapped[str] = mapped_column(String(100), nullable=False, default="Tamil Nadu")
-    latitude: Mapped[float] = mapped_column(Float, nullable=False)
-    longitude: Mapped[float] = mapped_column(Float, nullable=False)
+    latitude: Mapped[float | None] = mapped_column(Float, nullable=True)
+    longitude: Mapped[float | None] = mapped_column(Float, nullable=True)
 
-    total_area_acres: Mapped[float] = mapped_column(Float, nullable=False)
+    total_area_acres: Mapped[float | None] = mapped_column(Float, nullable=True)
     survey_number: Mapped[str | None] = mapped_column(String(100), nullable=True)
     land_status: Mapped[str] = mapped_column(String(30), nullable=False, default=LandStatus.UNVERIFIED.value)
 
