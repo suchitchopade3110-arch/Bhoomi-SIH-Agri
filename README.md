@@ -7,7 +7,7 @@
 
 ---
 
-## What Bhoomi is
+## what is Bhoomi about
 
 Smallholder farmers get advice from scattered, low-trust channels and can't reach extension officers when it matters. Existing agri-chatbots answer one question and forget everything — no farm history, no land context, and a real risk of confidently wrong answers that cost a crop.
 
@@ -42,17 +42,17 @@ These are enforced in the orchestration layer, not left to prompt wording:
 
 ## Tech stack
 
-| Layer | Choice |
-| --- | --- |
-| **Farmer app** | Flutter (Android) |
-| **Officer & agronomist portals** | React + Vite + Tailwind + shadcn/ui + Leaflet |
-| **Backend API** | Python + FastAPI (Pydantic) |
-| **Data + geo + vectors** | PostgreSQL + PostGIS + pgvector |
-| **Object storage** | S3-compatible (MinIO / R2), presigned uploads |
-| **ASR / TTS (Tamil)** | Bhashini / AI4Bharat primary · Whisper fallback |
-| **Image disease model** | PyTorch (ViT/CNN), bounded crop set, native confidence |
-| **RAG** | LLM API + BGE-m3 embeddings via pgvector, cited output |
-| **Weather** | Open-Meteo ($\text{ET}_0$, rainfall) |
+| Layer                            | Choice                                                 |
+| -------------------------------- | ------------------------------------------------------ |
+| **Farmer app**                   | Flutter (Android)                                      |
+| **Officer & agronomist portals** | React + Vite + Tailwind + shadcn/ui + Leaflet          |
+| **Backend API**                  | Python + FastAPI (Pydantic)                            |
+| **Data + geo + vectors**         | PostgreSQL + PostGIS + pgvector                        |
+| **Object storage**               | S3-compatible (MinIO / R2), presigned uploads          |
+| **ASR / TTS (Tamil)**            | Bhashini / AI4Bharat primary · Whisper fallback        |
+| **Image disease model**          | PyTorch (ViT/CNN), bounded crop set, native confidence |
+| **RAG**                          | LLM API + BGE-m3 embeddings via pgvector, cited output |
+| **Weather**                      | Open-Meteo ($\text{ET}_0$, rainfall)                   |
 
 Full rationale and alternatives: [docs/TECH_STACK.md](docs/TECH_STACK.md).
 
@@ -80,18 +80,18 @@ bhoomi/
 
 ## Team & ownership
 
-| Member | Owns |
-| --- | --- |
-| **Suchit Sachin Chopade** — *intelligence & integration* | `services/api/app/domain/` — health score, confidence gate, RAG pipeline, escalation; end-to-end integration |
-| **Shreekumar** — *backend* | `services/api/` — FastAPI app, auth, CRUD, presigned uploads, deployment |
-| **Tharun** — *voice + research* | `services/ml/` ASR/TTS (Bhashini/Whisper); RAG corpus curation + FAO-56/Kc data |
-| **Shruthi** — *voice + database* | Voice endpoints; `services/api/app/db/` schema, PostGIS + pgvector, migrations |
-| **Santheesh** — *frontend* | `apps/farmer-flutter/` — onboarding, summary, diagnose, timeline, follow-up |
-| **Thaariha** — *frontend* | `apps/officer-portal/` + `apps/agronomist-portal/` |
+| Member                                                   | Owns                                                                                                         |
+| -------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| **Suchit Sachin Chopade** — _intelligence & integration_ | `services/api/app/domain/` — health score, confidence gate, RAG pipeline, escalation; end-to-end integration |
+| **Shreekumar** — _backend_                               | `services/api/` — FastAPI app, auth, CRUD, presigned uploads, deployment                                     |
+| **Tharun** — _voice + research_                          | `services/ml/` ASR/TTS (Bhashini/Whisper); RAG corpus curation + FAO-56/Kc data                              |
+| **Shruthi** — _voice + database_                         | Voice endpoints; `services/api/app/db/` schema, PostGIS + pgvector, migrations                               |
+| **Santheesh** — _frontend_                               | `apps/farmer-flutter/` — onboarding, summary, diagnose, timeline, follow-up                                  |
+| **Thaariha** — _frontend_                                | `apps/officer-portal/` + `apps/agronomist-portal/`                                                           |
 
 ## Getting started
 
-*Phase 0 Skeleton — stubs, in-memory repository fallbacks, and OpenAPI schemas are wired.*
+_Phase 0 Skeleton — stubs, in-memory repository fallbacks, and OpenAPI schemas are wired._
 
 ### Running the Backend API (Phase 0)
 
@@ -117,6 +117,7 @@ uvicorn app.main:app --reload --port 8000
 ### Running the Frontend & Mobile Applications
 
 #### 1. Farmer Mobile App (`apps/farmer_app`)
+
 ```bash
 cd apps/farmer_app
 
@@ -138,6 +139,7 @@ flutter run -d windows
 ```
 
 #### 2. KVK Agronomist Portal (`apps/kvk_portal`)
+
 ```bash
 cd apps/kvk_portal
 
@@ -150,9 +152,11 @@ npm run dev
 # Type-check and production build
 npm run build
 ```
+
 Access at: [http://localhost:5174](http://localhost:5174)
 
 #### 3. Revenue Officer Portal (`apps/officer_portal`)
+
 ```bash
 cd apps/officer_portal
 
@@ -165,6 +169,7 @@ npm run dev
 # Type-check and production build
 npm run build
 ```
+
 Access at: [http://localhost:5173](http://localhost:5173)
 
 ### Running Backend Tests
@@ -175,6 +180,7 @@ pytest -v
 ```
 
 Feature flags (in `.env`) control adapter modes:
+
 - `LAND_API_MODE = mock | live`
 - `DIAGNOSIS_MODEL = real | stub`
 - `CONFIDENCE_GATE = 0.70`
