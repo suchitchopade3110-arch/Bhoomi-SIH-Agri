@@ -1,4 +1,4 @@
-"""Main FastAPI application entrypoint for Bhoomi API (SIH25076)."""
+"""Main FastAPI application entrypoint for Bhoomi API (SIH26131)."""
 
 from collections.abc import AsyncGenerator
 from contextlib import asynccontextmanager
@@ -33,7 +33,7 @@ app = FastAPI(
     title=settings.PROJECT_NAME,
     version=settings.VERSION,
     description=(
-        "Bhoomi — AI-Powered Farmer Companion (SIH25076).\n\n"
+        "Bhoomi — AI-Powered Farmer Companion (SIH26131).\n\n"
         "A voice-first, multimodal advisory backend treating every farm as a continuous living case file.\n"
         "Enforces the hard rules: Never answer below confidence gate; Never fabricate on no-retrieval."
     ),
