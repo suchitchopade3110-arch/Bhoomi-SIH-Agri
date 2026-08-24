@@ -3,6 +3,7 @@ import { KvkCase } from '../types/case.types';
 import { FarmerContext } from './farmer_context';
 import { ProblemMedia } from './problem_media';
 import { PreviousAdvisory } from './previous_advisory';
+import { TreatmentEfficacyCard } from './treatment_efficacy_card';
 import { ExpertAdvisoryForm } from './expert_advisory_form';
 import { FileQuestion } from 'lucide-react';
 
@@ -32,7 +33,10 @@ export const CaseDetail: React.FC<CaseDetailProps> = ({ selectedCase }) => {
       {/* 1. Farmer Context Card */}
       <FarmerContext context={selectedCase.farmer_context} />
 
-      {/* 2. Problem Description & Media */}
+      {/* 2. Farm Health & Treatment Response Indicator */}
+      <TreatmentEfficacyCard farmId={selectedCase.farm_id} />
+
+      {/* 3. Problem Description & Media */}
       <ProblemMedia
         description={selectedCase.problem_description}
         imageUrl={selectedCase.image_url}
@@ -40,11 +44,12 @@ export const CaseDetail: React.FC<CaseDetailProps> = ({ selectedCase }) => {
         escalationReason={selectedCase.escalation_reason}
       />
 
-      {/* 3. Previous AI Advisory */}
+      {/* 4. Previous AI Advisory */}
       <PreviousAdvisory advisory={selectedCase.previous_ai_advisory} />
 
-      {/* 4. Agronomist Advisory & Resolution Form */}
+      {/* 5. Agronomist Advisory & Resolution Form */}
       <ExpertAdvisoryForm kvkCase={selectedCase} />
     </div>
   );
 };
+

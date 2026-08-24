@@ -12,6 +12,7 @@ import '../features/land/presentation/screens/land_boundary_screen.dart';
 import '../features/land/presentation/screens/land_details_screen.dart';
 import '../features/land/presentation/screens/land_status_screen.dart';
 import '../features/onboarding/presentation/screens/confirm_farm_screen.dart';
+import '../features/onboarding/presentation/screens/language_selection_screen.dart';
 import '../features/onboarding/presentation/screens/onboarding_screen.dart';
 import '../features/onboarding/presentation/screens/welcome_screen.dart';
 import '../features/resource_plan/presentation/screens/todays_plan_screen.dart';
@@ -31,6 +32,10 @@ final appRouter = GoRouter(
     GoRoute(
       path: '/welcome',
       builder: (context, state) => const WelcomeScreen(),
+    ),
+    GoRoute(
+      path: '/language-select',
+      builder: (context, state) => const LanguageSelectionScreen(),
     ),
     GoRoute(
       path: '/onboarding',

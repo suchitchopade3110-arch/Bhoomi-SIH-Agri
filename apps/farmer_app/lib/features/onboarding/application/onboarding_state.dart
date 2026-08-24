@@ -53,10 +53,7 @@ class OnboardingState {
   bool get isProfileComplete {
     return crop.isNotEmpty &&
         areaAcresSelfReported > 0 &&
-        growthStage.isNotEmpty &&
-        soilType.isNotEmpty &&
-        irrigationAccess.isNotEmpty &&
-        season.isNotEmpty;
+        growthStage.isNotEmpty;
   }
 
   CreateFarmRequest toRequest() {
@@ -100,3 +97,4 @@ class OnboardingState {
     );
   }
 }
+

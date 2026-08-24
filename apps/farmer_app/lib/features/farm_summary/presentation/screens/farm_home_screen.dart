@@ -126,13 +126,16 @@ class FarmHomeScreen extends ConsumerWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('Daily Companion', style: AppTypography.bodyMedium.copyWith(color: AppColors.textMuted)),
-            const Text('My Farm', style: AppTypography.displayMedium),
-          ],
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('Daily Companion', style: AppTypography.bodyMedium.copyWith(color: AppColors.textMuted)),
+              const Text('My Farm', style: AppTypography.displayMedium),
+            ],
+          ),
         ),
+        const SizedBox(width: AppSpacing.sm),
         LandStatusBadge(status: landStatus),
       ],
     );

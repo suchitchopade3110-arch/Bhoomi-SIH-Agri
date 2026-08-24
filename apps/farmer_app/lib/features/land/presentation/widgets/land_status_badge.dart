@@ -48,7 +48,7 @@ class LandStatusBadge extends StatelessWidget {
 
     return Container(
       padding: const EdgeInsets.symmetric(
-        horizontal: AppSpacing.md,
+        horizontal: AppSpacing.sm + 2,
         vertical: AppSpacing.xs + 2,
       ),
       decoration: BoxDecoration(
@@ -59,14 +59,18 @@ class LandStatusBadge extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, size: 14.0, color: textColor),
-          const SizedBox(width: AppSpacing.xs),
-          Text(
-            text,
-            style: AppTypography.labelMedium.copyWith(
-              color: textColor,
-              fontWeight: FontWeight.w700,
-              fontSize: 12.0,
+          Icon(icon, size: 13.0, color: textColor),
+          const SizedBox(width: 4.0),
+          Flexible(
+            child: Text(
+              text,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: AppTypography.labelMedium.copyWith(
+                color: textColor,
+                fontWeight: FontWeight.w700,
+                fontSize: 11.5,
+              ),
             ),
           ),
         ],

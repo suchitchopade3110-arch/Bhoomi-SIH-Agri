@@ -39,6 +39,7 @@ class WeatherCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Row(
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   const Icon(Icons.location_on, size: 16.0, color: AppColors.primaryGreen),
                   const SizedBox(width: AppSpacing.xs),
@@ -51,17 +52,22 @@ class WeatherCard extends StatelessWidget {
                   ),
                 ],
               ),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm, vertical: 2.0),
-                decoration: BoxDecoration(
-                  color: AppColors.background,
-                  borderRadius: BorderRadius.circular(AppSpacing.radiusSm),
-                ),
-                child: Text(
-                  weather.condition,
-                  style: AppTypography.labelMedium.copyWith(
-                    color: AppColors.primaryGreen,
-                    fontWeight: FontWeight.w700,
+              const SizedBox(width: AppSpacing.xs),
+              Flexible(
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm, vertical: 2.0),
+                  decoration: BoxDecoration(
+                    color: AppColors.background,
+                    borderRadius: BorderRadius.circular(AppSpacing.radiusSm),
+                  ),
+                  child: Text(
+                    weather.condition,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: AppTypography.labelMedium.copyWith(
+                      color: AppColors.primaryGreen,
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
                 ),
               ),

@@ -29,15 +29,21 @@ class DailyBriefPreview extends ConsumerWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Row(
-                  children: [
-                    Icon(Icons.wb_sunny_rounded, color: AppColors.warmAccent, size: 20.0),
-                    SizedBox(width: AppSpacing.xs),
-                    Text(
-                      "Today's Farm Brief",
-                      style: TextStyle(fontSize: 15.0, fontWeight: FontWeight.w800, color: AppColors.textPrimary),
-                    ),
-                  ],
+                const Expanded(
+                  child: Row(
+                    children: [
+                      Icon(Icons.wb_sunny_rounded, color: AppColors.warmAccent, size: 20.0),
+                      SizedBox(width: AppSpacing.xs),
+                      Flexible(
+                        child: Text(
+                          "Today's Farm Brief",
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(fontSize: 15.0, fontWeight: FontWeight.w800, color: AppColors.textPrimary),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
                 TextButton(
                   onPressed: () => context.push('/brief/$farmId'),

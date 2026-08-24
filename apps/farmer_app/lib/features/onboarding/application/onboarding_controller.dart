@@ -43,7 +43,7 @@ class OnboardingController extends StateNotifier<OnboardingState> {
   }
 
   void nextStep() {
-    if (state.currentStep < 5) {
+    if (state.currentStep < 2) {
       state = state.copyWith(currentStep: state.currentStep + 1);
     }
   }
@@ -55,10 +55,11 @@ class OnboardingController extends StateNotifier<OnboardingState> {
   }
 
   void goToStep(int step) {
-    if (step >= 0 && step <= 5) {
+    if (step >= 0 && step <= 2) {
       state = state.copyWith(currentStep: step);
     }
   }
+
 
   void toggleListening() {
     state = state.copyWith(isListening: !state.isListening);

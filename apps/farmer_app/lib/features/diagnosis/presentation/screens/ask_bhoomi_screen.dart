@@ -174,6 +174,34 @@ class _AskBhoomiScreenState extends ConsumerState<AskBhoomiScreen> {
                 onPickImage: (source) => diagnosisController.pickAndUploadImage(source),
               ),
 
+              if (diagnosisState.errorMessage != null) ...[
+                const SizedBox(height: AppSpacing.md),
+                Container(
+                  padding: const EdgeInsets.all(AppSpacing.md),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFFFEBEE),
+                    borderRadius: BorderRadius.circular(AppSpacing.radiusMd),
+                    border: Border.all(color: const Color(0xFFFFCDD2)),
+                  ),
+                  child: Row(
+                    children: [
+                      const Icon(Icons.error_outline, color: Color(0xFFC62828)),
+                      const SizedBox(width: AppSpacing.sm),
+                      Expanded(
+                        child: Text(
+                          diagnosisState.errorMessage!,
+                          style: const TextStyle(
+                            color: Color(0xFFC62828),
+                            fontSize: 12.0,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+
               const SizedBox(height: AppSpacing.xl),
 
               // Submit Diagnosis CTA
@@ -191,6 +219,7 @@ class _AskBhoomiScreenState extends ConsumerState<AskBhoomiScreen> {
               ),
 
               const SizedBox(height: AppSpacing.md),
+
             ],
           ),
         ),

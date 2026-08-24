@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AppHeader } from '../components/layout/app_header';
 import { AppSidebar } from '../components/layout/app_sidebar';
 import { CaseQueuePage } from '../features/cases/pages/case_queue_page';
+import { TreatmentEfficacyPage } from '../features/cases/pages/treatment_efficacy_page';
 
 export const AppRouter: React.FC = () => {
   return (
@@ -16,6 +17,7 @@ export const AppRouter: React.FC = () => {
               <Route path="/" element={<CaseQueuePage />} />
               <Route path="/review" element={<CaseQueuePage statusFilter="under_review" />} />
               <Route path="/history" element={<CaseQueuePage statusFilter="resolved" />} />
+              <Route path="/efficacy" element={<TreatmentEfficacyPage />} />
               <Route path="/logs" element={<CaseQueuePage />} />
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
@@ -25,3 +27,4 @@ export const AppRouter: React.FC = () => {
     </BrowserRouter>
   );
 };
+

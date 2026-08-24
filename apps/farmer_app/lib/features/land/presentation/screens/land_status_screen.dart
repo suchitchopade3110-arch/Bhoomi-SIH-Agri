@@ -55,19 +55,24 @@ class _LandStatusScreenState extends ConsumerState<LandStatusScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Survey No.',
-                              style: AppTypography.labelMedium.copyWith(color: AppColors.textMuted),
-                            ),
-                            Text(
-                              record?.farmerStated.surveyNo ?? '142/3B',
-                              style: AppTypography.headlineLarge,
-                            ),
-                          ],
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Survey No.',
+                                style: AppTypography.labelMedium.copyWith(color: AppColors.textMuted),
+                              ),
+                              Text(
+                                record?.farmerStated.surveyNo ?? '142/3B',
+                                style: AppTypography.headlineLarge,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ],
+                          ),
                         ),
+                        const SizedBox(width: AppSpacing.sm),
                         LandStatusBadge(status: record?.status ?? 'pending_verification'),
                       ],
                     ),

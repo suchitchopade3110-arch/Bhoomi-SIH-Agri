@@ -121,11 +121,15 @@ class _VoiceInputButtonState extends State<VoiceInputButton>
               children: [
                 const Icon(Icons.check_circle, size: 16.0, color: AppColors.primaryGreen),
                 const SizedBox(width: AppSpacing.xs),
-                Text(
-                  'Selected: ${widget.activeValue}',
-                  style: AppTypography.labelMedium.copyWith(
-                    color: AppColors.primaryGreen,
-                    fontWeight: FontWeight.w700,
+                Flexible(
+                  child: Text(
+                    'Selected: ${widget.activeValue}',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: AppTypography.labelMedium.copyWith(
+                      color: AppColors.primaryGreen,
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
                 ),
               ],

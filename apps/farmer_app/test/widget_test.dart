@@ -132,5 +132,93 @@ void main() {
       expect(update.updateType, equals('advisory'));
       expect(update.actionRoute, equals('/health/f_1'));
     });
+    test('Phase 1: Simplified Onboarding with default parameters serialization', () {
+      const request = CreateFarmRequest(
+        crop: 'samba_paddy',
+        areaAcresSelfReported: 2.5,
+        growthStage: 'vegetative',
+        soilType: '',
+        irrigationAccess: '',
+        season: '',
+      );
+
+      final json = request.toJson();
+      expect(json['crop'], equals('samba_paddy'));
+      expect(json['area_acres_self_reported'], equals(2.5));
+      expect(json['growth_stage'], equals('vegetative'));
+      expect(json['soil_type'], equals('Clay Loam'));
+      expect(json['irrigation_source'], equals('Borewell'));
+      expect(json['farmer_id'], equals('u_farmer_1'));
+    });
+
+    test('Phase 1: Diagnosis response below confidence gate parses null advisory safely', () {
+      final response = DiagnosisResponse.fromJson({
+        'above_gate': false,
+        'problem_id': 'prob_uncertain_002',
+        'diagnosis': {
+          'label': 'Uncertain Leaf Lesion',
+          'stage': 'vegetative',
+          'confidence': 0.54,
+        },
+        'advisory': null,
+        'citations': [],
+        'reason': 'Image confidence 0.54 is below required 0.70 threshold.',
+        'escalation': {
+          'case_id': 'esc_kvk_701',
+          'assigned_to': 'KVK Agronomist (Erode)',
+        },
+        'spoken_summary': 'Image confidence is below 70%. Escalated to KVK agronomist.',
+      });
+
+      expect(response.diagnosisId, equals('prob_uncertain_002'));
+      expect(response.isLowConfidence, isTrue);
+      expect(response.canEscalate, isTrue);
+      expect(response.actions, isEmpty);
+      expect(response.spokenSummary, contains('below 70%'));
+    });
+
+    test('Phase 2: DiagnosisResponse above gate parses complete 5-point advisory & citations', () {
+
+      final response = DiagnosisResponse.fromJson({
+        'above_gate': true,
+        'problem_id': 'prob_blb_001',
+        'diagnosis': {
+          'label': 'Bacterial Leaf Blight (BLB)',
+          'stage': 'early_tillering',
+          'confidence': 0.88,
+        },
+        'advisory': {
+          'possible_issue': 'Bacterial Leaf Blight (Xanthomonas oryzae)',
+          'what_to_check': [
+            'Water-soaked yellowish stripes on leaf blades',
+            'Bacterial ooze droplets in humid morning',
+          ],
+          'what_to_do_next': [
+            'Drain excess standing water from field',
+            'Apply recommended bio-control Pseudomonas fluorescens',
+          ],
+          'what_to_avoid': 'Do not apply excess nitrogen top-dressing',
+          'expert_triggers': [
+            'More than 25% foliage exhibiting leaf drying',
+          ],
+        },
+        'citations': [
+          {
+            'doc_id': 'doc_tnau_paddy_blb_2025',
+            'title': 'TNAU Agriteck Protocol — BLB',
+            'reviewed_on': '2025-11-15',
+          },
+        ],
+        'spoken_summary': 'Detected Bacterial Leaf Blight with 88% confidence.',
+      });
+
+      expect(response.isHighConfidence, isTrue);
+      expect(response.symptomsToCheck.length, equals(2));
+      expect(response.actions.length, equals(2));
+      expect(response.caution, contains('nitrogen'));
+      expect(response.sources.first.title, contains('TNAU'));
+    });
   });
 }
+
+

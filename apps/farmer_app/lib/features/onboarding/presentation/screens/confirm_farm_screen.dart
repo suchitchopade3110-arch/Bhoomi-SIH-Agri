@@ -49,58 +49,8 @@ class ConfirmFarmScreen extends ConsumerWidget {
     }
   }
 
-  String _formatSoil(String soil) {
-    switch (soil) {
-      case 'clay_loam':
-        return 'Clay Loam';
-      case 'alluvial':
-        return 'Alluvial Soil';
-      case 'red_soil':
-        return 'Red Soil';
-      case 'black_soil':
-        return 'Black Soil';
-      case 'sandy_loam':
-        return 'Sandy Loam';
-      default:
-        return soil.replaceAll('_', ' ');
-    }
-  }
-
-  String _formatIrrigation(String irrigation) {
-    switch (irrigation) {
-      case 'canal':
-        return 'Canal';
-      case 'borewell':
-        return 'Borewell';
-      case 'drip':
-        return 'Drip Irrigation';
-      case 'rainfed':
-        return 'Rainfed';
-      case 'open_well':
-        return 'Open Well';
-      default:
-        return irrigation.replaceAll('_', ' ');
-    }
-  }
-
-  String _formatSeason(String season) {
-    switch (season) {
-      case 'samba':
-        return 'Samba';
-      case 'kuruvai':
-        return 'Kuruvai';
-      case 'navarai':
-        return 'Navarai';
-      case 'kharif':
-        return 'Kharif';
-      case 'rabi':
-        return 'Rabi';
-      default:
-        return season.replaceAll('_', ' ');
-    }
-  }
-
   @override
+
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(onboardingControllerProvider);
     final controller = ref.read(onboardingControllerProvider.notifier);
@@ -240,39 +190,10 @@ class ConfirmFarmScreen extends ConsumerWidget {
                               context.pop();
                             },
                           ),
-                          const Divider(color: AppColors.divider, height: AppSpacing.lg),
-                          _buildReviewRow(
-                            icon: Icons.terrain_rounded,
-                            label: 'Soil Type',
-                            value: _formatSoil(state.soilType),
-                            onEdit: () {
-                              controller.goToStep(3);
-                              context.pop();
-                            },
-                          ),
-                          const Divider(color: AppColors.divider, height: AppSpacing.lg),
-                          _buildReviewRow(
-                            icon: Icons.water_rounded,
-                            label: 'Irrigation',
-                            value: _formatIrrigation(state.irrigationAccess),
-                            onEdit: () {
-                              controller.goToStep(4);
-                              context.pop();
-                            },
-                          ),
-                          const Divider(color: AppColors.divider, height: AppSpacing.lg),
-                          _buildReviewRow(
-                            icon: Icons.calendar_month_rounded,
-                            label: 'Season',
-                            value: _formatSeason(state.season),
-                            onEdit: () {
-                              controller.goToStep(5);
-                              context.pop();
-                            },
-                          ),
                         ],
                       ),
                     ),
+
 
                     const SizedBox(height: AppSpacing.xl),
                   ],

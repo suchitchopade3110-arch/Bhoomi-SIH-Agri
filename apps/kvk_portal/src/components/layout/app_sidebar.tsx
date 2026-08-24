@@ -6,6 +6,7 @@ import {
   AlertTriangle,
   History,
   HelpCircle,
+  Activity,
 } from 'lucide-react';
 
 export const AppSidebar: React.FC = () => {
@@ -13,8 +14,10 @@ export const AppSidebar: React.FC = () => {
     { label: 'Escalated Cases', path: '/', icon: Inbox, badge: '3' },
     { label: 'Under Review', path: '/review', icon: AlertTriangle },
     { label: 'Resolved History', path: '/history', icon: CheckCircle2 },
+    { label: 'Treatment Efficacy', path: '/efficacy', icon: Activity },
     { label: 'Activity Logs', path: '/logs', icon: History },
   ];
+
 
   return (
     <aside className="flex h-[calc(100vh-4rem)] w-64 flex-col justify-between border-r border-slate-200 bg-white p-4">
