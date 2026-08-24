@@ -67,6 +67,10 @@ def test_sih26131_unmounts_legacy_routers_and_keeps_core(monkeypatch):
     response = client.get("/api/v1/officer/queue")
     assert response.status_code == 404
 
+    # Verification-gate assertion: schemes specifically 404s in sih26131.
+    response = client.get("/api/v1/schemes/active")
+    assert response.status_code == 404
+
     # Core intelligence routers remain mounted in every mode.
     assert "/api/v1/auth/register" in paths
     assert "/api/v1/farms" in paths

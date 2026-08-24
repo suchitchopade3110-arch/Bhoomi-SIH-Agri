@@ -17,6 +17,8 @@ class AgronomistQueueItem(BaseModel):
     status: CaseStatus = Field(...)
     health_score: float = Field(...)
     escalated_at: datetime = Field(...)
+    queue_position: int = Field(..., description="1-based position in this case's assigned KVK center's queue")
+    estimated_resolution_at: datetime = Field(..., description="ETA this case will be reached, given queue position")
 
 
 class ResolveCaseRequest(BaseModel):

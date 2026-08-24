@@ -15,6 +15,7 @@ from app.core.enums import CaseStatus, ProblemSeverity
 from app.core.errors import NotFoundError
 from app.domain.escalation import build_case_summary
 from app.domain.health.inputs import TriggeringInput
+from app.domain.queue import QueueCase, compute_queue_positions, estimate_eta
 from app.repositories.dependencies import get_case_repository, get_farm_repository, get_problem_writer
 from app.repositories.health_context import ProblemWriter
 from app.repositories.interfaces import CaseRepository, FarmRepository
@@ -49,9 +50,24 @@ class AgronomistService:
 
     async def get_queue(self, agronomist_jurisdiction: str | None = None) -> list[AgronomistQueueItem]:
         cases = await self._cases.get_agronomist_queue()
+        evaluated_at = datetime.utcnow()
+
+        positions = compute_queue_positions(
+            [
+                QueueCase(
+                    case_id=c["id"],
+                    assigned_to=c.get("assigned_to") or "",
+                    severity=ProblemSeverity(c["severity"]),
+                    escalated_at=c["created_at"],
+                )
+                for c in cases
+            ]
+        )
+
         items = []
         for c in cases:
             farm = await self._farms.get_by_id(c["farm_id"])
+            position = positions[c["id"]]
             items.append(
                 AgronomistQueueItem(
                     escalation_id=c["id"],
@@ -63,6 +79,8 @@ class AgronomistService:
                     status=CaseStatus(c["status"]),
                     health_score=0.0,
                     escalated_at=c["created_at"],
+                    queue_position=position,
+                    estimated_resolution_at=estimate_eta(position, evaluated_at),
                 )
             )
         return items

@@ -80,14 +80,34 @@ We specify a **two-tier hybrid trigger model** combining:
 > ) -> list[ClusterCase]: ...
 > ```
 > Internally it (1) SQL-filters `problems`/`farms` rows to a bounding box +
-> time window + status, then (2) calls `app.domain.geo.haversine_distance_km`
+> time window, then (2) calls `app.domain.geo.haversine_distance_km`
 > per candidate to apply the exact radius cutoff and compute
-> `min_distance_meters` before grouping by `(problem_type, severity)`.
+> `min_distance_meters` before grouping by `(label, severity)`.
+
+> [!WARNING]
+> **Phase 1 `problem_status` Decision (corrects this section's original filter):**
+> This spec originally filtered `p.status IN ('diagnosed', 'escalated')`.
+> Neither value exists: `app/core/enums.py::ProblemStatus` is only
+> `open | resolved` (contract §2.2); `escalated` is a `CaseStatus` value
+> that lives on the separate escalation/case entity, not on `Problem.status`
+> — that query would have silently returned zero rows forever.
+>
+> Also `p.problem_type` doesn't exist on the ORM model — `app/models/problem.py`
+> names the column `label` (e.g. `"Bacterial Leaf Blight"`).
+>
+> **Decision:** apply **no status filter** — count every `Problem` row in
+> the time window, `open` or `resolved`. Per §4.3 above, a `Problem` row is
+> only ever created on a *confirmed* diagnosis, so every row is already a
+> confirmed case by construction; the 7-day `created_at` window is what
+> scopes recency. Restricting to `status = 'open'` would *undercount*: a
+> neighboring farm whose blight was already treated and resolved is still
+> real evidence the pathogen was circulating in the area within the window,
+> which is exactly the signal this cluster query exists to catch.
 
 **Repository SQL Implementation (bounding-box pre-filter):**
 ```sql
 SELECT
-    p.problem_type,
+    p.label,
     p.severity,
     f.id AS farm_id,
     f.latitude,
@@ -96,14 +116,15 @@ FROM problems p
 JOIN farms f ON p.farm_id = f.id
 WHERE
     p.created_at >= NOW() - INTERVAL '7 days'
-    AND p.status IN ('diagnosed', 'escalated')
     AND f.latitude BETWEEN :min_lat AND :max_lat
     AND f.longitude BETWEEN :min_lon AND :max_lon
     AND f.id != :target_farm_id;
 -- :min_lat/:max_lat/:min_lon/:max_lon come from
 -- app.domain.geo.bounding_box(target_lat, target_lon, radius_km).
--- The repository then filters these rows to the exact radius with
--- haversine_distance_km(...) and groups by (problem_type, severity) in
+-- No status filter: every Problem row is a confirmed diagnosis by
+-- construction (see the problem_status decision above); the repository
+-- then filters these rows to the exact radius with
+-- haversine_distance_km(...) and groups by (label, severity) in
 -- Python before returning list[ClusterCase].
 ```
 
