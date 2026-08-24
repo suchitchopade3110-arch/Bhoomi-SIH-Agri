@@ -7,104 +7,177 @@
 
 ---
 
-## What this is
+## 1. The problem, and the shape of our answer
 
-Smallholder farmers get advice from scattered channels and can't reach an extension officer when it matters. A generic agri-chatbot answers one question, forgets the farm, and will confidently invent an answer — which costs a crop.
+A smallholder farmer with a sick crop has two bad options: ask around the village, or ask a chatbot. The chatbot answers one question, forgets the farm the moment the conversation ends, and — this is the part that actually costs money — will produce a fluent, confident answer even when it has no idea. Wrong advice about a leaf blight isn't an embarrassing output. It's a lost season.
 
-Bhoomi keeps a persistent record per farm: voice onboarding, a transparent health score, confidence-gated image diagnosis, grounded advisory retrieved from a dated corpus, closed-loop follow-up, and escalation to a KVK agronomist with a pre-compiled case bundle.
+So Bhoomi is built around a different default. Instead of "always answer," the system's default is **"answer only when you can show your work, otherwise hand the farmer to a human."**
+
+That single decision drives almost every design choice below. It's why the health score is a hand-written weighted formula instead of a model. It's why there's a `GateDecision` type that can only hold one outcome. It's why retrieval failure is a first-class response shape rather than an error.
 
 ### The two hard rules
 
-Both are enforced in orchestration code, not in prompt wording:
+1. **Never answer below the confidence gate.** If the image model's confidence is under the threshold, no advisory is composed at all.
+2. **Never fabricate on no-retrieval.** If nothing in the curated corpus is relevant enough, the system says so and offers escalation.
 
-1. **Never answer below the confidence gate.** Image confidence under `CONFIDENCE_GATE` → escalate.
-2. **Never fabricate on no-retrieval.** No corpus chunk above `RAG_RELEVANCE_THRESHOLD` → say so and offer a human.
+Both are enforced in orchestration code, not in a prompt. The difference matters: a prompt instruction is a request to a model, and a model can ignore it. A branch in `domain/gate/decide.py` cannot.
 
 ---
 
-## Repository layout
+## 2. How a request actually flows
+
+Take the central interaction — a farmer photographs a diseased leaf and speaks a description. Here's what happens, layer by layer:
+
+```
+Flutter app
+  │  POST /assets/presigned-url        → uploads photo straight to MinIO/S3, not through the API
+  │  POST /farms/{id}/diagnose         → sends only the small asset_id
+  ▼
+api/v1/diagnose.py                     router: parse, authenticate, hand off. No logic.
+  ▼
+services/diagnosis_service.py          orchestration
+  ├── ImageDiagnosisPort  →  label + confidence          (stub or real ML service)
+  ├── domain/gate/decide.py  →  GateDecision             ← the decision point
+  │
+  ├── if ESCALATE ────────────► services/escalation/compiler.py
+  │                              builds a case bundle, routes to an agronomist,
+  │                              returns { above_gate: false, escalation: {...} }
+  │
+  └── if COMPOSE ─────────────► services/rag/pipeline.py
+                                 embed query → pgvector similarity search →
+                                 relevance check → grounded LLM call →
+                                 parse into the 5-point structure + citations
+  ▼
+services/health_service.py             recompute the score, persist a snapshot
+  ▼
+response: diagnosis + advisory + citations + health_delta + spoken_summary
+```
+
+Two things worth pointing at. First, the gate sits *before* composition, not after — there's no path where the LLM writes advice and something downstream decides whether to show it. Second, the escalation branch produces a complete, useful object; escalating isn't an error path, it's the other half of the product.
+
+### The gate, concretely
+
+`domain/gate/decide.py` is pure — no database, no network, fully unit-testable. It checks three things in order and returns on the first failure:
+
+| Check | Failure code |
+|---|---|
+| Is the label in `SUPPORTED_LABELS[target_type]`? | `OUT_OF_SCOPE_TARGET` |
+| Is `confidence >= confidence_gate` (0.70)? | `BELOW_CONFIDENCE_GATE` |
+| Is `retrieval_relevance >= relevance_threshold`? | `NO_RELEVANT_SOURCE` |
+
+The scope list is deliberately bounded, because a model asked to classify something it was never trained on will still return *something* with a confidence number attached. Currently 8 diseases (BLB, blast, brown spot, sheath blight, early/late blight, powdery mildew, leaf curl virus) and 8 pests (stem borer, BPH, leaf folder, green leafhopper, gall midge, fall armyworm, aphid, whitefly).
+
+One detail that's easy to get wrong and was handled correctly here: a *missing* signal is skipped, never treated as a pass. A text-only advisory query has no image confidence, so that check is skipped rather than defaulted to 1.0.
+
+The return type makes the invariant structural — `GateDecision` holds exactly one `outcome`, so a caller cannot end up holding both an advisory and an escalation.
+
+---
+
+## 3. The health score, and why it's plain Python
+
+The score is the most visible number in the product, which makes it the most tempting thing to fake and the easiest thing for a judge to attack. The defense is that it's a documented weighted rubric where every point of movement traces to an input.
+
+Six sub-indices, each 0–100, combined by fixed weights (`domain/health/constants.py`, with an `assert` at import time that they sum to exactly 1.0):
+
+| Sub-index | Weight | What moves it |
+|---|---|---|
+| `environmental_suitability` | 0.20 | Weather and soil moisture vs. the crop's ideal range at its stage |
+| `resource_adequacy` | 0.15 | Irrigation delivered vs. the ET₀-derived requirement |
+| `crop_stage_progression` | 0.15 | Days since planting vs. the expected crop calendar |
+| `active_problem_load` | **0.30** | Open problems, penalised by severity |
+| `monitoring_recency` | 0.10 | How stale the last scan is |
+| `treatment_response` | 0.10 | The latest follow-up: improved / no change / got worse |
+
+`active_problem_load` carries the heaviest weight on purpose — an active disease is the single most important fact about a farm, and it should be the thing that visibly moves the number.
+
+Severity penalties subtract from that sub-index: early 30, moderate 55, severe 80. So a newly diagnosed early-stage blight takes the sub-index from 100 to 70, and at weight 0.30 that's a 9-point drop in the total, before the environmental and monitoring effects.
+
+Bands: `unrated` · 0–39 critical · 40–59 poor · 60–74 watch · 75–89 good · 90–100 excellent.
+
+**`unrated` is not zero.** `band_for(None)` returns `UNRATED` and the score field stays null. A farm on day one with no data must never look identical to a farm that's dying — that conflation is the kind of thing that destroys trust in a number permanently.
+
+### The walk is a test, not a slide
+
+`tests/e2e/test_runbook.py` and `scripts/run_demo_e2e.py` drive the whole sequence over real HTTP:
+
+**82 → 68 → 59 → 86**
+
+- **82** baseline: no active problems, ordinary imperfection elsewhere.
+- **68** after an early BLB diagnosis: problem load drops, monitoring and environmental nudge down too.
+- **59** after a `got_worse` follow-up: severity promotes early → moderate, treatment response collapses, and the drop crosses the auto-escalation threshold.
+- **86** after the agronomist resolves it: the problem clears *and* the farm now has a logged scan and a successful treatment, so monitoring and treatment response sit above where they started. Ending above baseline is the correct result — a farm that caught and fixed a problem is better understood than one that never logged anything.
+
+If a judge asks whether the score is decorative, the answer is `make test-e2e`.
+
+---
+
+## 4. Repository layout
 
 ```
 Bhoomi-SIH-Agri/
-├── AGENTS.md                  # pinned context rules for coding agents
-├── CLAUDE.md
+├── AGENTS.md                  # standing rules for coding agents working in this repo
 ├── apps/
-│   ├── farmer_app/            # Flutter farmer app (Riverpod + go_router + dio)
-│   ├── kvk_portal/            # agronomist case queue/resolve (React + Vite + Tailwind)
-│   └── officer_portal/        # land review portal (React + Vite + Tailwind + Leaflet)
+│   ├── farmer_app/            # Flutter — Riverpod, go_router, dio
+│   ├── kvk_portal/            # agronomist case queue + resolve (React + Vite + Tailwind)
+│   └── officer_portal/        # land review (React + Vite + Tailwind + Leaflet)
 ├── services/
-│   ├── api/                   # FastAPI backend — the whole intelligence layer
+│   ├── api/                   # FastAPI backend — the entire intelligence layer
 │   └── ml/                    # inference microservice — scaffold only, files are empty
-├── packages/shared/           # legacy Phase-0 enum/constant scaffold (see caveats)
+├── packages/shared/           # Phase-0 scaffold, superseded (see §9)
 ├── data/
-│   ├── external/Dataset_v4/   # raw pest dataset snapshot (ground truth, do not edit)
-│   └── curated/Dataset_v4_validated/  # staged pest corpus, manifests, Tamil lexicon
-├── docs/                      # PRD, contracts, specs, decision records
-├── infra/                     # docker-compose: Postgres 16 (pgvector) + MinIO
+│   ├── external/Dataset_v4/   # raw pest dataset snapshot — ground truth, don't edit
+│   └── curated/Dataset_v4_validated/
+├── docs/                      # PRD, contracts, module specs, decision records
+├── infra/                     # docker-compose: Postgres 16 + pgvector, MinIO
 └── .github/workflows/         # frontend + mobile CI
 ```
 
-### Backend internals (`services/api/app/`)
+### Why the backend is layered the way it is
 
-Strict one-way layering, per `AGENTS.md`:
+`AGENTS.md` fixes a one-way dependency flow, and the code holds to it:
 
 ```
 api/v1  →  services  →  domain / repositories  →  adapters
 ```
 
-- `api/v1/` — routers only. HTTP in, HTTP out.
-- `services/` — orchestration: `health/`, `gate/`, `rag/`, `escalation/`, `alerts/`, plus per-entity services.
-- `domain/` — pure logic and constants: `health/score.py`, `gate/decide.py`, `rag/` (chunking, similarity, prompt), `fao56.py`, `queue.py`, `routing.py`. No I/O.
-- `repositories/` — SQLAlchemy 2.0 async persistence, with an in-memory fallback implementation.
-- `ports/` — typed Protocols: `weather`, `llm`, `embeddings`, `image_diagnosis`, `asr_tts`, `storage`, `roster`.
-- `adapters/` — real and stub implementations per port, selected in `adapters/dependencies.py` from config. No call site imports a concrete adapter.
+- **`api/v1/`** — routers. HTTP in, HTTP out, nothing else. Swapping a transport shouldn't touch logic.
+- **`services/`** — orchestration. `health/`, `gate/`, `rag/`, `escalation/`, `alerts/`. This is where use-cases are assembled from pure pieces and ports.
+- **`domain/`** — pure functions and named constants. `health/score.py`, `gate/decide.py`, `rag/similarity.py`, `fao56.py`, `queue.py`. No I/O anywhere, which is why most of the 353 tests need no database.
+- **`repositories/`** — the only code that touches Postgres, with an in-memory implementation behind the same interface.
+- **`ports/`** — typed `Protocol` definitions for every external dependency: weather, LLM, embeddings, image diagnosis, ASR/TTS, storage, roster.
+- **`adapters/`** — real and stub implementations, selected in `adapters/dependencies.py` from config.
+
+The payoff is concrete rather than architectural taste: no call site imports a concrete adapter, so flipping `DIAGNOSIS_MODEL=real` in `.env` changes behaviour everywhere with zero code edits, and the whole app runs offline on stubs when the demo network dies.
 
 ---
 
-## The health score
+## 5. Configuration and the two problem statements
 
-Deterministic Python, not a model call. Six sub-indices, weights summing to 1.0 (asserted at import time in `domain/health/constants.py`):
+Defaults live in `app/domain/constants.py` and `app/core/config.py`; override in `services/api/.env`.
 
-| Sub-index | Weight |
-|---|---|
-| `environmental_suitability` | 0.20 |
-| `resource_adequacy` | 0.15 |
-| `crop_stage_progression` | 0.15 |
-| `active_problem_load` | **0.30** |
-| `monitoring_recency` | 0.10 |
-| `treatment_response` | 0.10 |
-
-Severity penalties: early 30, moderate 55, severe 80. Bands: `unrated` · 0–39 critical · 40–59 poor · 60–74 watch · 75–89 good · 90–100 excellent. `unrated` is a distinct state — day 0 is null, never 0.
-
-The demo walk is a test, not a slide: `scripts/run_demo_e2e.py` and `tests/e2e/test_runbook.py` drive **82 → 68 → 59 → 86** over HTTP (baseline → BLB diagnosis → `got_worse` follow-up → agronomist resolve).
-
----
-
-## Thresholds and feature flags
-
-Set in `services/api/.env`; defaults live in `app/domain/constants.py` and `app/core/config.py`.
-
-| Setting | Values | Default | Effect |
+| Setting | Values | Default | What it does |
 |---|---|---|---|
-| `PROBLEM_STATEMENT` | `sih25076` \| `sih26131` | `sih25076` | Switches the mounted API surface (see below) |
+| `PROBLEM_STATEMENT` | `sih25076` \| `sih26131` | `sih25076` | Switches which routers mount |
 | `LAND_API_MODE` | `mock` \| `live` | `mock` | Cadastral lookup adapter |
-| `DIAGNOSIS_MODEL` | `stub` \| `real` | `stub` | `real` calls `ML_SERVICE_URL`; fails loudly rather than guessing |
+| `DIAGNOSIS_MODEL` | `stub` \| `real` | `stub` | `real` calls `ML_SERVICE_URL` |
 | `EMBEDDING_PROVIDER` | `stub` \| `bge_m3` | `stub` | Also selects the matching RAG threshold |
 | `ASR_PROVIDER` / `TTS_PROVIDER` | `stub` \| `bhashini` \| `sarvam` \| `whisper` \| `gtts` | `stub` | Voice adapters |
-| `CONFIDENCE_GATE` | float | `0.70` | Disease diagnosis gate |
-| `PEST_CONFIDENCE_GATE` | float | `0.70` | Pest gate, independently tunable |
-| `RAG_RELEVANCE_THRESHOLD` | computed | `0.18` stub / `0.60` bge_m3 | Override with `RAG_RELEVANCE_THRESHOLD_OVERRIDE` |
+| `CONFIDENCE_GATE` | float | `0.70` | Disease gate |
+| `PEST_CONFIDENCE_GATE` | float | `0.70` | Pest gate — same value today, separately tunable |
+| `RAG_RELEVANCE_THRESHOLD` | computed | `0.18` stub / `0.60` bge_m3 | Force with `RAG_RELEVANCE_THRESHOLD_OVERRIDE` |
 
-`PROBLEM_STATEMENT=sih26131` unmounts `land`, `officer`, `resource_plan`, and `schemes` (they 404) and mounts `alerts` instead — 33 paths versus 40. Efficacy endpoints are specced but not yet built.
+The RAG threshold is computed rather than fixed for a reason worth understanding: relevance scores from token-hashing stub vectors and from real BGE-m3 dense embeddings live on completely different scales. A single hardcoded number would be either far too strict or effectively disabled depending on which adapter is active, so the threshold follows `EMBEDDING_PROVIDER` automatically.
+
+**The problem-statement switch.** The project was written for SIH25076 (broad farm advisory) and realigned toward SIH26131 (crop disease and pest management), where land registry, irrigation planning, and scheme discovery are out of scope. Rather than deleting that work, `api/v1/__init__.py` gates it: `sih26131` unmounts `land`, `officer`, `resource_plan`, and `schemes` — they return 404 — and mounts `alerts` instead. 40 paths become 33.
 
 ---
 
-## Quickstart
+## 6. Running it
 
 ### Backend
 
 ```bash
-# 1. Infrastructure — Postgres 16 + pgvector on :5433, MinIO on :9000/:9001
+# 1. Infrastructure — Postgres 16 + pgvector on :5433, MinIO on :9000 (console :9001)
 docker compose -f infra/docker-compose.yml up -d
 
 # 2. API
@@ -112,16 +185,16 @@ cd services/api
 cp .env.example .env
 make install          # creates .venv, installs requirements.txt
 make migrate          # 5 Alembic revisions
-make ingest-corpus    # embeds services/api/corpus/*.md into pgvector
+make ingest-corpus    # embeds services/api/corpus/*.md into the knowledge_chunks table
 make seed             # demo fixtures
 make run              # uvicorn on :8000
 ```
 
-Docs at `http://localhost:8000/docs`, ReDoc at `/redoc`, liveness at `GET /health`.
+Swagger at `http://localhost:8000/docs`, ReDoc at `/redoc`, liveness at `GET /health`.
 
-`make demo` chains migrate → ingest-corpus → seed → e2e. Seeded logins (password `bhoomi123`): farmer `+919944400001`, officer `+919944400002`, agronomist `+919944400003`.
+`make demo` chains migrate → ingest-corpus → seed → e2e in one command; that's the demo-box reset. Seeded logins use password `bhoomi123`: farmer `+919944400001`, officer `+919944400002`, agronomist `+919944400003`.
 
-The app boots without Postgres — repositories fall back to in-memory, and every port defaults to a stub adapter.
+Worth knowing before demo day: **the API boots with no Postgres at all.** Repositories fall back to in-memory and every port defaults to a stub. You lose persistence and real retrieval, but the app comes up — which is the difference between a degraded demo and no demo.
 
 ### Frontends
 
@@ -130,25 +203,24 @@ cd apps/kvk_portal      && npm install && npm run dev    # :5174
 cd apps/officer_portal  && npm install && npm run dev    # :5173
 
 cd apps/farmer_app && flutter pub get
-flutter run --dart-define=API_BASE_URL=http://10.0.2.2:8000   # Android emulator
+flutter run --dart-define=API_BASE_URL=http://10.0.2.2:8000   # 10.0.2.2 = host, from the Android emulator
 flutter analyze && flutter test
 ```
 
 ### Tests
 
 ```bash
-cd services/api
 make test        # 353 tests
-make test-e2e    # runbook only — requires a migrated, corpus-ingested Postgres
+make test-e2e    # runbook only — needs a migrated, corpus-ingested Postgres
 ```
 
-Current state: 351 pass with no database at all; the 2 `tests/e2e` cases fail on connection until Postgres is up.
+As of now: **351 pass with no database**, because the domain layer is pure. The 2 failures are the `tests/e2e` runbook cases, and they fail on connection refused until Postgres is up — not on logic.
 
 ---
 
-## API surface
+## 7. API surface
 
-Base path `/api/v1`. Bearer JWT; role claim gates portal routes.
+Base path `/api/v1`. Bearer JWT, with the role claim gating portal routes.
 
 | Area | Endpoints |
 |---|---|
@@ -168,19 +240,41 @@ Base path `/api/v1`. Bearer JWT; role claim gates portal routes.
 | SIH25076 only | `/land/*` · `/officer/*` · `/resource-plan/{farm_id}` · `/schemes/*` |
 | SIH26131 only | `GET /farms/{id}/alerts` · `POST /alerts/{id}/acknowledge` |
 
----
-
-## Knowledge corpus
-
-Two separate stores, at different maturity levels.
-
-**Ingested (`services/api/corpus/`)** — 8 markdown documents covering rice BLB, blast, brown spot, nitrogen management, seed selection, irrigation (vegetative and reproductive), and harvest timing. These are what `make ingest-corpus` embeds into `knowledge_chunks`, and what advisory citations resolve against.
-
-**Staged (`data/curated/Dataset_v4_validated/`)** — 8 pest documents (stem borer, BPH, leaf folder, green leafhopper, gall midge, thrips, whorl maggot, earhead bug) sourced from TNAU/ICAR-IRRI, with a manifest, source registry, evidence records, a 23-entry Tamil pest lexicon, and reference images. Status in the manifest is `production_ingested: false`, `chemical_advice_status: UNVERIFIED`. Read `DATASET_VALIDATION_STATUS.md` before wiring any of it into advisory output — the chemical recommendations have not passed regulatory validation.
+Two conventions that recur: large media never passes through the API (presigned upload straight to object storage, then only the small `asset_id` travels in JSON), and every consequential response carries a `spoken_summary` the client can read aloud locally — both concessions to thin rural bandwidth.
 
 ---
 
-## Team
+## 8. The knowledge corpus
+
+Grounded advisory is only as honest as what it retrieves from, so the two stores are kept separate and their maturity is stated plainly.
+
+**Ingested — `services/api/corpus/`.** Eight markdown documents: rice BLB, blast, brown spot, nitrogen management, seed selection, irrigation at vegetative and reproductive stages, harvest timing. `make ingest-corpus` chunks and embeds these into `knowledge_chunks`, and every advisory citation resolves against them. This is the corpus that actually exists at runtime.
+
+**Staged — `data/curated/Dataset_v4_validated/`.** Eight pest documents (stem borer, BPH, leaf folder, green leafhopper, gall midge, thrips, whorl maggot, earhead bug) from TNAU and ICAR-IRRI, with a manifest, source registry, structured evidence records, a 23-entry Tamil pest lexicon, and reference images.
+
+Read `DATASET_VALIDATION_STATUS.md` before wiring any of it in. The manifest states `production_ingested: false` and `chemical_advice_status: UNVERIFIED` — the pesticide recommendations have not passed regulatory validation, and shipping unvalidated chemical dosages to farmers is a real-world harm, not a demo detail.
+
+---
+
+## 9. Known gaps
+
+Written down so nobody rediscovers them at hour 30.
+
+**`services/ml/` is empty.** Four files, zero lines. `adapters/image_diagnosis_real.py` is wired and selectable, and it documents this honestly: with `DIAGNOSIS_MODEL=real` it raises a connection error rather than returning a plausible-looking guess. That's the right failure mode for a diagnosis port, but the working path today is the stub.
+
+**`packages/shared/constants.py` contradicts the live engine.** It carries a different six-sub-index rubric (`soil_water`, `crop_vigor`, `nutrient_balance`…) and different bands (`optimal`, `at_risk`). It's Phase-0 scaffold that was never removed. Anything importing it gets a wrong model. The authoritative source is `services/api/app/domain/health/constants.py`.
+
+**The SIH26131 risk rework is specced but not built.** `docs/specs/suchit_module_specs_sih26131.md` defines a four-sub-index model (`active_problem_severity` 0.40, `environmental_risk` 0.25, `monitoring_recency` 0.15, `treatment_response` 0.20). The engine still runs the six-sub-index PRD §7 rubric. The `PROBLEM_STATEMENT` flag switches routes, not scoring.
+
+**Treatment-efficacy endpoints don't exist.** Specced in `docs/specs/treatment_efficacy_spec.md`, not mounted in either mode.
+
+**`RAG_RELEVANCE_THRESHOLD=0.18` is calibrated against stub embeddings only.** The `0.60` production figure is a target for BGE-m3, not a measured value. Re-tune when a real embedding adapter lands.
+
+**CI has no backend job.** The workflow covers the Flutter app, both portals, and a secret scan. Backend tests run locally via `make test`.
+
+---
+
+## 10. Team
 
 | Member | Owns |
 |---|---|
@@ -191,31 +285,16 @@ Two separate stores, at different maturity levels.
 | Santheesh | `apps/farmer_app` |
 | Thaariha | `apps/officer_portal`, `apps/kvk_portal` |
 
----
-
-## Known gaps
-
-Listed so nobody rediscovers them at hour 30.
-
-- `services/ml/` is empty files. `DIAGNOSIS_MODEL=real` points at `ML_SERVICE_URL` and will raise a connection error by design; the working path is the stub adapter.
-- `packages/shared/constants.py` carries a different six-sub-index rubric (`soil_water`, `crop_vigor`, …) and different band thresholds than the live engine. It is Phase-0 scaffold. The authoritative source is `services/api/app/domain/health/constants.py`.
-- The SIH26131 risk-score rework (four sub-indices: `active_problem_severity` 0.40, `environmental_risk` 0.25, `monitoring_recency` 0.15, `treatment_response` 0.20) exists in `docs/specs/suchit_module_specs_sih26131.md` but is not implemented — the engine still ships the six-sub-index PRD §7 rubric.
-- Treatment-efficacy endpoints are specced (`docs/specs/treatment_efficacy_spec.md`) and not mounted.
-- `RAG_RELEVANCE_THRESHOLD=0.18` is calibrated against the token-hashing stub embeddings. Re-tune when a real BGE-m3 adapter lands; `0.60` is the placeholder production target, not a measured value.
-- CI covers the Flutter app and both portals. There is no backend job — run `make test` locally.
-
----
-
-## Docs
+## 11. Docs
 
 | File | Contents |
 |---|---|
 | `docs/PRD.md` | Product requirements; health-score model in §7 |
 | `docs/API_CONTRACT.md` | REST contract, enums mirroring the PRD |
-| `docs/TECH_STACK.md` | Stack choices and alternatives |
+| `docs/TECH_STACK.md` | Stack choices and the alternatives considered |
 | `docs/specs/suchit_module_specs_sih26131.md` | Risk engine, gate, RAG, escalation specs |
-| `docs/specs/api_contract_sih26131_delta.md` | What the `PROBLEM_STATEMENT` flag changes |
-| `docs/specs/early_warning_alert_spec.md` | Alert triggers and `inspection_tasks[]` |
+| `docs/specs/api_contract_sih26131_delta.md` | Exactly what the `PROBLEM_STATEMENT` flag changes |
+| `docs/specs/early_warning_alert_spec.md` | Alert triggers and mandatory `inspection_tasks[]` |
 | `docs/specs/treatment_efficacy_spec.md` | Efficacy metric definition |
 | `docs/phase5_walkthrough.md` | Live Postgres integration verification log |
 | `docs/FRONTEND_API_ALIGNMENT.md` | Contract-vs-client drift audit |
