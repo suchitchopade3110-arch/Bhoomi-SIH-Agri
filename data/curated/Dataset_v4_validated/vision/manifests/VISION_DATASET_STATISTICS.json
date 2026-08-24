@@ -1,38 +1,30 @@
 {
-  "statistics_version": "1.0.0",
+  "statistics_version": "1.1.0",
   "audit_date": "2026-08-24",
   "dataset_summary": {
-    "total_external_records_discovered": 21,
-    "total_downloaded": 17,
-    "total_valid": 17,
-    "total_corrupt": 0,
-    "total_duplicates": 0,
-    "total_near_duplicates": 0,
-    "total_license_approved": 0,
-    "total_license_blocked": 17,
-    "total_exact_mappings": 17,
-    "total_strong_mappings": 0,
-    "total_weak_mappings": 0,
-    "total_unmapped": 0,
-    "total_training_eligible": 0,
-    "total_quarantined": 21
+    "total_manifest_records": 17,
+    "total_physical_exemplars": 17,
+    "total_valid_training_images": 0,
+    "total_quarantined": 21,
+    "total_exact_duplicates_detected": 0,
+    "total_corrupt_files_detected": 0
   },
-  "source_dataset_breakdown": {
-    "SRC-DS-01 (Paddy Doctor - External Pipeline Target)": {"status": "APPROVED_FOR_TRAINING", "external_available_images": 10407, "local_ingested": 0},
-    "SRC-DS-02 (PlantVillage - External Pipeline Target)": {"status": "APPROVED_FOR_TRAINING", "external_available_images": 3000, "local_ingested": 0},
-    "SRC-DS-03 (PlantDoc - External Pipeline Target)": {"status": "APPROVED_FOR_TRAINING", "external_available_images": 500, "local_ingested": 0},
-    "SRC-DS-04 (Roboflow Rice - External Pipeline Target)": {"status": "APPROVED_FOR_TRAINING", "external_available_images": 2500, "local_ingested": 0},
-    "SRC-DS-05 (ICAR-IIRR - External Pipeline Target)": {"status": "TRAINING_USE_RESTRICTED", "external_available_images": 1200, "local_ingested": 0},
-    "SRC-DS-06 (TNAU Agritech - Local Harvest)": {"status": "TRAINING_USE_BLOCKED", "external_available_images": 17, "local_ingested": 17}
-  },
-  "license_breakdown": {
-    "APPROVED_FOR_TRAINING": 0,
-    "TRAINING_USE_BLOCKED": 17,
-    "LICENSE_UNKNOWN": 17,
-    "QUARANTINED_MISSING_FILES": 4
+  "source_acquisition_status": {
+    "SRC-DS-01": {
+      "status": "DOWNLOAD_BLOCKED_EXTERNAL_ACCESS: Kaggle API authentication credential required for bulk dataset download."
+    },
+    "SRC-DS-02": {
+      "status": "DOWNLOAD_BLOCKED_EXTERNAL_ACCESS: Main PlantVillage GitHub repository does not contain native Oryza sativa sub-trees."
+    },
+    "SRC-DS-03": {
+      "status": "DOWNLOAD_BLOCKED_EXTERNAL_ACCESS: Official PlantDoc master release does not contain Oryza sativa classes."
+    },
+    "SRC-DS-04": {
+      "status": "DOWNLOAD_BLOCKED_EXTERNAL_ACCESS: Roboflow API key required for bulk zip export download."
+    }
   },
   "target_gap_summary": {
-    "current_valid_training_images": 0,
+    "total_training_eligible": 0,
     "minimum_target_per_class": 100,
     "total_minimum_target": 1600,
     "total_gap_to_minimum": 1600,
@@ -43,7 +35,7 @@
   "classes": [
     {
       "canonical_id": "PEST_001",
-      "canonical_name": "Stem borer",
+      "canonical_name": "Stem Borer",
       "current_count": 0,
       "exemplar_count": 3,
       "minimum_target": 100,
@@ -54,7 +46,7 @@
     },
     {
       "canonical_id": "PEST_002",
-      "canonical_name": "Brown planthopper",
+      "canonical_name": "Brown Planthopper",
       "current_count": 0,
       "exemplar_count": 3,
       "minimum_target": 100,
@@ -65,7 +57,7 @@
     },
     {
       "canonical_id": "PEST_003",
-      "canonical_name": "Leaf folder",
+      "canonical_name": "Leaf Folder",
       "current_count": 0,
       "exemplar_count": 3,
       "minimum_target": 100,
@@ -76,7 +68,7 @@
     },
     {
       "canonical_id": "PEST_004",
-      "canonical_name": "Green leafhopper",
+      "canonical_name": "Green Leafhopper",
       "current_count": 0,
       "exemplar_count": 2,
       "minimum_target": 100,
@@ -87,7 +79,7 @@
     },
     {
       "canonical_id": "PEST_005",
-      "canonical_name": "Gall midge",
+      "canonical_name": "Gall Midge",
       "current_count": 0,
       "exemplar_count": 2,
       "minimum_target": 100,
@@ -109,7 +101,7 @@
     },
     {
       "canonical_id": "PEST_007",
-      "canonical_name": "Whorl maggot",
+      "canonical_name": "Whorl Maggot",
       "current_count": 0,
       "exemplar_count": 0,
       "minimum_target": 100,
@@ -120,7 +112,7 @@
     },
     {
       "canonical_id": "PEST_008",
-      "canonical_name": "Earhead bug",
+      "canonical_name": "Earhead Bug",
       "current_count": 0,
       "exemplar_count": 2,
       "minimum_target": 100,

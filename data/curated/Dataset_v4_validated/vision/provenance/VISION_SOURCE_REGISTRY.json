@@ -20,8 +20,16 @@
       "access_date": "2026-08-24",
       "license_evidence": "Published in CVPR/ICCV workshop proceedings & GitHub repository with open CC-BY 4.0 LICENSE file.",
       "training_use_status": "APPROVED_FOR_TRAINING",
-      "supported_canonical_classes": ["DISEASE_001", "DISEASE_003", "DISEASE_004", "DISEASE_008", "PEST_002"],
-      "notes": "Primary open-access gold standard for South Indian rice diseases."
+      "supported_canonical_classes": [
+        "DISEASE_001",
+        "DISEASE_003",
+        "DISEASE_004",
+        "DISEASE_008",
+        "PEST_002"
+      ],
+      "notes": "Primary open-access gold standard for South Indian rice diseases.",
+      "acquisition_status": "DOWNLOAD_BLOCKED",
+      "acquisition_notes": "DOWNLOAD_BLOCKED_EXTERNAL_ACCESS: Kaggle API authentication credential required for bulk dataset download."
     },
     {
       "source_id": "SRC-DS-02",
@@ -39,8 +47,14 @@
       "access_date": "2026-08-24",
       "license_evidence": "Published in Nature Scientific Data under Creative Commons open research licensing.",
       "training_use_status": "APPROVED_FOR_TRAINING",
-      "supported_canonical_classes": ["DISEASE_001", "DISEASE_004", "DISEASE_005"],
-      "notes": "Non-commercial educational/research model training permitted."
+      "supported_canonical_classes": [
+        "DISEASE_001",
+        "DISEASE_004",
+        "DISEASE_005"
+      ],
+      "notes": "Non-commercial educational/research model training permitted.",
+      "acquisition_status": "DOWNLOAD_BLOCKED",
+      "acquisition_notes": "DOWNLOAD_BLOCKED_EXTERNAL_ACCESS: Main PlantVillage GitHub repository does not contain native Oryza sativa sub-trees."
     },
     {
       "source_id": "SRC-DS-03",
@@ -58,8 +72,13 @@
       "access_date": "2026-08-24",
       "license_evidence": "CoDS-COMAD 2020 published open-source benchmark.",
       "training_use_status": "APPROVED_FOR_TRAINING",
-      "supported_canonical_classes": ["DISEASE_001", "DISEASE_003"],
-      "notes": "Field images captured with noisy backgrounds; valuable for in-field robustness."
+      "supported_canonical_classes": [
+        "DISEASE_001",
+        "DISEASE_003"
+      ],
+      "notes": "Field images captured with noisy backgrounds; valuable for in-field robustness.",
+      "acquisition_status": "DOWNLOAD_BLOCKED",
+      "acquisition_notes": "DOWNLOAD_BLOCKED_EXTERNAL_ACCESS: Official PlantDoc master release does not contain Oryza sativa classes."
     },
     {
       "source_id": "SRC-DS-04",
@@ -77,8 +96,17 @@
       "access_date": "2026-08-24",
       "license_evidence": "Roboflow open community sharing license explicitly declared on dataset pages.",
       "training_use_status": "APPROVED_FOR_TRAINING",
-      "supported_canonical_classes": ["PEST_001", "PEST_003", "PEST_004", "PEST_005", "DISEASE_006", "DISEASE_007"],
-      "notes": "Pre-annotated YOLO format bounding boxes for paddy insect pests."
+      "supported_canonical_classes": [
+        "PEST_001",
+        "PEST_003",
+        "PEST_004",
+        "PEST_005",
+        "DISEASE_006",
+        "DISEASE_007"
+      ],
+      "notes": "Pre-annotated YOLO format bounding boxes for paddy insect pests.",
+      "acquisition_status": "DOWNLOAD_BLOCKED",
+      "acquisition_notes": "DOWNLOAD_BLOCKED_EXTERNAL_ACCESS: Roboflow API key required for bulk zip export download."
     },
     {
       "source_id": "SRC-DS-05",
@@ -96,7 +124,12 @@
       "access_date": "2026-08-24",
       "license_evidence": "National agricultural extension policy guidelines.",
       "training_use_status": "TRAINING_USE_RESTRICTED",
-      "supported_canonical_classes": ["PEST_007", "PEST_008", "DISEASE_002", "DISEASE_005"],
+      "supported_canonical_classes": [
+        "PEST_007",
+        "PEST_008",
+        "DISEASE_002",
+        "DISEASE_005"
+      ],
       "notes": "Requires formal MOU / institutional data license for production redistribution."
     },
     {
@@ -115,8 +148,17 @@
       "access_date": "2026-08-24",
       "license_evidence": "Web extension portal copyright notice without explicit permissive reuse grant.",
       "training_use_status": "TRAINING_USE_BLOCKED",
-      "supported_canonical_classes": ["PEST_001", "PEST_002", "PEST_003", "PEST_004", "PEST_005", "PEST_006", "PEST_008"],
-      "notes": "Preserved strictly as internal DIAGNOSTIC_REFERENCE_ONLY; blocked from model training."
+      "supported_canonical_classes": [
+        "PEST_001",
+        "PEST_002",
+        "PEST_003",
+        "PEST_004",
+        "PEST_005",
+        "PEST_006",
+        "PEST_008"
+      ],
+      "notes": "Preserved strictly as internal DIAGNOSTIC_REFERENCE_ONLY; blocked from model training.",
+      "acquisition_status": "INGESTED (DIAGNOSTIC_EXEMPLARS_ONLY)"
     }
   ]
 }
