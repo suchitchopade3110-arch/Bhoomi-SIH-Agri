@@ -1,0 +1,2468 @@
+[
+  {
+    "chunk_id": "CHUNK-LEX-PEST_001-1",
+    "parent_record_id": "PEST_001",
+    "evidence_id": "LEX-PEST_001",
+    "entity_id": "PEST_001",
+    "chunk_type": "LEXICON",
+    "text": "Tamil name for Stem borer: தண்டு துளைப்பான் (thandu thulaippan). Region: Standard Tamil / TNAU. Term type: canonical_name. Status: VERIFIED.",
+    "metadata": {
+      "pest_id": "PEST_001",
+      "english_name": "Stem borer",
+      "tamil_script": "தண்டு துளைப்பான்",
+      "transliteration": "thandu thulaippan",
+      "dialect_region": "Standard Tamil / TNAU",
+      "term_type": "canonical_name",
+      "lexicon_status": "VERIFIED",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "TNAU Agritech Crop Protection Glossary"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-LEX-PEST_001-2",
+    "parent_record_id": "PEST_001",
+    "evidence_id": "LEX-PEST_001",
+    "entity_id": "PEST_001",
+    "chunk_type": "LEXICON",
+    "text": "Tamil name for Stem borer: குருத்துப் பூச்சி (kuruthu poochi). Region: Cauvery Delta. Term type: colloquial_alias. Status: NEEDS_REVIEW.",
+    "metadata": {
+      "pest_id": "PEST_001",
+      "english_name": "Stem borer",
+      "tamil_script": "குருத்துப் பூச்சி",
+      "transliteration": "kuruthu poochi",
+      "dialect_region": "Cauvery Delta",
+      "term_type": "colloquial_alias",
+      "lexicon_status": "NEEDS_REVIEW",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "Farmer interview transcripts (Thanjavur)"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-LEX-PEST_001-3",
+    "parent_record_id": "PEST_001",
+    "evidence_id": "LEX-PEST_001",
+    "entity_id": "PEST_001",
+    "chunk_type": "LEXICON",
+    "text": "Tamil name for Stem borer: வெண்கதிர் (venkathir). Region: Standard Tamil. Term type: symptom_phrase. Status: VERIFIED.",
+    "metadata": {
+      "pest_id": "PEST_001",
+      "english_name": "Stem borer",
+      "tamil_script": "வெண்கதிர்",
+      "transliteration": "venkathir",
+      "dialect_region": "Standard Tamil",
+      "term_type": "symptom_phrase",
+      "lexicon_status": "VERIFIED",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "TNAU Paddy Protection Guide"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-LEX-PEST_001-4",
+    "parent_record_id": "PEST_001",
+    "evidence_id": "LEX-PEST_001",
+    "entity_id": "PEST_001",
+    "chunk_type": "LEXICON",
+    "text": "Tamil name for Stem borer: dead heart (dead heart). Region: Tanglish. Term type: colloquial_alias. Status: VERIFIED.",
+    "metadata": {
+      "pest_id": "PEST_001",
+      "english_name": "Stem borer",
+      "tamil_script": "dead heart",
+      "transliteration": "dead heart",
+      "dialect_region": "Tanglish",
+      "term_type": "colloquial_alias",
+      "lexicon_status": "VERIFIED",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "Bhoomi Voice Corpus Pilot"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-LEX-PEST_002-1",
+    "parent_record_id": "PEST_002",
+    "evidence_id": "LEX-PEST_002",
+    "entity_id": "PEST_002",
+    "chunk_type": "LEXICON",
+    "text": "Tamil name for Brown planthopper (BPH): புகையான் (pukaiyaan). Region: Cauvery Delta / Standard Tamil. Term type: canonical_name. Status: VERIFIED.",
+    "metadata": {
+      "pest_id": "PEST_002",
+      "english_name": "Brown planthopper (BPH)",
+      "tamil_script": "புகையான்",
+      "transliteration": "pukaiyaan",
+      "dialect_region": "Cauvery Delta / Standard Tamil",
+      "term_type": "canonical_name",
+      "lexicon_status": "VERIFIED",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "TNAU Agritech Crop Protection Glossary"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-LEX-PEST_002-2",
+    "parent_record_id": "PEST_002",
+    "evidence_id": "LEX-PEST_002",
+    "entity_id": "PEST_002",
+    "chunk_type": "LEXICON",
+    "text": "Tamil name for Brown planthopper (BPH): பழுப்பு தத்துப்பூச்சி (paluppu thathupoochi). Region: Standard Tamil. Term type: canonical_name. Status: VERIFIED.",
+    "metadata": {
+      "pest_id": "PEST_002",
+      "english_name": "Brown planthopper (BPH)",
+      "tamil_script": "பழுப்பு தத்துப்பூச்சி",
+      "transliteration": "paluppu thathupoochi",
+      "dialect_region": "Standard Tamil",
+      "term_type": "canonical_name",
+      "lexicon_status": "VERIFIED",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "TNAU Agritech Glossary"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-LEX-PEST_002-3",
+    "parent_record_id": "PEST_002",
+    "evidence_id": "LEX-PEST_002",
+    "entity_id": "PEST_002",
+    "chunk_type": "LEXICON",
+    "text": "Tamil name for Brown planthopper (BPH): சாறு உறிஞ்சும் பூச்சி (saaru urinjum poochi). Region: General Tamil. Term type: colloquial_alias. Status: NEEDS_REVIEW.",
+    "metadata": {
+      "pest_id": "PEST_002",
+      "english_name": "Brown planthopper (BPH)",
+      "tamil_script": "சாறு உறிஞ்சும் பூச்சி",
+      "transliteration": "saaru urinjum poochi",
+      "dialect_region": "General Tamil",
+      "term_type": "colloquial_alias",
+      "lexicon_status": "NEEDS_REVIEW",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "Field extension notes"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-LEX-PEST_002-4",
+    "parent_record_id": "PEST_002",
+    "evidence_id": "LEX-PEST_002",
+    "entity_id": "PEST_002",
+    "chunk_type": "LEXICON",
+    "text": "Tamil name for Brown planthopper (BPH): hopper burn (hopper burn). Region: Tanglish. Term type: symptom_phrase. Status: VERIFIED.",
+    "metadata": {
+      "pest_id": "PEST_002",
+      "english_name": "Brown planthopper (BPH)",
+      "tamil_script": "hopper burn",
+      "transliteration": "hopper burn",
+      "dialect_region": "Tanglish",
+      "term_type": "symptom_phrase",
+      "lexicon_status": "VERIFIED",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "Bhoomi Voice Corpus Pilot"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-LEX-PEST_003-1",
+    "parent_record_id": "PEST_003",
+    "evidence_id": "LEX-PEST_003",
+    "entity_id": "PEST_003",
+    "chunk_type": "LEXICON",
+    "text": "Tamil name for Leaf folder: இலை சுருட்டு புழு (ilai suruttu pulu). Region: Standard Tamil / TNAU. Term type: canonical_name. Status: VERIFIED.",
+    "metadata": {
+      "pest_id": "PEST_003",
+      "english_name": "Leaf folder",
+      "tamil_script": "இலை சுருட்டு புழு",
+      "transliteration": "ilai suruttu pulu",
+      "dialect_region": "Standard Tamil / TNAU",
+      "term_type": "canonical_name",
+      "lexicon_status": "VERIFIED",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "TNAU Agritech Crop Protection Glossary"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-LEX-PEST_003-2",
+    "parent_record_id": "PEST_003",
+    "evidence_id": "LEX-PEST_003",
+    "entity_id": "PEST_003",
+    "chunk_type": "LEXICON",
+    "text": "Tamil name for Leaf folder: சுருட்டுப் புழு (suruttu pulu). Region: Southern Tamil Nadu. Term type: colloquial_alias. Status: VERIFIED.",
+    "metadata": {
+      "pest_id": "PEST_003",
+      "english_name": "Leaf folder",
+      "tamil_script": "சுருட்டுப் புழு",
+      "transliteration": "suruttu pulu",
+      "dialect_region": "Southern Tamil Nadu",
+      "term_type": "colloquial_alias",
+      "lexicon_status": "VERIFIED",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "TNAU Agritech Extension Bulletin"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-LEX-PEST_003-3",
+    "parent_record_id": "PEST_003",
+    "evidence_id": "LEX-PEST_003",
+    "entity_id": "PEST_003",
+    "chunk_type": "LEXICON",
+    "text": "Tamil name for Leaf folder: பச்சை புழு (pachai pulu). Region: Kongu Tamil. Term type: colloquial_alias. Status: NEEDS_REVIEW.",
+    "metadata": {
+      "pest_id": "PEST_003",
+      "english_name": "Leaf folder",
+      "tamil_script": "பச்சை புழு",
+      "transliteration": "pachai pulu",
+      "dialect_region": "Kongu Tamil",
+      "term_type": "colloquial_alias",
+      "lexicon_status": "NEEDS_REVIEW",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "Regional farmer survey"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-LEX-PEST_004-1",
+    "parent_record_id": "PEST_004",
+    "evidence_id": "LEX-PEST_004",
+    "entity_id": "PEST_004",
+    "chunk_type": "LEXICON",
+    "text": "Tamil name for Green leafhopper (GLH): பச்சை தத்துப்பூச்சி (pachai thathupoochi). Region: Standard Tamil / TNAU. Term type: canonical_name. Status: VERIFIED.",
+    "metadata": {
+      "pest_id": "PEST_004",
+      "english_name": "Green leafhopper (GLH)",
+      "tamil_script": "பச்சை தத்துப்பூச்சி",
+      "transliteration": "pachai thathupoochi",
+      "dialect_region": "Standard Tamil / TNAU",
+      "term_type": "canonical_name",
+      "lexicon_status": "VERIFIED",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "TNAU Agritech Crop Protection Glossary"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-LEX-PEST_004-2",
+    "parent_record_id": "PEST_004",
+    "evidence_id": "LEX-PEST_004",
+    "entity_id": "PEST_004",
+    "chunk_type": "LEXICON",
+    "text": "Tamil name for Green leafhopper (GLH): துங்ரோ பூச்சி (tungro poochi). Region: Cauvery Delta. Term type: colloquial_alias. Status: NEEDS_REVIEW.",
+    "metadata": {
+      "pest_id": "PEST_004",
+      "english_name": "Green leafhopper (GLH)",
+      "tamil_script": "துங்ரோ பூச்சி",
+      "transliteration": "tungro poochi",
+      "dialect_region": "Cauvery Delta",
+      "term_type": "colloquial_alias",
+      "lexicon_status": "NEEDS_REVIEW",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "Field advisory transcripts"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-LEX-PEST_005-1",
+    "parent_record_id": "PEST_005",
+    "evidence_id": "LEX-PEST_005",
+    "entity_id": "PEST_005",
+    "chunk_type": "LEXICON",
+    "text": "Tamil name for Gall midge: ஆணைக்கொம்பன் (aanaikomban). Region: Cauvery Delta / Standard Tamil. Term type: canonical_name. Status: VERIFIED.",
+    "metadata": {
+      "pest_id": "PEST_005",
+      "english_name": "Gall midge",
+      "tamil_script": "ஆணைக்கொம்பன்",
+      "transliteration": "aanaikomban",
+      "dialect_region": "Cauvery Delta / Standard Tamil",
+      "term_type": "canonical_name",
+      "lexicon_status": "VERIFIED",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "TNAU Agritech Crop Protection Glossary"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-LEX-PEST_005-2",
+    "parent_record_id": "PEST_005",
+    "evidence_id": "LEX-PEST_005",
+    "entity_id": "PEST_005",
+    "chunk_type": "LEXICON",
+    "text": "Tamil name for Gall midge: வெள்ளிக்குருத்து (vellikkuruthu). Region: Standard Tamil. Term type: symptom_phrase. Status: VERIFIED.",
+    "metadata": {
+      "pest_id": "PEST_005",
+      "english_name": "Gall midge",
+      "tamil_script": "வெள்ளிக்குருத்து",
+      "transliteration": "vellikkuruthu",
+      "dialect_region": "Standard Tamil",
+      "term_type": "symptom_phrase",
+      "lexicon_status": "VERIFIED",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "TNAU Agritech Glossary"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-LEX-PEST_005-3",
+    "parent_record_id": "PEST_005",
+    "evidence_id": "LEX-PEST_005",
+    "entity_id": "PEST_005",
+    "chunk_type": "LEXICON",
+    "text": "Tamil name for Gall midge: வெங்காயத்தாள் புழு (vengayathal pulu). Region: Southern Tamil Nadu. Term type: colloquial_alias. Status: NEEDS_REVIEW.",
+    "metadata": {
+      "pest_id": "PEST_005",
+      "english_name": "Gall midge",
+      "tamil_script": "வெங்காயத்தாள் புழு",
+      "transliteration": "vengayathal pulu",
+      "dialect_region": "Southern Tamil Nadu",
+      "term_type": "colloquial_alias",
+      "lexicon_status": "NEEDS_REVIEW",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "Regional farmer survey (Tirunelveli)"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-LEX-PEST_006-1",
+    "parent_record_id": "PEST_006",
+    "evidence_id": "LEX-PEST_006",
+    "entity_id": "PEST_006",
+    "chunk_type": "LEXICON",
+    "text": "Tamil name for Thrips: இலைப்பேன் (ilaippaen). Region: Standard Tamil / TNAU. Term type: canonical_name. Status: VERIFIED.",
+    "metadata": {
+      "pest_id": "PEST_006",
+      "english_name": "Thrips",
+      "tamil_script": "இலைப்பேன்",
+      "transliteration": "ilaippaen",
+      "dialect_region": "Standard Tamil / TNAU",
+      "term_type": "canonical_name",
+      "lexicon_status": "VERIFIED",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "TNAU Agritech Crop Protection Glossary"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-LEX-PEST_006-2",
+    "parent_record_id": "PEST_006",
+    "evidence_id": "LEX-PEST_006",
+    "entity_id": "PEST_006",
+    "chunk_type": "LEXICON",
+    "text": "Tamil name for Thrips: சுருள் பேன் (surul paen). Region: Cauvery Delta. Term type: colloquial_alias. Status: NEEDS_REVIEW.",
+    "metadata": {
+      "pest_id": "PEST_006",
+      "english_name": "Thrips",
+      "tamil_script": "சுருள் பேன்",
+      "transliteration": "surul paen",
+      "dialect_region": "Cauvery Delta",
+      "term_type": "colloquial_alias",
+      "lexicon_status": "NEEDS_REVIEW",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "Nursery scout reports"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-LEX-PEST_007-1",
+    "parent_record_id": "PEST_007",
+    "evidence_id": "LEX-PEST_007",
+    "entity_id": "PEST_007",
+    "chunk_type": "LEXICON",
+    "text": "Tamil name for Whorl maggot: குருத்து ஈ (kuruthu ee). Region: Standard Tamil / TNAU. Term type: canonical_name. Status: VERIFIED.",
+    "metadata": {
+      "pest_id": "PEST_007",
+      "english_name": "Whorl maggot",
+      "tamil_script": "குருத்து ஈ",
+      "transliteration": "kuruthu ee",
+      "dialect_region": "Standard Tamil / TNAU",
+      "term_type": "canonical_name",
+      "lexicon_status": "VERIFIED",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "TNAU Agritech Crop Protection Glossary"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-LEX-PEST_007-2",
+    "parent_record_id": "PEST_007",
+    "evidence_id": "LEX-PEST_007",
+    "entity_id": "PEST_007",
+    "chunk_type": "LEXICON",
+    "text": "Tamil name for Whorl maggot: இலை ஈ (ilai ee). Region: Western Tamil Nadu. Term type: colloquial_alias. Status: NEEDS_REVIEW.",
+    "metadata": {
+      "pest_id": "PEST_007",
+      "english_name": "Whorl maggot",
+      "tamil_script": "இலை ஈ",
+      "transliteration": "ilai ee",
+      "dialect_region": "Western Tamil Nadu",
+      "term_type": "colloquial_alias",
+      "lexicon_status": "NEEDS_REVIEW",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "Extension training guide"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-LEX-PEST_008-1",
+    "parent_record_id": "PEST_008",
+    "evidence_id": "LEX-PEST_008",
+    "entity_id": "PEST_008",
+    "chunk_type": "LEXICON",
+    "text": "Tamil name for Earhead bug: கதிர் நாவாய்ப்பூச்சி (kathir naavayppoochi). Region: Standard Tamil / TNAU. Term type: canonical_name. Status: VERIFIED.",
+    "metadata": {
+      "pest_id": "PEST_008",
+      "english_name": "Earhead bug",
+      "tamil_script": "கதிர் நாவாய்ப்பூச்சி",
+      "transliteration": "kathir naavayppoochi",
+      "dialect_region": "Standard Tamil / TNAU",
+      "term_type": "canonical_name",
+      "lexicon_status": "VERIFIED",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "TNAU Agritech Crop Protection Glossary"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-LEX-PEST_008-2",
+    "parent_record_id": "PEST_008",
+    "evidence_id": "LEX-PEST_008",
+    "entity_id": "PEST_008",
+    "chunk_type": "LEXICON",
+    "text": "Tamil name for Earhead bug: சாற்றுப்பூச்சி (saattruppoochi). Region: Cauvery Delta. Term type: colloquial_alias. Status: NEEDS_REVIEW.",
+    "metadata": {
+      "pest_id": "PEST_008",
+      "english_name": "Earhead bug",
+      "tamil_script": "சாற்றுப்பூச்சி",
+      "transliteration": "saattruppoochi",
+      "dialect_region": "Cauvery Delta",
+      "term_type": "colloquial_alias",
+      "lexicon_status": "NEEDS_REVIEW",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "Field extension notes"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-LEX-PEST_008-3",
+    "parent_record_id": "PEST_008",
+    "evidence_id": "LEX-PEST_008",
+    "entity_id": "PEST_008",
+    "chunk_type": "LEXICON",
+    "text": "Tamil name for Earhead bug: குந்தி பூச்சி (gundhi poochi). Region: Northern Tamil Nadu. Term type: colloquial_alias. Status: NEEDS_REVIEW.",
+    "metadata": {
+      "pest_id": "PEST_008",
+      "english_name": "Earhead bug",
+      "tamil_script": "குந்தி பூச்சி",
+      "transliteration": "gundhi poochi",
+      "dialect_region": "Northern Tamil Nadu",
+      "term_type": "colloquial_alias",
+      "lexicon_status": "NEEDS_REVIEW",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "ICAR Hindi loan word in border taluks"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-DOC-DIS-001-ENTITY",
+    "parent_record_id": "DOC-DIS-001",
+    "evidence_id": "EVID-DOC-DIS-001-MAIN",
+    "entity_id": "DIS_001",
+    "chunk_type": "ENTITY",
+    "text": "Document: TNAU & ICAR Rice Disease Management Guide — Bacterial Leaf Blight. Crop: Rice (Oryza sativa). Entity: Bacterial Leaf Blight (BLB) (Xanthomonas oryzae pv. oryzae). Source: TNAU / ICAR-IIRR.",
+    "metadata": {
+      "doc_id": "DOC-DIS-001",
+      "title": "TNAU & ICAR Rice Disease Management Guide — Bacterial Leaf Blight",
+      "entity_id": "DIS_001",
+      "canonical_name": "Bacterial Leaf Blight (BLB)",
+      "scientific_name": "Xanthomonas oryzae pv. oryzae",
+      "crop": "Rice (Oryza sativa)",
+      "source": "TNAU / ICAR-IIRR",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "corpus/rice_bacterial_leaf_blight.md"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-DOC-DIS-008-ENTITY",
+    "parent_record_id": "DOC-DIS-008",
+    "evidence_id": "EVID-DOC-DIS-008-MAIN",
+    "entity_id": "DIS_008",
+    "chunk_type": "ENTITY",
+    "text": "Document: TNAU & ICAR Rice Disease Management Guide — Bacterial Leaf Streak. Crop: Rice (Oryza sativa). Entity: Bacterial Leaf Streak (BLS) (Xanthomonas oryzae pv. oryzicola). Source: TNAU / ICAR-IIRR.",
+    "metadata": {
+      "doc_id": "DOC-DIS-008",
+      "title": "TNAU & ICAR Rice Disease Management Guide — Bacterial Leaf Streak",
+      "entity_id": "DIS_008",
+      "canonical_name": "Bacterial Leaf Streak (BLS)",
+      "scientific_name": "Xanthomonas oryzae pv. oryzicola",
+      "crop": "Rice (Oryza sativa)",
+      "source": "TNAU / ICAR-IIRR",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "corpus/rice_bacterial_leaf_streak.md"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-DOC-DIS-002-ENTITY",
+    "parent_record_id": "DOC-DIS-002",
+    "evidence_id": "EVID-DOC-DIS-002-MAIN",
+    "entity_id": "DIS_002",
+    "chunk_type": "ENTITY",
+    "text": "Document: TNAU & ICAR Rice Disease Management Guide — Rice Blast. Crop: Rice (Oryza sativa). Entity: Rice Blast (Magnaporthe oryzae (Pyricularia oryzae)). Source: TNAU / ICAR-IIRR.",
+    "metadata": {
+      "doc_id": "DOC-DIS-002",
+      "title": "TNAU & ICAR Rice Disease Management Guide — Rice Blast",
+      "entity_id": "DIS_002",
+      "canonical_name": "Rice Blast",
+      "scientific_name": "Magnaporthe oryzae (Pyricularia oryzae)",
+      "crop": "Rice (Oryza sativa)",
+      "source": "TNAU / ICAR-IIRR",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "corpus/rice_blast.md"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-DOC-PEST-002-ENTITY",
+    "parent_record_id": "DOC-PEST-002",
+    "evidence_id": "EVID-DOC-PEST-002-MAIN",
+    "entity_id": "PEST_002",
+    "chunk_type": "ENTITY",
+    "text": "Document: IRRI Rice Knowledge Bank — Brown Planthopper Management. Crop: Rice (Oryza sativa). Entity: Brown planthopper (BPH) (Nilaparvata lugens). Source: ICAR-IRRI.",
+    "metadata": {
+      "doc_id": "DOC-PEST-002",
+      "title": "IRRI Rice Knowledge Bank — Brown Planthopper Management",
+      "entity_id": "PEST_002",
+      "canonical_name": "Brown planthopper (BPH)",
+      "scientific_name": "Nilaparvata lugens",
+      "crop": "Rice (Oryza sativa)",
+      "source": "ICAR-IRRI",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "corpus/rice_brown_planthopper.md"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-DOC-DIS-005-ENTITY",
+    "parent_record_id": "DOC-DIS-005",
+    "evidence_id": "EVID-DOC-DIS-005-MAIN",
+    "entity_id": "DIS_005",
+    "chunk_type": "ENTITY",
+    "text": "Document: TNAU & ICAR Rice Disease Management Guide — Brown Spot. Crop: Rice (Oryza sativa). Entity: Brown Spot (Bipolaris oryzae (Helminthosporium oryzae)). Source: TNAU / ICAR-IIRR.",
+    "metadata": {
+      "doc_id": "DOC-DIS-005",
+      "title": "TNAU & ICAR Rice Disease Management Guide — Brown Spot",
+      "entity_id": "DIS_005",
+      "canonical_name": "Brown Spot",
+      "scientific_name": "Bipolaris oryzae (Helminthosporium oryzae)",
+      "crop": "Rice (Oryza sativa)",
+      "source": "TNAU / ICAR-IIRR",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "corpus/rice_brown_spot.md"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-DOC-PEST-008-ENTITY",
+    "parent_record_id": "DOC-PEST-008",
+    "evidence_id": "EVID-DOC-PEST-008-MAIN",
+    "entity_id": "PEST_008",
+    "chunk_type": "ENTITY",
+    "text": "Document: ICAR Rice Insect Pest Management — Earhead Bug. Crop: Rice (Oryza sativa). Entity: Earhead bug (Leptocorisa acuta). Source: ICAR-IIRR.",
+    "metadata": {
+      "doc_id": "DOC-PEST-008",
+      "title": "ICAR Rice Insect Pest Management — Earhead Bug",
+      "entity_id": "PEST_008",
+      "canonical_name": "Earhead bug",
+      "scientific_name": "Leptocorisa acuta",
+      "crop": "Rice (Oryza sativa)",
+      "source": "ICAR-IIRR",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "corpus/rice_earhead_bug.md"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-DOC-DIS-007-ENTITY",
+    "parent_record_id": "DOC-DIS-007",
+    "evidence_id": "EVID-DOC-DIS-007-MAIN",
+    "entity_id": "DIS_007",
+    "chunk_type": "ENTITY",
+    "text": "Document: TNAU & ICAR Rice Disease Management Guide — False Smut. Crop: Rice (Oryza sativa). Entity: False Smut (Ustilaginoidea virens (Villosiclava virens)). Source: TNAU / ICAR-IIRR.",
+    "metadata": {
+      "doc_id": "DOC-DIS-007",
+      "title": "TNAU & ICAR Rice Disease Management Guide — False Smut",
+      "entity_id": "DIS_007",
+      "canonical_name": "False Smut",
+      "scientific_name": "Ustilaginoidea virens (Villosiclava virens)",
+      "crop": "Rice (Oryza sativa)",
+      "source": "TNAU / ICAR-IIRR",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "corpus/rice_false_smut.md"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-DOC-PEST-005-ENTITY",
+    "parent_record_id": "DOC-PEST-005",
+    "evidence_id": "EVID-DOC-PEST-005-MAIN",
+    "entity_id": "PEST_005",
+    "chunk_type": "ENTITY",
+    "text": "Document: TNAU Gall Midge Management in Rice. Crop: Rice (Oryza sativa). Entity: Gall midge (Orseolia oryzae). Source: TNAU.",
+    "metadata": {
+      "doc_id": "DOC-PEST-005",
+      "title": "TNAU Gall Midge Management in Rice",
+      "entity_id": "PEST_005",
+      "canonical_name": "Gall midge",
+      "scientific_name": "Orseolia oryzae",
+      "crop": "Rice (Oryza sativa)",
+      "source": "TNAU",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "corpus/rice_gall_midge.md"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-DOC-PEST-004-ENTITY",
+    "parent_record_id": "DOC-PEST-004",
+    "evidence_id": "EVID-DOC-PEST-004-MAIN",
+    "entity_id": "PEST_004",
+    "chunk_type": "ENTITY",
+    "text": "Document: ICAR Rice Production Manual — Green Leafhopper. Crop: Rice (Oryza sativa). Entity: Green leafhopper (GLH) (Nephotettix virescens). Source: ICAR-IIRR.",
+    "metadata": {
+      "doc_id": "DOC-PEST-004",
+      "title": "ICAR Rice Production Manual — Green Leafhopper",
+      "entity_id": "PEST_004",
+      "canonical_name": "Green leafhopper (GLH)",
+      "scientific_name": "Nephotettix virescens",
+      "crop": "Rice (Oryza sativa)",
+      "source": "ICAR-IIRR",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "corpus/rice_green_leafhopper.md"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-DOC-PEST-003-ENTITY",
+    "parent_record_id": "DOC-PEST-003",
+    "evidence_id": "EVID-DOC-PEST-003-MAIN",
+    "entity_id": "PEST_003",
+    "chunk_type": "ENTITY",
+    "text": "Document: TNAU Rice Pest Management Guide — Leaf Folder. Crop: Rice (Oryza sativa). Entity: Leaf folder (Cnaphalocrocis medinalis). Source: TNAU.",
+    "metadata": {
+      "doc_id": "DOC-PEST-003",
+      "title": "TNAU Rice Pest Management Guide — Leaf Folder",
+      "entity_id": "PEST_003",
+      "canonical_name": "Leaf folder",
+      "scientific_name": "Cnaphalocrocis medinalis",
+      "crop": "Rice (Oryza sativa)",
+      "source": "TNAU",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "corpus/rice_leaf_folder.md"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-DOC-DIS-003-ENTITY",
+    "parent_record_id": "DOC-DIS-003",
+    "evidence_id": "EVID-DOC-DIS-003-MAIN",
+    "entity_id": "DIS_003",
+    "chunk_type": "ENTITY",
+    "text": "Document: TNAU & IRRI Rice Disease Management Guide — Sheath Blight. Crop: Rice (Oryza sativa). Entity: Sheath Blight (Rhizoctonia solani). Source: TNAU / IRRI.",
+    "metadata": {
+      "doc_id": "DOC-DIS-003",
+      "title": "TNAU & IRRI Rice Disease Management Guide — Sheath Blight",
+      "entity_id": "DIS_003",
+      "canonical_name": "Sheath Blight",
+      "scientific_name": "Rhizoctonia solani",
+      "crop": "Rice (Oryza sativa)",
+      "source": "TNAU / IRRI",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "corpus/rice_sheath_blight.md"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-DOC-DIS-006-ENTITY",
+    "parent_record_id": "DOC-DIS-006",
+    "evidence_id": "EVID-DOC-DIS-006-MAIN",
+    "entity_id": "DIS_006",
+    "chunk_type": "ENTITY",
+    "text": "Document: TNAU & ICAR Rice Disease Management Guide — Sheath Rot. Crop: Rice (Oryza sativa). Entity: Sheath Rot (Sarocladium oryzae). Source: TNAU / ICAR-IIRR.",
+    "metadata": {
+      "doc_id": "DOC-DIS-006",
+      "title": "TNAU & ICAR Rice Disease Management Guide — Sheath Rot",
+      "entity_id": "DIS_006",
+      "canonical_name": "Sheath Rot",
+      "scientific_name": "Sarocladium oryzae",
+      "crop": "Rice (Oryza sativa)",
+      "source": "TNAU / ICAR-IIRR",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "corpus/rice_sheath_rot.md"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-DOC-PEST-001-ENTITY",
+    "parent_record_id": "DOC-PEST-001",
+    "evidence_id": "EVID-DOC-PEST-001-MAIN",
+    "entity_id": "PEST_001",
+    "chunk_type": "ENTITY",
+    "text": "Document: TNAU Rice Pest Management Guide — Stem Borer. Crop: Rice (Oryza sativa). Entity: Stem borer (Scirpophaga incertulas). Source: TNAU.",
+    "metadata": {
+      "doc_id": "DOC-PEST-001",
+      "title": "TNAU Rice Pest Management Guide — Stem Borer",
+      "entity_id": "PEST_001",
+      "canonical_name": "Stem borer",
+      "scientific_name": "Scirpophaga incertulas",
+      "crop": "Rice (Oryza sativa)",
+      "source": "TNAU",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "corpus/rice_stem_borer.md"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-DOC-PEST-006-ENTITY",
+    "parent_record_id": "DOC-PEST-006",
+    "evidence_id": "EVID-DOC-PEST-006-MAIN",
+    "entity_id": "PEST_006",
+    "chunk_type": "ENTITY",
+    "text": "Document: KVK Rice Nursery Management — Thrips Control. Crop: Rice (Oryza sativa). Entity: Thrips (Stenchaetothrips biformis). Source: KVK.",
+    "metadata": {
+      "doc_id": "DOC-PEST-006",
+      "title": "KVK Rice Nursery Management — Thrips Control",
+      "entity_id": "PEST_006",
+      "canonical_name": "Thrips",
+      "scientific_name": "Stenchaetothrips biformis",
+      "crop": "Rice (Oryza sativa)",
+      "source": "KVK",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "corpus/rice_thrips.md"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-DOC-DIS-004-ENTITY",
+    "parent_record_id": "DOC-DIS-004",
+    "evidence_id": "EVID-DOC-DIS-004-MAIN",
+    "entity_id": "DIS_004",
+    "chunk_type": "ENTITY",
+    "text": "Document: TNAU & ICAR Rice Disease Management Guide — Rice Tungro Disease. Crop: Rice (Oryza sativa). Entity: Rice Tungro Virus (RTV) (Rice Tungro Bacilliform Virus (RTBV) & Rice Tungro Spherical Virus (RTSV)). Source: TNAU / ICAR-IIRR.",
+    "metadata": {
+      "doc_id": "DOC-DIS-004",
+      "title": "TNAU & ICAR Rice Disease Management Guide — Rice Tungro Disease",
+      "entity_id": "DIS_004",
+      "canonical_name": "Rice Tungro Virus (RTV)",
+      "scientific_name": "Rice Tungro Bacilliform Virus (RTBV) & Rice Tungro Spherical Virus (RTSV)",
+      "crop": "Rice (Oryza sativa)",
+      "source": "TNAU / ICAR-IIRR",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "corpus/rice_tungro_virus.md"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-DOC-PEST-007-ENTITY",
+    "parent_record_id": "DOC-PEST-007",
+    "evidence_id": "EVID-DOC-PEST-007-MAIN",
+    "entity_id": "PEST_007",
+    "chunk_type": "ENTITY",
+    "text": "Document: TNAU Whorl Maggot Management in Rice. Crop: Rice (Oryza sativa). Entity: Whorl maggot (Hydrellia philippina). Source: TNAU.",
+    "metadata": {
+      "doc_id": "DOC-PEST-007",
+      "title": "TNAU Whorl Maggot Management in Rice",
+      "entity_id": "PEST_007",
+      "canonical_name": "Whorl maggot",
+      "scientific_name": "Hydrellia philippina",
+      "crop": "Rice (Oryza sativa)",
+      "source": "TNAU",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "corpus/rice_whorl_maggot.md"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-ETL-001",
+    "parent_record_id": "REC-ETL-001",
+    "evidence_id": "ETL-001",
+    "entity_id": "PEST_001",
+    "chunk_type": "ETL",
+    "text": "Economic Threshold Level (ETL) for None at vegetative stage: Base threshold is None.",
+    "metadata": {
+      "pest_id": "PEST_001",
+      "crop": "Rice (Oryza sativa)",
+      "crop_stage": "vegetative",
+      "base_threshold": "None",
+      "has_modifier": false,
+      "modifier_condition": null,
+      "adjusted_threshold": null,
+      "source": "TNAU",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "TNAU Rice Pest Management Guide — Stem Borer"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-ETL-002",
+    "parent_record_id": "REC-ETL-002",
+    "evidence_id": "ETL-002",
+    "entity_id": "PEST_001",
+    "chunk_type": "ETL",
+    "text": "Economic Threshold Level (ETL) for None at reproductive stage: Base threshold is None.",
+    "metadata": {
+      "pest_id": "PEST_001",
+      "crop": "Rice (Oryza sativa)",
+      "crop_stage": "reproductive",
+      "base_threshold": "None",
+      "has_modifier": false,
+      "modifier_condition": null,
+      "adjusted_threshold": null,
+      "source": "TNAU",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "TNAU Rice Pest Management Guide — Stem Borer"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-ETL-003",
+    "parent_record_id": "REC-ETL-003",
+    "evidence_id": "ETL-003",
+    "entity_id": "PEST_002",
+    "chunk_type": "ETL",
+    "text": "Economic Threshold Level (ETL) for None at seedling stage: Base threshold is None.",
+    "metadata": {
+      "pest_id": "PEST_002",
+      "crop": "Rice (Oryza sativa)",
+      "crop_stage": "seedling",
+      "base_threshold": "None",
+      "has_modifier": false,
+      "modifier_condition": null,
+      "adjusted_threshold": null,
+      "source": "ICAR-IRRI",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "IRRI Rice Knowledge Bank — Brown Planthopper Management"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-ETL-004",
+    "parent_record_id": "REC-ETL-004",
+    "evidence_id": "ETL-004",
+    "entity_id": "PEST_002",
+    "chunk_type": "ETL",
+    "text": "Economic Threshold Level (ETL) for None at vegetative stage: Base threshold is None.",
+    "metadata": {
+      "pest_id": "PEST_002",
+      "crop": "Rice (Oryza sativa)",
+      "crop_stage": "vegetative",
+      "base_threshold": "None",
+      "has_modifier": false,
+      "modifier_condition": null,
+      "adjusted_threshold": null,
+      "source": "ICAR-IRRI",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "IRRI Rice Knowledge Bank — Brown Planthopper Management"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-ETL-005",
+    "parent_record_id": "REC-ETL-005",
+    "evidence_id": "ETL-005",
+    "entity_id": "PEST_002",
+    "chunk_type": "ETL",
+    "text": "Economic Threshold Level (ETL) for None at reproductive stage: Base threshold is None.",
+    "metadata": {
+      "pest_id": "PEST_002",
+      "crop": "Rice (Oryza sativa)",
+      "crop_stage": "reproductive",
+      "base_threshold": "None",
+      "has_modifier": false,
+      "modifier_condition": null,
+      "adjusted_threshold": null,
+      "source": "ICAR-IRRI",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "IRRI Rice Knowledge Bank — Brown Planthopper Management"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-ETL-006",
+    "parent_record_id": "REC-ETL-006",
+    "evidence_id": "ETL-006",
+    "entity_id": "PEST_003",
+    "chunk_type": "ETL",
+    "text": "Economic Threshold Level (ETL) for None at vegetative stage: Base threshold is None.",
+    "metadata": {
+      "pest_id": "PEST_003",
+      "crop": "Rice (Oryza sativa)",
+      "crop_stage": "vegetative",
+      "base_threshold": "None",
+      "has_modifier": false,
+      "modifier_condition": null,
+      "adjusted_threshold": null,
+      "source": "TNAU",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "TNAU Rice Pest Management Guide — Leaf Folder"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-ETL-007",
+    "parent_record_id": "REC-ETL-007",
+    "evidence_id": "ETL-007",
+    "entity_id": "PEST_003",
+    "chunk_type": "ETL",
+    "text": "Economic Threshold Level (ETL) for None at reproductive stage: Base threshold is None.",
+    "metadata": {
+      "pest_id": "PEST_003",
+      "crop": "Rice (Oryza sativa)",
+      "crop_stage": "reproductive",
+      "base_threshold": "None",
+      "has_modifier": false,
+      "modifier_condition": null,
+      "adjusted_threshold": null,
+      "source": "TNAU",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "TNAU Rice Pest Management Guide — Leaf Folder"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-ETL-008",
+    "parent_record_id": "REC-ETL-008",
+    "evidence_id": "ETL-008",
+    "entity_id": "PEST_004",
+    "chunk_type": "ETL",
+    "text": "Economic Threshold Level (ETL) for None at seedling stage: Base threshold is None.",
+    "metadata": {
+      "pest_id": "PEST_004",
+      "crop": "Rice (Oryza sativa)",
+      "crop_stage": "seedling",
+      "base_threshold": "None",
+      "has_modifier": false,
+      "modifier_condition": null,
+      "adjusted_threshold": null,
+      "source": "ICAR-IIRR",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "ICAR Rice Production Manual — Green Leafhopper"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-ETL-009",
+    "parent_record_id": "REC-ETL-009",
+    "evidence_id": "ETL-009",
+    "entity_id": "PEST_004",
+    "chunk_type": "ETL",
+    "text": "Economic Threshold Level (ETL) for None at vegetative stage: Base threshold is None.",
+    "metadata": {
+      "pest_id": "PEST_004",
+      "crop": "Rice (Oryza sativa)",
+      "crop_stage": "vegetative",
+      "base_threshold": "None",
+      "has_modifier": false,
+      "modifier_condition": null,
+      "adjusted_threshold": null,
+      "source": "ICAR-IIRR",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "ICAR Rice Production Manual — Green Leafhopper"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-ETL-010",
+    "parent_record_id": "REC-ETL-010",
+    "evidence_id": "ETL-010",
+    "entity_id": "PEST_004",
+    "chunk_type": "ETL",
+    "text": "Economic Threshold Level (ETL) for None at reproductive stage: Base threshold is None.",
+    "metadata": {
+      "pest_id": "PEST_004",
+      "crop": "Rice (Oryza sativa)",
+      "crop_stage": "reproductive",
+      "base_threshold": "None",
+      "has_modifier": false,
+      "modifier_condition": null,
+      "adjusted_threshold": null,
+      "source": "ICAR-IIRR",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "ICAR Rice Production Manual — Green Leafhopper"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-ETL-011",
+    "parent_record_id": "REC-ETL-011",
+    "evidence_id": "ETL-011",
+    "entity_id": "PEST_005",
+    "chunk_type": "ETL",
+    "text": "Economic Threshold Level (ETL) for None at vegetative stage: Base threshold is None.",
+    "metadata": {
+      "pest_id": "PEST_005",
+      "crop": "Rice (Oryza sativa)",
+      "crop_stage": "vegetative",
+      "base_threshold": "None",
+      "has_modifier": false,
+      "modifier_condition": null,
+      "adjusted_threshold": null,
+      "source": "TNAU",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "TNAU Gall Midge Management in Rice"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-ETL-012",
+    "parent_record_id": "REC-ETL-012",
+    "evidence_id": "ETL-012",
+    "entity_id": "PEST_006",
+    "chunk_type": "ETL",
+    "text": "Economic Threshold Level (ETL) for None at seedling stage: Base threshold is None.",
+    "metadata": {
+      "pest_id": "PEST_006",
+      "crop": "Rice (Oryza sativa)",
+      "crop_stage": "seedling",
+      "base_threshold": "None",
+      "has_modifier": false,
+      "modifier_condition": null,
+      "adjusted_threshold": null,
+      "source": "KVK",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "KVK Rice Nursery Management — Thrips Control"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-ETL-013",
+    "parent_record_id": "REC-ETL-013",
+    "evidence_id": "ETL-013",
+    "entity_id": "PEST_006",
+    "chunk_type": "ETL",
+    "text": "Economic Threshold Level (ETL) for None at vegetative stage: Base threshold is None.",
+    "metadata": {
+      "pest_id": "PEST_006",
+      "crop": "Rice (Oryza sativa)",
+      "crop_stage": "vegetative",
+      "base_threshold": "None",
+      "has_modifier": false,
+      "modifier_condition": null,
+      "adjusted_threshold": null,
+      "source": "KVK",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "KVK Rice Nursery Management — Thrips Control"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-ETL-014",
+    "parent_record_id": "REC-ETL-014",
+    "evidence_id": "ETL-014",
+    "entity_id": "PEST_007",
+    "chunk_type": "ETL",
+    "text": "Economic Threshold Level (ETL) for None at seedling stage: Base threshold is None.",
+    "metadata": {
+      "pest_id": "PEST_007",
+      "crop": "Rice (Oryza sativa)",
+      "crop_stage": "seedling",
+      "base_threshold": "None",
+      "has_modifier": false,
+      "modifier_condition": null,
+      "adjusted_threshold": null,
+      "source": "TNAU",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "TNAU Whorl Maggot Management in Rice"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-ETL-015",
+    "parent_record_id": "REC-ETL-015",
+    "evidence_id": "ETL-015",
+    "entity_id": "PEST_007",
+    "chunk_type": "ETL",
+    "text": "Economic Threshold Level (ETL) for None at vegetative stage: Base threshold is None.",
+    "metadata": {
+      "pest_id": "PEST_007",
+      "crop": "Rice (Oryza sativa)",
+      "crop_stage": "vegetative",
+      "base_threshold": "None",
+      "has_modifier": false,
+      "modifier_condition": null,
+      "adjusted_threshold": null,
+      "source": "TNAU",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "TNAU Whorl Maggot Management in Rice"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-ETL-016",
+    "parent_record_id": "REC-ETL-016",
+    "evidence_id": "ETL-016",
+    "entity_id": "PEST_008",
+    "chunk_type": "ETL",
+    "text": "Economic Threshold Level (ETL) for None at flowering stage: Base threshold is None.",
+    "metadata": {
+      "pest_id": "PEST_008",
+      "crop": "Rice (Oryza sativa)",
+      "crop_stage": "flowering",
+      "base_threshold": "None",
+      "has_modifier": false,
+      "modifier_condition": null,
+      "adjusted_threshold": null,
+      "source": "ICAR-IIRR",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "ICAR Rice Insect Pest Management — Earhead Bug"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-ETL-017",
+    "parent_record_id": "REC-ETL-017",
+    "evidence_id": "ETL-017",
+    "entity_id": "PEST_008",
+    "chunk_type": "ETL",
+    "text": "Economic Threshold Level (ETL) for None at milking stage: Base threshold is None.",
+    "metadata": {
+      "pest_id": "PEST_008",
+      "crop": "Rice (Oryza sativa)",
+      "crop_stage": "milking",
+      "base_threshold": "None",
+      "has_modifier": false,
+      "modifier_condition": null,
+      "adjusted_threshold": null,
+      "source": "ICAR-IIRR",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "ICAR Rice Insect Pest Management — Earhead Bug"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-SEV-PEST-001-EARLY",
+    "parent_record_id": "REC-SEV-PEST-001",
+    "evidence_id": "SEV-PEST-001",
+    "entity_id": "PEST_001",
+    "chunk_type": "SEVERITY",
+    "text": "Severity tier 'early' (SES Scale 1-3) for Stem borer: Cutoff range is <5% dead hearts (veg) or <1% white ears (rep). Symptom: Scattered yellowing leaves with isolated dead heart shoots that pull out easily; minimal egg mass activity.",
+    "metadata": {
+      "name": "Stem borer",
+      "tier": "early",
+      "ses_scale": "1-3",
+      "cutoff_range": "<5% dead hearts (veg) or <1% white ears (rep)",
+      "source": "IRRI / ICAR / TNAU",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "Standard Evaluation System for Rice (5th Ed.) & TNAU CPG"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-SEV-PEST-001-MODERATE",
+    "parent_record_id": "REC-SEV-PEST-001",
+    "evidence_id": "SEV-PEST-001",
+    "entity_id": "PEST_001",
+    "chunk_type": "SEVERITY",
+    "text": "Severity tier 'moderate' (SES Scale 5) for Stem borer: Cutoff range is 6%-10% dead hearts (veg) or 1%-5% white ears (rep). Symptom: Reaches ETL; noticeable dead hearts across tillers and initial white earhead formation; larvae boring inside stem base.",
+    "metadata": {
+      "name": "Stem borer",
+      "tier": "moderate",
+      "ses_scale": "5",
+      "cutoff_range": "6%-10% dead hearts (veg) or 1%-5% white ears (rep)",
+      "source": "IRRI / ICAR / TNAU",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "Standard Evaluation System for Rice (5th Ed.) & TNAU CPG"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-SEV-PEST-001-SEVERE",
+    "parent_record_id": "REC-SEV-PEST-001",
+    "evidence_id": "SEV-PEST-001",
+    "entity_id": "PEST_001",
+    "chunk_type": "SEVERITY",
+    "text": "Severity tier 'severe' (SES Scale 7) for Stem borer: Cutoff range is 11%-25% dead hearts (veg) or 6%-15% white ears (rep). Symptom: Widespread tiller death and prominent erect white panicles devoid of grain; substantial yield reduction underway.",
+    "metadata": {
+      "name": "Stem borer",
+      "tier": "severe",
+      "ses_scale": "7",
+      "cutoff_range": "11%-25% dead hearts (veg) or 6%-15% white ears (rep)",
+      "source": "IRRI / ICAR / TNAU",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "Standard Evaluation System for Rice (5th Ed.) & TNAU CPG"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-SEV-PEST-001-SEVERE_SPREADING",
+    "parent_record_id": "REC-SEV-PEST-001",
+    "evidence_id": "SEV-PEST-001",
+    "entity_id": "PEST_001",
+    "chunk_type": "SEVERITY",
+    "text": "Severity tier 'severe_spreading' (SES Scale 9) for Stem borer: Cutoff range is >25% dead hearts or >15% white ears. Symptom: Catastrophic crop collapse; majority of tillers severed internally; complete panicle sterility across field.",
+    "metadata": {
+      "name": "Stem borer",
+      "tier": "severe_spreading",
+      "ses_scale": "9",
+      "cutoff_range": ">25% dead hearts or >15% white ears",
+      "source": "IRRI / ICAR / TNAU",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "Standard Evaluation System for Rice (5th Ed.) & TNAU CPG"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-SEV-PEST-002-EARLY",
+    "parent_record_id": "REC-SEV-PEST-002",
+    "evidence_id": "SEV-PEST-002",
+    "entity_id": "PEST_002",
+    "chunk_type": "SEVERITY",
+    "text": "Severity tier 'early' (SES Scale 1-3) for Brown planthopper (BPH): Cutoff range is 1-5 nymphs/hill (veg). Symptom: Initial nymph colonization at base of tillers; slight yellowing of lowest older leaves; no lodging.",
+    "metadata": {
+      "name": "Brown planthopper (BPH)",
+      "tier": "early",
+      "ses_scale": "1-3",
+      "cutoff_range": "1-5 nymphs/hill (veg)",
+      "source": "IRRI / TNAU",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "IRRI Rice Knowledge Bank & TNAU Agritech"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-SEV-PEST-002-MODERATE",
+    "parent_record_id": "REC-SEV-PEST-002",
+    "evidence_id": "SEV-PEST-002",
+    "entity_id": "PEST_002",
+    "chunk_type": "SEVERITY",
+    "text": "Severity tier 'moderate' (SES Scale 5) for Brown planthopper (BPH): Cutoff range is 6-15 nymphs/hill (veg) or 10-20 nymphs/hill (rep). Symptom: Reaches ETL; noticeable yellowing extending up tiller canopy; visible honeydew excretion and sooty mold at tiller base.",
+    "metadata": {
+      "name": "Brown planthopper (BPH)",
+      "tier": "moderate",
+      "ses_scale": "5",
+      "cutoff_range": "6-15 nymphs/hill (veg) or 10-20 nymphs/hill (rep)",
+      "source": "IRRI / TNAU",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "IRRI Rice Knowledge Bank & TNAU Agritech"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-SEV-PEST-002-SEVERE",
+    "parent_record_id": "REC-SEV-PEST-002",
+    "evidence_id": "SEV-PEST-002",
+    "entity_id": "PEST_002",
+    "chunk_type": "SEVERITY",
+    "text": "Severity tier 'severe' (SES Scale 7) for Brown planthopper (BPH): Cutoff range is 16-30 nymphs/hill. Symptom: Severe sap depletion; localized circular drying patches (early hopper burn); tillers wilting and becoming brittle.",
+    "metadata": {
+      "name": "Brown planthopper (BPH)",
+      "tier": "severe",
+      "ses_scale": "7",
+      "cutoff_range": "16-30 nymphs/hill",
+      "source": "IRRI / TNAU",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "IRRI Rice Knowledge Bank & TNAU Agritech"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-SEV-PEST-002-SEVERE_SPREADING",
+    "parent_record_id": "REC-SEV-PEST-002",
+    "evidence_id": "SEV-PEST-002",
+    "entity_id": "PEST_002",
+    "chunk_type": "SEVERITY",
+    "text": "Severity tier 'severe_spreading' (SES Scale 9) for Brown planthopper (BPH): Cutoff range is >30 nymphs/hill with coalescing hopper burn. Symptom: Widespread contiguous hopper burn patches spreading across field; crop collapse and complete plant drying.",
+    "metadata": {
+      "name": "Brown planthopper (BPH)",
+      "tier": "severe_spreading",
+      "ses_scale": "9",
+      "cutoff_range": ">30 nymphs/hill with coalescing hopper burn",
+      "source": "IRRI / TNAU",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "IRRI Rice Knowledge Bank & TNAU Agritech"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-SEV-PEST-003-EARLY",
+    "parent_record_id": "REC-SEV-PEST-003",
+    "evidence_id": "SEV-PEST-003",
+    "entity_id": "PEST_003",
+    "chunk_type": "SEVERITY",
+    "text": "Severity tier 'early' (SES Scale 1-3) for Leaf folder: Cutoff range is <5% folded leaves, <1 larva/2-3 hills. Symptom: Isolated folded leaves with fine white scraped longitudinal streaks; plant growth largely unaffected.",
+    "metadata": {
+      "name": "Leaf folder",
+      "tier": "early",
+      "ses_scale": "1-3",
+      "cutoff_range": "<5% folded leaves, <1 larva/2-3 hills",
+      "source": "TNAU / ICAR",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "TNAU Crop Protection Guide — Agriculture"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-SEV-PEST-003-MODERATE",
+    "parent_record_id": "REC-SEV-PEST-003",
+    "evidence_id": "SEV-PEST-003",
+    "entity_id": "PEST_003",
+    "chunk_type": "SEVERITY",
+    "text": "Severity tier 'moderate' (SES Scale 5) for Leaf folder: Cutoff range is 6%-15% folded leaves (or 5%-10% damaged flag leaves at booting). Symptom: Reaches ETL; multiple folded leaves per hill; larvae actively scraping chlorophyll from inside rolls.",
+    "metadata": {
+      "name": "Leaf folder",
+      "tier": "moderate",
+      "ses_scale": "5",
+      "cutoff_range": "6%-15% folded leaves (or 5%-10% damaged flag leaves at booting)",
+      "source": "TNAU / ICAR",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "TNAU Crop Protection Guide — Agriculture"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-SEV-PEST-003-SEVERE",
+    "parent_record_id": "REC-SEV-PEST-003",
+    "evidence_id": "SEV-PEST-003",
+    "entity_id": "PEST_003",
+    "chunk_type": "SEVERITY",
+    "text": "Severity tier 'severe' (SES Scale 7) for Leaf folder: Cutoff range is 16%-30% folded leaves. Symptom: Severe leaf rolling across canopy; significant photosynthesis reduction; white papery appearance on upper third of crop.",
+    "metadata": {
+      "name": "Leaf folder",
+      "tier": "severe",
+      "ses_scale": "7",
+      "cutoff_range": "16%-30% folded leaves",
+      "source": "TNAU / ICAR",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "TNAU Crop Protection Guide — Agriculture"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-SEV-PEST-003-SEVERE_SPREADING",
+    "parent_record_id": "REC-SEV-PEST-003",
+    "evidence_id": "SEV-PEST-003",
+    "entity_id": "PEST_003",
+    "chunk_type": "SEVERITY",
+    "text": "Severity tier 'severe_spreading' (SES Scale 9) for Leaf folder: Cutoff range is >30% folded leaves. Symptom: Whitish scorched field appearance across entire parcel; extensive flag leaf destruction leading to grain unfilled chaffiness.",
+    "metadata": {
+      "name": "Leaf folder",
+      "tier": "severe_spreading",
+      "ses_scale": "9",
+      "cutoff_range": ">30% folded leaves",
+      "source": "TNAU / ICAR",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "TNAU Crop Protection Guide — Agriculture"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-SEV-PEST-004-EARLY",
+    "parent_record_id": "REC-SEV-PEST-004",
+    "evidence_id": "SEV-PEST-004",
+    "entity_id": "PEST_004",
+    "chunk_type": "SEVERITY",
+    "text": "Severity tier 'early' (SES Scale 1-3) for Green leafhopper (GLH): Cutoff range is <5 hoppers/hill (non-endemic) or <1 hopper/hill (Tungro area). Symptom: Low adult activity; slight tip yellowing; no virus transmission symptoms detected.",
+    "metadata": {
+      "name": "Green leafhopper (GLH)",
+      "tier": "early",
+      "ses_scale": "1-3",
+      "cutoff_range": "<5 hoppers/hill (non-endemic) or <1 hopper/hill (Tungro area)",
+      "source": "ICAR-IIRR",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "ICAR Rice Production Manual — Green Leafhopper"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-SEV-PEST-004-MODERATE",
+    "parent_record_id": "REC-SEV-PEST-004",
+    "evidence_id": "SEV-PEST-004",
+    "entity_id": "PEST_004",
+    "chunk_type": "SEVERITY",
+    "text": "Severity tier 'moderate' (SES Scale 5) for Green leafhopper (GLH): Cutoff range is 6-15 hoppers/hill (veg) or 1-2 hoppers/hill (Tungro endemic). Symptom: Reaches ETL; active hopper jumping in canopy; margin chlorosis developing on middle leaves.",
+    "metadata": {
+      "name": "Green leafhopper (GLH)",
+      "tier": "moderate",
+      "ses_scale": "5",
+      "cutoff_range": "6-15 hoppers/hill (veg) or 1-2 hoppers/hill (Tungro endemic)",
+      "source": "ICAR-IIRR",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "ICAR Rice Production Manual — Green Leafhopper"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-SEV-PEST-004-SEVERE",
+    "parent_record_id": "REC-SEV-PEST-004",
+    "evidence_id": "SEV-PEST-004",
+    "entity_id": "PEST_004",
+    "chunk_type": "SEVERITY",
+    "text": "Severity tier 'severe' (SES Scale 7) for Green leafhopper (GLH): Cutoff range is 16-30 hoppers/hill. Symptom: Heavy sap drainage; widespread yellow-orange leaf discoloration; stunted tiller vigor.",
+    "metadata": {
+      "name": "Green leafhopper (GLH)",
+      "tier": "severe",
+      "ses_scale": "7",
+      "cutoff_range": "16-30 hoppers/hill",
+      "source": "ICAR-IIRR",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "ICAR Rice Production Manual — Green Leafhopper"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-SEV-PEST-004-SEVERE_SPREADING",
+    "parent_record_id": "REC-SEV-PEST-004",
+    "evidence_id": "SEV-PEST-004",
+    "entity_id": "PEST_004",
+    "chunk_type": "SEVERITY",
+    "text": "Severity tier 'severe_spreading' (SES Scale 9) for Green leafhopper (GLH): Cutoff range is >30 hoppers/hill or active Tungro epidemic spreading. Symptom: Complete leaf chlorosis or virulent Rice Tungro Virus spreading with pronounced stunting and sterile panicles.",
+    "metadata": {
+      "name": "Green leafhopper (GLH)",
+      "tier": "severe_spreading",
+      "ses_scale": "9",
+      "cutoff_range": ">30 hoppers/hill or active Tungro epidemic spreading",
+      "source": "ICAR-IIRR",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "ICAR Rice Production Manual — Green Leafhopper"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-SEV-PEST-005-EARLY",
+    "parent_record_id": "REC-SEV-PEST-005",
+    "evidence_id": "SEV-PEST-005",
+    "entity_id": "PEST_005",
+    "chunk_type": "SEVERITY",
+    "text": "Severity tier 'early' (SES Scale 1-3) for Gall midge: Cutoff range is 1%-4% silver shoots at tillering. Symptom: Occasional silver shoots (onion galls) visible at tiller base; plant compensation still possible.",
+    "metadata": {
+      "name": "Gall midge",
+      "tier": "early",
+      "ses_scale": "1-3",
+      "cutoff_range": "1%-4% silver shoots at tillering",
+      "source": "TNAU / ICAR-IIRR",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "TNAU Gall Midge Management & ICAR Manual"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-SEV-PEST-005-MODERATE",
+    "parent_record_id": "REC-SEV-PEST-005",
+    "evidence_id": "SEV-PEST-005",
+    "entity_id": "PEST_005",
+    "chunk_type": "SEVERITY",
+    "text": "Severity tier 'moderate' (SES Scale 5) for Gall midge: Cutoff range is 5%-10% silver shoots. Symptom: Reaches ETL; prominent silver shoots causing sterile tiller loss in 5-10% of shoots.",
+    "metadata": {
+      "name": "Gall midge",
+      "tier": "moderate",
+      "ses_scale": "5",
+      "cutoff_range": "5%-10% silver shoots",
+      "source": "TNAU / ICAR-IIRR",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "TNAU Gall Midge Management & ICAR Manual"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-SEV-PEST-005-SEVERE",
+    "parent_record_id": "REC-SEV-PEST-005",
+    "evidence_id": "SEV-PEST-005",
+    "entity_id": "PEST_005",
+    "chunk_type": "SEVERITY",
+    "text": "Severity tier 'severe' (SES Scale 7) for Gall midge: Cutoff range is 11%-25% silver shoots. Symptom: Extensive tiller galling; high percentage of shoots unable to develop productive earheads.",
+    "metadata": {
+      "name": "Gall midge",
+      "tier": "severe",
+      "ses_scale": "7",
+      "cutoff_range": "11%-25% silver shoots",
+      "source": "TNAU / ICAR-IIRR",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "TNAU Gall Midge Management & ICAR Manual"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-SEV-PEST-005-SEVERE_SPREADING",
+    "parent_record_id": "REC-SEV-PEST-005",
+    "evidence_id": "SEV-PEST-005",
+    "entity_id": "PEST_005",
+    "chunk_type": "SEVERITY",
+    "text": "Severity tier 'severe_spreading' (SES Scale 9) for Gall midge: Cutoff range is >25% silver shoots. Symptom: Massive tiller destruction across field; stunted bushy appearance of hills with severe yield collapse.",
+    "metadata": {
+      "name": "Gall midge",
+      "tier": "severe_spreading",
+      "ses_scale": "9",
+      "cutoff_range": ">25% silver shoots",
+      "source": "TNAU / ICAR-IIRR",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "TNAU Gall Midge Management & ICAR Manual"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-SEV-PEST-006-EARLY",
+    "parent_record_id": "REC-SEV-PEST-006",
+    "evidence_id": "SEV-PEST-006",
+    "entity_id": "PEST_006",
+    "chunk_type": "SEVERITY",
+    "text": "Severity tier 'early' (SES Scale 1-3) for Thrips: Cutoff range is 1-4 thrips/seedling in nursery. Symptom: Minute silvery spots on upper leaf surfaces; mild inward rolling of leaf tips.",
+    "metadata": {
+      "name": "Thrips",
+      "tier": "early",
+      "ses_scale": "1-3",
+      "cutoff_range": "1-4 thrips/seedling in nursery",
+      "source": "KVK / TNAU",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "KVK Rice Nursery Management Advisory"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-SEV-PEST-006-MODERATE",
+    "parent_record_id": "REC-SEV-PEST-006",
+    "evidence_id": "SEV-PEST-006",
+    "entity_id": "PEST_006",
+    "chunk_type": "SEVERITY",
+    "text": "Severity tier 'moderate' (SES Scale 5) for Thrips: Cutoff range is 5-10 thrips/seedling (nursery) or 10-25 thrips/hill (tillering). Symptom: Reaches ETL; conspicuous needle-like leaf rolling; tips drying and yellowing.",
+    "metadata": {
+      "name": "Thrips",
+      "tier": "moderate",
+      "ses_scale": "5",
+      "cutoff_range": "5-10 thrips/seedling (nursery) or 10-25 thrips/hill (tillering)",
+      "source": "KVK / TNAU",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "KVK Rice Nursery Management Advisory"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-SEV-PEST-006-SEVERE",
+    "parent_record_id": "REC-SEV-PEST-006",
+    "evidence_id": "SEV-PEST-006",
+    "entity_id": "PEST_006",
+    "chunk_type": "SEVERITY",
+    "text": "Severity tier 'severe' (SES Scale 7) for Thrips: Cutoff range is >25 thrips/hill, >50% rolled leaves. Symptom: Extensive leaf curling and drying across seedling bed; scorched appearance of nursery.",
+    "metadata": {
+      "name": "Thrips",
+      "tier": "severe",
+      "ses_scale": "7",
+      "cutoff_range": ">25 thrips/hill, >50% rolled leaves",
+      "source": "KVK / TNAU",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "KVK Rice Nursery Management Advisory"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-SEV-PEST-006-SEVERE_SPREADING",
+    "parent_record_id": "REC-SEV-PEST-006",
+    "evidence_id": "SEV-PEST-006",
+    "entity_id": "PEST_006",
+    "chunk_type": "SEVERITY",
+    "text": "Severity tier 'severe_spreading' (SES Scale 9) for Thrips: Cutoff range is Complete nursery seedling mortality or field-wide dry-out. Symptom: Death of nursery seedlings under moisture stress; complete loss of transplantable nursery stand.",
+    "metadata": {
+      "name": "Thrips",
+      "tier": "severe_spreading",
+      "ses_scale": "9",
+      "cutoff_range": "Complete nursery seedling mortality or field-wide dry-out",
+      "source": "KVK / TNAU",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "KVK Rice Nursery Management Advisory"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-SEV-PEST-007-EARLY",
+    "parent_record_id": "REC-SEV-PEST-007",
+    "evidence_id": "SEV-PEST-007",
+    "entity_id": "PEST_007",
+    "chunk_type": "SEVERITY",
+    "text": "Severity tier 'early' (SES Scale 1-3) for Whorl maggot: Cutoff range is <5% damaged leaves within 30 DAT. Symptom: Small yellowish feeding streaks on newly expanded central leaves; seedling vigor unaffected.",
+    "metadata": {
+      "name": "Whorl maggot",
+      "tier": "early",
+      "ses_scale": "1-3",
+      "cutoff_range": "<5% damaged leaves within 30 DAT",
+      "source": "TNAU",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "TNAU Whorl Maggot Management in Rice"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-SEV-PEST-007-MODERATE",
+    "parent_record_id": "REC-SEV-PEST-007",
+    "evidence_id": "SEV-PEST-007",
+    "entity_id": "PEST_007",
+    "chunk_type": "SEVERITY",
+    "text": "Severity tier 'moderate' (SES Scale 5) for Whorl maggot: Cutoff range is 6%-15% damaged leaves. Symptom: Reaches ETL; ragged serrated leaf margins visible on multiple expanding leaves per hill.",
+    "metadata": {
+      "name": "Whorl maggot",
+      "tier": "moderate",
+      "ses_scale": "5",
+      "cutoff_range": "6%-15% damaged leaves",
+      "source": "TNAU",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "TNAU Whorl Maggot Management in Rice"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-SEV-PEST-007-SEVERE",
+    "parent_record_id": "REC-SEV-PEST-007",
+    "evidence_id": "SEV-PEST-007",
+    "entity_id": "PEST_007",
+    "chunk_type": "SEVERITY",
+    "text": "Severity tier 'severe' (SES Scale 7) for Whorl maggot: Cutoff range is 16%-30% damaged leaves. Symptom: Conspicuous broken serrated leaf blades and distorted central whorls across the plot.",
+    "metadata": {
+      "name": "Whorl maggot",
+      "tier": "severe",
+      "ses_scale": "7",
+      "cutoff_range": "16%-30% damaged leaves",
+      "source": "TNAU",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "TNAU Whorl Maggot Management in Rice"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-SEV-PEST-007-SEVERE_SPREADING",
+    "parent_record_id": "REC-SEV-PEST-007",
+    "evidence_id": "SEV-PEST-007",
+    "entity_id": "PEST_007",
+    "chunk_type": "SEVERITY",
+    "text": "Severity tier 'severe_spreading' (SES Scale 9) for Whorl maggot: Cutoff range is >30% damaged leaves with severe seedling stunting. Symptom: Severe plant stunting, delayed tillering, and general stand vigor reduction in flooded fields.",
+    "metadata": {
+      "name": "Whorl maggot",
+      "tier": "severe_spreading",
+      "ses_scale": "9",
+      "cutoff_range": ">30% damaged leaves with severe seedling stunting",
+      "source": "TNAU",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "TNAU Whorl Maggot Management in Rice"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-SEV-PEST-008-EARLY",
+    "parent_record_id": "REC-SEV-PEST-008",
+    "evidence_id": "SEV-PEST-008",
+    "entity_id": "PEST_008",
+    "chunk_type": "SEVERITY",
+    "text": "Severity tier 'early' (SES Scale 1-3) for Earhead bug: Cutoff range is 1-4 bugs/100 panicles (<1 bug/hill). Symptom: Isolated adult bugs feeding during morning hours; rare localized brownish puncture spots on glumes.",
+    "metadata": {
+      "name": "Earhead bug",
+      "tier": "early",
+      "ses_scale": "1-3",
+      "cutoff_range": "1-4 bugs/100 panicles (<1 bug/hill)",
+      "source": "ICAR-IIRR",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "ICAR Rice Insect Pest Management Manual"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-SEV-PEST-008-MODERATE",
+    "parent_record_id": "REC-SEV-PEST-008",
+    "evidence_id": "SEV-PEST-008",
+    "entity_id": "PEST_008",
+    "chunk_type": "SEVERITY",
+    "text": "Severity tier 'moderate' (SES Scale 5) for Earhead bug: Cutoff range is 5-10 bugs/100 panicles (1-2 bugs/hill). Symptom: Reaches ETL; milky grains being pierced; foul odor noticeable upon entering field; brown spots on maturing grains.",
+    "metadata": {
+      "name": "Earhead bug",
+      "tier": "moderate",
+      "ses_scale": "5",
+      "cutoff_range": "5-10 bugs/100 panicles (1-2 bugs/hill)",
+      "source": "ICAR-IIRR",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "ICAR Rice Insect Pest Management Manual"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-SEV-PEST-008-SEVERE",
+    "parent_record_id": "REC-SEV-PEST-008",
+    "evidence_id": "SEV-PEST-008",
+    "entity_id": "PEST_008",
+    "chunk_type": "SEVERITY",
+    "text": "Severity tier 'severe' (SES Scale 7) for Earhead bug: Cutoff range is 11-25 bugs/100 panicles (2-4 bugs/hill). Symptom: Numerous damaged, shriveled, partially filled grains with blackened feeding punctures; strong pungent odor.",
+    "metadata": {
+      "name": "Earhead bug",
+      "tier": "severe",
+      "ses_scale": "7",
+      "cutoff_range": "11-25 bugs/100 panicles (2-4 bugs/hill)",
+      "source": "ICAR-IIRR",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "ICAR Rice Insect Pest Management Manual"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-SEV-PEST-008-SEVERE_SPREADING",
+    "parent_record_id": "REC-SEV-PEST-008",
+    "evidence_id": "SEV-PEST-008",
+    "entity_id": "PEST_008",
+    "chunk_type": "SEVERITY",
+    "text": "Severity tier 'severe_spreading' (SES Scale 9) for Earhead bug: Cutoff range is >25 bugs/100 panicles (>4 bugs/hill). Symptom: Massive grain loss; over 30% empty/chaffy erect panicles; severe economic devaluation of grain lot.",
+    "metadata": {
+      "name": "Earhead bug",
+      "tier": "severe_spreading",
+      "ses_scale": "9",
+      "cutoff_range": ">25 bugs/100 panicles (>4 bugs/hill)",
+      "source": "ICAR-IIRR",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "ICAR Rice Insect Pest Management Manual"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-SEV-DIS-001-EARLY",
+    "parent_record_id": "REC-SEV-DIS-001",
+    "evidence_id": "SEV-DIS-001",
+    "entity_id": "DIS_001",
+    "chunk_type": "SEVERITY",
+    "text": "Severity tier 'early' (SES Scale 1-3) for Bacterial Leaf Blight (BLB): Cutoff range is 1%-5% leaf area affected. Symptom: Water-soaked translucent stripes along leaf margins; yellow-orange wavy margins on isolated upper leaves.",
+    "metadata": {
+      "name": "Bacterial Leaf Blight (BLB)",
+      "tier": "early",
+      "ses_scale": "1-3",
+      "cutoff_range": "1%-5% leaf area affected",
+      "source": "ICAR / IRRI / TNAU",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "Standard Evaluation System for Rice (5th Ed.)"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-SEV-DIS-001-MODERATE",
+    "parent_record_id": "REC-SEV-DIS-001",
+    "evidence_id": "SEV-DIS-001",
+    "entity_id": "DIS_001",
+    "chunk_type": "SEVERITY",
+    "text": "Severity tier 'moderate' (SES Scale 5) for Bacterial Leaf Blight (BLB): Cutoff range is 6%-12% leaf area affected. Symptom: Lesions expanding along leaf blade with characteristic wavy margins and milky bacterial ooze beads on damp mornings.",
+    "metadata": {
+      "name": "Bacterial Leaf Blight (BLB)",
+      "tier": "moderate",
+      "ses_scale": "5",
+      "cutoff_range": "6%-12% leaf area affected",
+      "source": "ICAR / IRRI / TNAU",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "Standard Evaluation System for Rice (5th Ed.)"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-SEV-DIS-001-SEVERE",
+    "parent_record_id": "REC-SEV-DIS-001",
+    "evidence_id": "SEV-DIS-001",
+    "entity_id": "DIS_001",
+    "chunk_type": "SEVERITY",
+    "text": "Severity tier 'severe' (SES Scale 7) for Bacterial Leaf Blight (BLB): Cutoff range is 13%-25% leaf area affected. Symptom: Lesions coalescing; blighting of upper leaves including flag leaf; early kresek (systemic wilting) on susceptible varieties.",
+    "metadata": {
+      "name": "Bacterial Leaf Blight (BLB)",
+      "tier": "severe",
+      "ses_scale": "7",
+      "cutoff_range": "13%-25% leaf area affected",
+      "source": "ICAR / IRRI / TNAU",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "Standard Evaluation System for Rice (5th Ed.)"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-SEV-DIS-001-SEVERE_SPREADING",
+    "parent_record_id": "REC-SEV-DIS-001",
+    "evidence_id": "SEV-DIS-001",
+    "entity_id": "DIS_001",
+    "chunk_type": "SEVERITY",
+    "text": "Severity tier 'severe_spreading' (SES Scale 9) for Bacterial Leaf Blight (BLB): Cutoff range is >25%-50% leaf area affected or severe kresek phase. Symptom: Complete leaf drying, systemic kresek wilting of entire hills, premature crop lodging and severe unfilled grains.",
+    "metadata": {
+      "name": "Bacterial Leaf Blight (BLB)",
+      "tier": "severe_spreading",
+      "ses_scale": "9",
+      "cutoff_range": ">25%-50% leaf area affected or severe kresek phase",
+      "source": "ICAR / IRRI / TNAU",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "Standard Evaluation System for Rice (5th Ed.)"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-SEV-DIS-002-EARLY",
+    "parent_record_id": "REC-SEV-DIS-002",
+    "evidence_id": "SEV-DIS-002",
+    "entity_id": "DIS_002",
+    "chunk_type": "SEVERITY",
+    "text": "Severity tier 'early' (SES Scale 1-3) for Rice Blast: Cutoff range is <1%-5% leaf area with pinhead/small spindle lesions. Symptom: Small brown specks or circular to spindle-shaped lesions (1-2 mm) with grey center on lower canopy leaves.",
+    "metadata": {
+      "name": "Rice Blast",
+      "tier": "early",
+      "ses_scale": "1-3",
+      "cutoff_range": "<1%-5% leaf area with pinhead/small spindle lesions",
+      "source": "ICAR / IRRI / TNAU",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "Standard Evaluation System for Rice (5th Ed.)"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-SEV-DIS-002-MODERATE",
+    "parent_record_id": "REC-SEV-DIS-002",
+    "evidence_id": "SEV-DIS-002",
+    "entity_id": "DIS_002",
+    "chunk_type": "SEVERITY",
+    "text": "Severity tier 'moderate' (SES Scale 5) for Rice Blast: Cutoff range is 6%-10% leaf area with typical spindle-shaped lesions. Symptom: Typical spindle-shaped lesions (0.5-1.5 cm) with grey/whitish centers and dark reddish-brown borders on middle leaves.",
+    "metadata": {
+      "name": "Rice Blast",
+      "tier": "moderate",
+      "ses_scale": "5",
+      "cutoff_range": "6%-10% leaf area with typical spindle-shaped lesions",
+      "source": "ICAR / IRRI / TNAU",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "Standard Evaluation System for Rice (5th Ed.)"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-SEV-DIS-002-SEVERE",
+    "parent_record_id": "REC-SEV-DIS-002",
+    "evidence_id": "SEV-DIS-002",
+    "entity_id": "DIS_002",
+    "chunk_type": "SEVERITY",
+    "text": "Severity tier 'severe' (SES Scale 7) for Rice Blast: Cutoff range is 11%-25% leaf area affected or initial neck blast. Symptom: Lesions coalescing causing leaf necrosis; blackish-brown lesion developing at panicle node/neck (early neck blast).",
+    "metadata": {
+      "name": "Rice Blast",
+      "tier": "severe",
+      "ses_scale": "7",
+      "cutoff_range": "11%-25% leaf area affected or initial neck blast",
+      "source": "ICAR / IRRI / TNAU",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "Standard Evaluation System for Rice (5th Ed.)"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-SEV-DIS-002-SEVERE_SPREADING",
+    "parent_record_id": "REC-SEV-DIS-002",
+    "evidence_id": "SEV-DIS-002",
+    "entity_id": "DIS_002",
+    "chunk_type": "SEVERITY",
+    "text": "Severity tier 'severe_spreading' (SES Scale 9) for Rice Blast: Cutoff range is >25% leaf area affected or >10% rotten neck blast. Symptom: Complete leaf canopy burning; neck blast causing snapping of panicle base and complete chaffiness of earhead.",
+    "metadata": {
+      "name": "Rice Blast",
+      "tier": "severe_spreading",
+      "ses_scale": "9",
+      "cutoff_range": ">25% leaf area affected or >10% rotten neck blast",
+      "source": "ICAR / IRRI / TNAU",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "Standard Evaluation System for Rice (5th Ed.)"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-SEV-DIS-003-EARLY",
+    "parent_record_id": "REC-SEV-DIS-003",
+    "evidence_id": "SEV-DIS-003",
+    "entity_id": "DIS_003",
+    "chunk_type": "SEVERITY",
+    "text": "Severity tier 'early' (SES Scale 1-3) for Sheath Blight: Cutoff range is RLH <= 20% (lesions restricted to lower sheaths near waterline). Symptom: Oval or greenish-grey water-soaked lesions on leaf sheaths just above the water level.",
+    "metadata": {
+      "name": "Sheath Blight",
+      "tier": "early",
+      "ses_scale": "1-3",
+      "cutoff_range": "RLH <= 20% (lesions restricted to lower sheaths near waterline)",
+      "source": "IRRI / TNAU",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "Standard Evaluation System for Rice (5th Ed.)"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-SEV-DIS-003-MODERATE",
+    "parent_record_id": "REC-SEV-DIS-003",
+    "evidence_id": "SEV-DIS-003",
+    "entity_id": "DIS_003",
+    "chunk_type": "SEVERITY",
+    "text": "Severity tier 'moderate' (SES Scale 5) for Sheath Blight: Cutoff range is RLH 21%-40% (lesions reaching 3rd or 4th leaf sheath). Symptom: Lesions enlarging with irregular brownish borders and grey-white centers; spreading upward along tillers.",
+    "metadata": {
+      "name": "Sheath Blight",
+      "tier": "moderate",
+      "ses_scale": "5",
+      "cutoff_range": "RLH 21%-40% (lesions reaching 3rd or 4th leaf sheath)",
+      "source": "IRRI / TNAU",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "Standard Evaluation System for Rice (5th Ed.)"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-SEV-DIS-003-SEVERE",
+    "parent_record_id": "REC-SEV-DIS-003",
+    "evidence_id": "SEV-DIS-003",
+    "entity_id": "DIS_003",
+    "chunk_type": "SEVERITY",
+    "text": "Severity tier 'severe' (SES Scale 7) for Sheath Blight: Cutoff range is RLH 41%-60% (lesions reaching flag leaf sheath). Symptom: Lesions coalescing and reaching the flag leaf sheath and collar; white sclerotia visible on lesions.",
+    "metadata": {
+      "name": "Sheath Blight",
+      "tier": "severe",
+      "ses_scale": "7",
+      "cutoff_range": "RLH 41%-60% (lesions reaching flag leaf sheath)",
+      "source": "IRRI / TNAU",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "Standard Evaluation System for Rice (5th Ed.)"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-SEV-DIS-003-SEVERE_SPREADING",
+    "parent_record_id": "REC-SEV-DIS-003",
+    "evidence_id": "SEV-DIS-003",
+    "entity_id": "DIS_003",
+    "chunk_type": "SEVERITY",
+    "text": "Severity tier 'severe_spreading' (SES Scale 9) for Sheath Blight: Cutoff range is RLH > 60% (lesions spreading into flag leaf blade and panicle). Symptom: Infection covering entire plant height including panicle; tillers rotting at base leading to severe lodging.",
+    "metadata": {
+      "name": "Sheath Blight",
+      "tier": "severe_spreading",
+      "ses_scale": "9",
+      "cutoff_range": "RLH > 60% (lesions spreading into flag leaf blade and panicle)",
+      "source": "IRRI / TNAU",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "Standard Evaluation System for Rice (5th Ed.)"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-SEV-DIS-004-EARLY",
+    "parent_record_id": "REC-SEV-DIS-004",
+    "evidence_id": "SEV-DIS-004",
+    "entity_id": "DIS_004",
+    "chunk_type": "SEVERITY",
+    "text": "Severity tier 'early' (SES Scale 1-3) for Rice Tungro Virus (RTV): Cutoff range is <5% infected hills in isolated patches. Symptom: Slight stunting; light yellow or pale green discoloration on youngest emerging leaves of isolated hills.",
+    "metadata": {
+      "name": "Rice Tungro Virus (RTV)",
+      "tier": "early",
+      "ses_scale": "1-3",
+      "cutoff_range": "<5% infected hills in isolated patches",
+      "source": "IRRI / ICAR-IIRR / TNAU",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "Standard Evaluation System for Rice (5th Ed.) & TNAU CPG"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-SEV-DIS-004-MODERATE",
+    "parent_record_id": "REC-SEV-DIS-004",
+    "evidence_id": "SEV-DIS-004",
+    "entity_id": "DIS_004",
+    "chunk_type": "SEVERITY",
+    "text": "Severity tier 'moderate' (SES Scale 5) for Rice Tungro Virus (RTV): Cutoff range is 6%-15% infected hills. Symptom: Marked stunting; vivid yellow to orange-yellow leaf discoloration starting from tips; reduced tillering.",
+    "metadata": {
+      "name": "Rice Tungro Virus (RTV)",
+      "tier": "moderate",
+      "ses_scale": "5",
+      "cutoff_range": "6%-15% infected hills",
+      "source": "IRRI / ICAR-IIRR / TNAU",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "Standard Evaluation System for Rice (5th Ed.) & TNAU CPG"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-SEV-DIS-004-SEVERE",
+    "parent_record_id": "REC-SEV-DIS-004",
+    "evidence_id": "SEV-DIS-004",
+    "entity_id": "DIS_004",
+    "chunk_type": "SEVERITY",
+    "text": "Severity tier 'severe' (SES Scale 7) for Rice Tungro Virus (RTV): Cutoff range is 16%-30% infected hills. Symptom: Severe plant stunting, rusty orange discoloration, delayed flowering, and partial emergence of sterile panicles.",
+    "metadata": {
+      "name": "Rice Tungro Virus (RTV)",
+      "tier": "severe",
+      "ses_scale": "7",
+      "cutoff_range": "16%-30% infected hills",
+      "source": "IRRI / ICAR-IIRR / TNAU",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "Standard Evaluation System for Rice (5th Ed.) & TNAU CPG"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-SEV-DIS-004-SEVERE_SPREADING",
+    "parent_record_id": "REC-SEV-DIS-004",
+    "evidence_id": "SEV-DIS-004",
+    "entity_id": "DIS_004",
+    "chunk_type": "SEVERITY",
+    "text": "Severity tier 'severe_spreading' (SES Scale 9) for Rice Tungro Virus (RTV): Cutoff range is >30% infected hills across field. Symptom: Field-wide epidemic; severe stunting with entire crop turning orange-yellow; total grain yield loss.",
+    "metadata": {
+      "name": "Rice Tungro Virus (RTV)",
+      "tier": "severe_spreading",
+      "ses_scale": "9",
+      "cutoff_range": ">30% infected hills across field",
+      "source": "IRRI / ICAR-IIRR / TNAU",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "Standard Evaluation System for Rice (5th Ed.) & TNAU CPG"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-CHEM-001",
+    "parent_record_id": "REC-CHEM-001",
+    "evidence_id": "CHEM-001",
+    "entity_id": "CHEM_CHEM-001",
+    "chunk_type": "CHEMICAL",
+    "text": "Chemical Prescription: Chlorantraniliprole 18.5 SC for Stem borer, Leaf folder. Dosage: 150 ml/ha in 500 L water. Regulatory Status: VERIFIED_CURRENT (Approved). Pre-Harvest Interval (PHI): 47 days. Toxicity: Green Label (Low mammalian toxicity). Notes: CIBRC registered for Rice Stem Borer and Leaf Folder. Safe to natural enemies.",
+    "metadata": {
+      "active_ingredient": "Chlorantraniliprole",
+      "formulation": "18.5 SC",
+      "targets": [
+        "Stem borer",
+        "Leaf folder"
+      ],
+      "dosage": "150 ml/ha in 500 L water",
+      "regulatory_status": "VERIFIED_CURRENT",
+      "phi_days": 47,
+      "toxicity": "Green Label (Low mammalian toxicity)",
+      "drone_guidelines": null,
+      "source": "CIBRC / TNAU",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "https://agritech.tnau.ac.in/crop_protection/rice_pest.html"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-CHEM-002",
+    "parent_record_id": "REC-CHEM-002",
+    "evidence_id": "CHEM-002",
+    "entity_id": "CHEM_CHEM-002",
+    "chunk_type": "CHEMICAL",
+    "text": "Chemical Prescription: Buprofezin 25 SC for Brown planthopper (BPH), Green leafhopper (GLH). Dosage: 400-800 ml/ha in 500 L water. Regulatory Status: VERIFIED_CURRENT (Approved). Pre-Harvest Interval (PHI): 30 days. Toxicity: Blue Label (Insect Growth Regulator). Notes: CIBRC approved for rice hoppers. Direct spray to base of tillers.",
+    "metadata": {
+      "active_ingredient": "Buprofezin",
+      "formulation": "25 SC",
+      "targets": [
+        "Brown planthopper (BPH)",
+        "Green leafhopper (GLH)"
+      ],
+      "dosage": "400-800 ml/ha in 500 L water",
+      "regulatory_status": "VERIFIED_CURRENT",
+      "phi_days": 30,
+      "toxicity": "Blue Label (Insect Growth Regulator)",
+      "drone_guidelines": null,
+      "source": "CIBRC / IRRI",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "https://www.knowledgebank.irri.org/"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-CHEM-003",
+    "parent_record_id": "REC-CHEM-003",
+    "evidence_id": "CHEM-003",
+    "entity_id": "CHEM_CHEM-003",
+    "chunk_type": "CHEMICAL",
+    "text": "Chemical Prescription: Imidacloprid 17.8 SL for Green leafhopper (GLH), Brown planthopper (BPH). Dosage: 100-125 ml/ha in 500 L water. Regulatory Status: VERIFIED_CURRENT (Approved). Pre-Harvest Interval (PHI): 21 days. Toxicity: Yellow Label (Neonicotinoid). Notes: Approved for rice hoppers; suppresses GLH vector to prevent Tungro virus transmission.",
+    "metadata": {
+      "active_ingredient": "Imidacloprid",
+      "formulation": "17.8 SL",
+      "targets": [
+        "Green leafhopper (GLH)",
+        "Brown planthopper (BPH)"
+      ],
+      "dosage": "100-125 ml/ha in 500 L water",
+      "regulatory_status": "VERIFIED_CURRENT",
+      "phi_days": 21,
+      "toxicity": "Yellow Label (Neonicotinoid)",
+      "drone_guidelines": null,
+      "source": "CIBRC / ICAR-IIRR",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "https://iirr.icar.gov.in/"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-CHEM-004",
+    "parent_record_id": "REC-CHEM-004",
+    "evidence_id": "CHEM-004",
+    "entity_id": "CHEM_CHEM-004",
+    "chunk_type": "CHEMICAL",
+    "text": "Chemical Prescription: Thiamethoxam 25 WG for Thrips, Stem borer, GLH. Dosage: 100 g/ha in 500 L water. Regulatory Status: VERIFIED_CURRENT (Approved). Pre-Harvest Interval (PHI): 14 days. Toxicity: Green Label (Neonicotinoid). Notes: Approved for rice thrips and stem borer. Suitable for nursery and tillering.",
+    "metadata": {
+      "active_ingredient": "Thiamethoxam",
+      "formulation": "25 WG",
+      "targets": [
+        "Thrips",
+        "Stem borer",
+        "GLH"
+      ],
+      "dosage": "100 g/ha in 500 L water",
+      "regulatory_status": "VERIFIED_CURRENT",
+      "phi_days": 14,
+      "toxicity": "Green Label (Neonicotinoid)",
+      "drone_guidelines": null,
+      "source": "CIBRC / KVK",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "https://kvk.icar.gov.in/"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-CHEM-005",
+    "parent_record_id": "REC-CHEM-005",
+    "evidence_id": "CHEM-005",
+    "entity_id": "CHEM_CHEM-005",
+    "chunk_type": "CHEMICAL",
+    "text": "Chemical Prescription: Carbofuran 3G for Stem borer, Gall midge, Whorl maggot. Dosage: 33 kg/ha at planting. Regulatory Status: RESTRICTED (Restricted / Phased Ban). Pre-Harvest Interval (PHI): 60 days. Toxicity: Red Label (Class Ib High Toxicity). Notes: Carbamate with high avian and groundwater toxicity. Restricted/banned across several states. Requires warning.",
+    "metadata": {
+      "active_ingredient": "Carbofuran",
+      "formulation": "3G",
+      "targets": [
+        "Stem borer",
+        "Gall midge",
+        "Whorl maggot"
+      ],
+      "dosage": "33 kg/ha at planting",
+      "regulatory_status": "RESTRICTED",
+      "phi_days": 60,
+      "toxicity": "Red Label (Class Ib High Toxicity)",
+      "drone_guidelines": null,
+      "source": "CIBRC Restricted List / TNAU",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "https://agritech.tnau.ac.in/crop_protection/rice_pest.html"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-CHEM-006",
+    "parent_record_id": "REC-CHEM-006",
+    "evidence_id": "CHEM-006",
+    "entity_id": "CHEM_CHEM-006",
+    "chunk_type": "CHEMICAL",
+    "text": "Chemical Prescription: Malathion 50 EC for Earhead bug. Dosage: 500-1000 ml/ha in 500 L water. Regulatory Status: RESTRICTED (Approved with Strict PHI). Pre-Harvest Interval (PHI): 10 days. Toxicity: Blue Label (Organophosphate). Notes: Applied during grain milking; high grain residue risk. Mandatory minimum 7-10 days PHI.",
+    "metadata": {
+      "active_ingredient": "Malathion",
+      "formulation": "50 EC",
+      "targets": [
+        "Earhead bug"
+      ],
+      "dosage": "500-1000 ml/ha in 500 L water",
+      "regulatory_status": "RESTRICTED",
+      "phi_days": 10,
+      "toxicity": "Blue Label (Organophosphate)",
+      "drone_guidelines": null,
+      "source": "CIBRC / ICAR-IIRR",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "https://iirr.icar.gov.in/"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-CHEM-007",
+    "parent_record_id": "REC-CHEM-007",
+    "evidence_id": "CHEM-007",
+    "entity_id": "CHEM_CHEM-007",
+    "chunk_type": "CHEMICAL",
+    "text": "Chemical Prescription: Copper hydroxide 77 WP for Bacterial Leaf Blight (BLB), False Smut, Bacterial Leaf Streak (BLS). Dosage: 1.25 kg/ha in 500 L water. Regulatory Status: VERIFIED_CURRENT (Approved). Pre-Harvest Interval (PHI): 15 days. Toxicity: Blue Label (Inorganic Copper). Notes: Approved for bacterial blight and false smut. Apply preventively at boot leaf.",
+    "metadata": {
+      "active_ingredient": "Copper hydroxide",
+      "formulation": "77 WP",
+      "targets": [
+        "Bacterial Leaf Blight (BLB)",
+        "False Smut",
+        "Bacterial Leaf Streak (BLS)"
+      ],
+      "dosage": "1.25 kg/ha in 500 L water",
+      "regulatory_status": "VERIFIED_CURRENT",
+      "phi_days": 15,
+      "toxicity": "Blue Label (Inorganic Copper)",
+      "drone_guidelines": null,
+      "source": "CIBRC / TNAU",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "https://agritech.tnau.ac.in/crop_protection/rice_diseases.html"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-CHEM-008",
+    "parent_record_id": "REC-CHEM-008",
+    "evidence_id": "CHEM-008",
+    "entity_id": "CHEM_CHEM-008",
+    "chunk_type": "CHEMICAL",
+    "text": "Chemical Prescription: Tricyclazole 75 WP for Rice Blast (Leaf & Neck). Dosage: 500 g/ha (0.6 g/L water). Regulatory Status: VERIFIED_CURRENT (Approved). Pre-Harvest Interval (PHI): 30 days. Toxicity: Blue Label (Triazole). Notes: Gold standard blasticide; highly systemic; prevents appressorial melanization.",
+    "metadata": {
+      "active_ingredient": "Tricyclazole",
+      "formulation": "75 WP",
+      "targets": [
+        "Rice Blast (Leaf & Neck)"
+      ],
+      "dosage": "500 g/ha (0.6 g/L water)",
+      "regulatory_status": "VERIFIED_CURRENT",
+      "phi_days": 30,
+      "toxicity": "Blue Label (Triazole)",
+      "drone_guidelines": null,
+      "source": "CIBRC / TNAU",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "https://agritech.tnau.ac.in/crop_protection/rice_diseases.html"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-CHEM-009",
+    "parent_record_id": "REC-CHEM-009",
+    "evidence_id": "CHEM-009",
+    "entity_id": "CHEM_CHEM-009",
+    "chunk_type": "CHEMICAL",
+    "text": "Chemical Prescription: Isoprothiolane 40 EC for Rice Blast. Dosage: 750 ml/ha in 500 L water. Regulatory Status: VERIFIED_CURRENT (Approved). Pre-Harvest Interval (PHI): 30 days. Toxicity: Blue Label (Dithiolane). Notes: Approved for rice blast; inhibits phospholipid biosynthesis.",
+    "metadata": {
+      "active_ingredient": "Isoprothiolane",
+      "formulation": "40 EC",
+      "targets": [
+        "Rice Blast"
+      ],
+      "dosage": "750 ml/ha in 500 L water",
+      "regulatory_status": "VERIFIED_CURRENT",
+      "phi_days": 30,
+      "toxicity": "Blue Label (Dithiolane)",
+      "drone_guidelines": null,
+      "source": "CIBRC / ICAR-IIRR",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "https://iirr.icar.gov.in/"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-CHEM-010",
+    "parent_record_id": "REC-CHEM-010",
+    "evidence_id": "CHEM-010",
+    "entity_id": "CHEM_CHEM-010",
+    "chunk_type": "CHEMICAL",
+    "text": "Chemical Prescription: Hexaconazole 5 SC / 5 EC for Sheath Blight. Dosage: 1000 ml/ha in 500 L water. Regulatory Status: VERIFIED_CURRENT (Approved). Pre-Harvest Interval (PHI): 30 days. Toxicity: Green Label (Triazole). Notes: Systemic triazole fungicide targeting ergosterol biosynthesis.",
+    "metadata": {
+      "active_ingredient": "Hexaconazole",
+      "formulation": "5 SC / 5 EC",
+      "targets": [
+        "Sheath Blight"
+      ],
+      "dosage": "1000 ml/ha in 500 L water",
+      "regulatory_status": "VERIFIED_CURRENT",
+      "phi_days": 30,
+      "toxicity": "Green Label (Triazole)",
+      "drone_guidelines": null,
+      "source": "CIBRC / TNAU",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "https://agritech.tnau.ac.in/crop_protection/rice_diseases.html"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-CHEM-011",
+    "parent_record_id": "REC-CHEM-011",
+    "evidence_id": "CHEM-011",
+    "entity_id": "CHEM_CHEM-011",
+    "chunk_type": "CHEMICAL",
+    "text": "Chemical Prescription: Validamycin 3 L for Sheath Blight. Dosage: 1000 ml/ha in 500 L water. Regulatory Status: VERIFIED_CURRENT (Approved). Pre-Harvest Interval (PHI): 14 days. Toxicity: Green Label (Antibiotic/Fungicide). Notes: Antibiotic fungicide derived from Streptomyces hygroscopicus; inhibits trehalase.",
+    "metadata": {
+      "active_ingredient": "Validamycin",
+      "formulation": "3 L",
+      "targets": [
+        "Sheath Blight"
+      ],
+      "dosage": "1000 ml/ha in 500 L water",
+      "regulatory_status": "VERIFIED_CURRENT",
+      "phi_days": 14,
+      "toxicity": "Green Label (Antibiotic/Fungicide)",
+      "drone_guidelines": null,
+      "source": "CIBRC / IRRI",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "https://www.knowledgebank.irri.org/"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-CHEM-012",
+    "parent_record_id": "REC-CHEM-012",
+    "evidence_id": "CHEM-012",
+    "entity_id": "CHEM_CHEM-012",
+    "chunk_type": "CHEMICAL",
+    "text": "Chemical Prescription: Azoxystrobin + Difenoconazole 18.2% + 11.4% SC (29.6 SC) for Sheath Blight, Rice Blast. Dosage: 500 ml/ha in 500 L water. Regulatory Status: VERIFIED_CURRENT (Approved). Pre-Harvest Interval (PHI): 31 days. Toxicity: Blue Label (Strobilurin + Triazole). Notes: Broad-spectrum combination with dual translaminar and systemic modes of action.",
+    "metadata": {
+      "active_ingredient": "Azoxystrobin + Difenoconazole",
+      "formulation": "18.2% + 11.4% SC (29.6 SC)",
+      "targets": [
+        "Sheath Blight",
+        "Rice Blast"
+      ],
+      "dosage": "500 ml/ha in 500 L water",
+      "regulatory_status": "VERIFIED_CURRENT",
+      "phi_days": 31,
+      "toxicity": "Blue Label (Strobilurin + Triazole)",
+      "drone_guidelines": null,
+      "source": "CIBRC / TNAU",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "https://agritech.tnau.ac.in/crop_protection/rice_diseases.html"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-CHEM-013",
+    "parent_record_id": "REC-CHEM-013",
+    "evidence_id": "CHEM-013",
+    "entity_id": "CHEM_CHEM-013",
+    "chunk_type": "CHEMICAL",
+    "text": "Chemical Prescription: Propiconazole 25 EC for Sheath Rot, False Smut. Dosage: 500 ml/ha in 500 L water. Regulatory Status: VERIFIED_CURRENT (Approved). Pre-Harvest Interval (PHI): 30 days. Toxicity: Yellow Label (Triazole). Notes: Approved for sheath rot and false smut. Must be applied at booting stage for false smut.",
+    "metadata": {
+      "active_ingredient": "Propiconazole",
+      "formulation": "25 EC",
+      "targets": [
+        "Sheath Rot",
+        "False Smut"
+      ],
+      "dosage": "500 ml/ha in 500 L water",
+      "regulatory_status": "VERIFIED_CURRENT",
+      "phi_days": 30,
+      "toxicity": "Yellow Label (Triazole)",
+      "drone_guidelines": null,
+      "source": "CIBRC / TNAU",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "https://agritech.tnau.ac.in/crop_protection/rice_diseases.html"
+    ]
+  },
+  {
+    "chunk_id": "CHUNK-CHEM-014",
+    "parent_record_id": "REC-CHEM-014",
+    "evidence_id": "CHEM-014",
+    "entity_id": "CHEM_CHEM-014",
+    "chunk_type": "CHEMICAL",
+    "text": "Chemical Prescription: Streptocycline + Copper Oxychloride 90:10 SP + 50 WP for Bacterial Leaf Blight (BLB). Dosage: 100 g + 500 g per hectare. Regulatory Status: RESTRICTED (Restricted / Under Review). Pre-Harvest Interval (PHI): 30 days. Toxicity: Red/Yellow Label (Agricultural Antibiotic). Notes: Streptocycline is an antibiotic subject to Antimicrobial Resistance (AMR) regulatory restrictions in Indian agriculture. Non-antibiotic alternatives (Copper Hydroxide) preferred.",
+    "metadata": {
+      "active_ingredient": "Streptocycline + Copper Oxychloride",
+      "formulation": "90:10 SP + 50 WP",
+      "targets": [
+        "Bacterial Leaf Blight (BLB)"
+      ],
+      "dosage": "100 g + 500 g per hectare",
+      "regulatory_status": "RESTRICTED",
+      "phi_days": 30,
+      "toxicity": "Red/Yellow Label (Agricultural Antibiotic)",
+      "drone_guidelines": null,
+      "source": "CIBRC / DPPQS",
+      "knowledge_version": "v4.2.0-validated"
+    },
+    "provenance": [
+      "https://ppqs.gov.in/"
+    ]
+  }
+]
