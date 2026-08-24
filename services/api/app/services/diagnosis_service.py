@@ -25,6 +25,7 @@ from app.core.config import Settings, get_settings
 from app.core.enums import ProblemSeverity
 from app.domain.gate import decide
 from app.domain.health.inputs import TriggeringInput
+from app.domain.kvk_directory import DEFAULT_KVK_CENTER_ID
 from app.domain.rag import FivePointAdvisory, GroundedCitation, parse_advisory_output
 from app.models.health_snapshot import HealthSnapshot
 from app.repositories.dependencies import get_case_repository, get_farm_repository, get_problem_writer
@@ -32,6 +33,7 @@ from app.repositories.health_context import OpenProblemRecord, ProblemWriter
 from app.repositories.interfaces import CaseRepository, FarmRepository, RetrievedChunk
 from app.services.gate_service import SUPPORTED_DIAGNOSIS_LABELS
 from app.services.health_service import HealthService, get_health_service
+from app.services.kvk_routing import route_to_next_available_kvk
 from app.services.rag.retrieval import RetrievalService, get_retrieval_service
 
 # A fresh diagnosis has no follow-up history yet, so it always starts at the
@@ -39,9 +41,9 @@ from app.services.rag.retrieval import RetrievalService, get_retrieval_service
 # PRD §5.10) promote or resolve it from there.
 INITIAL_PROBLEM_SEVERITY = ProblemSeverity.EARLY
 
-# Placeholder for PRD §5.11's real nearest-available-KVK routing, which
-# doesn't have its own phase yet.
-DEFAULT_ASSIGNED_AGRONOMIST = "agronomist:kvk_erode"
+# Fallback only for the rare case a farm has no coordinates yet (Phase 2:
+# app/services/kvk_routing.py now does real nearest-available-KVK routing).
+DEFAULT_ASSIGNED_AGRONOMIST = DEFAULT_KVK_CENTER_ID
 
 # A fresh diagnosis photo is a fresh field scan (health engine sub-index #5
 # resets to "just scanned") and — per PRD §7.4's worked example, "diagnosis
@@ -233,15 +235,20 @@ class DiagnosisService:
         return before_score, after_snapshot.score
 
     async def _create_escalation(self, farm_id: str, reason: str | None) -> DiagnoseEscalation:
+        farm = await self._farms.get_by_id(farm_id)
+        assigned_to = DEFAULT_ASSIGNED_AGRONOMIST
+        if farm and farm.get("latitude") is not None and farm.get("longitude") is not None:
+            assigned_to = await route_to_next_available_kvk(self._case_repo, farm["latitude"], farm["longitude"])
+
         saved = await self._case_repo.save(
             {
                 "farm_id": farm_id,
                 "reason": reason,
-                "assigned_to": DEFAULT_ASSIGNED_AGRONOMIST,
+                "assigned_to": assigned_to,
                 "status": "assigned",
             }
         )
-        return DiagnoseEscalation(case_id=saved["id"], assigned_to=DEFAULT_ASSIGNED_AGRONOMIST)
+        return DiagnoseEscalation(case_id=saved["id"], assigned_to=assigned_to)
 
 
 def get_diagnosis_service(

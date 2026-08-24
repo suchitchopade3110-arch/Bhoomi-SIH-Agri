@@ -9,13 +9,15 @@ from fastapi import Depends
 from app.core.enums import CaseStatus, ProblemSeverity
 from app.core.errors import NotFoundError
 from app.domain.escalation import build_case_summary
+from app.domain.kvk_directory import DEFAULT_KVK_CENTER_ID
 from app.repositories.dependencies import get_case_repository, get_farm_repository
 from app.repositories.interfaces import CaseRepository, FarmRepository
 from app.schemas.escalation import EscalationCreateRequest, EscalationResponse
+from app.services.kvk_routing import route_to_next_available_kvk
 
-# Placeholder for PRD §5.11's real nearest-available-KVK routing (no
-# officer-availability/capacity model exists yet — PRD §10 risk #10).
-DEFAULT_ASSIGNED_AGRONOMIST = "agronomist:kvk_erode"
+# Fallback only for the rare case a farm has no coordinates yet (should not
+# happen post-onboarding — farm creation requires latitude/longitude).
+DEFAULT_ASSIGNED_AGRONOMIST = DEFAULT_KVK_CENTER_ID
 
 
 class EscalationService:
@@ -37,6 +39,10 @@ class EscalationService:
         if farm is None:
             raise NotFoundError("Farm not found.", details={"farm_id": farm_id})
 
+        assigned_to = DEFAULT_ASSIGNED_AGRONOMIST
+        if farm.get("latitude") is not None and farm.get("longitude") is not None:
+            assigned_to = await route_to_next_available_kvk(self._cases, farm["latitude"], farm["longitude"])
+
         saved = await self._cases.save(
             {
                 "farm_id": farm_id,
@@ -44,7 +50,7 @@ class EscalationService:
                 "reason": reason,
                 "severity": severity.value,
                 "status": CaseStatus.ESCALATED.value,
-                "assigned_to": DEFAULT_ASSIGNED_AGRONOMIST,
+                "assigned_to": assigned_to,
             }
         )
 
@@ -63,7 +69,7 @@ class EscalationService:
             recent_events=[],
             current_health_score=0.0,
             problem_details={"label": problem_label or "unspecified", "severity": severity},
-            assigned_officer_or_kvk=DEFAULT_ASSIGNED_AGRONOMIST,
+            assigned_officer_or_kvk=assigned_to,
             status=CaseStatus.ESCALATED,
         )
         await self._cases.update_status(saved["id"], CaseStatus.ESCALATED.value, resolution=None)
@@ -73,7 +79,7 @@ class EscalationService:
             farm_id=farm_id,
             status=CaseStatus.ESCALATED,
             severity=severity,
-            assigned_kvk_center=DEFAULT_ASSIGNED_AGRONOMIST,
+            assigned_kvk_center=assigned_to,
             case_summary=summary,
             spoken_summary=summary.spoken_summary,
         )

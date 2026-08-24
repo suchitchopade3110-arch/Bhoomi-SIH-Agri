@@ -393,6 +393,20 @@
 
 ## 8. Follow-ups & Check-ins (`/api/v1/followup`)
 
+> [!NOTE]
+> **Phase 1 route-path decision:** an earlier work-plan draft cited a
+> contract path `POST /followups/{id}/respond` to reconcile against. That
+> path appears nowhere in this repo — not in this file, not in
+> `docs/specs/api_contract_sih26131_delta.md §4`'s realigned endpoint index
+> (which itself lists `POST /api/v1/followup/checkin`), and not in
+> Santheesh's Flutter client (`apps/farmer_app/.../api_constants.dart` posts
+> to `$apiVersion/followup/checkin`). Backend, docs, and frontend already
+> agree on `POST /api/v1/followup/checkin` — **decision: keep it, no alias
+> route added.** Adding a route for a path with no reference anywhere would
+> be dead code. The `got_worse` -> auto-escalation chain is already
+> covered end-to-end by `tests/e2e/test_runbook.py` step 7 (asserts
+> `auto_escalated is True` and a populated `escalation_id`).
+
 ### 8.1 Submit Advisory Outcome Check-in
 - **Endpoint:** `POST /api/v1/followup/checkin`
 - **Request Body:** (matches `app/schemas/followup.py::FollowupCheckinRequest` — the
