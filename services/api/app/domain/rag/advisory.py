@@ -23,8 +23,8 @@ class FivePointAdvisory:
 
     possible_issue: str
     what_to_check: str
-    what_to_do_next: str
     what_to_avoid: str
+    what_to_do_next: str
     expert_triggers: str
 
 

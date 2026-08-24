@@ -13,8 +13,8 @@ CHUNK_OVERLAP_CHARS = 80
 FIVE_POINT_FIELDS: tuple[str, ...] = (
     "possible_issue",
     "what_to_check",
-    "what_to_do_next",
     "what_to_avoid",
+    "what_to_do_next",
     "expert_triggers",
 )
 

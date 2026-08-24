@@ -12,7 +12,7 @@ from app.schemas.health import (
     HealthSnapshot,
     SubIndexBreakdown,
 )
-from app.schemas.gate import Decision
+from app.schemas.gate import Decision, GateObject
 from app.schemas.advisory import (
     AdvisoryQueryRequest,
     AdvisoryQueryResponse,
@@ -42,7 +42,9 @@ from app.schemas.voice import (
 from app.schemas.farm import (
     FarmCreateRequest,
     FarmResponse,
+    FarmRiskTrendResponse,
     FarmSummaryResponse,
+    FarmSummaryTrendResponse,
     FarmUpdateRequest,
 )
 from app.schemas.land import (
@@ -50,6 +52,7 @@ from app.schemas.land import (
     CadastralLookupResponse,
     LandVerifyRequest,
     LandVerifyResponse,
+    ThinLandVerification,
 )
 from app.schemas.officer import (
     OfficerActionRequest,
@@ -157,6 +160,10 @@ __all__ = [
     "SchemeResponse",
     "SchemeMatchRequest",
     "SchemeListResponse",
+    "GateObject",
+    "FarmRiskTrendResponse",
+    "FarmSummaryTrendResponse",
+    "ThinLandVerification",
     "WeatherCurrentResponse",
     "WeatherForecastResponse",
     "WeatherEt0Response",

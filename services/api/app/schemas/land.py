@@ -47,3 +47,11 @@ class LandVerifyResponse(BaseModel):
     status: LandStatus = Field(...)
     submitted_at: datetime = Field(default_factory=datetime.utcnow)
     officer_notes: str | None = None
+
+
+class ThinLandVerification(BaseModel):
+    """Thin land status schema without cut boundary/geometry fields (SIH26131)."""
+    farm_id: str = Field(..., description="UUID string of farm")
+    status: LandStatus = Field(..., description="Thin status: pending_verification | verified | rejected")
+    last_verified_at: datetime | None = Field(default=None, description="Timestamp of status update")
+

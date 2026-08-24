@@ -4,11 +4,13 @@ from enum import Enum
 
 
 class LandStatus(str, Enum):
-    """Cadastral land verification status."""
-    UNVERIFIED = "unverified"
-    PENDING_REVIEW = "pending_review"
+    """Land verification status (thin enum: pending_verification | verified | rejected)."""
+    PENDING_VERIFICATION = "pending_verification"
     VERIFIED = "verified"
     REJECTED = "rejected"
+    # Backwards-compatibility aliases for legacy cadastral flows
+    UNVERIFIED = "unverified"
+    PENDING_REVIEW = "pending_review"
 
 
 class HealthBand(str, Enum):
