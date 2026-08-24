@@ -114,18 +114,9 @@ apiClient.interceptors.response.use(
     const url = error.config?.url || '';
     const method = error.config?.method?.toLowerCase() || '';
 
-    // GET /api/v1/agronomist/queue or /api/v1/kvk/cases
-    if ((url.includes('/api/v1/agronomist/queue') || (url.includes('/api/v1/kvk/cases') && !url.includes('/resolve'))) && method === 'get') {
-      const segments = url.split('/');
-      const lastSegment = segments[segments.length - 1];
-      if (lastSegment !== 'cases' && lastSegment !== 'queue') {
-        // Individual case
-        const found = mockCases.find((c) => c.case_id === lastSegment);
-        if (found) return Promise.resolve({ data: found, status: 200 });
-      } else {
-        // Queue list
-        return Promise.resolve({ data: mockCases, status: 200 });
-      }
+    // GET /api/v1/agronomist/queue
+    if (url.includes('/api/v1/agronomist/queue') && method === 'get') {
+      return Promise.resolve({ data: mockCases, status: 200 });
     }
 
     // GET /api/v1/agronomist/case/{id}
@@ -136,10 +127,10 @@ apiClient.interceptors.response.use(
       return Promise.resolve({ data: found, status: 200 });
     }
 
-    // POST /api/v1/agronomist/resolve or /api/v1/kvk/cases/{id}/resolve
-    if (url.includes('/resolve') && method === 'post') {
+    // POST /api/v1/agronomist/resolve
+    if (url.includes('/api/v1/agronomist/resolve') && method === 'post') {
       const payload = typeof error.config?.data === 'string' ? JSON.parse(error.config?.data || '{}') : (error.config?.data || {});
-      const caseId = payload.escalation_id || (url.includes('/cases/') ? url.split('/')[url.split('/').length - 2] : 'case_kvk_701');
+      const caseId = payload.escalation_id || 'case_kvk_701';
 
       const target = mockCases.find((c) => c.case_id === caseId);
       if (target) {

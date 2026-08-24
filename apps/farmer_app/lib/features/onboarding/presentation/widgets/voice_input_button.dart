@@ -24,18 +24,34 @@ class VoiceInputButton extends StatefulWidget {
 class _VoiceInputButtonState extends State<VoiceInputButton>
     with SingleTickerProviderStateMixin {
   late AnimationController _pulseController;
-  late Animation<double> _pulseAnimation;
+  late Animation<double> _scaleAnimation;
+  late Animation<double> _wave1Animation;
+  late Animation<double> _wave2Animation;
 
   @override
   void initState() {
     super.initState();
     _pulseController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 1200),
-    )..repeat(reverse: true);
+      duration: const Duration(milliseconds: 1600),
+    )..repeat();
 
-    _pulseAnimation = Tween<double>(begin: 1.0, end: 1.15).animate(
-      CurvedAnimation(parent: _pulseController, curve: Curves.easeInOut),
+    _scaleAnimation = Tween<double>(begin: 1.0, end: 1.08).animate(
+      CurvedAnimation(
+        parent: _pulseController,
+        curve: const Interval(0.0, 0.5, curve: Curves.easeInOut),
+      ),
+    );
+
+    _wave1Animation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _pulseController, curve: Curves.easeOut),
+    );
+
+    _wave2Animation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(
+        parent: _pulseController,
+        curve: const Interval(0.25, 1.0, curve: Curves.easeOut),
+      ),
     );
   }
 
@@ -51,59 +67,114 @@ class _VoiceInputButtonState extends State<VoiceInputButton>
       children: [
         GestureDetector(
           onTap: widget.onTap,
-          child: AnimatedBuilder(
-            animation: _pulseAnimation,
-            builder: (context, child) {
-              final scale = widget.isListening ? _pulseAnimation.value : 1.0;
-              return Transform.scale(
-                scale: scale,
-                child: Container(
-                  width: 96.0,
-                  height: 96.0,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    gradient: LinearGradient(
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                      colors: widget.isListening
-                          ? [
-                              AppColors.warmAccent,
-                              const Color(0xFFE76F51),
-                            ]
-                          : [
-                              AppColors.primaryGreen,
-                              AppColors.secondaryGreen,
-                            ],
+          child: SizedBox(
+            width: 140.0,
+            height: 140.0,
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                // Outer concentric ring 1
+                if (widget.isListening) ...[
+                  AnimatedBuilder(
+                    animation: _wave1Animation,
+                    builder: (context, child) {
+                      return Container(
+                        width: 90.0 + (50.0 * _wave1Animation.value),
+                        height: 90.0 + (50.0 * _wave1Animation.value),
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: (widget.isListening ? AppColors.accentGold : AppColors.primaryGreen)
+                              .withValues(alpha: 0.25 * (1.0 - _wave1Animation.value)),
+                        ),
+                      );
+                    },
+                  ),
+                  AnimatedBuilder(
+                    animation: _wave2Animation,
+                    builder: (context, child) {
+                      return Container(
+                        width: 90.0 + (35.0 * _wave2Animation.value),
+                        height: 90.0 + (35.0 * _wave2Animation.value),
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: (widget.isListening ? AppColors.accentGold : AppColors.primaryGreen)
+                              .withValues(alpha: 0.35 * (1.0 - _wave2Animation.value)),
+                        ),
+                      );
+                    },
+                  ),
+                ] else ...[
+                  // Static soft concentric halo
+                  Container(
+                    width: 116.0,
+                    height: 116.0,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: AppColors.lightGreen.withValues(alpha: 0.8),
                     ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: widget.isListening
-                            ? AppColors.warmAccent.withValues(alpha: 0.4)
-                            : AppColors.primaryGreen.withValues(alpha: 0.3),
-                        blurRadius: widget.isListening ? 24.0 : 12.0,
-                        spreadRadius: widget.isListening ? 4.0 : 0.0,
-                        offset: const Offset(0, 4),
+                  ),
+                ],
+
+                // Core Circular Microphone Button
+                AnimatedBuilder(
+                  animation: _scaleAnimation,
+                  builder: (context, child) {
+                    final scale = widget.isListening ? _scaleAnimation.value : 1.0;
+                    return Transform.scale(
+                      scale: scale,
+                      child: Container(
+                        width: 88.0,
+                        height: 88.0,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          gradient: LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            colors: widget.isListening
+                                ? [
+                                    const Color(0xFFF4A261),
+                                    const Color(0xFFE76F51),
+                                  ]
+                                : [
+                                    AppColors.primaryDeepGreen,
+                                    AppColors.secondaryGreen,
+                                  ],
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: widget.isListening
+                                  ? const Color(0xFFF4A261).withValues(alpha: 0.4)
+                                  : AppColors.primaryGreen.withValues(alpha: 0.3),
+                              blurRadius: widget.isListening ? 20.0 : 12.0,
+                              spreadRadius: widget.isListening ? 3.0 : 0.0,
+                              offset: const Offset(0, 4),
+                            ),
+                          ],
+                        ),
+                        child: Icon(
+                          widget.isListening ? Icons.mic_rounded : Icons.mic_none_rounded,
+                          color: Colors.white,
+                          size: 40.0,
+                        ),
                       ),
-                    ],
-                  ),
-                  child: Icon(
-                    widget.isListening ? Icons.mic_rounded : Icons.mic_none_rounded,
-                    color: Colors.white,
-                    size: 44.0,
-                  ),
+                    );
+                  },
                 ),
-              );
-            },
+              ],
+            ),
           ),
         ),
-        const SizedBox(height: AppSpacing.md),
+        const SizedBox(height: AppSpacing.sm),
+
+        // Spoken state prompt
         Text(
-          widget.isListening ? 'Listening... speak clearly' : 'Tap to speak your answer',
-          style: AppTypography.labelMedium.copyWith(
-            color: widget.isListening ? AppColors.warmAccent : AppColors.textMuted,
-            fontWeight: FontWeight.w600,
+          widget.isListening ? 'Listening... speak in your language' : 'Tap and speak',
+          style: AppTypography.labelLarge.copyWith(
+            color: widget.isListening ? const Color(0xFFE76F51) : AppColors.primaryGreen,
+            fontWeight: FontWeight.w700,
           ),
         ),
+
         if (widget.activeValue != null && widget.activeValue!.isNotEmpty) ...[
           const SizedBox(height: AppSpacing.sm),
           Container(
@@ -112,14 +183,14 @@ class _VoiceInputButtonState extends State<VoiceInputButton>
               vertical: AppSpacing.xs + 2,
             ),
             decoration: BoxDecoration(
-              color: AppColors.primaryGreen.withValues(alpha: 0.08),
+              color: AppColors.lightGreen,
               borderRadius: BorderRadius.circular(AppSpacing.radiusFull),
               border: Border.all(color: AppColors.primaryGreen.withValues(alpha: 0.2)),
             ),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Icon(Icons.check_circle, size: 16.0, color: AppColors.primaryGreen),
+                const Icon(Icons.check_circle_rounded, size: 16.0, color: AppColors.primaryGreen),
                 const SizedBox(width: AppSpacing.xs),
                 Flexible(
                   child: Text(

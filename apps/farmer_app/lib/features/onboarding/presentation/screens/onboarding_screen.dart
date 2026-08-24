@@ -149,19 +149,23 @@ class OnboardingScreen extends ConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Text(
-          strings.cropStepTitle,
-          style: AppTypography.headlineLarge,
+          strings.letsGetToKnow,
+          style: const TextStyle(
+            fontSize: 22.0,
+            fontWeight: FontWeight.w800,
+            color: AppColors.textPrimary,
+          ),
           textAlign: TextAlign.center,
         ),
-        const SizedBox(height: AppSpacing.sm),
+        const SizedBox(height: 4.0),
         Text(
-          strings.cropStepSub,
-          style: AppTypography.bodyMedium.copyWith(color: AppColors.textMuted),
+          strings.youCanSpeak,
+          style: AppTypography.bodyMedium.copyWith(color: AppColors.textSecondary),
           textAlign: TextAlign.center,
         ),
-        const SizedBox(height: AppSpacing.lg),
+        const SizedBox(height: AppSpacing.md),
 
-        // Voice Input Button
+        // Concentric Voice Button
         VoiceInputButton(
           isListening: state.isListening,
           promptText: strings.cropVoicePrompt,
@@ -171,9 +175,29 @@ class OnboardingScreen extends ConsumerWidget {
           },
         ),
 
-        const SizedBox(height: AppSpacing.xl),
-        Text(strings.quickSelectOptions, style: AppTypography.titleMedium),
-        const SizedBox(height: AppSpacing.md),
+        const SizedBox(height: AppSpacing.sm),
+        Center(
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md, vertical: 6.0),
+            decoration: BoxDecoration(
+              color: AppColors.surface,
+              borderRadius: BorderRadius.circular(AppSpacing.radiusMd),
+              border: Border.all(color: AppColors.border),
+            ),
+            child: const Text(
+              'Example: "I have a samba paddy field"',
+              style: TextStyle(
+                fontSize: 12.0,
+                color: AppColors.textMuted,
+                fontStyle: FontStyle.italic,
+              ),
+            ),
+          ),
+        ),
+
+        const SizedBox(height: AppSpacing.lg),
+        Text(strings.quickSelectOptions, style: AppTypography.titleMedium.copyWith(fontWeight: FontWeight.w700)),
+        const SizedBox(height: AppSpacing.sm),
 
         ...crops.map(
           (c) {
@@ -205,16 +229,20 @@ class OnboardingScreen extends ConsumerWidget {
       children: [
         Text(
           strings.areaStepTitle,
-          style: AppTypography.headlineLarge,
+          style: const TextStyle(
+            fontSize: 22.0,
+            fontWeight: FontWeight.w800,
+            color: AppColors.textPrimary,
+          ),
           textAlign: TextAlign.center,
         ),
-        const SizedBox(height: AppSpacing.sm),
+        const SizedBox(height: 4.0),
         Text(
           strings.areaStepSub,
-          style: AppTypography.bodyMedium.copyWith(color: AppColors.textMuted),
+          style: AppTypography.bodyMedium.copyWith(color: AppColors.textSecondary),
           textAlign: TextAlign.center,
         ),
-        const SizedBox(height: AppSpacing.lg),
+        const SizedBox(height: AppSpacing.md),
 
         VoiceInputButton(
           isListening: state.isListening,
@@ -225,9 +253,29 @@ class OnboardingScreen extends ConsumerWidget {
           },
         ),
 
-        const SizedBox(height: AppSpacing.xl),
-        Text(strings.selectFarmAreaTitle, style: AppTypography.titleMedium),
-        const SizedBox(height: AppSpacing.md),
+        const SizedBox(height: AppSpacing.sm),
+        Center(
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md, vertical: 6.0),
+            decoration: BoxDecoration(
+              color: AppColors.surface,
+              borderRadius: BorderRadius.circular(AppSpacing.radiusMd),
+              border: Border.all(color: AppColors.border),
+            ),
+            child: const Text(
+              'Example: "2.5 acres in Coimbatore"',
+              style: TextStyle(
+                fontSize: 12.0,
+                color: AppColors.textMuted,
+                fontStyle: FontStyle.italic,
+              ),
+            ),
+          ),
+        ),
+
+        const SizedBox(height: AppSpacing.lg),
+        Text(strings.selectFarmAreaTitle, style: AppTypography.titleMedium.copyWith(fontWeight: FontWeight.w700)),
+        const SizedBox(height: AppSpacing.sm),
 
         ...areas.map(
           (val) => Padding(
@@ -262,16 +310,20 @@ class OnboardingScreen extends ConsumerWidget {
       children: [
         Text(
           strings.growthStepTitle,
-          style: AppTypography.headlineLarge,
+          style: const TextStyle(
+            fontSize: 22.0,
+            fontWeight: FontWeight.w800,
+            color: AppColors.textPrimary,
+          ),
           textAlign: TextAlign.center,
         ),
-        const SizedBox(height: AppSpacing.sm),
+        const SizedBox(height: 4.0),
         Text(
           strings.growthStepSub,
-          style: AppTypography.bodyMedium.copyWith(color: AppColors.textMuted),
+          style: AppTypography.bodyMedium.copyWith(color: AppColors.textSecondary),
           textAlign: TextAlign.center,
         ),
-        const SizedBox(height: AppSpacing.lg),
+        const SizedBox(height: AppSpacing.md),
 
         VoiceInputButton(
           isListening: state.isListening,
@@ -282,9 +334,29 @@ class OnboardingScreen extends ConsumerWidget {
           },
         ),
 
-        const SizedBox(height: AppSpacing.xl),
-        Text(strings.selectGrowthStageTitle, style: AppTypography.titleMedium),
-        const SizedBox(height: AppSpacing.md),
+        const SizedBox(height: AppSpacing.sm),
+        Center(
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md, vertical: 6.0),
+            decoration: BoxDecoration(
+              color: AppColors.surface,
+              borderRadius: BorderRadius.circular(AppSpacing.radiusMd),
+              border: Border.all(color: AppColors.border),
+            ),
+            child: const Text(
+              'Example: "Flowering stage"',
+              style: TextStyle(
+                fontSize: 12.0,
+                color: AppColors.textMuted,
+                fontStyle: FontStyle.italic,
+              ),
+            ),
+          ),
+        ),
+
+        const SizedBox(height: AppSpacing.lg),
+        Text(strings.selectGrowthStageTitle, style: AppTypography.titleMedium.copyWith(fontWeight: FontWeight.w700)),
+        const SizedBox(height: AppSpacing.sm),
 
         ...stages.map(
           (s) {

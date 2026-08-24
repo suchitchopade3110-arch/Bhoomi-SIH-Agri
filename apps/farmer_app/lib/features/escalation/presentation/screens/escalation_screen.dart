@@ -3,9 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../app/theme/app_colors.dart';
 import '../../../../app/theme/app_spacing.dart';
-import '../../../../app/theme/app_typography.dart';
 import '../../../../core/widgets/bhoomi_card.dart';
 import '../../../../core/widgets/bhoomi_primary_button.dart';
+import '../../../../core/widgets/bhoomi_secondary_button.dart';
 import '../../../diagnosis/application/diagnosis_controller.dart';
 import '../../application/escalation_controller.dart';
 
@@ -41,7 +41,8 @@ class _EscalationScreenState extends ConsumerState<EscalationScreen> {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
-        title: const Text('KVK Expert Review'),
+        title: const Text('KVK Expert Review', style: TextStyle(fontWeight: FontWeight.w800)),
+        scrolledUnderElevation: 0,
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -50,30 +51,72 @@ class _EscalationScreenState extends ConsumerState<EscalationScreen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               if (state.response == null) ...[
-                // Info Card
+                // Escalating to Expert Card
                 BhoomiCard(
-                  padding: const EdgeInsets.all(AppSpacing.lg),
+                  padding: const EdgeInsets.all(AppSpacing.xl),
                   child: Column(
                     children: [
+                      // Expert Illustration / Emblem
                       Container(
-                        padding: const EdgeInsets.all(AppSpacing.md),
+                        width: 80.0,
+                        height: 80.0,
                         decoration: BoxDecoration(
-                          color: const Color(0xFF9333EA).withValues(alpha: 0.12),
+                          color: const Color(0xFFFAF5FF),
                           shape: BoxShape.circle,
+                          border: Border.all(color: const Color(0xFFE9D5FF), width: 2.0),
+                          boxShadow: const [
+                            BoxShadow(
+                              color: Color(0x1A9333EA),
+                              blurRadius: 14.0,
+                              offset: Offset(0, 4),
+                            ),
+                          ],
                         ),
-                        child: const Icon(Icons.support_agent_rounded, color: Color(0xFF9333EA), size: 32.0),
+                        child: const Center(
+                          child: Icon(Icons.support_agent_rounded, color: Color(0xFF9333EA), size: 40.0),
+                        ),
                       ),
                       const SizedBox(height: AppSpacing.md),
                       const Text(
-                        'Expert Verification Recommended',
-                        style: AppTypography.headlineMedium,
+                        'Escalating to Expert',
+                        style: TextStyle(
+                          fontSize: 22.0,
+                          fontWeight: FontWeight.w900,
+                          color: AppColors.textPrimary,
+                        ),
                         textAlign: TextAlign.center,
                       ),
-                      const SizedBox(height: AppSpacing.xs),
-                      Text(
-                        'This issue may need agricultural review by Krishi Vigyan Kendra (KVK) agronomists. Your farm context, diagnosis history, and crop photo will be forwarded.',
-                        style: AppTypography.bodyMedium.copyWith(color: AppColors.textSecondary),
+                      const SizedBox(height: 4.0),
+                      const Text(
+                        'Our agricultural expert will review your case.',
+                        style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.w600, color: AppColors.primaryGreen),
                         textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(height: AppSpacing.md),
+                      const Text(
+                        'Your crop photographs, field telemetry, and diagnosis history will be compiled and forwarded directly to Krishi Vigyan Kendra agronomists.',
+                        style: TextStyle(fontSize: 13.0, color: AppColors.textSecondary, height: 1.35),
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(height: AppSpacing.lg),
+
+                      // Stepper Status Preview
+                      Container(
+                        padding: const EdgeInsets.all(AppSpacing.md),
+                        decoration: BoxDecoration(
+                          color: AppColors.background,
+                          borderRadius: BorderRadius.circular(AppSpacing.radiusMd),
+                          border: Border.all(color: AppColors.border),
+                        ),
+                        child: const Column(
+                          children: [
+                            _EscalationStepRow(label: 'Case transferred', isPending: true),
+                            SizedBox(height: AppSpacing.xs),
+                            _EscalationStepRow(label: 'Expert notified', isPending: true),
+                            SizedBox(height: AppSpacing.xs),
+                            _EscalationStepRow(label: 'Review in progress', isPending: true),
+                          ],
+                        ),
                       ),
                     ],
                   ),
@@ -83,10 +126,14 @@ class _EscalationScreenState extends ConsumerState<EscalationScreen> {
 
                 // Reason Input
                 BhoomiCard(
+                  padding: const EdgeInsets.all(AppSpacing.lg),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text('Why do you need expert help? (Optional)', style: AppTypography.titleMedium),
+                      const Text(
+                        'Why do you need expert help? (Optional)',
+                        style: TextStyle(fontSize: 14.5, fontWeight: FontWeight.w800, color: AppColors.textPrimary),
+                      ),
                       const SizedBox(height: AppSpacing.sm),
                       TextField(
                         controller: _reasonController,
@@ -106,6 +153,30 @@ class _EscalationScreenState extends ConsumerState<EscalationScreen> {
                   ),
                 ),
 
+                if (state.errorMessage != null) ...[
+                  const SizedBox(height: AppSpacing.md),
+                  Container(
+                    padding: const EdgeInsets.all(AppSpacing.md),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFFFEBEE),
+                      borderRadius: BorderRadius.circular(AppSpacing.radiusMd),
+                      border: Border.all(color: const Color(0xFFEF9A9A)),
+                    ),
+                    child: Row(
+                      children: [
+                        const Icon(Icons.error_outline, color: Color(0xFFC62828), size: 20.0),
+                        const SizedBox(width: AppSpacing.sm),
+                        Expanded(
+                          child: Text(
+                            state.errorMessage!,
+                            style: const TextStyle(fontSize: 12.5, color: Color(0xFFC62828)),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+
                 const SizedBox(height: AppSpacing.xl),
 
                 // Submit Escalation
@@ -122,10 +193,22 @@ class _EscalationScreenState extends ConsumerState<EscalationScreen> {
                     );
                   },
                 ),
+                const SizedBox(height: AppSpacing.md),
               ] else ...[
-                // Escalation Submitted Confirmation
-                BhoomiCard(
-                  padding: const EdgeInsets.all(AppSpacing.lg),
+                // Expert Case Summary Screen
+                Container(
+                  padding: const EdgeInsets.all(AppSpacing.xl),
+                  decoration: BoxDecoration(
+                    color: AppColors.surface,
+                    borderRadius: BorderRadius.circular(AppSpacing.radiusXl),
+                    boxShadow: const [
+                      BoxShadow(
+                        color: AppColors.cardShadow,
+                        blurRadius: 10.0,
+                        offset: Offset(0, 4),
+                      ),
+                    ],
+                  ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -133,28 +216,81 @@ class _EscalationScreenState extends ConsumerState<EscalationScreen> {
                         children: [
                           Container(
                             padding: const EdgeInsets.all(AppSpacing.sm),
-                            decoration: BoxDecoration(
-                              color: AppColors.primaryGreen.withValues(alpha: 0.12),
+                            decoration: const BoxDecoration(
+                              color: AppColors.lightGreen,
                               shape: BoxShape.circle,
                             ),
                             child: const Icon(Icons.check_circle_rounded, color: AppColors.primaryGreen, size: 24.0),
                           ),
                           const SizedBox(width: AppSpacing.sm),
-                          const Text('Expert Request Submitted', style: AppTypography.headlineMedium),
+                          const Expanded(
+                            child: Text(
+                              'Expert Case Summary',
+                              style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w900, color: AppColors.textPrimary),
+                            ),
+                          ),
                         ],
                       ),
+                      const SizedBox(height: AppSpacing.lg),
+
+                      // Live Stepper
+                      Container(
+                        padding: const EdgeInsets.all(AppSpacing.md),
+                        decoration: BoxDecoration(
+                          color: AppColors.background,
+                          borderRadius: BorderRadius.circular(AppSpacing.radiusMd),
+                        ),
+                        child: const Column(
+                          children: [
+                            _EscalationStepRow(label: 'Case transferred', isPending: false),
+                            SizedBox(height: AppSpacing.xs),
+                            _EscalationStepRow(label: 'Expert notified', isPending: false),
+                            SizedBox(height: AppSpacing.xs),
+                            _EscalationStepRow(label: 'Review in progress', isPending: false),
+                          ],
+                        ),
+                      ),
+
+                      const SizedBox(height: AppSpacing.lg),
+                      const Divider(color: AppColors.divider),
                       const SizedBox(height: AppSpacing.md),
+
+                      _buildInfoRow('Farmer', 'Registered Farmer'),
+                      const SizedBox(height: AppSpacing.sm),
+                      _buildInfoRow('Location', 'Coimbatore Agro Zone'),
+                      const SizedBox(height: AppSpacing.sm),
+                      _buildInfoRow('Crop', 'Paddy (Samba)'),
+                      const SizedBox(height: AppSpacing.sm),
                       _buildInfoRow('Case Identifier', state.response!.caseId),
                       const SizedBox(height: AppSpacing.sm),
                       _buildInfoRow('Assigned KVK Center', state.response!.kvkCenter),
                       const SizedBox(height: AppSpacing.sm),
                       _buildInfoRow('Estimated Review', state.response!.estimatedReview),
-                      const SizedBox(height: AppSpacing.sm),
-                      _buildInfoRow(
-                        'Submitted At',
-                        state.response!.submissionTimestamp.length >= 10
-                            ? state.response!.submissionTimestamp.substring(0, 10)
-                            : state.response!.submissionTimestamp,
+
+                      const SizedBox(height: AppSpacing.lg),
+                      const Divider(color: AppColors.divider),
+                      const SizedBox(height: AppSpacing.md),
+
+                      const Text(
+                        'Summary',
+                        style: TextStyle(fontSize: 14.5, fontWeight: FontWeight.w800, color: AppColors.textPrimary),
+                      ),
+                      const SizedBox(height: 2.0),
+                      const Text(
+                        'Farmer reported an issue in the crop and received recommended actions. Case forwarded for agronomist review.',
+                        style: TextStyle(fontSize: 13.0, height: 1.35, color: AppColors.textSecondary),
+                      ),
+
+                      const SizedBox(height: AppSpacing.md),
+
+                      const Text(
+                        'Expert Note',
+                        style: TextStyle(fontSize: 14.5, fontWeight: FontWeight.w800, color: AppColors.primaryGreen),
+                      ),
+                      const SizedBox(height: 2.0),
+                      Text(
+                        'Case logged for agronomist review at ${state.response!.kvkCenter}. Reviewed latest information and field conditions.',
+                        style: const TextStyle(fontSize: 13.0, height: 1.35, color: AppColors.textSecondary),
                       ),
                     ],
                   ),
@@ -163,12 +299,21 @@ class _EscalationScreenState extends ConsumerState<EscalationScreen> {
                 const SizedBox(height: AppSpacing.xl),
 
                 BhoomiPrimaryButton(
+                  text: 'View Full Case',
+                  icon: Icons.assignment_outlined,
+                  onPressed: () {
+                    context.go('/home/${widget.farmId}');
+                  },
+                ),
+                const SizedBox(height: AppSpacing.sm),
+                BhoomiSecondaryButton(
                   text: 'Return to Farm Home',
                   icon: Icons.home_rounded,
                   onPressed: () {
                     context.go('/home/${widget.farmId}');
                   },
                 ),
+                const SizedBox(height: AppSpacing.md),
               ],
             ],
           ),
@@ -181,8 +326,40 @@ class _EscalationScreenState extends ConsumerState<EscalationScreen> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(label, style: const TextStyle(fontSize: 12.0, color: AppColors.textMuted)),
-        Text(value, style: const TextStyle(fontSize: 12.0, fontWeight: FontWeight.w700, color: AppColors.textPrimary)),
+        Text(label, style: const TextStyle(fontSize: 12.5, color: AppColors.textMuted)),
+        Text(
+          value,
+          style: const TextStyle(fontSize: 12.5, fontWeight: FontWeight.w800, color: AppColors.textPrimary),
+        ),
+      ],
+    );
+  }
+}
+
+class _EscalationStepRow extends StatelessWidget {
+  final String label;
+  final bool isPending;
+
+  const _EscalationStepRow({required this.label, required this.isPending});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Icon(
+          isPending ? Icons.radio_button_unchecked_rounded : Icons.check_circle_rounded,
+          size: 16.0,
+          color: isPending ? AppColors.textMuted : AppColors.primaryGreen,
+        ),
+        const SizedBox(width: AppSpacing.sm),
+        Text(
+          label,
+          style: TextStyle(
+            fontSize: 12.5,
+            fontWeight: isPending ? FontWeight.w500 : FontWeight.w700,
+            color: isPending ? AppColors.textMuted : AppColors.textPrimary,
+          ),
+        ),
       ],
     );
   }

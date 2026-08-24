@@ -20,7 +20,7 @@ class LandRepository {
     return await _apiService.submitLand(farmId: farmId, request: request);
   }
 
-  Future<LandRecordResponse> getLandRecord(String landId) async {
-    return await _apiService.getLandRecord(landId);
+  Future<LandRecordResponse> getLandRecord(String farmId) async {
+    return await _apiService.getLandRecord(farmId);
   }
 }

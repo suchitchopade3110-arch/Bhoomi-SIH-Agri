@@ -22,7 +22,7 @@ class SchemeCard extends StatelessWidget {
       padding: const EdgeInsets.all(AppSpacing.lg),
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(AppSpacing.radiusMd),
+        borderRadius: BorderRadius.circular(AppSpacing.radiusLg),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -32,17 +32,48 @@ class SchemeCard extends StatelessWidget {
                 Expanded(
                   child: Text(
                     scheme.title,
-                    style: AppTypography.titleLarge.copyWith(fontWeight: FontWeight.w800),
+                    style: const TextStyle(
+                      fontSize: 17.0,
+                      fontWeight: FontWeight.w800,
+                      color: AppColors.textPrimary,
+                    ),
                   ),
                 ),
                 const SizedBox(width: AppSpacing.sm),
                 SchemeMatchBadge(matchStatus: scheme.matchStatus),
               ],
             ),
-            const SizedBox(height: AppSpacing.xs),
+
+            if (scheme.benefitSummary != null) ...[
+              const SizedBox(height: AppSpacing.xs),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
+                decoration: BoxDecoration(
+                  color: AppColors.lightGreen,
+                  borderRadius: BorderRadius.circular(AppSpacing.radiusSm),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Icon(Icons.currency_rupee_rounded, size: 14.0, color: AppColors.primaryGreen),
+                    const SizedBox(width: 2.0),
+                    Text(
+                      scheme.benefitSummary!,
+                      style: const TextStyle(
+                        fontSize: 13.0,
+                        fontWeight: FontWeight.w800,
+                        color: AppColors.primaryGreen,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+
+            const SizedBox(height: AppSpacing.sm),
             Text(
               scheme.shortDescription,
-              style: AppTypography.bodyMedium.copyWith(color: AppColors.textSecondary),
+              style: AppTypography.bodyMedium.copyWith(color: AppColors.textSecondary, height: 1.3),
             ),
 
             if (scheme.matchExplanation != null) ...[
@@ -52,16 +83,17 @@ class SchemeCard extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: AppColors.background,
                   borderRadius: BorderRadius.circular(AppSpacing.radiusSm),
+                  border: Border.all(color: AppColors.border),
                 ),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Icon(Icons.info_outline_rounded, size: 16.0, color: AppColors.primaryGreen),
+                    const Icon(Icons.info_outline_rounded, size: 15.0, color: AppColors.primaryGreen),
                     const SizedBox(width: AppSpacing.xs),
                     Expanded(
                       child: Text(
                         scheme.matchExplanation!,
-                        style: const TextStyle(fontSize: 11.0, color: AppColors.textPrimary, fontWeight: FontWeight.w500),
+                        style: const TextStyle(fontSize: 11.5, color: AppColors.textSecondary),
                       ),
                     ),
                   ],
@@ -69,38 +101,43 @@ class SchemeCard extends StatelessWidget {
               ),
             ],
 
-            if (scheme.benefitSummary != null) ...[
-              const SizedBox(height: AppSpacing.sm),
-              Row(
-                children: [
-                  const Icon(Icons.card_giftcard_rounded, size: 16.0, color: Color(0xFFD97706)),
-                  const SizedBox(width: AppSpacing.xs),
-                  Text(
-                    scheme.benefitSummary!,
-                    style: const TextStyle(fontSize: 12.0, fontWeight: FontWeight.w700, color: Color(0xFFD97706)),
-                  ),
-                ],
-              ),
-            ],
-
             const SizedBox(height: AppSpacing.md),
-            Align(
-              alignment: Alignment.centerRight,
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    scheme.isMoreInfoNeeded ? 'Provide Details' : 'View Scheme Details',
-                    style: const TextStyle(
-                      fontSize: 12.0,
-                      fontWeight: FontWeight.w700,
-                      color: AppColors.primaryGreen,
-                    ),
+            const Divider(color: AppColors.divider),
+            const SizedBox(height: AppSpacing.xs),
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  scheme.isMoreInfoNeeded ? 'Action required' : 'Verified by Land Record',
+                  style: TextStyle(
+                    fontSize: 11.0,
+                    fontWeight: FontWeight.w600,
+                    color: scheme.isMoreInfoNeeded ? const Color(0xFFD97706) : AppColors.textMuted,
                   ),
-                  const SizedBox(width: 4.0),
-                  const Icon(Icons.arrow_forward_rounded, size: 14.0, color: AppColors.primaryGreen),
-                ],
-              ),
+                ),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 6.0),
+                  decoration: BoxDecoration(
+                    color: AppColors.primaryGreen,
+                    borderRadius: BorderRadius.circular(AppSpacing.radiusFull),
+                  ),
+                  child: Row(
+                    children: [
+                      Text(
+                        scheme.isMoreInfoNeeded ? 'Check Eligibility' : 'Eligible',
+                        style: const TextStyle(
+                          fontSize: 12.0,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.white,
+                        ),
+                      ),
+                      const SizedBox(width: 4.0),
+                      const Icon(Icons.arrow_forward_rounded, size: 14.0, color: Colors.white),
+                    ],
+                  ),
+                ),
+              ],
             ),
           ],
         ),

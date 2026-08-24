@@ -31,14 +31,8 @@ export const officerApi = {
     cursor?: string;
     limit?: number;
   }): Promise<LandQueueResponse> => {
-    let rawData: any;
-    try {
-      const res = await apiClient.get('/api/v1/officer/queue', { params });
-      rawData = res.data;
-    } catch {
-      const res = await apiClient.get('/api/v1/officer/land-queue', { params });
-      rawData = res.data;
-    }
+    const res = await apiClient.get('/api/v1/officer/queue', { params });
+    const rawData = res.data;
 
     if (Array.isArray(rawData)) {
       const mapped = rawData.map(mapToLandQueueItem);
@@ -76,21 +70,13 @@ export const officerApi = {
       officer_name: 'M. Radhakrishnan (Tahsildar Erode)',
     };
 
-    try {
-      const res = await apiClient.post<any>('/api/v1/officer/action', actionPayload);
-      return {
-        land_record_id: res.data.parcel_id || landRecordId,
-        status: res.data.status === 'verified' ? 'verified' : 'rejected',
-        verified_at: res.data.updated_at || new Date().toISOString(),
-        verifier: 'M. Radhakrishnan (Tahsildar Erode)',
-        rejection_reason: res.data.officer_notes || payload.reason,
-      };
-    } catch {
-      const res = await apiClient.post<ReviewLandResponse>(
-        `/api/v1/officer/land/${landRecordId}/review`,
-        payload
-      );
-      return res.data;
-    }
+    const res = await apiClient.post<any>('/api/v1/officer/action', actionPayload);
+    return {
+      land_record_id: res.data.parcel_id || landRecordId,
+      status: res.data.status === 'verified' ? 'verified' : 'rejected',
+      verified_at: res.data.updated_at || new Date().toISOString(),
+      verifier: 'M. Radhakrishnan (Tahsildar Erode)',
+      rejection_reason: res.data.officer_notes || payload.reason,
+    };
   },
 };

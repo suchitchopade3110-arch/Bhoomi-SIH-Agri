@@ -99,10 +99,10 @@ class LandController extends StateNotifier<LandState> {
     }
   }
 
-  Future<void> fetchLandRecord(String landId) async {
+  Future<void> fetchLandRecord(String farmId) async {
     state = state.copyWith(isLoading: true, errorMessage: null);
     try {
-      final response = await _repository.getLandRecord(landId);
+      final response = await _repository.getLandRecord(farmId);
       state = state.copyWith(
         isLoading: false,
         currentRecord: response,

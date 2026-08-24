@@ -89,10 +89,10 @@ final appRouter = GoRouter(
       },
     ),
     GoRoute(
-      path: '/land/status/:landId',
+      path: '/land/status/:farmId',
       builder: (context, state) {
-        final landId = state.pathParameters['landId'] ?? 'l_1';
-        return LandStatusScreen(landId: landId);
+        final farmId = state.pathParameters['farmId'] ?? 'f_1';
+        return LandStatusScreen(farmId: farmId);
       },
     ),
     // Phase 3 Routes
