@@ -74,6 +74,9 @@ def get_speech_adapter() -> AsrTtsPort:
     if provider == "bhashini":
         from app.adapters.bhashini_asr import BhashiniAsrTtsAdapter
         return BhashiniAsrTtsAdapter()
+    elif provider == "sarvam":
+        from app.adapters.sarvam_asr import SarvamAsrTtsAdapter
+        return SarvamAsrTtsAdapter()
     elif provider == "whisper":
         from app.adapters.whisper_asr import WhisperAsrAdapter
         return WhisperAsrAdapter()

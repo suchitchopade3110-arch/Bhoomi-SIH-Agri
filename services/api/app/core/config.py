@@ -110,6 +110,10 @@ class Settings(BaseSettings):
     BHASHINI_API_KEY: str = ""
     BHASHINI_PIPELINE_ID: str = ""
 
+    # Sarvam AI API (optional — needed only when ASR_PROVIDER/TTS_PROVIDER = sarvam)
+    SARVAM_API_KEY: str = ""
+    SARVAM_BASE_URL: str = "https://api.sarvam.ai"
+
     # Embedding
     EMBEDDING_DIM: int = 1024
 
