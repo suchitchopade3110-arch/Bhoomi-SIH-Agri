@@ -50,11 +50,15 @@ class BhoomiSecondaryButton extends StatelessWidget {
                     Icon(icon, size: 18.0, color: AppColors.primaryGreen),
                     const SizedBox(width: AppSpacing.sm),
                   ],
-                  Text(
-                    text,
-                    style: AppTypography.labelLarge.copyWith(
-                      color: AppColors.primaryGreen,
-                      fontSize: 15.0,
+                  Flexible(
+                    child: Text(
+                      text,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: AppTypography.labelLarge.copyWith(
+                        color: AppColors.primaryGreen,
+                        fontSize: 15.0,
+                      ),
                     ),
                   ),
                 ],
