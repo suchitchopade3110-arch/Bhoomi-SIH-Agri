@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../app/theme/app_colors.dart';
 import '../../../../app/theme/app_spacing.dart';
 import '../../../../app/theme/app_typography.dart';
+import '../../../../core/localization/bhoomi_localizations.dart';
 import '../../../../core/widgets/bhoomi_card.dart';
 import '../../../land/presentation/widgets/land_status_badge.dart';
 import '../../data/models/farm_summary.dart';
 
-class FarmIdentityCard extends StatelessWidget {
+class FarmIdentityCard extends ConsumerWidget {
   final FarmIdentity farm;
 
   const FarmIdentityCard({
@@ -14,27 +16,10 @@ class FarmIdentityCard extends StatelessWidget {
     required this.farm,
   });
 
-  String _formatCrop(String crop) {
-    switch (crop) {
-      case 'samba_paddy':
-        return 'Samba Paddy';
-      case 'kuruvai_paddy':
-        return 'Kuruvai Paddy';
-      case 'sugarcane':
-        return 'Sugarcane';
-      case 'cotton':
-        return 'Cotton';
-      case 'banana':
-        return 'Banana';
-      case 'maize':
-        return 'Maize (Corn)';
-      default:
-        return crop.replaceAll('_', ' ').toUpperCase();
-    }
-  }
-
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final strings = ref.watch(bhoomiStringsProvider);
+
     return BhoomiCard(
       padding: const EdgeInsets.all(AppSpacing.lg),
       child: Column(
@@ -90,12 +75,12 @@ class FarmIdentityCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Primary Crop',
+                      strings.primaryCropLabel,
                       style: AppTypography.labelMedium.copyWith(color: AppColors.textMuted),
                     ),
                     const SizedBox(height: 2.0),
                     Text(
-                      _formatCrop(farm.crop),
+                      strings.cropName(farm.crop),
                       style: AppTypography.headlineMedium.copyWith(
                         fontWeight: FontWeight.w800,
                         color: AppColors.textPrimary,

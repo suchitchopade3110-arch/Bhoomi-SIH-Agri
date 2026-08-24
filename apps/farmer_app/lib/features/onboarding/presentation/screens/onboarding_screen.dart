@@ -5,6 +5,7 @@ import '../../../../app/theme/app_colors.dart';
 import '../../../../app/theme/app_spacing.dart';
 import '../../../../app/theme/app_typography.dart';
 import '../../../../core/connectivity/connectivity_service.dart';
+import '../../../../core/localization/bhoomi_localizations.dart';
 import '../../../../core/widgets/bhoomi_primary_button.dart';
 import '../../../../core/widgets/bhoomi_secondary_button.dart';
 import '../../../../core/widgets/degraded_network_banner.dart';
@@ -21,11 +22,12 @@ class OnboardingScreen extends ConsumerWidget {
     final state = ref.watch(onboardingControllerProvider);
     final controller = ref.read(onboardingControllerProvider.notifier);
     final networkState = ref.watch(networkStateProvider);
+    final strings = ref.watch(bhoomiStringsProvider);
 
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
-        title: const Text('Tell us about your farm'),
+        title: Text(strings.onboardingTitle),
         leading: state.currentStep > 0
             ? IconButton(
                 icon: const Icon(Icons.arrow_back_rounded),
@@ -59,7 +61,7 @@ class OnboardingScreen extends ConsumerWidget {
                     const SizedBox(height: AppSpacing.lg),
 
                     // Step specific prompt & interaction
-                    _buildStepContent(context, state, controller),
+                    _buildStepContent(context, state, controller, strings),
 
                     const SizedBox(height: AppSpacing.xl),
                   ],
@@ -82,7 +84,7 @@ class OnboardingScreen extends ConsumerWidget {
                     Expanded(
                       flex: 1,
                       child: BhoomiSecondaryButton(
-                        text: 'Back',
+                        text: strings.back,
                         onPressed: () => controller.previousStep(),
                       ),
                     ),
@@ -91,7 +93,7 @@ class OnboardingScreen extends ConsumerWidget {
                   Expanded(
                     flex: 2,
                     child: BhoomiPrimaryButton(
-                      text: state.currentStep == 2 ? 'Review Profile' : 'Next Step',
+                      text: state.currentStep == 2 ? strings.reviewProfile : strings.nextStep,
                       icon: state.currentStep == 2
                           ? Icons.check_circle_outline
                           : Icons.arrow_forward_rounded,
@@ -119,41 +121,41 @@ class OnboardingScreen extends ConsumerWidget {
     BuildContext context,
     dynamic state,
     OnboardingController controller,
+    BhoomiStrings strings,
   ) {
     switch (state.currentStep) {
       case 0:
-        return _buildCropStep(state, controller);
+        return _buildCropStep(state, controller, strings);
       case 1:
-        return _buildAreaStep(state, controller);
+        return _buildAreaStep(state, controller, strings);
       case 2:
-        return _buildGrowthStageStep(state, controller);
+        return _buildGrowthStageStep(state, controller, strings);
       default:
         return const SizedBox.shrink();
     }
   }
 
-
-  Widget _buildCropStep(dynamic state, OnboardingController controller) {
+  Widget _buildCropStep(dynamic state, OnboardingController controller, BhoomiStrings strings) {
     final crops = [
-      {'id': 'samba_paddy', 'title': 'Samba Paddy', 'sub': 'Traditional long-duration rice', 'icon': Icons.grass_rounded},
-      {'id': 'kuruvai_paddy', 'title': 'Kuruvai Paddy', 'sub': 'Short-duration summer crop', 'icon': Icons.grain_rounded},
-      {'id': 'sugarcane', 'title': 'Sugarcane', 'sub': 'Commercial perennial crop', 'icon': Icons.nature_rounded},
-      {'id': 'cotton', 'title': 'Cotton', 'sub': 'Cash fiber crop', 'icon': Icons.cloud_outlined},
-      {'id': 'banana', 'title': 'Banana', 'sub': 'Fruit plantation', 'icon': Icons.park_outlined},
-      {'id': 'maize', 'title': 'Maize (Corn)', 'sub': 'Nutrient-rich grain', 'icon': Icons.local_florist_rounded},
+      {'id': 'samba_paddy', 'icon': Icons.grass_rounded},
+      {'id': 'kuruvai_paddy', 'icon': Icons.grain_rounded},
+      {'id': 'sugarcane', 'icon': Icons.nature_rounded},
+      {'id': 'cotton', 'icon': Icons.cloud_outlined},
+      {'id': 'banana', 'icon': Icons.park_outlined},
+      {'id': 'maize', 'icon': Icons.local_florist_rounded},
     ];
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        const Text(
-          'What crop are you growing?',
+        Text(
+          strings.cropStepTitle,
           style: AppTypography.headlineLarge,
           textAlign: TextAlign.center,
         ),
         const SizedBox(height: AppSpacing.sm),
         Text(
-          'Speak clearly or select your crop from the list below',
+          strings.cropStepSub,
           style: AppTypography.bodyMedium.copyWith(color: AppColors.textMuted),
           textAlign: TextAlign.center,
         ),
@@ -162,60 +164,53 @@ class OnboardingScreen extends ConsumerWidget {
         // Voice Input Button
         VoiceInputButton(
           isListening: state.isListening,
-          promptText: 'Tap to speak your crop',
-          activeValue: crops.firstWhere(
-            (c) => c['id'] == state.crop,
-            orElse: () => {'title': state.crop},
-          )['title'] as String?,
+          promptText: strings.cropVoicePrompt,
+          activeValue: strings.cropName(state.crop),
           onTap: () {
             controller.toggleListening();
           },
         ),
 
         const SizedBox(height: AppSpacing.xl),
-        const Text('Quick Selection Options', style: AppTypography.titleMedium),
+        Text(strings.quickSelectOptions, style: AppTypography.titleMedium),
         const SizedBox(height: AppSpacing.md),
 
         ...crops.map(
-          (c) => Padding(
-            padding: const EdgeInsets.only(bottom: AppSpacing.sm),
-            child: FarmFieldOptionCard(
-              title: c['title'] as String,
-              subtitle: c['sub'] as String,
-              icon: c['icon'] as IconData,
-              isSelected: state.crop == c['id'],
-              onTap: () {
-                controller.setCrop(c['id'] as String);
-                controller.stopListening();
-              },
-            ),
-          ),
+          (c) {
+            final cropId = c['id'] as String;
+            return Padding(
+              padding: const EdgeInsets.only(bottom: AppSpacing.sm),
+              child: FarmFieldOptionCard(
+                title: strings.cropName(cropId),
+                subtitle: strings.cropSubtitle(cropId),
+                icon: c['icon'] as IconData,
+                isSelected: state.crop == cropId,
+                onTap: () {
+                  controller.setCrop(cropId);
+                  controller.stopListening();
+                },
+              ),
+            );
+          },
         ),
       ],
     );
   }
 
-  Widget _buildAreaStep(dynamic state, OnboardingController controller) {
-    final areas = [
-      {'val': 0.5, 'label': '0.5 Acres', 'sub': 'Small homestead plot'},
-      {'val': 1.0, 'label': '1.0 Acre', 'sub': 'Standard 1 acre parcel'},
-      {'val': 2.0, 'label': '2.0 Acres', 'sub': 'Self-reported field (Standard)'},
-      {'val': 3.5, 'label': '3.5 Acres', 'sub': 'Medium farm holdings'},
-      {'val': 5.0, 'label': '5.0 Acres', 'sub': 'Large cultivation block'},
-      {'val': 10.0, 'label': '10.0 Acres', 'sub': 'Commercial scale farm'},
-    ];
+  Widget _buildAreaStep(dynamic state, OnboardingController controller, BhoomiStrings strings) {
+    final areas = [0.5, 1.0, 2.0, 3.5, 5.0, 10.0];
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        const Text(
-          'How much land are you farming?',
+        Text(
+          strings.areaStepTitle,
           style: AppTypography.headlineLarge,
           textAlign: TextAlign.center,
         ),
         const SizedBox(height: AppSpacing.sm),
         Text(
-          'Self-reported area in acres for official verification',
+          strings.areaStepSub,
           style: AppTypography.bodyMedium.copyWith(color: AppColors.textMuted),
           textAlign: TextAlign.center,
         ),
@@ -223,27 +218,27 @@ class OnboardingScreen extends ConsumerWidget {
 
         VoiceInputButton(
           isListening: state.isListening,
-          promptText: 'Tap to speak your farm size',
-          activeValue: '${state.areaAcresSelfReported} Acres',
+          promptText: strings.areaVoicePrompt,
+          activeValue: strings.formatAcres(state.areaAcresSelfReported),
           onTap: () {
             controller.toggleListening();
           },
         ),
 
         const SizedBox(height: AppSpacing.xl),
-        const Text('Select Farm Area (Acres)', style: AppTypography.titleMedium),
+        Text(strings.selectFarmAreaTitle, style: AppTypography.titleMedium),
         const SizedBox(height: AppSpacing.md),
 
         ...areas.map(
-          (a) => Padding(
+          (val) => Padding(
             padding: const EdgeInsets.only(bottom: AppSpacing.sm),
             child: FarmFieldOptionCard(
-              title: a['label'] as String,
-              subtitle: a['sub'] as String,
+              title: strings.formatAcres(val),
+              subtitle: null,
               icon: Icons.square_foot_rounded,
-              isSelected: state.areaAcresSelfReported == (a['val'] as double),
+              isSelected: state.areaAcresSelfReported == val,
               onTap: () {
-                controller.setAreaAcres(a['val'] as double);
+                controller.setAreaAcres(val);
                 controller.stopListening();
               },
             ),
@@ -253,26 +248,26 @@ class OnboardingScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildGrowthStageStep(dynamic state, OnboardingController controller) {
+  Widget _buildGrowthStageStep(dynamic state, OnboardingController controller, BhoomiStrings strings) {
     final stages = [
-      {'id': 'vegetative', 'title': 'Vegetative', 'sub': 'Leaf & stem rapid growth stage', 'icon': Icons.spa_rounded},
-      {'id': 'flowering', 'title': 'Flowering', 'sub': 'Bloom and pollination active', 'icon': Icons.filter_vintage_rounded},
-      {'id': 'grain_filling', 'title': 'Grain Filling', 'sub': 'Panicle & grain development', 'icon': Icons.grain_rounded},
-      {'id': 'maturity', 'title': 'Maturity', 'sub': 'Crop turning golden / ripening', 'icon': Icons.wb_sunny_rounded},
-      {'id': 'harvest_ready', 'title': 'Harvest Ready', 'sub': 'Ready for cutting and yield collection', 'icon': Icons.content_cut_rounded},
+      {'id': 'vegetative', 'icon': Icons.spa_rounded},
+      {'id': 'flowering', 'icon': Icons.filter_vintage_rounded},
+      {'id': 'grain_filling', 'icon': Icons.grain_rounded},
+      {'id': 'maturity', 'icon': Icons.wb_sunny_rounded},
+      {'id': 'harvest_ready', 'icon': Icons.content_cut_rounded},
     ];
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        const Text(
-          'What stage is your crop in?',
+        Text(
+          strings.growthStepTitle,
           style: AppTypography.headlineLarge,
           textAlign: TextAlign.center,
         ),
         const SizedBox(height: AppSpacing.sm),
         Text(
-          'Helps track growth phase and land readiness',
+          strings.growthStepSub,
           style: AppTypography.bodyMedium.copyWith(color: AppColors.textMuted),
           textAlign: TextAlign.center,
         ),
@@ -280,37 +275,36 @@ class OnboardingScreen extends ConsumerWidget {
 
         VoiceInputButton(
           isListening: state.isListening,
-          promptText: 'Tap to speak current stage',
-          activeValue: stages.firstWhere(
-            (s) => s['id'] == state.growthStage,
-            orElse: () => {'title': state.growthStage},
-          )['title'] as String?,
+          promptText: strings.growthVoicePrompt,
+          activeValue: strings.stageName(state.growthStage),
           onTap: () {
             controller.toggleListening();
           },
         ),
 
         const SizedBox(height: AppSpacing.xl),
-        const Text('Select Current Stage', style: AppTypography.titleMedium),
+        Text(strings.selectGrowthStageTitle, style: AppTypography.titleMedium),
         const SizedBox(height: AppSpacing.md),
 
         ...stages.map(
-          (s) => Padding(
-            padding: const EdgeInsets.only(bottom: AppSpacing.sm),
-            child: FarmFieldOptionCard(
-              title: s['title'] as String,
-              subtitle: s['sub'] as String,
-              icon: s['icon'] as IconData,
-              isSelected: state.growthStage == s['id'],
-              onTap: () {
-                controller.setGrowthStage(s['id'] as String);
-                controller.stopListening();
-              },
-            ),
-          ),
+          (s) {
+            final stageId = s['id'] as String;
+            return Padding(
+              padding: const EdgeInsets.only(bottom: AppSpacing.sm),
+              child: FarmFieldOptionCard(
+                title: strings.stageName(stageId),
+                subtitle: strings.stageSubtitle(stageId),
+                icon: s['icon'] as IconData,
+                isSelected: state.growthStage == stageId,
+                onTap: () {
+                  controller.setGrowthStage(stageId);
+                  controller.stopListening();
+                },
+              ),
+            );
+          },
         ),
       ],
     );
   }
 }
-

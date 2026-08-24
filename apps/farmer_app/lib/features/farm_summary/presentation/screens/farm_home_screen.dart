@@ -5,6 +5,8 @@ import '../../../../app/theme/app_colors.dart';
 import '../../../../app/theme/app_spacing.dart';
 import '../../../../app/theme/app_typography.dart';
 import '../../../../core/connectivity/connectivity_service.dart';
+import '../../../../core/localization/bhoomi_localizations.dart';
+import '../../../../core/localization/language_provider.dart';
 import '../../../../core/widgets/bhoomi_loading_view.dart';
 import '../../../../core/widgets/bhoomi_primary_button.dart';
 import '../../../../core/widgets/degraded_network_banner.dart';
@@ -26,20 +28,108 @@ class FarmHomeScreen extends ConsumerWidget {
     required this.farmId,
   });
 
+  void _showLanguageSwitcher(BuildContext context, WidgetRef ref) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      useSafeArea: true,
+      backgroundColor: AppColors.surface,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(AppSpacing.radiusLg)),
+      ),
+      builder: (ctx) {
+        final currentCode = ref.watch(selectedLanguageProvider);
+        final strings = ref.watch(bhoomiStringsProvider);
+        final screenHeight = MediaQuery.of(ctx).size.height;
+
+        return Container(
+          constraints: BoxConstraints(
+            maxHeight: screenHeight * 0.75,
+          ),
+          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.md),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    strings.changeLanguage,
+                    style: AppTypography.titleLarge.copyWith(fontWeight: FontWeight.w700),
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.close_rounded),
+                    onPressed: () => Navigator.pop(ctx),
+                  ),
+                ],
+              ),
+              const Divider(color: AppColors.divider),
+              Flexible(
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: kSupportedLanguages.length,
+                  itemBuilder: (context, index) {
+                    final lang = kSupportedLanguages[index];
+                    final isSelected = lang.code == currentCode;
+                    return ListTile(
+                      contentPadding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm, vertical: 2.0),
+                      leading: CircleAvatar(
+                        backgroundColor: isSelected ? AppColors.primaryGreen : AppColors.background,
+                        child: Text(
+                          lang.nativeName.characters.first,
+                          style: TextStyle(
+                            color: isSelected ? Colors.white : AppColors.primaryGreen,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      title: Text(
+                        '${lang.nativeName} (${lang.englishName})',
+                        style: TextStyle(
+                          fontWeight: isSelected ? FontWeight.w800 : FontWeight.w600,
+                          color: isSelected ? AppColors.primaryGreen : AppColors.textPrimary,
+                        ),
+                      ),
+                      trailing: isSelected
+                          ? const Icon(Icons.check_circle_rounded, color: AppColors.primaryGreen)
+                          : null,
+                      onTap: () {
+                        ref.read(selectedLanguageProvider.notifier).state = lang.code;
+                        Navigator.pop(ctx);
+                      },
+                    );
+                  },
+                ),
+              ),
+              const SizedBox(height: AppSpacing.sm),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final summaryAsync = ref.watch(farmSummaryProvider(farmId));
     final networkState = ref.watch(networkStateProvider);
+    final strings = ref.watch(bhoomiStringsProvider);
 
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
-        title: const Text('BHOOMI'),
+        title: Text(strings.appTitle),
         centerTitle: false,
         actions: [
           IconButton(
+            icon: const Icon(Icons.translate_rounded),
+            tooltip: strings.changeLanguage,
+            onPressed: () => _showLanguageSwitcher(context, ref),
+          ),
+          IconButton(
             icon: const Icon(Icons.notifications_outlined),
-            tooltip: 'Farm Updates',
+            tooltip: strings.latestUpdates,
             onPressed: () {
               context.push('/updates/$farmId');
             },
@@ -65,7 +155,7 @@ class FarmHomeScreen extends ConsumerWidget {
             Expanded(
               child: summaryAsync.when(
                 loading: () => const BhoomiLoadingView(message: 'Loading your farm companion...'),
-                error: (error, _) => _buildErrorView(context, ref, error),
+                error: (error, _) => _buildErrorView(context, ref, error, strings),
                 data: (summary) => RefreshIndicator(
                   color: AppColors.primaryGreen,
                   onRefresh: () async {
@@ -84,7 +174,7 @@ class FarmHomeScreen extends ConsumerWidget {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         // Header Greeting & Farm Identity
-                        _buildHeader(summary.farm.crop, summary.farm.landStatus),
+                        _buildHeader(summary.farm.crop, summary.farm.landStatus, strings),
 
                         const SizedBox(height: AppSpacing.lg),
 
@@ -122,7 +212,7 @@ class FarmHomeScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildHeader(String crop, String landStatus) {
+  Widget _buildHeader(String crop, String landStatus, BhoomiStrings strings) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -130,8 +220,8 @@ class FarmHomeScreen extends ConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Daily Companion', style: AppTypography.bodyMedium.copyWith(color: AppColors.textMuted)),
-              const Text('My Farm', style: AppTypography.displayMedium),
+              Text(strings.dailyCompanion, style: AppTypography.bodyMedium.copyWith(color: AppColors.textMuted)),
+              Text(strings.myFarm, style: AppTypography.displayMedium),
             ],
           ),
         ),
@@ -141,7 +231,7 @@ class FarmHomeScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildErrorView(BuildContext context, WidgetRef ref, Object error) {
+  Widget _buildErrorView(BuildContext context, WidgetRef ref, Object error, BhoomiStrings strings) {
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(AppSpacing.xl),
@@ -155,7 +245,7 @@ class FarmHomeScreen extends ConsumerWidget {
             Text(error.toString(), textAlign: TextAlign.center, style: const TextStyle(color: AppColors.textMuted)),
             const SizedBox(height: AppSpacing.lg),
             BhoomiPrimaryButton(
-              text: 'Retry',
+              text: strings.retry,
               onPressed: () => ref.invalidate(farmSummaryProvider(farmId)),
             ),
           ],

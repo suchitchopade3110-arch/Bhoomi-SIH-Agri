@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../app/theme/app_colors.dart';
 import '../../../../app/theme/app_spacing.dart';
+import '../../../../core/localization/bhoomi_localizations.dart';
 import '../../../../core/widgets/bhoomi_card.dart';
 import '../../../daily_brief/application/daily_brief_controller.dart';
 
@@ -17,6 +18,7 @@ class DailyBriefPreview extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final briefAsync = ref.watch(dailyBriefProvider(farmId));
+    final strings = ref.watch(bhoomiStringsProvider);
 
     return briefAsync.when(
       loading: () => const SizedBox.shrink(),
@@ -29,17 +31,17 @@ class DailyBriefPreview extends ConsumerWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Expanded(
+                Expanded(
                   child: Row(
                     children: [
-                      Icon(Icons.wb_sunny_rounded, color: AppColors.warmAccent, size: 20.0),
-                      SizedBox(width: AppSpacing.xs),
+                      const Icon(Icons.wb_sunny_rounded, color: AppColors.warmAccent, size: 20.0),
+                      const SizedBox(width: AppSpacing.xs),
                       Flexible(
                         child: Text(
-                          "Today's Farm Brief",
+                          strings.todaysFarmBrief,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          style: TextStyle(fontSize: 15.0, fontWeight: FontWeight.w800, color: AppColors.textPrimary),
+                          style: const TextStyle(fontSize: 15.0, fontWeight: FontWeight.w800, color: AppColors.textPrimary),
                         ),
                       ),
                     ],
@@ -47,12 +49,12 @@ class DailyBriefPreview extends ConsumerWidget {
                 ),
                 TextButton(
                   onPressed: () => context.push('/brief/$farmId'),
-                  child: const Row(
+                  child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Text('View Advice', style: TextStyle(fontSize: 12.0, fontWeight: FontWeight.w700, color: AppColors.primaryGreen)),
-                      SizedBox(width: 2.0),
-                      Icon(Icons.arrow_forward_rounded, size: 14.0, color: AppColors.primaryGreen),
+                      Text(strings.viewFullBrief, style: const TextStyle(fontSize: 12.0, fontWeight: FontWeight.w700, color: AppColors.primaryGreen)),
+                      const SizedBox(width: 2.0),
+                      const Icon(Icons.arrow_forward_rounded, size: 14.0, color: AppColors.primaryGreen),
                     ],
                   ),
                 ),

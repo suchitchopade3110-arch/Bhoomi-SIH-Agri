@@ -4,96 +4,20 @@ import 'package:go_router/go_router.dart';
 import '../../../../app/theme/app_colors.dart';
 import '../../../../app/theme/app_spacing.dart';
 import '../../../../app/theme/app_typography.dart';
+import '../../../../core/localization/bhoomi_localizations.dart';
+import '../../../../core/localization/language_provider.dart';
 import '../../../../core/widgets/bhoomi_primary_button.dart';
-
-/// Language configuration model for BHOOMI multi-lingual voice & text advisory
-class LanguageOption {
-  final String code;
-  final String nativeName;
-  final String englishName;
-  final String greeting;
-  final String buttonLabel;
-
-  const LanguageOption({
-    required this.code,
-    required this.nativeName,
-    required this.englishName,
-    required this.greeting,
-    required this.buttonLabel,
-  });
-}
-
-/// Global provider tracking the user's selected language
-final selectedLanguageProvider = StateProvider<String>((ref) => 'ta-IN');
 
 class LanguageSelectionScreen extends ConsumerWidget {
   const LanguageSelectionScreen({super.key});
 
-  static const List<LanguageOption> supportedLanguages = [
-    LanguageOption(
-      code: 'ta-IN',
-      nativeName: 'தமிழ்',
-      englishName: 'Tamil',
-      greeting: 'வணக்கம்',
-      buttonLabel: 'தொடரவும் (Continue)',
-    ),
-    LanguageOption(
-      code: 'en-IN',
-      nativeName: 'English',
-      englishName: 'English (Indian)',
-      greeting: 'Hello & Welcome',
-      buttonLabel: 'Continue to Setup',
-    ),
-    LanguageOption(
-      code: 'hi-IN',
-      nativeName: 'हिंदी',
-      englishName: 'Hindi',
-      greeting: 'नमस्ते',
-      buttonLabel: 'आगे बढ़ें (Continue)',
-    ),
-    LanguageOption(
-      code: 'te-IN',
-      nativeName: 'తెలుగు',
-      englishName: 'Telugu',
-      greeting: 'నమస్కారం',
-      buttonLabel: 'కొనసాగించండి (Continue)',
-    ),
-    LanguageOption(
-      code: 'kn-IN',
-      nativeName: 'ಕನ್ನಡ',
-      englishName: 'Kannada',
-      greeting: 'ನಮಸ್ಕಾರ',
-      buttonLabel: 'ಮುಂದುವರಿಯಿರಿ (Continue)',
-    ),
-    LanguageOption(
-      code: 'mr-IN',
-      nativeName: 'मराठी',
-      englishName: 'Marathi',
-      greeting: 'नमस्कार',
-      buttonLabel: 'पुढे सुरू ठेवा (Continue)',
-    ),
-    LanguageOption(
-      code: 'ml-IN',
-      nativeName: 'മലയാളം',
-      englishName: 'Malayalam',
-      greeting: 'നമസ്കാരം',
-      buttonLabel: 'തുടരുക (Continue)',
-    ),
-    LanguageOption(
-      code: 'pa-IN',
-      nativeName: 'ਪੰਜਾਬੀ',
-      englishName: 'Punjabi',
-      greeting: 'ਸਤਿ ਸ੍ਰੀ ਅਕਾਲ',
-      buttonLabel: 'ਜਾਰੀ ਰੱਖੋ (Continue)',
-    ),
-  ];
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedLangCode = ref.watch(selectedLanguageProvider);
-    final activeOption = supportedLanguages.firstWhere(
+    final strings = ref.watch(bhoomiStringsProvider);
+    final activeOption = kSupportedLanguages.firstWhere(
       (l) => l.code == selectedLangCode,
-      orElse: () => supportedLanguages.first,
+      orElse: () => kSupportedLanguages.first,
     );
 
     return Scaffold(
@@ -139,14 +63,14 @@ class LanguageSelectionScreen extends ConsumerWidget {
                     ),
                     const SizedBox(height: AppSpacing.md),
 
-                    const Text(
-                      'Choose Your Language',
+                    Text(
+                      strings.chooseLanguageTitle,
                       style: AppTypography.headlineLarge,
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 4.0),
                     Text(
-                      'உங்கள் மொழியைத் தேர்ந்தெடுக்கவும்',
+                      activeOption.greeting,
                       style: AppTypography.titleMedium.copyWith(
                         color: AppColors.primaryGreen,
                         fontWeight: FontWeight.w700,
@@ -155,7 +79,7 @@ class LanguageSelectionScreen extends ConsumerWidget {
                     ),
                     const SizedBox(height: AppSpacing.sm),
                     Text(
-                      'BHOOMI will speak, listen, and provide intelligent farm advisories in your preferred language.',
+                      strings.chooseLanguageDesc,
                       style: AppTypography.bodyMedium.copyWith(
                         color: AppColors.textSecondary,
                       ),
@@ -164,7 +88,7 @@ class LanguageSelectionScreen extends ConsumerWidget {
                     const SizedBox(height: AppSpacing.lg),
 
                     // Grid / List of Language Options
-                    ...supportedLanguages.map((lang) {
+                    ...kSupportedLanguages.map((lang) {
                       final isSelected = lang.code == selectedLangCode;
                       return Padding(
                         padding: const EdgeInsets.only(bottom: AppSpacing.sm),
@@ -225,7 +149,8 @@ class LanguageSelectionScreen extends ConsumerWidget {
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Row(
+                                      Wrap(
+                                        crossAxisAlignment: WrapCrossAlignment.center,
                                         children: [
                                           Text(
                                             lang.nativeName,
