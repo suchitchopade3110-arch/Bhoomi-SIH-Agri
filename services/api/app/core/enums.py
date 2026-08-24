@@ -36,11 +36,9 @@ class HealthBand(str, Enum):
 
 
 class SubIndexKey(str, Enum):
-    """Keys for the six weighted sub-indices of the farm health score (PRD §7.2, contract §2.2)."""
-    ENVIRONMENTAL_SUITABILITY = "environmental_suitability"
-    RESOURCE_ADEQUACY = "resource_adequacy"
-    CROP_STAGE_PROGRESSION = "crop_stage_progression"
-    ACTIVE_PROBLEM_LOAD = "active_problem_load"
+    """Keys for the four weighted sub-indices of the farm risk score (SIH26131)."""
+    ACTIVE_PROBLEM_SEVERITY = "active_problem_severity"
+    ENVIRONMENTAL_RISK = "environmental_risk"
     MONITORING_RECENCY = "monitoring_recency"
     TREATMENT_RESPONSE = "treatment_response"
 

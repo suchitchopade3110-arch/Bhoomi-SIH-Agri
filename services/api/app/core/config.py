@@ -68,7 +68,7 @@ class Settings(BaseSettings):
 
     # Feature Flags
     PROBLEM_STATEMENT: Literal["sih25076", "sih26131"] = Field(
-        default="sih25076",
+        default="sih26131",
         description=(
             "Switches API surface between SIH25076 (Cadastral/Resource) and "
             "SIH26131 (Pest/Alert/Efficacy). See docs/specs/api_contract_sih26131_delta.md."

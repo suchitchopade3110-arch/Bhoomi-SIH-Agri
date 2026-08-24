@@ -68,19 +68,6 @@ async def update_farm(
 
 
 @router.get(
-    "/{farm_id}/risk",
-    response_model=FarmRiskTrendResponse,
-    summary="Get qualitative crop condition risk summary (SIH26131)",
-)
-async def get_farm_risk(
-    farm_id: str,
-    health_service: Annotated[HealthService, Depends(get_health_service)],
-    _auth: Annotated[dict[str, Any], Depends(get_current_token_payload)],
-) -> FarmRiskTrendResponse:
-    return await health_service.get_farm_risk(farm_id)
-
-
-@router.get(
     "/{farm_id}/summary",
     response_model=FarmSummaryResponse | FarmSummaryTrendResponse,
     summary="Get comprehensive farm summary with weather, health, and open tasks",

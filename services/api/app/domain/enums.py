@@ -8,8 +8,7 @@ converge on one name.  The implementation continues to live in
 API Contract §2.2 spelling (exact):
     land_status        : pending_verification | under_review | verified | rejected
     health_band        : unrated | critical | poor | watch | good | excellent
-    subindex_key       : environmental_suitability | resource_adequacy |
-                         crop_stage_progression | active_problem_load |
+    subindex_key       : active_problem_severity | environmental_risk |
                          monitoring_recency | treatment_response
     problem_severity   : early | moderate | severe
     problem_status     : open | resolved

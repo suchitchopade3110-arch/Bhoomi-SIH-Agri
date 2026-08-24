@@ -58,8 +58,10 @@ if get_settings().PROBLEM_STATEMENT == "sih25076":
     api_v1_router.include_router(resource_plan_router)
     api_v1_router.include_router(schemes_router)
 else:
-    # sih26131: land/officer/resource_plan/schemes unmount (404).
+    # sih26131: resource_plan stays unmounted (404); land, officer, schemes, alerts mount.
+    api_v1_router.include_router(land_router)
+    api_v1_router.include_router(officer_router)
+    api_v1_router.include_router(schemes_router)
     api_v1_router.include_router(alerts_router)
-    # efficacy_router mounts here once Phase 4 lands.
 
 __all__ = ["api_v1_router"]

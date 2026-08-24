@@ -12,16 +12,17 @@ from app.domain.kvk_directory import KVK_CENTERS
 class StubWeatherAdapter:
     """Stub weather adapter returning fixed meteorological and ET₀ data."""
 
-    def __init__(self, fixed_et0: float = 4.8, fixed_temp: float = 30.0) -> None:
+    def __init__(self, fixed_et0: float = 4.8, fixed_temp: float = 30.0, fixed_humidity: float = 104.0) -> None:
         self.fixed_et0 = fixed_et0
         self.fixed_temp = fixed_temp
+        self.fixed_humidity = fixed_humidity
 
     async def get_current_weather(self, latitude: float, longitude: float) -> dict[str, Any]:
         return {
             "latitude": latitude,
             "longitude": longitude,
             "temperature_c": self.fixed_temp,
-            "relative_humidity_pct": 80.0,
+            "relative_humidity_pct": self.fixed_humidity,
             "wind_speed_kmh": 12.4,
             "precipitation_mm": 0.0,
             "condition_description": "Partly Cloudy",

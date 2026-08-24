@@ -259,7 +259,9 @@ class DiagnosisService:
             farm_id, OpenProblemRecord(problem_id=problem_id, severity=INITIAL_PROBLEM_SEVERITY, label=label)
         )
 
-        # Farm soil moisture and scan recency are monitored independently of diagnosis
+        farm = await self._farms.get_by_id(farm_id)
+        if farm is not None:
+            await self._farms.update(farm_id, {"days_since_last_scan": 2})
 
         after_snapshot = await self._health.recompute(
             farm_id,

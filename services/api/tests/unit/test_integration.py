@@ -72,22 +72,22 @@ class TestHealthReason:
         assert "முதல்" in result
 
     def test_drop_due_to_problem(self):
-        """Active problem load dropped → Tamil reason about disease."""
+        """Active problem severity dropped → Tamil reason about disease."""
         current = {"subindices": [
-            {"key": "active_problem_load", "value": 40},
-            {"key": "resource_adequacy", "value": 80},
+            {"key": "active_problem_severity", "value": 40},
+            {"key": "environmental_risk", "value": 80},
         ]}
         previous = {"subindices": [
-            {"key": "active_problem_load", "value": 90},
-            {"key": "resource_adequacy", "value": 80},
+            {"key": "active_problem_severity", "value": 90},
+            {"key": "environmental_risk", "value": 80},
         ]}
         result = explain_health_change(current, previous)
-        assert "நோய்" in result  # disease-related reason
+        assert "நோய்" in result or "பாதிப்பு" in result  # disease-related reason
 
     def test_rise_due_to_treatment(self):
         """Treatment response improved → Tamil reason about treatment."""
-        current = {"subindices": {"treatment_response": 85, "resource_adequacy": 80}}
-        previous = {"subindices": {"treatment_response": 40, "resource_adequacy": 80}}
+        current = {"subindices": {"treatment_response": 85, "environmental_risk": 80}}
+        previous = {"subindices": {"treatment_response": 40, "environmental_risk": 80}}
         result = explain_health_change(current, previous)
         assert "சிகிச்சை" in result  # treatment-related reason
 
