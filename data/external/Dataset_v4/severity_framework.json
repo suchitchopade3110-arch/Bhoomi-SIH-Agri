@@ -1,0 +1,41 @@
+[
+  {
+    "tier": "early",
+    "definition": "Detected but below the applicable verified ETL/action threshold, with limited/localized damage.",
+    "required_evidence": [
+      "observed_population",
+      "population_unit",
+      "verified_ETL",
+      "crop_stage",
+      "damage_or_spread_if_available"
+    ],
+    "numeric_cutoff": "Do not invent; derive only from vetted source evidence.",
+    "status": "framework_only"
+  },
+  {
+    "tier": "moderate",
+    "definition": "Verified ETL/action threshold reached or exceeded, or increasing localized damage/spread is documented.",
+    "required_evidence": [
+      "observed_population",
+      "population_unit",
+      "verified_ETL",
+      "crop_stage",
+      "damage_or_spread"
+    ],
+    "numeric_cutoff": "Pest-specific values require expert/source validation.",
+    "status": "framework_only"
+  },
+  {
+    "tier": "severe_spreading",
+    "definition": "High population/damage or rapid spread, especially during a vulnerable crop stage, with source-backed escalation evidence.",
+    "required_evidence": [
+      "population",
+      "ETL",
+      "damage_pct_or_field_impact",
+      "spread",
+      "crop_stage"
+    ],
+    "numeric_cutoff": "Pest-specific values require expert/source validation.",
+    "status": "framework_only"
+  }
+]

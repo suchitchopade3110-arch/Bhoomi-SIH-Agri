@@ -1,0 +1,5 @@
+source_id,organization,source_type,title,url,authority_level,publication_date,last_reviewed,review_due,pests_covered
+SRC-001,TNAU,Extension Bulletin,TNAU Rice Pest Management Guide,https://agritech.tnau.ac.in/crop_protection/rice_pest.html,High,NOT EXPOSED IN SOURCE,2026-08-24,2027-02-24,"Stem borer, Leaf folder, Gall midge, Whorl maggot"
+SRC-002,ICAR-IRRI,Research Paper,IRRI Rice Knowledge Bank — Brown Planthopper Management,https://www.knowledgebank.irri.org/training/fact-sheets/pest-management/insect-pests/item/brown-planthopper,High,NOT EXPOSED IN SOURCE,2026-08-24,2027-02-24,Brown planthopper (BPH)
+SRC-003,ICAR-IIRR,Technical Bulletin,ICAR Rice Production Manual,https://iirr.icar.gov.in/,High,NOT EXPOSED IN SOURCE,2026-08-24,2027-02-24,"Green leafhopper (GLH), Earhead bug"
+SRC-004,KVK,Extension Advisory,KVK Rice Nursery Management — Thrips Control,https://kvk.icar.gov.in/,Medium-High,NOT EXPOSED IN SOURCE,2026-08-24,2027-02-24,Thrips
