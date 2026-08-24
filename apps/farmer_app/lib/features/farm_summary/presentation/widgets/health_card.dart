@@ -48,23 +48,30 @@ class HealthCard extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Row(
-                children: [
-                  Icon(
-                    Icons.favorite_rounded,
-                    size: 20.0,
-                    color: bandColor,
-                  ),
-                  const SizedBox(width: AppSpacing.sm),
-                  const Text(
-                    'Farm Health Score',
-                    style: AppTypography.titleLarge,
-                  ),
-                ],
+              Expanded(
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.favorite_rounded,
+                      size: 20.0,
+                      color: bandColor,
+                    ),
+                    const SizedBox(width: AppSpacing.sm),
+                    const Flexible(
+                      child: Text(
+                        'Farm Health Score',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: AppTypography.titleLarge,
+                      ),
+                    ),
+                  ],
+                ),
               ),
+              const SizedBox(width: AppSpacing.xs),
               Container(
                 padding: const EdgeInsets.symmetric(
-                  horizontal: AppSpacing.md,
+                  horizontal: AppSpacing.sm + 2,
                   vertical: AppSpacing.xs,
                 ),
                 decoration: BoxDecoration(

@@ -3,6 +3,7 @@ import '../../../../app/theme/app_colors.dart';
 import '../../../../app/theme/app_spacing.dart';
 import '../../../../app/theme/app_typography.dart';
 import '../../../../core/widgets/bhoomi_card.dart';
+import '../../../land/presentation/widgets/land_status_badge.dart';
 import '../../data/models/farm_summary.dart';
 
 class FarmIdentityCard extends StatelessWidget {
@@ -34,8 +35,6 @@ class FarmIdentityCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isVerified = farm.landStatus == 'verified';
-
     return BhoomiCard(
       padding: const EdgeInsets.all(AppSpacing.lg),
       child: Column(
@@ -44,58 +43,30 @@ class FarmIdentityCard extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: AppSpacing.sm + 2,
-                  vertical: AppSpacing.xs,
-                ),
-                decoration: BoxDecoration(
-                  color: AppColors.primaryGreen.withValues(alpha: 0.1),
-                  borderRadius: BorderRadius.circular(AppSpacing.radiusSm),
-                ),
-                child: Text(
-                  'FARM ID: ${farm.id}',
-                  style: AppTypography.labelMedium.copyWith(
-                    color: AppColors.primaryGreen,
-                    fontWeight: FontWeight.w700,
+              Flexible(
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: AppSpacing.sm + 2,
+                    vertical: AppSpacing.xs,
+                  ),
+                  decoration: BoxDecoration(
+                    color: AppColors.primaryGreen.withValues(alpha: 0.1),
+                    borderRadius: BorderRadius.circular(AppSpacing.radiusSm),
+                  ),
+                  child: Text(
+                    'FARM ID: ${farm.id}',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: AppTypography.labelMedium.copyWith(
+                      color: AppColors.primaryGreen,
+                      fontWeight: FontWeight.w700,
+                      fontSize: 11.0,
+                    ),
                   ),
                 ),
               ),
-              Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: AppSpacing.md,
-                  vertical: AppSpacing.xs,
-                ),
-                decoration: BoxDecoration(
-                  color: isVerified
-                      ? AppColors.statusVerified.withValues(alpha: 0.1)
-                      : AppColors.statusPending.withValues(alpha: 0.1),
-                  borderRadius: BorderRadius.circular(AppSpacing.radiusFull),
-                  border: Border.all(
-                    color: isVerified
-                        ? AppColors.statusVerified.withValues(alpha: 0.3)
-                        : AppColors.statusPending.withValues(alpha: 0.3),
-                  ),
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(
-                      isVerified ? Icons.verified_rounded : Icons.pending_actions_rounded,
-                      size: 14.0,
-                      color: isVerified ? AppColors.statusVerified : AppColors.statusPending,
-                    ),
-                    const SizedBox(width: AppSpacing.xs),
-                    Text(
-                      isVerified ? 'Verified Land' : 'Pending Verification',
-                      style: AppTypography.labelMedium.copyWith(
-                        color: isVerified ? AppColors.statusVerified : AppColors.statusPending,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              const SizedBox(width: AppSpacing.xs),
+              LandStatusBadge(status: farm.landStatus),
             ],
           ),
           const SizedBox(height: AppSpacing.md),
