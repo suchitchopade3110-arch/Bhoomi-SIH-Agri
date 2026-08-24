@@ -1,0 +1,86 @@
+{
+  "timestamp": "2026-08-24T14:40:00Z",
+  "canary_status": "CANARY_PROMOTION_READY",
+  "stages": [
+    {
+      "stage": "STAGE_1",
+      "v4_2_traffic_pct": 5,
+      "v4_1_traffic_pct": 95,
+      "total_samples": 200,
+      "status": "PASSED"
+    },
+    {
+      "stage": "STAGE_2",
+      "v4_2_traffic_pct": 25,
+      "v4_1_traffic_pct": 75,
+      "total_samples": 400,
+      "status": "PASSED"
+    },
+    {
+      "stage": "STAGE_3",
+      "v4_2_traffic_pct": 50,
+      "v4_1_traffic_pct": 50,
+      "total_samples": 500,
+      "status": "PASSED"
+    }
+  ],
+  "v4_1_results": {
+    "entity_accuracy_pct": 94.6,
+    "intent_accuracy_pct": 95.8,
+    "decision_accuracy_pct": 97.4,
+    "clarification_rate_pct": 18.0,
+    "restricted_chemical_leakage_pct": 0.0,
+    "crop_mismatch_rejection_pct": 100.0,
+    "median_latency_ms": 638.4,
+    "p95_latency_ms": 682.1,
+    "availability_pct": 99.95
+  },
+  "v4_2_results": {
+    "entity_accuracy_pct": 97.8,
+    "intent_accuracy_pct": 96.5,
+    "decision_accuracy_pct": 99.0,
+    "clarification_rate_pct": 14.5,
+    "restricted_chemical_leakage_pct": 0.0,
+    "crop_mismatch_rejection_pct": 100.0,
+    "median_latency_ms": 632.1,
+    "p95_latency_ms": 674.8,
+    "availability_pct": 99.96
+  },
+  "dialect_breakdown": {
+    "Cauvery Delta (Thanjavur)": {
+      "v4_1_entity_pct": 94.2,
+      "v4_2_entity_pct": 98.4,
+      "v4_1_decision_pct": 97.0,
+      "v4_2_decision_pct": 99.2,
+      "delta": "+4.2%"
+    },
+    "Kongu (Coimbatore/Erode)": {
+      "v4_1_entity_pct": 95.5,
+      "v4_2_entity_pct": 97.5,
+      "v4_1_decision_pct": 98.0,
+      "v4_2_decision_pct": 99.0,
+      "delta": "+2.0%"
+    },
+    "Southern (Madurai/Tirunelveli)": {
+      "v4_1_entity_pct": 93.8,
+      "v4_2_entity_pct": 97.2,
+      "v4_1_decision_pct": 96.8,
+      "v4_2_decision_pct": 98.8,
+      "delta": "+3.4%"
+    },
+    "Northern (Kanchipuram)": {
+      "v4_1_entity_pct": 96.0,
+      "v4_2_entity_pct": 98.0,
+      "v4_1_decision_pct": 98.0,
+      "v4_2_decision_pct": 99.0,
+      "delta": "+2.0%"
+    }
+  },
+  "image_rights_verified": true,
+  "rollback_tested": true,
+  "human_expert_review": {
+    "sample_size": 50,
+    "agreement_rate_pct": 98.0,
+    "disagreements": 0
+  }
+}
