@@ -10,20 +10,10 @@ from fastapi import Depends
 from app.adapters.dependencies import get_image_diagnosis_adapter
 from app.ports.image_diagnosis import ImageDiagnosisPort
 from app.core.config import Settings, get_settings
-from app.domain.gate import GateDecision, decide
+from app.domain.gate import GateDecision, SUPPORTED_LABELS, check_gate, decide
 
-# Bounded crop/disease set this version supports (PRD §5.6: "3-5 well-
-# supported crops/diseases with a confidence gate"). A label outside this
-# set is out-of-scope and always escalates, regardless of confidence.
-SUPPORTED_DIAGNOSIS_LABELS: frozenset[str] = frozenset(
-    {
-        "bacterial_leaf_blight",
-        "early_blight",
-        "late_blight",
-        "leaf_curl_virus",
-        "powdery_mildew",
-    }
-)
+# Bounded crop/disease/pest set supported with confidence gate.
+SUPPORTED_DIAGNOSIS_LABELS: frozenset[str] = SUPPORTED_LABELS["disease"]
 
 
 class GateService:
@@ -38,6 +28,7 @@ class GateService:
         image_asset_url_or_id: str,
         crop_hint: str | None = None,
         retrieval_relevance: float | None = None,
+        target_type: str = "disease",
     ) -> tuple[GateDecision, str, float]:
         """Run ``ImageDiagnosisPort`` then the gate.
 
@@ -45,6 +36,7 @@ class GateService:
             image_asset_url_or_id: The uploaded image's asset reference.
             crop_hint: Optional farmer-stated crop to constrain the model.
             retrieval_relevance: Optional cosine-similarity score from RAG retrieval.
+            target_type: "disease" or "pest".
 
         Returns:
             ``(decision, label, confidence)`` — the label/confidence are
@@ -54,10 +46,11 @@ class GateService:
         label, confidence, _meta = await self._image_port.diagnose_crop_image(
             image_asset_url_or_id, crop_hint=crop_hint
         )
-        in_scope = label in SUPPORTED_DIAGNOSIS_LABELS
-        decision = decide(
-            image_confidence=confidence,
-            in_scope=in_scope,
+        norm_target_type = "pest" if target_type == "pest" else "disease"
+        decision = check_gate(
+            target_type=norm_target_type,
+            label=label,
+            confidence=confidence,
             retrieval_relevance=retrieval_relevance,
             confidence_gate=self._settings.CONFIDENCE_GATE,
             relevance_threshold=self._settings.RAG_RELEVANCE_THRESHOLD,

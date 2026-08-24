@@ -22,6 +22,16 @@ class GateDecision:
     spoken_summary: str | None
 
     @property
+    def above_gate(self) -> bool:
+        """Whether the gate decision allows composing advice (above gate threshold)."""
+        return self.outcome == GateOutcome.COMPOSE
+
+    @property
+    def action(self) -> str:
+        """Action string ('compose_advisory' or 'escalate')."""
+        return "compose_advisory" if self.above_gate else "escalate"
+
+    @property
     def should_compose(self) -> bool:
         return self.outcome == GateOutcome.COMPOSE
 

@@ -22,7 +22,7 @@ from app.domain.health.constants import (  # noqa: F401  (re-export)
 
 # Pure domain gate thresholds (no I/O, no Settings dependencies)
 CONFIDENCE_GATE: float = 0.70
-PEST_CONFIDENCE_GATE: float = 0.70
+PEST_CONFIDENCE_GATE: float = CONFIDENCE_GATE
 
 # RAG relevance thresholds: calibrated per embedding modality
 RAG_RELEVANCE_THRESHOLD_STUB: float = 0.18        # calibrated for token-hashing stub vectors
