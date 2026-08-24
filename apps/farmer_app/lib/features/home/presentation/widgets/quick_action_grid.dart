@@ -22,9 +22,18 @@ class QuickActionGrid extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          strings.whatWouldYouLikeToDo,
-          style: const TextStyle(fontSize: 16.0, fontWeight: FontWeight.w800, color: AppColors.textPrimary),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              strings.whatWouldYouLikeToDo,
+              style: const TextStyle(
+                fontSize: 16.0,
+                fontWeight: FontWeight.w800,
+                color: AppColors.textPrimary,
+              ),
+            ),
+          ],
         ),
         const SizedBox(height: AppSpacing.md),
         GridView.count(
@@ -35,6 +44,7 @@ class QuickActionGrid extends ConsumerWidget {
           mainAxisSpacing: AppSpacing.md,
           childAspectRatio: 1.25,
           children: [
+            // 1. Ask BHOOMI (Voice)
             _buildActionTile(
               title: strings.askBhoomi,
               subtitle: strings.voiceAssistant,
@@ -42,13 +52,35 @@ class QuickActionGrid extends ConsumerWidget {
               color: AppColors.primaryGreen,
               onTap: () => context.push('/ask/$farmId'),
             ),
+
+            // 2. Show Image / Photo Diagnosis
             _buildActionTile(
-              title: strings.showProblem,
+              title: 'Show Image',
               subtitle: strings.uploadCropPhoto,
               icon: Icons.camera_alt_rounded,
-              color: const Color(0xFFD97706),
+              color: const Color(0xFFE76F51),
               onTap: () => context.push('/ask/$farmId'),
             ),
+
+            // 3. Today's Guidance
+            _buildActionTile(
+              title: "Today's Guidance",
+              subtitle: 'Weather & field advice',
+              icon: Icons.wb_sunny_rounded,
+              color: const Color(0xFFD97706),
+              onTap: () => context.push('/brief/$farmId'),
+            ),
+
+            // 4. Farm Health
+            _buildActionTile(
+              title: 'Farm Health',
+              subtitle: 'Score & diagnosis',
+              icon: Icons.favorite_rounded,
+              color: const Color(0xFF059669),
+              onTap: () => context.push('/health/$farmId'),
+            ),
+
+            // 5. Scheme Support
             _buildActionTile(
               title: strings.govSupport,
               subtitle: isLandVerified ? strings.schemesAndSubsidies : strings.requiresVerifiedLand,
@@ -56,11 +88,13 @@ class QuickActionGrid extends ConsumerWidget {
               color: isLandVerified ? const Color(0xFF0284C7) : const Color(0xFF64748B),
               onTap: () => context.push('/schemes/$farmId'),
             ),
+
+            // 6. Farm Journey
             _buildActionTile(
               title: strings.myFarmJourney,
               subtitle: strings.activityTimeline,
-              icon: Icons.history_edu_rounded,
-              color: const Color(0xFF9333EA),
+              icon: Icons.timeline_rounded,
+              color: const Color(0xFF7C3AED),
               onTap: () => context.push('/timeline/$farmId'),
             ),
           ],
@@ -85,11 +119,11 @@ class QuickActionGrid extends ConsumerWidget {
           color: AppColors.surface,
           borderRadius: BorderRadius.circular(AppSpacing.radiusLg),
           border: Border.all(color: AppColors.border),
-          boxShadow: [
+          boxShadow: const [
             BoxShadow(
-              color: Colors.black.withValues(alpha: 0.02),
-              blurRadius: 4.0,
-              offset: const Offset(0, 2),
+              color: AppColors.cardShadow,
+              blurRadius: 8.0,
+              offset: Offset(0, 2),
             ),
           ],
         ),
@@ -110,12 +144,24 @@ class QuickActionGrid extends ConsumerWidget {
               children: [
                 Text(
                   title,
-                  style: const TextStyle(fontSize: 13.0, fontWeight: FontWeight.w800, color: AppColors.textPrimary),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    fontSize: 13.5,
+                    fontWeight: FontWeight.w800,
+                    color: AppColors.textPrimary,
+                  ),
                 ),
                 const SizedBox(height: 2.0),
                 Text(
                   subtitle,
-                  style: const TextStyle(fontSize: 10.0, color: AppColors.textMuted),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    fontSize: 10.5,
+                    color: AppColors.textMuted,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
               ],
             ),

@@ -25,6 +25,7 @@ class LanguageSelectionScreen extends ConsumerWidget {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
+        scrolledUnderElevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_rounded, color: AppColors.textPrimary),
           onPressed: () => context.pop(),
@@ -39,16 +40,16 @@ class LanguageSelectionScreen extends ConsumerWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    // Top emblem & Header
+                    // Top emblem
                     Center(
                       child: Container(
-                        width: 64.0,
-                        height: 64.0,
+                        width: 68.0,
+                        height: 68.0,
                         decoration: BoxDecoration(
-                          color: AppColors.primaryGreen.withValues(alpha: 0.12),
+                          color: AppColors.lightGreen,
                           shape: BoxShape.circle,
                           border: Border.all(
-                            color: AppColors.primaryGreen.withValues(alpha: 0.25),
+                            color: AppColors.primaryGreen.withValues(alpha: 0.2),
                             width: 1.5,
                           ),
                         ),
@@ -65,7 +66,11 @@ class LanguageSelectionScreen extends ConsumerWidget {
 
                     Text(
                       strings.chooseLanguageTitle,
-                      style: AppTypography.headlineLarge,
+                      style: const TextStyle(
+                        fontSize: 24.0,
+                        fontWeight: FontWeight.w800,
+                        color: AppColors.textPrimary,
+                      ),
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 4.0),
@@ -77,7 +82,7 @@ class LanguageSelectionScreen extends ConsumerWidget {
                       ),
                       textAlign: TextAlign.center,
                     ),
-                    const SizedBox(height: AppSpacing.sm),
+                    const SizedBox(height: AppSpacing.xs),
                     Text(
                       strings.chooseLanguageDesc,
                       style: AppTypography.bodyMedium.copyWith(
@@ -85,50 +90,55 @@ class LanguageSelectionScreen extends ConsumerWidget {
                       ),
                       textAlign: TextAlign.center,
                     ),
-                    const SizedBox(height: AppSpacing.lg),
+                    const SizedBox(height: AppSpacing.xl),
 
                     // Grid / List of Language Options
                     ...kSupportedLanguages.map((lang) {
                       final isSelected = lang.code == selectedLangCode;
                       return Padding(
-                        padding: const EdgeInsets.only(bottom: AppSpacing.sm),
+                        padding: const EdgeInsets.only(bottom: AppSpacing.sm + 2),
                         child: InkWell(
                           onTap: () {
                             ref.read(selectedLanguageProvider.notifier).state = lang.code;
                           },
-                          borderRadius: BorderRadius.circular(AppSpacing.radiusMd),
+                          borderRadius: BorderRadius.circular(AppSpacing.radiusLg),
                           child: AnimatedContainer(
-                            duration: const Duration(milliseconds: 200),
+                            duration: const Duration(milliseconds: 180),
                             padding: const EdgeInsets.all(AppSpacing.md),
                             decoration: BoxDecoration(
                               color: isSelected
-                                  ? AppColors.primaryGreen.withValues(alpha: 0.08)
+                                  ? AppColors.lightGreen.withValues(alpha: 0.7)
                                   : AppColors.surface,
-                              borderRadius: BorderRadius.circular(AppSpacing.radiusMd),
+                              borderRadius: BorderRadius.circular(AppSpacing.radiusLg),
                               border: Border.all(
                                 color: isSelected ? AppColors.primaryGreen : AppColors.border,
                                 width: isSelected ? 2.0 : 1.0,
                               ),
-                              boxShadow: isSelected
-                                  ? [
-                                      BoxShadow(
-                                        color: AppColors.primaryGreen.withValues(alpha: 0.12),
-                                        blurRadius: 8.0,
-                                        offset: const Offset(0, 2),
-                                      ),
-                                    ]
-                                  : [],
+                              boxShadow: [
+                                BoxShadow(
+                                  color: isSelected
+                                      ? AppColors.primaryGreen.withValues(alpha: 0.1)
+                                      : AppColors.cardShadow,
+                                  blurRadius: isSelected ? 10.0 : 6.0,
+                                  offset: const Offset(0, 2),
+                                ),
+                              ],
                             ),
                             child: Row(
                               children: [
                                 // Language Badge / Symbol
                                 Container(
-                                  width: 44.0,
-                                  height: 44.0,
+                                  width: 46.0,
+                                  height: 46.0,
                                   decoration: BoxDecoration(
-                                    color: isSelected
-                                        ? AppColors.primaryGreen
-                                        : AppColors.background,
+                                    gradient: isSelected
+                                        ? const LinearGradient(
+                                            colors: [AppColors.primaryDeepGreen, AppColors.secondaryGreen],
+                                            begin: Alignment.topLeft,
+                                            end: Alignment.bottomRight,
+                                          )
+                                        : null,
+                                    color: isSelected ? null : AppColors.background,
                                     shape: BoxShape.circle,
                                   ),
                                   child: Center(
@@ -166,6 +176,7 @@ class LanguageSelectionScreen extends ConsumerWidget {
                                             '(${lang.englishName})',
                                             style: AppTypography.bodyMedium.copyWith(
                                               color: AppColors.textMuted,
+                                              fontSize: 13.0,
                                             ),
                                           ),
                                         ],
@@ -175,7 +186,7 @@ class LanguageSelectionScreen extends ConsumerWidget {
                                         'Greeting: "${lang.greeting}"',
                                         style: AppTypography.labelMedium.copyWith(
                                           color: isSelected
-                                              ? AppColors.primaryGreen.withValues(alpha: 0.8)
+                                              ? AppColors.primaryGreen
                                               : AppColors.textSecondary,
                                         ),
                                       ),
@@ -193,7 +204,7 @@ class LanguageSelectionScreen extends ConsumerWidget {
                                 else
                                   Icon(
                                     Icons.radio_button_unchecked_rounded,
-                                    color: AppColors.textMuted.withValues(alpha: 0.5),
+                                    color: AppColors.textMuted.withValues(alpha: 0.4),
                                     size: 24.0,
                                   ),
                               ],

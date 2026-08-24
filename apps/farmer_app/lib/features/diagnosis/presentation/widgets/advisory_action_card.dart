@@ -7,11 +7,15 @@ import '../../../../core/widgets/bhoomi_card.dart';
 class AdvisoryActionCard extends StatelessWidget {
   final List<String> actions;
   final String? caution;
+  final VoidCallback? onSave;
+  final VoidCallback? onShare;
 
   const AdvisoryActionCard({
     super.key,
     required this.actions,
     this.caution,
+    this.onSave,
+    this.onShare,
   });
 
   @override
@@ -20,20 +24,41 @@ class AdvisoryActionCard extends StatelessWidget {
       return const SizedBox.shrink();
     }
 
-    return BhoomiCard(
+    final actionCount = actions.length;
+    final planTitle = actionCount == 5 ? '5-Point Action Plan' : '$actionCount-Step Action Plan';
 
+    return BhoomiCard(
       padding: const EdgeInsets.all(AppSpacing.lg),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Row(
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Icon(Icons.assignment_turned_in_outlined, size: 20.0, color: AppColors.primaryGreen),
-              SizedBox(width: AppSpacing.sm),
-              Text('What You Can Do', style: AppTypography.titleLarge),
+              Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(AppSpacing.xs + 2),
+                    decoration: const BoxDecoration(
+                      color: AppColors.lightGreen,
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Icon(Icons.assignment_turned_in_rounded, size: 18.0, color: AppColors.primaryGreen),
+                  ),
+                  const SizedBox(width: AppSpacing.sm),
+                  Text(
+                    planTitle,
+                    style: const TextStyle(
+                      fontSize: 17.0,
+                      fontWeight: FontWeight.w800,
+                      color: AppColors.textPrimary,
+                    ),
+                  ),
+                ],
+              ),
             ],
           ),
-          const SizedBox(height: AppSpacing.xs),
+          const SizedBox(height: 4.0),
           Text(
             'Recommended immediate agronomic management steps:',
             style: AppTypography.bodyMedium.copyWith(fontSize: 12.0, color: AppColors.textMuted),
@@ -50,10 +75,10 @@ class AdvisoryActionCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    width: 22.0,
-                    height: 22.0,
-                    decoration: BoxDecoration(
-                      color: AppColors.primaryGreen.withValues(alpha: 0.12),
+                    width: 24.0,
+                    height: 24.0,
+                    decoration: const BoxDecoration(
+                      color: AppColors.lightGreen,
                       shape: BoxShape.circle,
                     ),
                     child: Center(
@@ -61,7 +86,7 @@ class AdvisoryActionCard extends StatelessWidget {
                         '${idx + 1}',
                         style: const TextStyle(
                           fontSize: 12.0,
-                          fontWeight: FontWeight.w800,
+                          fontWeight: FontWeight.w900,
                           color: AppColors.primaryGreen,
                         ),
                       ),
@@ -73,8 +98,9 @@ class AdvisoryActionCard extends StatelessWidget {
                       action,
                       style: AppTypography.bodyLarge.copyWith(
                         fontSize: 14.0,
+                        fontWeight: FontWeight.w600,
                         color: AppColors.textPrimary,
-                        height: 1.4,
+                        height: 1.35,
                       ),
                     ),
                   ),
@@ -116,7 +142,66 @@ class AdvisoryActionCard extends StatelessWidget {
                 ],
               ),
             ),
+            const SizedBox(height: AppSpacing.md),
           ],
+
+          const Divider(color: AppColors.divider),
+          const SizedBox(height: AppSpacing.xs),
+
+          // [ Save Advice ]   [ Share ] Action Buttons
+          Row(
+            children: [
+              Expanded(
+                child: OutlinedButton.icon(
+                  onPressed: () {
+                    if (onSave != null) {
+                      onSave!();
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Advice saved to your farm records!'),
+                          backgroundColor: AppColors.primaryGreen,
+                        ),
+                      );
+                    }
+                  },
+                  icon: const Icon(Icons.bookmark_border_rounded, size: 18.0),
+                  label: const Text('Save Advice'),
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor: AppColors.primaryGreen,
+                    side: const BorderSide(color: AppColors.primaryGreen, width: 1.5),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppSpacing.radiusMd)),
+                    padding: const EdgeInsets.symmetric(vertical: 10.0),
+                  ),
+                ),
+              ),
+              const SizedBox(width: AppSpacing.md),
+              Expanded(
+                child: OutlinedButton.icon(
+                  onPressed: () {
+                    if (onShare != null) {
+                      onShare!();
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Advisory link copied to clipboard!'),
+                          backgroundColor: AppColors.primaryGreen,
+                        ),
+                      );
+                    }
+                  },
+                  icon: const Icon(Icons.share_outlined, size: 18.0),
+                  label: const Text('Share'),
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor: AppColors.textSecondary,
+                    side: const BorderSide(color: AppColors.border, width: 1.5),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppSpacing.radiusMd)),
+                    padding: const EdgeInsets.symmetric(vertical: 10.0),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ],
       ),
     );

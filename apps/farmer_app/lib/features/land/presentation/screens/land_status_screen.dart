@@ -11,11 +11,11 @@ import '../widgets/land_status_badge.dart';
 import '../widgets/verification_timeline.dart';
 
 class LandStatusScreen extends ConsumerStatefulWidget {
-  final String landId;
+  final String farmId;
 
   const LandStatusScreen({
     super.key,
-    required this.landId,
+    required this.farmId,
   });
 
   @override
@@ -27,7 +27,7 @@ class _LandStatusScreenState extends ConsumerState<LandStatusScreen> {
   void initState() {
     super.initState();
     Future.microtask(() {
-      ref.read(landControllerProvider.notifier).fetchLandRecord(widget.landId);
+      ref.read(landControllerProvider.notifier).fetchLandRecord(widget.farmId);
     });
   }
 
@@ -78,7 +78,7 @@ class _LandStatusScreenState extends ConsumerState<LandStatusScreen> {
                     ),
                     const SizedBox(height: AppSpacing.md),
                     Text(
-                      'Land Record ID: ${record?.landRecordId ?? widget.landId}',
+                      'Land Record ID: ${record?.landRecordId ?? widget.farmId}',
                       style: AppTypography.labelMedium.copyWith(color: AppColors.textMuted, fontFamily: 'monospace'),
                     ),
                   ],

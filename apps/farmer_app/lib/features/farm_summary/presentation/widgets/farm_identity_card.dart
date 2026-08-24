@@ -35,7 +35,7 @@ class FarmIdentityCard extends ConsumerWidget {
                     vertical: AppSpacing.xs,
                   ),
                   decoration: BoxDecoration(
-                    color: AppColors.primaryGreen.withValues(alpha: 0.1),
+                    color: AppColors.lightGreen,
                     borderRadius: BorderRadius.circular(AppSpacing.radiusSm),
                   ),
                   child: Text(
@@ -44,7 +44,7 @@ class FarmIdentityCard extends ConsumerWidget {
                     overflow: TextOverflow.ellipsis,
                     style: AppTypography.labelMedium.copyWith(
                       color: AppColors.primaryGreen,
-                      fontWeight: FontWeight.w700,
+                      fontWeight: FontWeight.w800,
                       fontSize: 11.0,
                     ),
                   ),
@@ -60,13 +60,17 @@ class FarmIdentityCard extends ConsumerWidget {
               Container(
                 padding: const EdgeInsets.all(AppSpacing.md),
                 decoration: BoxDecoration(
-                  color: AppColors.background,
+                  gradient: const LinearGradient(
+                    colors: [AppColors.primaryDeepGreen, AppColors.secondaryGreen],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
                   borderRadius: BorderRadius.circular(AppSpacing.radiusMd),
                 ),
                 child: const Icon(
                   Icons.eco_rounded,
-                  size: 32.0,
-                  color: AppColors.primaryGreen,
+                  size: 28.0,
+                  color: Colors.white,
                 ),
               ),
               const SizedBox(width: AppSpacing.md),
@@ -76,12 +80,16 @@ class FarmIdentityCard extends ConsumerWidget {
                   children: [
                     Text(
                       strings.primaryCropLabel,
-                      style: AppTypography.labelMedium.copyWith(color: AppColors.textMuted),
+                      style: AppTypography.labelMedium.copyWith(
+                        color: AppColors.textMuted,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                     const SizedBox(height: 2.0),
                     Text(
                       strings.cropName(farm.crop),
-                      style: AppTypography.headlineMedium.copyWith(
+                      style: const TextStyle(
+                        fontSize: 20.0,
                         fontWeight: FontWeight.w800,
                         color: AppColors.textPrimary,
                       ),

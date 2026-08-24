@@ -114,7 +114,7 @@ class LandBoundaryScreen extends ConsumerWidget {
                 onPressed: () async {
                   final record = await controller.submitLand(farmId);
                   if (record != null && context.mounted) {
-                    context.pushReplacement('/land/status/${record.landRecordId}');
+                    context.pushReplacement('/land/status/${record.farmId}');
                   }
                 },
               ),

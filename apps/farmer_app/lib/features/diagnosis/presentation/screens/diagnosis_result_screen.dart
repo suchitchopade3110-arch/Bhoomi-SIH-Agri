@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../app/theme/app_colors.dart';
 import '../../../../app/theme/app_spacing.dart';
-import '../../../../app/theme/app_typography.dart';
 import '../../../../core/widgets/bhoomi_card.dart';
 import '../../../../core/widgets/bhoomi_primary_button.dart';
 import '../../../../core/widgets/bhoomi_secondary_button.dart';
@@ -12,6 +11,7 @@ import '../../application/diagnosis_controller.dart';
 import '../widgets/advisory_action_card.dart';
 import '../widgets/advisory_sources_section.dart';
 import '../widgets/diagnosis_confidence_card.dart';
+import '../widgets/related_resources_section.dart';
 import '../widgets/symptoms_checklist.dart';
 
 class DiagnosisResultScreen extends ConsumerWidget {
@@ -48,6 +48,105 @@ class DiagnosisResultScreen extends ConsumerWidget {
       );
     }
 
+    // STRICT CONFIDENCE GATE HANDLING: If below gate, render clean fallback UI
+    if (!response.aboveGate) {
+      return Scaffold(
+        backgroundColor: AppColors.background,
+        appBar: AppBar(
+          title: const Text('Review Required'),
+          scrolledUnderElevation: 0,
+        ),
+        body: SafeArea(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(AppSpacing.lg),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(AppSpacing.xl),
+                  decoration: BoxDecoration(
+                    color: AppColors.surface,
+                    borderRadius: BorderRadius.circular(AppSpacing.radiusXl),
+                    border: Border.all(color: const Color(0xFFFFCDD2)),
+                    boxShadow: const [
+                      BoxShadow(
+                        color: AppColors.cardShadow,
+                        blurRadius: 10.0,
+                        offset: Offset(0, 4),
+                      ),
+                    ],
+                  ),
+                  child: Column(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(AppSpacing.md),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFFFEBEE),
+                          shape: BoxShape.circle,
+                          border: Border.all(color: const Color(0xFFC62828).withValues(alpha: 0.2)),
+                        ),
+                        child: const Icon(
+                          Icons.support_agent_rounded,
+                          color: Color(0xFFC62828),
+                          size: 40.0,
+                        ),
+                      ),
+                      const SizedBox(height: AppSpacing.md),
+                      const Text(
+                        'Expert Verification Required',
+                        style: TextStyle(
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.w800,
+                          color: Color(0xFFC62828),
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(height: AppSpacing.sm),
+                      const Text(
+                        'The diagnosis confidence is below the safety threshold. To ensure safe and accurate guidance, this case has been prepared for expert review.',
+                        style: TextStyle(fontSize: 13.5, color: AppColors.textSecondary, height: 1.4),
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(height: AppSpacing.md),
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md, vertical: AppSpacing.sm),
+                        decoration: BoxDecoration(
+                          color: AppColors.background,
+                          borderRadius: BorderRadius.circular(AppSpacing.radiusSm),
+                        ),
+                        child: Text(
+                          'Diagnosis ID: ${response.diagnosisId}',
+                          style: const TextStyle(fontSize: 11.0, fontFamily: 'monospace', color: AppColors.textMuted),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
+                const SizedBox(height: AppSpacing.xl),
+
+                BhoomiPrimaryButton(
+                  text: 'Escalate to KVK Agronomist',
+                  icon: Icons.send_rounded,
+                  onPressed: () {
+                    context.push('/escalation/$farmId/${response.diagnosisId}');
+                  },
+                ),
+                const SizedBox(height: AppSpacing.md),
+                BhoomiSecondaryButton(
+                  text: 'Return to Farm Home',
+                  icon: Icons.home_rounded,
+                  onPressed: () {
+                    context.go('/home/$farmId');
+                  },
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    }
+
     final speechSummary = (response.spokenSummary != null && response.spokenSummary!.trim().isNotEmpty)
         ? response.spokenSummary!
         : "Possible Issue: ${response.possibleIssue}. Key actions: ${response.actions.join(', ')}.";
@@ -55,7 +154,8 @@ class DiagnosisResultScreen extends ConsumerWidget {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
-        title: const Text("BHOOMI's Advisory"),
+        title: const Text("BHOOMI's Advisory", style: TextStyle(fontWeight: FontWeight.w800)),
+        scrolledUnderElevation: 0,
         actions: [
           IconButton(
             icon: Icon(
@@ -90,22 +190,27 @@ class DiagnosisResultScreen extends ConsumerWidget {
                       children: [
                         Container(
                           padding: const EdgeInsets.all(AppSpacing.sm),
-                          decoration: BoxDecoration(
-                            color: AppColors.primaryGreen.withValues(alpha: 0.12),
+                          decoration: const BoxDecoration(
+                            color: AppColors.lightGreen,
                             shape: BoxShape.circle,
                           ),
                           child: const Icon(Icons.eco_rounded, color: AppColors.primaryGreen, size: 22.0),
                         ),
                         const SizedBox(width: AppSpacing.sm),
-                        const Text('Possible Issue Identified', style: AppTypography.titleLarge),
+                        const Text(
+                          'Possible Issue Identified',
+                          style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.w700, color: AppColors.textSecondary),
+                        ),
                       ],
                     ),
                     const SizedBox(height: AppSpacing.md),
                     Text(
                       response.possibleIssue,
-                      style: AppTypography.headlineLarge.copyWith(
-                        fontWeight: FontWeight.w800,
+                      style: const TextStyle(
+                        fontSize: 22.0,
+                        fontWeight: FontWeight.w900,
                         color: AppColors.textPrimary,
+                        letterSpacing: -0.3,
                       ),
                     ),
                     const SizedBox(height: AppSpacing.sm),
@@ -125,11 +230,12 @@ class DiagnosisResultScreen extends ConsumerWidget {
               const SizedBox(height: AppSpacing.lg),
 
               // Symptoms to Check Checklist
-              SymptomsChecklistWidget(symptoms: response.symptomsToCheck),
+              if (response.symptomsToCheck.isNotEmpty) ...[
+                SymptomsChecklistWidget(symptoms: response.symptomsToCheck),
+                const SizedBox(height: AppSpacing.lg),
+              ],
 
-              const SizedBox(height: AppSpacing.lg),
-
-              // What you can do Actions Card
+              // 5-Point Action Plan Card with Save/Share
               AdvisoryActionCard(
                 actions: response.actions,
                 caution: response.caution,
@@ -137,7 +243,12 @@ class DiagnosisResultScreen extends ConsumerWidget {
 
               const SizedBox(height: AppSpacing.lg),
 
-              // Information Sources
+              // Related Resources (Articles, Videos, Documents)
+              const RelatedResourcesSection(cropName: 'Paddy'),
+
+              const SizedBox(height: AppSpacing.lg),
+
+              // Information Sources (ICAR / FAO Citations)
               AdvisorySourcesSection(sources: response.sources),
 
               const SizedBox(height: AppSpacing.xl),
@@ -167,7 +278,7 @@ class DiagnosisResultScreen extends ConsumerWidget {
                 ],
               ),
 
-              const SizedBox(height: AppSpacing.md),
+              const SizedBox(height: AppSpacing.xl),
             ],
           ),
         ),

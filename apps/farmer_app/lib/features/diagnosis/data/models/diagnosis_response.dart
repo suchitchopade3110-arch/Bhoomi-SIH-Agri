@@ -56,6 +56,8 @@ class DiagnosisResponse {
   bool get isHighConfidence => confidenceLevel.toLowerCase() == 'high';
   bool get isMediumConfidence => confidenceLevel.toLowerCase() == 'medium' || confidenceLevel.toLowerCase() == 'moderate';
   bool get isLowConfidence => confidenceLevel.toLowerCase() == 'low' || confidenceLevel.toLowerCase() == 'uncertain';
+  bool get isAboveGate => confidenceLevel.toLowerCase() != 'uncertain' && actions.isNotEmpty;
+  bool get aboveGate => isAboveGate;
 
   factory DiagnosisResponse.fromJson(Map<String, dynamic> json) {
     final advisory = json['advisory'] as Map<String, dynamic>?;

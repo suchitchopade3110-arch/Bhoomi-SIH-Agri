@@ -96,8 +96,8 @@ apiClient.interceptors.response.use(
     if (env.enableMockFallback && (!error.response || error.code === 'ERR_NETWORK')) {
       const { url, method } = error.config || {};
 
-      // GET /api/v1/officer/queue or /api/v1/officer/land-queue
-      if ((url?.includes('/api/v1/officer/queue') || url?.includes('/api/v1/officer/land-queue')) && method?.toLowerCase() === 'get') {
+      // GET /api/v1/officer/queue
+      if (url?.includes('/api/v1/officer/queue') && method?.toLowerCase() === 'get') {
         return Promise.resolve({
           data: [...mockQueueStore],
           status: 200,
@@ -107,11 +107,10 @@ apiClient.interceptors.response.use(
         } as AxiosResponse);
       }
 
-      // POST /api/v1/officer/action or /api/v1/officer/land/{id}/review
-      if ((url?.includes('/api/v1/officer/action') || url?.includes('/review')) && method?.toLowerCase() === 'post') {
+      // POST /api/v1/officer/action
+      if (url?.includes('/api/v1/officer/action') && method?.toLowerCase() === 'post') {
         const payload = typeof error.config?.data === 'string' ? JSON.parse(error.config?.data || '{}') : (error.config?.data || {});
-        const reviewMatch = url?.match(/\/api\/v1\/officer\/land\/([^/]+)\/review/);
-        const landId = payload.parcel_id || reviewMatch?.[1] || 'l_1';
+        const landId = payload.parcel_id || 'l_1';
         const isVerified = payload.action === 'verify' || payload.decision === 'verified';
 
         // Update local mock state

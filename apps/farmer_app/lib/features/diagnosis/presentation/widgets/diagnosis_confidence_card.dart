@@ -23,8 +23,13 @@ class DiagnosisConfidenceCard extends StatelessWidget {
             ? const Color(0xFFC62828)
             : const Color(0xFFD97706);
 
-    final Color bgColor = color.withValues(alpha: 0.08);
-    final Color borderColor = color.withValues(alpha: 0.25);
+    final Color bgColor = isHigh
+        ? AppColors.lightGreen
+        : isLow
+            ? const Color(0xFFFFEBEE)
+            : const Color(0xFFFEF3C7);
+
+    final Color borderColor = color.withValues(alpha: 0.3);
 
     final String title = isHigh
         ? 'Strong Match'
@@ -48,13 +53,20 @@ class DiagnosisConfidenceCard extends StatelessWidget {
       padding: const EdgeInsets.all(AppSpacing.md),
       decoration: BoxDecoration(
         color: bgColor,
-        borderRadius: BorderRadius.circular(AppSpacing.radiusMd),
+        borderRadius: BorderRadius.circular(AppSpacing.radiusLg),
         border: Border.all(color: borderColor),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(icon, color: color, size: 22.0),
+          Container(
+            padding: const EdgeInsets.all(6.0),
+            decoration: BoxDecoration(
+              color: color.withValues(alpha: 0.15),
+              shape: BoxShape.circle,
+            ),
+            child: Icon(icon, color: color, size: 20.0),
+          ),
           const SizedBox(width: AppSpacing.md),
           Expanded(
             child: Column(
@@ -71,18 +83,26 @@ class DiagnosisConfidenceCard extends StatelessWidget {
                       ),
                     ),
                     if (response.confidenceScore != null)
-                      Text(
-                        '${(response.confidenceScore! * 100).toInt()}%',
-                        style: TextStyle(fontSize: 12.0, fontWeight: FontWeight.w800, color: color),
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 2.0),
+                        decoration: BoxDecoration(
+                          color: color.withValues(alpha: 0.15),
+                          borderRadius: BorderRadius.circular(AppSpacing.radiusFull),
+                        ),
+                        child: Text(
+                          '${(response.confidenceScore! * 100).toInt()}%',
+                          style: TextStyle(fontSize: 11.5, fontWeight: FontWeight.w900, color: color),
+                        ),
                       ),
                   ],
                 ),
-                const SizedBox(height: 2.0),
+                const SizedBox(height: 3.0),
                 Text(
                   description,
-                  style: AppTypography.bodyMedium.copyWith(
+                  style: TextStyle(
                     fontSize: 12.0,
-                    color: AppColors.textSecondary,
+                    color: isLow ? const Color(0xFFB71C1C) : AppColors.textSecondary,
+                    height: 1.3,
                   ),
                 ),
               ],

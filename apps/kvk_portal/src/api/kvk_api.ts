@@ -79,14 +79,8 @@ export const kvkApi = {
     cursor?: string;
     limit?: number;
   }): Promise<KvkCaseQueueResponse> => {
-    let rawData: any;
-    try {
-      const res = await apiClient.get('/api/v1/agronomist/queue', { params });
-      rawData = res.data;
-    } catch {
-      const res = await apiClient.get('/api/v1/kvk/cases', { params });
-      rawData = res.data;
-    }
+    const res = await apiClient.get('/api/v1/agronomist/queue', { params });
+    const rawData = res.data;
 
     if (Array.isArray(rawData)) {
       const mapped = rawData.map(mapToKvkCase);
@@ -112,17 +106,12 @@ export const kvkApi = {
   },
 
   getCaseDetail: async (caseId: string): Promise<KvkCase> => {
-    try {
-      const res = await apiClient.get(`/api/v1/agronomist/case/${caseId}`);
-      return mapToKvkCase(res.data);
-    } catch {
-      const res = await apiClient.get(`/api/v1/kvk/cases/${caseId}`);
-      return mapToKvkCase(res.data);
-    }
+    const res = await apiClient.get(`/api/v1/agronomist/case/${caseId}`);
+    return mapToKvkCase(res.data);
   },
 
   getFarmHealth: async (farmId: string): Promise<HealthSnapshot> => {
-    const res = await apiClient.get<HealthSnapshot>(`/api/v1/health/${farmId}`);
+    const res = await apiClient.get<HealthSnapshot>(`/api/v1/farms/${farmId}/health`);
     return res.data;
   },
 
@@ -143,24 +132,16 @@ export const kvkApi = {
       status: 'resolved',
     };
 
-    try {
-      const res = await apiClient.post<any>(
-        '/api/v1/agronomist/resolve',
-        agronomistPayload
-      );
-      return {
-        case_id: res.data.escalation_id || res.data.case_id || caseId,
-        status: 'resolved',
-        resolved_at: res.data.resolved_at || new Date().toISOString(),
-        agronomist: res.data.agronomist || 'Dr. S. Sundaram (KVK Erode)',
-      };
-    } catch {
-      const res = await apiClient.post<ResolveCaseResponse>(
-        `/api/v1/kvk/cases/${caseId}/resolve`,
-        payload
-      );
-      return res.data;
-    }
+    const res = await apiClient.post<any>(
+      '/api/v1/agronomist/resolve',
+      agronomistPayload
+    );
+    return {
+      case_id: res.data.escalation_id || res.data.case_id || caseId,
+      status: 'resolved',
+      resolved_at: res.data.resolved_at || new Date().toISOString(),
+      agronomist: res.data.agronomist || 'Dr. S. Sundaram (KVK Erode)',
+    };
   },
 };
 

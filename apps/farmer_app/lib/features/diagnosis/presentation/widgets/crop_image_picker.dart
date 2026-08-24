@@ -23,14 +23,21 @@ class CropImagePickerWidget extends StatelessWidget {
     final isFailed = state.imageUploadStatus == ImageUploadStatus.failed;
 
     return Container(
-      padding: const EdgeInsets.all(AppSpacing.md),
+      padding: const EdgeInsets.all(AppSpacing.lg),
       decoration: BoxDecoration(
         color: AppColors.surface,
-        borderRadius: BorderRadius.circular(AppSpacing.radiusLg),
+        borderRadius: BorderRadius.circular(AppSpacing.radiusXl),
         border: Border.all(
           color: isUploaded ? AppColors.primaryGreen : AppColors.border,
           width: isUploaded ? 1.5 : 1.0,
         ),
+        boxShadow: const [
+          BoxShadow(
+            color: AppColors.cardShadow,
+            blurRadius: 10.0,
+            offset: Offset(0, 4),
+          ),
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -38,39 +45,48 @@ class CropImagePickerWidget extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Row(
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Icon(
-                    Icons.camera_alt_outlined,
-                    size: 18.0,
-                    color: isUploaded ? AppColors.primaryGreen : AppColors.textMuted,
+                  const Text(
+                    'Show to BHOOMI',
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.w800,
+                      color: AppColors.textPrimary,
+                    ),
                   ),
-                  const SizedBox(width: AppSpacing.xs),
-                  const Text('Crop Photograph (Optional)', style: AppTypography.titleMedium),
+                  const SizedBox(height: 2.0),
+                  Text(
+                    'Upload or take a photo',
+                    style: AppTypography.labelMedium.copyWith(color: AppColors.textMuted),
+                  ),
                 ],
               ),
               if (isUploaded)
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm, vertical: 2.0),
+                  padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm + 2, vertical: 4.0),
                   decoration: BoxDecoration(
-                    color: AppColors.primaryGreen.withValues(alpha: 0.12),
+                    color: AppColors.lightGreen,
                     borderRadius: BorderRadius.circular(AppSpacing.radiusFull),
+                    border: Border.all(color: AppColors.primaryGreen.withValues(alpha: 0.3)),
                   ),
                   child: const Row(
                     children: [
-                      Icon(Icons.check_circle, size: 12.0, color: AppColors.primaryGreen),
+                      Icon(Icons.check_circle_rounded, size: 14.0, color: AppColors.primaryGreen),
                       SizedBox(width: 4.0),
                       Text(
                         'Attached',
-                        style: TextStyle(fontSize: 10.0, fontWeight: FontWeight.w700, color: AppColors.primaryGreen),
+                        style: TextStyle(fontSize: 11.0, fontWeight: FontWeight.w800, color: AppColors.primaryGreen),
                       ),
                     ],
                   ),
                 ),
             ],
           ),
-          const SizedBox(height: AppSpacing.sm),
+          const SizedBox(height: AppSpacing.md),
 
+          // Image Preview Container
           if (hasImage) ...[
             ClipRRect(
               borderRadius: BorderRadius.circular(AppSpacing.radiusMd),
@@ -78,14 +94,14 @@ class CropImagePickerWidget extends StatelessWidget {
                 children: [
                   Image.memory(
                     state.selectedImageBytes!,
-                    height: 160.0,
+                    height: 180.0,
                     width: double.infinity,
                     fit: BoxFit.cover,
                   ),
                   if (isUploading)
                     Positioned.fill(
                       child: Container(
-                        color: Colors.black45,
+                        color: Colors.black54,
                         child: Center(
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
@@ -94,7 +110,7 @@ class CropImagePickerWidget extends StatelessWidget {
                               const SizedBox(height: AppSpacing.sm),
                               Text(
                                 'Uploading image... ${(state.imageUploadProgress * 100).toInt()}%',
-                                style: const TextStyle(color: Colors.white, fontSize: 12.0, fontWeight: FontWeight.w600),
+                                style: const TextStyle(color: Colors.white, fontSize: 13.0, fontWeight: FontWeight.w600),
                               ),
                             ],
                           ),
@@ -104,7 +120,36 @@ class CropImagePickerWidget extends StatelessWidget {
                 ],
               ),
             ),
-            const SizedBox(height: AppSpacing.sm),
+            const SizedBox(height: AppSpacing.md),
+          ] else ...[
+            Container(
+              height: 120.0,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: AppColors.background,
+                borderRadius: BorderRadius.circular(AppSpacing.radiusMd),
+                border: Border.all(color: AppColors.border, style: BorderStyle.solid),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(AppSpacing.sm),
+                    decoration: const BoxDecoration(
+                      color: AppColors.lightGreen,
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Icon(Icons.add_photo_alternate_rounded, size: 28.0, color: AppColors.primaryGreen),
+                  ),
+                  const SizedBox(height: AppSpacing.xs),
+                  const Text(
+                    'No image selected yet',
+                    style: TextStyle(fontSize: 12.0, color: AppColors.textMuted, fontWeight: FontWeight.w500),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: AppSpacing.md),
           ],
 
           if (isFailed) ...[
@@ -125,17 +170,19 @@ class CropImagePickerWidget extends StatelessWidget {
             const SizedBox(height: AppSpacing.sm),
           ],
 
+          // Camera & Gallery Buttons
           Row(
             children: [
               Expanded(
                 child: OutlinedButton.icon(
                   onPressed: isUploading ? null : () => onPickImage(ImageSource.camera),
-                  icon: const Icon(Icons.photo_camera_rounded, size: 16.0),
-                  label: const Text('Take Photo'),
+                  icon: const Icon(Icons.photo_camera_rounded, size: 18.0),
+                  label: const Text('Camera'),
                   style: OutlinedButton.styleFrom(
                     foregroundColor: AppColors.primaryGreen,
-                    side: const BorderSide(color: AppColors.primaryGreen),
+                    side: const BorderSide(color: AppColors.primaryGreen, width: 1.5),
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppSpacing.radiusMd)),
+                    padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
                   ),
                 ),
               ),
@@ -143,16 +190,29 @@ class CropImagePickerWidget extends StatelessWidget {
               Expanded(
                 child: OutlinedButton.icon(
                   onPressed: isUploading ? null : () => onPickImage(ImageSource.gallery),
-                  icon: const Icon(Icons.photo_library_rounded, size: 16.0),
-                  label: const Text('Choose Photo'),
+                  icon: const Icon(Icons.photo_library_rounded, size: 18.0),
+                  label: const Text('Gallery'),
                   style: OutlinedButton.styleFrom(
                     foregroundColor: AppColors.textSecondary,
-                    side: const BorderSide(color: AppColors.border),
+                    side: const BorderSide(color: AppColors.border, width: 1.5),
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppSpacing.radiusMd)),
+                    padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
                   ),
                 ),
               ),
             ],
+          ),
+
+          const SizedBox(height: AppSpacing.sm),
+          const Center(
+            child: Text(
+              'AI will identify the issue and guide you.',
+              style: TextStyle(
+                fontSize: 12.0,
+                color: AppColors.textMuted,
+                fontStyle: FontStyle.italic,
+              ),
+            ),
           ),
         ],
       ),

@@ -119,8 +119,25 @@ class FarmHomeScreen extends ConsumerWidget {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
-        title: Text(strings.appTitle),
+        title: Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(6.0),
+              decoration: const BoxDecoration(
+                color: AppColors.lightGreen,
+                shape: BoxShape.circle,
+              ),
+              child: const Icon(Icons.eco_rounded, size: 20.0, color: AppColors.primaryGreen),
+            ),
+            const SizedBox(width: AppSpacing.sm),
+            Text(
+              strings.appTitle,
+              style: const TextStyle(fontWeight: FontWeight.w900, color: AppColors.primaryGreen, fontSize: 20.0),
+            ),
+          ],
+        ),
         centerTitle: false,
+        scrolledUnderElevation: 0,
         actions: [
           IconButton(
             icon: const Icon(Icons.translate_rounded),
@@ -209,6 +226,63 @@ class FarmHomeScreen extends ConsumerWidget {
           ],
         ),
       ),
+      bottomNavigationBar: Container(
+        decoration: const BoxDecoration(
+          color: AppColors.surface,
+          border: Border(top: BorderSide(color: AppColors.border, width: 1.0)),
+          boxShadow: [
+            BoxShadow(
+              color: AppColors.cardShadow,
+              blurRadius: 10.0,
+              offset: Offset(0, -2),
+            ),
+          ],
+        ),
+        child: BottomNavigationBar(
+          currentIndex: 0,
+          elevation: 0,
+          backgroundColor: Colors.transparent,
+          selectedItemColor: AppColors.primaryGreen,
+          unselectedItemColor: AppColors.textMuted,
+          selectedLabelStyle: const TextStyle(fontWeight: FontWeight.w700, fontSize: 12.0),
+          unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.w500, fontSize: 11.0),
+          type: BottomNavigationBarType.fixed,
+          onTap: (index) {
+            switch (index) {
+              case 0:
+                // Already on Home
+                break;
+              case 1:
+                context.push('/ask/$farmId');
+                break;
+              case 2:
+                context.push('/timeline/$farmId');
+                break;
+              case 3:
+                context.push('/health/$farmId');
+                break;
+            }
+          },
+          items: [
+            BottomNavigationBarItem(
+              icon: const Icon(Icons.home_filled),
+              label: strings.navHome,
+            ),
+            BottomNavigationBarItem(
+              icon: const Icon(Icons.mic_rounded),
+              label: strings.navCompanion,
+            ),
+            BottomNavigationBarItem(
+              icon: const Icon(Icons.timeline_rounded),
+              label: strings.navJourney,
+            ),
+            BottomNavigationBarItem(
+              icon: const Icon(Icons.favorite_rounded),
+              label: strings.navProfile,
+            ),
+          ],
+        ),
+      ),
     );
   }
 
@@ -220,8 +294,22 @@ class FarmHomeScreen extends ConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(strings.dailyCompanion, style: AppTypography.bodyMedium.copyWith(color: AppColors.textMuted)),
-              Text(strings.myFarm, style: AppTypography.displayMedium),
+              Text(
+                strings.dailyCompanion,
+                style: AppTypography.bodyMedium.copyWith(
+                  color: AppColors.textMuted,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              Text(
+                strings.myFarm,
+                style: const TextStyle(
+                  fontSize: 26.0,
+                  fontWeight: FontWeight.w900,
+                  color: AppColors.textPrimary,
+                  letterSpacing: -0.5,
+                ),
+              ),
             ],
           ),
         ),

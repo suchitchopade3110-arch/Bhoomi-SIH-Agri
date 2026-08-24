@@ -9,7 +9,7 @@ import '../../../../core/widgets/bhoomi_primary_button.dart';
 import '../../../voice/application/voice_controller.dart';
 import '../../application/daily_brief_controller.dart';
 
-class TodaysFarmBriefScreen extends ConsumerWidget {
+class TodaysFarmBriefScreen extends ConsumerStatefulWidget {
   final String farmId;
 
   const TodaysFarmBriefScreen({
@@ -18,15 +18,23 @@ class TodaysFarmBriefScreen extends ConsumerWidget {
   });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final briefAsync = ref.watch(dailyBriefProvider(farmId));
+  ConsumerState<TodaysFarmBriefScreen> createState() => _TodaysFarmBriefScreenState();
+}
+
+class _TodaysFarmBriefScreenState extends ConsumerState<TodaysFarmBriefScreen> {
+  final Set<int> _completedTasks = {};
+
+  @override
+  Widget build(BuildContext context) {
+    final briefAsync = ref.watch(dailyBriefProvider(widget.farmId));
     final voiceState = ref.watch(voiceControllerProvider);
     final voiceController = ref.read(voiceControllerProvider.notifier);
 
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
-        title: const Text("Today's Farm Brief"),
+        title: const Text("Today's Guidance", style: TextStyle(fontWeight: FontWeight.w800)),
+        scrolledUnderElevation: 0,
         actions: [
           briefAsync.maybeWhen(
             data: (brief) => IconButton(
@@ -42,7 +50,7 @@ class TodaysFarmBriefScreen extends ConsumerWidget {
                 } else {
                   final speech = (brief.spokenSummary != null && brief.spokenSummary!.trim().isNotEmpty)
                       ? brief.spokenSummary!
-                      : "Today's Farm Brief for ${brief.crop} at ${brief.growthStage}. Important action: ${brief.importantAction ?? ''}. Farm priority: ${brief.farmPriority ?? ''}.";
+                      : "Today's Guidance for ${brief.crop} at ${brief.growthStage}. Important action: ${brief.importantAction ?? ''}. Farm priority: ${brief.farmPriority ?? ''}.";
                   voiceController.synthesizeAndSpeak(speech);
                 }
               },
@@ -51,16 +59,16 @@ class TodaysFarmBriefScreen extends ConsumerWidget {
           ),
           IconButton(
             icon: const Icon(Icons.refresh_rounded),
-            tooltip: 'Refresh Brief',
+            tooltip: 'Refresh Guidance',
             onPressed: () {
-              ref.invalidate(dailyBriefProvider(farmId));
+              ref.invalidate(dailyBriefProvider(widget.farmId));
             },
           ),
         ],
       ),
       body: SafeArea(
         child: briefAsync.when(
-          loading: () => const BhoomiLoadingView(message: 'Generating today\'s field brief...'),
+          loading: () => const BhoomiLoadingView(message: 'Generating today\'s field guidance...'),
           error: (error, _) => Center(
             child: Padding(
               padding: const EdgeInsets.all(AppSpacing.xl),
@@ -69,13 +77,13 @@ class TodaysFarmBriefScreen extends ConsumerWidget {
                 children: [
                   const Icon(Icons.error_outline_rounded, size: 48.0, color: Color(0xFFC62828)),
                   const SizedBox(height: AppSpacing.md),
-                  const Text('Unable to Load Daily Brief', style: AppTypography.headlineMedium),
+                  const Text('Unable to Load Daily Guidance', style: AppTypography.headlineMedium),
                   const SizedBox(height: AppSpacing.sm),
                   Text(error.toString(), textAlign: TextAlign.center, style: const TextStyle(color: AppColors.textMuted)),
                   const SizedBox(height: AppSpacing.lg),
                   BhoomiPrimaryButton(
                     text: 'Retry',
-                    onPressed: () => ref.invalidate(dailyBriefProvider(farmId)),
+                    onPressed: () => ref.invalidate(dailyBriefProvider(widget.farmId)),
                   ),
                 ],
               ),
@@ -86,43 +94,98 @@ class TodaysFarmBriefScreen extends ConsumerWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                // Header Context Card
+                // Weather & Conditions Card (Location, Date, Temp, Weather, Humidity, Wind)
                 Container(
                   padding: const EdgeInsets.all(AppSpacing.lg),
                   decoration: BoxDecoration(
                     gradient: const LinearGradient(
-                      colors: [AppColors.primaryGreen, Color(0xFF1B5E20)],
+                      colors: [AppColors.primaryDeepGreen, Color(0xFF165428)],
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                     ),
-                    borderRadius: BorderRadius.circular(AppSpacing.radiusLg),
-                  ),
-                  child: Row(
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.all(AppSpacing.md),
-                        decoration: BoxDecoration(
-                          color: Colors.white.withValues(alpha: 0.2),
-                          shape: BoxShape.circle,
-                        ),
-                        child: const Icon(Icons.wb_sunny_rounded, color: Colors.white, size: 28.0),
+                    borderRadius: BorderRadius.circular(AppSpacing.radiusXl),
+                    boxShadow: const [
+                      BoxShadow(
+                        color: AppColors.cardShadowHover,
+                        blurRadius: 16.0,
+                        offset: Offset(0, 6),
                       ),
-                      const SizedBox(width: AppSpacing.md),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "${brief.crop} • ${brief.growthStage}",
-                              style: const TextStyle(color: Colors.white, fontSize: 18.0, fontWeight: FontWeight.w800),
+                    ],
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              const Icon(Icons.location_on_rounded, color: AppColors.accentGold, size: 18.0),
+                              const SizedBox(width: 4.0),
+                              Text(
+                                '${brief.crop} Field',
+                                style: const TextStyle(color: Colors.white, fontSize: 14.0, fontWeight: FontWeight.w700),
+                              ),
+                            ],
+                          ),
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 3.0),
+                            decoration: BoxDecoration(
+                              color: Colors.white.withValues(alpha: 0.15),
+                              borderRadius: BorderRadius.circular(AppSpacing.radiusFull),
                             ),
-                            const SizedBox(height: 2.0),
-                            Text(
-                              brief.advisorySummary,
-                              style: const TextStyle(color: Colors.white70, fontSize: 12.0),
+                            child: Text(
+                              brief.growthStage,
+                              style: const TextStyle(color: Colors.white, fontSize: 11.0, fontWeight: FontWeight.w600),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: AppSpacing.md),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                brief.weatherContext?.temperatureRange ?? '28°C - 34°C',
+                                style: const TextStyle(
+                                  fontSize: 32.0,
+                                  fontWeight: FontWeight.w900,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              Text(
+                                brief.weatherContext?.summary ?? 'Partly Sunny • Good Spray Window',
+                                style: TextStyle(
+                                  color: Colors.white.withValues(alpha: 0.9),
+                                  fontSize: 13.0,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ],
+                          ),
+                          Container(
+                            padding: const EdgeInsets.all(AppSpacing.md),
+                            decoration: BoxDecoration(
+                              color: Colors.white.withValues(alpha: 0.15),
+                              shape: BoxShape.circle,
+                            ),
+                            child: const Icon(Icons.wb_sunny_rounded, color: AppColors.accentGold, size: 36.0),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: AppSpacing.md),
+                      const Divider(color: Colors.white24),
+                      const SizedBox(height: AppSpacing.xs),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          _buildWeatherMetric(Icons.water_drop_outlined, 'Humidity', '68%'),
+                          _buildWeatherMetric(Icons.air_rounded, 'Wind', '12 km/h'),
+                          _buildWeatherMetric(Icons.umbrella_outlined, 'Rain Risk', brief.weatherContext?.rainRisk ?? 'Low'),
+                        ],
                       ),
                     ],
                   ),
@@ -130,133 +193,155 @@ class TodaysFarmBriefScreen extends ConsumerWidget {
 
                 const SizedBox(height: AppSpacing.lg),
 
-                // 1. Important Action Card
+                // Section: Today's Farm Tasks (Checklist)
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      "Today's Farm Tasks",
+                      style: TextStyle(
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.w800,
+                        color: AppColors.textPrimary,
+                      ),
+                    ),
+                    Text(
+                      '${_completedTasks.length}/${(brief.cropWatch.length + (brief.importantAction != null ? 1 : 0) + (brief.farmPriority != null ? 1 : 0))} done',
+                      style: const TextStyle(fontSize: 12.0, color: AppColors.primaryGreen, fontWeight: FontWeight.w700),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: AppSpacing.md),
+
+                // Top Priority Action as Task 0
                 if (brief.importantAction != null) ...[
-                  BhoomiCard(
-                    padding: const EdgeInsets.all(AppSpacing.lg),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Row(
-                          children: [
-                            Icon(Icons.priority_high_rounded, color: Color(0xFFD97706), size: 20.0),
-                            SizedBox(width: AppSpacing.sm),
-                            Text('Top Priority Action', style: AppTypography.titleLarge),
-                          ],
-                        ),
-                        const Divider(color: AppColors.divider, height: AppSpacing.lg),
-                        Text(
-                          brief.importantAction!,
-                          style: AppTypography.bodyLarge.copyWith(
-                            fontWeight: FontWeight.w700,
-                            color: AppColors.textPrimary,
-                          ),
-                        ),
-                      ],
-                    ),
+                  _buildTaskChecklistCard(
+                    taskId: 0,
+                    title: 'Priority: ${brief.importantAction!}',
+                    subtitle: 'Critical action for ${brief.growthStage} stage',
+                    icon: Icons.priority_high_rounded,
+                    tagColor: const Color(0xFFD97706),
                   ),
-                  const SizedBox(height: AppSpacing.lg),
+                  const SizedBox(height: AppSpacing.sm),
                 ],
 
-                // 2. Farm Priority Card
+                // Scheduled Farm Priority as Task 1
                 if (brief.farmPriority != null) ...[
-                  BhoomiCard(
-                    padding: const EdgeInsets.all(AppSpacing.lg),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Row(
-                          children: [
-                            Icon(Icons.water_drop_outlined, color: Color(0xFF0284C7), size: 20.0),
-                            SizedBox(width: AppSpacing.sm),
-                            Text('Scheduled Field Priority', style: AppTypography.titleLarge),
-                          ],
-                        ),
-                        const Divider(color: AppColors.divider, height: AppSpacing.lg),
-                        Text(
-                          brief.farmPriority!,
-                          style: AppTypography.bodyMedium.copyWith(color: AppColors.textSecondary),
-                        ),
-                      ],
-                    ),
+                  _buildTaskChecklistCard(
+                    taskId: 1,
+                    title: brief.farmPriority!,
+                    subtitle: 'Scheduled irrigation & nutrient application',
+                    icon: Icons.water_drop_rounded,
+                    tagColor: const Color(0xFF0284C7),
                   ),
-                  const SizedBox(height: AppSpacing.lg),
+                  const SizedBox(height: AppSpacing.sm),
                 ],
 
-                // 3. Weather Context Card
-                if (brief.weatherContext != null) ...[
-                  BhoomiCard(
-                    padding: const EdgeInsets.all(AppSpacing.lg),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Row(
-                          children: [
-                            Icon(Icons.cloud_queue_rounded, color: AppColors.primaryGreen, size: 20.0),
-                            SizedBox(width: AppSpacing.sm),
-                            Text('Weather & Spray Conditions', style: AppTypography.titleLarge),
-                          ],
-                        ),
-                        const Divider(color: AppColors.divider, height: AppSpacing.lg),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              brief.weatherContext!.summary,
-                              style: AppTypography.bodyMedium.copyWith(fontWeight: FontWeight.w600),
-                            ),
-                            Text(
-                              brief.weatherContext!.temperatureRange,
-                              style: const TextStyle(fontWeight: FontWeight.w800, color: AppColors.primaryGreen),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 4.0),
-                        Text(
-                          'Rain Probability: ${brief.weatherContext!.rainRisk}',
-                          style: const TextStyle(fontSize: 11.0, color: AppColors.textMuted),
-                        ),
-                      ],
+                // Crop Watch Items as subsequent tasks
+                ...brief.cropWatch.asMap().entries.map((entry) {
+                  final idx = entry.key + 2;
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: AppSpacing.sm),
+                    child: _buildTaskChecklistCard(
+                      taskId: idx,
+                      title: entry.value,
+                      subtitle: 'Field surveillance & disease scouting',
+                      icon: Icons.search_rounded,
+                      tagColor: AppColors.primaryGreen,
                     ),
-                  ),
-                  const SizedBox(height: AppSpacing.lg),
-                ],
-
-                // 4. Crop Watch List
-                if (brief.cropWatch.isNotEmpty) ...[
-                  BhoomiCard(
-                    padding: const EdgeInsets.all(AppSpacing.lg),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Row(
-                          children: [
-                            Icon(Icons.remove_red_eye_outlined, color: AppColors.primaryGreen, size: 20.0),
-                            SizedBox(width: AppSpacing.sm),
-                            Text('Crop Watch Items', style: AppTypography.titleLarge),
-                          ],
-                        ),
-                        const Divider(color: AppColors.divider, height: AppSpacing.lg),
-                        ...brief.cropWatch.map((item) => Padding(
-                              padding: const EdgeInsets.only(bottom: AppSpacing.sm),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const Icon(Icons.check_circle_outline_rounded, size: 16.0, color: AppColors.primaryGreen),
-                                  const SizedBox(width: AppSpacing.sm),
-                                  Expanded(child: Text(item, style: AppTypography.bodyMedium)),
-                                ],
-                              ),
-                            )),
-                      ],
-                    ),
-                  ),
-                ],
+                  );
+                }),
 
                 const SizedBox(height: AppSpacing.xl),
               ],
             ),
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildWeatherMetric(IconData icon, String label, String value) {
+    return Row(
+      children: [
+        Icon(icon, color: Colors.white70, size: 16.0),
+        const SizedBox(width: 4.0),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(label, style: const TextStyle(color: Colors.white60, fontSize: 10.0)),
+            Text(value, style: const TextStyle(color: Colors.white, fontSize: 12.0, fontWeight: FontWeight.w700)),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _buildTaskChecklistCard({
+    required int taskId,
+    required String title,
+    required String subtitle,
+    required IconData icon,
+    required Color tagColor,
+  }) {
+    final isDone = _completedTasks.contains(taskId);
+
+    return BhoomiCard(
+      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md, vertical: AppSpacing.md),
+      child: InkWell(
+        onTap: () {
+          setState(() {
+            if (isDone) {
+              _completedTasks.remove(taskId);
+            } else {
+              _completedTasks.add(taskId);
+            }
+          });
+        },
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            // Checkbox
+            Container(
+              width: 24.0,
+              height: 24.0,
+              decoration: BoxDecoration(
+                color: isDone ? AppColors.primaryGreen : Colors.transparent,
+                shape: BoxShape.circle,
+                border: Border.all(
+                  color: isDone ? AppColors.primaryGreen : AppColors.border,
+                  width: 2.0,
+                ),
+              ),
+              child: isDone
+                  ? const Icon(Icons.check_rounded, size: 16.0, color: Colors.white)
+                  : null,
+            ),
+            const SizedBox(width: AppSpacing.md),
+
+            // Content
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: TextStyle(
+                      fontSize: 14.0,
+                      fontWeight: FontWeight.w700,
+                      color: isDone ? AppColors.textMuted : AppColors.textPrimary,
+                      decoration: isDone ? TextDecoration.lineThrough : null,
+                    ),
+                  ),
+                  const SizedBox(height: 2.0),
+                  Text(
+                    subtitle,
+                    style: const TextStyle(fontSize: 11.5, color: AppColors.textMuted),
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );

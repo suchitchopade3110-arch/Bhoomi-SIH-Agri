@@ -12,7 +12,7 @@ class ApiConstants {
   static const String apiVersion = '/api/v1';
 
   // Farm Endpoints (Phase 1)
-  static const String farms = '$apiVersion/farms/';
+  static const String farms = '$apiVersion/farms';
   static String farmDetail(String id) => '$apiVersion/farms/$id';
   static String farmSummary(String id) => '$apiVersion/farms/$id/summary';
 
@@ -42,12 +42,12 @@ class ApiConstants {
   static String farmWeather(String farmId) => '$apiVersion/farms/$farmId/summary';
 
   // Health Endpoints (Phase 2 & Contract §4)
-  static String farmHealth(String farmId) => '$apiVersion/health/$farmId';
-  static String farmHealthHistory(String farmId) => '$apiVersion/health/$farmId/history';
-  static String farmHealthRecompute(String farmId) => '$apiVersion/health/$farmId/recompute';
+  static String farmHealth(String farmId) => '$apiVersion/farms/$farmId/health';
+  static String farmHealthHistory(String farmId) => '$apiVersion/farms/$farmId/health/history';
+  static String farmHealthRecompute(String farmId) => '$apiVersion/farms/$farmId/health/recompute';
 
   // Diagnosis & Advisory Endpoints (Phase 3 & Contract §5)
-  static String farmDiagnose(String farmId) => '$apiVersion/diagnose/$farmId';
+  static String farmDiagnose(String farmId) => '$apiVersion/farms/$farmId/diagnose';
   static const String advisoryQuery = '$apiVersion/advisory/query';
 
 

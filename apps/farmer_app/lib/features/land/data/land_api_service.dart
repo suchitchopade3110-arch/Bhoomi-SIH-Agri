@@ -68,10 +68,10 @@ class LandApiService {
     }
   }
 
-  Future<LandRecordResponse> getLandRecord(String landId) async {
+  Future<LandRecordResponse> getLandRecord(String farmId) async {
     try {
       final response = await _apiClient.get(
-        ApiConstants.landRecord(landId),
+        ApiConstants.farmLand(farmId),
       );
 
       if (response.data is Map<String, dynamic>) {
@@ -81,8 +81,8 @@ class LandApiService {
     } on NetworkException {
       if (ApiConstants.enableMockFallback) {
         return LandRecordResponse(
-          landRecordId: landId,
-          farmId: 'farm_tamilnadu_001',
+          landRecordId: 'parcel_erode_142',
+          farmId: farmId,
           farmerStated: const FarmerStatedLand(
             surveyNo: '142/3B',
             areaAcres: 2.0,

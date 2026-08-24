@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import '../../../../app/theme/app_colors.dart';
 import '../../../../app/theme/app_spacing.dart';
 import '../../../../app/theme/app_typography.dart';
+import '../../../../core/widgets/ai_processing_view.dart';
 import '../../../../core/widgets/bhoomi_card.dart';
 import '../../../../core/widgets/bhoomi_primary_button.dart';
 import '../../../voice/application/voice_controller.dart';
@@ -27,6 +28,16 @@ class AskBhoomiScreen extends ConsumerStatefulWidget {
 class _AskBhoomiScreenState extends ConsumerState<AskBhoomiScreen> {
   late TextEditingController _textController;
 
+  final List<Map<String, dynamic>> _topics = const [
+    {'label': 'Crops', 'icon': Icons.grass_rounded},
+    {'label': 'Diseases', 'icon': Icons.coronavirus_rounded},
+    {'label': 'Pests', 'icon': Icons.pest_control_rounded},
+    {'label': 'Soil', 'icon': Icons.landscape_rounded},
+    {'label': 'Weather', 'icon': Icons.cloud_queue_rounded},
+    {'label': 'Prices', 'icon': Icons.currency_rupee_rounded},
+    {'label': 'Schemes', 'icon': Icons.account_balance_rounded},
+  ];
+
   @override
   void initState() {
     super.initState();
@@ -47,10 +58,29 @@ class _AskBhoomiScreenState extends ConsumerState<AskBhoomiScreen> {
     final voiceState = ref.watch(voiceControllerProvider);
     final voiceController = ref.read(voiceControllerProvider.notifier);
 
+    // Calm Agricultural Intelligence Processing Screen
+    if (diagnosisState.isDiagnosing) {
+      return Scaffold(
+        backgroundColor: AppColors.background,
+        appBar: AppBar(
+          title: const Text('BHOOMI Intelligence', style: TextStyle(fontWeight: FontWeight.w800)),
+          scrolledUnderElevation: 0,
+        ),
+        body: const SafeArea(
+          child: AiProcessingView(
+            title: 'Processing Your Query',
+            subtitle: 'Analyzing your farm...',
+            showIntelligenceModules: true,
+          ),
+        ),
+      );
+    }
+
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
-        title: const Text('Ask BHOOMI'),
+        title: const Text('Ask BHOOMI', style: TextStyle(fontWeight: FontWeight.w800)),
+        scrolledUnderElevation: 0,
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -58,60 +88,25 @@ class _AskBhoomiScreenState extends ConsumerState<AskBhoomiScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              // Header Intro Card
-              Container(
-                padding: const EdgeInsets.all(AppSpacing.lg),
-                decoration: BoxDecoration(
-                  gradient: const LinearGradient(
-                    colors: [AppColors.primaryGreen, Color(0xFF1B5E20)],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
-                  borderRadius: BorderRadius.circular(AppSpacing.radiusLg),
-                ),
-                child: Row(
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.all(AppSpacing.md),
-                      decoration: BoxDecoration(
-                        color: Colors.white.withValues(alpha: 0.2),
-                        shape: BoxShape.circle,
-                      ),
-                      child: const Icon(Icons.psychology_rounded, color: Colors.white, size: 28.0),
-                    ),
-                    const SizedBox(width: AppSpacing.md),
-                    const Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Crop Advisory & Support',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18.0,
-                              fontWeight: FontWeight.w800,
-                            ),
-                          ),
-                          SizedBox(height: 2.0),
-                          Text(
-                            'Speak or describe symptoms. Add a photo for trusted agronomic guidance.',
-                            style: TextStyle(color: Colors.white70, fontSize: 12.0),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-
-              const SizedBox(height: AppSpacing.lg),
-
-              // Voice Assistant Card
+              // Voice Card with Concentric Microphone
               BhoomiCard(
+                padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.xl),
                 child: Column(
                   children: [
-                    const Text('What problem are you seeing?', style: AppTypography.titleLarge),
-                    const SizedBox(height: AppSpacing.md),
+                    const Text(
+                      'Ask BHOOMI',
+                      style: TextStyle(
+                        fontSize: 22.0,
+                        fontWeight: FontWeight.w800,
+                        color: AppColors.textPrimary,
+                      ),
+                    ),
+                    const SizedBox(height: 4.0),
+                    const Text(
+                      'Tap and ask any question in your language',
+                      style: TextStyle(fontSize: 13.0, color: AppColors.textSecondary),
+                    ),
+                    const SizedBox(height: AppSpacing.lg),
 
                     VoiceRecordButton(
                       state: voiceState,
@@ -140,27 +135,62 @@ class _AskBhoomiScreenState extends ConsumerState<AskBhoomiScreen> {
                       },
                     ),
 
-                    const SizedBox(height: AppSpacing.md),
-                    const Text('or type your problem below', style: TextStyle(fontSize: 12.0, color: AppColors.textMuted)),
+                    const SizedBox(height: AppSpacing.lg),
+                    const Divider(color: AppColors.divider),
                     const SizedBox(height: AppSpacing.sm),
 
-                    TextField(
-                      controller: _textController,
-                      maxLines: 3,
-                      onChanged: diagnosisController.setProblemDescription,
-                      decoration: InputDecoration(
-                        hintText: 'e.g. My paddy leaves are turning yellow from the edges with wavy margins...',
-                        filled: true,
-                        fillColor: AppColors.background,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(AppSpacing.radiusMd),
-                          borderSide: const BorderSide(color: AppColors.border),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(AppSpacing.radiusMd),
-                          borderSide: const BorderSide(color: AppColors.primaryGreen, width: 2.0),
+                    // You can ask about topics
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        'You can ask about:',
+                        style: AppTypography.labelMedium.copyWith(
+                          fontWeight: FontWeight.w700,
+                          color: AppColors.textSecondary,
                         ),
                       ),
+                    ),
+                    const SizedBox(height: AppSpacing.sm),
+                    Wrap(
+                      spacing: AppSpacing.xs + 2,
+                      runSpacing: AppSpacing.xs + 2,
+                      children: _topics.map((t) {
+                        return InkWell(
+                          onTap: () {
+                            final topic = t['label'] as String;
+                            if (_textController.text.isEmpty) {
+                              _textController.text = 'Tell me about $topic for my crop';
+                            } else {
+                              _textController.text += ' $topic';
+                            }
+                            diagnosisController.setProblemDescription(_textController.text);
+                          },
+                          borderRadius: BorderRadius.circular(AppSpacing.radiusFull),
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
+                            decoration: BoxDecoration(
+                              color: AppColors.lightGreen,
+                              borderRadius: BorderRadius.circular(AppSpacing.radiusFull),
+                              border: Border.all(color: AppColors.primaryGreen.withValues(alpha: 0.2)),
+                            ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(t['icon'] as IconData, size: 14.0, color: AppColors.primaryGreen),
+                                const SizedBox(width: 4.0),
+                                Text(
+                                  t['label'] as String,
+                                  style: const TextStyle(
+                                    fontSize: 11.5,
+                                    fontWeight: FontWeight.w700,
+                                    color: AppColors.primaryGreen,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      }).toList(),
                     ),
                   ],
                 ),
@@ -168,10 +198,32 @@ class _AskBhoomiScreenState extends ConsumerState<AskBhoomiScreen> {
 
               const SizedBox(height: AppSpacing.lg),
 
-              // Crop Photo Picker
+              // Crop Image Upload Card
               CropImagePickerWidget(
                 state: diagnosisState,
                 onPickImage: (source) => diagnosisController.pickAndUploadImage(source),
+              ),
+
+              const SizedBox(height: AppSpacing.lg),
+
+              // Text Problem Description Input
+              BhoomiCard(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text('Describe Problem (Text fallback)', style: AppTypography.titleMedium),
+                    const SizedBox(height: AppSpacing.sm),
+                    TextField(
+                      controller: _textController,
+                      maxLines: 3,
+                      onChanged: diagnosisController.setProblemDescription,
+                      decoration: const InputDecoration(
+                        hintText: 'e.g. Paddy leaves turning yellow with brown spots...',
+                        hintStyle: TextStyle(fontSize: 13.0, color: AppColors.textMuted),
+                      ),
+                    ),
+                  ],
+                ),
               ),
 
               if (diagnosisState.errorMessage != null) ...[
@@ -204,7 +256,7 @@ class _AskBhoomiScreenState extends ConsumerState<AskBhoomiScreen> {
 
               const SizedBox(height: AppSpacing.xl),
 
-              // Submit Diagnosis CTA
+              // Primary CTA
               BhoomiPrimaryButton(
                 text: 'Diagnose & Get Advice',
                 isLoading: diagnosisState.isDiagnosing,
@@ -218,8 +270,7 @@ class _AskBhoomiScreenState extends ConsumerState<AskBhoomiScreen> {
                 },
               ),
 
-              const SizedBox(height: AppSpacing.md),
-
+              const SizedBox(height: AppSpacing.xl),
             ],
           ),
         ),

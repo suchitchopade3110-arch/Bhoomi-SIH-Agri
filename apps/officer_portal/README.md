@@ -13,7 +13,7 @@ Official Land Verification & Agricultural Operations Portal for SIH25076.
 - **Icons**: Lucide React
 
 ## Phase 1 Workflow
-1. **Land Queue**: Fetches land records from `GET /api/v1/officer/land-queue`.
+1. **Land Queue**: Fetches land records from `GET /api/v1/officer/queue`.
 2. **Review Panel**: Displays farmer-stated survey number, self-reported area (acres), farm ID, submission timestamp, and preserved polygon GeoJSON.
-3. **Approve Action**: Opens official verification modal and submits `POST /api/v1/officer/land/{id}/review` with `decision: "verified"`.
+3. **Approve Action**: Opens official verification modal and submits `POST /api/v1/officer/action` with action type.
 4. **Queue Synchronization**: Automatically invalidates and refreshes the land queue on successful verification.

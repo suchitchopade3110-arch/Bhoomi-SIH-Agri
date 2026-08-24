@@ -51,7 +51,10 @@ class JourneyTimelineWidget extends StatelessWidget {
     if (events.isEmpty) {
       return const BhoomiCard(
         child: Center(
-          child: Text('No timeline events recorded yet.', style: TextStyle(color: AppColors.textMuted)),
+          child: Padding(
+            padding: EdgeInsets.all(AppSpacing.lg),
+            child: Text('No timeline events recorded yet.', style: TextStyle(color: AppColors.textMuted)),
+          ),
         ),
       );
     }
@@ -71,7 +74,7 @@ class JourneyTimelineWidget extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(AppSpacing.sm),
                   decoration: BoxDecoration(
-                    color: color.withValues(alpha: 0.12),
+                    color: color.withValues(alpha: 0.15),
                     shape: BoxShape.circle,
                     border: Border.all(color: color, width: 2.0),
                   ),
@@ -80,7 +83,7 @@ class JourneyTimelineWidget extends StatelessWidget {
                 if (!isLast)
                   Container(
                     width: 2.0,
-                    height: 52.0,
+                    height: 64.0,
                     color: AppColors.border,
                   ),
               ],
@@ -97,20 +100,37 @@ class JourneyTimelineWidget extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            event.title,
-                            style: AppTypography.titleMedium.copyWith(fontWeight: FontWeight.w700),
+                          Expanded(
+                            child: Text(
+                              event.title,
+                              style: const TextStyle(
+                                fontSize: 14.5,
+                                fontWeight: FontWeight.w800,
+                                color: AppColors.textPrimary,
+                              ),
+                            ),
                           ),
-                          Text(
-                            event.timestamp.length >= 10 ? event.timestamp.substring(0, 10) : event.timestamp,
-                            style: const TextStyle(fontSize: 10.0, color: AppColors.textMuted),
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 6.0, vertical: 2.0),
+                            decoration: BoxDecoration(
+                              color: AppColors.background,
+                              borderRadius: BorderRadius.circular(AppSpacing.radiusSm),
+                            ),
+                            child: Text(
+                              event.timestamp.length >= 10 ? event.timestamp.substring(0, 10) : event.timestamp,
+                              style: const TextStyle(fontSize: 10.0, color: AppColors.textMuted, fontWeight: FontWeight.w600),
+                            ),
                           ),
                         ],
                       ),
                       const SizedBox(height: 4.0),
                       Text(
                         event.summary,
-                        style: AppTypography.bodyMedium.copyWith(fontSize: 12.0, color: AppColors.textSecondary),
+                        style: AppTypography.bodyMedium.copyWith(
+                          fontSize: 12.5,
+                          color: AppColors.textSecondary,
+                          height: 1.3,
+                        ),
                       ),
                     ],
                   ),
