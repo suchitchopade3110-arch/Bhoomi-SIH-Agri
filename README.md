@@ -1,7 +1,6 @@
 <div align="center">
   <img src="./assets/bhoomi-logo.png" alt="Bhoomi logo" width="280" />
-  <h1>Bhoomi</h1>
-  <p><strong>AI-Powered Farmer Companion</strong></p>
+  <h1>Bhoomi <strong>AI-Powered Farmer Companion</strong> </h1>
   <p>A voice-first, multimodal advisory that treats every farm as a continuous case — not a one-off chatbot.</p>
   <p><em>SIH25076 · Agriculture, Food Security & Rural Development</em></p>
 </div>
