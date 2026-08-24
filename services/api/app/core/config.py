@@ -67,6 +67,13 @@ class Settings(BaseSettings):
     ML_SERVICE_URL: str = "http://localhost:8001"
 
     # Feature Flags
+    PROBLEM_STATEMENT: Literal["sih25076", "sih26131"] = Field(
+        default="sih25076",
+        description=(
+            "Switches API surface between SIH25076 (Cadastral/Resource) and "
+            "SIH26131 (Pest/Alert/Efficacy). See docs/specs/api_contract_sih26131_delta.md."
+        ),
+    )
     LAND_API_MODE: Literal["mock", "live"] = Field(
         default="mock",
         description="Cadastral land API mode: 'mock' uses canned surveyor data, 'live' calls state portal",
@@ -131,6 +138,10 @@ class Settings(BaseSettings):
     BHASHINI_USER_ID: str = ""
     BHASHINI_API_KEY: str = ""
     BHASHINI_PIPELINE_ID: str = ""
+
+    # Sarvam AI API (optional — needed only when ASR_PROVIDER/TTS_PROVIDER = sarvam)
+    SARVAM_API_KEY: str = ""
+    SARVAM_BASE_URL: str = "https://api.sarvam.ai"
 
     # Embedding
     EMBEDDING_DIM: int = 1024
