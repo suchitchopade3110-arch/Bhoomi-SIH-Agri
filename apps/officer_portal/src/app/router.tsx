@@ -7,6 +7,7 @@ import { VerifiedArchivePage } from '../features/land_review/pages/verified_arch
 import { DistrictAnalyticsPage } from '../features/land_review/pages/district_analytics_page';
 import { SettingsPage } from '../features/land_review/pages/settings_page';
 import { HelpGuidelinesPage } from '../features/land_review/pages/help_guidelines_page';
+import { LandingPage } from '../features/landing/pages/landing_page';
 import { useLandQueue } from '../features/land_review/hooks/use_land_queue';
 
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -27,16 +28,28 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 export const AppRouter: React.FC = () => {
   return (
     <BrowserRouter>
-      <Layout>
-        <Routes>
-          <Route path="/" element={<LandQueuePage />} />
-          <Route path="/archive" element={<VerifiedArchivePage />} />
-          <Route path="/analytics" element={<DistrictAnalyticsPage />} />
-          <Route path="/settings" element={<SettingsPage />} />
-          <Route path="/help" element={<HelpGuidelinesPage />} />
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-      </Layout>
+      <Routes>
+        {/* Public Landing Pages */}
+        <Route path="/landing" element={<LandingPage />} />
+        <Route path="/welcome" element={<LandingPage />} />
+
+        {/* Authenticated Dashboard Workspace */}
+        <Route
+          path="/*"
+          element={
+            <Layout>
+              <Routes>
+                <Route path="/" element={<LandQueuePage />} />
+                <Route path="/archive" element={<VerifiedArchivePage />} />
+                <Route path="/analytics" element={<DistrictAnalyticsPage />} />
+                <Route path="/settings" element={<SettingsPage />} />
+                <Route path="/help" element={<HelpGuidelinesPage />} />
+                <Route path="*" element={<Navigate to="/" replace />} />
+              </Routes>
+            </Layout>
+          }
+        />
+      </Routes>
     </BrowserRouter>
   );
 };
