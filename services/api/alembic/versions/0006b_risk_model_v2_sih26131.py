@@ -1,6 +1,6 @@
 """realign health_snapshots for SIH26131 risk model v2 (truncate-and-reseed for demo data)
 
-Revision ID: 0006
+Revision ID: 0006b
 Revises: 0005
 Create Date: 2026-08-24
 
@@ -13,7 +13,7 @@ with WEIGHTS_VERSION 'v2-sih26131'.
 from alembic import op
 
 # revision identifiers, used by Alembic.
-revision = "0006"
+revision = "0006b"
 down_revision = "0005"
 branch_labels = None
 depends_on = None

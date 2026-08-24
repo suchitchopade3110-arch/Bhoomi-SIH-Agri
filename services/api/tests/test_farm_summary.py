@@ -71,17 +71,9 @@ async def test_get_farm_summary_frozen_shape_no_numeric_keys():
             headers=headers,
             json={
                 "farmer_id": farmer_id,
-                "farm_name": "Kaveri Delta Field 1",
-                "village": "Thanjavur",
-                "taluk": "Thanjavur",
-                "district": "Thanjavur",
-                "state": "Tamil Nadu",
-                "latitude": 10.7870,
-                "longitude": 79.1378,
-                "total_area_acres": 2.5,
-                "primary_crop": "samba_paddy",
-                "soil_type": "clay_loam",
-                "irrigation_source": "canal",
+                "crop": "samba_paddy",
+                "growth_stage": "vegetative",
+                "region": "Thanjavur",
             },
         )
         assert create_res.status_code == 201, create_res.text
@@ -122,17 +114,9 @@ async def test_get_farm_risk_snapshot_has_subindices():
             headers=headers,
             json={
                 "farmer_id": farmer_id,
-                "farm_name": "Kaveri Delta Field 2",
-                "village": "Kumbakonam",
-                "taluk": "Kumbakonam",
-                "district": "Thanjavur",
-                "state": "Tamil Nadu",
-                "latitude": 10.9602,
-                "longitude": 79.3845,
-                "total_area_acres": 3.0,
-                "primary_crop": "samba_paddy",
-                "soil_type": "alluvial",
-                "irrigation_source": "borewell",
+                "crop": "samba_paddy",
+                "growth_stage": "vegetative",
+                "region": "Thanjavur",
             },
         )
         assert create_res.status_code == 201, create_res.text
@@ -161,17 +145,9 @@ async def test_day0_unrated_farm_summary():
             headers=headers,
             json={
                 "farmer_id": farmer_id,
-                "farm_name": "Brand New Farm",
-                "village": "Aduthurai",
-                "taluk": "Thiruvidaimarudur",
-                "district": "Thanjavur",
-                "state": "Tamil Nadu",
-                "latitude": 11.0000,
-                "longitude": 79.5000,
-                "total_area_acres": 1.5,
-                "primary_crop": "samba_paddy",
-                "soil_type": "clay",
-                "irrigation_source": "rainfed",
+                "crop": "samba_paddy",
+                "growth_stage": "vegetative",
+                "region": "Thanjavur",
             },
         )
         assert create_res.status_code == 201, create_res.text
