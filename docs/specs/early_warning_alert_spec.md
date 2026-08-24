@@ -49,6 +49,20 @@ We specify a **two-tier hybrid trigger model** combining:
   - 48-hour average relative humidity ($\%$)
   - Rainfall accumulation (mm)
 
+> [!WARNING]
+> **Phase 3 implementation note (deviation from "48-hour average"):**
+> `WeatherPort.get_current_weather()` returns a single current-moment
+> reading (`app/ports/weather.py`) — there is no historical weather store
+> backing a true 48-hour rolling average or a "sustained N hours" signal.
+> `AlertService` (`app/services/alert_service.py`) uses an honest, documented
+> approximation instead: a current reading that already falls inside a
+> pathogen's temp/humidity band is treated as having been sustained for
+> exactly the threshold's required duration; a reading outside the band is
+> treated as zero sustained hours. This is flagged in code, not silently
+> assumed — swap in a real historical aggregation once a weather-history
+> store exists, with no change to `evaluate_alert` itself (it only consumes
+> `WeatherMetrics`, never `WeatherPort` directly).
+
 ### 3.3 Spatial Cluster Query (Repository Layered)
 
 > [!WARNING]
