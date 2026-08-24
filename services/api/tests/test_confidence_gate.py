@@ -241,3 +241,60 @@ def test_gate_is_pure_and_deterministic():
         "relevance_threshold": 0.60,
     }
     assert check_gate(**kwargs) == check_gate(**kwargs)
+
+
+# ---------------------------------------------------------------------------
+# 6. Schema Freeze and Contract Verification Tests (Task A)
+# ---------------------------------------------------------------------------
+
+
+def test_five_point_advisory_field_order():
+    """Advisory schema MUST declare what_to_avoid ahead of what_to_do_next in field order."""
+    from app.schemas.advisory import FivePointAdvisory
+    from app.domain.rag.constants import FIVE_POINT_FIELDS
+
+    expected_order = [
+        "possible_issue",
+        "what_to_check",
+        "what_to_avoid",
+        "what_to_do_next",
+        "expert_triggers",
+    ]
+    # Pydantic v2 field declaration order in model_fields
+    actual_fields = list(FivePointAdvisory.model_fields.keys())
+    assert actual_fields == expected_order, f"Expected {expected_order}, got {actual_fields}"
+    assert list(FIVE_POINT_FIELDS) == expected_order
+
+
+def test_gate_object_frozen_shape():
+    """GateObject schema matches frozen contract §8 exactly."""
+    from app.schemas.gate import GateObject
+
+    gate_obj = GateObject(
+        above_gate=True,
+        confidence=0.88,
+        threshold=0.70,
+        reason_code=None,
+        alternatives=["stem_borer", "leaf_folder"],
+    )
+    assert gate_obj.above_gate is True
+    assert gate_obj.confidence == 0.88
+    assert gate_obj.threshold == 0.70
+    assert gate_obj.alternatives == ["stem_borer", "leaf_folder"]
+    assert set(GateObject.model_fields.keys()) == {
+        "above_gate",
+        "confidence",
+        "threshold",
+        "reason_code",
+        "alternatives",
+    }
+
+
+def test_land_status_thin_values():
+    """LandStatus enum contains the thin verification statuses."""
+    from app.core.enums import LandStatus
+
+    assert LandStatus.PENDING_VERIFICATION == "pending_verification"
+    assert LandStatus.VERIFIED == "verified"
+    assert LandStatus.REJECTED == "rejected"
+
