@@ -43,6 +43,17 @@ class FarmService:
             raise NotFoundError("Farm not found.", details={"farm_id": farm_id})
         return _to_farm_response(row)
 
+    async def list_farms_for_farmer(self, farmer_id: str) -> list[FarmResponse]:
+        """List every farm owned by the authenticated farmer.
+
+        Backs ``GET /farms`` — the client-side counterpart to onboarding's
+        ``POST /farms``. Without this, a client that only has a JWT (no
+        farm_id in hand yet, e.g. right after login) has no way to discover
+        which farm to call ``/farms/{id}/...`` against.
+        """
+        rows = await self._farms.get_by_farmer_id(farmer_id)
+        return [_to_farm_response(row) for row in rows]
+
     async def update_farm(self, farm_id: str, request: FarmUpdateRequest) -> FarmResponse:
         updates = {k: v for k, v in request.model_dump().items() if v is not None}
         row = await self._farms.update(farm_id, updates)
