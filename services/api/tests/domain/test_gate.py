@@ -82,7 +82,7 @@ def test_in_scope_does_not_escalate_on_scope():
 def test_out_of_scope_escalates_even_with_high_confidence():
     d = _decide(image_confidence=0.99, in_scope=False, retrieval_relevance=0.99)
     assert d.outcome == GateOutcome.ESCALATE
-    assert d.error_code == "BELOW_CONFIDENCE_GATE"
+    assert d.error_code == "OUT_OF_SCOPE_TARGET"
     assert "supported set" in d.reason
 
 
@@ -136,7 +136,7 @@ def test_missing_image_confidence_does_not_suppress_out_of_scope_escalation():
     """A missing signal is skipped, not treated as a free pass on every check."""
     d = _decide(image_confidence=None, in_scope=False, retrieval_relevance=0.90)
     assert d.outcome == GateOutcome.ESCALATE
-    assert d.error_code == "BELOW_CONFIDENCE_GATE"
+    assert d.error_code == "OUT_OF_SCOPE_TARGET"
 
 
 # ---------------------------------------------------------------------------

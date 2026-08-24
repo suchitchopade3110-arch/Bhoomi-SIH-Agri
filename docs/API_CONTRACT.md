@@ -395,28 +395,39 @@
 
 ### 8.1 Submit Advisory Outcome Check-in
 - **Endpoint:** `POST /api/v1/followup/checkin`
-- **Request Body:**
+- **Request Body:** (matches `app/schemas/followup.py::FollowupCheckinRequest` — the
+  earlier `diagnosis_id`/`outcome` aliases below were dropped; `problem_id` and
+  `response` are the single source of truth for each)
   ```json
   {
     "farm_id": "farm_tamilnadu_001",
     "response": "improved",
     "problem_id": "prob_blb_001",
-    "diagnosis_id": "prob_blb_001",
-    "outcome": "improved",
-    "farmer_notes": "Yellow lesions drying out after draining field and bio-control spray"
+    "advisory_id": null,
+    "farmer_notes": "Yellow lesions drying out after draining field and bio-control spray",
+    "photo_asset_id": null
   }
   ```
-- **Response:** `200 OK`
+  - `problem_id` is optional — omit it to check in on the farm's latest open problem.
+- **Response:** `200 OK` (matches `FollowupCheckinResponse`)
   ```json
   {
     "followup_id": "fol_98231",
-    "farm_id": "farm_tamilnadu_001",
-    "response": "improved",
     "problem_id": "prob_blb_001",
+    "response": "improved",
     "auto_escalated": false,
+    "escalation_id": null,
+    "updated_health_snapshot": { "...": "HealthSnapshot, see §5" },
+    "spoken_summary": "Thanks for the update — your health score is now 74.",
     "created_at": "2026-08-22T14:00:00Z"
   }
   ```
+  - `response: "got_worse"` **always** auto-escalates (`auto_escalated: true`,
+    `escalation_id` populated) — the problem's severity is promoted one tier
+    and an escalation case is created in the same call.
+  - `response: "improved"` demotes severity one tier, or resolves the problem
+    outright if it was already at the lightest tier.
+  - `response: "no_change"` leaves severity untouched.
 
 ---
 

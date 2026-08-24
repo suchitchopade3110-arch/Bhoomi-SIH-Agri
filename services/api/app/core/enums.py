@@ -3,12 +3,21 @@
 from enum import Enum
 
 
-class LandStatus(str, Enum):
-    """Cadastral land verification status."""
-    UNVERIFIED = "unverified"
-    PENDING_REVIEW = "pending_review"
+class ThinLandStatus(str, Enum):
+    """Thin land status enum (strictly 3 states: pending_verification | verified | rejected)."""
+    PENDING_VERIFICATION = "pending_verification"
     VERIFIED = "verified"
     REJECTED = "rejected"
+
+
+class LandStatus(str, Enum):
+    """Land verification status (thin enum: pending_verification | verified | rejected)."""
+    PENDING_VERIFICATION = "pending_verification"
+    VERIFIED = "verified"
+    REJECTED = "rejected"
+    # Legacy cadastral values from Phase-0 scaffold
+    UNVERIFIED = "unverified"
+    PENDING_REVIEW = "pending_review"
 
 
 class HealthBand(str, Enum):

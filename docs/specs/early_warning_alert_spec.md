@@ -49,7 +49,27 @@ We specify a **two-tier hybrid trigger model** combining:
   - 48-hour average relative humidity ($\%$)
   - Rainfall accumulation (mm)
 
-### 3.3 PostGIS Spatial Cluster Query (Repository Layered)
+### 3.3 Spatial Cluster Query (Repository Layered)
+
+> [!WARNING]
+> **Phase 1 Geo-Approach Decision (corrects this section's original PostGIS draft):**
+> This spec originally called for `ST_DWithin`/`ST_Distance` over a PostGIS
+> `location` geography column. The project's actual Postgres image is
+> `pgvector/pgvector:pg16` — pgvector only; `infra/init-db.sql` has the
+> `CREATE EXTENSION postgis` line commented out as "available when using
+> postgis-enabled image", and no `farms.location` geometry column exists
+> (`farms` has plain `latitude`/`longitude` `Float` columns — see
+> `app/models/farm.py`). Standing up PostGIS is infra work nothing else in
+> the codebase currently needs.
+>
+> **Decision:** until that infra change happens, the spatial cluster query
+> uses the existing `latitude`/`longitude` columns: the repository
+> pre-filters candidate farms with a cheap bounding-box `WHERE` clause (or a
+> `district`/`taluk` filter), then applies the exact radius cutoff via the
+> pure `haversine_distance_km` function in `app/domain/geo.py` (unit-tested
+> in `tests/domain/test_geo.py`, no DB). Acceptable at this project's scale;
+> revisit if per-district farm density grows large enough that the
+> bounding-box pre-filter stops being selective.
 
 > [!IMPORTANT]
 > **Layering Guarantee (AGENTS.md Compliance):**  
@@ -59,23 +79,32 @@ We specify a **two-tier hybrid trigger model** combining:
 >     self, target_farm_id: str, radius_meters: float, window_days: int
 > ) -> list[ClusterCase]: ...
 > ```
+> Internally it (1) SQL-filters `problems`/`farms` rows to a bounding box +
+> time window + status, then (2) calls `app.domain.geo.haversine_distance_km`
+> per candidate to apply the exact radius cutoff and compute
+> `min_distance_meters` before grouping by `(problem_type, severity)`.
 
-**Repository SQL Implementation:**
+**Repository SQL Implementation (bounding-box pre-filter):**
 ```sql
-SELECT 
+SELECT
     p.problem_type,
     p.severity,
-    COUNT(p.id) AS case_count,
-    MIN(ST_Distance(f.location, target_farm.location)) AS min_distance_meters
+    f.id AS farm_id,
+    f.latitude,
+    f.longitude
 FROM problems p
 JOIN farms f ON p.farm_id = f.id
-CROSS JOIN (SELECT location FROM farms WHERE id = :target_farm_id) AS target_farm
-WHERE 
+WHERE
     p.created_at >= NOW() - INTERVAL '7 days'
     AND p.status IN ('diagnosed', 'escalated')
-    AND ST_DWithin(f.location, target_farm.location, :radius_meters)
-    AND f.id != :target_farm_id
-GROUP BY p.problem_type, p.severity;
+    AND f.latitude BETWEEN :min_lat AND :max_lat
+    AND f.longitude BETWEEN :min_lon AND :max_lon
+    AND f.id != :target_farm_id;
+-- :min_lat/:max_lat/:min_lon/:max_lon come from
+-- app.domain.geo.bounding_box(target_lat, target_lon, radius_km).
+-- The repository then filters these rows to the exact radius with
+-- haversine_distance_km(...) and groups by (problem_type, severity) in
+-- Python before returning list[ClusterCase].
 ```
 
 ### 3.4 Risk Threshold Interface (*Pending Tharun's Matrix*)

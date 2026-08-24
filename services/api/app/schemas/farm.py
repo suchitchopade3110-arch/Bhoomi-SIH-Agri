@@ -73,3 +73,31 @@ class FarmSummaryResponse(SpokenResponseMixin):
     active_advisories_count: int = 0
     open_cases_count: int = 0
     recommended_irrigation_liters_today: float | None = None
+
+
+class FarmRiskTrendResponse(SpokenResponseMixin):
+    """Qualitative risk trend response (frozen shape: advisory-not-score for SIH26131).
+
+    Returns a qualitative advisory string plus a trend indicator, without numeric
+    scores or sub-index breakdowns.
+    """
+
+    farm_id: str = Field(..., description="UUID string of farm")
+    advisory: str = Field(..., description="Qualitative crop risk advisory summary")
+    trend: str = Field(..., description="Risk trajectory: 'improving' | 'stable' | 'worsening'")
+    updated_at: datetime = Field(default_factory=datetime.utcnow, description="Timestamp of latest risk evaluation")
+
+
+class FarmSummaryTrendResponse(SpokenResponseMixin):
+    """Qualitative farm summary card (frozen shape: advisory-not-score for SIH26131).
+
+    Returns a qualitative farm status advisory and trend indicator, without numeric
+    scores or sub-indices.
+    """
+
+    farm_id: str = Field(..., description="UUID string of farm")
+    advisory: str = Field(..., description="Qualitative holistic farm health advisory")
+    trend: str = Field(..., description="Overall trend indicator: 'improving' | 'stable' | 'worsening'")
+    open_cases_count: int = Field(default=0, description="Active open escalated cases count")
+    last_interaction_at: datetime | None = Field(default=None, description="Timestamp of latest scan or consultation")
+

@@ -3,7 +3,7 @@
 from datetime import datetime
 from typing import Any
 from pydantic import BaseModel, Field
-from app.core.enums import LandStatus
+from app.core.enums import LandStatus, ThinLandStatus
 
 
 class BoundaryGeoJSON(BaseModel):
@@ -47,3 +47,10 @@ class LandVerifyResponse(BaseModel):
     status: LandStatus = Field(...)
     submitted_at: datetime = Field(default_factory=datetime.utcnow)
     officer_notes: str | None = None
+
+
+class ThinLandVerification(BaseModel):
+    """Thin land status schema without cut boundary/geometry fields (strictly 3 states)."""
+    farm_id: str = Field(..., description="UUID string of farm")
+    status: ThinLandStatus = Field(..., description="Thin status: pending_verification | verified | rejected")
+    last_verified_at: datetime | None = Field(default=None, description="Timestamp of status update")

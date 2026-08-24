@@ -20,6 +20,7 @@ settings = get_settings()
 async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     """Lifespan context manager for startup and shutdown events."""
     logger.info("Starting Bhoomi Advisory API...")
+    logger.info(f"Feature Flag - PROBLEM_STATEMENT: {settings.PROBLEM_STATEMENT}")
     logger.info(f"Feature Flag - LAND_API_MODE: {settings.LAND_API_MODE}")
     logger.info(f"Feature Flag - DIAGNOSIS_MODEL: {settings.DIAGNOSIS_MODEL}")
     logger.info(f"Confidence Gate Threshold: {settings.CONFIDENCE_GATE}")
@@ -68,7 +69,7 @@ async def root() -> dict[str, str]:
         "app": settings.PROJECT_NAME,
         "version": settings.VERSION,
         "docs": "/docs",
-        "contract": "SIH25076",
+        "contract": settings.PROBLEM_STATEMENT.upper(),
         "motto": "Every number inspectable; escalate, don't guess.",
     }
 
