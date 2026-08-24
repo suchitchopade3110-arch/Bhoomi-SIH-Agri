@@ -291,10 +291,26 @@ def test_gate_object_frozen_shape():
 
 
 def test_land_status_thin_values():
-    """LandStatus enum contains the thin verification statuses."""
-    from app.core.enums import LandStatus
+    """ThinLandStatus enum and ThinLandVerification schema contain strictly the 3 thin statuses."""
+    from app.core.enums import LandStatus, ThinLandStatus
+    from app.schemas.land import ThinLandVerification
 
+    # ThinLandStatus must have strictly the 3 contract states
+    assert [e.value for e in ThinLandStatus] == ["pending_verification", "verified", "rejected"]
+    assert ThinLandStatus.PENDING_VERIFICATION == "pending_verification"
+    assert ThinLandStatus.VERIFIED == "verified"
+    assert ThinLandStatus.REJECTED == "rejected"
+
+    # ThinLandVerification schema accepts only ThinLandStatus
+    thin = ThinLandVerification(
+        farm_id="f_101",
+        status=ThinLandStatus.PENDING_VERIFICATION,
+    )
+    assert thin.status == "pending_verification"
+
+    # Also backwards compatible with LandStatus
     assert LandStatus.PENDING_VERIFICATION == "pending_verification"
     assert LandStatus.VERIFIED == "verified"
     assert LandStatus.REJECTED == "rejected"
+
 

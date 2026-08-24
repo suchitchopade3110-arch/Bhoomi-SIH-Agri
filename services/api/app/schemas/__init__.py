@@ -54,6 +54,7 @@ from app.schemas.land import (
     LandVerifyResponse,
     ThinLandVerification,
 )
+from app.core.enums import ThinLandStatus
 from app.schemas.officer import (
     OfficerActionRequest,
     OfficerActionResponse,
@@ -164,6 +165,7 @@ __all__ = [
     "FarmRiskTrendResponse",
     "FarmSummaryTrendResponse",
     "ThinLandVerification",
+    "ThinLandStatus",
     "WeatherCurrentResponse",
     "WeatherForecastResponse",
     "WeatherEt0Response",
