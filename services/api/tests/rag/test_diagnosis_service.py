@@ -5,7 +5,7 @@ compose (with health_delta) or escalate. All offline and deterministic.
 
 import pytest
 
-from app.adapters.stubs import StubEmbeddingAdapter, StubImageDiagnosisAdapter, StubLLMAdapter
+from app.adapters.stubs import StubEmbeddingAdapter, StubImageDiagnosisAdapter, StubLLMAdapter, StubRosterAdapter
 from app.core.config import Settings
 from app.domain.health.inputs import CropIdealConditions
 from app.repositories.health_context import (
@@ -110,6 +110,7 @@ async def _make_service(image_confidence: float = 0.87, image_label: str = "bact
         case_repo=case_repo,
         farm_repo=farm_repo,
         settings=SETTINGS,
+        roster=StubRosterAdapter(),
     )
 
 

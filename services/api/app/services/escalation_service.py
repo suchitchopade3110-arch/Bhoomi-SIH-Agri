@@ -2,30 +2,35 @@
 (contract §2.13, PRD §5.11).
 """
 
+from datetime import datetime
 from typing import Annotated
 
 from fastapi import Depends
 
+from app.adapters.dependencies import get_roster_adapter
 from app.core.enums import CaseStatus, ProblemSeverity
 from app.core.errors import NotFoundError
 from app.domain.escalation import build_case_summary
 from app.domain.kvk_directory import DEFAULT_KVK_CENTER_ID
+from app.domain.queue import QueueCase, compute_queue_positions, estimate_eta
+from app.ports.roster import AgronomistRosterPort
 from app.repositories.dependencies import get_case_repository, get_farm_repository
 from app.repositories.interfaces import CaseRepository, FarmRepository
 from app.schemas.escalation import EscalationCreateRequest, EscalationResponse
-from app.services.kvk_routing import route_to_next_available_kvk
+from app.services.kvk_routing import route_to_next_available_agronomist
 
-# Fallback only for the rare case a farm has no coordinates yet (should not
-# happen post-onboarding — farm creation requires latitude/longitude).
+# Fallback only for when the roster has no entries at all — i.e. no
+# capacity data exists yet to route against (PRD §10 risk #10).
 DEFAULT_ASSIGNED_AGRONOMIST = DEFAULT_KVK_CENTER_ID
 
 
 class EscalationService:
     """Creates escalation Cases and compiles their CaseSummary."""
 
-    def __init__(self, case_repo: CaseRepository, farm_repo: FarmRepository) -> None:
+    def __init__(self, case_repo: CaseRepository, farm_repo: FarmRepository, roster: AgronomistRosterPort) -> None:
         self._cases = case_repo
         self._farms = farm_repo
+        self._roster = roster
 
     async def _compile_and_save(
         self,
@@ -39,9 +44,14 @@ class EscalationService:
         if farm is None:
             raise NotFoundError("Farm not found.", details={"farm_id": farm_id})
 
-        assigned_to = DEFAULT_ASSIGNED_AGRONOMIST
-        if farm.get("latitude") is not None and farm.get("longitude") is not None:
-            assigned_to = await route_to_next_available_kvk(self._cases, farm["latitude"], farm["longitude"])
+        open_case_counts_before = await self._cases.get_open_case_counts()
+        assigned_to = await route_to_next_available_agronomist(
+            self._cases, self._roster, default_agronomist=DEFAULT_ASSIGNED_AGRONOMIST
+        )
+        # This case's queue position at its assigned agronomist, before it's
+        # counted itself — the case just ahead of it is the last one queued.
+        queue_position = open_case_counts_before.get(assigned_to, 0) + 1
+        eta = estimate_eta(queue_position, evaluated_at=datetime.utcnow())
 
         saved = await self._cases.save(
             {
@@ -82,6 +92,8 @@ class EscalationService:
             assigned_kvk_center=assigned_to,
             case_summary=summary,
             spoken_summary=summary.spoken_summary,
+            queue_position=queue_position,
+            eta=eta,
         )
 
     async def create_escalation(self, request: EscalationCreateRequest) -> EscalationResponse:
@@ -125,6 +137,22 @@ class EscalationService:
             assigned_officer_or_kvk=case.get("assigned_to"),
             status=CaseStatus(case["status"]),
         )
+
+        queue = await self._cases.get_agronomist_queue()
+        positions = compute_queue_positions(
+            [
+                QueueCase(
+                    case_id=c["id"],
+                    assigned_to=c.get("assigned_to") or "",
+                    severity=ProblemSeverity(c["severity"]),
+                    escalated_at=c["created_at"],
+                )
+                for c in queue
+            ]
+        )
+        queue_position = positions.get(case["id"], 1)
+        eta = estimate_eta(queue_position, evaluated_at=datetime.utcnow())
+
         return EscalationResponse(
             escalation_id=case["id"],
             farm_id=case["farm_id"],
@@ -133,11 +161,14 @@ class EscalationService:
             assigned_kvk_center=case.get("assigned_to") or DEFAULT_ASSIGNED_AGRONOMIST,
             case_summary=summary,
             spoken_summary=summary.spoken_summary,
+            queue_position=queue_position,
+            eta=eta,
         )
 
 
 def get_escalation_service(
     case_repo: Annotated[CaseRepository, Depends(get_case_repository)],
     farm_repo: Annotated[FarmRepository, Depends(get_farm_repository)],
+    roster: Annotated[AgronomistRosterPort, Depends(get_roster_adapter)],
 ) -> EscalationService:
-    return EscalationService(case_repo, farm_repo)
+    return EscalationService(case_repo, farm_repo, roster)

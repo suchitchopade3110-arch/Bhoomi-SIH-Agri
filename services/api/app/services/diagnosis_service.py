@@ -19,8 +19,8 @@ from uuid import uuid4
 
 from fastapi import Depends
 
-from app.adapters.dependencies import get_image_diagnosis_adapter, get_llm_adapter
-from app.ports import ImageDiagnosisPort, LLMPort
+from app.adapters.dependencies import get_image_diagnosis_adapter, get_llm_adapter, get_roster_adapter
+from app.ports import AgronomistRosterPort, ImageDiagnosisPort, LLMPort
 from app.core.config import Settings, get_settings
 from app.core.enums import ProblemSeverity
 from app.domain.gate import decide
@@ -33,7 +33,7 @@ from app.repositories.health_context import OpenProblemRecord, ProblemWriter
 from app.repositories.interfaces import CaseRepository, FarmRepository, RetrievedChunk
 from app.services.gate_service import SUPPORTED_DIAGNOSIS_LABELS
 from app.services.health_service import HealthService, get_health_service
-from app.services.kvk_routing import route_to_next_available_kvk
+from app.services.kvk_routing import route_to_next_available_agronomist
 from app.services.rag.retrieval import RetrievalService, get_retrieval_service
 
 # A fresh diagnosis has no follow-up history yet, so it always starts at the
@@ -41,8 +41,8 @@ from app.services.rag.retrieval import RetrievalService, get_retrieval_service
 # PRD §5.10) promote or resolve it from there.
 INITIAL_PROBLEM_SEVERITY = ProblemSeverity.EARLY
 
-# Fallback only for the rare case a farm has no coordinates yet (Phase 2:
-# app/services/kvk_routing.py now does real nearest-available-KVK routing).
+# Fallback only for when the roster has no entries at all (Phase 2:
+# app/services/kvk_routing.py now does real next-available routing).
 DEFAULT_ASSIGNED_AGRONOMIST = DEFAULT_KVK_CENTER_ID
 
 # A fresh diagnosis photo is a fresh field scan (health engine sub-index #5
@@ -106,6 +106,7 @@ class DiagnosisService:
         case_repo: CaseRepository,
         farm_repo: FarmRepository,
         settings: Settings,
+        roster: AgronomistRosterPort,
     ) -> None:
         self._image_port = image_port
         self._retrieval = retrieval
@@ -115,6 +116,7 @@ class DiagnosisService:
         self._case_repo = case_repo
         self._farms = farm_repo
         self._settings = settings
+        self._roster = roster
 
     async def diagnose(
         self,
@@ -235,10 +237,9 @@ class DiagnosisService:
         return before_score, after_snapshot.score
 
     async def _create_escalation(self, farm_id: str, reason: str | None) -> DiagnoseEscalation:
-        farm = await self._farms.get_by_id(farm_id)
-        assigned_to = DEFAULT_ASSIGNED_AGRONOMIST
-        if farm and farm.get("latitude") is not None and farm.get("longitude") is not None:
-            assigned_to = await route_to_next_available_kvk(self._case_repo, farm["latitude"], farm["longitude"])
+        assigned_to = await route_to_next_available_agronomist(
+            self._case_repo, self._roster, default_agronomist=DEFAULT_ASSIGNED_AGRONOMIST
+        )
 
         saved = await self._case_repo.save(
             {
@@ -260,6 +261,9 @@ def get_diagnosis_service(
     case_repo: Annotated[CaseRepository, Depends(get_case_repository)],
     farm_repo: Annotated[FarmRepository, Depends(get_farm_repository)],
     settings: Annotated[Settings, Depends(get_settings)],
+    roster: Annotated[AgronomistRosterPort, Depends(get_roster_adapter)],
 ) -> DiagnosisService:
     """FastAPI dependency provider assembling ``DiagnosisService`` from its ports."""
-    return DiagnosisService(image_port, retrieval, llm_port, health_service, problem_writer, case_repo, farm_repo, settings)
+    return DiagnosisService(
+        image_port, retrieval, llm_port, health_service, problem_writer, case_repo, farm_repo, settings, roster
+    )

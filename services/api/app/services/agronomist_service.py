@@ -68,6 +68,7 @@ class AgronomistService:
         for c in cases:
             farm = await self._farms.get_by_id(c["farm_id"])
             position = positions[c["id"]]
+            snapshot = await self._health.get_latest(c["farm_id"])
             items.append(
                 AgronomistQueueItem(
                     escalation_id=c["id"],
@@ -77,7 +78,7 @@ class AgronomistService:
                     crop=(farm or {}).get("primary_crop", ""),
                     severity=ProblemSeverity(c["severity"]),
                     status=CaseStatus(c["status"]),
-                    health_score=0.0,
+                    health_score=float(snapshot.score) if snapshot and snapshot.score is not None else 0.0,
                     escalated_at=c["created_at"],
                     queue_position=position,
                     estimated_resolution_at=estimate_eta(position, evaluated_at),

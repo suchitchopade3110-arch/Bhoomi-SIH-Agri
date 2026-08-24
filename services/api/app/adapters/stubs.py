@@ -6,6 +6,8 @@ import re
 from typing import Any
 import uuid
 
+from app.domain.kvk_directory import KVK_CENTERS
+
 
 class StubWeatherAdapter:
     """Stub weather adapter returning fixed meteorological and ET₀ data."""
@@ -241,3 +243,14 @@ class StubStorageAdapter:
         expires_in: int = 3600,
     ) -> str:
         return f"http://localhost:9000/bhoomi-assets/{asset_id}"
+
+
+class StubRosterAdapter:
+    """Stub ``AgronomistRosterPort`` — a static agronomist roster (PRD §5.11,
+    Phase 2), until a real officer/agronomist-capacity model exists in the
+    schema (PRD §10 risk #10). Reuses the KVK center directory's ids
+    (``app/domain/kvk_directory.py``) so the roster and the known KVK
+    centers don't drift into two separate lists of the same thing."""
+
+    async def list_agronomist_ids(self) -> list[str]:
+        return [center.center_id for center in KVK_CENTERS]

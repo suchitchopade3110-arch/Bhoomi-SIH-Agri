@@ -101,6 +101,16 @@ class InMemoryCaseRepository:
             return [c for c in self._cases.values() if c.get("status") == status]
         return list(self._cases.values())
 
+    async def get_open_case_counts(self) -> dict[str, int]:
+        counts: dict[str, int] = {}
+        for case in self._cases.values():
+            if case.get("status") in ("resolved", "closed"):
+                continue
+            assigned_to = case.get("assigned_to")
+            if assigned_to:
+                counts[assigned_to] = counts.get(assigned_to, 0) + 1
+        return counts
+
     async def save(self, case_data: dict[str, Any]) -> dict[str, Any]:
         case_id = case_data.get("id") or str(uuid.uuid4())
         case_data["id"] = case_id

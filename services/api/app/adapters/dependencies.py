@@ -10,6 +10,7 @@ from functools import lru_cache
 from app.adapters.image_diagnosis_real import RealImageDiagnosisAdapter
 from app.adapters.land_registry import LandRegistryPort, LiveLandRegistryAdapter, MockLandRegistryAdapter
 from app.ports import (
+    AgronomistRosterPort,
     AsrTtsPort,
     EmbeddingPort,
     ImageDiagnosisPort,
@@ -22,6 +23,7 @@ from app.adapters.stubs import (
     StubEmbeddingAdapter,
     StubImageDiagnosisAdapter,
     StubLLMAdapter,
+    StubRosterAdapter,
     StubStorageAdapter,
     StubWeatherAdapter,
 )
@@ -37,6 +39,18 @@ def get_weather_adapter() -> WeatherPort:
     deterministic offline, matching the runbook's fixed expected numbers.
     """
     return StubWeatherAdapter()
+
+
+@lru_cache
+def get_roster_adapter() -> AgronomistRosterPort:
+    """Return AgronomistRosterPort adapter.
+
+    No officer/agronomist-capacity model exists in the schema yet (PRD §10
+    risk #10) — real capacity comes from ``CaseRepository`` regardless, this
+    only supplies the routable id list. Stub for this phase; swap for a real
+    roster-service adapter once one exists, with no call-site changes.
+    """
+    return StubRosterAdapter()
 
 
 @lru_cache
@@ -74,6 +88,9 @@ def get_speech_adapter() -> AsrTtsPort:
     if provider == "bhashini":
         from app.adapters.bhashini_asr import BhashiniAsrTtsAdapter
         return BhashiniAsrTtsAdapter()
+    elif provider == "sarvam":
+        from app.adapters.sarvam_asr import SarvamAsrTtsAdapter
+        return SarvamAsrTtsAdapter()
     elif provider == "whisper":
         from app.adapters.whisper_asr import WhisperAsrAdapter
         return WhisperAsrAdapter()
