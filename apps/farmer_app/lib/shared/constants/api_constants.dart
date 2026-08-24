@@ -41,14 +41,15 @@ class ApiConstants {
   static const String weatherEt0 = '$apiVersion/weather/et0';
   static String farmWeather(String farmId) => '$apiVersion/farms/$farmId/summary';
 
-  // Health Endpoints (Phase 2)
-  static String farmHealth(String farmId) => '$apiVersion/farms/$farmId/health';
-  static String farmHealthHistory(String farmId) => '$apiVersion/farms/$farmId/health/history';
-  static String farmHealthRecompute(String farmId) => '$apiVersion/farms/$farmId/health/recompute';
+  // Health Endpoints (Phase 2 & Contract §4)
+  static String farmHealth(String farmId) => '$apiVersion/health/$farmId';
+  static String farmHealthHistory(String farmId) => '$apiVersion/health/$farmId/history';
+  static String farmHealthRecompute(String farmId) => '$apiVersion/health/$farmId/recompute';
 
-  // Diagnosis & Advisory Endpoints (Phase 3)
-  static String farmDiagnose(String farmId) => '$apiVersion/farms/$farmId/diagnose';
+  // Diagnosis & Advisory Endpoints (Phase 3 & Contract §5)
+  static String farmDiagnose(String farmId) => '$apiVersion/diagnose/$farmId';
   static const String advisoryQuery = '$apiVersion/advisory/query';
+
 
   // Timeline / Farm Journey Endpoints (Phase 3)
   static String farmTimeline(String farmId) => '$apiVersion/timeline/$farmId';

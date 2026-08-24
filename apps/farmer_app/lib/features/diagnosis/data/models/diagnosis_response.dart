@@ -66,7 +66,9 @@ class DiagnosisResponse {
         (json['confidence_score'] as num?)?.toDouble();
 
     String calculatedLevel = 'medium';
-    if (confidenceVal != null) {
+    if (json['above_gate'] == false) {
+      calculatedLevel = 'uncertain';
+    } else if (confidenceVal != null) {
       if (confidenceVal >= 0.70) {
         calculatedLevel = 'high';
       } else if (confidenceVal >= 0.40) {
@@ -77,6 +79,7 @@ class DiagnosisResponse {
     } else if (json['confidence_level'] != null) {
       calculatedLevel = json['confidence_level'] as String;
     }
+
 
     List<String> checks = [];
     if (advisory?['what_to_check'] is List) {

@@ -1,0 +1,118 @@
+name: BHOOMI Frontend & Mobile CI Pipeline
+
+on:
+  push:
+    branches: [ main, master, develop, frontend, 'release/**' ]
+  pull_request:
+    branches: [ main, master, develop, frontend, 'release/**' ]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # ============================================================================
+  # 1. Farmer Mobile App (Flutter) Quality Gate
+  # ============================================================================
+  farmer-app-validation:
+    name: Farmer Mobile App (Analyze & Test)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/farmer_app
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          cache: true
+
+      - name: Install Dependencies
+        run: flutter pub get
+
+      - name: Static Code Analysis
+        run: flutter analyze
+
+      - name: Run Unit & Contract Tests
+        run: flutter test --coverage
+
+  # ============================================================================
+  # 2. KVK Agronomist Portal (React / Vite) Quality Gate
+  # ============================================================================
+  kvk-portal-validation:
+    name: KVK Agronomist Portal (Build & Typecheck)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/kvk_portal
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+          cache-dependency-path: apps/kvk_portal/package-lock.json
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Production Bundle Compilation
+        run: npm run build
+
+  # ============================================================================
+  # 3. Revenue Officer Portal (React / Vite) Quality Gate
+  # ============================================================================
+  officer-portal-validation:
+    name: Revenue Officer Portal (Build & Typecheck)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/officer_portal
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+          cache-dependency-path: apps/officer_portal/package-lock.json
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Production Bundle Compilation
+        run: npm run build
+
+  # ============================================================================
+  # 4. Security & Secret Protection Gate
+  # ============================================================================
+  security-audit:
+    name: Security & Secret Scan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Verify No Hardcoded Secrets or Private Keys
+        run: |
+          echo "Scanning apps/ for exposed secrets or hardcoded tokens..."
+          if grep -rnEI '(api_key|secret_key|private_key|bearer eyJ)' apps/ --exclude-dir={dist,build,.dart_tool,node_modules}; then
+            echo "::error::Potential hardcoded secret or token detected in apps/"
+            exit 1
+          else
+            echo "Security check passed: No exposed secrets found."
+          fi

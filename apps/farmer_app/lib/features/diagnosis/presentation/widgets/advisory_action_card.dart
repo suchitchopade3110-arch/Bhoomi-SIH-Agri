@@ -16,7 +16,12 @@ class AdvisoryActionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (actions.isEmpty && (caution == null || caution!.isEmpty)) {
+      return const SizedBox.shrink();
+    }
+
     return BhoomiCard(
+
       padding: const EdgeInsets.all(AppSpacing.lg),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

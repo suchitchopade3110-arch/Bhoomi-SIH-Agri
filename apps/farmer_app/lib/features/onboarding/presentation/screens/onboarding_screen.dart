@@ -53,7 +53,7 @@ class OnboardingScreen extends ConsumerWidget {
                     // Progress indicator
                     OnboardingProgress(
                       currentStep: state.currentStep,
-                      totalSteps: 6,
+                      totalSteps: 3,
                     ),
 
                     const SizedBox(height: AppSpacing.lg),
@@ -91,13 +91,13 @@ class OnboardingScreen extends ConsumerWidget {
                   Expanded(
                     flex: 2,
                     child: BhoomiPrimaryButton(
-                      text: state.currentStep == 5 ? 'Review Profile' : 'Next Step',
-                      icon: state.currentStep == 5
+                      text: state.currentStep == 2 ? 'Review Profile' : 'Next Step',
+                      icon: state.currentStep == 2
                           ? Icons.check_circle_outline
                           : Icons.arrow_forward_rounded,
                       onPressed: state.isCurrentStepValid
                           ? () {
-                              if (state.currentStep == 5) {
+                              if (state.currentStep == 2) {
                                 context.push('/confirm-farm');
                               } else {
                                 controller.nextStep();
@@ -127,16 +127,11 @@ class OnboardingScreen extends ConsumerWidget {
         return _buildAreaStep(state, controller);
       case 2:
         return _buildGrowthStageStep(state, controller);
-      case 3:
-        return _buildSoilTypeStep(state, controller);
-      case 4:
-        return _buildIrrigationStep(state, controller);
-      case 5:
-        return _buildSeasonStep(state, controller);
       default:
         return const SizedBox.shrink();
     }
   }
+
 
   Widget _buildCropStep(dynamic state, OnboardingController controller) {
     final crops = [
@@ -317,184 +312,5 @@ class OnboardingScreen extends ConsumerWidget {
       ],
     );
   }
-
-  Widget _buildSoilTypeStep(dynamic state, OnboardingController controller) {
-    final soils = [
-      {'id': 'clay_loam', 'title': 'Clay Loam', 'sub': 'High moisture retention, nutrient dense', 'icon': Icons.terrain_rounded},
-      {'id': 'alluvial', 'title': 'Alluvial Soil', 'sub': 'Fertile river basin soil', 'icon': Icons.waves_rounded},
-      {'id': 'red_soil', 'title': 'Red Soil', 'sub': 'Rich in iron oxide, porous', 'icon': Icons.circle_rounded},
-      {'id': 'black_soil', 'title': 'Black Soil', 'sub': 'Regur soil, ideal for cotton & pulses', 'icon': Icons.brightness_1_rounded},
-      {'id': 'sandy_loam', 'title': 'Sandy Loam', 'sub': 'Well-drained light soil', 'icon': Icons.grain_outlined},
-    ];
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        const Text(
-          'What is your soil type?',
-          style: AppTypography.headlineLarge,
-          textAlign: TextAlign.center,
-        ),
-        const SizedBox(height: AppSpacing.sm),
-        Text(
-          'Select your predominant farm soil composition',
-          style: AppTypography.bodyMedium.copyWith(color: AppColors.textMuted),
-          textAlign: TextAlign.center,
-        ),
-        const SizedBox(height: AppSpacing.lg),
-
-        VoiceInputButton(
-          isListening: state.isListening,
-          promptText: 'Tap to speak soil type',
-          activeValue: soils.firstWhere(
-            (s) => s['id'] == state.soilType,
-            orElse: () => {'title': state.soilType},
-          )['title'] as String?,
-          onTap: () {
-            controller.toggleListening();
-          },
-        ),
-
-        const SizedBox(height: AppSpacing.xl),
-        const Text('Select Soil Type', style: AppTypography.titleMedium),
-        const SizedBox(height: AppSpacing.md),
-
-        ...soils.map(
-          (s) => Padding(
-            padding: const EdgeInsets.only(bottom: AppSpacing.sm),
-            child: FarmFieldOptionCard(
-              title: s['title'] as String,
-              subtitle: s['sub'] as String,
-              icon: s['icon'] as IconData,
-              isSelected: state.soilType == s['id'],
-              onTap: () {
-                controller.setSoilType(s['id'] as String);
-                controller.stopListening();
-              },
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildIrrigationStep(dynamic state, OnboardingController controller) {
-    final irrigations = [
-      {'id': 'canal', 'title': 'Canal Irrigation', 'sub': 'Direct river / public canal water', 'icon': Icons.water_rounded},
-      {'id': 'borewell', 'title': 'Borewell / Tube Well', 'sub': 'Groundwater pump source', 'icon': Icons.offline_bolt_rounded},
-      {'id': 'drip', 'title': 'Drip / Micro Irrigation', 'sub': 'Precision pipe delivery system', 'icon': Icons.bubble_chart_rounded},
-      {'id': 'rainfed', 'title': 'Rainfed', 'sub': 'Dependent on seasonal monsoon rain', 'icon': Icons.cloud_queue_rounded},
-      {'id': 'open_well', 'title': 'Open Dug Well', 'sub': 'Traditional farm open well', 'icon': Icons.radio_button_checked_rounded},
-    ];
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        const Text(
-          'What is your irrigation access?',
-          style: AppTypography.headlineLarge,
-          textAlign: TextAlign.center,
-        ),
-        const SizedBox(height: AppSpacing.sm),
-        Text(
-          'Primary water source powering your field',
-          style: AppTypography.bodyMedium.copyWith(color: AppColors.textMuted),
-          textAlign: TextAlign.center,
-        ),
-        const SizedBox(height: AppSpacing.lg),
-
-        VoiceInputButton(
-          isListening: state.isListening,
-          promptText: 'Tap to speak irrigation source',
-          activeValue: irrigations.firstWhere(
-            (i) => i['id'] == state.irrigationAccess,
-            orElse: () => {'title': state.irrigationAccess},
-          )['title'] as String?,
-          onTap: () {
-            controller.toggleListening();
-          },
-        ),
-
-        const SizedBox(height: AppSpacing.xl),
-        const Text('Select Irrigation Access', style: AppTypography.titleMedium),
-        const SizedBox(height: AppSpacing.md),
-
-        ...irrigations.map(
-          (i) => Padding(
-            padding: const EdgeInsets.only(bottom: AppSpacing.sm),
-            child: FarmFieldOptionCard(
-              title: i['title'] as String,
-              subtitle: i['sub'] as String,
-              icon: i['icon'] as IconData,
-              isSelected: state.irrigationAccess == i['id'],
-              onTap: () {
-                controller.setIrrigationAccess(i['id'] as String);
-                controller.stopListening();
-              },
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildSeasonStep(dynamic state, OnboardingController controller) {
-    final seasons = [
-      {'id': 'samba', 'title': 'Samba Season', 'sub': 'August to January (Main Rabi/Paddy)', 'icon': Icons.calendar_month_rounded},
-      {'id': 'kuruvai', 'title': 'Kuruvai Season', 'sub': 'June to September (Kharif/Summer)', 'icon': Icons.wb_sunny_outlined},
-      {'id': 'navarai', 'title': 'Navarai Season', 'sub': 'December to April (Late winter/spring)', 'icon': Icons.filter_drama_rounded},
-      {'id': 'kharif', 'title': 'Kharif Season', 'sub': 'Monsoon crop season', 'icon': Icons.thunderstorm_outlined},
-      {'id': 'rabi', 'title': 'Rabi Season', 'sub': 'Winter cultivation period', 'icon': Icons.ac_unit_rounded},
-    ];
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        const Text(
-          'What is the current season?',
-          style: AppTypography.headlineLarge,
-          textAlign: TextAlign.center,
-        ),
-        const SizedBox(height: AppSpacing.sm),
-        Text(
-          'The agricultural crop season for this planting',
-          style: AppTypography.bodyMedium.copyWith(color: AppColors.textMuted),
-          textAlign: TextAlign.center,
-        ),
-        const SizedBox(height: AppSpacing.lg),
-
-        VoiceInputButton(
-          isListening: state.isListening,
-          promptText: 'Tap to speak current season',
-          activeValue: seasons.firstWhere(
-            (s) => s['id'] == state.season,
-            orElse: () => {'title': state.season},
-          )['title'] as String?,
-          onTap: () {
-            controller.toggleListening();
-          },
-        ),
-
-        const SizedBox(height: AppSpacing.xl),
-        const Text('Select Season', style: AppTypography.titleMedium),
-        const SizedBox(height: AppSpacing.md),
-
-        ...seasons.map(
-          (s) => Padding(
-            padding: const EdgeInsets.only(bottom: AppSpacing.sm),
-            child: FarmFieldOptionCard(
-              title: s['title'] as String,
-              subtitle: s['sub'] as String,
-              icon: s['icon'] as IconData,
-              isSelected: state.season == s['id'],
-              onTap: () {
-                controller.setSeason(s['id'] as String);
-                controller.stopListening();
-              },
-            ),
-          ),
-        ),
-      ],
-    );
-  }
 }
+
