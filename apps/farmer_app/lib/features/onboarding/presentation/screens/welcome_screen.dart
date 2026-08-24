@@ -46,17 +46,25 @@ class WelcomeScreen extends StatelessWidget {
                           ],
                         ),
                         child: Center(
-                          child: Container(
-                            width: 90.0,
-                            height: 90.0,
-                            decoration: const BoxDecoration(
-                              color: AppColors.primaryGreen,
-                              shape: BoxShape.circle,
-                            ),
-                            child: const Icon(
-                              Icons.eco_rounded,
-                              size: 52.0,
-                              color: Colors.white,
+                          child: ClipOval(
+                            child: Image.asset(
+                              'assets/images/bhoomi.png',
+                              width: 96.0,
+                              height: 96.0,
+                              fit: BoxFit.contain,
+                              errorBuilder: (_, __, ___) => Container(
+                                width: 90.0,
+                                height: 90.0,
+                                decoration: const BoxDecoration(
+                                  color: AppColors.primaryGreen,
+                                  shape: BoxShape.circle,
+                                ),
+                                child: const Icon(
+                                  Icons.eco_rounded,
+                                  size: 52.0,
+                                  color: Colors.white,
+                                ),
+                              ),
                             ),
                           ),
                         ),

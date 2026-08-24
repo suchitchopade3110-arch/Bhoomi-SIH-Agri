@@ -1,5 +1,7 @@
-import { ShieldCheck, UserCheck, Activity } from 'lucide-react';
+import React from 'react';
+import { UserCheck, Activity } from 'lucide-react';
 import { authStore } from '../../core/auth/auth_store';
+import bhoomiLogo from '../../assets/bhoomi.png';
 
 export const AppHeader: React.FC = () => {
   const officer = authStore.getCurrentOfficer();
@@ -8,9 +10,14 @@ export const AppHeader: React.FC = () => {
     <header className="sticky top-0 z-40 flex h-16 w-full items-center justify-between border-b border-slate-200/80 bg-white px-6 shadow-xs">
       {/* Brand & Emblem */}
       <div className="flex items-center gap-3">
-        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-[#2E7D32] to-[#1b5e20] text-white shadow-sm">
-          <ShieldCheck className="h-6 w-6" />
-        </div>
+        <img
+          src={bhoomiLogo}
+          alt="BHOOMI Logo"
+          className="h-10 w-10 rounded-xl object-contain shadow-xs border border-slate-100 bg-emerald-50/50 p-0.5"
+          onError={(e) => {
+            (e.target as HTMLImageElement).src = '/bhoomi.png';
+          }}
+        />
         <div>
           <div className="flex items-center gap-2">
             <span className="text-base font-extrabold tracking-tight text-slate-900">

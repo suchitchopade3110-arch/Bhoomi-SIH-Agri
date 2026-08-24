@@ -1,6 +1,7 @@
 import React from 'react';
 import { authStore } from '../../core/auth/auth_store';
-import { ShieldCheck, Bell, UserCircle2 } from 'lucide-react';
+import { Bell, UserCircle2 } from 'lucide-react';
+import bhoomiLogo from '../../assets/bhoomi.png';
 
 export const AppHeader: React.FC = () => {
   const agronomist = authStore.getCurrentAgronomist();
@@ -9,9 +10,14 @@ export const AppHeader: React.FC = () => {
     <header className="sticky top-0 z-40 flex h-16 w-full items-center justify-between border-b border-slate-200 bg-white/95 px-6 backdrop-blur-xs">
       {/* Branding */}
       <div className="flex items-center gap-3">
-        <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#2E7D32] text-white shadow-xs">
-          <ShieldCheck className="h-5 w-5" />
-        </div>
+        <img
+          src={bhoomiLogo}
+          alt="BHOOMI Logo"
+          className="h-10 w-10 rounded-xl object-contain shadow-xs border border-slate-100 bg-emerald-50/50 p-0.5"
+          onError={(e) => {
+            (e.target as HTMLImageElement).src = '/bhoomi.png';
+          }}
+        />
         <div>
           <div className="flex items-center gap-2">
             <span className="font-extrabold text-base tracking-tight text-slate-900">BHOOMI</span>
