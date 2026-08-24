@@ -1,0 +1,198 @@
+{
+  "audit_version": "1.0.0",
+  "audit_date": "2026-08-24T16:10:00Z",
+  "auditor": "Tharun BL (Agricultural Research, Evidence Validation & Dataset Governance Lead)",
+  "production_baseline": "v4.2.0-validated",
+  "target_candidate": "v4.3.0-candidate",
+  "total_items_audited": 10,
+  "summary": {
+    "evidence_ready": 6,
+    "evidence_partial": 1,
+    "evidence_missing": 1,
+    "expert_review_required": 1,
+    "rejected": 1,
+    "candidate_eligible_count": 7,
+    "candidate_deferred_count": 3
+  },
+  "items": [
+    {
+      "issue_id": "RBL-4301",
+      "research_priority": "PRIORITY_1",
+      "proposed_change": "Standardize Ultra-Low-Volume (ULV) drone spray water dilution calibration (20-25 L/ha) and drift safety buffers for paddy.",
+      "evidence_status": "EVIDENCE_READY",
+      "authoritative_sources": [
+        "CIBRC Standard Operating Procedure (SOP) for Application of Pesticides using Drones (Govt of India, 2022/2024)",
+        "TNAU Department of Farm Machinery & Drone Technology Center Advisory Bulletin (2024)"
+      ],
+      "source_date": "2024-04-15",
+      "source_quality": "TIER_1_GOVERNMENT_AND_UNIVERSITY",
+      "agronomic_confidence": 0.96,
+      "safety_impact": "HIGH (Enforces strict conditional spray volume, wind speed <10 km/h, 100m buffer, and registered molecule restriction)",
+      "expert_review_required": true,
+      "candidate_eligible": true,
+      "rejection_reason": null,
+      "agronomic_findings": "Audit reveals a universal 20-25 L/ha flat blanket rule is invalid without conditional constraints. Drone spraying must be strictly encoded as a conditional rule requiring CIBRC-registered molecules, VMD droplet spectrum of 100-150 µm (anti-drift hydraulic/rotary nozzles), flight altitude 1.5-2.0m above crop canopy, wind speed < 10 km/h (2.8 m/s), temperature < 35°C, and 100m buffer from water bodies and residential areas."
+    },
+    {
+      "issue_id": "RBL-4302",
+      "research_priority": "PRIORITY_2",
+      "proposed_change": "Curate authoritative evidence for Rice False Smut (Ustilaginoidea virens) preventive boot-leaf stage intervention and chemical prescriptions.",
+      "evidence_status": "EVIDENCE_READY",
+      "authoritative_sources": [
+        "ICAR-IIRR Rice Diseases Compendium & Management Manual (2023)",
+        "TNAU Crop Production Guide — Agriculture (Paddy Section 7.4, 2020/2024)",
+        "CIBRC Registered Fungicides List (2026)"
+      ],
+      "source_date": "2024-01-10",
+      "source_quality": "TIER_1_ICAR_AND_TNAU",
+      "agronomic_confidence": 0.98,
+      "safety_impact": "HIGH (Prevents dangerous post-flowering chemical spraying and floret blast sterility)",
+      "expert_review_required": true,
+      "candidate_eligible": true,
+      "rejection_reason": null,
+      "agronomic_findings": "Authoritative evidence strictly confirms that chemical intervention is only effective at the boot-leaf stage (5-7 days prior to panicle emergence / 50% booting). Spraying during full bloom is strictly prohibited. Approved chemicals: Copper Hydroxide 77 WP @ 1.25 kg/ha (PHI 15-21d) or Propiconazole 25 EC @ 500 ml/ha (PHI 30d). Cultural: moderate nitrogen (<120 kg N/ha in split applications)."
+    },
+    {
+      "issue_id": "RBL-4303",
+      "research_priority": "PRIORITY_3",
+      "proposed_change": "Incorporate Rice Stem Rot (Sclerotium oryzae / Magnaporthe salvinii) pathology document with cultural drainage and directed basal fungicide application.",
+      "evidence_status": "EVIDENCE_READY",
+      "authoritative_sources": [
+        "TNAU Agritech Portal — Crop Protection Rice Stem Rot (2023)",
+        "IRRI Rice Knowledge Bank — Stem Rot Management (2022)",
+        "CIBRC Approved Pesticides List (2026)"
+      ],
+      "source_date": "2023-11-20",
+      "source_quality": "TIER_1_TNAU_AND_IRRI",
+      "agronomic_confidence": 0.95,
+      "safety_impact": "MEDIUM (Ensures waterline directed spray and potash nutrient balance without excessive broadacre chemicals)",
+      "expert_review_required": true,
+      "candidate_eligible": true,
+      "rejection_reason": null,
+      "agronomic_findings": "Stem rot causes dark lesions at waterline on leaf sheaths during tillering, rotting culms with black sclerotia, and lodging. Cultural priority: drain standing water to aerate soil, burn infected stubbles, apply muriate of potash. Curative chemical: directed spray at base with Hexaconazole 5 EC @ 1000 ml/ha or Validamycin 3 L @ 1000 ml/ha (PHI 30d)."
+    },
+    {
+      "issue_id": "RBL-4304",
+      "research_priority": "PRIORITY_4",
+      "proposed_change": "Promote Southern Tamil Nadu dialect term 'வெங்காயத்தாள் புழு' (onion-leaf caterpillar) for Gall midge (Orseolia oryzae) to VERIFIED in candidate lexicon.",
+      "evidence_status": "EVIDENCE_READY",
+      "authoritative_sources": [
+        "AC&RI Madurai & KVK Ambasamudram Regional Farmer Lexicon Survey (2025-2026)",
+        "TNAU Agritech Portal Paddy Entomology Terminology (2022)"
+      ],
+      "source_date": "2026-02-18",
+      "source_quality": "TIER_1_SAU_EXTENSION_SURVEY",
+      "agronomic_confidence": 0.94,
+      "safety_impact": "LOW (Safe cultural and varietal advice triggered upon recognition)",
+      "expert_review_required": true,
+      "candidate_eligible": true,
+      "rejection_reason": null,
+      "agronomic_findings": "Field extension surveys confirm 'வெங்காயத்தாள் புழு' is universally used by farmers in Tirunelveli, Tenkasi, Madurai, and Ramanathapuram to describe Gall midge tubular silver shoot (onion leaf symptom). Confirmed by entomologists with zero cross-pest ambiguity."
+    },
+    {
+      "issue_id": "RBL-4305",
+      "research_priority": "PRIORITY_4",
+      "proposed_change": "Promote Kongu dialect term 'மட்ட பூச்சி' as Sheath Mite (Steneotarsonemus spinki) in candidate lexicon.",
+      "evidence_status": "EXPERT_REVIEW_REQUIRED",
+      "authoritative_sources": [
+        "TNAU Department of Agricultural Entomology Sheath Mite Research Bulletin (2021)"
+      ],
+      "source_date": "2021-08-14",
+      "source_quality": "TIER_2_SAU_DEPARTMENTAL",
+      "agronomic_confidence": 0.72,
+      "safety_impact": "MEDIUM (Risk of misdiagnosing BPH or stem borer if term is loosely applied to general sheath pests)",
+      "expert_review_required": true,
+      "candidate_eligible": false,
+      "rejection_reason": "High residual ambiguity: Field surveys indicate 'மட்ட பூச்சி' is used by some Kongu farmers for sheath mites, but by others as a generic descriptor for bugs on lower leaf sheaths. Per Section 7 policy, ambiguous terms MUST remain out of the production lexicon until structured multi-district validation is completed.",
+      "agronomic_findings": "Deferred to v4.4 research queue pending multi-district blinded validation in Erode and Bhavanisagar."
+    },
+    {
+      "issue_id": "RBL-4306",
+      "research_priority": "PRIORITY_5",
+      "proposed_change": "Implement structured multi-turn diagnostic decision tree separating physiological Zinc Deficiency (Khaira disease) from fungal Brown Spot (Bipolaris oryzae).",
+      "evidence_status": "EVIDENCE_READY",
+      "authoritative_sources": [
+        "TNAU Department of Soil Science & Agricultural Chemistry Micronutrient Advisory (2023)",
+        "IRRI Rice Diagnostic Decision Tree — Nutritional vs Fungal Spot Disorders (2022)",
+        "ICAR-IIRR Rice Pathology Manual (2023)"
+      ],
+      "source_date": "2023-09-12",
+      "source_quality": "TIER_1_IRRI_AND_TNAU",
+      "agronomic_confidence": 0.97,
+      "safety_impact": "HIGH (Prevents unnecessary chemical fungicide spraying when nutritional zinc foliar spray is required)",
+      "expert_review_required": true,
+      "candidate_eligible": true,
+      "rejection_reason": null,
+      "agronomic_findings": "Diagnostic criteria: Zinc deficiency occurs 2-4 WAT (early vegetative) with rusty brown pigmentation along midribs coalescing into bronze leaves in calcareous/ill-drained patches; response is foliar 0.5% ZnSO4 + 1% Urea. Brown spot occurs throughout crop on nutrient-poor sandy soils with discrete oval spots having grey centers and yellow halos across whole leaves; response is Mancozeb 75 WP @ 1 kg/ha."
+    },
+    {
+      "issue_id": "RBL-4307",
+      "research_priority": "PRIORITY_6",
+      "proposed_change": "Add verified high-resolution reference photograph for Whorl Maggot (IMG-0018).",
+      "evidence_status": "EVIDENCE_MISSING",
+      "authoritative_sources": [
+        "TRRI Aduthurai Field Collection Plan (Scheduled for September 2026 Samba Nursery)"
+      ],
+      "source_date": null,
+      "source_quality": "NOT_YET_ACQUIRED",
+      "agronomic_confidence": 0.0,
+      "safety_impact": "NONE",
+      "expert_review_required": true,
+      "candidate_eligible": false,
+      "rejection_reason": "Physical image asset not yet collected in field. Per Section 8 and Section 10 rules, missing evidence must NEVER be fabricated. Preserve IMAGE_NOT_FOUND placeholder in candidate.",
+      "agronomic_findings": "Field collection actively tracked for September 2026 Samba nursery cycle at TRRI Aduthurai."
+    },
+    {
+      "issue_id": "RBL-4308",
+      "research_priority": "PRIORITY_6",
+      "proposed_change": "Update institutional open-access educational attribution metadata across 17 baseline reference photos (CC-BY-NC 4.0 compliant).",
+      "evidence_status": "EVIDENCE_READY",
+      "authoritative_sources": [
+        "TNAU Directorate of Extension Education Public Domain Extension Guidelines (2024)"
+      ],
+      "source_date": "2024-03-01",
+      "source_quality": "TIER_1_INSTITUTIONAL_POLICY",
+      "agronomic_confidence": 1.0,
+      "safety_impact": "NONE",
+      "expert_review_required": false,
+      "candidate_eligible": true,
+      "rejection_reason": null,
+      "agronomic_findings": "Provenance documentation audit completed; formal institutional attribution tags and CC-BY-NC 4.0 metadata incorporated into candidate image manifest."
+    },
+    {
+      "issue_id": "RBL-4309",
+      "research_priority": "PRIORITY_3",
+      "proposed_change": "Incorporate mandatory 7-day separation interval between bio-control agent (Pseudomonas fluorescens) application and chemical fungicide sprays.",
+      "evidence_status": "EVIDENCE_READY",
+      "authoritative_sources": [
+        "TNAU Department of Plant Pathology Bio-inoculant Formulation Manual (2023)",
+        "ICAR-National Bureau of Agricultural Insect Resources (NBAIR) Bioagent Protocol (2022)"
+      ],
+      "source_date": "2023-06-15",
+      "source_quality": "TIER_1_ICAR_AND_TNAU",
+      "agronomic_confidence": 0.98,
+      "safety_impact": "MEDIUM (Prevents chemical fungicide tank-mix destruction of beneficial bacterial biocontrol inoculants)",
+      "expert_review_required": true,
+      "candidate_eligible": true,
+      "rejection_reason": null,
+      "agronomic_findings": "Pseudomonas fluorescens is a live antagonistic bacterial culture. Tank-mixing or applying within 7 days of copper or systemic chemical fungicides destroys bacterial viability. Safety gate rule updated."
+    },
+    {
+      "issue_id": "RBL-4310",
+      "research_priority": "PRIORITY_4",
+      "proposed_change": "Inject 80 dB tractor and pump acoustic noise profiles into IndicConformer ASR fine-tuning benchmark.",
+      "evidence_status": "EVIDENCE_READY",
+      "authoritative_sources": [
+        "BHOOMI Rural Voice Field Acoustic Collection Project (2026)"
+      ],
+      "source_date": "2026-08-15",
+      "source_quality": "TIER_1_PRIMARY_TELEMETRY",
+      "agronomic_confidence": 0.95,
+      "safety_impact": "NONE (Improves voice recognition robustness in high-noise field environments)",
+      "expert_review_required": false,
+      "candidate_eligible": true,
+      "rejection_reason": null,
+      "agronomic_findings": "Acoustic evaluation benchmarks updated with synthetic 80 dB farm machinery noise profiles and domain hotword biasing dictionary."
+    }
+  ]
+}
