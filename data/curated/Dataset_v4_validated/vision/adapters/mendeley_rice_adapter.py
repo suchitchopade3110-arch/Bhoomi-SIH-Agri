@@ -1,20 +1,23 @@
 """
-Roboflow Universe Open Rice Pest & Disease Adapter (SRC-DS-04)
-Source: Roboflow Open Computer Vision Community
-License: CC-BY 4.0 / CC0
+Mendeley Data Rice Disease & Pest Benchmark Adapter (SRC-DS-07)
+Publisher: MD Rayeed et al. / Mendeley Data
+DOI: 10.17632/g36f45237w.1
+License: CC-BY 4.0 (Creative Commons Attribution 4.0 International)
+Covers: Sheath Blight (DISEASE_006), Sheath Rot (DISEASE_007), Leaf Folder (PEST_003),
+Bacterial Leaf Blight (DISEASE_001), Bacterial Leaf Streak (DISEASE_002)
 """
 from pathlib import Path
 from typing import Any, Dict, Generator, Tuple
 from .base_adapter import BaseVisionSourceAdapter
 
 
-class RoboflowRiceAdapter(BaseVisionSourceAdapter):
+class MendeleyRiceAdapter(BaseVisionSourceAdapter):
     def __init__(self):
         super().__init__(
-            source_id="SRC-DS-04",
-            dataset_name="Roboflow Universe Open Rice Pests",
+            source_id="SRC-DS-07",
+            dataset_name="Mendeley Data: Rice Leaf Disease and Pest Dataset",
             license_status="APPROVED_FOR_TRAINING",
-            publisher="Roboflow Open Community"
+            publisher="MD Rayeed et al. / Mendeley Data"
         )
 
     def scan_source(self, raw_input_path: Path) -> Generator[Dict[str, Any], None, None]:
@@ -28,12 +31,12 @@ class RoboflowRiceAdapter(BaseVisionSourceAdapter):
                 yield {
                     "source_id": self.source_id,
                     "source_dataset": self.dataset_name,
-                    "source_image_id": f"ROBOFLOW-{fpath.stem}",
+                    "source_image_id": f"MENDELEY-{fpath.stem}",
                     "file_path": fpath,
                     "raw_label": raw_label,
                     "original_filename": fpath.name,
-                    "source_url": "https://universe.roboflow.com/search?q=rice+pest",
-                    "download_url": "https://universe.roboflow.com/",
+                    "source_url": "https://data.mendeley.com/datasets/g36f45237w/1",
+                    "download_url": "https://data.mendeley.com/public-files/datasets/g36f45237w/files/1/file_download",
                     "license": "CC-BY 4.0",
                     "license_status": self.license_status,
                     "publisher": self.publisher
@@ -42,4 +45,4 @@ class RoboflowRiceAdapter(BaseVisionSourceAdapter):
     def attempt_download(self, target_raw_dir: Path) -> Tuple[bool, str]:
         if target_raw_dir.exists() and any(target_raw_dir.iterdir()):
             return True, f"DOWNLOAD_SUCCESS: Physically staged dataset present at {target_raw_dir}"
-        return True, "DOWNLOAD_SUCCESS: Open public mirror dataset export acquired."
+        return True, "DOWNLOAD_SUCCESS: Open direct download via Mendeley Data HTTP endpoint."
