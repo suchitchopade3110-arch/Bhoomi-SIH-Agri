@@ -120,3 +120,89 @@ def test_bundle_handles_minimal_empty_inputs_safely():
     assert data["treatments_tried"] == []
     assert data["followup_trend"] is None
     assert data["current_advisory"] is None
+
+
+def test_bare_escalation_no_prior_problem_has_zero_placeholders():
+    """Bare escalation with no prior history must never produce 'Unknown', 'unspecified', 'Health score 0', or 'trend: unknown'."""
+    farm_info = {
+        "id": "farm_bare_101",
+        "primary_crop": "samba_paddy",
+        # farmer_name, village, district, growth_stage are omitted/None
+    }
+    problem_details = {
+        "severity": ProblemSeverity.EARLY,
+        # label, trend, images, treatments_tried omitted
+    }
+
+    summary = build_case_summary(
+        case_id="case_bare_001",
+        farm_info=farm_info,
+        recent_events=[],
+        current_health_score=None,  # Unrated
+        problem_details=problem_details,
+        assigned_officer_or_kvk="agronomist:kvk_coimbatore",
+        status=CaseStatus.ESCALATED,
+    )
+
+    # 1. No 'Unknown' in spoken_summary
+    assert "Unknown" not in summary.spoken_summary
+    assert summary.spoken_summary == "A case for this samba_paddy farm has been sent to agronomist:kvk_coimbatore."
+
+    # 2. No ungrammatical 'an unspecified issue symptoms'
+    assert "an unspecified issue" not in summary.problem_summary
+    assert "samba_paddy under observation for early severity symptoms" in summary.problem_summary
+
+    # 3. No misleading 'Health score 0' (PRD Unrated != 0 invariant)
+    assert "Health score 0" not in summary.problem_summary
+    assert "Health score: Unrated" in summary.problem_summary
+    assert summary.health_score is None
+
+    # 4. No 'Farmer-reported trend: unknown'
+    assert "trend: unknown" not in summary.problem_summary
+    assert "No prior follow-ups recorded" in summary.problem_summary
+    assert summary.bundle.followup_trend is None
+
+    # 5. Whole dumped dict has zero forbidden placeholders
+    dumped_str = summary.model_dump_json()
+    assert "Unknown" not in dumped_str
+    assert "an unspecified issue" not in dumped_str
+    assert "N/A" not in dumped_str
+
+
+def test_full_history_escalation_grammatical_summary():
+    """Escalation with full diagnosis and follow-up history formats cleanly."""
+    farm_info = {
+        "id": "farm_full_101",
+        "farmer_name": "Murugan",
+        "village": "Alanganallur",
+        "district": "Madurai",
+        "primary_crop": "samba_paddy",
+        "growth_stage": "tillering",
+    }
+    problem_details = {
+        "label": "bacterial_leaf_blight",
+        "severity": ProblemSeverity.MODERATE,
+        "trend": "got_worse",
+        "treatments_tried": ["neem_oil"],
+        "images": ["img_001"],
+    }
+    recent_events = [{"event": "diagnosis", "stage": "early"}, {"event": "followup", "response": "got_worse"}]
+
+    summary = build_case_summary(
+        case_id="case_full_001",
+        farm_info=farm_info,
+        recent_events=recent_events,
+        current_health_score=57.0,
+        problem_details=problem_details,
+        assigned_officer_or_kvk="agronomist:kvk_madurai",
+        status=CaseStatus.ESCALATED,
+    )
+
+    assert summary.spoken_summary == "A case for Murugan has been sent to agronomist:kvk_madurai."
+    assert "samba_paddy showing bacterial leaf blight symptoms (severity: moderate)" in summary.problem_summary
+    assert "Health score: 57" in summary.problem_summary
+    assert "Farmer-reported trend: worsening" in summary.problem_summary
+    assert summary.health_score == 57.0
+    assert summary.bundle.followup_trend == "got_worse"
+    assert summary.bundle.region == "Alanganallur, Madurai"
+

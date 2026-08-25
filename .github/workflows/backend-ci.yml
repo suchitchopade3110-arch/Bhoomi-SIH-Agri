@@ -48,6 +48,7 @@ jobs:
       # asserts the unset-env default is sih26131.
       DIAGNOSIS_MODEL: stub
       EMBEDDING_PROVIDER: stub
+      LLM_PROVIDER: stub
 
     steps:
       - name: Checkout Code

@@ -104,24 +104,46 @@ class AgronomistService:
         snapshot = await self._health.get_latest(case["farm_id"])
         farm_info = {
             "id": case["farm_id"],
-            # SIH26131's simplified onboarding leaves farm_name/village/
-            # district NULL (not absent) — dict.get's default only fires on
-            # a missing key, so `or` is required here to actually catch None.
-            "farmer_name": (farm or {}).get("farm_name") or "Unknown",
+            "farmer_name": (farm or {}).get("farm_name"),
             "village": (farm or {}).get("village") or "",
             "district": (farm or {}).get("district") or (farm or {}).get("region") or "",
             "primary_crop": (farm or {}).get("primary_crop") or "",
             "growth_stage": (farm or {}).get("growth_stage"),
             "land_status": (farm or {}).get("land_status"),
         }
+
+        problem_id = case.get("problem_id")
+        problem_label = None
+        if self._problems is not None:
+            open_problems = await self._problems.get_open_problems(case["farm_id"])
+            if problem_id:
+                for p in open_problems:
+                    if p.problem_id == problem_id:
+                        problem_label = p.label
+                        break
+            elif open_problems:
+                problem_label = open_problems[0].label
+
+        reason = case.get("reason") or ""
+        trend = "got_worse" if "got worse" in reason.lower() or "got_worse" in reason.lower() else None
+
+        current_advisory = None
+        if "confidence" in reason.lower() or "gate" in reason.lower() or "supported set" in reason.lower() or "scope" in reason.lower():
+            current_advisory = f"Confidence below gate. Escalation reason: {reason}"
+
         return build_case_summary(
             case_id=case["id"],
             farm_info=farm_info,
             recent_events=[],
-            current_health_score=float(snapshot.score or 0),
-            problem_details={"severity": ProblemSeverity(case["severity"])},
+            current_health_score=float(snapshot.score) if snapshot and snapshot.score is not None else None,
+            problem_details={
+                "label": problem_label,
+                "severity": ProblemSeverity(case["severity"]) if case.get("severity") else ProblemSeverity.EARLY,
+                "trend": trend,
+            },
             assigned_officer_or_kvk=case.get("assigned_to"),
-            status=CaseStatus(case["status"]),
+            status=CaseStatus(case["status"]) if case.get("status") in [s.value for s in CaseStatus] else CaseStatus.ESCALATED,
+            current_advisory_text=current_advisory,
         )
 
     async def get_case_pdf_payload(self, escalation_id: str) -> CasePDFPayload:

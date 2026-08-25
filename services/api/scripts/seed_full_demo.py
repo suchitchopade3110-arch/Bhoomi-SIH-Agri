@@ -288,7 +288,7 @@ async def seed_stage(stage: str = "full") -> dict:
         # Commit everything
         await session.commit()
 
-        print(f"✓ Seeded stage: [{stage.upper()}]")
+        print(f"[OK] Seeded stage: [{stage.upper()}]")
         print(f"  Farmer ID:     {farmer.id}")
         print(f"  Farm ID:       {farm_id}")
         if stage == "baseline":
@@ -298,7 +298,7 @@ async def seed_stage(stage: str = "full") -> dict:
         elif stage == "escalated":
             print("  Score Track:   82 -> 68 -> 59 (poor)")
         elif stage in ["resolved", "full"]:
-            print("  Score Track:   82 -> 68 -> 59 -> 86 (good) ✓")
+            print("  Score Track:   82 -> 68 -> 59 -> 86 (good) [resolved]")
 
         return {"farm_id": farm_id, "farmer_id": farmer.id, "stage": stage}
 
