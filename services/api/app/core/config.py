@@ -123,7 +123,7 @@ class Settings(BaseSettings):
     # Voice / ASR / TTS
     ASR_PROVIDER: str = Field(
         default="stub",
-        description="ASR provider: 'bhashini' | 'whisper' | 'stub'",
+        description="ASR provider: 'bhashini' | 'sarvam' | 'stub'",
     )
     TTS_PROVIDER: str = Field(
         default="stub",
