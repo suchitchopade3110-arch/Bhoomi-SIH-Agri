@@ -2,7 +2,7 @@
 
 from functools import lru_cache
 from typing import Literal
-from pydantic import Field, computed_field
+from pydantic import Field, computed_field, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -56,7 +56,19 @@ class Settings(BaseSettings):
     STORAGE_SECURE: bool = False
 
     # LLM & Embedding Service
+    LLM_PROVIDER: Literal["groq", "stub"] = Field(
+        default="stub",
+        description=(
+            "LLM provider mode: 'groq' (real grounded generation via Groq's "
+            "OpenAI-compatible API) | 'stub' (canned advisory text templated "
+            "from retrieved chunks, no real generation)"
+        ),
+    )
     LLM_API_KEY: str = "mock-llm-api-key"
+    LLM_BASE_URL: str = Field(
+        default="https://api.groq.com/openai/v1",
+        description="OpenAI-compatible base URL for the LLM provider (used only when LLM_PROVIDER='groq')",
+    )
     LLM_MODEL: str = "claude-3-5-sonnet-20241022"
     EMBEDDING_MODEL: str = "BAAI/bge-m3"
 
@@ -104,6 +116,26 @@ class Settings(BaseSettings):
         default=None,
         description="Optional manual override for RAG relevance threshold",
     )
+
+    @model_validator(mode="after")
+    def _validate_llm_provider_credentials(self) -> "Settings":
+        """Fail loudly at startup rather than silently falling back (PRD
+        no-fabrication rule): a real ``LLM_PROVIDER`` with no usable key must
+        never boot into a state that later returns fabricated advisory text."""
+        if self.LLM_PROVIDER == "groq":
+            key = self.LLM_API_KEY.strip()
+            if not key or key == "mock-llm-api-key":
+                raise ValueError(
+                    "LLM_PROVIDER=groq requires a real LLM_API_KEY. Refusing to start with a "
+                    "missing key or the mock placeholder ('mock-llm-api-key'). Set a real Groq "
+                    "API key from console.groq.com, or set LLM_PROVIDER=stub."
+                )
+            if not key.startswith("gsk_"):
+                raise ValueError(
+                    "LLM_PROVIDER=groq but LLM_API_KEY does not look like a Groq key (Groq keys "
+                    "start with 'gsk_'). Refusing to start with a malformed key."
+                )
+        return self
 
     @computed_field
     @property
