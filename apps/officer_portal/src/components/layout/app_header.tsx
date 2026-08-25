@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { UserCheck, Activity } from 'lucide-react';
 import { authStore } from '../../core/auth/auth_store';
-import bhoomiLogo from '../../assets/bhoomi_emblem.png';
+import bhoomiLogo from '../../assets/bhoomi_logo.png';
 
 export const AppHeader: React.FC = () => {
   const officer = authStore.getCurrentOfficer();
@@ -14,9 +14,9 @@ export const AppHeader: React.FC = () => {
         <img
           src={bhoomiLogo}
           alt="BHOOMI Logo"
-          className="h-10 w-10 rounded-xl object-contain shadow-xs border border-slate-100 bg-emerald-50/50 p-0.5"
+          className="h-10 w-10 rounded-xl object-contain shadow-xs border border-slate-100 bg-white p-0.5"
           onError={(e) => {
-            (e.target as HTMLImageElement).src = '/bhoomi_emblem.png';
+            (e.target as HTMLImageElement).src = '/bhoomi_logo.png';
           }}
         />
         <div>
