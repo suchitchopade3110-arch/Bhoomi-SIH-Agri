@@ -7,6 +7,7 @@ ever imports a concrete adapter class, so flipping ``LAND_API_MODE`` or
 
 from functools import lru_cache
 
+from app.adapters.embeddings_real import RealEmbeddingAdapter
 from app.adapters.image_diagnosis_real import RealImageDiagnosisAdapter
 from app.adapters.land_registry import LandRegistryPort, LiveLandRegistryAdapter, MockLandRegistryAdapter
 from app.ports import (
@@ -15,6 +16,7 @@ from app.ports import (
     EmbeddingPort,
     ImageDiagnosisPort,
     LLMPort,
+    OtpDeliveryPort,
     StoragePort,
     WeatherPort,
 )
@@ -23,6 +25,7 @@ from app.adapters.stubs import (
     StubEmbeddingAdapter,
     StubImageDiagnosisAdapter,
     StubLLMAdapter,
+    StubOtpDeliveryAdapter,
     StubRosterAdapter,
     StubStorageAdapter,
     StubWeatherAdapter,
@@ -61,7 +64,17 @@ def get_llm_adapter() -> LLMPort:
 
 @lru_cache
 def get_embedding_adapter() -> EmbeddingPort:
-    """Return EmbeddingPort adapter based on settings."""
+    """Return EmbeddingPort adapter based on ``EMBEDDING_PROVIDER``.
+
+    ``bge_m3`` calls out to services/ml over HTTP — see
+    ``adapters/embeddings_real.py`` for why that's the honest integration
+    point (real weights there if the optional dependency is installed and
+    reachable, a hash fallback otherwise) rather than a fake "real" adapter
+    that's secretly still the hash technique.
+    """
+    settings = get_settings()
+    if settings.EMBEDDING_PROVIDER == "bge_m3":
+        return RealEmbeddingAdapter(settings.ML_SERVICE_URL)
     return StubEmbeddingAdapter()
 
 
@@ -105,6 +118,17 @@ def get_speech_adapter() -> AsrTtsPort:
 def get_storage_adapter() -> StoragePort:
     """Return StoragePort adapter based on settings."""
     return StubStorageAdapter()
+
+
+@lru_cache
+def get_otp_delivery_adapter() -> OtpDeliveryPort:
+    """Return OtpDeliveryPort adapter.
+
+    No SMS gateway is configured anywhere in this project — see
+    ``StubOtpDeliveryAdapter``'s docstring for why this is a stub rather
+    than a ``real`` option the way ``DIAGNOSIS_MODEL=real`` is.
+    """
+    return StubOtpDeliveryAdapter()
 
 
 @lru_cache

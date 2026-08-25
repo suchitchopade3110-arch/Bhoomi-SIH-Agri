@@ -41,7 +41,11 @@ jobs:
     env:
       DATABASE_URL: postgresql+asyncpg://postgres:postgres@localhost:5432/bhoomi
       JWT_SECRET_KEY: ci-test-secret-key
-      PROBLEM_STATEMENT: sih25076
+      # PROBLEM_STATEMENT intentionally unset: let app default (sih26131,
+      # core/config.py) apply, matching local/production behavior. Pinning
+      # it to sih25076 here previously fought the test suite's own
+      # contract test (tests/unit/test_problem_statement_gating.py), which
+      # asserts the unset-env default is sih26131.
       DIAGNOSIS_MODEL: stub
       EMBEDDING_PROVIDER: stub
 

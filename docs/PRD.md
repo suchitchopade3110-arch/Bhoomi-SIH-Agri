@@ -65,12 +65,16 @@ agronomists authenticate via email + password. Every issued token carries a
 role claim (farmer / officer / agronomist) that gates every downstream
 route identically regardless of how the token was obtained.
 
-**Implemented (flagged deviation, see `auth_service.py`'s own docstring and
-`README.md` §9):** all three roles register and log in through the same
+**Implemented:** `POST /auth/otp/request` + `POST /auth/otp/verify`
+(`services/otp_service.py`) now exist as spec'd, additively — the original
 generic `POST /auth/register` / `POST /auth/login` (phone or email +
-password). Real OTP delivery was judged out of scope for the phase that
-built auth. The role-claim JWT behavior downstream is unaffected — only the
-credential-collection step differs from spec.
+password) still work unchanged for every role, per this project's
+zero-regression principle. No SMS gateway is configured anywhere in this
+project, so the OTP is returned directly in the request response outside
+`APP_ENV=production` rather than only delivered by SMS — see README.md §9
+for that caveat and the in-memory OTP store's multi-worker limitation. The
+role-claim JWT behavior downstream is unaffected either way — only the
+credential-collection step ever differed from spec.
 
 ---
 
