@@ -28,12 +28,14 @@ class FarmService:
         self._farms = farm_repo
 
     async def create_farm(self, request: FarmCreateRequest) -> FarmResponse:
-        data: dict[str, Any] = request.model_dump()
-        # expected_stage_day is a derived reference-table lookup (PRD §7.2 #3
-        # input), not something the farmer reports — computed once here so
-        # every later health recompute reads a stable, inspectable value.
-        data["expected_stage_day"] = get_expected_stage_day(request.growth_stage or "vegetative")
-        data["land_status"] = LandStatus.UNVERIFIED.value
+        data: dict[str, Any] = {
+            "farmer_id": request.farmer_id,
+            "primary_crop": request.crop,
+            "growth_stage": request.growth_stage,
+            "region": request.region,
+            "expected_stage_day": get_expected_stage_day(request.growth_stage or "vegetative"),
+            "land_status": LandStatus.UNVERIFIED.value,
+        }
         saved = await self._farms.save(data)
         return _to_farm_response(saved)
 
@@ -63,32 +65,36 @@ class FarmService:
 
     async def get_farm_summary(self, farm_id: str) -> FarmSummaryResponse:
         farm = await self.get_farm(farm_id)
+        name = farm.farm_name or "your farm"
         return FarmSummaryResponse(
             farm=farm,
-            spoken_summary=f"Here is the summary for {farm.farm_name}.",
+            spoken_summary=f"Here is the summary for {name}.",
         )
 
 
 def _to_farm_response(row: dict[str, Any]) -> FarmResponse:
-    return FarmResponse(
-        id=row["id"],
-        farmer_id=row["farmer_id"],
-        farm_name=row["farm_name"],
-        village=row["village"],
-        taluk=row["taluk"],
-        district=row["district"],
-        state=row["state"],
-        latitude=row["latitude"],
-        longitude=row["longitude"],
-        total_area_acres=row["total_area_acres"],
-        survey_number=row.get("survey_number"),
-        land_status=LandStatus(row["land_status"]),
-        primary_crop=row["primary_crop"],
-        growth_stage=row.get("growth_stage"),
-        soil_type=row["soil_type"],
-        irrigation_source=row["irrigation_source"],
-        created_at=row["created_at"],
-    )
+    kwargs = {
+        "id": row["id"],
+        "farmer_id": row["farmer_id"],
+        "farm_name": row.get("farm_name"),
+        "village": row.get("village"),
+        "taluk": row.get("taluk"),
+        "district": row.get("district"),
+        "region": row.get("region"),
+        "state": row.get("state") or "Tamil Nadu",
+        "latitude": row.get("latitude"),
+        "longitude": row.get("longitude"),
+        "total_area_acres": row.get("total_area_acres"),
+        "survey_number": row.get("survey_number"),
+        "land_status": LandStatus(row["land_status"]) if row.get("land_status") else LandStatus.UNVERIFIED,
+        "primary_crop": row.get("primary_crop", ""),
+        "growth_stage": row.get("growth_stage"),
+        "soil_type": row.get("soil_type"),
+        "irrigation_source": row.get("irrigation_source"),
+    }
+    if row.get("created_at") is not None:
+        kwargs["created_at"] = row["created_at"]
+    return FarmResponse(**kwargs)
 
 
 def get_farm_service(farm_repo: Annotated[FarmRepository, Depends(get_farm_repository)]) -> FarmService:
