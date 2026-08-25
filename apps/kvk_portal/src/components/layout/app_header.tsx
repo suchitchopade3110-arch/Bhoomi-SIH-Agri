@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { authStore } from '../../core/auth/auth_store';
 import { Bell, UserCircle2 } from 'lucide-react';
-import bhoomiLogo from '../../assets/bhoomi.png';
+import bhoomiLogo from '../../assets/bhoomi_emblem.png';
 
 export const AppHeader: React.FC = () => {
   const agronomist = authStore.getCurrentAgronomist();
@@ -16,7 +16,7 @@ export const AppHeader: React.FC = () => {
           alt="BHOOMI Logo"
           className="h-10 w-10 rounded-xl object-contain shadow-xs border border-slate-100 bg-emerald-50/50 p-0.5"
           onError={(e) => {
-            (e.target as HTMLImageElement).src = '/bhoomi.png';
+            (e.target as HTMLImageElement).src = '/bhoomi_emblem.png';
           }}
         />
         <div>
