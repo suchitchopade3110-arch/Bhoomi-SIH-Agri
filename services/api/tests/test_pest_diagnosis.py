@@ -219,3 +219,53 @@ async def test_pest_below_confidence_gate_uses_pest_threshold():
     finally:
         adapter.set_label(original_label)
         adapter.set_confidence(original_confidence)
+
+
+@pytest.mark.asyncio(loop_scope="session")
+async def test_problem_target_type_persistence_disease_and_pest():
+    """Confirms target_type="disease" and target_type="pest" are persisted to Problem rows."""
+    from app.db.session import AsyncSessionLocal
+    from app.repositories.health_context_postgres import PostgresProblemLoadReader
+    from app.repositories.health_context import OpenProblemRecord
+    from app.core.enums import ProblemSeverity
+    from app.models.problem import Problem
+
+    async with AsyncSessionLocal() as session:
+        reader = PostgresProblemLoadReader(session)
+        farm_id = f"test-farm-{uuid.uuid4().hex[:8]}"
+
+        # Disease problem
+        p1_id = f"prob-{uuid.uuid4().hex[:8]}"
+        await reader.add_open_problem(
+            farm_id,
+            OpenProblemRecord(problem_id=p1_id, severity=ProblemSeverity.EARLY, label="bacterial_leaf_blight", target_type="disease")
+        )
+
+        # Pest problem
+        p2_id = f"prob-{uuid.uuid4().hex[:8]}"
+        await reader.add_open_problem(
+            farm_id,
+            OpenProblemRecord(problem_id=p2_id, severity=ProblemSeverity.EARLY, label="stem_borer", target_type="pest")
+        )
+
+        # Legacy problem (NULL target_type)
+        p3_id = f"prob-{uuid.uuid4().hex[:8]}"
+        row_legacy = Problem(
+            id=p3_id,
+            farm_id=farm_id,
+            label="legacy_disease",
+            severity=ProblemSeverity.EARLY.value,
+            status="open",
+            target_type=None,
+        )
+        session.add(row_legacy)
+        await session.commit()
+
+        # Read back open problems
+        open_problems = await reader.get_open_problems(farm_id)
+        prob_map = {p.problem_id: p for p in open_problems}
+
+        assert prob_map[p1_id].target_type == "disease"
+        assert prob_map[p2_id].target_type == "pest"
+        assert prob_map[p3_id].target_type is None
+

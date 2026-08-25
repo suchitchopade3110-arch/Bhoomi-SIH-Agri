@@ -245,7 +245,7 @@ class DiagnosisService:
             )
 
         problem_id = str(uuid4())
-        before, after = await self._register_problem_and_recompute(farm_id, problem_id, label)
+        before, after = await self._register_problem_and_recompute(farm_id, problem_id, label, target_type=target_type)
 
         return DiagnoseOutcome(
             above_gate=True,
@@ -269,7 +269,7 @@ class DiagnosisService:
 
 
     async def _register_problem_and_recompute(
-        self, farm_id: str, problem_id: str, label: str
+        self, farm_id: str, problem_id: str, label: str, target_type: str = "disease"
     ) -> tuple[int | None, int | None]:
         """Register the new problem with the health engine and recompute,
         returning ``(score_before, score_after)`` for ``health_delta``."""
@@ -277,7 +277,10 @@ class DiagnosisService:
         before_score = before_snapshot.score
 
         await self._problem_writer.add_open_problem(
-            farm_id, OpenProblemRecord(problem_id=problem_id, severity=INITIAL_PROBLEM_SEVERITY, label=label)
+            farm_id,
+            OpenProblemRecord(
+                problem_id=problem_id, severity=INITIAL_PROBLEM_SEVERITY, label=label, target_type=target_type
+            ),
         )
 
         farm = await self._farms.get_by_id(farm_id)
