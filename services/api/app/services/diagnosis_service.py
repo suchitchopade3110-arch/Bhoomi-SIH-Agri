@@ -189,7 +189,7 @@ class DiagnosisService:
         """
         is_pest = target_type == "pest"
         confidence_gate = self._settings.PEST_CONFIDENCE_GATE if is_pest else self._settings.CONFIDENCE_GATE
-        supported_labels = SUPPORTED_LABELS["pest"] if is_pest else SUPPORTED_DIAGNOSIS_LABELS
+        supported_labels = SUPPORTED_LABELS["pest"] if is_pest else SUPPORTED_LABELS["disease"]
 
         label, confidence, _meta = await self._image_port.diagnose_crop_image(image_asset_id)
         in_scope = label in supported_labels

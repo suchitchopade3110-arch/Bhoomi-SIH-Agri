@@ -30,6 +30,9 @@ class _FakeProblemWriter:
     async def resolve_problem(self, problem_id: str):
         pass
 
+    async def get_open_problems(self, farm_id: str):
+        return []
+
 
 FARM_ID = "farm_pdf_001"
 CASE_ID = "case_pdf_999"
