@@ -1,6 +1,6 @@
 [build-system]
 requires = ["setuptools>=68", "wheel"]
-build-backend = "setuptools.backends.legacy:build"
+build-backend = "setuptools.build_meta"
 
 [project]
 name = "bhoomi-api"
@@ -20,6 +20,7 @@ dependencies = [
     "python-multipart>=0.0.9",
     "httpx>=0.27.0",
     "pgvector>=0.2.5",
+    "numpy>=2.4.6",
 ]
 
 [project.optional-dependencies]
@@ -35,6 +36,7 @@ testpaths = ["tests"]
 python_files = ["test_*.py"]
 python_classes = ["Test*"]
 python_functions = ["test_*"]
+pythonpath = ["."]
 
 [tool.setuptools.packages.find]
 where = ["."]

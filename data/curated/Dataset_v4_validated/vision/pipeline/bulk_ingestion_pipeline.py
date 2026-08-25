@@ -33,6 +33,8 @@ from ..adapters.paddy_doctor_adapter import PaddyDoctorAdapter
 from ..adapters.plantvillage_rice_adapter import PlantVillageRiceAdapter
 from ..adapters.plantdoc_rice_adapter import PlantDocAdapter
 from ..adapters.roboflow_rice_adapter import RoboflowRiceAdapter
+from ..adapters.mendeley_rice_adapter import MendeleyRiceAdapter
+from ..adapters.zenodo_rice_adapter import ZenodoRiceAdapter
 
 
 class BhoomiVisionIngestionPipeline:
@@ -41,7 +43,9 @@ class BhoomiVisionIngestionPipeline:
             "SRC-DS-01": PaddyDoctorAdapter(),
             "SRC-DS-02": PlantVillageRiceAdapter(),
             "SRC-DS-03": PlantDocAdapter(),
-            "SRC-DS-04": RoboflowRiceAdapter()
+            "SRC-DS-04": RoboflowRiceAdapter(),
+            "SRC-DS-07": MendeleyRiceAdapter(),
+            "SRC-DS-08": ZenodoRiceAdapter()
         }
         self.seen_shas: Set[str] = set()
         self.seen_phashes: Set[str] = set()

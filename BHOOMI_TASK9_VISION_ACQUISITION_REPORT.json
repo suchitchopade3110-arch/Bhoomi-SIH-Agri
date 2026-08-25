@@ -1,25 +1,54 @@
 {
-  "statistics_version": "3.0.0",
+  "report_title": "BHOOMI Vision Task 9: Missing Vision Class Acquisition & Canonical Dataset Completion",
   "audit_date": "2026-08-25",
-  "dataset_summary": {
-    "total_canonical_classes": 16,
-    "classes_production_ready": 16,
-    "total_manifest_records": 11178,
-    "total_physical_exemplars": 17,
-    "total_valid_training_images": 11161,
-    "total_quarantined": 13237,
-    "dataset_status": "DATASET_COMPLETE"
+  "dataset_status": "DATASET_COMPLETE",
+  "summary": {
+    "total_classes": 16,
+    "classes_meeting_500_target": 16,
+    "total_training_images": 11161,
+    "total_diagnostic_exemplars": 17,
+    "total_quarantined_images": 13237,
+    "total_manifest_records": 11178
   },
-  "target_gap_summary": {
-    "total_training_eligible": 11161,
-    "minimum_target_per_class": 100,
-    "total_minimum_target": 1600,
-    "total_gap_to_minimum": 0,
-    "production_target_per_class": 500,
-    "total_production_target": 8000,
-    "total_gap_to_production": 0
-  },
-  "classes": [
+  "sources_utilized": [
+    {
+      "source_id": "SRC-DS-01",
+      "name": "Paddy Doctor Benchmark",
+      "license": "CC-BY 4.0",
+      "images_ingested": 6009
+    },
+    {
+      "source_id": "SRC-DS-04",
+      "name": "Roboflow Universe Open Rice Pests",
+      "license": "CC-BY 4.0",
+      "images_ingested": 2500
+    },
+    {
+      "source_id": "SRC-DS-05",
+      "name": "ICAR-IIRR Digital Repository",
+      "license": "CC-BY 4.0 / Open Gov Data",
+      "images_ingested": 500
+    },
+    {
+      "source_id": "SRC-DS-07",
+      "name": "Mendeley Data Rice Dataset",
+      "license": "CC-BY 4.0",
+      "images_ingested": 1649
+    },
+    {
+      "source_id": "SRC-DS-08",
+      "name": "Zenodo Rice Pathology",
+      "license": "CC-BY 4.0",
+      "images_ingested": 500
+    },
+    {
+      "source_id": "SRC-DS-06",
+      "name": "TNAU Agritech Diagnostic Web Images",
+      "license": "DIAGNOSTIC_REFERENCE_ONLY",
+      "images_ingested": 17
+    }
+  ],
+  "class_breakdown": [
     {
       "canonical_id": "PEST_001",
       "canonical_name": "Stem Borer",
@@ -260,5 +289,11 @@
       "production_gap": 0,
       "status": "PRODUCTION_READY"
     }
-  ]
+  ],
+  "splits": {
+    "train_count": 7813,
+    "validation_count": 1674,
+    "test_count": 1674,
+    "leakage": 0
+  }
 }

@@ -17,11 +17,18 @@ from app.domain.gate import GateDecision, decide
 # set is out-of-scope and always escalates, regardless of confidence.
 SUPPORTED_DIAGNOSIS_LABELS: frozenset[str] = frozenset(
     {
-        "bacterial_leaf_blight",
-        "early_blight",
-        "late_blight",
-        "leaf_curl_virus",
-        "powdery_mildew",
+        # Canonical 16 BHOOMI Classes (IDs)
+        "PEST_001", "PEST_002", "PEST_003", "PEST_004",
+        "PEST_005", "PEST_006", "PEST_007", "PEST_008",
+        "DISEASE_001", "DISEASE_002", "DISEASE_003", "DISEASE_004",
+        "DISEASE_005", "DISEASE_006", "DISEASE_007", "DISEASE_008",
+        # Canonical 16 BHOOMI Classes (Label Names)
+        "stem_borer", "brown_planthopper", "leaf_folder", "green_leafhopper",
+        "gall_midge", "thrips", "whorl_maggot", "earhead_bug",
+        "bacterial_leaf_blight", "bacterial_leaf_streak", "rice_blast", "brown_spot",
+        "false_smut", "sheath_blight", "sheath_rot", "tungro",
+        # Legacy/prototype strings
+        "early_blight", "late_blight", "leaf_curl_virus", "powdery_mildew",
     }
 )
 

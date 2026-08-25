@@ -1,0 +1,147 @@
+{
+  "split_version": "2.0.0",
+  "random_seed": 42,
+  "split_ratio": {
+    "train": 0.7,
+    "validation": 0.15,
+    "test": 0.15
+  },
+  "summary": {
+    "total_canonical_training_images": 11161,
+    "train_count": 7813,
+    "validation_count": 1674,
+    "test_count": 1674,
+    "total_diagnostic_exemplars": 17,
+    "split_leakage_sha256": 0
+  },
+  "classes": {
+    "PEST_001": {
+      "name": "Stem Borer",
+      "status": "SPLIT_READY",
+      "total": 1420,
+      "train": 994,
+      "validation": 213,
+      "test": 213
+    },
+    "PEST_002": {
+      "name": "Brown Planthopper",
+      "status": "SPLIT_READY",
+      "total": 500,
+      "train": 350,
+      "validation": 75,
+      "test": 75
+    },
+    "PEST_003": {
+      "name": "Leaf Folder",
+      "status": "SPLIT_READY",
+      "total": 500,
+      "train": 350,
+      "validation": 75,
+      "test": 75
+    },
+    "PEST_004": {
+      "name": "Green Leafhopper",
+      "status": "SPLIT_READY",
+      "total": 500,
+      "train": 350,
+      "validation": 75,
+      "test": 75
+    },
+    "PEST_005": {
+      "name": "Gall Midge",
+      "status": "SPLIT_READY",
+      "total": 500,
+      "train": 350,
+      "validation": 75,
+      "test": 75
+    },
+    "PEST_006": {
+      "name": "Thrips",
+      "status": "SPLIT_READY",
+      "total": 500,
+      "train": 350,
+      "validation": 75,
+      "test": 75
+    },
+    "PEST_007": {
+      "name": "Whorl Maggot",
+      "status": "SPLIT_READY",
+      "total": 500,
+      "train": 350,
+      "validation": 75,
+      "test": 75
+    },
+    "PEST_008": {
+      "name": "Earhead Bug",
+      "status": "SPLIT_READY",
+      "total": 500,
+      "train": 350,
+      "validation": 75,
+      "test": 75
+    },
+    "DISEASE_001": {
+      "name": "Bacterial Leaf Blight",
+      "status": "SPLIT_READY",
+      "total": 501,
+      "train": 351,
+      "validation": 75,
+      "test": 75
+    },
+    "DISEASE_002": {
+      "name": "Bacterial Leaf Streak",
+      "status": "SPLIT_READY",
+      "total": 500,
+      "train": 350,
+      "validation": 75,
+      "test": 75
+    },
+    "DISEASE_003": {
+      "name": "Rice Blast",
+      "status": "SPLIT_READY",
+      "total": 1722,
+      "train": 1205,
+      "validation": 258,
+      "test": 259
+    },
+    "DISEASE_004": {
+      "name": "Brown Spot",
+      "status": "SPLIT_READY",
+      "total": 944,
+      "train": 661,
+      "validation": 142,
+      "test": 141
+    },
+    "DISEASE_005": {
+      "name": "False Smut",
+      "status": "SPLIT_READY",
+      "total": 500,
+      "train": 350,
+      "validation": 75,
+      "test": 75
+    },
+    "DISEASE_006": {
+      "name": "Sheath Blight",
+      "status": "SPLIT_READY",
+      "total": 500,
+      "train": 350,
+      "validation": 75,
+      "test": 75
+    },
+    "DISEASE_007": {
+      "name": "Sheath Rot",
+      "status": "SPLIT_READY",
+      "total": 500,
+      "train": 350,
+      "validation": 75,
+      "test": 75
+    },
+    "DISEASE_008": {
+      "name": "Tungro Virus",
+      "status": "SPLIT_READY",
+      "total": 1074,
+      "train": 752,
+      "validation": 161,
+      "test": 161
+    }
+  }
+}

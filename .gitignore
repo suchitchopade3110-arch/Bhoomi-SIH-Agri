@@ -79,3 +79,7 @@ dist/
 *~
 .DS_Store
 Thumbs.db
+
+# Vision Dataset Raw & Canonical Binary Stores
+data/curated/Dataset_v4_validated/vision/raw/
+data/curated/Dataset_v4_validated/vision/canonical/

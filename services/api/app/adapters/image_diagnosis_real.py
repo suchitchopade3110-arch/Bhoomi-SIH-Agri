@@ -24,16 +24,22 @@ REQUEST_TIMEOUT_SECONDS = 10.0
 
 
 class RealImageDiagnosisAdapter:
-    """Calls the ``services/ml`` image-diagnosis inference endpoint over HTTP."""
+    """Calls the ``services/ml`` image-diagnosis inference endpoint over HTTP or in-process VisionInferenceService."""
 
-    def __init__(self, ml_service_url: str) -> None:
-        self._base_url = ml_service_url.rstrip("/")
+    def __init__(self, ml_service_url: str = "in_process") -> None:
+        self._base_url = ml_service_url.rstrip("/") if ml_service_url else "in_process"
 
     async def diagnose_crop_image(
         self,
         image_asset_url_or_id: str,
         crop_hint: str | None = None,
     ) -> tuple[str, float, dict[str, Any]]:
+        if self._base_url == "in_process" or not self._base_url.startswith("http"):
+            from app.services.vision_inference_service import get_vision_inference_service
+            service = get_vision_inference_service()
+            res = service.predict(image_asset_url_or_id, crop_hint=crop_hint)
+            return res["canonical_id"], float(res["confidence"]), res
+
         async with httpx.AsyncClient(timeout=REQUEST_TIMEOUT_SECONDS) as client:
             response = await client.post(
                 f"{self._base_url}{DIAGNOSIS_ENDPOINT_PATH}",

@@ -1,0 +1,20 @@
+{
+  "model_name": "bhoomi-mobilenetv3-large-16cls",
+  "architecture": "MobileNetV3-Large",
+  "num_classes": 16,
+  "feature_dim": 128,
+  "classifier_head": "Linear(128, 16) + Softmax",
+  "training_framework": "PyTorch 2.2 / NumPy High-Performance Vectorized Engine",
+  "random_seed": 42,
+  "optimizer": {
+    "name": "AdamW",
+    "learning_rate": 0.001,
+    "weight_decay": 0.0001,
+    "lr_schedule": "CosineAnnealingLR"
+  },
+  "early_stopping": {
+    "monitor": "val_loss",
+    "patience": 5,
+    "min_delta": 0.001
+  }
+}
