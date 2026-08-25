@@ -15,7 +15,7 @@ dependencies:
   dio: ^5.4.3+1
   flutter_secure_storage: ^9.2.2
   connectivity_plus: ^6.0.3
-  record: ^5.1.2
+  record: ^7.1.1
   just_audio: ^0.9.36
   image_picker: ^1.1.2
 
