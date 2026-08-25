@@ -18,6 +18,8 @@ from app.ports.asr_tts import AsrTtsPort
 class SarvamAsrTtsAdapter:
     """ASR/TTS adapter using Sarvam AI REST APIs."""
 
+    provider_name = "sarvam"
+
     def __init__(
         self,
         api_key: str | None = None,

@@ -18,6 +18,8 @@ from app.ports.asr_tts import AsrTtsPort
 class BhashiniAsrTtsAdapter:
     """ASR/TTS adapter using Bhashini ULCA API."""
 
+    provider_name = "bhashini"
+
     def __init__(
         self,
         user_id: str | None = None,

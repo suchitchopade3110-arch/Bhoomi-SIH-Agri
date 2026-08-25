@@ -31,6 +31,8 @@ def _to_schema(outcome: AdvisoryQueryOutcome) -> AdvisoryQueryResponse:
         reason=outcome.reason,
         escalation_offered=outcome.escalation_offered,
         spoken_summary=outcome.spoken_summary,
+        provider=outcome.provider,
+        model=outcome.model,
     )
 
 

@@ -57,7 +57,22 @@ def get_roster_adapter() -> AgronomistRosterPort:
 
 @lru_cache
 def get_llm_adapter() -> LLMPort:
-    """Return LLMPort adapter based on settings."""
+    """Return LLMPort adapter based on ``LLM_PROVIDER``.
+
+    ``groq`` calls out to Groq's OpenAI-compatible API — see
+    ``adapters/groq_llm.py``; startup validation in ``core/config.py``
+    already refused to boot with a missing/mock/malformed key, so reaching
+    here with ``LLM_PROVIDER=groq`` means a real key is present.
+    """
+    settings = get_settings()
+    if settings.LLM_PROVIDER == "groq":
+        from app.adapters.groq_llm import GroqLLMAdapter
+
+        return GroqLLMAdapter(
+            api_key=settings.LLM_API_KEY,
+            base_url=settings.LLM_BASE_URL,
+            model=settings.LLM_MODEL,
+        )
     return StubLLMAdapter()
 
 
@@ -93,23 +108,36 @@ def get_image_diagnosis_adapter() -> ImageDiagnosisPort:
 
 @lru_cache
 def get_speech_adapter() -> AsrTtsPort:
-    """Return AsrTtsPort adapter based on ``ASR_PROVIDER`` / ``TTS_PROVIDER`` settings."""
+    """Return AsrTtsPort adapter based on ``ASR_PROVIDER`` / ``TTS_PROVIDER`` settings.
+
+    An explicit real-provider selection fails loudly here if its required
+    credentials are absent, rather than silently constructing an adapter
+    that would return canned fallback text on every call while still
+    claiming to be the real provider (see ``docs/`` voice provider audit).
+    """
     settings = get_settings()
     provider = getattr(settings, "ASR_PROVIDER", "stub").lower()
-    
+
     if provider == "bhashini":
+        if not settings.BHASHINI_API_KEY or not settings.BHASHINI_USER_ID:
+            raise RuntimeError(
+                "ASR_PROVIDER=bhashini but BHASHINI_API_KEY/BHASHINI_USER_ID are not set. "
+                "Set both credentials or set ASR_PROVIDER=stub."
+            )
         from app.adapters.bhashini_asr import BhashiniAsrTtsAdapter
         return BhashiniAsrTtsAdapter()
     elif provider == "sarvam":
+        if not settings.SARVAM_API_KEY:
+            raise RuntimeError(
+                "ASR_PROVIDER=sarvam but SARVAM_API_KEY is not set. "
+                "Set the credential or set ASR_PROVIDER=stub."
+            )
         from app.adapters.sarvam_asr import SarvamAsrTtsAdapter
         return SarvamAsrTtsAdapter()
-    elif provider == "whisper":
-        from app.adapters.whisper_asr import WhisperAsrAdapter
-        return WhisperAsrAdapter()
     elif getattr(settings, "TTS_PROVIDER", "stub").lower() == "gtts":
         from app.adapters.gtts_adapter import GttsAdapter
         return GttsAdapter()
-        
+
     return StubAsrTtsAdapter()
 
 
