@@ -1462,6 +1462,43 @@ class AppTranslations {
     }
   }
 
+  String get regionStepTitle => langCode.startsWith('ta') ? 'உங்கள் மாவட்டம் எது?' : langCode.startsWith('hi') ? 'आपका जिला कौन सा है?' : 'Select Your Region';
+  String get regionStepSub => langCode.startsWith('ta') ? 'வட்டார வேளாண் வானிலை' : langCode.startsWith('hi') ? 'स्थानीय कृषि मौसम' : 'Localized agro-climatic advisories';
+  String get regionVoicePrompt => langCode.startsWith('ta') ? 'மாவட்டத்தை பேச தட்டவும்' : langCode.startsWith('hi') ? 'जिला बोलने के लिए टैप करें' : 'Tap to speak your region';
+  String get selectRegionTitle => langCode.startsWith('ta') ? 'மாவட்டத்தைத் தேர்ந்தெடுக்கவும்' : langCode.startsWith('hi') ? 'जिला चुनें' : 'Select Region / District';
+
+  String regionName(String regionId) {
+    switch (regionId.toLowerCase()) {
+      case 'coimbatore':
+      case 'tn_coimbatore':
+        return langCode.startsWith('ta') ? 'கோயம்புத்தூர்' : langCode.startsWith('hi') ? 'कोयंबटूर' : 'Coimbatore';
+      case 'thanjavur':
+      case 'tn_thanjavur':
+        return langCode.startsWith('ta') ? 'தஞ்சாவூர்' : langCode.startsWith('hi') ? 'तंजावुर' : 'Thanjavur (Cauvery Delta)';
+      case 'madurai':
+      case 'tn_madurai':
+        return langCode.startsWith('ta') ? 'மதுரை' : langCode.startsWith('hi') ? 'मदुरै' : 'Madurai';
+      default:
+        return regionId.replaceAll('_', ' ');
+    }
+  }
+
+  String regionSubtitle(String regionId) {
+    switch (regionId.toLowerCase()) {
+      case 'coimbatore':
+      case 'tn_coimbatore':
+        return langCode.startsWith('ta') ? 'மேற்கு மண்டலம் - பருத்தி & மக்காச்சோளம்' : 'Western Agro-Zone';
+      case 'thanjavur':
+      case 'tn_thanjavur':
+        return langCode.startsWith('ta') ? 'காவிரி டெல்டா - சம்பா நெல்' : 'Cauvery Delta Basin';
+      case 'madurai':
+      case 'tn_madurai':
+        return langCode.startsWith('ta') ? 'தெற்கு மண்டலம்' : 'Southern Agro-Zone';
+      default:
+        return '';
+    }
+  }
+
   String formatAcres(double acres) {
     if (acres == 0.5) return '0.5 ${text('acres')}';
     if (acres == 1.0) return '1.0 ${text('acres')}';

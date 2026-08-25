@@ -13,7 +13,7 @@ building the full escalation subsystem. ``DEFAULT_ASSIGNED_AGRONOMIST`` is a
 fixed stand-in for real nearest-KVK routing.
 """
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Annotated
 from uuid import uuid4
 
@@ -23,7 +23,7 @@ from app.adapters.dependencies import get_image_diagnosis_adapter, get_llm_adapt
 from app.ports import AgronomistRosterPort, ImageDiagnosisPort, LLMPort
 from app.core.config import Settings, get_settings
 from app.core.enums import ProblemSeverity
-from app.domain.gate import decide
+from app.domain.gate import SUPPORTED_LABELS, decide
 from app.domain.health.inputs import TriggeringInput
 from app.domain.kvk_directory import DEFAULT_KVK_CENTER_ID
 from app.domain.rag import FivePointAdvisory, GroundedCitation, parse_advisory_output
@@ -31,6 +31,7 @@ from app.models.health_snapshot import HealthSnapshot
 from app.repositories.dependencies import get_case_repository, get_farm_repository, get_problem_writer
 from app.repositories.health_context import OpenProblemRecord, ProblemWriter
 from app.repositories.interfaces import CaseRepository, FarmRepository, RetrievedChunk
+from app.services.efficacy.tracking_service import EfficacyTrackingService, get_efficacy_tracking_service
 from app.services.gate_service import SUPPORTED_DIAGNOSIS_LABELS
 from app.services.health_service import HealthService, get_health_service
 from app.services.kvk_routing import route_to_next_available_agronomist
@@ -57,6 +58,38 @@ DIAGNOSIS_RESETS_DAYS_SINCE_LAST_SCAN = 0
 ESCALATE_SPOKEN_SUMMARY_FALLBACK = "I'm not sure — I've sent this to an expert."
 COMPOSED_SPOKEN_SUMMARY = "Here's what I found, with sources."
 
+# Fixed 2-item candidate pair stub pending Tharun's real multi-label top-k model output
+STUB_ALTERNATIVES_MAP: dict[str, list[str]] = {
+    "bacterial_leaf_blight": ["blast", "brown_spot"],
+    "blast": ["bacterial_leaf_blight", "sheath_blight"],
+    "brown_spot": ["bacterial_leaf_blight", "blast"],
+    "sheath_blight": ["blast", "brown_spot"],
+}
+
+# Same fixed-stub-pair fallback for pest, keyed on SUPPORTED_LABELS["pest"]
+# (app/domain/gate/constants.py) — checklist §3.4's documented fallback
+# applies equally to disease and pest; there is no reason the gate object
+# should be structurally incomplete for half of ``target_type``.
+STUB_PEST_ALTERNATIVES_MAP: dict[str, list[str]] = {
+    "stem_borer": ["gall_midge", "leaf_folder"],
+    "brown_planthopper": ["green_leafhopper", "whitefly"],
+    "gall_midge": ["stem_borer", "leaf_folder"],
+    "leaf_folder": ["stem_borer", "gall_midge"],
+    "green_leafhopper": ["brown_planthopper", "whitefly"],
+    "fall_armyworm": ["stem_borer", "leaf_folder"],
+    "whitefly": ["brown_planthopper", "green_leafhopper"],
+    "aphid": ["whitefly", "green_leafhopper"],
+}
+
+
+def _get_stub_alternatives(label: str | None, is_pest: bool = False) -> list[str]:
+    """Stubbed top-k candidate alternatives paired with image model (marked as _stub)."""
+    alt_map = STUB_PEST_ALTERNATIVES_MAP if is_pest else STUB_ALTERNATIVES_MAP
+    if label and label in alt_map:
+        return alt_map[label]
+    # _stub: true fixed 2-item fallback, same shape either target_type
+    return ["stem_borer", "brown_planthopper"] if is_pest else ["bacterial_leaf_blight", "blast"]
+
 
 @dataclass(frozen=True)
 class DiagnoseEscalation:
@@ -70,17 +103,22 @@ class DiagnoseOutcome:
     response shapes, never a mix."""
 
     above_gate: bool
-    problem_id: str | None
-    label: str | None
-    stage: str | None
-    confidence: float | None
-    advisory: FivePointAdvisory | None
-    citations: list[GroundedCitation]
-    health_delta_from: int | None
-    health_delta_to: int | None
-    reason: str | None
-    escalation: DiagnoseEscalation | None
-    spoken_summary: str
+    gate_confidence: float = 0.0
+    gate_threshold: float = 0.70
+    gate_reason_code: str | None = None
+    gate_alternatives: list[str] = field(default_factory=list)
+    problem_id: str | None = None
+    label: str | None = None
+    stage: str | None = None
+    confidence: float | None = None
+    target_type: str = "disease"
+    advisory: FivePointAdvisory | None = None
+    citations: list[GroundedCitation] = field(default_factory=list)
+    health_delta_from: int | None = None
+    health_delta_to: int | None = None
+    reason: str | None = None
+    escalation: DiagnoseEscalation | None = None
+    spoken_summary: str = ""
 
 
 def _chunk_to_dict(chunk: RetrievedChunk) -> dict:
@@ -107,6 +145,7 @@ class DiagnosisService:
         farm_repo: FarmRepository,
         settings: Settings,
         roster: AgronomistRosterPort,
+        efficacy_tracking: EfficacyTrackingService | None = None,
     ) -> None:
         self._image_port = image_port
         self._retrieval = retrieval
@@ -117,49 +156,71 @@ class DiagnosisService:
         self._farms = farm_repo
         self._settings = settings
         self._roster = roster
+        self._efficacy_tracking = efficacy_tracking
 
     async def diagnose(
         self,
         farm_id: str,
         image_asset_id: str,
         description_text: str | None = None,
+        target_type: str = "disease",
     ) -> DiagnoseOutcome:
         """Run the full gated diagnosis flow for one photo (+ optional text).
 
         Args:
             farm_id: UUID string of the farm.
-            image_asset_id: The uploaded disease photo's asset reference.
+            image_asset_id: The uploaded disease/pest photo's asset reference.
             description_text: Optional farmer-provided symptom text (from a
                 prior voice transcription or typed note) to enrich the
                 retrieval query.
+            target_type: ``"disease"`` (default) or ``"pest"`` — selects
+                which scope list and confidence gate apply (SIH26131 delta
+                spec §3.1). The image port itself isn't target-type-aware
+                (see module docstring); this only changes which threshold
+                and label set the same returned label is checked against.
 
         Returns:
             A ``DiagnoseOutcome``: either a composed, cited advisory with
-            its health_delta, or an honest escalation. Never both.
+            its health_delta, or an honest escalation. Never both. A pest
+            diagnosis composes only if the corpus has grounded pest content
+            for the identified label — today it doesn't (see README §9), so
+            an in-scope, above-gate pest diagnosis still honestly escalates
+            on ``NO_RELEVANT_SOURCE`` rather than fabricate pest advice.
         """
+        is_pest = target_type == "pest"
+        confidence_gate = self._settings.PEST_CONFIDENCE_GATE if is_pest else self._settings.CONFIDENCE_GATE
+        supported_labels = SUPPORTED_LABELS["pest"] if is_pest else SUPPORTED_DIAGNOSIS_LABELS
+
         label, confidence, _meta = await self._image_port.diagnose_crop_image(image_asset_id)
-        in_scope = label in SUPPORTED_DIAGNOSIS_LABELS
+        in_scope = label in supported_labels
 
         query = f"{label.replace('_', ' ')} {description_text or ''}".strip()
-        chunks = await self._retrieval.retrieve(query)
+        chunks = await self._retrieval.retrieve(query, content_type=target_type)
         top_relevance = RetrievalService.top_relevance(chunks)
 
         decision = decide(
             image_confidence=confidence,
             in_scope=in_scope,
             retrieval_relevance=top_relevance,
-            confidence_gate=self._settings.CONFIDENCE_GATE,
+            confidence_gate=confidence_gate,
             relevance_threshold=self._settings.RAG_RELEVANCE_THRESHOLD,
         )
+
+        alternatives = _get_stub_alternatives(label, is_pest=is_pest)
 
         if decision.should_escalate:
             escalation = await self._create_escalation(farm_id, decision.reason)
             return DiagnoseOutcome(
                 above_gate=False,
+                gate_confidence=confidence if confidence is not None else 0.0,
+                gate_threshold=confidence_gate,
+                gate_reason_code=decision.error_code,
+                gate_alternatives=alternatives,
                 problem_id=None,
                 label=None,
                 stage=None,
                 confidence=None,
+                target_type=target_type,
                 advisory=None,
                 citations=[],
                 health_delta_from=None,
@@ -182,10 +243,15 @@ class DiagnosisService:
             escalation = await self._create_escalation(farm_id, parsed.reason or "insufficient context")
             return DiagnoseOutcome(
                 above_gate=False,
+                gate_confidence=confidence if confidence is not None else 0.0,
+                gate_threshold=confidence_gate,
+                gate_reason_code="NO_RELEVANT_SOURCE",
+                gate_alternatives=alternatives,
                 problem_id=None,
                 label=None,
                 stage=None,
                 confidence=None,
+                target_type=target_type,
                 advisory=None,
                 citations=[],
                 health_delta_from=None,
@@ -196,14 +262,19 @@ class DiagnosisService:
             )
 
         problem_id = str(uuid4())
-        before, after = await self._register_problem_and_recompute(farm_id, problem_id, label)
+        before, after = await self._register_problem_and_recompute(farm_id, problem_id, label, target_type=target_type)
 
         return DiagnoseOutcome(
             above_gate=True,
+            gate_confidence=confidence if confidence is not None else 1.0,
+            gate_threshold=confidence_gate,
+            gate_reason_code=None,
+            gate_alternatives=alternatives,
             problem_id=problem_id,
             label=label,
             stage=INITIAL_PROBLEM_SEVERITY.value,
             confidence=confidence,
+            target_type=target_type,
             advisory=parsed.advisory,
             citations=parsed.citations,
             health_delta_from=before,
@@ -213,8 +284,9 @@ class DiagnosisService:
             spoken_summary=COMPOSED_SPOKEN_SUMMARY,
         )
 
+
     async def _register_problem_and_recompute(
-        self, farm_id: str, problem_id: str, label: str
+        self, farm_id: str, problem_id: str, label: str, target_type: str = "disease"
     ) -> tuple[int | None, int | None]:
         """Register the new problem with the health engine and recompute,
         returning ``(score_before, score_after)`` for ``health_delta``."""
@@ -222,10 +294,29 @@ class DiagnosisService:
         before_score = before_snapshot.score
 
         await self._problem_writer.add_open_problem(
-            farm_id, OpenProblemRecord(problem_id=problem_id, severity=INITIAL_PROBLEM_SEVERITY, label=label)
+            farm_id,
+            OpenProblemRecord(
+                problem_id=problem_id, severity=INITIAL_PROBLEM_SEVERITY, label=label, target_type=target_type
+            ),
         )
 
-        # Farm soil moisture and scan recency are monitored independently of diagnosis
+        farm = await self._farms.get_by_id(farm_id)
+        if farm is not None:
+            await self._farms.update(farm_id, {"days_since_last_scan": 2})
+            # SIH26131's simplified 3-field onboarding (crop/growth_stage/
+            # region) never sets `district` — fall back to `region` as the
+            # effective regional key for efficacy aggregation. Skip opening
+            # an application if the farm has neither (never write an empty
+            # region into treatment_applications.district).
+            region = farm.get("district") or farm.get("region")
+            if self._efficacy_tracking is not None and region:
+                await self._efficacy_tracking.open_for_diagnosis(
+                    problem_id=problem_id,
+                    farm_id=farm_id,
+                    label=label,
+                    crop=farm.get("primary_crop") or "",
+                    district=region,
+                )
 
         after_snapshot = await self._health.recompute(
             farm_id,
@@ -262,8 +353,18 @@ def get_diagnosis_service(
     farm_repo: Annotated[FarmRepository, Depends(get_farm_repository)],
     settings: Annotated[Settings, Depends(get_settings)],
     roster: Annotated[AgronomistRosterPort, Depends(get_roster_adapter)],
+    efficacy_tracking: Annotated[EfficacyTrackingService, Depends(get_efficacy_tracking_service)],
 ) -> DiagnosisService:
     """FastAPI dependency provider assembling ``DiagnosisService`` from its ports."""
     return DiagnosisService(
-        image_port, retrieval, llm_port, health_service, problem_writer, case_repo, farm_repo, settings, roster
+        image_port,
+        retrieval,
+        llm_port,
+        health_service,
+        problem_writer,
+        case_repo,
+        farm_repo,
+        settings,
+        roster,
+        efficacy_tracking,
     )

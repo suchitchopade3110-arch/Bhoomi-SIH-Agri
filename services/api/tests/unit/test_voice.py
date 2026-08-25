@@ -60,28 +60,61 @@ class TestIntentParser:
         assert result.value == "samba_paddy"
 
     @pytest.mark.asyncio
-    async def test_intent_parser_soil_type(self, parser: IntentParser):
-        """Tamil soil keyword: 'களிமண்' → soil_type = 'clay_loam'"""
-        result = await parser.parse("களிமண் நிலம்", "ta-IN", "onboarding")
-        assert result is not None
-        assert result.field == "soil_type"
-        assert result.value == "clay_loam"
+    async def test_intent_parser_region_extraction_tamil_script(self, parser: IntentParser):
+        """Tamil district keywords (Tamil script) → region extraction."""
+        # Test Erode ("ஈரோடு")
+        res1 = await parser.parse("ஈரோடு மாவட்டம்", "ta-IN", "onboarding")
+        assert res1 is not None
+        assert res1.field == "region"
+        assert res1.value == "Erode"
+
+        # Test Thanjavur ("தஞ்சாவூர்")
+        res2 = await parser.parse("தஞ்சாவூர்", "ta-IN", "onboarding")
+        assert res2 is not None
+        assert res2.field == "region"
+        assert res2.value == "Thanjavur"
+
+        # Test Madurai ("மதுரை")
+        res3 = await parser.parse("மதுரை பகுதி", "ta-IN", "onboarding")
+        assert res3 is not None
+        assert res3.field == "region"
+        assert res3.value == "Madurai"
 
     @pytest.mark.asyncio
-    async def test_intent_parser_followup_got_worse(self, parser: IntentParser):
-        """Tamil followup: 'மோசமாகிவிட்டது' → response = 'got_worse'"""
-        result = await parser.parse("மோசமாகிவிட்டது", "ta-IN", "followup")
-        assert result is not None
-        assert result.field == "followup_response"
-        assert result.value == "got_worse"
+    async def test_intent_parser_region_extraction_romanized(self, parser: IntentParser):
+        """Romanized district keywords → region extraction."""
+        # Test Erode ("erode")
+        res1 = await parser.parse("my farm is in erode district", "ta-IN", "onboarding")
+        assert res1 is not None
+        assert res1.field == "region"
+        assert res1.value == "Erode"
+
+        # Test Salem ("salem")
+        res2 = await parser.parse("salem", "ta-IN", "onboarding")
+        assert res2 is not None
+        assert res2.field == "region"
+        assert res2.value == "Salem"
+
+        # Test Coimbatore ("coimbatore")
+        res3 = await parser.parse("coimbatore region", "ta-IN", "onboarding")
+        assert res3 is not None
+        assert res3.field == "region"
+        assert res3.value == "Coimbatore"
 
     @pytest.mark.asyncio
-    async def test_intent_parser_followup_improved(self, parser: IntentParser):
-        """Tamil followup: 'சரியாகிவிட்டது' → response = 'improved'"""
-        result = await parser.parse("சரியாகிவிட்டது", "ta-IN", "followup")
-        assert result is not None
-        assert result.field == "followup_response"
-        assert result.value == "improved"
+    async def test_intent_parser_removed_fields_not_extracted(self, parser: IntentParser):
+        """Removed fields (soil_type, irrigation, season) no longer parse as onboarding fields."""
+        # Soil keyword (formerly soil_type)
+        res_soil = await parser.parse("களிமண் நிலம்", "ta-IN", "onboarding")
+        assert res_soil is None
+
+        # Irrigation keyword (formerly irrigation)
+        res_irr = await parser.parse("கால்வாய் பாசனம்", "ta-IN", "onboarding")
+        assert res_irr is None
+
+        # Season keyword (formerly season)
+        res_season = await parser.parse("நவராய் பருவம்", "ta-IN", "onboarding")
+        assert res_season is None
 
     @pytest.mark.asyncio
     async def test_diagnosis_context_returns_none(self, parser: IntentParser):
@@ -136,6 +169,15 @@ class TestConfirmationService:
         readback = confirmation.generate_readback_text(intent)
         assert "சம்பா நெல்" in readback
         assert "சரிதானா" in readback
+
+    def test_readback_region(self, confirmation: ConfirmationService):
+        """Region readback contains district name and confirmation question"""
+        intent = ParsedIntent(field="region", value="Erode", raw_text="ஈரோடு")
+        readback = confirmation.generate_readback_text(intent)
+        assert "Erode" in readback
+        assert "மாவட்டம்" in readback
+        assert "சரிதானா" in readback
+        assert confirmation.needs_confirmation(intent, confidence=0.95) is True
 
 
 # ---------------------------------------------------------------------------

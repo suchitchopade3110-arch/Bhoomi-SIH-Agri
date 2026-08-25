@@ -7,6 +7,7 @@ from fastapi import APIRouter, Depends
 from app.core.security import get_current_token_payload
 from app.schemas.advisory import Citation, FivePointAdvisory
 from app.schemas.diagnosis import DiagnoseRequest, DiagnoseResponse, DiagnosisResult, EscalationRef, HealthDelta
+from app.schemas.gate import GateObject
 from app.services.diagnosis_service import DiagnoseOutcome, DiagnosisService, get_diagnosis_service
 
 router = APIRouter(prefix="/farms", tags=["Diagnosis & Advisory"])
@@ -14,9 +15,18 @@ router = APIRouter(prefix="/farms", tags=["Diagnosis & Advisory"])
 
 def _to_schema(outcome: DiagnoseOutcome) -> DiagnoseResponse:
     diagnosis = (
-        DiagnosisResult(label=outcome.label, stage=outcome.stage, confidence=outcome.confidence)
+        DiagnosisResult(
+            label=outcome.label, stage=outcome.stage, confidence=outcome.confidence, target_type=outcome.target_type
+        )
         if outcome.above_gate
         else None
+    )
+    gate = GateObject(
+        above_gate=outcome.above_gate,
+        confidence=outcome.gate_confidence,
+        threshold=outcome.gate_threshold,
+        reason_code=outcome.gate_reason_code,
+        alternatives=outcome.gate_alternatives,
     )
     advisory = (
         FivePointAdvisory(
@@ -40,6 +50,7 @@ def _to_schema(outcome: DiagnoseOutcome) -> DiagnoseResponse:
     )
     return DiagnoseResponse(
         above_gate=outcome.above_gate,
+        gate=gate,
         problem_id=outcome.problem_id,
         diagnosis=diagnosis,
         advisory=advisory,
@@ -64,7 +75,12 @@ async def diagnose(
 ) -> DiagnoseResponse:
     """PRD §5.6, §5.7 / contract §2.10. Combines the image model's
     confidence with RAG retrieval relevance in the confidence gate — below
-    either threshold, or an out-of-scope crop/disease, always escalates
-    instead of composing advice the model isn't sure of."""
-    outcome = await service.diagnose(farm_id, request.image_asset_id, request.description_text)
+    either threshold, or an out-of-scope crop/disease/pest, always escalates
+    instead of composing advice the model isn't sure of. ``target_type``
+    (SIH26131 delta spec §3.1) selects the disease or pest scope list and
+    confidence gate; ``pest_type_hint`` only enriches the retrieval query."""
+    description = " ".join(filter(None, [request.description_text, request.pest_type_hint]))
+    outcome = await service.diagnose(
+        farm_id, request.image_asset_id, description or None, target_type=request.target_type
+    )
     return _to_schema(outcome)

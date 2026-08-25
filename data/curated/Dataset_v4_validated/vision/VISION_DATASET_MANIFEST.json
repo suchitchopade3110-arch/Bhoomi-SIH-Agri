@@ -1,0 +1,60 @@
+{
+  "manifest_version": "1.0.0",
+  "dataset_name": "BHOOMI Agricultural Diagnostic Vision Dataset (Dataset v4)",
+  "creation_date": "2026-08-24",
+  "authority_standard": "TNAU Agritech / ICAR-IIRR / IRRI Standard",
+  "classes": [
+    {"canonical_id": "PEST_001", "canonical_name": "Stem borer", "entity_type": "pest", "images_count": 3, "valid_count": 3, "status": "EXEMPLARS_AVAILABLE"},
+    {"canonical_id": "PEST_002", "canonical_name": "Brown planthopper", "entity_type": "pest", "images_count": 3, "valid_count": 3, "status": "EXEMPLARS_AVAILABLE"},
+    {"canonical_id": "PEST_003", "canonical_name": "Leaf folder", "entity_type": "pest", "images_count": 3, "valid_count": 3, "status": "EXEMPLARS_AVAILABLE"},
+    {"canonical_id": "PEST_004", "canonical_name": "Green leafhopper", "entity_type": "pest", "images_count": 2, "valid_count": 2, "status": "EXEMPLARS_AVAILABLE"},
+    {"canonical_id": "PEST_005", "canonical_name": "Gall midge", "entity_type": "pest", "images_count": 2, "valid_count": 2, "status": "EXEMPLARS_AVAILABLE"},
+    {"canonical_id": "PEST_006", "canonical_name": "Thrips", "entity_type": "pest", "images_count": 2, "valid_count": 2, "status": "EXEMPLARS_AVAILABLE"},
+    {"canonical_id": "PEST_007", "canonical_name": "Whorl maggot", "entity_type": "pest", "images_count": 0, "valid_count": 0, "status": "ZERO_IMAGE_CLASS"},
+    {"canonical_id": "PEST_008", "canonical_name": "Earhead bug", "entity_type": "pest", "images_count": 2, "valid_count": 2, "status": "EXEMPLARS_AVAILABLE"},
+    {"canonical_id": "DISEASE_001", "canonical_name": "Bacterial Leaf Blight", "entity_type": "disease", "images_count": 0, "valid_count": 0, "status": "ZERO_IMAGE_CLASS"},
+    {"canonical_id": "DISEASE_002", "canonical_name": "Bacterial Leaf Streak", "entity_type": "disease", "images_count": 0, "valid_count": 0, "status": "ZERO_IMAGE_CLASS"},
+    {"canonical_id": "DISEASE_003", "canonical_name": "Rice Blast", "entity_type": "disease", "images_count": 0, "valid_count": 0, "status": "ZERO_IMAGE_CLASS"},
+    {"canonical_id": "DISEASE_004", "canonical_name": "Brown Spot", "entity_type": "disease", "images_count": 0, "valid_count": 0, "status": "ZERO_IMAGE_CLASS"},
+    {"canonical_id": "DISEASE_005", "canonical_name": "False Smut", "entity_type": "disease", "images_count": 0, "valid_count": 0, "status": "ZERO_IMAGE_CLASS"},
+    {"canonical_id": "DISEASE_006", "canonical_name": "Sheath Blight", "entity_type": "disease", "images_count": 0, "valid_count": 0, "status": "ZERO_IMAGE_CLASS"},
+    {"canonical_id": "DISEASE_007", "canonical_name": "Sheath Rot", "entity_type": "disease", "images_count": 0, "valid_count": 0, "status": "ZERO_IMAGE_CLASS"},
+    {"canonical_id": "DISEASE_008", "canonical_name": "Tungro Virus", "entity_type": "disease", "images_count": 0, "valid_count": 0, "status": "ZERO_IMAGE_CLASS"}
+  ],
+  "image_summary": {
+    "total_metadata_references": 21,
+    "real_files_on_disk": 17,
+    "valid_diagnostic_exemplars": 17,
+    "missing_image_files": 4,
+    "corrupt_files": 0,
+    "duplicate_files": 0
+  },
+  "provenance_summary": {
+    "VERIFIED_SOURCE": 17,
+    "PARTIAL_PROVENANCE": 4,
+    "UNKNOWN_SOURCE": 0
+  },
+  "license_summary": {
+    "LICENSE_VERIFIED": 0,
+    "LICENSE_UNKNOWN": 21,
+    "LICENSE_RESTRICTED": 0,
+    "TRAINING_USE_BLOCKED": 17
+  },
+  "split_summary": {
+    "train_count": 0,
+    "validation_count": 0,
+    "test_count": 0,
+    "diagnostic_reference_only": 17,
+    "missing_data": 4,
+    "split_status": "SPLITS_CANNOT_BE_FORMED_INSUFFICIENT_DATA"
+  },
+  "quality_summary": {
+    "DIAGNOSTIC_FIELD_IMAGE": 17,
+    "NON_DIAGNOSTIC_IMAGE": 0,
+    "REJECTED_ZERO_BYTE_OR_CORRUPT": 0
+  },
+  "rag_vision_pipeline_interface": {
+    "status": "INTERFACE_ESTABLISHED_AND_COMPATIBLE",
+    "flow": "IMAGE_INPUT -> CANONICAL_ID (PEST_001..008 / DISEASE_001..008) -> CONFIDENCE_GATE (>=0.70) -> SEVERITY_INDEX (Early/Mod/Sev) -> ETL_LAYER -> RAG_RETRIEVAL -> SAFETY_GATE -> ADVISORY_CONTRACT"
+  }
+}

@@ -20,8 +20,11 @@ async def test_ingest_writes_at_least_one_chunk_per_document():
 
 
 @pytest.mark.asyncio
-async def test_ingest_seed_corpus_size_is_in_the_15_to_20_doc_range():
-    assert 15 <= len(CORPUS_DOCS) <= 20
+async def test_ingest_seed_corpus_size_is_in_the_15_to_30_doc_range():
+    # 17 disease/agronomy docs (BLB-centered seed slice) + 8 pest docs
+    # (non-chemical content only — see corpus_data.py's pest-entries
+    # docstring for why chemical-control content is deliberately excluded).
+    assert 15 <= len(CORPUS_DOCS) <= 30
 
 
 @pytest.mark.asyncio

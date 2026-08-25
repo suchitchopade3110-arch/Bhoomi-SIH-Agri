@@ -3,6 +3,8 @@
 from sqlalchemy import delete, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.domain.rag.constants import DISEASE_DOC_ID_PREFIX, PEST_DOC_ID_PREFIX
+from app.domain.rag.scoping import get_target_type_prefix
 from app.models.knowledge_chunk import KnowledgeChunk
 from app.repositories.interfaces import RetrievedChunk
 
@@ -40,16 +42,31 @@ class KnowledgeChunkRepository:
     async def commit(self) -> None:
         await self._session.commit()
 
-    async def similarity_search(self, query_embedding: list[float], top_k: int) -> list[RetrievedChunk]:
+    async def similarity_search(
+        self, query_embedding: list[float], top_k: int, content_type: str | None = None
+    ) -> list[RetrievedChunk]:
         """Top-``k`` chunks by cosine similarity to ``query_embedding``, highest first.
 
         pgvector's ``cosine_distance`` is ``1 - cosine_similarity`` for
         normalized vectors; we convert back to a similarity score in
         ``[0.0, 1.0]`` so callers (the confidence gate) work with the same
         "higher is more relevant" convention everywhere.
+
+        ``content_type``: ``"pest"`` restricts to pest corpus docs
+        (``doc_id`` starting with ``PEST_DOC_ID_PREFIX``); ``"disease"``
+        excludes them; ``None`` (default) searches the whole corpus.
         """
         distance = KnowledgeChunk.embedding.cosine_distance(query_embedding)
-        stmt = select(KnowledgeChunk, distance.label("distance")).order_by(distance).limit(top_k)
+        stmt = select(KnowledgeChunk, distance.label("distance"))
+        prefix = get_target_type_prefix(content_type)
+        if content_type == "pest":
+            stmt = stmt.where(KnowledgeChunk.doc_id.startswith(prefix or PEST_DOC_ID_PREFIX))
+        elif content_type == "disease":
+            stmt = stmt.where(
+                KnowledgeChunk.doc_id.startswith(DISEASE_DOC_ID_PREFIX)
+                | ~KnowledgeChunk.doc_id.startswith(PEST_DOC_ID_PREFIX)
+            )
+        stmt = stmt.order_by(distance).limit(top_k)
         result = await self._session.execute(stmt)
 
         return [

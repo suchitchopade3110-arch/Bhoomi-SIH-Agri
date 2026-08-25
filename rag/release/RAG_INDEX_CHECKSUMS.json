@@ -1,0 +1,8 @@
+{
+  "evidence_objects_v4_2_0_validated.json": "98a9bc1d8ab4569182e182fa50e8dcefacbddf14db38d65386fd860d3c731fd2",
+  "evidence_objects_v4_3_0_candidate.json": "6f788ca1cdf62fef9175c91c8785f7fdefae37b82930bc959f8ee56e40024500",
+  "semantic_chunks_v4_2_0_validated.json": "d1759fab809b3f07e61e80b19915e335f53ef4651f40e805a2cab720e679914c",
+  "semantic_chunks_v4_3_0_candidate.json": "d567daa6410844b961cf9cc14625056a9a74aa25710e99ebf77f0f2b49cc5441",
+  "vector_index_v4_2_0_validated.json": "9f47a35aeb59b071677bbfd1e3362d31ce19f18540fb0e84ada6d0b195919a92",
+  "vector_index_v4_3_0_candidate.json": "150eb7f785257c9b46ee47fef18153fb1afe70b1373af7bc57a84c2883686f95"
+}

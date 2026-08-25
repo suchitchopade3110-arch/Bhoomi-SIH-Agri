@@ -98,6 +98,31 @@ class AlertRepository(Protocol):
     async def dismiss(self, alert_id: str, farm_id: str, reason: str, as_of: datetime) -> dict[str, Any] | None: ...
 
 
+class TreatmentApplicationRepository(Protocol):
+    """Backs Treatment Efficacy Tracking (SPEC-EFFICACY-001).
+
+    Writers open one application per (problem, treatment) and close it as
+    the followup lifecycle resolves it (spec §3.3); the aggregation reader
+    lists every application matching one (pathogen, treatment, crop,
+    district) combination for ``domain.efficacy.score.compute_efficacy`` to
+    reduce over — filtering by window is the pure function's job, not the
+    repository's, so the same rows always produce the same result
+    regardless of which window a caller asks for.
+    """
+
+    async def open_application(self, application: dict[str, Any]) -> dict[str, Any]: ...
+
+    async def get_latest_open_for_problem(self, problem_id: str) -> dict[str, Any] | None: ...
+
+    async def close_application(self, application_id: str, updates: dict[str, Any]) -> dict[str, Any] | None: ...
+
+    async def increment_followups(self, application_id: str) -> dict[str, Any] | None: ...
+
+    async def list_for_aggregation(
+        self, pathogen_type: str, treatment_name: str, crop: str, district: str
+    ) -> list[dict[str, Any]]: ...
+
+
 @dataclass(frozen=True)
 class RetrievedChunk:
     """One corpus chunk returned by similarity search, with its score.
@@ -117,4 +142,6 @@ class RetrievedChunk:
 class KnowledgeChunkReader(Protocol):
     """Read-only similarity search over the curated RAG corpus (PRD §5.7)."""
 
-    async def similarity_search(self, query_embedding: list[float], top_k: int) -> list[RetrievedChunk]: ...
+    async def similarity_search(
+        self, query_embedding: list[float], top_k: int, content_type: str | None = None
+    ) -> list[RetrievedChunk]: ...

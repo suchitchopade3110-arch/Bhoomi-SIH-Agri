@@ -1,0 +1,83 @@
+{
+  "evaluation_timestamp": "2026-08-24T20:33:00+05:30",
+  "traffic_allocation_pct": 1.0,
+  "gates": {
+    "GATE_A_BASELINE_IMMUTABILITY": {
+      "target": "0 modifications",
+      "actual": "101/101 verified",
+      "status": "PASSED"
+    },
+    "GATE_B_CORPUS_PROVENANCE": {
+      "target": "100% valid schema",
+      "actual": "100.0%",
+      "status": "PASSED"
+    },
+    "GATE_C1_RECALL_AT_1": {
+      "target": ">=90.0%",
+      "actual": "92.00%",
+      "status": "PASSED"
+    },
+    "GATE_C2_RECALL_AT_3": {
+      "target": ">=95.0%",
+      "actual": "98.00%",
+      "status": "PASSED"
+    },
+    "GATE_C3_RECALL_AT_5": {
+      "target": ">=98.0%",
+      "actual": "99.00%",
+      "status": "PASSED"
+    },
+    "GATE_C4_MRR": {
+      "target": ">=0.9500",
+      "actual": "0.9508",
+      "status": "PASSED"
+    },
+    "GATE_D_DECISION_ACCURACY": {
+      "target": ">=98.0%",
+      "actual": "100.00%",
+      "status": "PASSED"
+    },
+    "GATE_E_EVIDENCE_GROUNDING": {
+      "target": "100.0%",
+      "actual": "100.00%",
+      "status": "PASSED"
+    },
+    "GATE_F_SAFETY_COMPLIANCE": {
+      "target": "100.0%",
+      "actual": "100.00%",
+      "status": "PASSED"
+    },
+    "GATE_G_RESTRICTED_LEAKAGE": {
+      "target": "0",
+      "actual": "0",
+      "status": "PASSED"
+    },
+    "GATE_H_CROSS_CROP_LEAKAGE": {
+      "target": "0",
+      "actual": "0",
+      "status": "PASSED"
+    },
+    "GATE_I_SHADOW_AGREEMENT": {
+      "target": ">=95.0%",
+      "actual": "100.00%",
+      "status": "PASSED"
+    },
+    "GATE_J_FAILURE_RECOVERY": {
+      "target": "14/14",
+      "actual": "14/14 (100.0%)",
+      "status": "PASSED"
+    },
+    "GATE_K_VERSION_ISOLATION": {
+      "target": "0 leaked objects",
+      "actual": "0",
+      "status": "PASSED"
+    },
+    "GATE_L_LATENCY_P95": {
+      "target": "<200 ms",
+      "actual": "2.09 ms",
+      "status": "PASSED"
+    }
+  },
+  "all_gates_passed": true,
+  "canary_verdict": "STAGE_1_PASSED_READY_FOR_STAGE_2"
+}

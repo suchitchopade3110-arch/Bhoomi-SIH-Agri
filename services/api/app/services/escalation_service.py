@@ -66,10 +66,13 @@ class EscalationService:
 
         farm_info = {
             "id": farm_id,
-            "farmer_name": farm.get("farm_name", "Unknown"),
-            "village": farm.get("village", ""),
-            "district": farm.get("district", ""),
-            "primary_crop": farm.get("primary_crop", ""),
+            # SIH26131's simplified onboarding leaves farm_name/village/
+            # district NULL (not absent) — dict.get's default only fires on
+            # a missing key, so `or` is required here to actually catch None.
+            "farmer_name": farm.get("farm_name") or "Unknown",
+            "village": farm.get("village") or "",
+            "district": farm.get("district") or farm.get("region") or "",
+            "primary_crop": farm.get("primary_crop") or "",
             "growth_stage": farm.get("growth_stage"),
             "land_status": farm.get("land_status"),
         }
@@ -121,10 +124,10 @@ class EscalationService:
         farm = await self._farms.get_by_id(case["farm_id"])
         farm_info = {
             "id": case["farm_id"],
-            "farmer_name": (farm or {}).get("farm_name", "Unknown"),
-            "village": (farm or {}).get("village", ""),
-            "district": (farm or {}).get("district", ""),
-            "primary_crop": (farm or {}).get("primary_crop", ""),
+            "farmer_name": (farm or {}).get("farm_name") or "Unknown",
+            "village": (farm or {}).get("village") or "",
+            "district": (farm or {}).get("district") or (farm or {}).get("region") or "",
+            "primary_crop": (farm or {}).get("primary_crop") or "",
             "growth_stage": (farm or {}).get("growth_stage"),
             "land_status": (farm or {}).get("land_status"),
         }

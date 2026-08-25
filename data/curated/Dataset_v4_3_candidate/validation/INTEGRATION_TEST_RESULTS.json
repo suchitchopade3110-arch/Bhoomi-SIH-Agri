@@ -1,0 +1,1057 @@
+{
+  "total_tests": 100,
+  "passed_tests": 100,
+  "failure_taxonomy": {
+    "ASR_ERROR": 0,
+    "ENTITY_ERROR": 0,
+    "INTENT_ERROR": 0,
+    "RETRIEVAL_ERROR": 0,
+    "ETL_ERROR": 0,
+    "SEVERITY_ERROR": 0,
+    "SOURCE_ERROR": 0,
+    "CHEMICAL_STATUS_ERROR": 0,
+    "SAFETY_ERROR": 0,
+    "TTS_ERROR": 0,
+    "LATENCY_ERROR": 0,
+    "UNKNOWN": 0
+  },
+  "latency_summary": {
+    "speech_to_partial": {
+      "median": 130.2,
+      "p95": 152.0,
+      "p99": 155.9
+    },
+    "speech_to_final": {
+      "median": 325.6,
+      "p95": 380.1,
+      "p99": 389.7
+    },
+    "final_to_intent": {
+      "median": 35.1,
+      "p95": 44.3,
+      "p99": 45.0
+    },
+    "intent_to_retrieval": {
+      "median": 50.5,
+      "p95": 62.9,
+      "p99": 64.6
+    },
+    "retrieval_to_decision": {
+      "median": 58.1,
+      "p95": 73.3,
+      "p99": 75.0
+    },
+    "decision_to_tts_first_chunk": {
+      "median": 182.4,
+      "p95": 207.9,
+      "p99": 209.9
+    },
+    "total_end_to_end": {
+      "median": 647.3,
+      "p95": 700.4,
+      "p99": 744.2
+    }
+  },
+  "test_runs": [
+    {
+      "test_id": "TEST-001",
+      "utterance_id": "UTT-001",
+      "category": "Symptom description",
+      "intent": "DIAGNOSE_SYMPTOM",
+      "safety_status": "PASSED_SAFE",
+      "etl_evaluated": null,
+      "latency_ms": 631.8,
+      "status": "PASSED"
+    },
+    {
+      "test_id": "TEST-002",
+      "utterance_id": "UTT-002",
+      "category": "Treatment",
+      "intent": "RECOMMEND_CHEMICAL",
+      "safety_status": "PASSED_SAFE",
+      "etl_evaluated": null,
+      "latency_ms": 617.3,
+      "status": "PASSED"
+    },
+    {
+      "test_id": "TEST-003",
+      "utterance_id": "UTT-003",
+      "category": "Pest identification",
+      "intent": "IDENTIFY_PEST",
+      "safety_status": "PASSED_SAFE",
+      "etl_evaluated": "BASE_5-10_MODIFIER_PREDATOR_10-15",
+      "latency_ms": 603.5,
+      "status": "PASSED"
+    },
+    {
+      "test_id": "TEST-004",
+      "utterance_id": "UTT-004",
+      "category": "Pest identification",
+      "intent": "IDENTIFY_PEST",
+      "safety_status": "PASSED_SAFE",
+      "etl_evaluated": null,
+      "latency_ms": 623.4,
+      "status": "PASSED"
+    },
+    {
+      "test_id": "TEST-005",
+      "utterance_id": "UTT-005",
+      "category": "Pest identification",
+      "intent": "IDENTIFY_PEST",
+      "safety_status": "PASSED_SAFE",
+      "etl_evaluated": null,
+      "latency_ms": 665.8,
+      "status": "PASSED"
+    },
+    {
+      "test_id": "TEST-006",
+      "utterance_id": "UTT-006",
+      "category": "Crop stage",
+      "intent": "REPORT_STAGE",
+      "safety_status": "PASSED_SAFE",
+      "etl_evaluated": null,
+      "latency_ms": 624.8,
+      "status": "PASSED"
+    },
+    {
+      "test_id": "TEST-007",
+      "utterance_id": "UTT-007",
+      "category": "ETL/scouting",
+      "intent": "QUERY_ETL",
+      "safety_status": "PASSED_SAFE",
+      "etl_evaluated": null,
+      "latency_ms": 672.1,
+      "status": "PASSED"
+    },
+    {
+      "test_id": "TEST-008",
+      "utterance_id": "UTT-008",
+      "category": "Disease identification",
+      "intent": "IDENTIFY_DISEASE",
+      "safety_status": "PASSED_SAFE",
+      "etl_evaluated": null,
+      "latency_ms": 712.8,
+      "status": "PASSED"
+    },
+    {
+      "test_id": "TEST-009",
+      "utterance_id": "UTT-009",
+      "category": "Symptom description",
+      "intent": "DIAGNOSE_SYMPTOM",
+      "safety_status": "PASSED_SAFE",
+      "etl_evaluated": null,
+      "latency_ms": 604.1,
+      "status": "PASSED"
+    },
+    {
+      "test_id": "TEST-010",
+      "utterance_id": "UTT-010",
+      "category": "Treatment",
+      "intent": "QUERY_DOSAGE",
+      "safety_status": "PASSED_SAFE",
+      "etl_evaluated": null,
+      "latency_ms": 604.8,
+      "status": "PASSED"
+    },
+    {
+      "test_id": "TEST-011",
+      "utterance_id": "UTT-011",
+      "category": "Prevention",
+      "intent": "QUERY_CULTURAL_CONTROL",
+      "safety_status": "PASSED_SAFE",
+      "etl_evaluated": null,
+      "latency_ms": 639.6,
+      "status": "PASSED"
+    },
+    {
+      "test_id": "TEST-012",
+      "utterance_id": "UTT-012",
+      "category": "Disease identification",
+      "intent": "IDENTIFY_DISEASE",
+      "safety_status": "PASSED_SAFE",
+      "etl_evaluated": null,
+      "latency_ms": 672.6,
+      "status": "PASSED"
+    },
+    {
+      "test_id": "TEST-013",
+      "utterance_id": "UTT-013",
+      "category": "Pest identification",
+      "intent": "IDENTIFY_PEST",
+      "safety_status": "PASSED_SAFE",
+      "etl_evaluated": null,
+      "latency_ms": 695.0,
+      "status": "PASSED"
+    },
+    {
+      "test_id": "TEST-014",
+      "utterance_id": "UTT-014",
+      "category": "Symptom description",
+      "intent": "DIAGNOSE_SYMPTOM",
+      "safety_status": "PASSED_SAFE",
+      "etl_evaluated": null,
+      "latency_ms": 616.5,
+      "status": "PASSED"
+    },
+    {
+      "test_id": "TEST-015",
+      "utterance_id": "UTT-015",
+      "category": "Treatment",
+      "intent": "QUERY_CHEMICAL",
+      "safety_status": "PASSED_SAFE",
+      "etl_evaluated": null,
+      "latency_ms": 641.6,
+      "status": "PASSED"
+    },
+    {
+      "test_id": "TEST-016",
+      "utterance_id": "UTT-016",
+      "category": "Disease identification",
+      "intent": "IDENTIFY_DISEASE",
+      "safety_status": "PASSED_SAFE",
+      "etl_evaluated": null,
+      "latency_ms": 617.4,
+      "status": "PASSED"
+    },
+    {
+      "test_id": "TEST-017",
+      "utterance_id": "UTT-017",
+      "category": "Treatment",
+      "intent": "QUERY_APPLICATION_METHOD",
+      "safety_status": "PASSED_SAFE",
+      "etl_evaluated": null,
+      "latency_ms": 647.9,
+      "status": "PASSED"
+    },
+    {
+      "test_id": "TEST-018",
+      "utterance_id": "UTT-018",
+      "category": "Fertilizer",
+      "intent": "QUERY_FERTILIZER_SCHEDULE",
+      "safety_status": "PASSED_SAFE",
+      "etl_evaluated": null,
+      "latency_ms": 593.9,
+      "status": "PASSED"
+    },
+    {
+      "test_id": "TEST-019",
+      "utterance_id": "UTT-019",
+      "category": "Fertilizer",
+      "intent": "QUERY_AGRONOMIC_PRACTICE",
+      "safety_status": "PASSED_SAFE",
+      "etl_evaluated": null,
+      "latency_ms": 600.8,
+      "status": "PASSED"
+    },
+    {
+      "test_id": "TEST-020",
+      "utterance_id": "UTT-020",
+      "category": "Clarification",
+      "intent": "QUERY_DISASTER_MANAGEMENT",
+      "safety_status": "PASSED_SAFE",
+      "etl_evaluated": null,
+      "latency_ms": 675.7,
+      "status": "PASSED"
+    },
+    {
+      "test_id": "TEST-021",
+      "utterance_id": "UTT-021",
+      "category": "Symptom description",
+      "intent": "QUERY_WEATHER_IMPACT",
+      "safety_status": "PASSED_SAFE",
+      "etl_evaluated": null,
+      "latency_ms": 607.7,
+      "status": "PASSED"
+    },
+    {
+      "test_id": "TEST-022",
+      "utterance_id": "UTT-022",
+      "category": "Disease identification",
+      "intent": "IDENTIFY_DISEASE",
+      "safety_status": "PASSED_SAFE",
+      "etl_evaluated": null,
+      "latency_ms": 703.7,
+      "status": "PASSED"
+    },
+    {
+      "test_id": "TEST-023",
+      "utterance_id": "UTT-023",
+      "category": "Treatment",
+      "intent": "QUERY_CHEMICAL",
+      "safety_status": "PASSED_SAFE",
+      "etl_evaluated": null,
+      "latency_ms": 664.7,
+      "status": "PASSED"
+    },
+    {
+      "test_id": "TEST-024",
+      "utterance_id": "UTT-024",
+      "category": "Irrigation",
+      "intent": "QUERY_IRRIGATION_SCHEDULE",
+      "safety_status": "PASSED_SAFE",
+      "etl_evaluated": null,
+      "latency_ms": 646.3,
+      "status": "PASSED"
+    },
+    {
+      "test_id": "TEST-025",
+      "utterance_id": "UTT-025",
+      "category": "Irrigation",
+      "intent": "QUERY_WATER_MANAGEMENT",
+      "safety_status": "PASSED_SAFE",
+      "etl_evaluated": null,
+      "latency_ms": 686.1,
+      "status": "PASSED"
+    },
+    {
+      "test_id": "TEST-026",
+      "utterance_id": "UTT-026",
+      "category": "Treatment",
+      "intent": "QUERY_EFFICACY_WINDOW",
+      "safety_status": "PASSED_SAFE",
+      "etl_evaluated": "BASE_5-10_MODIFIER_PREDATOR_10-15",
+      "latency_ms": 660.1,
+      "status": "PASSED"
+    },
+    {
+      "test_id": "TEST-027",
+      "utterance_id": "UTT-027",
+      "category": "Clarification",
+      "intent": "QUERY_CULTURAL_RULE",
+      "safety_status": "PASSED_SAFE",
+      "etl_evaluated": null,
+      "latency_ms": 623.4,
+      "status": "PASSED"
+    },
+    {
+      "test_id": "TEST-028",
+      "utterance_id": "UTT-028",
+      "category": "Clarification",
+      "intent": "QUERY_REGULATORY_STATUS",
+      "safety_status": "RESTRICTION_WARNING_ATTACHED",
+      "etl_evaluated": null,
+      "latency_ms": 671.4,
+      "status": "PASSED"
+    },
+    {
+      "test_id": "TEST-029",
+      "utterance_id": "UTT-029",
+      "category": "Treatment",
+      "intent": "RECOMMEND_CHEMICAL",
+      "safety_status": "PASSED_SAFE",
+      "etl_evaluated": null,
+      "latency_ms": 639.2,
+      "status": "PASSED"
+    },
+    {
+      "test_id": "TEST-030",
+      "utterance_id": "UTT-030",
+      "category": "Symptom description",
+      "intent": "REPORT_FIELD_DAMAGE",
+      "safety_status": "PASSED_SAFE",
+      "etl_evaluated": null,
+      "latency_ms": 608.0,
+      "status": "PASSED"
+    },
+    {
+      "test_id": "TEST-031",
+      "utterance_id": "UTT-031",
+      "category": "Prevention",
+      "intent": "QUERY_BIOCONTROL_DOSAGE",
+      "safety_status": "PASSED_SAFE",
+      "etl_evaluated": null,
+      "latency_ms": 700.0,
+      "status": "PASSED"
+    },
+    {
+      "test_id": "TEST-032",
+      "utterance_id": "UTT-032",
+      "category": "Prevention",
+      "intent": "QUERY_ORGANIC_PREPARATION",
+      "safety_status": "PASSED_SAFE",
+      "etl_evaluated": null,
+      "latency_ms": 597.0,
+      "status": "PASSED"
+    },
+    {
+      "test_id": "TEST-033",
+      "utterance_id": "UTT-033",
+      "category": "Disease identification",
+      "intent": "QUERY_VARIETAL_SUSCEPTIBILITY",
+      "safety_status": "PASSED_SAFE",
+      "etl_evaluated": null,
+      "latency_ms": 638.4,
+      "status": "PASSED"
+    },
+    {
+      "test_id": "TEST-034",
+      "utterance_id": "UTT-034",
+      "category": "Pest identification",
+      "intent": "QUERY_VARIETAL_RESISTANCE",
+      "safety_status": "PASSED_SAFE",
+      "etl_evaluated": null,
+      "latency_ms": 583.2,
+      "status": "PASSED"
+    },
+    {
+      "test_id": "TEST-035",
+      "utterance_id": "UTT-035",
+      "category": "Prevention",
+      "intent": "QUERY_IPM_TOOL",
+      "safety_status": "PASSED_SAFE",
+      "etl_evaluated": null,
+      "latency_ms": 689.6,
+      "status": "PASSED"
+    },
+    {
+      "test_id": "TEST-036",
+      "utterance_id": "UTT-036",
+      "category": "Prevention",
+      "intent": "QUERY_LIGHT_TRAP_TARGETS",
+      "safety_status": "PASSED_SAFE",
+      "etl_evaluated": null,
+      "latency_ms": 604.5,
+      "status": "PASSED"
+    },
+    {
+      "test_id": "TEST-037",
+      "utterance_id": "UTT-037",
+      "category": "Treatment",
+      "intent": "QUERY_BIOLOGICAL_EFFICACY",
+      "safety_status": "PASSED_SAFE",
+      "etl_evaluated": "BASE_20PCT_MODIFIER_FLAGLEAF_5-10PCT",
+      "latency_ms": 697.6,
+      "status": "PASSED"
+    },
+    {
+      "test_id": "TEST-038",
+      "utterance_id": "UTT-038",
+      "category": "Treatment",
+      "intent": "QUERY_SPRAY_ADJUVANT",
+      "safety_status": "PASSED_SAFE",
+      "etl_evaluated": null,
+      "latency_ms": 614.1,
+      "status": "PASSED"
+    },
+    {
+      "test_id": "TEST-039",
+      "utterance_id": "UTT-039",
+      "category": "Treatment",
+      "intent": "QUERY_PHYTOTOXICITY_TIMING",
+      "safety_status": "MANDATORY_PHI_WARNING_ATTACHED",
+      "etl_evaluated": null,
+      "latency_ms": 677.1,
+      "status": "PASSED"
+    },
+    {
+      "test_id": "TEST-040",
+      "utterance_id": "UTT-040",
+      "category": "Prevention",
+      "intent": "QUERY_INDIGENOUS_PRACTICE",
+      "safety_status": "PASSED_SAFE",
+      "etl_evaluated": null,
+      "latency_ms": 681.0,
+      "status": "PASSED"
+    },
+    {
+      "test_id": "TEST-041",
+      "utterance_id": "UTT-041",
+      "category": "Symptom description",
+      "intent": "DIAGNOSE_DEFICIENCY",
+      "safety_status": "PASSED_SAFE",
+      "etl_evaluated": null,
+      "latency_ms": 672.2,
+      "status": "PASSED"
+    },
+    {
+      "test_id": "TEST-042",
+      "utterance_id": "UTT-042",
+      "category": "Treatment",
+      "intent": "QUERY_DEFICIENCY_REMEDY",
+      "safety_status": "PASSED_SAFE",
+      "etl_evaluated": null,
+      "latency_ms": 667.3,
+      "status": "PASSED"
+    },
+    {
+      "test_id": "TEST-043",
+      "utterance_id": "UTT-043",
+      "category": "Prevention",
+      "intent": "PREVENT_VECTOR_SPREAD",
+      "safety_status": "PASSED_SAFE",
+      "etl_evaluated": null,
+      "latency_ms": 690.6,
+      "status": "PASSED"
+    },
+    {
+      "test_id": "TEST-044",
+      "utterance_id": "UTT-044",
+      "category": "Fertilizer",
+      "intent": "COMPARE_FERTILIZERS",
+      "safety_status": "PASSED_SAFE",
+      "etl_evaluated": null,
+      "latency_ms": 652.6,
+      "status": "PASSED"
+    },
+    {
+      "test_id": "TEST-045",
+      "utterance_id": "UTT-045",
+      "category": "Treatment",
+      "intent": "QUERY_HERBICIDE_SCHEDULE",
+      "safety_status": "PASSED_SAFE",
+      "etl_evaluated": null,
+      "latency_ms": 655.0,
+      "status": "PASSED"
+    },
+    {
+      "test_id": "TEST-046",
+      "utterance_id": "UTT-046",
+      "category": "Treatment",
+      "intent": "QUERY_HERBICIDE_DOSAGE",
+      "safety_status": "PASSED_SAFE",
+      "etl_evaluated": null,
+      "latency_ms": 664.2,
+      "status": "PASSED"
+    },
+    {
+      "test_id": "TEST-047",
+      "utterance_id": "UTT-047",
+      "category": "Treatment",
+      "intent": "QUERY_ALGAE_CONTROL",
+      "safety_status": "PASSED_SAFE",
+      "etl_evaluated": null,
+      "latency_ms": 642.6,
+      "status": "PASSED"
+    },
+    {
+      "test_id": "TEST-048",
+      "utterance_id": "UTT-048",
+      "category": "Treatment",
+      "intent": "QUERY_SPRAY_TIMING",
+      "safety_status": "PASSED_SAFE",
+      "etl_evaluated": null,
+      "latency_ms": 624.2,
+      "status": "PASSED"
+    },
+    {
+      "test_id": "TEST-049",
+      "utterance_id": "UTT-049",
+      "category": "Prevention",
+      "intent": "QUERY_SEED_TREATMENT_DOSAGE",
+      "safety_status": "PASSED_SAFE",
+      "etl_evaluated": null,
+      "latency_ms": 635.4,
+      "status": "PASSED"
+    },
+    {
+      "test_id": "TEST-050",
+      "utterance_id": "UTT-050",
+      "category": "Fertilizer",
+      "intent": "QUERY_BIOFERTILIZER_APPLICATION",
+      "safety_status": "PASSED_SAFE",
+      "etl_evaluated": null,
+      "latency_ms": 638.1,
+      "status": "PASSED"
+    },
+    {
+      "test_id": "TEST-051",
+      "utterance_id": "UTT-051",
+      "category": "Irrigation",
+      "intent": "QUERY_PREHARVEST_DRAINAGE",
+      "safety_status": "PASSED_SAFE",
+      "etl_evaluated": null,
+      "latency_ms": 642.1,
+      "status": "PASSED"
+    },
+    {
+      "test_id": "TEST-052",
+      "utterance_id": "UTT-052",
+      "category": "Symptom description",
+      "intent": "DIAGNOSE_DAMAGE_IMPACT",
+      "safety_status": "PASSED_SAFE",
+      "etl_evaluated": null,
+      "latency_ms": 663.6,
+      "status": "PASSED"
+    },
+    {
+      "test_id": "TEST-053",
+      "utterance_id": "UTT-053",
+      "category": "Prevention",
+      "intent": "QUERY_ORGANIC_CONTROL",
+      "safety_status": "PASSED_SAFE",
+      "etl_evaluated": null,
+      "latency_ms": 717.5,
+      "status": "PASSED"
+    },
+    {
+      "test_id": "TEST-054",
+      "utterance_id": "UTT-054",
+      "category": "Disease identification",
+      "intent": "COMPARE_DISEASES",
+      "safety_status": "PASSED_SAFE",
+      "etl_evaluated": null,
+      "latency_ms": 694.4,
+      "status": "PASSED"
+    },
+    {
+      "test_id": "TEST-055",
+      "utterance_id": "UTT-055",
+      "category": "Prevention",
+      "intent": "PREVENT_DISEASE",
+      "safety_status": "PASSED_SAFE",
+      "etl_evaluated": null,
+      "latency_ms": 654.5,
+      "status": "PASSED"
+    },
+    {
+      "test_id": "TEST-056",
+      "utterance_id": "UTT-056",
+      "category": "Pest identification",
+      "intent": "QUERY_NEMATODE_IMPACT",
+      "safety_status": "PASSED_SAFE",
+      "etl_evaluated": null,
+      "latency_ms": 646.6,
+      "status": "PASSED"
+    },
+    {
+      "test_id": "TEST-057",
+      "utterance_id": "UTT-057",
+      "category": "Fertilizer",
+      "intent": "QUERY_ROOT_DIP_BIOFERTILIZER",
+      "safety_status": "PASSED_SAFE",
+      "etl_evaluated": null,
+      "latency_ms": 687.0,
+      "status": "PASSED"
+    },
+    {
+      "test_id": "TEST-058",
+      "utterance_id": "UTT-058",
+      "category": "Clarification",
+      "intent": "QUERY_TANK_MIX_COMPATIBILITY",
+      "safety_status": "PASSED_SAFE",
+      "etl_evaluated": null,
+      "latency_ms": 642.7,
+      "status": "PASSED"
+    },
+    {
+      "test_id": "TEST-059",
+      "utterance_id": "UTT-059",
+      "category": "Clarification",
+      "intent": "QUERY_WEATHER_SPRAY_RULE",
+      "safety_status": "PASSED_SAFE",
+      "etl_evaluated": null,
+      "latency_ms": 621.0,
+      "status": "PASSED"
+    },
+    {
+      "test_id": "TEST-060",
+      "utterance_id": "UTT-060",
+      "category": "Pest identification",
+      "intent": "RECOMMEND_RAT_MANAGEMENT",
+      "safety_status": "PASSED_SAFE",
+      "etl_evaluated": null,
+      "latency_ms": 628.7,
+      "status": "PASSED"
+    },
+    {
+      "test_id": "TEST-061",
+      "utterance_id": "UTT-061",
+      "category": "Fertilizer",
+      "intent": "QUERY_MICRONUTRIENT_METHOD",
+      "safety_status": "PASSED_SAFE",
+      "etl_evaluated": null,
+      "latency_ms": 658.0,
+      "status": "PASSED"
+    },
+    {
+      "test_id": "TEST-062",
+      "utterance_id": "UTT-062",
+      "category": "Uncertain diagnosis",
+      "intent": "DIAGNOSE_DIFFERENTIAL",
+      "safety_status": "PASSED_SAFE",
+      "etl_evaluated": null,
+      "latency_ms": 693.0,
+      "status": "PASSED"
+    },
+    {
+      "test_id": "TEST-063",
+      "utterance_id": "UTT-063",
+      "category": "Prevention",
+      "intent": "QUERY_IPM_ALLEY_FORMATION",
+      "safety_status": "PASSED_SAFE",
+      "etl_evaluated": "BASE_5-10_MODIFIER_PREDATOR_10-15",
+      "latency_ms": 648.2,
+      "status": "PASSED"
+    },
+    {
+      "test_id": "TEST-064",
+      "utterance_id": "UTT-064",
+      "category": "Prevention",
+      "intent": "CONFIRM_MONITORING_TOOL",
+      "safety_status": "PASSED_SAFE",
+      "etl_evaluated": "BASE_20PCT_MODIFIER_FLAGLEAF_5-10PCT",
+      "latency_ms": 671.7,
+      "status": "PASSED"
+    },
+    {
+      "test_id": "TEST-065",
+      "utterance_id": "UTT-065",
+      "category": "Prevention",
+      "intent": "QUERY_ROGUING_PRACTICE",
+      "safety_status": "PASSED_SAFE",
+      "etl_evaluated": null,
+      "latency_ms": 667.8,
+      "status": "PASSED"
+    },
+    {
+      "test_id": "TEST-066",
+      "utterance_id": "UTT-066",
+      "category": "Treatment",
+      "intent": "CONFIRM_NURSERY_SAFETY",
+      "safety_status": "PASSED_SAFE",
+      "etl_evaluated": null,
+      "latency_ms": 690.0,
+      "status": "PASSED"
+    },
+    {
+      "test_id": "TEST-067",
+      "utterance_id": "UTT-067",
+      "category": "Disease identification",
+      "intent": "QUERY_CLIMATIC_FAVORABILITY",
+      "safety_status": "PASSED_SAFE",
+      "etl_evaluated": null,
+      "latency_ms": 665.0,
+      "status": "PASSED"
+    },
+    {
+      "test_id": "TEST-068",
+      "utterance_id": "UTT-068",
+      "category": "Treatment",
+      "intent": "VALIDATE_CHEMICAL_DOSE",
+      "safety_status": "PASSED_SAFE",
+      "etl_evaluated": null,
+      "latency_ms": 700.4,
+      "status": "PASSED"
+    },
+    {
+      "test_id": "TEST-069",
+      "utterance_id": "UTT-069",
+      "category": "ETL/scouting",
+      "intent": "QUERY_PREDATOR_THRESHOLD",
+      "safety_status": "PASSED_SAFE",
+      "etl_evaluated": null,
+      "latency_ms": 616.2,
+      "status": "PASSED"
+    },
+    {
+      "test_id": "TEST-070",
+      "utterance_id": "UTT-070",
+      "category": "Symptom description",
+      "intent": "QUERY_PEST_DAMAGE_CONSEQUENCE",
+      "safety_status": "PASSED_SAFE",
+      "etl_evaluated": null,
+      "latency_ms": 662.0,
+      "status": "PASSED"
+    },
+    {
+      "test_id": "TEST-071",
+      "utterance_id": "UTT-071",
+      "category": "Prevention",
+      "intent": "QUERY_SEED_HEALTH_RULE",
+      "safety_status": "PASSED_SAFE",
+      "etl_evaluated": null,
+      "latency_ms": 690.3,
+      "status": "PASSED"
+    },
+    {
+      "test_id": "TEST-072",
+      "utterance_id": "UTT-072",
+      "category": "Treatment",
+      "intent": "QUERY_COPPER_COMPATIBILITY",
+      "safety_status": "PASSED_SAFE",
+      "etl_evaluated": null,
+      "latency_ms": 645.2,
+      "status": "PASSED"
+    },
+    {
+      "test_id": "TEST-073",
+      "utterance_id": "UTT-073",
+      "category": "Disease identification",
+      "intent": "CONFIRM_POSTHARVEST_DIAGNOSIS",
+      "safety_status": "PASSED_SAFE",
+      "etl_evaluated": null,
+      "latency_ms": 645.3,
+      "status": "PASSED"
+    },
+    {
+      "test_id": "TEST-074",
+      "utterance_id": "UTT-074",
+      "category": "Treatment",
+      "intent": "RECOMMEND_CHEMICAL",
+      "safety_status": "RESTRICTION_WARNING_ATTACHED",
+      "etl_evaluated": null,
+      "latency_ms": 647.3,
+      "status": "PASSED"
+    },
+    {
+      "test_id": "TEST-075",
+      "utterance_id": "UTT-075",
+      "category": "Prevention",
+      "intent": "QUERY_ORGANIC_AMENDMENT",
+      "safety_status": "PASSED_SAFE",
+      "etl_evaluated": null,
+      "latency_ms": 650.6,
+      "status": "PASSED"
+    },
+    {
+      "test_id": "TEST-076",
+      "utterance_id": "UTT-076",
+      "category": "Prevention",
+      "intent": "QUERY_CULTURAL_SANITATION",
+      "safety_status": "PASSED_SAFE",
+      "etl_evaluated": null,
+      "latency_ms": 620.8,
+      "status": "PASSED"
+    },
+    {
+      "test_id": "TEST-077",
+      "utterance_id": "UTT-077",
+      "category": "Treatment",
+      "intent": "QUERY_ORGANIC_EFFICACY",
+      "safety_status": "PASSED_SAFE",
+      "etl_evaluated": null,
+      "latency_ms": 632.9,
+      "status": "PASSED"
+    },
+    {
+      "test_id": "TEST-078",
+      "utterance_id": "UTT-078",
+      "category": "Disease identification",
+      "intent": "QUERY_ENVIRONMENTAL_PREDISPOSITION",
+      "safety_status": "PASSED_SAFE",
+      "etl_evaluated": null,
+      "latency_ms": 639.7,
+      "status": "PASSED"
+    },
+    {
+      "test_id": "TEST-079",
+      "utterance_id": "UTT-079",
+      "category": "Treatment",
+      "intent": "QUERY_RESIDUE_PHI",
+      "safety_status": "PASSED_SAFE",
+      "etl_evaluated": null,
+      "latency_ms": 683.7,
+      "status": "PASSED"
+    },
+    {
+      "test_id": "TEST-080",
+      "utterance_id": "UTT-080",
+      "category": "Treatment",
+      "intent": "RECOMMEND_BROAD_SPECTRUM",
+      "safety_status": "PASSED_SAFE",
+      "etl_evaluated": "BASE_20PCT_MODIFIER_FLAGLEAF_5-10PCT",
+      "latency_ms": 629.4,
+      "status": "PASSED"
+    },
+    {
+      "test_id": "TEST-081",
+      "utterance_id": "UTT-081",
+      "category": "Fertilizer",
+      "intent": "QUERY_FYM_IMPACT",
+      "safety_status": "PASSED_SAFE",
+      "etl_evaluated": null,
+      "latency_ms": 656.3,
+      "status": "PASSED"
+    },
+    {
+      "test_id": "TEST-082",
+      "utterance_id": "UTT-082",
+      "category": "Pest identification",
+      "intent": "DESCRIBE_INSECT_MORPHOLOGY",
+      "safety_status": "PASSED_SAFE",
+      "etl_evaluated": null,
+      "latency_ms": 648.0,
+      "status": "PASSED"
+    },
+    {
+      "test_id": "TEST-083",
+      "utterance_id": "UTT-083",
+      "category": "Fertilizer",
+      "intent": "QUERY_POTASH_SCHEDULE",
+      "safety_status": "PASSED_SAFE",
+      "etl_evaluated": null,
+      "latency_ms": 642.1,
+      "status": "PASSED"
+    },
+    {
+      "test_id": "TEST-084",
+      "utterance_id": "UTT-084",
+      "category": "Disease identification",
+      "intent": "LIST_RESISTANT_VARIETIES",
+      "safety_status": "PASSED_SAFE",
+      "etl_evaluated": null,
+      "latency_ms": 594.0,
+      "status": "PASSED"
+    },
+    {
+      "test_id": "TEST-085",
+      "utterance_id": "UTT-085",
+      "category": "Uncertain diagnosis",
+      "intent": "ASSESS_RECOVERY_PROGNOSIS",
+      "safety_status": "PASSED_SAFE",
+      "etl_evaluated": null,
+      "latency_ms": 676.5,
+      "status": "PASSED"
+    },
+    {
+      "test_id": "TEST-086",
+      "utterance_id": "UTT-086",
+      "category": "Pest identification",
+      "intent": "IDENTIFY_PEST",
+      "safety_status": "PASSED_SAFE",
+      "etl_evaluated": null,
+      "latency_ms": 632.7,
+      "status": "PASSED"
+    },
+    {
+      "test_id": "TEST-087",
+      "utterance_id": "UTT-087",
+      "category": "Symptom description",
+      "intent": "DIAGNOSE_SYMPTOM",
+      "safety_status": "PASSED_SAFE",
+      "etl_evaluated": null,
+      "latency_ms": 619.6,
+      "status": "PASSED"
+    },
+    {
+      "test_id": "TEST-088",
+      "utterance_id": "UTT-088",
+      "category": "Treatment",
+      "intent": "CALCULATE_TANK_DILUTION",
+      "safety_status": "PASSED_SAFE",
+      "etl_evaluated": null,
+      "latency_ms": 629.5,
+      "status": "PASSED"
+    },
+    {
+      "test_id": "TEST-089",
+      "utterance_id": "UTT-089",
+      "category": "Clarification",
+      "intent": "QUERY_OPERATOR_SAFETY",
+      "safety_status": "PASSED_SAFE",
+      "etl_evaluated": null,
+      "latency_ms": 695.5,
+      "status": "PASSED"
+    },
+    {
+      "test_id": "TEST-090",
+      "utterance_id": "UTT-090",
+      "category": "Follow-up questions",
+      "intent": "QUERY_RAINFASTNESS_RESRAY",
+      "safety_status": "PASSED_SAFE",
+      "etl_evaluated": null,
+      "latency_ms": 662.8,
+      "status": "PASSED"
+    },
+    {
+      "test_id": "TEST-091",
+      "utterance_id": "UTT-091",
+      "category": "Follow-up questions",
+      "intent": "QUERY_SPRAY_PENETRATION",
+      "safety_status": "PASSED_SAFE",
+      "etl_evaluated": null,
+      "latency_ms": 644.4,
+      "status": "PASSED"
+    },
+    {
+      "test_id": "TEST-092",
+      "utterance_id": "UTT-092",
+      "category": "Treatment",
+      "intent": "QUERY_CHEMICAL_ADMISSIBILITY",
+      "safety_status": "PASSED_SAFE",
+      "etl_evaluated": null,
+      "latency_ms": 691.3,
+      "status": "PASSED"
+    },
+    {
+      "test_id": "TEST-093",
+      "utterance_id": "UTT-093",
+      "category": "Disease identification",
+      "intent": "IDENTIFY_DISEASE",
+      "safety_status": "PASSED_SAFE",
+      "etl_evaluated": null,
+      "latency_ms": 637.5,
+      "status": "PASSED"
+    },
+    {
+      "test_id": "TEST-094",
+      "utterance_id": "UTT-094",
+      "category": "Clarification",
+      "intent": "QUERY_POLLINATOR_SAFETY",
+      "safety_status": "PASSED_SAFE",
+      "etl_evaluated": null,
+      "latency_ms": 601.7,
+      "status": "PASSED"
+    },
+    {
+      "test_id": "TEST-095",
+      "utterance_id": "UTT-095",
+      "category": "Clarification",
+      "intent": "QUERY_PESTICIDE_RESISTANCE",
+      "safety_status": "PASSED_SAFE",
+      "etl_evaluated": null,
+      "latency_ms": 660.1,
+      "status": "PASSED"
+    },
+    {
+      "test_id": "TEST-096",
+      "utterance_id": "UTT-096",
+      "category": "Pest identification",
+      "intent": "IDENTIFY_PEST",
+      "safety_status": "PASSED_SAFE",
+      "etl_evaluated": null,
+      "latency_ms": 744.2,
+      "status": "PASSED"
+    },
+    {
+      "test_id": "TEST-097",
+      "utterance_id": "UTT-097",
+      "category": "Symptom description",
+      "intent": "DIAGNOSE_SYMPTOM",
+      "safety_status": "PASSED_SAFE",
+      "etl_evaluated": null,
+      "latency_ms": 642.5,
+      "status": "PASSED"
+    },
+    {
+      "test_id": "TEST-098",
+      "utterance_id": "UTT-098",
+      "category": "Prevention",
+      "intent": "CONFIRM_LIGHT_TRAP_CONTROL",
+      "safety_status": "PASSED_SAFE",
+      "etl_evaluated": null,
+      "latency_ms": 677.3,
+      "status": "PASSED"
+    },
+    {
+      "test_id": "TEST-099",
+      "utterance_id": "UTT-099",
+      "category": "Clarification",
+      "intent": "QUERY_CURATIVE_LIMITATION",
+      "safety_status": "PASSED_SAFE",
+      "etl_evaluated": null,
+      "latency_ms": 630.7,
+      "status": "PASSED"
+    },
+    {
+      "test_id": "TEST-100",
+      "utterance_id": "UTT-100",
+      "category": "Clarification",
+      "intent": "QUERY_APP_FEATURE",
+      "safety_status": "PASSED_SAFE",
+      "etl_evaluated": null,
+      "latency_ms": 616.5,
+      "status": "PASSED"
+    }
+  ]
+}

@@ -13,6 +13,7 @@ from app.models.knowledge_chunk import KnowledgeChunk
 from app.models.land_parcel import LandParcel
 from app.models.problem import Problem
 from app.models.scheme import Scheme
+from app.models.treatment_application import TreatmentApplication
 from app.models.user import User
 
 __all__ = [
@@ -30,5 +31,6 @@ __all__ = [
     "Case",
     "Scheme",
     "Asset",
+    "TreatmentApplication",
 ]
 

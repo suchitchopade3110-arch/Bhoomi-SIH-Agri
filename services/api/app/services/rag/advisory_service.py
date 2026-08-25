@@ -38,6 +38,8 @@ class AdvisoryQueryOutcome:
     reason: str | None
     escalation_offered: bool | None
     spoken_summary: str
+    provider: str
+    model: str
 
 
 def _chunk_to_dict(chunk: RetrievedChunk) -> dict:
@@ -57,7 +59,9 @@ class AdvisoryService:
         self._llm = llm_port
         self._settings = settings
 
-    async def answer_query(self, farm_id: str, query_text: str) -> AdvisoryQueryOutcome:
+    async def answer_query(
+        self, farm_id: str, query_text: str, target_type: str | None = None
+    ) -> AdvisoryQueryOutcome:
         """Run retrieval, the confidence gate, and (if it passes) grounded
         generation for one farmer query.
 
@@ -65,13 +69,19 @@ class AdvisoryService:
             farm_id: UUID string of the farm asking (for farm_context only —
                 no farm data is required to exist for this call to work).
             query_text: The farmer's question.
+            target_type: ``"disease"`` | ``"pest"`` | ``None`` — scopes
+                retrieval to the matching half of the corpus; ``None``
+                searches the whole corpus (SIH26131 delta spec §3.1).
 
         Returns:
             An ``AdvisoryQueryOutcome`` — either a populated, cited advisory
             (``retrieved=True``) or an honest no-fabrication escalation
             (``retrieved=False``). Never a partial mix of the two.
         """
-        chunks = await self._retrieval.retrieve(query_text)
+        provider = self._settings.LLM_PROVIDER
+        model = self._settings.LLM_MODEL if provider != "stub" else "stub"
+
+        chunks = await self._retrieval.retrieve(query_text, content_type=target_type)
         top_relevance = RetrievalService.top_relevance(chunks)
 
         decision = decide(
@@ -89,6 +99,8 @@ class AdvisoryService:
                 reason=NO_RELEVANT_SOURCE_REASON,
                 escalation_offered=True,
                 spoken_summary=NO_SOURCE_SPOKEN_SUMMARY,
+                provider=provider,
+                model=model,
             )
 
         raw = await self._llm.generate_grounded_advisory(
@@ -109,6 +121,8 @@ class AdvisoryService:
                 reason=NO_RELEVANT_SOURCE_REASON,
                 escalation_offered=True,
                 spoken_summary=NO_SOURCE_SPOKEN_SUMMARY,
+                provider=provider,
+                model=model,
             )
 
         return AdvisoryQueryOutcome(
@@ -118,6 +132,8 @@ class AdvisoryService:
             reason=None,
             escalation_offered=None,
             spoken_summary=COMPOSED_SPOKEN_SUMMARY,
+            provider=provider,
+            model=model,
         )
 
 

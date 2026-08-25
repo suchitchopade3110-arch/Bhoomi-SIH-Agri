@@ -1,0 +1,10 @@
+# Optional: real BGE-m3 dense text embeddings (app/embeddings_real.py).
+# NOT in requirements.txt — pulls in ~5GB including CUDA libraries, and the
+# model itself (~2.2GB) downloads from Hugging Face Hub on first use.
+# Install with: pip install -r requirements.txt -r requirements-embeddings.txt
+#
+# For a CPU-only torch build (much smaller), install torch from its CPU
+# wheel index first: pip install torch --index-url https://download.pytorch.org/whl/cpu
+# then this file (pip will see torch already satisfied and skip it).
+sentence-transformers>=3.0.0
+torch>=2.0.0

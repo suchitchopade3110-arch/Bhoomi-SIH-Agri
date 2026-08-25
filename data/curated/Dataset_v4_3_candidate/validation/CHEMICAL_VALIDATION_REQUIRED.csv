@@ -1,0 +1,10 @@
+pest_id,pest_name,document_id,active_ingredient_formulation,source_dosage,regulatory_status,cibrc_audit_status,risk_notes,action_required
+PEST_001,Stem borer,DOC-PEST-001,Carbofuran 3G,33 kg/ha at planting,UNVERIFIED,PENDING_AUDIT,High mammalian toxicity; restricted/banned in several states; verify 2026 CIBRC schedule,Replace with green-label alternatives if restricted
+PEST_001,Stem borer,DOC-PEST-001,Chlorantraniliprole 18.5 SC,150 ml/ha if ETL exceeded,UNVERIFIED,PENDING_AUDIT,Modern anthranilic diamide; safe to parasitoids; verify label claim on rice,Validate exact water volume per hectare
+PEST_002,Brown planthopper (BPH),DOC-PEST-002,Buprofezin 25 SC,400 ml/ha,UNVERIFIED,PENDING_AUDIT,Insect growth regulator (IGR); effective against nymphs; verify PHI,Verify spray direction (base of tillers)
+PEST_003,Leaf folder,DOC-PEST-003,Chlorantraniliprole 18.5 SC,150 ml/ha,UNVERIFIED,PENDING_AUDIT,Broad-spectrum lepidopteran control; verify PHI and maximum seasonal sprays,Verify rainfastness and timing
+PEST_004,Green leafhopper (GLH),DOC-PEST-004,Imidacloprid 17.8 SL,100 ml/ha,UNVERIFIED,PENDING_AUDIT,Neonicotinoid; pollinator toxicity concerns; verify CIBRC rice label claim,Verify spray timing relative to flowering
+PEST_005,Gall midge,DOC-PEST-005,Carbofuran 3G,33 kg/ha at planting,UNVERIFIED,PENDING_AUDIT,Granular application at transplanting; environmental toxicity audit required,Audit CIBRC registration status for paddy
+PEST_006,Thrips,DOC-PEST-006,Thiamethoxam 25 WG,100 g/ha,UNVERIFIED,PENDING_AUDIT,Systemic neonicotinoid foliar spray in nursery/tillering; verify PHI,Validate nursery vs main field dilution rate
+PEST_007,Whorl maggot,DOC-PEST-007,Carbofuran 3G,33 kg/ha,UNVERIFIED,PENDING_AUDIT,Soil application in flooded conditions; runoff toxicity concern,Audit alternative neem formulations
+PEST_008,Earhead bug,DOC-PEST-008,Malathion 50 EC,500 ml/ha,UNVERIFIED,PENDING_AUDIT,Organophosphate applied during grain milking; severe grain residue risk,Verify Pre-Harvest Interval (PHI) and MRL compliance

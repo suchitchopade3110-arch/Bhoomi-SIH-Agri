@@ -48,8 +48,6 @@ from app.schemas.farm import (
     FarmUpdateRequest,
 )
 from app.schemas.land import (
-    CadastralLookupRequest,
-    CadastralLookupResponse,
     LandVerifyRequest,
     LandVerifyResponse,
     ThinLandVerification,
@@ -133,8 +131,6 @@ __all__ = [
     "FarmUpdateRequest",
     "FarmResponse",
     "FarmSummaryResponse",
-    "CadastralLookupRequest",
-    "CadastralLookupResponse",
     "LandVerifyRequest",
     "LandVerifyResponse",
     "OfficerQueueItem",

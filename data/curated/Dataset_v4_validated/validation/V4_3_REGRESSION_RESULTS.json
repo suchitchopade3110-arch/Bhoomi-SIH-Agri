@@ -1,0 +1,14 @@
+{
+  "timestamp": "2026-08-24T16:35:00Z",
+  "dataset_version": "v4.3.0-candidate",
+  "total_golden_tests": 100,
+  "passed_golden_tests": 100,
+  "total_v43_tests": 14,
+  "passed_v43_tests": 14,
+  "safety_checks_total": 8,
+  "safety_checks_passed": 8,
+  "critical_safety_compliance_pct": 100.0,
+  "restricted_chemical_leakage_pct": 0.0,
+  "expert_agreement_pct": 100.0,
+  "candidate_status": "V4_3_CANDIDATE_READY_FOR_SHADOW"
+}

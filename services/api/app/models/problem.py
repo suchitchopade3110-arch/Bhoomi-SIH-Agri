@@ -24,5 +24,6 @@ class Problem(Base):
     label: Mapped[str] = mapped_column(String(100), nullable=False)
     severity: Mapped[str] = mapped_column(String(20), nullable=False)
     status: Mapped[str] = mapped_column(String(20), nullable=False, default=ProblemStatus.OPEN.value, index=True)
+    target_type: Mapped[str | None] = mapped_column(String(20), nullable=True)
     image_asset_id: Mapped[str | None] = mapped_column(String(36), nullable=True)
     resolved_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)

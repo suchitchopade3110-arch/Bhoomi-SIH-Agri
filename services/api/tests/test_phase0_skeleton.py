@@ -74,10 +74,9 @@ def test_openapi_schema_generation(client):
         "/api/v1/farms",
         "/api/v1/land/verify",
         "/api/v1/officer/queue",
-        "/api/v1/resource-plan/{farm_id}",
-        "/api/v1/farms/{farm_id}/health",
-        "/api/v1/farms/{farm_id}/health/history",
-        "/api/v1/farms/{farm_id}/health/recompute",
+        "/api/v1/farms/{farm_id}/risk",
+        "/api/v1/farms/{farm_id}/risk/history",
+        "/api/v1/farms/{farm_id}/risk/recompute",
         "/api/v1/farms/{farm_id}/diagnose",
         "/api/v1/advisory/query",
         "/api/v1/timeline/{farm_id}",
@@ -106,7 +105,6 @@ def test_config_settings():
     settings = get_settings()
     assert settings.CONFIDENCE_GATE == 0.70
     assert settings.RAG_RELEVANCE_THRESHOLD == 0.18
-    assert settings.LAND_API_MODE in ["mock", "live"]
     assert settings.DIAGNOSIS_MODEL in ["real", "stub"]
     assert settings.EMBEDDING_PROVIDER in ["bge_m3", "stub"]
 
@@ -121,7 +119,7 @@ def test_all_contract_enums():
     assert LandStatus.VERIFIED == "verified"
     assert HealthBand.UNRATED == "unrated"
     assert HealthBand.GOOD == "good"
-    assert SubIndexKey.ACTIVE_PROBLEM_LOAD == "active_problem_load"
+    assert SubIndexKey.ACTIVE_PROBLEM_SEVERITY == "active_problem_severity"
     assert ProblemSeverity.EARLY == "early"
     assert ProblemStatus.OPEN == "open"
     assert FollowupResponse.IMPROVED == "improved"

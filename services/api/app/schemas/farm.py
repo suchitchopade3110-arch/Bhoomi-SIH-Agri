@@ -8,30 +8,12 @@ from app.schemas.common import SpokenResponseMixin
 
 
 class FarmCreateRequest(BaseModel):
-    """Payload to register a farm profile."""
-    farmer_id: str = Field(..., description="UUID string of the farmer")
-    farm_name: str = Field(..., description="Identifying name of the farm")
-    village: str = Field(..., description="Village or local revenue village")
-    taluk: str = Field(..., description="Taluk / sub-district")
-    district: str = Field(..., description="District")
-    state: str = Field(default="Tamil Nadu", description="State")
-    latitude: float = Field(..., ge=-90.0, le=90.0, description="Centroid latitude")
-    longitude: float = Field(..., ge=-180.0, le=180.0, description="Centroid longitude")
-    total_area_acres: float = Field(..., gt=0.0, description="Total farm area in acres")
-    survey_number: str | None = Field(default=None, description="Cadastral survey number")
-    primary_crop: str = Field(..., description="Main active crop (e.g. Paddy, Tomato, Cotton)")
-    growth_stage: str = Field(default="vegetative", description="Current growth stage: initial, vegetative, mid_season, late_season")
-    sowing_date: date | None = Field(default=None, description="Crop sowing date")
-    soil_type: str = Field(default="Clay Loam", description="Soil classification")
-    irrigation_source: str = Field(default="Borewell", description="Primary irrigation source")
+    """Payload to register a farm profile (SIH26131 simplified onboarding)."""
 
-    # Optional self-reported monitoring inputs the health engine needs
-    # (PRD §7.2 sub-indices #1/#3/#5). Left unset, the farm stays `unrated`
-    # (PRD §5.2) until these — and irrigation_delivered/required_mm, filled
-    # in by the resource-plan step — are all present.
-    soil_moisture_pct: float | None = Field(default=None, ge=0.0, le=100.0, description="Self-reported/sensor soil moisture %")
-    days_since_planting: int | None = Field(default=None, ge=0, description="Days since sowing, as of onboarding")
-    days_since_last_scan: int | None = Field(default=None, ge=0, description="Days since the last field scan/photo")
+    farmer_id: str = Field(..., description="UUID string of the farmer")
+    crop: str = Field(..., description="Main active crop (e.g. samba_paddy, cotton)")
+    growth_stage: str = Field(..., description="Current growth stage: initial, vegetative, reproductive, ripening")
+    region: str = Field(..., description="Regional jurisdiction / agro-climatic zone")
 
 
 class FarmUpdateRequest(BaseModel):
@@ -39,6 +21,7 @@ class FarmUpdateRequest(BaseModel):
     farm_name: str | None = None
     primary_crop: str | None = None
     growth_stage: str | None = None
+    region: str | None = None
     sowing_date: date | None = None
     soil_type: str | None = None
     irrigation_source: str | None = None
@@ -48,20 +31,21 @@ class FarmResponse(BaseModel):
     """Farm profile details."""
     id: str = Field(..., description="UUID string of the farm")
     farmer_id: str = Field(..., description="UUID string of the farmer")
-    farm_name: str = Field(..., description="Name of farm")
-    village: str = Field(...)
-    taluk: str = Field(...)
-    district: str = Field(...)
-    state: str = Field(...)
-    latitude: float = Field(...)
-    longitude: float = Field(...)
-    total_area_acres: float = Field(...)
+    farm_name: str | None = None
+    village: str | None = None
+    taluk: str | None = None
+    district: str | None = None
+    state: str = "Tamil Nadu"
+    latitude: float | None = None
+    longitude: float | None = None
+    total_area_acres: float | None = None
     survey_number: str | None = None
     land_status: LandStatus = Field(default=LandStatus.UNVERIFIED)
     primary_crop: str = Field(...)
     growth_stage: str | None = None
-    soil_type: str = Field(...)
-    irrigation_source: str = Field(...)
+    region: str | None = None
+    soil_type: str | None = None
+    irrigation_source: str | None = None
     current_health_score: float | None = None
     created_at: datetime = Field(default_factory=datetime.utcnow)
 

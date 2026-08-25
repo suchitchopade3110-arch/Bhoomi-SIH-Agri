@@ -1,0 +1,254 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "BhoomiEvidenceObject",
+  "description": "Canonical schema for Bhoomi agricultural evidence objects, semantic chunks, and quantitative records",
+  "type": "object",
+  "required": [
+    "record_id",
+    "evidence_id",
+    "entity_id",
+    "entity_type",
+    "canonical_name",
+    "crop",
+    "knowledge_version",
+    "source",
+    "source_authority",
+    "evidence_status"
+  ],
+  "properties": {
+    "record_id": {
+      "type": "string",
+      "description": "Unique stable identifier for this evidence record (e.g. REC-PEST-001-ETL-01)"
+    },
+    "document_id": {
+      "type": ["string", "null"],
+      "description": "Parent corpus document identifier (e.g. DOC-PEST-001)"
+    },
+    "evidence_id": {
+      "type": "string",
+      "description": "Specific evidence identifier (e.g. ETL-001, SEV-002, CHEM-005)"
+    },
+    "chunk_id": {
+      "type": ["string", "null"],
+      "description": "Semantic chunk identifier if ingested as a chunk"
+    },
+    "chunk_type": {
+      "type": "string",
+      "enum": [
+        "ENTITY",
+        "DIAGNOSTIC",
+        "SYMPTOM",
+        "ETL",
+        "MODIFIER",
+        "SEVERITY",
+        "MANAGEMENT",
+        "CHEMICAL",
+        "SAFETY",
+        "SOURCE",
+        "DECISION_TREE",
+        "LEXICON"
+      ]
+    },
+    "entity_id": {
+      "type": "string",
+      "description": "Identifier for the target organism or input (e.g. PEST_001, DIS_002, AGRO_INPUT_001)"
+    },
+    "entity_type": {
+      "type": "string",
+      "enum": ["pest", "disease", "weed", "nutrient", "agronomic_practice", "chemical", "bio_agent"]
+    },
+    "canonical_name": {
+      "type": "string",
+      "description": "Standard English canonical name"
+    },
+    "scientific_name": {
+      "type": ["string", "null"],
+      "description": "Latin binomial taxonomic or pathogen name"
+    },
+    "local_names": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Common regional names"
+    },
+    "tamil_aliases": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Verified Tamil script names, regional dialect variants, and colloquial slang"
+    },
+    "crop": {
+      "type": "string",
+      "description": "Target crop species (e.g. Rice (Oryza sativa))"
+    },
+    "crop_stage": {
+      "type": ["string", "null"],
+      "enum": [
+        null,
+        "nursery",
+        "seedling",
+        "early_vegetative",
+        "tillering",
+        "mid_tillering",
+        "booting",
+        "panicle_initiation",
+        "flowering",
+        "milking",
+        "grain_filling",
+        "maturity",
+        "all_stages"
+      ]
+    },
+    "agro_ecological_region": {
+      "type": ["string", "null"],
+      "description": "Regional applicability (e.g. Cauvery Delta, Kongu, Southern TN, Northern TN, All Tamil Nadu)"
+    },
+    "symptoms": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Diagnostic symptoms associated with this record"
+    },
+    "distinguishing_cues": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Morphological or field cues distinguishing this entity from look-alikes"
+    },
+    "diagnostic_features": {
+      "type": ["object", "null"],
+      "description": "Structured diagnostic decision attributes"
+    },
+    "severity": {
+      "type": ["object", "null"],
+      "properties": {
+        "ses_scale": { "type": "string" },
+        "tier": { "type": "string", "enum": ["early", "moderate", "severe", "severe_spreading"] },
+        "cutoff_range": { "type": "string" },
+        "symptom_description": { "type": "string" }
+      }
+    },
+    "etl": {
+      "type": ["object", "null"],
+      "properties": {
+        "base_threshold": { "type": "string" },
+        "base_value": { "type": ["number", "string", "null"] },
+        "base_unit": { "type": ["string", "null"] },
+        "has_modifier": { "type": "boolean" },
+        "modifier": { "type": ["string", "null"] },
+        "modifier_condition": { "type": ["string", "null"] },
+        "adjusted_threshold": { "type": ["string", "null"] }
+      }
+    },
+    "recommendation": {
+      "type": ["string", "null"],
+      "description": "Synthesized action text or agronomic advisory"
+    },
+    "management_type": {
+      "type": "string",
+      "enum": [
+        "cultural",
+        "biological",
+        "mechanical",
+        "chemical",
+        "nutritional",
+        "regulatory_warning",
+        "diagnostic_clarification"
+      ]
+    },
+    "chemical": {
+      "type": ["string", "null"],
+      "description": "Active chemical ingredient name"
+    },
+    "formulation": {
+      "type": ["string", "null"],
+      "description": "Formulation type and concentration (e.g. 18.5 SC, 77 WP, 25 EC)"
+    },
+    "chemical_status": {
+      "type": ["string", "null"],
+      "enum": [null, "VERIFIED_CURRENT", "RESTRICTED", "PHASED_BAN", "UNKNOWN"]
+    },
+    "dose": {
+      "type": ["string", "null"],
+      "description": "Recommended application dosage"
+    },
+    "dose_unit": {
+      "type": ["string", "null"],
+      "description": "Measurement unit (e.g. ml/ha, g/ha, kg/ha, ml/acre)"
+    },
+    "application_method": {
+      "type": ["string", "null"],
+      "enum": [null, "knapsack_foliar", "power_sprayer", "drone_ulv", "seed_treatment", "root_dip", "basal_broadcast", "sand_mix"]
+    },
+    "timing": {
+      "type": ["string", "null"],
+      "description": "Application timing constraints (e.g. boot leaf stage, early morning)"
+    },
+    "phi": {
+      "type": ["number", "string", "null"],
+      "description": "Pre-Harvest Interval in days"
+    },
+    "safety_constraints": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Mandatory safety warnings, toxicity color labels, environmental buffer zones"
+    },
+    "drone_guidelines": {
+      "type": ["object", "null"],
+      "properties": {
+        "drone_permitted": { "type": "boolean" },
+        "spray_volume_l_ha": { "type": "string" },
+        "droplet_vmd_microns": { "type": "string" },
+        "max_wind_speed_kmh": { "type": "number" },
+        "buffer_zone_meters": { "type": "number" }
+      }
+    },
+    "geographic_scope": {
+      "type": "string",
+      "description": "Geographic jurisdiction (e.g. Tamil Nadu, National)"
+    },
+    "source": {
+      "type": "string",
+      "description": "Short source citation name"
+    },
+    "source_type": {
+      "type": "string",
+      "enum": ["regulatory_schedule", "research_manual", "university_cpg", "expert_system", "extension_bulletin", "farmer_survey"]
+    },
+    "source_authority": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 10,
+      "description": "Authority level rank: 10=CIBRC/Govt, 9=ICAR, 8=TNAU, 7=IRRI/SAU, 6=KVK, 3=Farmer Observation"
+    },
+    "source_date": {
+      "type": ["string", "null"],
+      "description": "Publication or verification date (YYYY-MM-DD)"
+    },
+    "evidence_status": {
+      "type": "string",
+      "enum": [
+        "SOURCE_SUPPORTED",
+        "SOURCE_SUPPORTED_WITH_CONTEXT",
+        "SOURCE_SUPPORTED_CIBRC_ALIGNED",
+        "RESTRICTED_WARNING_REQUIRED",
+        "MISSING_SOURCE",
+        "NEEDS_REVIEW"
+      ]
+    },
+    "confidence": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0
+    },
+    "license_status": {
+      "type": "string",
+      "enum": ["CC-BY-NC-4.0", "GOVERNMENT_OPEN_ACCESS", "INSTITUTIONAL_PUBLIC_EXTENSION", "IMAGE_NOT_FOUND", "RESTRICTED"]
+    },
+    "provenance_chain": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Traceable audit trail from raw source document to ingested record"
+    },
+    "knowledge_version": {
+      "type": "string",
+      "description": "Version identifier of the knowledge snapshot (e.g. v4.2.0-validated, v4.3.0-candidate)"
+    }
+  }
+}

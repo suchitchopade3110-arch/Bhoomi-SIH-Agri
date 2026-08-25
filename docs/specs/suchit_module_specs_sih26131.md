@@ -131,10 +131,16 @@ $\{\text{disease}, \text{pest}\} \times \{\text{above gate}, \text{below gate}\}
 
 ## 3. RAG Pipeline Scope (Pest vs Disease Retrieval)
 
-### 3.1 Decision: Unified Index with Metadata Filtering
-- Single `embeddings` pgvector table.
-- Tagged with `content_type: "disease" | "pest"` and `crop: "samba_paddy" | ...`.
-- Retrieval query: Vector similarity search + `WHERE content_type = :target_type AND crop = :crop`.
+### 3.1 Decision: Unified Index with `doc_id` Namespacing
+- Single `knowledge_chunks` pgvector table without extra metadata columns (no `content_type` or `crop` column exists in the current schema).
+- Scoped retrieval is achieved through **deterministic `doc_id` namespacing**:
+  - Pest documents use prefix `kb_p` (`kb_p301`–`kb_p308` or `kb_p<NNN>`).
+  - Disease/agronomy documents use prefix `kb_d` (`kb_d101`–`kb_d113` or `kb_d<NNN>`).
+- **Retrieval Scoping Logic**:
+  - `target_type="pest"`: Vector similarity search filtered by `WHERE doc_id LIKE 'kb_p%'`.
+  - `target_type="disease"`: Vector similarity search filtered by `WHERE doc_id LIKE 'kb_d%'` (and excluding `kb_p%`).
+  - `target_type=None`: Unrestricted similarity search across the entire corpus.
+- **Longer-term Design Note**: Adding dedicated `content_type` and `crop` columns to `knowledge_chunks` with composite indexes is the correct longer-term architecture for multi-crop production when database migrations are scheduled.
 
 ### 3.2 Dynamic Relevance Threshold (Codebase Inheritance)
 - `RAG_RELEVANCE_THRESHOLD` is a single, shared threshold across both `disease` and `pest` content types (no separate pest threshold is invented).
@@ -142,7 +148,7 @@ $\{\text{disease}, \text{pest}\} \times \{\text{above gate}, \text{below gate}\}
   - Calibrated to `0.18` when `EMBEDDING_PROVIDER="stub"` (token-hashing vectors).
   - Calibrated to `0.60` when `EMBEDDING_PROVIDER="bge_m3"` (dense semantic embeddings).
   - Supports `RAG_RELEVANCE_THRESHOLD_OVERRIDE` for manual tuning.
-- **Crop Filter**: Inherits Phase 3's metadata scoping (`crop: "samba_paddy" | ...`) to prevent cross-crop advisory leakage.
+- **Crop Scoping**: Currently single-crop (Samba paddy) for this demo.
 - Below threshold $\rightarrow$ `{retrieved: false, reason: "no_relevant_source"}` $\rightarrow$ prompt escalation to KVK expert.
 
 ---

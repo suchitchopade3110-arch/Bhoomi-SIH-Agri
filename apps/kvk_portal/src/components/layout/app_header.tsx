@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { authStore } from '../../core/auth/auth_store';
-import { Bell, UserCircle2, CheckCheck, AlertCircle, Clock, CheckCircle2, ChevronRight, X } from 'lucide-react';
+import { Bell, UserCircle2, CheckCheck, AlertCircle, Clock, CheckCircle2, ChevronRight } from 'lucide-react';
 import bhoomiLogo from '../../assets/bhoomi_logo.png';
 
 interface NotificationItem {

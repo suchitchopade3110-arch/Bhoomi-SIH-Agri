@@ -49,7 +49,9 @@ class StorageService:
         row = await self._assets.get_by_id(asset_id)
         if row is None:
             raise NotFoundError("Asset not found.", details={"asset_id": asset_id})
-        download_url = await self._storage.generate_presigned_download_url(asset_id)
+        download_url = await self._storage.generate_presigned_download_url(
+            asset_id, storage_key=row.get("storage_key"),
+        )
         return AssetResponse(
             id=row["id"],
             asset_kind=row["asset_kind"],

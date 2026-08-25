@@ -32,7 +32,7 @@ async def get_queue(
 @router.get(
     "/review/{parcel_id}",
     response_model=OfficerReviewDetail,
-    summary="Get detailed parcel boundary for editing",
+    summary="Get detailed parcel info for approve/reject review",
 )
 async def get_review_detail(
     parcel_id: str,
@@ -45,7 +45,7 @@ async def get_review_detail(
 @router.post(
     "/action",
     response_model=OfficerActionResponse,
-    summary="Submit officer decision (verify boundary or reject) — contract §2.7 review endpoint",
+    summary="Submit officer decision (approve or reject) — contract §2.7 review endpoint",
 )
 async def process_action(
     request: OfficerActionRequest,

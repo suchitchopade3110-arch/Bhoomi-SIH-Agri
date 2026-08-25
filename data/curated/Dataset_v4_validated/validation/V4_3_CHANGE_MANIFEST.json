@@ -1,0 +1,116 @@
+{
+  "manifest_version": "1.0.0",
+  "source_baseline_version": "v4.2.0-validated",
+  "candidate_version": "v4.3.0-candidate",
+  "created_at": "2026-08-24T16:20:00Z",
+  "reviewer": "Tharun BL (Agricultural Research, Voice & Dataset Governance Lead)",
+  "changes": [
+    {
+      "change_id": "CHG-V43-001",
+      "category": "SAFETY_RULE",
+      "title": "Conditional Drone ULV Calibration & Safety Buffer Rule",
+      "affected_records": ["CHEM-001", "CHEM-007", "CHEM-012"],
+      "old_behavior": "Only high-volume knapsack water volume (500 L/ha) was supported; drone queries triggered generic clarification",
+      "new_behavior": "Structured drone ULV calibration encoded: 20-25 L/ha spray volume for CIBRC-registered molecules, VMD 100-150 µm droplet size, wind speed <10 km/h, and 100m buffer zone",
+      "reason": "Enforces strict CIBRC Drone SOP compliance and prevents dangerous chemical drift or phytotoxicity",
+      "source_evidence": "CIBRC SOP for Drone Application of Pesticides (Govt of India, 2022/2024); TNAU Drone Advisory (2024)",
+      "expert_validation": "VERIFIED (Agricultural Engineering & Entomology Specialist Sign-Off)",
+      "risk_level": "LOW (Hard safety guardrails enforced)",
+      "validation_status": "VALIDATED"
+    },
+    {
+      "change_id": "CHG-V43-002",
+      "category": "AGRONOMIC_CORPUS",
+      "title": "Rice False Smut (Ustilaginoidea virens) Knowledge & Boot-Leaf Preventive Rule",
+      "affected_records": ["DOC-DIS-005", "CHEM-007", "CHEM-013", "SEV-DIS-005"],
+      "old_behavior": "False smut queries triggered safe officer escalation as out-of-corpus disease",
+      "new_behavior": "Full RAG corpus integration with strict boot-leaf stage preventive timing (Copper Hydroxide @ 1.25 kg/ha or Propiconazole @ 500 ml/ha) and explicit ban on flowering-stage sprays",
+      "reason": "Resolves high-frequency farmer queries during humid Late Samba flowering seasons in Delta tracts",
+      "source_evidence": "ICAR-IIRR Rice Diseases Compendium (2023); TNAU Crop Production Guide (2020/2024)",
+      "expert_validation": "VERIFIED (Plant Pathology Specialist Sign-Off)",
+      "risk_level": "LOW",
+      "validation_status": "VALIDATED"
+    },
+    {
+      "change_id": "CHG-V43-003",
+      "category": "AGRONOMIC_CORPUS",
+      "title": "Rice Stem Rot (Sclerotium oryzae) Agronomic & Water Drainage Protocol",
+      "affected_records": ["DOC-DIS-006", "CHEM-010", "CHEM-011", "SEV-DIS-006"],
+      "old_behavior": "Stem rot queries triggered clarifying questions on generic sheath symptoms",
+      "new_behavior": "Dedicated disease document DOC-DIS-006 with primary cultural recommendation (field drainage/aeration), muriate of potash application, and waterline-directed sprays (Hexaconazole, Validamycin)",
+      "reason": "Provides authoritative guidance for ill-drained lowland paddy lodging disorders",
+      "source_evidence": "TNAU Agritech Crop Protection Rice Stem Rot (2023); IRRI Rice Knowledge Bank (2022)",
+      "expert_validation": "VERIFIED (Plant Pathology Specialist Sign-Off)",
+      "risk_level": "LOW",
+      "validation_status": "VALIDATED"
+    },
+    {
+      "change_id": "CHG-V43-004",
+      "category": "LEXICON",
+      "title": "Southern Tamil Nadu Gall Midge Alias Promotion (வெங்காயத்தாள் புழு)",
+      "affected_records": ["TAMIL_PEST_LEXICON.csv", "PEST_005"],
+      "old_behavior": "Marked NEEDS_REVIEW, triggering clarification turns",
+      "new_behavior": "Promoted to VERIFIED with direct canonical entity mapping to Gall midge (Orseolia oryzae)",
+      "reason": "AC&RI Madurai extension surveys confirmed universal usage across Tirunelveli, Madurai, and Tenkasi with zero cross-pest ambiguity",
+      "source_evidence": "AC&RI Madurai & KVK Ambasamudram Regional Farmer Survey 2025-2026",
+      "expert_validation": "VERIFIED (Extension Entomologist Sign-Off)",
+      "risk_level": "LOW",
+      "validation_status": "VALIDATED"
+    },
+    {
+      "change_id": "CHG-V43-005",
+      "category": "DIAGNOSTIC_LOGIC",
+      "title": "Multi-Turn Diagnostic Tree for Zinc Deficiency vs Brown Spot",
+      "affected_records": ["DIAGNOSTIC_DECISION_TREES.jsonl", "DDT-001"],
+      "old_behavior": "Ambiguous foliar brown spot queries relied solely on single-turn similarity retrieval",
+      "new_behavior": "Structured decision tree evaluates crop stage (2-4 WAT vs later), soil/water context (alkaline/ill-drained vs sandy), lesion morphology (midrib bronze vs oval spots with halo), and field pattern before prescribing 0.5% ZnSO4 or Mancozeb",
+      "reason": "Prevents misdiagnosis and unnecessary chemical fungicide sprays on nutritional chlorosis",
+      "source_evidence": "TNAU Soil Science Micronutrient Advisory (2023); IRRI Diagnostic Decision Tree (2022)",
+      "expert_validation": "VERIFIED (Agronomy & Plant Pathology Joint Sign-Off)",
+      "risk_level": "LOW",
+      "validation_status": "VALIDATED"
+    },
+    {
+      "change_id": "CHG-V43-006",
+      "category": "SAFETY_RULE",
+      "title": "Bio-Control (Pseudomonas fluorescens) 7-Day Chemical Separation Gate",
+      "affected_records": ["CHEM-015", "CHEMICAL_STATUS_AUDIT.jsonl"],
+      "old_behavior": "Biological inoculant dosage lacked explicit chemical fungicide tank-mix incompatibility checks",
+      "new_behavior": "Hard safety gate enforces mandatory 7-day separation interval between Pseudomonas application and chemical fungicide sprays",
+      "reason": "Prevents destruction of living antagonistic bacterial colonies by synthetic copper/triazole fungicides",
+      "source_evidence": "TNAU Department of Plant Pathology Bio-inoculant Manual (2023); ICAR-NBAIR (2022)",
+      "expert_validation": "VERIFIED (Microbiology & Pathology Sign-Off)",
+      "risk_level": "LOW",
+      "validation_status": "VALIDATED"
+    },
+    {
+      "change_id": "CHG-V43-007",
+      "category": "METADATA_RIGHTS",
+      "title": "Institutional Open Educational Attribution Documentation (CC-BY-NC 4.0)",
+      "affected_records": ["manifests/image_manifest.csv"],
+      "old_behavior": "Image license tagged as IMAGE_LICENSE_UNCLEAR",
+      "new_behavior": "Updated with formal institutional attribution metadata under TNAU / ICAR public extension repository terms",
+      "reason": "Ensures complete intellectual property compliance and data provenance governance",
+      "source_evidence": "TNAU Directorate of Extension Education Public Domain Guidelines (2024)",
+      "expert_validation": "VERIFIED (Dataset Governance Lead Sign-Off)",
+      "risk_level": "LOW",
+      "validation_status": "VALIDATED"
+    }
+  ],
+  "deferred_items": [
+    {
+      "issue_id": "RBL-4305",
+      "category": "LEXICON",
+      "term_tamil": "மட்ட பூச்சி",
+      "reason": "High residual ambiguity: Used inconsistently by farmers for sheath mites vs generic lower sheath bugs. Kept out of candidate production lexicon pending multi-district blinded survey.",
+      "action": "DEFERRED_TO_V4_4"
+    },
+    {
+      "issue_id": "RBL-4307",
+      "category": "IMAGE_ASSET",
+      "item": "Whorl Maggot Reference Photo (IMG-0018)",
+      "reason": "Physical image collection scheduled for September 2026 Samba nursery cycle at TRRI Aduthurai. Missing evidence is never fabricated; preserved as IMAGE_NOT_FOUND.",
+      "action": "DEFERRED_PENDING_FIELD_COLLECTION"
+    }
+  ]
+}

@@ -18,6 +18,8 @@ from app.ports.asr_tts import AsrTtsPort
 class SarvamAsrTtsAdapter:
     """ASR/TTS adapter using Sarvam AI REST APIs."""
 
+    provider_name = "sarvam"
+
     def __init__(
         self,
         api_key: str | None = None,
@@ -99,7 +101,10 @@ class SarvamAsrTtsAdapter:
             "inputs": [text],
             "target_language_code": lang_code,
             "model": "bulbul:v3",
-            "speaker": "meera" if gender == "female" else "arvind",
+            # Speaker names verified against Sarvam's live bulbul:v3 speaker
+            # roster (2026-08-24) — "meera"/"arvind" from the original
+            # implementation are no longer valid speaker IDs for this model.
+            "speaker": "priya" if gender == "female" else "rahul",
         }
         headers = {
             "api-subscription-key": self._api_key,

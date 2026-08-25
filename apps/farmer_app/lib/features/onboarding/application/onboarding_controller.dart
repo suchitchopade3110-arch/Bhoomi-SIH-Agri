@@ -22,12 +22,12 @@ class OnboardingController extends StateNotifier<OnboardingState> {
     state = state.copyWith(crop: crop, errorMessage: null);
   }
 
-  void setAreaAcres(double acres) {
-    state = state.copyWith(areaAcresSelfReported: acres, errorMessage: null);
-  }
-
   void setGrowthStage(String stage) {
     state = state.copyWith(growthStage: stage, errorMessage: null);
+  }
+
+  void setRegion(String region) {
+    state = state.copyWith(region: region, errorMessage: null);
   }
 
   void setSoilType(String soilType) {
@@ -60,36 +60,21 @@ class OnboardingController extends StateNotifier<OnboardingState> {
     }
   }
 
-
-  void toggleListening() {
-    if (state.isListening) {
-      stopListening();
-      return;
-    }
-
-    state = state.copyWith(isListening: true, errorMessage: null);
-
-    // Gracefully simulate speech-to-intent recognition for the active step
-    Future.delayed(const Duration(milliseconds: 1400), () {
-      if (!state.isListening) return;
-
-      switch (state.currentStep) {
-        case 0:
-          setCrop(state.crop.isNotEmpty ? state.crop : 'samba_paddy');
-          break;
-        case 1:
-          setAreaAcres(state.areaAcresSelfReported > 0 ? state.areaAcresSelfReported : 2.5);
-          break;
-        case 2:
-          setGrowthStage(state.growthStage.isNotEmpty ? state.growthStage : 'flowering');
-          break;
-      }
-      stopListening();
-    });
+  void startListening(String field) {
+    state = state.copyWith(recordingField: field);
   }
 
   void stopListening() {
-    state = state.copyWith(isListening: false);
+    state = state.copyWith(clearRecordingField: true);
+  }
+
+  void toggleListening([String? field]) {
+    final targetField = field ?? (state.currentStep == 0 ? 'crop' : state.currentStep == 1 ? 'growth_stage' : 'region');
+    if (state.isFieldRecording(targetField)) {
+      stopListening();
+    } else {
+      startListening(targetField);
+    }
   }
 
   void clearError() {

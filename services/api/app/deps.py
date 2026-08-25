@@ -1,7 +1,7 @@
 """app/deps.py — spec-mandated shim to app.adapters.dependencies.
 
 DI wiring: selects real vs stub adapters based on config flags
-(``LAND_API_MODE``, ``DIAGNOSIS_MODEL``). The implementation lives in
+(``DIAGNOSIS_MODEL``). The implementation lives in
 ``app.adapters.dependencies``; this shim satisfies the spec-mandated
 ``from app.deps import ...`` import path.
 """

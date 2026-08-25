@@ -28,7 +28,7 @@ def test_weights_sum_to_exactly_1_0():
     )
 
 
-def test_weights_keys_are_all_six_subindices():
+def test_weights_keys_are_all_four_subindices():
     from app.domain.constants import WEIGHTS
     from app.domain.enums import SubIndexKey
     assert set(WEIGHTS.keys()) == set(SubIndexKey), (
@@ -63,11 +63,9 @@ class TestEnumValues:
 
     def test_subindex_key(self):
         from app.domain.enums import SubIndexKey
-        # Contract §2.2: exact names
-        assert SubIndexKey.ENVIRONMENTAL_SUITABILITY == "environmental_suitability"
-        assert SubIndexKey.RESOURCE_ADEQUACY == "resource_adequacy"
-        assert SubIndexKey.CROP_STAGE_PROGRESSION == "crop_stage_progression"
-        assert SubIndexKey.ACTIVE_PROBLEM_LOAD == "active_problem_load"
+        # Contract §2.2 / SIH26131: exact names
+        assert SubIndexKey.ACTIVE_PROBLEM_SEVERITY == "active_problem_severity"
+        assert SubIndexKey.ENVIRONMENTAL_RISK == "environmental_risk"
         assert SubIndexKey.MONITORING_RECENCY == "monitoring_recency"
         assert SubIndexKey.TREATMENT_RESPONSE == "treatment_response"
 
@@ -117,7 +115,7 @@ class TestServiceEntryPoints:
         assert summary.health_score == 68.0
 
     def test_compute_health_is_importable_via_spec_path(self):
-        from app.services.health.engine import compute_health
+        from app.domain.health.score import compute_health
         assert callable(compute_health)
 
     def test_gate_decide_is_importable_via_spec_path(self):
@@ -140,10 +138,10 @@ class TestDomainModels:
         from app.domain.models import SubIndex
         from app.domain.enums import SubIndexKey
         si = SubIndex(
-            key=SubIndexKey.ACTIVE_PROBLEM_LOAD,
+            key=SubIndexKey.ACTIVE_PROBLEM_SEVERITY,
             value=70,
-            weight=0.30,
-            contribution=21.0,
+            weight=0.40,
+            contribution=28.0,
         )
         assert si.value == 70
 
@@ -300,10 +298,6 @@ class TestConfig:
         from app.domain.constants import CONFIDENCE_GATE
         assert CONFIDENCE_GATE == 0.70
 
-    def test_land_api_mode_valid(self):
-        from app.config import get_settings
-        assert get_settings().LAND_API_MODE in ("mock", "live")
-
     def test_diagnosis_model_valid(self):
         from app.config import get_settings
         assert get_settings().DIAGNOSIS_MODEL in ("real", "stub")
@@ -326,8 +320,8 @@ def test_openapi_lists_health_endpoints():
     response = client.get("/api/v1/openapi.json")
     assert response.status_code == 200
     paths = response.json()["paths"]
-    # Minimum set of health-engine endpoints
-    assert any("/health" in p for p in paths)
+    # Minimum set of risk-engine endpoints
+    assert any("risk" in p for p in paths)
     assert any("recompute" in p for p in paths)
     assert any("advisory" in p for p in paths)
     assert any("diagnose" in p for p in paths)
@@ -352,8 +346,9 @@ def test_spec_shim_paths_all_resolve():
         "app.ports.image_diagnosis",
         "app.ports.asr_tts",
         "app.ports.storage",
-        "app.services.health.subindices",
-        "app.services.health.engine",
+        "app.domain.health.subindices",
+        "app.domain.health.score",
+        "app.services.health_service",
         "app.services.gate.gate",
         "app.services.rag.pipeline",
         "app.services.escalation.compiler",

@@ -8,6 +8,8 @@ import uuid
 from app.core.errors import NotFoundError
 from app.domain.alerts.models import ClusterCase
 from app.domain.geo import haversine_distance_km
+from app.domain.rag.constants import DISEASE_DOC_ID_PREFIX, PEST_DOC_ID_PREFIX
+from app.domain.rag.scoping import get_target_type_prefix
 from app.domain.rag.similarity import cosine_similarity
 from app.repositories.interfaces import RetrievedChunk
 
@@ -230,7 +232,19 @@ class InMemoryKnowledgeChunkRepository:
     async def commit(self) -> None:
         pass  # nothing to flush — writes are already visible
 
-    async def similarity_search(self, query_embedding: list[float], top_k: int) -> list[RetrievedChunk]:
+    async def similarity_search(
+        self, query_embedding: list[float], top_k: int, content_type: str | None = None
+    ) -> list[RetrievedChunk]:
+        candidates = self._chunks
+        if content_type == "pest":
+            candidates = [c for c in candidates if c.doc_id.startswith(PEST_DOC_ID_PREFIX)]
+        elif content_type == "disease":
+            candidates = [
+                c
+                for c in candidates
+                if c.doc_id.startswith(DISEASE_DOC_ID_PREFIX) or not c.doc_id.startswith(PEST_DOC_ID_PREFIX)
+            ]
+
         scored = [
             RetrievedChunk(
                 doc_id=c.doc_id,
@@ -239,7 +253,7 @@ class InMemoryKnowledgeChunkRepository:
                 chunk_text=c.chunk_text,
                 score=cosine_similarity(query_embedding, c.embedding),
             )
-            for c in self._chunks
+            for c in candidates
         ]
         scored.sort(key=lambda c: c.score, reverse=True)
         return scored[:top_k]
@@ -351,3 +365,57 @@ class InMemoryAlertRepository:
         alert["dismissed_at"] = as_of
         alert["dismiss_reason"] = reason
         return alert
+
+
+class InMemoryTreatmentApplicationRepository:
+    """Settable in-memory ``TreatmentApplicationRepository`` (SPEC-EFFICACY-001)
+    for demo/dev/tests — same dict-in/dict-out shape as
+    ``PostgresTreatmentApplicationRepository``."""
+
+    def __init__(self) -> None:
+        self._applications: dict[str, dict[str, Any]] = {}
+
+    async def open_application(self, application: dict[str, Any]) -> dict[str, Any]:
+        application_id = application.get("id") or str(uuid.uuid4())
+        application["id"] = application_id
+        application.setdefault("final_outcome", None)
+        application.setdefault("followups_to_resolution", None)
+        application.setdefault("days_to_resolution", None)
+        application.setdefault("failed_on_got_worse", False)
+        application.setdefault("escalated_for_expert", False)
+        self._applications[application_id] = application
+        return application
+
+    async def get_latest_open_for_problem(self, problem_id: str) -> dict[str, Any] | None:
+        open_apps = [
+            a for a in self._applications.values() if a["problem_id"] == problem_id and a.get("final_outcome") is None
+        ]
+        if not open_apps:
+            return None
+        return max(open_apps, key=lambda a: a["applied_on"])
+
+    async def close_application(self, application_id: str, updates: dict[str, Any]) -> dict[str, Any] | None:
+        application = self._applications.get(application_id)
+        if application is None:
+            return None
+        application.update(updates)
+        return application
+
+    async def increment_followups(self, application_id: str) -> dict[str, Any] | None:
+        application = self._applications.get(application_id)
+        if application is None:
+            return None
+        application["followups_to_resolution"] = (application.get("followups_to_resolution") or 0) + 1
+        return application
+
+    async def list_for_aggregation(
+        self, pathogen_type: str, treatment_name: str, crop: str, district: str
+    ) -> list[dict[str, Any]]:
+        return [
+            a
+            for a in self._applications.values()
+            if a["pathogen_type"] == pathogen_type
+            and a["treatment_name"] == treatment_name
+            and a["crop"] == crop
+            and a["district"] == district
+        ]

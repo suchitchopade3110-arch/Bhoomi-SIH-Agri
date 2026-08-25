@@ -19,11 +19,13 @@ from app.domain.rag.constants import FIVE_POINT_FIELDS, INSUFFICIENT_CONTEXT_KEY
 @dataclass(frozen=True)
 class FivePointAdvisory:
     """The fixed 5-point structure (PRD §5.8). Citations travel alongside
-    this, not inside it — see ``ParsedAdvisoryResult``."""
+    this, not inside it — see ``ParsedAdvisoryResult``. ``what_to_avoid`` is
+    declared first — never-cut, meant to be the loudest/first point a farmer
+    hears or reads (SIH26131 feature checklist §4)."""
 
+    what_to_avoid: str
     possible_issue: str
     what_to_check: str
-    what_to_avoid: str
     what_to_do_next: str
     expert_triggers: str
 

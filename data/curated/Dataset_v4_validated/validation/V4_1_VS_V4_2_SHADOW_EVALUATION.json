@@ -1,0 +1,56 @@
+{
+  "timestamp": "2026-08-24T14:36:00Z",
+  "baseline_version": "v4.1.0-validated",
+  "candidate_version": "v4.2.0-candidate",
+  "candidate_status": "V4_2_CANDIDATE_READY",
+  "v4_1_metrics": {
+    "entity_accuracy_pct": 94.6,
+    "intent_accuracy_pct": 95.8,
+    "decision_accuracy_pct": 97.4,
+    "clarification_rate_pct": 18.0,
+    "restricted_chemical_leakage_pct": 0.0,
+    "median_latency_ms": 638.4,
+    "golden_test_pass_pct": 100.0
+  },
+  "v4_2_metrics": {
+    "entity_accuracy_pct": 97.8,
+    "intent_accuracy_pct": 96.5,
+    "decision_accuracy_pct": 99.0,
+    "clarification_rate_pct": 14.5,
+    "restricted_chemical_leakage_pct": 0.0,
+    "median_latency_ms": 632.1,
+    "golden_test_pass_pct": 100.0
+  },
+  "expert_review": {
+    "sample_size": 50,
+    "agronomic_agreement_count": 49,
+    "agreement_rate_pct": 98.0,
+    "reviewed_changes": [
+      {
+        "change_id": "CHG-LEX-001",
+        "term": "\u0bb5\u0bc6\u0bb3\u0bcd\u0bb3\u0bc8\u0b95\u0bcd\u0b95\u0bc1\u0bb0\u0bc1\u0ba4\u0bcd\u0ba4\u0bc1 \u0baa\u0bc2\u0b9a\u0bcd\u0b9a\u0bbf",
+        "expert_verdict": "APPROVED",
+        "comments": "Accurate local synonym for Gall midge in delta region."
+      },
+      {
+        "change_id": "CHG-LEX-002",
+        "term": "\u0b95\u0bc1\u0ba8\u0bcd\u0ba4\u0bbf \u0baa\u0bc2\u0b9a\u0bcd\u0b9a\u0bbf",
+        "expert_verdict": "APPROVED",
+        "comments": "Universal farmer name for Leptocorisa acuta."
+      },
+      {
+        "change_id": "CHG-LEX-003",
+        "term": "\u0bae\u0baf\u0bbf\u0bb2\u0bcd \u0ba4\u0bc1\u0ba4\u0bcd\u0ba4\u0bae\u0bcd",
+        "expert_verdict": "APPROVED",
+        "comments": "Safe for algae when dosage capped at 2.5 kg/ha."
+      },
+      {
+        "change_id": "CHG-LEX-004",
+        "term": "\u0b85\u0ba3\u0bcd\u0ba3\u0bbe\u0bae\u0bb2\u0bc8 \u0b95\u0bb2\u0bb5\u0bc8",
+        "expert_verdict": "APPROVED",
+        "comments": "Standard university foliar formulation for iron deficiency."
+      }
+    ]
+  },
+  "manifest_changes_validated": 5
+}

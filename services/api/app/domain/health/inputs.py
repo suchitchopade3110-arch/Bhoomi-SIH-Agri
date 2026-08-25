@@ -1,4 +1,4 @@
-"""Input value objects for the Farm Health Score engine.
+"""Input value objects for the Farm Health / Risk Score engine.
 
 These are plain, immutable data carriers — no I/O, no defaults sourced from a
 database. ``services/health_service.py`` is responsible for assembling a
@@ -22,32 +22,26 @@ class WeatherReading:
 
 @dataclass(frozen=True)
 class CropIdealConditions:
-    """The ideal environmental band for a crop at its current growth stage.
-
-    Sourced from the same FAO-56 / ICAR package-of-practices tables the
-    resource planner uses (PRD §5.4) — this domain package only consumes the
-    numbers, it does not look them up.
-    """
+    """The ideal environmental band for a crop at its current growth stage."""
 
     temp_min_c: float
     temp_max_c: float
     humidity_min_pct: float
     humidity_max_pct: float
-    soil_moisture_min_pct: float
+    soil_moisture_min_pct: float | None = None
 
 
 @dataclass(frozen=True)
 class OpenProblemInput:
-    """One currently-open problem contributing to the active problem load."""
+    """One currently-open problem contributing to active problem severity."""
 
     severity: ProblemSeverity
 
 
 @dataclass(frozen=True)
 class TriggeringInput:
-    """Describes the event that caused a health recompute — echoed verbatim
-    onto the persisted snapshot so every score movement is auditable
-    (PRD §7.1, contract §2.9 ``triggering_input``)."""
+    """Describes the event that caused a score recompute — echoed verbatim
+    onto the persisted snapshot so every score movement is auditable."""
 
     type: str
     details: dict[str, Any] = field(default_factory=dict)
@@ -58,51 +52,37 @@ class TriggeringInput:
 
 @dataclass(frozen=True)
 class HealthScoreInputs:
-    """Everything ``compute_health`` needs for one farm, at one point in time.
-
-    Any of the fields below may be ``None`` to represent a genuinely missing
-    input (PRD §5.2: "Missing fields leave the health score Unrated rather
-    than guessing"). When any required field is ``None``, ``compute_health``
-    returns an ``unrated`` snapshot instead of guessing a number.
-    """
+    """Everything ``compute_health`` needs for one farm, at one point in time."""
 
     triggering_input: TriggeringInput
 
-    # Sub-index #1 inputs
-    weather: WeatherReading | None
-    crop_ideal: CropIdealConditions
-    soil_moisture_pct: float | None
+    # Sub-index #1: active_problem_severity
+    open_problems: list[OpenProblemInput] = field(default_factory=list)
 
-    # Sub-index #2 inputs
-    irrigation_delivered_mm: float | None
-    irrigation_required_mm: float | None
+    # Sub-index #2: environmental_risk
+    weather: WeatherReading | None = None
+    crop_ideal: CropIdealConditions | None = None
 
-    # Sub-index #3 inputs
-    days_since_planting: int | None
-    expected_stage_day: int
-
-    # Sub-index #4 inputs
-    open_problems: list[OpenProblemInput]
-
-    # Sub-index #5 inputs
-    days_since_last_scan: int | None
-
-    # Sub-index #6 inputs
-    latest_followup_response: FollowupResponse | None
-    consecutive_got_worse_count: int
-    problem_resolved_with_confirmed_treatment: bool
+    # Sub-index #3: monitoring_recency
+    days_since_last_scan: int | None = None
     is_expert_verified: bool = False
 
+    # Sub-index #4: treatment_response
+    latest_followup_response: FollowupResponse | None = None
+    consecutive_got_worse_count: int = 0
+    problem_resolved_with_confirmed_treatment: bool = False
+
+    # Gating & activity flag (Day 0 unrated policy)
+    has_interaction: bool = True
+
+    # Legacy/compatibility fields (optional/ignored in v2 calculation)
+    soil_moisture_pct: float | None = None
+    irrigation_delivered_mm: float | None = None
+    irrigation_required_mm: float | None = None
+    days_since_planting: int | None = None
+    expected_stage_day: int = 0
+
     def required_inputs_present(self) -> bool:
-        """True once enough fields exist to compute a real (non-``unrated``)
-        score. Per PRD §5.2/§7.1, Day 0 (or any farm still missing a
-        required onboarding/monitoring field) stays ``unrated`` rather than
-        being scored on guessed defaults."""
-        return (
-            self.weather is not None
-            and self.soil_moisture_pct is not None
-            and self.irrigation_delivered_mm is not None
-            and self.irrigation_required_mm is not None
-            and self.days_since_planting is not None
-            and self.days_since_last_scan is not None
-        )
+        """True once enough fields exist to compute a real score.
+        A farm remains Unrated until it records at least one interaction."""
+        return self.has_interaction

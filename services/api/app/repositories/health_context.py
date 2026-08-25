@@ -22,6 +22,7 @@ class OpenProblemRecord:
     problem_id: str
     severity: ProblemSeverity
     label: str = ""
+    target_type: str | None = None
 
 
 @dataclass(frozen=True)
@@ -139,7 +140,9 @@ class InMemoryProblemLoadReader:
         for problems in self._by_farm.values():
             for i, p in enumerate(problems):
                 if p.problem_id == problem_id:
-                    problems[i] = OpenProblemRecord(problem_id=p.problem_id, severity=severity, label=p.label)
+                    problems[i] = OpenProblemRecord(
+                        problem_id=p.problem_id, severity=severity, label=p.label, target_type=p.target_type
+                    )
                     return
 
     async def resolve_problem(self, problem_id: str) -> None:

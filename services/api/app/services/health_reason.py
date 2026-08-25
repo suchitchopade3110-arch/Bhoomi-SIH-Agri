@@ -11,21 +11,17 @@ from typing import Any, Optional
 
 # Sub-index key → Tamil reason for drop / rise
 _REASONS_DROP: dict[str, str] = {
-    "active_problem_load": "ஒரு செயலில் உள்ள நோய்",
-    "resource_adequacy": "நீர் பற்றாக்குறை",
-    "treatment_response": "சிகிச்சை பலனளிக்கவில்லை",
-    "environmental_suitability": "சுற்றுச்சூழல் சாதகமாக இல்லை",
-    "crop_stage_progression": "பயிர் வளர்ச்சி பின்தங்கியுள்ளது",
+    "active_problem_severity": "ஒரு செயலில் உள்ள நோய் அல்லது பூச்சி பாதிப்பு",
+    "environmental_risk": "சுற்றுச்சூழல் சாதகமாக இல்லை",
     "monitoring_recency": "சமீபத்திய தரவு இல்லை",
+    "treatment_response": "சிகிச்சை பலனளிக்கவில்லை",
 }
 
 _REASONS_RISE: dict[str, str] = {
-    "active_problem_load": "நோய் தீர்க்கப்பட்டது",
-    "resource_adequacy": "நீர் வழங்கல் மேம்பட்டது",
-    "treatment_response": "சிகிச்சை பலனளித்தது",
-    "environmental_suitability": "சுற்றுச்சூழல் மேம்பட்டது",
-    "crop_stage_progression": "பயிர் வளர்ச்சி இயல்பாக உள்ளது",
+    "active_problem_severity": "பாதிப்பு தீர்க்கப்பட்டது",
+    "environmental_risk": "சுற்றுச்சூழல் மேம்பட்டது",
     "monitoring_recency": "சமீபத்தில் கண்காணிக்கப்பட்டது",
+    "treatment_response": "சிகிச்சை பலனளித்தது",
 }
 
 

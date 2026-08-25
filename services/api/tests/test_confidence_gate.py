@@ -249,14 +249,16 @@ def test_gate_is_pure_and_deterministic():
 
 
 def test_five_point_advisory_field_order():
-    """Advisory schema MUST declare what_to_avoid ahead of what_to_do_next in field order."""
+    """Advisory schema MUST declare what_to_avoid FIRST (SIH26131 feature
+    checklist §4: never-cut, "ordered first and visually loudest") — not
+    merely ahead of what_to_do_next."""
     from app.schemas.advisory import FivePointAdvisory
     from app.domain.rag.constants import FIVE_POINT_FIELDS
 
     expected_order = [
+        "what_to_avoid",
         "possible_issue",
         "what_to_check",
-        "what_to_avoid",
         "what_to_do_next",
         "expert_triggers",
     ]
@@ -264,6 +266,15 @@ def test_five_point_advisory_field_order():
     actual_fields = list(FivePointAdvisory.model_fields.keys())
     assert actual_fields == expected_order, f"Expected {expected_order}, got {actual_fields}"
     assert list(FIVE_POINT_FIELDS) == expected_order
+    assert actual_fields[0] == "what_to_avoid"
+
+    # And confirm it holds through actual JSON serialization, not just
+    # declaration order — this is what a client actually receives.
+    advisory = FivePointAdvisory(
+        possible_issue="x", what_to_check="y", what_to_do_next="z",
+        what_to_avoid="AVOID", expert_triggers="e",
+    )
+    assert list(advisory.model_dump().keys())[0] == "what_to_avoid"
 
 
 def test_gate_object_frozen_shape():

@@ -1,0 +1,32 @@
+{
+  "schema_version": "1.0.0",
+  "purpose": "Vision-routing / pest-image metadata for BHOOMI",
+  "required_fields": [
+    "image_id",
+    "file_path",
+    "pest_id",
+    "crop",
+    "source_organization",
+    "source_url",
+    "label_type",
+    "expert_verified",
+    "license_status",
+    "dataset_split"
+  ],
+  "recommended_fields": [
+    "growth_stage",
+    "severity",
+    "symptoms_visible",
+    "region",
+    "capture_context",
+    "annotator",
+    "annotation_date"
+  ],
+  "current_limitations": {
+    "expert_verified": false,
+    "severity_labels": "not assigned",
+    "train_val_test_split": "not assigned",
+    "license_status": "verify before public/commercial redistribution",
+    "coverage": "17 images across 7 of 8 core pest classes; Whorl maggot has no downloaded image in this package"
+  }
+}

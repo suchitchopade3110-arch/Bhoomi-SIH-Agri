@@ -18,7 +18,9 @@ from app.domain.health.inputs import TriggeringInput
 from app.repositories.dependencies import get_farm_repository, get_followup_writer, get_problem_writer
 from app.repositories.health_context import FollowUpWriter, ProblemWriter
 from app.repositories.interfaces import FarmRepository
-from app.schemas.followup import FollowupCheckinRequest, FollowupCheckinResponse
+from app.schemas.followup import FollowupCheckinRequest, FollowupCheckinResponse, SeverityChange
+from app.schemas.health import RiskChange
+from app.services.efficacy.tracking_service import EfficacyTrackingService, get_efficacy_tracking_service
 from app.services.escalation_service import EscalationService, get_escalation_service
 from app.services.health_service import HealthService, get_health_service
 from app.services.health_snapshot_mapping import snapshot_row_to_schema
@@ -53,12 +55,14 @@ class FollowupService:
         farm_repo: FarmRepository,
         health_service: HealthService,
         escalation_service: EscalationService,
+        efficacy_tracking: EfficacyTrackingService | None = None,
     ) -> None:
         self._problems = problem_writer
         self._followups = followup_writer
         self._farms = farm_repo
         self._health = health_service
         self._escalation = escalation_service
+        self._efficacy_tracking = efficacy_tracking
 
     async def checkin(self, request: FollowupCheckinRequest) -> FollowupCheckinResponse:
         problem_id = request.problem_id
@@ -81,6 +85,10 @@ class FollowupService:
         escalation_id: str | None = None
         followup_id = str(uuid4())
 
+        # Captured before any mutation below, so `risk.from_` reflects the
+        # farm's state walking into this check-in, not after it.
+        previous_snapshot = await self._health.get_latest(request.farm_id)
+
         await self._followups.record_followup(
             followup_id=followup_id,
             problem_id=problem_id,
@@ -90,20 +98,25 @@ class FollowupService:
             photo_asset_id=request.photo_asset_id,
         )
 
+        new_severity: ProblemSeverity | None = current_severity
         if request.response == FollowupResponse.GOT_WORSE:
-            await self._problems.set_problem_severity(problem_id, _promote(current_severity))
+            new_severity = _promote(current_severity)
+            await self._problems.set_problem_severity(problem_id, new_severity)
         elif request.response == FollowupResponse.IMPROVED:
-            demoted = _demote(current_severity)
-            if demoted is None:
+            new_severity = _demote(current_severity)
+            if new_severity is None:
                 await self._problems.resolve_problem(problem_id)
             else:
-                await self._problems.set_problem_severity(problem_id, demoted)
-        # NO_CHANGE: severity untouched.
+                await self._problems.set_problem_severity(problem_id, new_severity)
+        # NO_CHANGE: severity untouched (new_severity stays == current_severity).
 
         if request.photo_asset_id is not None:
             farm = await self._farms.get_by_id(request.farm_id)
             if farm is not None:
                 await self._farms.update(request.farm_id, {"days_since_last_scan": FOLLOWUP_RESETS_DAYS_SINCE_LAST_SCAN})
+
+        if self._efficacy_tracking is not None:
+            await self._efficacy_tracking.attribute_followup(problem_id=problem_id, response=request.response)
 
         snapshot = await self._health.recompute(
             request.farm_id,
@@ -128,6 +141,12 @@ class FollowupService:
             response=request.response,
             auto_escalated=auto_escalated,
             escalation_id=escalation_id,
+            severity_change=SeverityChange(from_=current_severity, to=new_severity),
+            risk=RiskChange(
+                from_=previous_snapshot.score,
+                to=snapshot.score,
+                band=snapshot_row_to_schema(snapshot).band,
+            ),
             updated_health_snapshot=snapshot_row_to_schema(snapshot),
             spoken_summary=f"Thanks for the update — your health score is now {snapshot.score}.",
         )
@@ -139,5 +158,8 @@ def get_followup_service(
     farm_repo: Annotated[FarmRepository, Depends(get_farm_repository)],
     health_service: Annotated[HealthService, Depends(get_health_service)],
     escalation_service: Annotated[EscalationService, Depends(get_escalation_service)],
+    efficacy_tracking: Annotated[EfficacyTrackingService, Depends(get_efficacy_tracking_service)],
 ) -> FollowupService:
-    return FollowupService(problem_writer, followup_writer, farm_repo, health_service, escalation_service)
+    return FollowupService(
+        problem_writer, followup_writer, farm_repo, health_service, escalation_service, efficacy_tracking
+    )

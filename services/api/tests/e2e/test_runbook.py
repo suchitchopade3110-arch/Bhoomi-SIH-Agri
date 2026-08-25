@@ -7,29 +7,55 @@ retrieval against the ingested pgvector corpus, and the deterministic health
 engine. Requires migrations applied and the RAG corpus ingested first (see
 ``Makefile`` targets ``migrate`` / ``ingest-corpus``, or just ``make smoke``).
 
-Runbook, in order (PRD §6 / §7.4's own worked example):
+Runbook, in order (SIH26131 feature checklist §15 / docs/specs/suchit_module_specs_sih26131.md §1.5):
 
-    onboard (unrated) -> land fails -> officer verifies -> resource plan
-    (FAO-56 inputs inspectable) -> baseline health 82 -> diagnose day 22
-    above gate, cited -> 68 -> follow-up got_worse -> auto-escalate ->
-    agronomist resolves -> 86 -> verified profile matches a dated scheme.
+    onboard (3-field: crop/growth_stage/region) -> land queues for HITL
+    (no auto-lookup) -> officer verifies -> baseline health 82 -> diagnose
+    above gate, cited -> 73 -> follow-up got_worse -> severity promotes,
+    auto-escalate -> 57 -> agronomist resolves -> 91 -> verified profile
+    matches a dated scheme.
+
+    This is the same reconciliation walk domain-level-verified by
+    tests/domain/test_health_score.py::test_sih26131_reconciliation, driven
+    here over real HTTP against a real Postgres instead of calling
+    compute_health() directly. Weather is forced unavailable for the
+    duration of this test (a real, documented degraded-mode input path —
+    see HealthService._get_weather_or_fallback — not a fabricated one) so
+    environmental_risk stays at its neutral default (70) the whole walk,
+    exactly matching the domain fixture; the stub weather adapter's fixed
+    30C/75% reading otherwise falls inside SIH26131's default crop-ideal
+    band and would score environmental_risk=100, producing a different
+    (also real, just not this specific canonical) walk.
 
 Uses a fresh, randomized phone number per run so the test is safe to run
 repeatedly against the same database without unique-constraint collisions.
 """
 
 from datetime import date, timedelta
+from typing import Any
 import uuid
 
 import httpx
 import pytest
 
+from app.adapters.dependencies import get_weather_adapter
 from app.core.db import AsyncSessionLocal
 from app.core.enums import SchemeStatus
 from app.main import app
 from app.models.scheme import Scheme
 
 BASE_URL = "http://test/api/v1"
+
+
+class _WeatherUnavailableAdapter:
+    """Simulates WeatherPort being unavailable (PRD §1.4 degraded mode) —
+    HealthService._get_weather_or_fallback treats a falsy reading as "no
+    live weather," which is exactly the input the SIH26131 reconciliation
+    fixture (spec §1.5) is written against (weather=None -> environmental_risk
+    stays at its ENVIRONMENTAL_RISK_DEFAULT=70 baseline throughout)."""
+
+    async def get_current_weather(self, latitude: float | None, longitude: float | None) -> dict[str, Any]:
+        return {}
 DEMO_PASSWORD = "e2e-test-pass-1234"
 
 # Not on MockLandRegistryAdapter's whitelist (app/adapters/land_registry.py)
@@ -89,185 +115,165 @@ def _auth(token: str) -> dict[str, str]:
 
 
 @pytest.mark.asyncio(loop_scope="session")
-async def test_full_runbook_walks_82_68_86():
+async def test_full_runbook_walks_82_73_57_91():
+    """SIH26131 core-loop runbook, end to end over real HTTP: 82 -> 73 ->
+    57 -> 91, matching docs/specs/suchit_module_specs_sih26131.md §1.5 and
+    tests/domain/test_health_score.py::test_sih26131_reconciliation exactly
+    — same numbers, this time proven through the real FastAPI app, real
+    Postgres, real gate, and real RAG retrieval instead of a direct
+    compute_health() call."""
     await _ensure_matching_scheme_exists()
 
-    transport = httpx.ASGITransport(app=app)
-    async with httpx.AsyncClient(transport=transport, base_url=BASE_URL) as client:
-        farmer_token = await _register_and_login(client, _unique_phone("9"), "Ramesh", "farmer")
-        officer_token = await _register_and_login(client, _unique_phone("8"), "Officer Kumar", "officer")
-        agronomist_token = await _register_and_login(client, _unique_phone("7"), "Dr. Lakshmi", "agronomist")
+    app.dependency_overrides[get_weather_adapter] = lambda: _WeatherUnavailableAdapter()
+    try:
+        transport = httpx.ASGITransport(app=app)
+        async with httpx.AsyncClient(transport=transport, base_url=BASE_URL) as client:
+            farmer_token = await _register_and_login(client, _unique_phone("9"), "Ramesh", "farmer")
+            officer_token = await _register_and_login(client, _unique_phone("8"), "Officer Kumar", "officer")
+            agronomist_token = await _register_and_login(client, _unique_phone("7"), "Dr. Lakshmi", "agronomist")
 
-        # --- 1. Onboard -> unrated (PRD §5.2, §7.1) --------------------
-        resp = await client.post(
-            "/farms",
-            headers=_auth(farmer_token),
-            json={
-                "farmer_id": "placeholder",
-                "farm_name": "Ramesh's Paddy Farm",
-                "village": "Chithode",
-                "taluk": "Erode",
-                "district": "Erode",
-                "state": "Tamil Nadu",
-                "latitude": 11.34,
-                "longitude": 77.71,
-                "total_area_acres": 2.0,
-                "survey_number": UNLISTED_SURVEY_NUMBER,
-                "primary_crop": "samba_paddy",
-                "growth_stage": "vegetative",
-                "soil_type": "clay_loam",
-                "irrigation_source": "canal",
-                "soil_moisture_pct": 53.0,
-                "days_since_planting": 17,
-                "days_since_last_scan": 6,
-            },
-        )
-        assert resp.status_code == 201, resp.text
-        farm = resp.json()
-        farm_id = farm["id"]
-        assert farm["land_status"] == "unverified"
+            # --- 1. Onboard: 3-field SIH26131 onboarding (checklist §1) ---
+            resp = await client.post(
+                "/farms",
+                headers=_auth(farmer_token),
+                json={"farmer_id": "placeholder", "crop": "samba_paddy", "growth_stage": "vegetative", "region": "Erode"},
+            )
+            assert resp.status_code == 201, resp.text
+            farm = resp.json()
+            farm_id = farm["id"]
+            assert farm["land_status"] == "unverified"
+            assert farm["primary_crop"] == "samba_paddy"
 
-        resp = await client.get(f"/farms/{farm_id}/health", headers=_auth(farmer_token))
-        assert resp.status_code == 200
-        health = resp.json()
-        assert health["score"] is None
-        assert health["band"] == "unrated"
-        assert "irrigation_delivered_mm" in health["missing_fields"]
+            # --- 2. Land submission -> always queues to officer (checklist §10.1/§13) ---
+            resp = await client.post(
+                "/land/verify",
+                headers=_auth(farmer_token),
+                json={"farm_id": farm_id, "survey_number": UNLISTED_SURVEY_NUMBER},
+            )
+            assert resp.status_code == 202, resp.text
+            assert resp.json()["status"] == "pending_review"
 
-        # --- 2. Land fails auto-lookup -> queued to officer (202) ------
-        resp = await client.post(
-            "/land/verify",
-            headers=_auth(farmer_token),
-            json={"farm_id": farm_id, "survey_number": UNLISTED_SURVEY_NUMBER},
-        )
-        assert resp.status_code == 202, resp.text
-        assert resp.json()["status"] == "pending_review"
+            # --- 3. Officer verifies — approve/reject + reason only, no boundary (checklist §10.2) ---
+            resp = await client.get("/officer/queue", headers=_auth(officer_token))
+            assert resp.status_code == 200
+            queue_items = [item for item in resp.json() if item["farm_id"] == farm_id]
+            assert len(queue_items) == 1
+            parcel_id = queue_items[0]["parcel_id"]
 
-        # --- 3. Officer verifies (HITL, contract §2.7) -----------------
-        resp = await client.get("/officer/queue", headers=_auth(officer_token))
-        assert resp.status_code == 200
-        queue_items = [item for item in resp.json() if item["farm_id"] == farm_id]
-        assert len(queue_items) == 1
-        parcel_id = queue_items[0]["parcel_id"]
+            resp = await client.post(
+                "/officer/action",
+                headers=_auth(officer_token),
+                json={"parcel_id": parcel_id, "action": "verified", "officer_notes": "Survey number confirmed."},
+            )
+            assert resp.status_code == 200
+            assert resp.json()["status"] == "verified"
 
-        resp = await client.post(
-            "/officer/action",
-            headers=_auth(officer_token),
-            json={
-                "parcel_id": parcel_id,
-                "action": "verified",
-                "confirmed_boundary_geojson": {
-                    "type": "Polygon",
-                    "coordinates": [[[77.71, 11.34], [77.712, 11.34], [77.712, 11.342], [77.71, 11.342], [77.71, 11.34]]],
+            resp = await client.get(f"/farms/{farm_id}", headers=_auth(farmer_token))
+            assert resp.json()["land_status"] == "verified"
+
+            # --- 4. Baseline risk == 82 / good (SIH26131 spec §1.5) --------
+            resp = await client.get(f"/farms/{farm_id}/risk", headers=_auth(farmer_token))
+            health = resp.json()
+            assert health["score"] == 82, health
+            assert health["band"] == "good"
+
+            # --- 5. Diagnose above gate, cited 5-point advisory -> 73 ------
+            resp = await client.post(
+                f"/farms/{farm_id}/diagnose",
+                headers=_auth(farmer_token),
+                json={"image_asset_id": "a_9", "description_text": "yellow water-soaked lesions on leaf tips"},
+            )
+            assert resp.status_code == 200, resp.text
+            diagnosis = resp.json()
+            assert diagnosis["above_gate"] is True
+            assert diagnosis["reason"] is None
+            assert diagnosis["escalation"] is None
+            assert len(diagnosis["citations"]) > 0
+            # "What to avoid" is first in the advisory (never-cut, checklist §4).
+            assert diagnosis["advisory"] is not None
+            assert list(diagnosis["advisory"].keys())[0] == "what_to_avoid"
+            assert diagnosis["health_delta"] == {"from": 82, "to": 73}
+
+            resp = await client.get(f"/farms/{farm_id}/risk", headers=_auth(farmer_token))
+            health = resp.json()
+            assert health["score"] == 73, health
+            assert health["band"] == "watch"
+
+            # --- 6. Follow-up got_worse -> severity promotes, auto-escalate -> 57 ---
+            resp = await client.post(
+                "/followup/checkin",
+                headers=_auth(farmer_token),
+                json={"farm_id": farm_id, "response": "got_worse"},
+            )
+            assert resp.status_code == 200, resp.text
+            followup = resp.json()
+            assert followup["auto_escalated"] is True
+            case_id = followup["escalation_id"]
+            assert case_id is not None
+            assert followup["severity_change"] == {"from": "early", "to": "moderate"}
+            assert followup["risk"]["from"] == 73
+            assert followup["risk"]["to"] == 57
+            assert followup["risk"]["band"] == "poor"
+            assert followup["updated_health_snapshot"]["score"] == 57
+
+            # --- 7. Agronomist resolves -> 91 -------------------------------
+            resp = await client.get("/agronomist/queue", headers=_auth(agronomist_token))
+            assert resp.status_code == 200
+            queue_case_ids = [c["escalation_id"] for c in resp.json()]
+            assert case_id in queue_case_ids
+
+            resp = await client.post(
+                "/agronomist/resolve",
+                headers=_auth(agronomist_token),
+                json={
+                    "escalation_id": case_id,
+                    "agronomist_id": "a1",
+                    "agronomist_name": "Dr. Lakshmi",
+                    "confirmed_diagnosis": "Confirmed bacterial leaf blight, moderate.",
+                    "expert_advice": "Copper-based bactericide per label; drain and dry field 48h.",
+                    "prescribed_inputs": ["copper oxychloride"],
                 },
-            },
-        )
-        assert resp.status_code == 200
-        assert resp.json()["status"] == "verified"
+            )
+            assert resp.status_code == 200, resp.text
+            resolution = resp.json()
+            assert resolution["status"] == "resolved"
+            assert resolution["risk"]["from"] == 57
+            assert resolution["risk"]["to"] == 91
+            assert resolution["risk"]["band"] == "excellent"
 
-        resp = await client.get(f"/farms/{farm_id}", headers=_auth(farmer_token))
-        assert resp.json()["land_status"] == "verified"
+            resp = await client.get(f"/farms/{farm_id}/risk", headers=_auth(farmer_token))
+            health = resp.json()
+            assert health["score"] == 91, health
+            assert health["band"] == "excellent"
 
-        # --- 4. Resource plan — FAO-56 inputs all inspectable ----------
-        resp = await client.post(f"/resource-plan/{farm_id}", headers=_auth(farmer_token))
-        assert resp.status_code == 200, resp.text
-        plan = resp.json()["irrigation_plan"]
-        for field in ("et0_mm_day", "kc_factor", "etc_mm_day", "effective_rainfall_mm", "irrigation_need_mm", "daily_liters_total"):
-            assert field in plan and plan[field] is not None
+            # --- The 82 -> 73 -> 57 -> 91 walk, asserted end to end (SIH26131 spec §1.5) --
+            assert (
+                diagnosis["health_delta"]["from"] == 82
+                and diagnosis["health_delta"]["to"] == 73
+                and followup["updated_health_snapshot"]["score"] == 57
+                and health["score"] == 91
+            )
 
-        # --- 5. Baseline health == 82 / good ----------------------------
-        resp = await client.get(f"/farms/{farm_id}/health", headers=_auth(farmer_token))
-        health = resp.json()
-        assert health["score"] == 82
-        assert health["band"] == "good"
-
-        # --- 6. Diagnose (Day 22) above gate, cited -> 68 --------------
-        resp = await client.post(
-            f"/farms/{farm_id}/diagnose",
-            headers=_auth(farmer_token),
-            json={"image_asset_id": "a_9", "description_text": "yellow water-soaked lesions on leaf tips"},
-        )
-        assert resp.status_code == 200, resp.text
-        diagnosis = resp.json()
-        assert diagnosis["above_gate"] is True
-        assert diagnosis["reason"] is None
-        assert diagnosis["escalation"] is None
-        assert len(diagnosis["citations"]) > 0
-        assert diagnosis["health_delta"] == {"from": 82, "to": 68}
-
-        resp = await client.get(f"/farms/{farm_id}/health", headers=_auth(farmer_token))
-        health = resp.json()
-        assert health["score"] == 68
-        assert health["band"] == "watch"
-
-        # --- 7. Follow-up: got_worse -> auto-escalate -------------------
-        resp = await client.post(
-            "/followup/checkin",
-            headers=_auth(farmer_token),
-            json={"farm_id": farm_id, "response": "got_worse"},
-        )
-        assert resp.status_code == 200, resp.text
-        followup = resp.json()
-        assert followup["auto_escalated"] is True
-        case_id = followup["escalation_id"]
-        assert case_id is not None
-        # Score fell to exactly 59 (severity promoted early -> moderate, treatment-response penalized) — PRD §7.4.
-        assert followup["updated_health_snapshot"]["score"] == 59
-
-        # --- 8. Agronomist resolves -> 86 -------------------------------
-        resp = await client.get("/agronomist/queue", headers=_auth(agronomist_token))
-        assert resp.status_code == 200
-        queue_case_ids = [c["escalation_id"] for c in resp.json()]
-        assert case_id in queue_case_ids
-
-        resp = await client.post(
-            "/agronomist/resolve",
-            headers=_auth(agronomist_token),
-            json={
-                "escalation_id": case_id,
-                "agronomist_id": "a1",
-                "agronomist_name": "Dr. Lakshmi",
-                "confirmed_diagnosis": "Confirmed bacterial leaf blight, moderate.",
-                "expert_advice": "Copper-based bactericide per label; drain and dry field 48h.",
-                "prescribed_inputs": ["copper oxychloride"],
-            },
-        )
-        assert resp.status_code == 200, resp.text
-        assert resp.json()["status"] == "resolved"
-
-        resp = await client.get(f"/farms/{farm_id}/health", headers=_auth(farmer_token))
-        health = resp.json()
-        assert health["score"] == 86
-        assert health["band"] == "good"
-
-        # --- The 82 -> 68 -> 86 walk, asserted end to end (PRD §7.4/§7.6) --
-        assert (
-            diagnosis["health_delta"]["from"] == 82
-            and diagnosis["health_delta"]["to"] == 68
-            and health["score"] == 86
-        )
-
-        # --- 9. Verified profile matches a dated scheme -----------------
-        resp = await client.post(
-            "/schemes/match",
-            headers=_auth(farmer_token),
-            json={"farm_id": farm_id},
-        )
-        assert resp.status_code == 200, resp.text
-        schemes = resp.json()
-        assert schemes["match_count"] >= 1
-        for scheme in schemes["matched_schemes"]:
-            assert scheme["last_verified"] is not None
+            # --- 8. Verified profile matches a dated scheme -----------------
+            resp = await client.post(
+                "/schemes/match",
+                headers=_auth(farmer_token),
+                json={"farm_id": farm_id},
+            )
+            assert resp.status_code == 200, resp.text
+            schemes = resp.json()
+            assert schemes["match_count"] >= 1
+            for scheme in schemes["matched_schemes"]:
+                assert scheme["last_verified"] is not None
+    finally:
+        app.dependency_overrides.pop(get_weather_adapter, None)
 
 
 @pytest.mark.asyncio(loop_scope="session")
-async def test_land_api_mode_flag_demos_both_paths(monkeypatch):
-    """Contract §1.5: flipping LAND_API_MODE alone — no input change — shows
-    both the auto-lookup-succeeds (200, verified) and auto-lookup-fails
-    (202, queued to officer) response shapes from the same build."""
-    from app.adapters import dependencies as adapters_deps
-    from app.adapters.land_registry import LiveLandRegistryAdapter, MockLandRegistryAdapter
-
+async def test_land_verify_always_queues_for_officer_review():
+    """SIH26131 feature checklist §10.1/§13.2/§13.3: no automated cadastral
+    lookup, no auto-verify — every /land/verify submission queues to the
+    officer (202, pending_review), regardless of survey number."""
     transport = httpx.ASGITransport(app=app)
     async with httpx.AsyncClient(transport=transport, base_url=BASE_URL) as client:
         farmer_token = await _register_and_login(client, _unique_phone("6"), "Flag Test Farmer", "farmer")
@@ -275,59 +281,14 @@ async def test_land_api_mode_flag_demos_both_paths(monkeypatch):
         resp = await client.post(
             "/farms",
             headers=_auth(farmer_token),
-            json={
-                "farmer_id": "placeholder",
-                "farm_name": "Flag Test Farm",
-                "village": "Chithode",
-                "taluk": "Erode",
-                "district": "Erode",
-                "latitude": 11.34,
-                "longitude": 77.71,
-                "total_area_acres": 1.0,
-                "primary_crop": "samba_paddy",
-            },
+            json={"farmer_id": "placeholder", "crop": "samba_paddy", "growth_stage": "vegetative", "region": "Erode"},
         )
         farm_id = resp.json()["id"]
-        whitelisted_survey_number = "88/2A"  # app/adapters/land_registry.py MOCK_KNOWN_SURVEY_NUMBERS
 
-        app.dependency_overrides[adapters_deps.get_land_registry_adapter] = lambda: MockLandRegistryAdapter()
-        try:
-            resp = await client.post(
-                "/land/verify",
-                headers=_auth(farmer_token),
-                json={"farm_id": farm_id, "survey_number": whitelisted_survey_number},
-            )
-            assert resp.status_code == 200, resp.text
-            assert resp.json()["status"] == "verified"
-        finally:
-            app.dependency_overrides.pop(adapters_deps.get_land_registry_adapter, None)
-
-        # Second farm — same whitelisted survey number, but now LAND_API_MODE=live.
         resp = await client.post(
-            "/farms",
+            "/land/verify",
             headers=_auth(farmer_token),
-            json={
-                "farmer_id": "placeholder",
-                "farm_name": "Flag Test Farm 2",
-                "village": "Chithode",
-                "taluk": "Erode",
-                "district": "Erode",
-                "latitude": 11.34,
-                "longitude": 77.71,
-                "total_area_acres": 1.0,
-                "primary_crop": "samba_paddy",
-            },
+            json={"farm_id": farm_id, "survey_number": "88/2A"},
         )
-        farm_id_2 = resp.json()["id"]
-
-        app.dependency_overrides[adapters_deps.get_land_registry_adapter] = lambda: LiveLandRegistryAdapter()
-        try:
-            resp = await client.post(
-                "/land/verify",
-                headers=_auth(farmer_token),
-                json={"farm_id": farm_id_2, "survey_number": whitelisted_survey_number},
-            )
-            assert resp.status_code == 202, resp.text
-            assert resp.json()["status"] == "pending_review"
-        finally:
-            app.dependency_overrides.pop(adapters_deps.get_land_registry_adapter, None)
+        assert resp.status_code == 202, resp.text
+        assert resp.json()["status"] == "pending_review"

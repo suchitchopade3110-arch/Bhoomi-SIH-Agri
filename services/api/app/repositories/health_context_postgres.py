@@ -31,7 +31,12 @@ class PostgresProblemLoadReader:
         stmt = select(Problem).where(Problem.farm_id == farm_id, Problem.status == ProblemStatus.OPEN.value)
         result = await self._session.execute(stmt)
         return [
-            OpenProblemRecord(problem_id=row.id, severity=ProblemSeverity(row.severity))
+            OpenProblemRecord(
+                problem_id=row.id,
+                severity=ProblemSeverity(row.severity),
+                label=row.label,
+                target_type=row.target_type,
+            )
             for row in result.scalars().all()
         ]
 
@@ -42,6 +47,7 @@ class PostgresProblemLoadReader:
             label=problem.label or "unspecified",
             severity=problem.severity.value,
             status=ProblemStatus.OPEN.value,
+            target_type=problem.target_type,
         )
         self._session.add(row)
         await self._session.commit()
@@ -56,7 +62,12 @@ class PostgresProblemLoadReader:
         row = (await self._session.execute(stmt)).scalars().first()
         if row is None:
             return None
-        return OpenProblemRecord(problem_id=row.id, severity=ProblemSeverity(row.severity), label=row.label)
+        return OpenProblemRecord(
+            problem_id=row.id,
+            severity=ProblemSeverity(row.severity),
+            label=row.label,
+            target_type=row.target_type,
+        )
 
     async def set_problem_severity(self, problem_id: str, severity: ProblemSeverity) -> None:
         row = await self._session.get(Problem, problem_id)

@@ -2,6 +2,7 @@
 
 from datetime import date, datetime
 import hashlib
+import logging
 import re
 from typing import Any
 import uuid
@@ -12,16 +13,17 @@ from app.domain.kvk_directory import KVK_CENTERS
 class StubWeatherAdapter:
     """Stub weather adapter returning fixed meteorological and ET₀ data."""
 
-    def __init__(self, fixed_et0: float = 4.8, fixed_temp: float = 30.0) -> None:
+    def __init__(self, fixed_et0: float = 4.8, fixed_temp: float = 30.0, fixed_humidity: float = 75.0) -> None:
         self.fixed_et0 = fixed_et0
         self.fixed_temp = fixed_temp
+        self.fixed_humidity = fixed_humidity
 
     async def get_current_weather(self, latitude: float, longitude: float) -> dict[str, Any]:
         return {
             "latitude": latitude,
             "longitude": longitude,
             "temperature_c": self.fixed_temp,
-            "relative_humidity_pct": 80.0,
+            "relative_humidity_pct": self.fixed_humidity,
             "wind_speed_kmh": 12.4,
             "precipitation_mm": 0.0,
             "condition_description": "Partly Cloudy",
@@ -74,7 +76,7 @@ class StubLLMAdapter:
         return {
             "possible_issue": f"Based on \"{top['title']}\", this likely matches: {excerpt}",
             "what_to_check": f"Compare the symptoms described in your query against the guidance in \"{top['title']}\".",
-            "what_to_do_next": "Follow the cultural and chemical control steps described in the cited source(s) below.",
+            "what_to_do_next": "Follow the control steps described in the cited source(s) below.",
             "what_to_avoid": "Do not apply treatments that aren't covered by the cited guidance.",
             "expert_triggers": "If symptoms spread or persist after following the cited guidance, escalate to an agronomist.",
             "citations": [
@@ -196,6 +198,8 @@ class StubAsrTtsAdapter:
     - default               → generic Tamil greeting with tomato symptoms
     """
 
+    provider_name = "stub"
+
     # Context-specific response tuples: (transcript, confidence)
     _CONTEXT_RESPONSES: dict[str, tuple[str, float]] = {
         "onboarding": ("என் நிலம் இரண்டு ஏக்கர் சம்பா நெல்", 0.91),
@@ -230,19 +234,30 @@ class StubStorageAdapter:
         asset_kind: str,
         expires_in: int = 3600,
     ) -> dict[str, Any]:
+        # upload_url must target the SAME key advertised in fields["key"]
+        # (and later persisted as storage_key) — a client PUTting straight
+        # to upload_url (no real S3 multipart-form flow here) needs the
+        # bytes to land where generate_presigned_download_url will later
+        # look for them.
+        key = f"{asset_kind}/{asset_id}/{file_name}"
         return {
             "asset_id": asset_id,
-            "upload_url": f"http://localhost:9000/bhoomi-assets/{asset_id}?upload=true",
+            "upload_url": f"http://localhost:9000/bhoomi-assets/{key}?upload=true",
             "expires_in": expires_in,
-            "fields": {"key": f"{asset_kind}/{asset_id}/{file_name}"},
+            "fields": {"key": key},
         }
 
     async def generate_presigned_download_url(
         self,
         asset_id: str,
+        storage_key: str | None = None,
         expires_in: int = 3600,
     ) -> str:
-        return f"http://localhost:9000/bhoomi-assets/{asset_id}"
+        # storage_key is the real object path (asset_kind/asset_id/file_name)
+        # written at upload time — falls back to bare asset_id only when a
+        # caller doesn't have the row (keeps back-compat for older callers).
+        key = storage_key if storage_key else asset_id
+        return f"http://localhost:9000/bhoomi-assets/{key}"
 
 
 class StubRosterAdapter:
@@ -254,3 +269,23 @@ class StubRosterAdapter:
 
     async def list_agronomist_ids(self) -> list[str]:
         return [center.center_id for center in KVK_CENTERS]
+
+
+class StubOtpDeliveryAdapter:
+    """Stub ``OtpDeliveryPort`` — logs the OTP instead of sending a real SMS.
+
+    No SMS gateway (Twilio/MSG91/etc.) is configured anywhere in this
+    project, so there is no "real" adapter to select here the way
+    ``DIAGNOSIS_MODEL=real`` selects a real image-diagnosis backend — that
+    integration doesn't exist yet. ``otp_service.py`` also returns the code
+    directly in the API response outside ``APP_ENV=production``, which is
+    what actually makes the OTP flow usable/testable without a real SMS
+    provider; this adapter's logging is a secondary, ops-facing trace.
+    """
+
+    def __init__(self) -> None:
+        self.last_sent: tuple[str, str] | None = None  # (phone_number, otp), settable for tests
+
+    async def send_otp(self, phone_number: str, otp: str) -> None:
+        self.last_sent = (phone_number, otp)
+        logging.getLogger("bhoomi.otp").info("OTP for %s: %s (stub delivery, no real SMS sent)", phone_number, otp)

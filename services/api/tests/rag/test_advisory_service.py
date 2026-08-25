@@ -110,3 +110,31 @@ async def test_answer_query_is_deterministic():
     a = await service.answer_query("f_1", "bacterial leaf blight treatment")
     b = await service.answer_query("f_1", "bacterial leaf blight treatment")
     assert a == b
+
+
+@pytest.mark.asyncio
+async def test_stub_provider_response_reports_stub_mode():
+    """A caller must be able to tell a real generation from a stub."""
+    service = await _make_service()
+    outcome = await service.answer_query("f_1", "bacterial leaf blight treatment")
+    assert outcome.provider == "stub"
+    assert outcome.model == "stub"
+
+
+@pytest.mark.asyncio
+async def test_groq_provider_response_reports_provider_and_model():
+    repo = await build_ingested_repo()
+    retrieval = RetrievalService(repo, StubEmbeddingAdapter())
+    groq_settings = Settings(
+        CONFIDENCE_GATE=0.70,
+        EMBEDDING_PROVIDER="stub",
+        LLM_PROVIDER="groq",
+        LLM_API_KEY="gsk_realkeyvalue",
+        LLM_MODEL="llama-3.3-70b-versatile",
+    )
+    service = AdvisoryService(retrieval, StubLLMAdapter(), groq_settings)
+
+    outcome = await service.answer_query("f_1", "bacterial leaf blight treatment")
+
+    assert outcome.provider == "groq"
+    assert outcome.model == "llama-3.3-70b-versatile"
