@@ -115,7 +115,6 @@ If a judge asks whether the score is decorative, the answer is `make test-e2e`.
 Bhoomi-SIH-Agri/
 ├── AGENTS.md                  # standing rules for coding agents working in this repo
 ├── apps/
-│   ├── bhoomi_landing/         # marketing/pitch page (React + Vite) — live against the API when reachable, local demo data otherwise
 │   ├── farmer_app/            # Flutter — Riverpod, go_router, dio
 │   ├── kvk_portal/            # agronomist case queue + resolve (React + Vite + Tailwind)
 │   └── officer_portal/        # land review (React + Vite + Tailwind + Leaflet)
