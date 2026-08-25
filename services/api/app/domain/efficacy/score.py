@@ -1,18 +1,11 @@
-"""Pure treatment-efficacy scoring engine (SPEC-EFFICACY-001 §4-5, Phase 4).
+"""Pure treatment-efficacy scoring engine (SPEC-EFFICACY-001 §4-5).
 
-No I/O, no ``date.today()``: the caller (an aggregator service, not yet
-built — see Phase 4 build order) assembles ``TreatmentApplicationSnapshot``
-rows and passes an injected ``as_of``. Same inputs, same output, always.
-
-Build-order note: this is Phase 4's Step-1-only deliverable. The spec's
-own schema (``treatment_applications``, a new table) and its synchronous
-lifecycle hooks inside ``FollowupService.checkin`` /
-``AgronomistService.resolve`` are both marked "coordinate/pair, don't
-build solo" in the phase file — neither exists yet, so the aggregator
-service, repository, and route aren't built either; wiring them in is
-exactly what the phase file's own §5 ("if cut") anticipates leaving
-undone. This pure function costs nothing to keep in the tree and proves
-the scoring design is real.
+No I/O, no ``date.today()``: the caller (``EfficacyAggregatorService``)
+assembles ``TreatmentApplicationSnapshot`` rows and passes an injected
+``as_of``. Same inputs, same output, always. The write side —
+``treatment_applications`` table, and the synchronous lifecycle hooks
+inside ``FollowupService.checkin`` / ``AgronomistService.resolve`` — lives
+in ``services/efficacy/tracking_service.py``.
 """
 
 from datetime import date, timedelta

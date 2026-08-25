@@ -6,6 +6,17 @@
 > **Target Release:** SIH26131 Transition (Flag-Gated)  
 > **Guiding Principle:** **Zero Regression** — SIH25076 routes remain functional under `PROBLEM_STATEMENT=sih25076`.
 
+> [!WARNING]
+> **§2.1/§2.3 superseded.** This doc's original plan was to unmount `land`,
+> `officer`, and `schemes` under `sih26131` alongside `resource_plan`. The
+> implementation shipped differently: only `resource_plan` is
+> SIH25076-exclusive — `land`/`officer`/`schemes` stayed mounted in both
+> modes. `tests/unit/test_problem_statement_gating.py` is the authoritative
+> contract for what's actually gated; see README.md §5 for the reasoning.
+> Section 3 (new SIH26131 routes) reflects what was planned; see README.md
+> §9 for current build status of pest `target_type` support (§3.1) and
+> treatment efficacy (§3.4).
+
 ---
 
 ## 1. Problem Statement Gating Strategy

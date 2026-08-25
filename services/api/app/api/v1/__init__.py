@@ -5,9 +5,9 @@ docs/specs/api_contract_sih26131_delta.md:
 
 - ``sih25076`` (default): cadastral/resource routers (``land``, ``officer``,
   ``resource_plan``, ``schemes``) mount alongside core intelligence.
-- ``sih26131``: those four routers unmount (404) and ``alerts`` mounts
-  instead (``efficacy`` is Phase 4, not yet implemented — will be added
-  here once built).
+- ``sih26131``: ``resource_plan`` unmounts (404); ``land``/``officer``/
+  ``schemes`` stay mounted in both modes (see README.md §5); ``alerts`` and
+  ``efficacy`` mount additionally.
 - Core intelligence routers (auth, farms, health, diagnose, followup,
   agronomist, voice, assets, timeline, weather, system) mount in both modes.
 """
@@ -19,6 +19,7 @@ from app.api.v1.alerts import router as alerts_router
 from app.api.v1.assets import router as assets_router
 from app.api.v1.auth import router as auth_router
 from app.api.v1.diagnose import router as diagnose_router
+from app.api.v1.efficacy import router as efficacy_router
 from app.api.v1.escalation import router as escalation_router
 from app.api.v1.farms import router as farms_router
 from app.api.v1.followup import router as followup_router
@@ -58,10 +59,12 @@ if get_settings().PROBLEM_STATEMENT == "sih25076":
     api_v1_router.include_router(resource_plan_router)
     api_v1_router.include_router(schemes_router)
 else:
-    # sih26131: resource_plan stays unmounted (404); land, officer, schemes, alerts mount.
+    # sih26131: resource_plan stays unmounted (404); land, officer, schemes,
+    # alerts, efficacy mount.
     api_v1_router.include_router(land_router)
     api_v1_router.include_router(officer_router)
     api_v1_router.include_router(schemes_router)
     api_v1_router.include_router(alerts_router)
+    api_v1_router.include_router(efficacy_router)
 
 __all__ = ["api_v1_router"]

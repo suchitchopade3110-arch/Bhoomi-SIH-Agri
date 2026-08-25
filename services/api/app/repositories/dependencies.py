@@ -27,6 +27,7 @@ from app.repositories.health_context_postgres import (
 )
 from app.repositories.alert_repo import PostgresAlertRepository
 from app.repositories.health_snapshot_repository import HealthSnapshotRepository
+from app.repositories.treatment_application_repo import PostgresTreatmentApplicationRepository
 from app.repositories.interfaces import KnowledgeChunkReader
 from app.repositories.knowledge_chunk_repository import KnowledgeChunkRepository
 from app.repositories.postgres import (
@@ -44,6 +45,7 @@ from app.repositories.interfaces import (
     FarmRepository,
     LandParcelRepository,
     SchemeRepository,
+    TreatmentApplicationRepository,
     UserRepository,
 )
 
@@ -74,6 +76,12 @@ def get_asset_repository(session: Annotated[AsyncSession, Depends(get_db)]) -> A
 
 def get_alert_repository(session: Annotated[AsyncSession, Depends(get_db)]) -> AlertRepository:
     return PostgresAlertRepository(session)
+
+
+def get_treatment_application_repository(
+    session: Annotated[AsyncSession, Depends(get_db)],
+) -> TreatmentApplicationRepository:
+    return PostgresTreatmentApplicationRepository(session)
 
 
 def get_health_snapshot_repository(

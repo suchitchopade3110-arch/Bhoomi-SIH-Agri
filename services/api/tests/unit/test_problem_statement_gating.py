@@ -49,9 +49,10 @@ def test_sih25076_mounts_legacy_routers(monkeypatch):
     assert "/api/v1/resource-plan/{farm_id}" in paths
     assert "/api/v1/schemes/match" in paths
 
-    # Phase 3: alerts routers are sih26131-only, absent here.
+    # Phase 3/4: alerts and efficacy routers are sih26131-only, absent here.
     assert "/api/v1/farms/{farm_id}/alerts" not in paths
     assert "/api/v1/alerts/{alert_id}/acknowledge" not in paths
+    assert "/api/v1/treatments/{treatment_id}/efficacy" not in paths
 
 
 def test_sih26131_unmounts_legacy_routers_and_keeps_core(monkeypatch):
@@ -74,6 +75,7 @@ def test_sih26131_unmounts_legacy_routers_and_keeps_core(monkeypatch):
     assert "/api/v1/schemes/match" in paths
     assert "/api/v1/farms/{farm_id}/alerts" in paths
     assert "/api/v1/alerts/{alert_id}/acknowledge" in paths
+    assert "/api/v1/treatments/{treatment_id}/efficacy" in paths
 
     # Core intelligence routers remain mounted in every mode.
     assert "/api/v1/auth/register" in paths
