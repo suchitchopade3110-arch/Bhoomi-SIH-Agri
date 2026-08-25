@@ -15,8 +15,7 @@ from app.services.intent_parser import ParsedIntent
 
 # Fields that always require confirmation (consequential data)
 _CONSEQUENTIAL_FIELDS = frozenset({
-    "land_area", "crop", "soil_type", "growth_stage",
-    "irrigation", "season",
+    "land_area", "crop", "growth_stage", "region",
 })
 
 # Fields with numeric values always require confirmation regardless of confidence
@@ -29,10 +28,8 @@ DEFAULT_CONFIDENCE_FLOOR = 0.85
 _READBACK_TEMPLATES: dict[str, str] = {
     "land_area": "நீங்கள் சொன்னது {value} ஏக்கர் நிலம், சரிதானா?",
     "crop": "நீங்கள் {value_display} பயிர் என்று சொன்னீர்கள், சரிதானா?",
-    "soil_type": "மண் வகை {value_display}, சரிதானா?",
     "growth_stage": "பயிர் வளர்ச்சி நிலை {value_display}, சரிதானா?",
-    "irrigation": "நீர்ப்பாசன வகை {value_display}, சரிதானா?",
-    "season": "பருவம் {value_display}, சரிதானா?",
+    "region": "மாவட்டம் {value_display}, சரிதானா?",
     "followup_response": "நீங்கள் {value_display} என்று சொன்னீர்கள், சரிதானா?",
 }
 
@@ -46,31 +43,17 @@ _VALUE_DISPLAY: dict[str, str] = {
     "groundnut": "நிலக்கடலை",
     "sugarcane": "கரும்பு",
     "banana": "வாழை",
-    # Soil types
-    "clay_loam": "களிமண்",
-    "sandy": "மணல்",
-    "red_soil": "செம்மண்",
-    "alluvial": "வண்டல்",
-    "black_soil": "கருப்பு மண்",
     # Growth stages
     "seedling": "நாற்று",
     "nursery": "நாற்றங்கால்",
     "vegetative": "வளர்ச்சி",
     "reproductive": "பூக்கும்",
     "ripening": "முதிர்வு",
-    # Irrigation
-    "canal": "கால்வாய்",
-    "borewell": "ஆழ்குழாய்",
-    "well": "கிணறு",
-    "rainfed": "மழை நீர்",
-    # Season
-    "samba": "சம்பா",
-    "navarai": "நவராய்",
-    "kuruvai": "குருவை",
     # Followup
     "improved": "மேம்பட்டது",
     "no_change": "மாற்றமில்லை",
     "got_worse": "மோசமாகிவிட்டது",
+    # Note: Full Tamil display names for regions (e.g. "ஈரோடு") is a future improvement; normalized English district names are used directly for now.
 }
 
 

@@ -3,7 +3,7 @@
 Keyword-based (no LLM call) for speed and reliability. Supports both Tamil
 script and common romanized forms.  The parser is context-driven:
 
-- ``onboarding``: land_area, crop, soil_type, growth_stage, irrigation, season
+- ``onboarding``: land_area, crop, growth_stage, region
 - ``diagnosis``: raw symptom text (no structured field extraction)
 - ``followup``: improved / no_change / got_worse
 - ``general``: no structured parsing
@@ -19,7 +19,7 @@ from pydantic import BaseModel
 
 class ParsedIntent(BaseModel):
     """A single structured field extracted from a voice transcript."""
-    field: str       # e.g. "land_area", "crop", "soil_type"
+    field: str       # e.g. "land_area", "crop", "region"
     value: Any       # parsed value
     raw_text: str    # the substring that was matched
 
@@ -46,17 +46,41 @@ _CROP_KEYWORDS: dict[str, str] = {
     "groundnut": "groundnut",
 }
 
-_SOIL_KEYWORDS: dict[str, str] = {
-    "களிமண்": "clay_loam",
-    "மணல்": "sandy",
-    "செம்மண்": "red_soil",
-    "வண்டல்": "alluvial",
-    "கருப்பு மண்": "black_soil",
-    "clay": "clay_loam",
-    "sandy": "sandy",
-    "red": "red_soil",
-    "alluvial": "alluvial",
-    "loam": "clay_loam",
+_REGION_KEYWORDS: dict[str, str] = {
+    # Tamil script (Major TN agricultural/paddy districts & common vernacular short-forms)
+    "ஈரோடு": "Erode",
+    "தஞ்சாவூர்": "Thanjavur",
+    "தஞ்சை": "Thanjavur",
+    "சேலம்": "Salem",
+    "மதுரை": "Madurai",
+    "கோயம்புத்தூர்": "Coimbatore",
+    "கோவை": "Coimbatore",
+    "திருச்சிராப்பள்ளி": "Trichy",
+    "திருச்சி": "Trichy",
+    "திருவாரூர்": "Thiruvarur",
+    "நாகப்பட்டினம்": "Nagapattinam",
+    "நாகை": "Nagapattinam",
+    "விழுப்புரம்": "Villupuram",
+    "கடலூர்": "Cuddalore",
+
+    # Romanized forms & transliterations
+    "erode": "Erode",
+    "thanjavur": "Thanjavur",
+    "tanjore": "Thanjavur",
+    "salem": "Salem",
+    "madurai": "Madurai",
+    "coimbatore": "Coimbatore",
+    "kovai": "Coimbatore",
+    "trichy": "Trichy",
+    "tiruchirappalli": "Trichy",
+    "tiruchi": "Trichy",
+    "thiruvarur": "Thiruvarur",
+    "tiruvarur": "Thiruvarur",
+    "nagapattinam": "Nagapattinam",
+    "nagai": "Nagapattinam",
+    "villupuram": "Villupuram",
+    "viluppuram": "Villupuram",
+    "cuddalore": "Cuddalore",
 }
 
 _GROWTH_STAGE_KEYWORDS: dict[str, str] = {
@@ -71,29 +95,6 @@ _GROWTH_STAGE_KEYWORDS: dict[str, str] = {
     "vegetative": "vegetative",
     "reproductive": "reproductive",
     "ripening": "ripening",
-}
-
-_IRRIGATION_KEYWORDS: dict[str, str] = {
-    "கால்வாய்": "canal",
-    "ஆழ்குழாய்": "borewell",
-    "ஆழ்துளை": "borewell",
-    "கிணறு": "well",
-    "மழை": "rainfed",
-    "மழைநீர்": "rainfed",
-    "நீர்ப்பாசனம்": "canal",
-    "canal": "canal",
-    "borewell": "borewell",
-    "well": "well",
-    "rainfed": "rainfed",
-}
-
-_SEASON_KEYWORDS: dict[str, str] = {
-    "சம்பா": "samba",
-    "நவராய்": "navarai",
-    "குருவை": "kuruvai",
-    "samba": "samba",
-    "navarai": "navarai",
-    "kuruvai": "kuruvai",
 }
 
 _FOLLOWUP_KEYWORDS: dict[str, str] = {
@@ -211,13 +212,11 @@ class IntentParser:
         if result:
             return result
 
-        # Try crop, soil, growth stage, irrigation, season
+        # Try crop, region, growth stage
         for keywords, field in [
             (_CROP_KEYWORDS, "crop"),
-            (_SOIL_KEYWORDS, "soil_type"),
+            (_REGION_KEYWORDS, "region"),
             (_GROWTH_STAGE_KEYWORDS, "growth_stage"),
-            (_IRRIGATION_KEYWORDS, "irrigation"),
-            (_SEASON_KEYWORDS, "season"),
         ]:
             result = _match_keywords(text, keywords, field)
             if result:
