@@ -2,6 +2,7 @@
 
 from datetime import date, datetime
 import hashlib
+import logging
 import re
 from typing import Any
 import uuid
@@ -255,3 +256,23 @@ class StubRosterAdapter:
 
     async def list_agronomist_ids(self) -> list[str]:
         return [center.center_id for center in KVK_CENTERS]
+
+
+class StubOtpDeliveryAdapter:
+    """Stub ``OtpDeliveryPort`` — logs the OTP instead of sending a real SMS.
+
+    No SMS gateway (Twilio/MSG91/etc.) is configured anywhere in this
+    project, so there is no "real" adapter to select here the way
+    ``DIAGNOSIS_MODEL=real`` selects a real image-diagnosis backend — that
+    integration doesn't exist yet. ``otp_service.py`` also returns the code
+    directly in the API response outside ``APP_ENV=production``, which is
+    what actually makes the OTP flow usable/testable without a real SMS
+    provider; this adapter's logging is a secondary, ops-facing trace.
+    """
+
+    def __init__(self) -> None:
+        self.last_sent: tuple[str, str] | None = None  # (phone_number, otp), settable for tests
+
+    async def send_otp(self, phone_number: str, otp: str) -> None:
+        self.last_sent = (phone_number, otp)
+        logging.getLogger("bhoomi.otp").info("OTP for %s: %s (stub delivery, no real SMS sent)", phone_number, otp)

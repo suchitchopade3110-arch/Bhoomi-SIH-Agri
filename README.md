@@ -222,7 +222,7 @@ Base path `/api/v1`. Bearer JWT, with the role claim gating portal routes.
 
 | Area | Endpoints |
 |---|---|
-| Auth | `POST /auth/register` · `POST /auth/login` · `GET /auth/me` |
+| Auth | `POST /auth/register` · `POST /auth/login` · `GET /auth/me` · `POST /auth/otp/request` · `POST /auth/otp/verify` (farmer OTP, additive per PRD §2.3) |
 | Media | `POST /assets/presigned-url` · `GET /assets/{asset_id}` |
 | Voice | `POST /voice/transcribe` · `/voice/synthesize` · `/voice/query` · `/voice/confirm` |
 | Farms | `POST /farms` · `GET /farms` (list mine) · `GET,PUT /farms/{id}` · `GET /farms/{id}/summary` |
@@ -264,9 +264,9 @@ Written down so nobody rediscovers them at hour 30.
 
 **Pest diagnosis (`target_type=pest`) is wired but never composes advice yet.** `POST /farms/{id}/diagnose` correctly scopes an in-scope, above-`PEST_CONFIDENCE_GATE` pest label and attempts retrieval — but the ingested corpus (`services/api/corpus/`) has zero pest documents (that content is only in the staged, unverified `data/curated/Dataset_v4_validated/`, deliberately not ingested — see the dataset section above), so every pest diagnosis today honestly escalates on `NO_RELEVANT_SOURCE` rather than fabricate pest advice. The mechanism is real; there's no grounded pest content behind it yet.
 
-**`RAG_RELEVANCE_THRESHOLD=0.18` is calibrated against stub embeddings only.** The `0.60` production figure is a target for a real dense embedding model (e.g. BGE-m3), not a measured value — `EMBEDDING_PROVIDER=bge_m3` is accepted by config but `adapters/dependencies.get_embedding_adapter` always returns the stub regardless; there's no real embedding adapter wired yet. Re-tune when one lands.
+~~`EMBEDDING_PROVIDER=bge_m3` is accepted by config but always returns the stub regardless.~~ **Wired, but unverified against real weights.** `adapters/dependencies.get_embedding_adapter` now returns `RealEmbeddingAdapter`, which calls `services/ml`'s `/embed` (`adapters/embeddings_real.py` there, lazy-loading `BAAI/bge-m3` via the optional `services/ml/requirements-embeddings.txt`). The HTTP wiring between the two services is genuinely verified end-to-end; the model-load-and-encode path itself is not — the sandboxed environment this was built in has no outbound access to Hugging Face Hub (or PyPI's CUDA/torch mirrors), so `/embed` there always reports `"method": "hash"` (graceful fallback, itself genuinely exercised). Verify the real path once deployed somewhere with HF access, and re-tune `RAG_RELEVANCE_THRESHOLD_PRODUCTION` (0.60) against real corpus retrieval — it's still an untested target figure, not a measured one.
 
-**Auth doesn't match PRD §2.3's phone-OTP flow.** All three roles use generic password login (`/auth/register`, `/auth/login`) instead of a farmer OTP flow — flagged as an open decision in `docs/specs/api_contract_sih26131_delta.md` §4 and never revisited. Changing the farmer-facing auth model would need coordinated changes across `farmer_app`, so it wasn't done as part of this pass.
+~~Auth doesn't match PRD §2.3's phone-OTP flow.~~ **Built, additively.** `POST /auth/otp/request` + `POST /auth/otp/verify` (`services/otp_service.py`) now exist alongside — not instead of — the original password `/auth/register`/`/auth/login`, per this project's own zero-regression principle. No SMS gateway is configured anywhere in this project, so outside `APP_ENV=production` the response includes the code directly (`debug_otp`) rather than only logging it — that's what makes the flow actually usable without a real SMS provider. `services/otp_store.py`'s in-memory store (5 min TTL, 60s resend cooldown, 5 verify-attempt cap) doesn't survive a multi-worker deployment — a real constraint if this ever runs behind more than one uvicorn worker, not a demo-scale concern today.
 
 ---
 

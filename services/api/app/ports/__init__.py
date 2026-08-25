@@ -10,6 +10,7 @@ from app.ports.asr_tts import AsrTtsPort
 from app.ports.embeddings import EmbeddingPort
 from app.ports.image_diagnosis import ImageDiagnosisPort
 from app.ports.llm import LLMPort
+from app.ports.otp_delivery import OtpDeliveryPort
 from app.ports.roster import AgronomistRosterPort
 from app.ports.storage import StoragePort
 from app.ports.weather import WeatherPort
@@ -22,4 +23,5 @@ __all__ = [
     "AsrTtsPort",
     "StoragePort",
     "AgronomistRosterPort",
+    "OtpDeliveryPort",
 ]

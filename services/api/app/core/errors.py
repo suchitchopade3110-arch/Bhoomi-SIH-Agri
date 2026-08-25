@@ -68,6 +68,11 @@ class NotImplementedAPIError(AppError):
         super().__init__(code="NOT_IMPLEMENTED", message=message, details=details, status_code=status.HTTP_501_NOT_IMPLEMENTED)
 
 
+class RateLimitedError(AppError):
+    def __init__(self, message: str = "Too many attempts. Please wait before trying again.", details: dict[str, Any] | None = None) -> None:
+        super().__init__(code="RATE_LIMITED", message=message, details=details, status_code=status.HTTP_429_TOO_MANY_REQUESTS)
+
+
 def build_error_response(code: str, message: str, details: dict[str, Any], status_code: int) -> JSONResponse:
     """Build standardized JSON error envelope."""
     return JSONResponse(

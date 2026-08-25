@@ -84,6 +84,33 @@ async def test_embed_batch_returns_normalized_vectors_of_requested_dimension():
     body = res.json()
     assert len(body["embeddings"]) == 2
     assert all(len(v) == 128 for v in body["embeddings"])
+    # In this test environment the optional BGE-m3 dependency isn't
+    # installed (see embeddings_real.py), so this genuinely exercises the
+    # fallback path rather than asserting a mocked value.
+    assert body["method"] == "hash"
+
+
+@pytest.mark.asyncio
+async def test_embed_prefer_real_false_skips_the_real_embedder_entirely():
+    import app.main as main_module
+
+    transport = httpx.ASGITransport(app=main_module.app)
+    async with httpx.AsyncClient(transport=transport, base_url="http://test") as client:
+        res = await client.post("/embed", json={"texts": ["x"], "prefer_real": False})
+
+    assert res.status_code == 200
+    assert res.json()["method"] == "hash"
+
+
+def test_embeddings_real_reports_unavailable_without_optional_dependency():
+    """Direct unit check that the graceful-fallback contract holds: no
+    sentence-transformers/torch installed in this test environment ->
+    is_available() is False and embed_batch_real() returns None, never
+    raises."""
+    from app.embeddings_real import embed_batch_real, is_available
+
+    assert is_available() is False
+    assert embed_batch_real(["anything"]) is None
 
 
 @pytest.mark.asyncio

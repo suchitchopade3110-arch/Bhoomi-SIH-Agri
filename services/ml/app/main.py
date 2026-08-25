@@ -6,9 +6,13 @@ See ``app/image_model.py`` for exactly what "diagnose" means here — a bounded
 heuristic, not a trained CV model; there is no labeled dataset or model
 weights checked into this repo (README.md §9 "Known gaps").
 
-``/embed`` and ``/transcribe``+``/synthesize`` are also exposed (matching
-services/api's ``EmbeddingPort``/``AsrTtsPort`` contracts) for future wiring,
-but neither is called by services/api today — see their modules' docstrings.
+``/embed`` now backs services/api's ``EMBEDDING_PROVIDER=bge_m3`` via
+``adapters/embeddings_real.py`` there — real BGE-m3 dense embeddings when
+the optional ``requirements-embeddings.txt`` deps are installed and the
+model can be downloaded, a deterministic hash fallback otherwise (see
+``app/embeddings_real.py``'s docstring for what was and wasn't verified).
+``/transcribe``+``/synthesize`` are exposed for future wiring but aren't
+called by services/api today — see their module's docstring.
 
 Run: ``uvicorn app.main:app --port 8001`` (matches the default
 ``ML_SERVICE_URL=http://localhost:8001`` in services/api/app/core/config.py).
@@ -24,6 +28,7 @@ from pydantic import BaseModel, Field
 
 from app.asr_tts import synthesize, transcribe
 from app.embeddings import DEFAULT_DIMENSION, embed_batch
+from app.embeddings_real import REAL_DIMENSION, embed_batch_real
 from app.image_model import ALL_SUPPORTED_LABELS, diagnose
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
@@ -81,18 +86,37 @@ async def diagnose_endpoint(request: DiagnoseRequest) -> DiagnoseResponse:
 
 class EmbedRequest(BaseModel):
     texts: list[str] = Field(..., min_length=1, description="Texts to embed")
-    dimension: int = Field(default=DEFAULT_DIMENSION, gt=0, le=4096)
+    dimension: int = Field(
+        default=DEFAULT_DIMENSION,
+        gt=0,
+        le=4096,
+        description="Only applies to the hash fallback — real BGE-m3 embeddings are always 1024-dim",
+    )
+    prefer_real: bool = Field(
+        default=True,
+        description=(
+            "Try real BGE-m3 embeddings first (see embeddings_real.py); silently falls back to the "
+            "hash method if the optional model dependency isn't installed/available. Response 'method' "
+            "always reports which one actually ran."
+        ),
+    )
 
 
 class EmbedResponse(BaseModel):
     embeddings: list[list[float]]
     dimension: int
+    method: str = Field(..., description="'bge_m3' or 'hash' — which embedder actually produced these vectors")
 
 
 @app.post("/embed", response_model=EmbedResponse, summary="Embed a batch of texts")
 async def embed_endpoint(request: EmbedRequest) -> EmbedResponse:
+    if request.prefer_real:
+        real_vectors = embed_batch_real(request.texts)
+        if real_vectors is not None:
+            return EmbedResponse(embeddings=real_vectors, dimension=REAL_DIMENSION, method="bge_m3")
+
     vectors = embed_batch(request.texts, dimension=request.dimension)
-    return EmbedResponse(embeddings=vectors, dimension=request.dimension)
+    return EmbedResponse(embeddings=vectors, dimension=request.dimension, method="hash")
 
 
 class TranscribeRequest(BaseModel):
