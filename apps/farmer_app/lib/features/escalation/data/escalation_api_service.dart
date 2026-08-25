@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/api/api_client.dart';
 import '../../../core/api/api_exception.dart';
 import '../../../shared/constants/api_constants.dart';
+import 'models/case_pdf_payload_model.dart';
 import 'models/escalation_models.dart';
 
 final escalationApiServiceProvider = Provider<EscalationApiService>((ref) {
@@ -76,6 +77,45 @@ class EscalationApiService {
           kvkCenter: 'ICAR-KVK Erode Center',
           estimatedReview: 'Within 24 business hours',
           agronomist: 'Dr. S. Sundaram (KVK Erode)',
+        );
+      }
+      rethrow;
+    }
+  }
+
+  Future<CasePDFPayloadModel> getCasePdfPayload(String escalationId) async {
+    try {
+      final response = await _apiClient.get(
+        ApiConstants.agronomistCasePdfPayload(escalationId),
+      );
+
+      if (response.data is Map<String, dynamic>) {
+        return CasePDFPayloadModel.fromJson(response.data as Map<String, dynamic>);
+      }
+      throw Exception('Invalid case PDF payload format.');
+    } on NetworkException {
+      if (ApiConstants.enableMockFallback) {
+        return CasePDFPayloadModel(
+          caseId: escalationId,
+          farmId: 'farm_tamilnadu_001',
+          farmerName: 'Muthu',
+          village: 'Perundurai',
+          district: 'Erode',
+          assignedKvk: 'ICAR-KVK Erode',
+          severity: 'early',
+          status: 'escalated',
+          generatedAt: DateTime.now().toIso8601String(),
+          bundle: const CaseSummaryBundleModel(
+            crop: 'samba_paddy',
+            region: 'Erode',
+            growthStage: 'vegetative',
+            problemHistory: [],
+            images: [],
+            treatmentsTried: [],
+            followupTrend: 'early symptom detected',
+            currentAdvisory: 'Field review requested from agronomist.',
+          ),
+          summaryHeadline: 'Samba Paddy - Early BLB escalation at Perundurai, Erode',
         );
       }
       rethrow;

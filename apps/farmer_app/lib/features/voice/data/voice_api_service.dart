@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/api/api_client.dart';
 import '../../../core/api/api_exception.dart';
 import '../../../shared/constants/api_constants.dart';
+import 'models/confirm_field_models.dart';
 import 'models/synthesize_request.dart';
 import 'models/synthesize_response.dart';
 import 'models/transcribe_request.dart';
@@ -34,6 +35,30 @@ class VoiceApiService {
           lang: 'en-IN',
           confidence: 0.94,
           needsConfirmation: false,
+        );
+      }
+      rethrow;
+    }
+  }
+
+  Future<ConfirmFieldResponse> confirmField(ConfirmFieldRequest request) async {
+    try {
+      final response = await _apiClient.post(
+        ApiConstants.voiceConfirm,
+        data: request.toJson(),
+      );
+
+      if (response.data is Map<String, dynamic>) {
+        return ConfirmFieldResponse.fromJson(response.data as Map<String, dynamic>);
+      }
+      throw Exception('Invalid confirm field response format.');
+    } on NetworkException {
+      if (ApiConstants.enableMockFallback) {
+        return ConfirmFieldResponse(
+          status: request.isConfirmed ? 'committed' : 'retry_prompt',
+          field: request.field,
+          finalValue: request.confirmedValue,
+          message: request.isConfirmed ? 'மதிப்பு சேமிக்கப்பட்டது.' : 'மீண்டும் சொல்லவும்.',
         );
       }
       rethrow;

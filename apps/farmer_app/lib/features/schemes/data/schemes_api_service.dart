@@ -122,4 +122,32 @@ class SchemesApiService {
       rethrow;
     }
   }
+
+  Future<List<SchemeSummary>> getFarmScopedSchemes(String farmId) async {
+    try {
+      final response = await _apiClient.get(
+        ApiConstants.farmScopedSchemes(farmId),
+      );
+
+      if (response.data is List) {
+        return (response.data as List)
+            .map((s) => SchemeSummary.fromJson(s as Map<String, dynamic>))
+            .toList();
+      } else if (response.data is Map<String, dynamic>) {
+        final map = response.data as Map<String, dynamic>;
+        final list = map['matched_schemes'] ?? map['schemes'] ?? map['items'];
+        if (list is List) {
+          return list
+              .map((s) => SchemeSummary.fromJson(s as Map<String, dynamic>))
+              .toList();
+        }
+      }
+      throw Exception('Invalid schemes payload format.');
+    } on NetworkException {
+      if (ApiConstants.enableMockFallback) {
+        return await getSchemes(farmId);
+      }
+      rethrow;
+    }
+  }
 }

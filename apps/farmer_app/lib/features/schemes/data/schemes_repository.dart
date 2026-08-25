@@ -16,6 +16,10 @@ class SchemesRepository {
     return await _apiService.getSchemes(farmId);
   }
 
+  Future<List<SchemeSummary>> getFarmScopedSchemes(String farmId) async {
+    return await _apiService.getFarmScopedSchemes(farmId);
+  }
+
   Future<SchemeDetail> getSchemeDetail(String schemeId) async {
     return await _apiService.getSchemeDetail(schemeId);
   }

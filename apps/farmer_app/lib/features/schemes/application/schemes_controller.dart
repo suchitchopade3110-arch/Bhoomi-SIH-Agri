@@ -13,3 +13,10 @@ final schemeDetailProvider =
   final repository = ref.watch(schemesRepositoryProvider);
   return await repository.getSchemeDetail(schemeId);
 });
+
+final farmScopedSchemesProvider =
+    FutureProvider.family<List<SchemeSummary>, String>((ref, farmId) async {
+  final repository = ref.watch(schemesRepositoryProvider);
+  return await repository.getFarmScopedSchemes(farmId);
+});
+
