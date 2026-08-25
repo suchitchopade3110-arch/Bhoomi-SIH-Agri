@@ -41,10 +41,12 @@ class ApiConstants {
   static const String weatherEt0 = '$apiVersion/weather/et0';
   static String farmWeather(String farmId) => '$apiVersion/farms/$farmId/summary';
 
-  // Health Endpoints (Phase 2 & Contract §4)
-  static String farmHealth(String farmId) => '$apiVersion/farms/$farmId/health';
-  static String farmHealthHistory(String farmId) => '$apiVersion/farms/$farmId/health/history';
-  static String farmHealthRecompute(String farmId) => '$apiVersion/farms/$farmId/health/recompute';
+  // Health Endpoints (Phase 2 & Contract §4) — backend exposes these under
+  // "risk" (see services/api/app/api/v1/health.py); path kept in sync with
+  // the live contract, not the "health" naming used in this constant's name.
+  static String farmHealth(String farmId) => '$apiVersion/farms/$farmId/risk';
+  static String farmHealthHistory(String farmId) => '$apiVersion/farms/$farmId/risk/history';
+  static String farmHealthRecompute(String farmId) => '$apiVersion/farms/$farmId/risk/recompute';
 
   // Diagnosis & Advisory Endpoints (Phase 3 & Contract §5)
   static String farmDiagnose(String farmId) => '$apiVersion/farms/$farmId/diagnose';
