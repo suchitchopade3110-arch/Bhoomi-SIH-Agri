@@ -58,23 +58,15 @@ async def _register_and_login(client: httpx.AsyncClient) -> dict[str, str]:
     return {"Authorization": f"Bearer {token}"}
 
 
-async def _create_farm(client: httpx.AsyncClient, headers: dict[str, str]) -> str:
+async def _create_farm(client: httpx.AsyncClient, headers: dict[str, str], region: str = DISTRICT) -> str:
     res = await client.post(
         "/farms",
         headers=headers,
         json={
             "farmer_id": str(uuid.uuid4()),
-            "farm_name": "Efficacy Test Farm",
-            "village": "Chithode",
-            "taluk": "Erode",
-            "district": DISTRICT,
-            "state": "Tamil Nadu",
-            "latitude": 11.34,
-            "longitude": 77.71,
-            "total_area_acres": 2.0,
-            "primary_crop": CROP,
-            "soil_type": "clay_loam",
-            "irrigation_source": "canal",
+            "crop": CROP,
+            "growth_stage": "vegetative",
+            "region": region,
         },
     )
     assert res.status_code == 201, res.text
@@ -150,26 +142,7 @@ async def test_efficacy_crosses_sample_size_floor_at_ten_successes():
         # A fresh district for this test only, so its sample count starts at
         # exactly zero regardless of what other tests in this module wrote.
         district = f"District-{uuid.uuid4().hex[:8]}"
-        res = await client.post(
-            "/farms",
-            headers=headers,
-            json={
-                "farmer_id": str(uuid.uuid4()),
-                "farm_name": "Efficacy Threshold Farm",
-                "village": "Chithode",
-                "taluk": "Erode",
-                "district": district,
-                "state": "Tamil Nadu",
-                "latitude": 11.34,
-                "longitude": 77.71,
-                "total_area_acres": 2.0,
-                "primary_crop": CROP,
-                "soil_type": "clay_loam",
-                "irrigation_source": "canal",
-            },
-        )
-        assert res.status_code == 201, res.text
-        farm_id = res.json()["id"]
+        farm_id = await _create_farm(client, headers, region=district)
 
         for i in range(9):
             await _diagnose_and_resolve_via_followup(client, headers, farm_id)
@@ -205,25 +178,7 @@ async def test_got_worse_followup_closes_application_as_failed():
     async with httpx.AsyncClient(transport=transport, base_url="http://test/api/v1") as client:
         headers = await _register_and_login(client)
         district = f"District-{uuid.uuid4().hex[:8]}"
-        res = await client.post(
-            "/farms",
-            headers=headers,
-            json={
-                "farmer_id": str(uuid.uuid4()),
-                "farm_name": "Efficacy Failure Farm",
-                "village": "Chithode",
-                "taluk": "Erode",
-                "district": district,
-                "state": "Tamil Nadu",
-                "latitude": 11.34,
-                "longitude": 77.71,
-                "total_area_acres": 2.0,
-                "primary_crop": CROP,
-                "soil_type": "clay_loam",
-                "irrigation_source": "canal",
-            },
-        )
-        farm_id = res.json()["id"]
+        farm_id = await _create_farm(client, headers, region=district)
 
         diagnose_res = await client.post(
             f"/farms/{farm_id}/diagnose",

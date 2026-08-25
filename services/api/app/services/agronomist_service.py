@@ -78,9 +78,12 @@ class AgronomistService:
                 AgronomistQueueItem(
                     escalation_id=c["id"],
                     farm_id=c["farm_id"],
-                    farmer_name=(farm or {}).get("farm_name", "Unknown"),
-                    village=(farm or {}).get("village", ""),
-                    crop=(farm or {}).get("primary_crop", ""),
+                    # See get_case_detail's comment: dict.get's default only
+                    # fires on a missing key, not a NULL value, and
+                    # SIH26131's simplified onboarding leaves these NULL.
+                    farmer_name=(farm or {}).get("farm_name") or "Unknown",
+                    village=(farm or {}).get("village") or "",
+                    crop=(farm or {}).get("primary_crop") or "",
                     severity=ProblemSeverity(c["severity"]),
                     status=CaseStatus(c["status"]),
                     health_score=float(snapshot.score) if snapshot and snapshot.score is not None else 0.0,
@@ -99,10 +102,13 @@ class AgronomistService:
         snapshot = await self._health.get_latest(case["farm_id"])
         farm_info = {
             "id": case["farm_id"],
-            "farmer_name": (farm or {}).get("farm_name", "Unknown"),
-            "village": (farm or {}).get("village", ""),
-            "district": (farm or {}).get("district", ""),
-            "primary_crop": (farm or {}).get("primary_crop", ""),
+            # SIH26131's simplified onboarding leaves farm_name/village/
+            # district NULL (not absent) — dict.get's default only fires on
+            # a missing key, so `or` is required here to actually catch None.
+            "farmer_name": (farm or {}).get("farm_name") or "Unknown",
+            "village": (farm or {}).get("village") or "",
+            "district": (farm or {}).get("district") or (farm or {}).get("region") or "",
+            "primary_crop": (farm or {}).get("primary_crop") or "",
             "growth_stage": (farm or {}).get("growth_stage"),
             "land_status": (farm or {}).get("land_status"),
         }

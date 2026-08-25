@@ -283,13 +283,19 @@ class DiagnosisService:
         farm = await self._farms.get_by_id(farm_id)
         if farm is not None:
             await self._farms.update(farm_id, {"days_since_last_scan": 2})
-            if self._efficacy_tracking is not None:
+            # SIH26131's simplified 3-field onboarding (crop/growth_stage/
+            # region) never sets `district` — fall back to `region` as the
+            # effective regional key for efficacy aggregation. Skip opening
+            # an application if the farm has neither (never write an empty
+            # region into treatment_applications.district).
+            region = farm.get("district") or farm.get("region")
+            if self._efficacy_tracking is not None and region:
                 await self._efficacy_tracking.open_for_diagnosis(
                     problem_id=problem_id,
                     farm_id=farm_id,
                     label=label,
-                    crop=farm.get("primary_crop", ""),
-                    district=farm.get("district", ""),
+                    crop=farm.get("primary_crop") or "",
+                    district=region,
                 )
 
         after_snapshot = await self._health.recompute(

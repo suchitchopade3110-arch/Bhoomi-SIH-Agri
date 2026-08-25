@@ -41,17 +41,9 @@ async def _create_farm(client: httpx.AsyncClient, headers: dict[str, str]) -> st
         headers=headers,
         json={
             "farmer_id": str(uuid.uuid4()),
-            "farm_name": "Pest Test Farm",
-            "village": "Chithode",
-            "taluk": "Erode",
-            "district": "Erode",
-            "state": "Tamil Nadu",
-            "latitude": 11.34,
-            "longitude": 77.71,
-            "total_area_acres": 2.0,
-            "primary_crop": "samba_paddy",
-            "soil_type": "clay_loam",
-            "irrigation_source": "canal",
+            "crop": "samba_paddy",
+            "growth_stage": "vegetative",
+            "region": "Erode",
         },
     )
     assert res.status_code == 201, res.text

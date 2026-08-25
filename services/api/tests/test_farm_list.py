@@ -41,17 +41,9 @@ async def _create_farm(client: httpx.AsyncClient, farmer_id: str, headers: dict[
         headers=headers,
         json={
             "farmer_id": farmer_id,
-            "farm_name": name,
-            "village": "Thanjavur",
-            "taluk": "Thanjavur",
-            "district": "Thanjavur",
-            "state": "Tamil Nadu",
-            "latitude": 10.7870,
-            "longitude": 79.1378,
-            "total_area_acres": 2.0,
-            "primary_crop": "samba_paddy",
-            "soil_type": "clay_loam",
-            "irrigation_source": "canal",
+            "crop": "samba_paddy",
+            "growth_stage": "vegetative",
+            "region": name,
         },
     )
     assert res.status_code == 201, res.text
