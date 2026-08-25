@@ -164,18 +164,17 @@ class Settings(BaseSettings):
     WEIGHTS_VERSION: str = "v1.0.0"
 
     # Voice / ASR / TTS
-    # ASR stays 'stub' by default — there's no credential-free real speech
-    # recognition option here (bhashini/sarvam both need API keys). TTS
-    # defaults to 'gtts' instead of 'stub': gTTS needs no credentials and,
-    # combined with a real StoragePort backend, produces audio the app can
-    # actually play out of the box — 'stub' never generates or stores any
-    # audio at all, so voice synthesis would silently do nothing.
+    # Both default to 'sarvam' — Sarvam AI is the provider actually used in
+    # this deployment. get_speech_adapter() fails loudly at startup if
+    # SARVAM_API_KEY isn't set rather than silently falling back to the
+    # stub (see app/adapters/dependencies.py) — set SARVAM_API_KEY, or set
+    # these back to 'stub' explicitly for local dev without credentials.
     ASR_PROVIDER: str = Field(
-        default="stub",
+        default="sarvam",
         description="ASR provider: 'bhashini' | 'sarvam' | 'stub'",
     )
     TTS_PROVIDER: str = Field(
-        default="gtts",
+        default="sarvam",
         description="TTS provider: 'bhashini' | 'sarvam' | 'gtts' | 'stub'",
     )
     CONFIRMATION_CONFIDENCE_FLOOR: float = Field(
