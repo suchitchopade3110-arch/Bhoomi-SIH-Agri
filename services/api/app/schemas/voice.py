@@ -40,6 +40,9 @@ class VoiceTranscribeResponse(BaseModel):
         default=None,
         description="Tamil confirmation prompt text (populated when needs_confirmation=True)",
     )
+    provider: str = Field(
+        ..., description="ASR implementation that actually produced this transcript, e.g. 'stub', 'sarvam', 'bhashini'",
+    )
 
 
 class VoiceSynthesizeRequest(BaseModel):
@@ -54,6 +57,9 @@ class VoiceSynthesizeResponse(BaseModel):
     audio_asset_id: str = Field(..., description="UUID string of generated audio asset")
     audio_url: str = Field(..., description="Presigned URL to play or download audio")
     duration_seconds: float | None = Field(default=None, description="Audio duration in seconds")
+    provider: str = Field(
+        ..., description="TTS implementation that actually produced this audio, e.g. 'stub', 'sarvam', 'gtts'",
+    )
 
 
 class VoiceQueryRequest(BaseModel):

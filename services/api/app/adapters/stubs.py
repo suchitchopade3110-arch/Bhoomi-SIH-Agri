@@ -198,6 +198,8 @@ class StubAsrTtsAdapter:
     - default               → generic Tamil greeting with tomato symptoms
     """
 
+    provider_name = "stub"
+
     # Context-specific response tuples: (transcript, confidence)
     _CONTEXT_RESPONSES: dict[str, tuple[str, float]] = {
         "onboarding": ("என் நிலம் இரண்டு ஏக்கர் சம்பா நெல்", 0.91),

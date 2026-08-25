@@ -94,23 +94,36 @@ def get_image_diagnosis_adapter() -> ImageDiagnosisPort:
 
 @lru_cache
 def get_speech_adapter() -> AsrTtsPort:
-    """Return AsrTtsPort adapter based on ``ASR_PROVIDER`` / ``TTS_PROVIDER`` settings."""
+    """Return AsrTtsPort adapter based on ``ASR_PROVIDER`` / ``TTS_PROVIDER`` settings.
+
+    An explicit real-provider selection fails loudly here if its required
+    credentials are absent, rather than silently constructing an adapter
+    that would return canned fallback text on every call while still
+    claiming to be the real provider (see ``docs/`` voice provider audit).
+    """
     settings = get_settings()
     provider = getattr(settings, "ASR_PROVIDER", "stub").lower()
-    
+
     if provider == "bhashini":
+        if not settings.BHASHINI_API_KEY or not settings.BHASHINI_USER_ID:
+            raise RuntimeError(
+                "ASR_PROVIDER=bhashini but BHASHINI_API_KEY/BHASHINI_USER_ID are not set. "
+                "Set both credentials or set ASR_PROVIDER=stub."
+            )
         from app.adapters.bhashini_asr import BhashiniAsrTtsAdapter
         return BhashiniAsrTtsAdapter()
     elif provider == "sarvam":
+        if not settings.SARVAM_API_KEY:
+            raise RuntimeError(
+                "ASR_PROVIDER=sarvam but SARVAM_API_KEY is not set. "
+                "Set the credential or set ASR_PROVIDER=stub."
+            )
         from app.adapters.sarvam_asr import SarvamAsrTtsAdapter
         return SarvamAsrTtsAdapter()
-    elif provider == "whisper":
-        from app.adapters.whisper_asr import WhisperAsrAdapter
-        return WhisperAsrAdapter()
     elif getattr(settings, "TTS_PROVIDER", "stub").lower() == "gtts":
         from app.adapters.gtts_adapter import GttsAdapter
         return GttsAdapter()
-        
+
     return StubAsrTtsAdapter()
 
 
