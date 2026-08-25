@@ -123,14 +123,44 @@ class SarvamAsrTtsAdapter:
                 if response.status_code == 200:
                     data = response.json()
                     audios = data.get("audios", [])
-                    if audios:
-                        # Decode base64 audio to validate payload integrity;
-                        # return mock asset ID and standard object URL convention.
-                        base64_audio = audios[0]
-                        if base64_audio:
-                            _ = base64.b64decode(base64_audio)
-                        return (mock_asset_id, fallback_asset_url(mock_asset_id, "wav"))
+                    if audios and audios[0]:
+                        audio_bytes = base64.b64decode(audios[0])
+                        download_url = await self._store_audio(client, mock_asset_id, audio_bytes)
+                        if download_url:
+                            return (mock_asset_id, download_url)
         except Exception:
             pass
 
         return (mock_asset_id, fallback_asset_url(mock_asset_id, "mp3"))
+
+    async def _store_audio(
+        self, client: httpx.AsyncClient, asset_id: str, audio_bytes: bytes
+    ) -> str | None:
+        """Push real synthesized audio bytes through StoragePort and return a
+        download URL that actually resolves — mirrors gtts_adapter's upload
+        flow. Returns ``None`` (never raises) if storage isn't reachable, so
+        callers can fall back to the placeholder URL instead of claiming a
+        real download link for audio nothing actually stored.
+        """
+        try:
+            # Imported lazily to avoid a module-level import cycle with
+            # ``app.adapters.dependencies`` (which imports this adapter lazily too).
+            from app.adapters.dependencies import get_storage_adapter
+
+            storage = get_storage_adapter()
+            file_name = f"{asset_id}.wav"
+            presigned = await storage.generate_presigned_upload_url(
+                asset_id=asset_id,
+                file_name=file_name,
+                content_type="audio/wav",
+                asset_kind="voice_synthesis",
+            )
+            upload_response = await client.put(
+                presigned["upload_url"],
+                content=audio_bytes,
+                headers={"Content-Type": "audio/wav"},
+            )
+            upload_response.raise_for_status()
+            return await storage.generate_presigned_download_url(file_name)
+        except Exception:
+            return None
