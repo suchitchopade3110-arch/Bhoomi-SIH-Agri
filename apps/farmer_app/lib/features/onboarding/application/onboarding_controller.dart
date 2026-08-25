@@ -22,12 +22,12 @@ class OnboardingController extends StateNotifier<OnboardingState> {
     state = state.copyWith(crop: crop, errorMessage: null);
   }
 
-  void setAreaAcres(double acres) {
-    state = state.copyWith(areaAcresSelfReported: acres, errorMessage: null);
-  }
-
   void setGrowthStage(String stage) {
     state = state.copyWith(growthStage: stage, errorMessage: null);
+  }
+
+  void setRegion(String region) {
+    state = state.copyWith(region: region, errorMessage: null);
   }
 
   void setSoilType(String soilType) {
@@ -60,13 +60,21 @@ class OnboardingController extends StateNotifier<OnboardingState> {
     }
   }
 
-
-  void toggleListening() {
-    state = state.copyWith(isListening: !state.isListening);
+  void startListening(String field) {
+    state = state.copyWith(recordingField: field);
   }
 
   void stopListening() {
-    state = state.copyWith(isListening: false);
+    state = state.copyWith(clearRecordingField: true);
+  }
+
+  void toggleListening([String? field]) {
+    final targetField = field ?? (state.currentStep == 0 ? 'crop' : state.currentStep == 1 ? 'growth_stage' : 'region');
+    if (state.isFieldRecording(targetField)) {
+      stopListening();
+    } else {
+      startListening(targetField);
+    }
   }
 
   void clearError() {

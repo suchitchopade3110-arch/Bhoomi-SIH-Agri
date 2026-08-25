@@ -188,15 +188,6 @@ class ConfirmFarmScreen extends ConsumerWidget {
                       childAspectRatio: 1.25,
                       children: [
                         _buildGridCard(
-                          icon: Icons.square_foot_rounded,
-                          label: 'Total Land',
-                          value: strings.formatAcres(state.areaAcresSelfReported),
-                          onTap: () {
-                            controller.goToStep(1);
-                            context.pop();
-                          },
-                        ),
-                        _buildGridCard(
                           icon: Icons.grass_rounded,
                           label: 'Main Crop',
                           value: strings.cropName(state.crop),
@@ -209,6 +200,15 @@ class ConfirmFarmScreen extends ConsumerWidget {
                           icon: Icons.spa_rounded,
                           label: 'Growth Stage',
                           value: strings.stageName(state.growthStage),
+                          onTap: () {
+                            controller.goToStep(1);
+                            context.pop();
+                          },
+                        ),
+                        _buildGridCard(
+                          icon: Icons.map_outlined,
+                          label: 'Region',
+                          value: strings.regionName(state.region),
                           onTap: () {
                             controller.goToStep(2);
                             context.pop();
@@ -228,8 +228,8 @@ class ConfirmFarmScreen extends ConsumerWidget {
                         ),
                         _buildGridCard(
                           icon: Icons.public_rounded,
-                          label: 'Zone',
-                          value: 'Southern Plateau',
+                          label: 'State',
+                          value: 'Tamil Nadu',
                           onTap: null,
                         ),
                       ],

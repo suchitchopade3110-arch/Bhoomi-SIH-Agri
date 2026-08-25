@@ -1,26 +1,35 @@
 class ParsedIntent {
   final String intent;
   final String? entity;
+  final String? field;
   final dynamic value;
+  final String? rawText;
 
   const ParsedIntent({
     required this.intent,
     this.entity,
+    this.field,
     this.value,
+    this.rawText,
   });
 
   factory ParsedIntent.fromJson(Map<String, dynamic> json) {
+    final fieldVal = json['field'] as String?;
     return ParsedIntent(
-      intent: json['intent'] as String? ?? 'unknown',
-      entity: json['entity'] as String?,
+      intent: json['intent'] as String? ?? fieldVal ?? 'unknown',
+      entity: json['entity'] as String? ?? fieldVal,
+      field: fieldVal,
       value: json['value'],
+      rawText: json['raw_text'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() => {
         'intent': intent,
         if (entity != null) 'entity': entity,
+        if (field != null) 'field': field,
         if (value != null) 'value': value,
+        if (rawText != null) 'raw_text': rawText,
       };
 }
 
@@ -30,6 +39,8 @@ class TranscribeResponse {
   final String lang;
   final ParsedIntent? parsedIntent;
   final bool needsConfirmation;
+  final String? readbackText;
+  final String? provider;
 
   const TranscribeResponse({
     required this.text,
@@ -37,6 +48,8 @@ class TranscribeResponse {
     this.lang = 'en-IN',
     this.parsedIntent,
     this.needsConfirmation = false,
+    this.readbackText,
+    this.provider,
   });
 
   bool get isHighConfidence => confidence >= 0.70;
@@ -51,6 +64,8 @@ class TranscribeResponse {
           ? ParsedIntent.fromJson(json['parsed_intent'] as Map<String, dynamic>)
           : null,
       needsConfirmation: json['needs_confirmation'] as bool? ?? false,
+      readbackText: json['readback_text'] as String?,
+      provider: json['provider'] as String?,
     );
   }
 
@@ -60,5 +75,7 @@ class TranscribeResponse {
         'lang': lang,
         if (parsedIntent != null) 'parsed_intent': parsedIntent!.toJson(),
         'needs_confirmation': needsConfirmation,
+        if (readbackText != null) 'readback_text': readbackText,
+        if (provider != null) 'provider': provider,
       };
 }

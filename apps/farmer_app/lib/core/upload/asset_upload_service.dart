@@ -51,7 +51,9 @@ class AssetUploadService {
       data: {
         'file_name': fileName,
         'content_type': contentType,
-        'asset_kind': assetType == 'image' ? 'image' : assetType == 'document' ? 'document' : 'audio',
+        'asset_kind': assetType == 'image'
+            ? 'disease_photo'
+            : (assetType == 'document' ? 'report_pdf' : 'audio_query'),
         'asset_type': assetType,
         'size_bytes': bytes.lengthInBytes,
       },
