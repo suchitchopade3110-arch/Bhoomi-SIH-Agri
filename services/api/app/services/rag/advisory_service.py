@@ -38,6 +38,8 @@ class AdvisoryQueryOutcome:
     reason: str | None
     escalation_offered: bool | None
     spoken_summary: str
+    provider: str
+    model: str
 
 
 def _chunk_to_dict(chunk: RetrievedChunk) -> dict:
@@ -71,6 +73,9 @@ class AdvisoryService:
             (``retrieved=True``) or an honest no-fabrication escalation
             (``retrieved=False``). Never a partial mix of the two.
         """
+        provider = self._settings.LLM_PROVIDER
+        model = self._settings.LLM_MODEL if provider != "stub" else "stub"
+
         chunks = await self._retrieval.retrieve(query_text)
         top_relevance = RetrievalService.top_relevance(chunks)
 
@@ -89,6 +94,8 @@ class AdvisoryService:
                 reason=NO_RELEVANT_SOURCE_REASON,
                 escalation_offered=True,
                 spoken_summary=NO_SOURCE_SPOKEN_SUMMARY,
+                provider=provider,
+                model=model,
             )
 
         raw = await self._llm.generate_grounded_advisory(
@@ -109,6 +116,8 @@ class AdvisoryService:
                 reason=NO_RELEVANT_SOURCE_REASON,
                 escalation_offered=True,
                 spoken_summary=NO_SOURCE_SPOKEN_SUMMARY,
+                provider=provider,
+                model=model,
             )
 
         return AdvisoryQueryOutcome(
@@ -118,6 +127,8 @@ class AdvisoryService:
             reason=None,
             escalation_offered=None,
             spoken_summary=COMPOSED_SPOKEN_SUMMARY,
+            provider=provider,
+            model=model,
         )
 
 

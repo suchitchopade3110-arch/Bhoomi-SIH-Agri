@@ -58,7 +58,22 @@ def get_roster_adapter() -> AgronomistRosterPort:
 
 @lru_cache
 def get_llm_adapter() -> LLMPort:
-    """Return LLMPort adapter based on settings."""
+    """Return LLMPort adapter based on ``LLM_PROVIDER``.
+
+    ``groq`` calls out to Groq's OpenAI-compatible API — see
+    ``adapters/groq_llm.py``; startup validation in ``core/config.py``
+    already refused to boot with a missing/mock/malformed key, so reaching
+    here with ``LLM_PROVIDER=groq`` means a real key is present.
+    """
+    settings = get_settings()
+    if settings.LLM_PROVIDER == "groq":
+        from app.adapters.groq_llm import GroqLLMAdapter
+
+        return GroqLLMAdapter(
+            api_key=settings.LLM_API_KEY,
+            base_url=settings.LLM_BASE_URL,
+            model=settings.LLM_MODEL,
+        )
     return StubLLMAdapter()
 
 

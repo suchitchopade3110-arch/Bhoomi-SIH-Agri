@@ -47,3 +47,7 @@ class AdvisoryQueryResponse(SpokenResponseMixin):
     citations: list[Citation] = Field(default_factory=list)
     reason: str | None = None
     escalation_offered: bool | None = None
+    provider: str = Field(
+        default="stub", description="LLM provider that served this response: 'groq' | 'stub'"
+    )
+    model: str = Field(default="stub", description="LLM model that served this response, or 'stub'")
