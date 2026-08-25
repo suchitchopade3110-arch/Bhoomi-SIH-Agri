@@ -86,6 +86,10 @@ class VoiceService:
                     parsed, request.language,
                 )
 
+        provider_name = getattr(self._speech, "provider_name", "stub")
+        if not isinstance(provider_name, str):
+            provider_name = "stub"
+
         return VoiceTranscribeResponse(
             transcript=text,
             language=request.language,
@@ -93,12 +97,15 @@ class VoiceService:
             parsed_intent=parsed_schema,
             needs_confirmation=needs_conf,
             readback_text=readback,
-            provider=self._speech.provider_name,
+            provider=provider_name,
         )
 
     async def synthesize(self, request: VoiceSynthesizeRequest) -> VoiceSynthesizeResponse:
         asset_id, url = await self._speech.synthesize_speech(request.text, request.language, request.gender)
-        return VoiceSynthesizeResponse(audio_asset_id=asset_id, audio_url=url, provider=self._speech.provider_name)
+        provider_name = getattr(self._speech, "provider_name", "stub")
+        if not isinstance(provider_name, str):
+            provider_name = "stub"
+        return VoiceSynthesizeResponse(audio_asset_id=asset_id, audio_url=url, provider=provider_name)
 
     async def confirm_field(
         self, field: str, value: Any, is_confirmed: bool, correction_text: str | None = None

@@ -9,11 +9,11 @@ class CreateFarmRequest {
 
   const CreateFarmRequest({
     required this.crop,
-    required this.growthStage,
-    required this.region,
+    this.growthStage = 'vegetative',
+    this.region = 'Cauvery Delta',
     this.areaAcresSelfReported,
-    this.soilType = 'Clay Loam',
-    this.irrigationAccess = 'Borewell',
+    this.soilType = 'clay_loam',
+    this.irrigationAccess = 'canal',
     this.season = 'samba',
   });
 
@@ -27,8 +27,8 @@ class CreateFarmRequest {
       'region': region.isNotEmpty ? region : 'Cauvery Delta',
       'soil_type': soilType.isNotEmpty ? soilType : 'Clay Loam',
       'irrigation_source': irrigationAccess.isNotEmpty ? irrigationAccess : 'Borewell',
-      'irrigation_access': irrigationAccess,
-      'season': season,
+      'irrigation_access': irrigationAccess.isNotEmpty ? irrigationAccess : 'canal',
+      'season': season.isNotEmpty ? season : 'samba',
       if (areaAcresSelfReported != null && areaAcresSelfReported! > 0)
         'area_acres_self_reported': areaAcresSelfReported,
       if (areaAcresSelfReported != null && areaAcresSelfReported! > 0)
@@ -45,11 +45,11 @@ class CreateFarmRequest {
   factory CreateFarmRequest.fromJson(Map<String, dynamic> json) {
     return CreateFarmRequest(
       crop: json['crop'] as String? ?? '',
-      growthStage: json['growth_stage'] as String? ?? '',
+      growthStage: json['growth_stage'] as String? ?? 'vegetative',
       region: json['region'] as String? ?? 'Cauvery Delta',
       areaAcresSelfReported: (json['area_acres_self_reported'] as num?)?.toDouble(),
-      soilType: json['soil_type'] as String? ?? 'Clay Loam',
-      irrigationAccess: json['irrigation_access'] as String? ?? 'Borewell',
+      soilType: json['soil_type'] as String? ?? 'clay_loam',
+      irrigationAccess: json['irrigation_access'] as String? ?? 'canal',
       season: json['season'] as String? ?? 'samba',
     );
   }
