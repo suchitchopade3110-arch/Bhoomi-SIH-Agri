@@ -77,20 +77,18 @@ The return type makes the invariant structural — `GateDecision` holds exactly 
 
 The score is the most visible number in the product, which makes it the most tempting thing to fake and the easiest thing for a judge to attack. The defense is that it's a documented weighted rubric where every point of movement traces to an input.
 
-Six sub-indices, each 0–100, combined by fixed weights (`domain/health/constants.py`, with an `assert` at import time that they sum to exactly 1.0):
+Four sub-indices, each 0–100, combined by fixed weights (`domain/health/constants.py`, with an `assert` at import time that they sum to exactly 1.0) — this is the SIH26131 risk model, and it's the only one the engine runs; `PROBLEM_STATEMENT` switches which *routes* are mounted (§5), never which scoring rubric computes the number:
 
 | Sub-index | Weight | What moves it |
 |---|---|---|
-| `environmental_suitability` | 0.20 | Weather and soil moisture vs. the crop's ideal range at its stage |
-| `resource_adequacy` | 0.15 | Irrigation delivered vs. the ET₀-derived requirement |
-| `crop_stage_progression` | 0.15 | Days since planting vs. the expected crop calendar |
-| `active_problem_load` | **0.30** | Open problems, penalised by severity |
-| `monitoring_recency` | 0.10 | How stale the last scan is |
-| `treatment_response` | 0.10 | The latest follow-up: improved / no change / got worse |
+| `active_problem_severity` | **0.40** | Open problems, penalised by severity |
+| `environmental_risk` | 0.25 | Weather deviation from the crop's ideal temp/humidity band at its stage |
+| `monitoring_recency` | 0.15 | How stale the last scan is (5 pts/day penalty) |
+| `treatment_response` | 0.20 | The latest follow-up: improved / no change / got worse / expert-resolved |
 
-`active_problem_load` carries the heaviest weight on purpose — an active disease is the single most important fact about a farm, and it should be the thing that visibly moves the number.
+`active_problem_severity` carries the heaviest weight on purpose — an active disease is the single most important fact about a farm, and it should be the thing that visibly moves the number.
 
-Severity penalties subtract from that sub-index: early 30, moderate 55, severe 80. So a newly diagnosed early-stage blight takes the sub-index from 100 to 70, and at weight 0.30 that's a 9-point drop in the total, before the environmental and monitoring effects.
+Severity penalties subtract from that sub-index: early 30, moderate 55, severe 80. So a newly diagnosed early-stage blight takes the sub-index from 100 to 70, and at weight 0.40 that's a 12-point drop in the total, before the environmental and monitoring effects.
 
 Bands: `unrated` · 0–39 critical · 40–59 poor · 60–74 watch · 75–89 good · 90–100 excellent.
 
@@ -117,13 +115,13 @@ If a judge asks whether the score is decorative, the answer is `make test-e2e`.
 Bhoomi-SIH-Agri/
 ├── AGENTS.md                  # standing rules for coding agents working in this repo
 ├── apps/
+│   ├── bhoomi_landing/         # marketing/pitch page (React + Vite) — live against the API when reachable, local demo data otherwise
 │   ├── farmer_app/            # Flutter — Riverpod, go_router, dio
 │   ├── kvk_portal/            # agronomist case queue + resolve (React + Vite + Tailwind)
 │   └── officer_portal/        # land review (React + Vite + Tailwind + Leaflet)
 ├── services/
 │   ├── api/                   # FastAPI backend — the entire intelligence layer
-│   └── ml/                    # inference microservice — scaffold only, files are empty
-├── packages/shared/           # Phase-0 scaffold, superseded (see §9)
+│   └── ml/                    # inference microservice — heuristic (not trained) image/embedding/speech endpoints, see §9
 ├── data/
 │   ├── external/Dataset_v4/   # raw pest dataset snapshot — ground truth, don't edit
 │   └── curated/Dataset_v4_validated/
@@ -227,7 +225,7 @@ Base path `/api/v1`. Bearer JWT, with the role claim gating portal routes.
 | Auth | `POST /auth/register` · `POST /auth/login` · `GET /auth/me` |
 | Media | `POST /assets/presigned-url` · `GET /assets/{asset_id}` |
 | Voice | `POST /voice/transcribe` · `/voice/synthesize` · `/voice/query` · `/voice/confirm` |
-| Farms | `POST /farms` · `GET,PUT /farms/{id}` · `GET /farms/{id}/summary` |
+| Farms | `POST /farms` · `GET /farms` (list mine) · `GET,PUT /farms/{id}` · `GET /farms/{id}/summary` |
 | Health score | `GET /farms/{id}/health` · `/health/history` · `POST /health/recompute` |
 | Diagnosis | `POST /farms/{id}/diagnose` |
 | Advisory (RAG) | `POST /advisory/query` |
@@ -260,15 +258,11 @@ Read `DATASET_VALIDATION_STATUS.md` before wiring any of it in. The manifest sta
 
 Written down so nobody rediscovers them at hour 30.
 
-**`services/ml/` is empty.** Four files, zero lines. `adapters/image_diagnosis_real.py` is wired and selectable, and it documents this honestly: with `DIAGNOSIS_MODEL=real` it raises a connection error rather than returning a plausible-looking guess. That's the right failure mode for a diagnosis port, but the working path today is the stub.
-
-**`packages/shared/constants.py` contradicts the live engine.** It carries a different six-sub-index rubric (`soil_water`, `crop_vigor`, `nutrient_balance`…) and different bands (`optimal`, `at_risk`). It's Phase-0 scaffold that was never removed. Anything importing it gets a wrong model. The authoritative source is `services/api/app/domain/health/constants.py`.
-
-**The SIH26131 risk rework is specced but not built.** `docs/specs/suchit_module_specs_sih26131.md` defines a four-sub-index model (`active_problem_severity` 0.40, `environmental_risk` 0.25, `monitoring_recency` 0.15, `treatment_response` 0.20). The engine still runs the six-sub-index PRD §7 rubric. The `PROBLEM_STATEMENT` flag switches routes, not scoring.
+**`services/ml/` is a heuristic, not a trained model.** It's a real, running FastAPI microservice — `DIAGNOSIS_MODEL=real` genuinely calls it over HTTP end-to-end (color-histogram analysis when given real image bytes, a deterministic asset-id hash otherwise) — but there is no labeled crop-disease dataset or trained weights checked into this repo, so its predictions shouldn't be trusted as diagnostic. It also exposes `/embed`, `/transcribe`, and `/synthesize`; only `/diagnose` is wired from `services/api` today (`adapters/dependencies.py` never routes `EmbeddingPort`/`AsrTtsPort` at `ML_SERVICE_URL`).
 
 **Treatment-efficacy endpoints don't exist.** Specced in `docs/specs/treatment_efficacy_spec.md`, not mounted in either mode.
 
-**`RAG_RELEVANCE_THRESHOLD=0.18` is calibrated against stub embeddings only.** The `0.60` production figure is a target for BGE-m3, not a measured value. Re-tune when a real embedding adapter lands.
+**`RAG_RELEVANCE_THRESHOLD=0.18` is calibrated against stub embeddings only.** The `0.60` production figure is a target for a real dense embedding model (e.g. BGE-m3), not a measured value — `EMBEDDING_PROVIDER=bge_m3` is accepted by config but `adapters/dependencies.get_embedding_adapter` always returns the stub regardless; there's no real embedding adapter wired yet. Re-tune when one lands.
 
 **CI has no backend job.** The workflow covers the Flutter app, both portals, and a secret scan. Backend tests run locally via `make test`.
 

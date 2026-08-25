@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Sprout, Menu, X } from 'lucide-react';
+import { Sprout, Menu, X, Stethoscope } from 'lucide-react';
 
-export default function Navbar({ 
-  onOpenOfficerPortal
+export default function Navbar({
+  onOpenOfficerPortal,
+  onOpenAgronomistPortal,
 }) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -41,8 +42,14 @@ export default function Navbar({
         </nav>
 
         {/* Action Buttons */}
-        <div className="hidden lg:flex items-center gap-4">
-          <button 
+        <div className="hidden lg:flex items-center gap-3">
+          <button
+            onClick={onOpenAgronomistPortal}
+            className="flex items-center gap-1.5 border border-sky-600 text-sky-700 hover:bg-sky-50 px-4 py-2.5 rounded-md font-bold transition-colors"
+          >
+            <Stethoscope className="w-4 h-4" /> KVK Agronomist
+          </button>
+          <button
             onClick={onOpenOfficerPortal}
             className="bg-[#1b8c47] hover:bg-green-700 text-white px-5 py-2.5 rounded-md font-bold transition-colors shadow-sm"
           >
@@ -67,13 +74,22 @@ export default function Navbar({
             <a href="#features" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-[#1b8c47]">Capabilities</a>
             <a href="#how-it-works" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-[#1b8c47]">Workflow</a>
 
-            
-            <button 
+
+            <button
+              onClick={() => {
+                onOpenAgronomistPortal();
+                setIsMobileMenuOpen(false);
+              }}
+              className="mt-4 border border-sky-600 text-sky-700 py-3 rounded-md font-bold text-center"
+            >
+              KVK Agronomist Portal
+            </button>
+            <button
               onClick={() => {
                 onOpenOfficerPortal();
                 setIsMobileMenuOpen(false);
               }}
-              className="mt-4 bg-[#1b8c47] text-white py-3 rounded-md font-bold text-center shadow-sm"
+              className="bg-[#1b8c47] text-white py-3 rounded-md font-bold text-center shadow-sm"
             >
               Login as Officer
             </button>

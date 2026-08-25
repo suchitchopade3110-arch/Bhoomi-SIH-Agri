@@ -41,6 +41,21 @@ async def create_farm(
 
 
 @router.get(
+    "",
+    response_model=list[FarmResponse],
+    summary="List every farm owned by the authenticated farmer",
+)
+async def list_my_farms(
+    service: Annotated[FarmService, Depends(get_farm_service)],
+    auth: Annotated[dict[str, Any], Depends(get_current_token_payload)],
+) -> list[FarmResponse]:
+    """The client-side counterpart to onboarding's ``POST /farms``: lets a
+    client that only holds a JWT (no farm_id yet, e.g. right after login)
+    discover which farm(s) to call ``/farms/{id}/...`` against."""
+    return await service.list_farms_for_farmer(auth["sub"])
+
+
+@router.get(
     "/{farm_id}",
     response_model=FarmResponse,
     summary="Get farm details by UUID",

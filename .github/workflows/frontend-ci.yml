@@ -98,7 +98,33 @@ jobs:
         run: npm run build
 
   # ============================================================================
-  # 4. Security & Secret Protection Gate
+  # 4. Bhoomi Landing Page (React / Vite) Quality Gate
+  # ============================================================================
+  landing-page-validation:
+    name: Bhoomi Landing Page (Build)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/bhoomi_landing
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+          cache-dependency-path: apps/bhoomi_landing/package-lock.json
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Production Bundle Compilation
+        run: npm run build
+
+  # ============================================================================
+  # 5. Security & Secret Protection Gate
   # ============================================================================
   security-audit:
     name: Security & Secret Scan

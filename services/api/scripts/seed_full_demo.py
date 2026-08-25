@@ -34,6 +34,7 @@ from app.core.enums import (
 )
 from app.core.security import get_password_hash
 from app.domain.farm_reference_data import get_expected_stage_day
+from app.domain.health.constants import WEIGHTS_V2_SIH26131, WEIGHTS_VERSION
 from app.models.advisory import Advisory
 from app.models.case import Case
 from app.models.farm import Farm
@@ -62,15 +63,30 @@ SAMPLE_BOUNDARY_GEOJSON = {
 
 
 def _make_snapshot(farm_id: str, score: int, band: HealthBand, subindices: dict[str, float], dt: datetime) -> HealthSnapshot:
-    subindices_list = [{"key": k, "value": v} for k, v in subindices.items()]
+    # Matches app/models/health_snapshot.py's actual columns (``band``,
+    # ``weights_version``) and the ``{"key", "value", "weight",
+    # "contribution"}`` subindex shape the API contract returns — this
+    # script previously used ``health_band``/``rubric_version``, which
+    # don't exist on the model, and a bare ``{"key", "value"}`` shape.
+    weight = WEIGHTS_V2_SIH26131
+    subindices_list = [
+        {
+            "key": k,
+            "value": v,
+            "weight": weight[SubIndexKey(k)],
+            "contribution": round(v * weight[SubIndexKey(k)], 2),
+        }
+        for k, v in subindices.items()
+    ]
     snapshot = HealthSnapshot(
         id=str(uuid.uuid4()),
         farm_id=farm_id,
         score=score,
-        health_band=band.value,
+        band=band.value,
         subindices=subindices_list,
-        rubric_version="v1.0.0",
+        weights_version=WEIGHTS_VERSION,
         computed_at=dt,
+        missing_fields=[],
     )
     snapshot.created_at = dt
     snapshot.updated_at = dt
@@ -149,11 +165,15 @@ async def seed_stage(stage: str = "full") -> dict:
         now = datetime.utcnow()
 
         # Baseline snapshot (Score 82)
+        # Keyed to the live 4 sub-index SIH26131 risk model (SubIndexKey,
+        # app/domain/health/constants.py) — this script previously wrote
+        # the retired 6-key v1 names (ENVIRONMENTAL_SUITABILITY,
+        # RESOURCE_ADEQUACY, CROP_STAGE_PROGRESSION, ACTIVE_PROBLEM_LOAD),
+        # which no longer exist on SubIndexKey and made `make seed` crash
+        # with AttributeError before a single row was written.
         base_subindices = {
-            SubIndexKey.ENVIRONMENTAL_SUITABILITY.value: 85.0,
-            SubIndexKey.RESOURCE_ADEQUACY.value: 88.0,
-            SubIndexKey.CROP_STAGE_PROGRESSION.value: 80.0,
-            SubIndexKey.ACTIVE_PROBLEM_LOAD.value: 90.0,
+            SubIndexKey.ACTIVE_PROBLEM_SEVERITY.value: 90.0,
+            SubIndexKey.ENVIRONMENTAL_RISK.value: 85.0,
             SubIndexKey.MONITORING_RECENCY.value: 78.0,
             SubIndexKey.TREATMENT_RESPONSE.value: 75.0,
         }
@@ -193,7 +213,7 @@ async def seed_stage(stage: str = "full") -> dict:
 
             diag_subindices = {
                 **base_subindices,
-                SubIndexKey.ACTIVE_PROBLEM_LOAD.value: 55.0,
+                SubIndexKey.ACTIVE_PROBLEM_SEVERITY.value: 55.0,
                 SubIndexKey.TREATMENT_RESPONSE.value: 60.0,
             }
             s2 = _make_snapshot(farm_id, 68, HealthBand.WATCH, diag_subindices, now - timedelta(days=4))
@@ -238,7 +258,7 @@ async def seed_stage(stage: str = "full") -> dict:
 
             esc_subindices = {
                 **base_subindices,
-                SubIndexKey.ACTIVE_PROBLEM_LOAD.value: 35.0,
+                SubIndexKey.ACTIVE_PROBLEM_SEVERITY.value: 35.0,
                 SubIndexKey.TREATMENT_RESPONSE.value: 40.0,
             }
             s3 = _make_snapshot(farm_id, 59, HealthBand.POOR, esc_subindices, now - timedelta(days=2))
@@ -258,7 +278,7 @@ async def seed_stage(stage: str = "full") -> dict:
 
             res_subindices = {
                 **base_subindices,
-                SubIndexKey.ACTIVE_PROBLEM_LOAD.value: 95.0,
+                SubIndexKey.ACTIVE_PROBLEM_SEVERITY.value: 95.0,
                 SubIndexKey.TREATMENT_RESPONSE.value: 92.0,
                 SubIndexKey.MONITORING_RECENCY.value: 90.0,
             }

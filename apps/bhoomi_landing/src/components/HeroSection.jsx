@@ -1,14 +1,16 @@
 import React from 'react';
-import { 
-  ShieldCheck, 
-  Map, 
+import {
+  ShieldCheck,
+  Map,
   Star,
-  Layers
+  Layers,
+  Mic,
 } from 'lucide-react';
 
 
-export default function HeroSection({ 
-  onOpenOfficerPortal 
+export default function HeroSection({
+  onOpenOfficerPortal,
+  onOpenVoiceModal,
 }) {
   return (
     <section id="hero" className="relative min-h-screen flex items-center pt-20 pb-16 overflow-hidden">
@@ -49,15 +51,23 @@ export default function HeroSection({
 
             {/* Call to Actions */}
             <div className="flex flex-col items-center gap-4 pt-4 w-full sm:w-auto">
-              <button
-                onClick={onOpenOfficerPortal}
-                className="w-full sm:w-auto bg-[#1b8c47] hover:bg-green-700 text-white py-4 px-10 rounded-full text-lg font-bold flex items-center justify-center gap-3 shadow-xl shadow-green-900/30 transition-transform hover:scale-105"
-              >
-                <Map className="w-6 h-6" />
-                <span>Open Verification Dashboard</span>
-              </button>
+              <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
+                <button
+                  onClick={onOpenOfficerPortal}
+                  className="w-full sm:w-auto bg-[#1b8c47] hover:bg-green-700 text-white py-4 px-10 rounded-full text-lg font-bold flex items-center justify-center gap-3 shadow-xl shadow-green-900/30 transition-transform hover:scale-105"
+                >
+                  <Map className="w-6 h-6" />
+                  <span>Open Verification Dashboard</span>
+                </button>
 
-
+                <button
+                  onClick={onOpenVoiceModal}
+                  className="w-full sm:w-auto bg-white border-2 border-emerald-600 text-emerald-700 hover:bg-emerald-50 py-4 px-8 rounded-full text-lg font-bold flex items-center justify-center gap-3 shadow-sm transition-transform hover:scale-105"
+                >
+                  <Mic className="w-6 h-6" />
+                  <span>Ask Bhoomi (Voice Demo)</span>
+                </button>
+              </div>
             </div>
 
 

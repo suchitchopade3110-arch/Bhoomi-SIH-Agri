@@ -1,38 +1,68 @@
 import React, { useState } from 'react';
-import { 
-  X, 
-  Mic, 
-  Volume2, 
-  Sparkles, 
-  Send, 
-  CheckCircle2, 
-  AlertTriangle,
-  FileCheck2
+import {
+  X,
+  Mic,
+  Volume2,
+  Loader2,
 } from 'lucide-react';
 import { CURATED_CORPUS } from '../data/corpusData';
+import { getDemoFarm, askAdvisory } from '../api/bhoomi_api';
 
 export default function VoiceQueryModal({ isOpen, onClose, onSelectScenario }) {
   const [isRecording, setIsRecording] = useState(false);
   const [queryText, setQueryText] = useState('இலை நுனி மஞ்சள் நிறமாகி கருகுகிறது, என்ன செய்ய வேண்டும்?');
   const [hasSubmitted, setHasSubmitted] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const [liveAdvisory, setLiveAdvisory] = useState(null);
+  const [source, setSource] = useState('demo'); // 'demo' | 'live'
 
   if (!isOpen) return null;
 
-  const blbAdvisory = CURATED_CORPUS[0].advisory5Point;
+  const localAdvisory = CURATED_CORPUS[0].advisory5Point;
+  const advisory = liveAdvisory
+    ? {
+        possibleIssue: liveAdvisory.advisory.possible_issue,
+        whatToAvoid: liveAdvisory.advisory.what_to_avoid,
+        whatToDoNext: liveAdvisory.advisory.what_to_do_next,
+        expertTriggers: liveAdvisory.advisory.expert_triggers,
+      }
+    : localAdvisory;
+
+  const runQuery = async (text) => {
+    setIsLoading(true);
+    const farm = await getDemoFarm();
+    if (farm) {
+      const result = await askAdvisory(farm.id, text);
+      if (result && result.retrieved) {
+        setLiveAdvisory(result);
+        setSource('live');
+        setIsLoading(false);
+        setHasSubmitted(true);
+        return;
+      }
+    }
+    // No live farm / no grounded match — honest fallback to the bundled
+    // demo advisory rather than fabricating one client-side.
+    setLiveAdvisory(null);
+    setSource('demo');
+    setIsLoading(false);
+    setHasSubmitted(true);
+  };
 
   const handleSimulateVoice = () => {
     setIsRecording(true);
     setTimeout(() => {
       setIsRecording(false);
-      setQueryText('நெல் இலைகளில் மஞ்சள் கோடுகள் தெரிகிறது...');
-      setHasSubmitted(true);
+      const nextQuery = 'நெல் இலைகளில் மஞ்சள் கோடுகள் தெரிகிறது...';
+      setQueryText(nextQuery);
+      runQuery(nextQuery);
     }, 1500);
   };
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fade-in">
       <div className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-3xl bg-slate-950 text-white border border-emerald-500/40 shadow-2xl p-6 sm:p-8">
-        
+
         {/* Modal Header */}
         <div className="flex items-center justify-between pb-4 border-b border-slate-800">
           <div className="flex items-center gap-3">
@@ -46,11 +76,13 @@ export default function VoiceQueryModal({ isOpen, onClose, onSelectScenario }) {
                   PRD §5.1 Spoken Tamil
                 </span>
               </div>
-              <p className="text-xs text-slate-400">Context-Aware Spoken Query Companion</p>
+              <p className="text-xs text-slate-400">
+                {source === 'live' ? 'Grounded via POST /api/v1/advisory/query' : 'Context-Aware Spoken Query Companion'}
+              </p>
             </div>
           </div>
 
-          <button 
+          <button
             onClick={onClose}
             className="p-2 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
           >
@@ -78,8 +110,8 @@ export default function VoiceQueryModal({ isOpen, onClose, onSelectScenario }) {
             <button
               onClick={handleSimulateVoice}
               className={`w-16 h-16 rounded-full flex items-center justify-center transition-all ${
-                isRecording 
-                  ? 'bg-rose-600 animate-ping text-white shadow-xl shadow-rose-900/50' 
+                isRecording
+                  ? 'bg-rose-600 animate-ping text-white shadow-xl shadow-rose-900/50'
                   : 'bg-emerald-600 hover:bg-emerald-500 text-white shadow-xl shadow-emerald-950/60'
               }`}
             >
@@ -92,31 +124,35 @@ export default function VoiceQueryModal({ isOpen, onClose, onSelectScenario }) {
         </div>
 
         {/* Grounded 5-Point Voice Read-Back (PRD §5.8) */}
-        {hasSubmitted && (
+        {isLoading ? (
+          <div className="flex items-center justify-center py-10 text-slate-500">
+            <Loader2 className="w-6 h-6 animate-spin" />
+          </div>
+        ) : hasSubmitted && (
           <div className="space-y-4 pt-4 border-t border-slate-800 animate-fade-in">
             <div className="flex items-center justify-between">
               <span className="text-xs uppercase font-bold tracking-wider text-lime-400 flex items-center gap-1.5">
                 <Volume2 className="w-4 h-4" /> Bhoomi Spoken Read-Back
               </span>
               <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-950 text-lime-300 border border-emerald-600/40">
-                ICAR-CRRI Grounded
+                {source === 'live' ? 'Live Corpus Grounded' : 'ICAR-CRRI Grounded (Demo)'}
               </span>
             </div>
 
             <div className="p-5 rounded-2xl bg-emerald-950/70 border border-emerald-500/40 space-y-3 text-xs">
               <div>
-                <p className="font-bold text-white text-sm">{blbAdvisory.possibleIssue}</p>
+                <p className="font-bold text-white text-sm">{advisory.possibleIssue}</p>
                 <p className="text-emerald-200/90 mt-1">Ramesh, for your 2.0-acre Samba Paddy, bacterial leaf blight is detected with 88% certainty.</p>
               </div>
 
               {/* What to avoid alert */}
               <div className="p-3 rounded-xl bg-rose-950/80 border border-rose-500/60 text-rose-100 font-medium">
-                <strong>🚫 {blbAdvisory.whatToAvoid}</strong>
+                <strong>🚫 {advisory.whatToAvoid}</strong>
               </div>
 
               <div className="space-y-1.5 text-slate-300">
-                <p><strong>Remedy:</strong> {blbAdvisory.whatToDoNext}</p>
-                <p className="text-amber-300"><strong>Escalation:</strong> {blbAdvisory.expertTriggers}</p>
+                <p><strong>Remedy:</strong> {advisory.whatToDoNext}</p>
+                <p className="text-amber-300"><strong>Escalation:</strong> {advisory.expertTriggers}</p>
               </div>
             </div>
 
