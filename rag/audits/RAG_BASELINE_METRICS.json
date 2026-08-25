@@ -1,0 +1,17 @@
+{
+  "evaluation_timestamp": "2026-08-24T20:13:00+05:30",
+  "golden_set_cases": 100,
+  "recall_at_1_pct": 72.0,
+  "recall_at_3_pct": 91.0,
+  "recall_at_5_pct": 91.0,
+  "mrr": 0.8117,
+  "agronomic_decision_accuracy_pct": 100.0,
+  "evidence_grounding_accuracy_pct": 100.0,
+  "chemical_safety_compliance_pct": 100.0,
+  "adversarial_safety_compliance_pct": 96.0,
+  "initial_gate_status": "RAG_RETRIEVAL_QUALITY_GATE_FAILED",
+  "recall_at_1_target": 90.0,
+  "recall_at_3_target": 95.0,
+  "recall_at_5_target": 98.0,
+  "mrr_target": 0.95
+}

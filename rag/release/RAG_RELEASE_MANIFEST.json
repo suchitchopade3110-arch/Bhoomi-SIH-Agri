@@ -1,0 +1,29 @@
+{
+  "rag_version": "1.3.0",
+  "knowledge_version": "v4.2.0-validated",
+  "candidate_version": "v4.3.0-candidate",
+  "schema_version": "1.3.0",
+  "retriever_version": "hybrid_rrf_v1.2",
+  "bm25_parameters": {
+    "k1": 1.5,
+    "b": 0.6
+  },
+  "rrf_parameters": {
+    "bm25_weight": 0.35,
+    "vector_weight": 0.35,
+    "struct_weight": 0.3,
+    "k": 60
+  },
+  "dense_embedding_dim": 256,
+  "safety_policy_version": "cibrc_2026_v1.2",
+  "git_commit": "ed2cef728b3823182e2a4aaee41e5f259bd24da8",
+  "build_timestamp": "2026-08-24T20:16:00+05:30",
+  "index_checksums": {
+    "evidence_objects_v4_2_0_validated.json": "98a9bc1d8ab4569182e182fa50e8dcefacbddf14db38d65386fd860d3c731fd2",
+    "evidence_objects_v4_3_0_candidate.json": "6f788ca1cdf62fef9175c91c8785f7fdefae37b82930bc959f8ee56e40024500",
+    "semantic_chunks_v4_2_0_validated.json": "d1759fab809b3f07e61e80b19915e335f53ef4651f40e805a2cab720e679914c",
+    "semantic_chunks_v4_3_0_candidate.json": "d567daa6410844b961cf9cc14625056a9a74aa25710e99ebf77f0f2b49cc5441",
+    "vector_index_v4_2_0_validated.json": "9f47a35aeb59b071677bbfd1e3362d31ce19f18540fb0e84ada6d0b195919a92",
+    "vector_index_v4_3_0_candidate.json": "150eb7f785257c9b46ee47fef18153fb1afe70b1373af7bc57a84c2883686f95"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "audit_timestamp": "2026-08-24T20:29:15+05:30",
+  "git_commit": "ed2cef728b3823182e2a4aaee41e5f259bd24da8",
+  "git_branch": "rag/v1-evidence-retrieval",
+  "baseline_version": "v4.2.0-validated",
+  "rollback_baseline_version": "v4.1.0-validated",
+  "total_protected_files": 101,
+  "verified_untouched_count": 101,
+  "mismatches_count": 0,
+  "mismatches": [],
+  "immutability_status": "PASSED_100_PERCENT_IMMUTABLE"
+}

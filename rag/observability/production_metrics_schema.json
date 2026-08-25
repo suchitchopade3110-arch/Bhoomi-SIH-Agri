@@ -1,0 +1,58 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "BhoomiProductionMetricsEvent",
+  "type": "object",
+  "properties": {
+    "request_id": { "type": "string" },
+    "session_id_hash": { "type": "string" },
+    "timestamp": { "type": "string", "format": "date-time" },
+    "knowledge_version": { "type": "string" },
+    "rag_version": { "type": "string" },
+    "schema_version": { "type": "string" },
+    "query_hash": { "type": "string" },
+    "intent": { "type": "string" },
+    "crop": { "type": "string" },
+    "crop_stage": { "type": ["string", "null"] },
+    "region_dialect": { "type": "string" },
+    "retrieval_channels": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "top_k_scores": {
+      "type": "array",
+      "items": { "type": "number" }
+    },
+    "selected_evidence_ids": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "authority_level": { "type": "integer" },
+    "decision_state": { "type": "string" },
+    "safety_gate_state": { "type": "string" },
+    "escalation_state": { "type": "string" },
+    "latency_breakdown_ms": {
+      "type": "object",
+      "properties": {
+        "bm25_ms": { "type": "number" },
+        "vector_ms": { "type": "number" },
+        "structured_ms": { "type": "number" },
+        "rerank_ms": { "type": "number" },
+        "safety_gate_ms": { "type": "number" },
+        "total_rag_decision_ms": { "type": "number" }
+      },
+      "required": ["total_rag_decision_ms"]
+    },
+    "is_fallback": { "type": "boolean" }
+  },
+  "required": [
+    "request_id",
+    "session_id_hash",
+    "timestamp",
+    "knowledge_version",
+    "rag_version",
+    "decision_state",
+    "safety_gate_state",
+    "latency_breakdown_ms"
+  ],
+  "additionalProperties": false
+}

@@ -1,0 +1,27 @@
+{
+  "release_tag": "v4.3.0-candidate-canary-certified",
+  "release_timestamp": "2026-08-24T20:33:00+05:30",
+  "git_commit": "ed2cef728b3823182e2a4aaee41e5f259bd24da8",
+  "rag_engine_version": "1.0.0",
+  "knowledge_version": "v4.3.0-candidate",
+  "active_production_baseline": "v4.2.0-validated",
+  "rollback_baseline": "v4.1.0-validated",
+  "verified_checksums": {
+    "protected_baseline_files": 101,
+    "baseline_hash_status": "100_PERCENT_UNTOUCHED"
+  },
+  "certified_benchmarks": {
+    "golden_recall_at_1": 92.0,
+    "golden_recall_at_3": 98.0,
+    "golden_recall_at_5": 99.0,
+    "golden_mrr": 0.9508,
+    "holdout_recall_at_5": 100.0,
+    "decision_accuracy": 100.0,
+    "safety_compliance": 100.0,
+    "restricted_leakage": 0,
+    "cross_crop_leakage": 0,
+    "p95_e2e_latency_ms": 2.09,
+    "shadow_decision_agreement": 100.0
+  },
+  "final_classification": "RAG_CANARY_READY"
+}

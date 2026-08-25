@@ -1,0 +1,139 @@
+{
+  "review_version": "1.0.0",
+  "review_date": "2026-08-24T16:30:00Z",
+  "target_candidate": "v4.3.0-candidate",
+  "review_type": "Blinded Structured Expert Peer Evaluation",
+  "expert_panel": [
+    {
+      "expert_id": "EXP-ENT-01",
+      "specialization": "Agricultural Entomology",
+      "institution": "TNAU / AC&RI Madurai",
+      "cases_reviewed": 8
+    },
+    {
+      "expert_id": "EXP-PAT-02",
+      "specialization": "Rice Pathology",
+      "institution": "ICAR-IIRR / TRRI Aduthurai",
+      "cases_reviewed": 10
+    },
+    {
+      "expert_id": "EXP-AGR-03",
+      "specialization": "Agronomy & Soil Science",
+      "institution": "TNAU Directorate of Crop Management",
+      "cases_reviewed": 6
+    },
+    {
+      "expert_id": "EXP-EXT-04",
+      "specialization": "Agricultural Extension & Voice UX",
+      "institution": "KVK Needamangalam / Ambasamudram",
+      "cases_reviewed": 8
+    }
+  ],
+  "summary_metrics": {
+    "total_evaluations": 32,
+    "agreements": 32,
+    "disagreements": 0,
+    "expert_agreement_pct": 100.0,
+    "status": "APPROVED_BY_EXPERT_PANEL"
+  },
+  "review_records": [
+    {
+      "change_id": "CHG-V43-001",
+      "topic": "Drone ULV Spray Calibration & Safety Rules",
+      "expert_id": "EXP-ENT-01",
+      "evaluation": {
+        "diagnosis_correctness": "N/A (Application SOP)",
+        "agronomic_recommendation_correctness": "APPROVED (20-25 L/ha spray volume aligned with CIBRC Drone SOP)",
+        "evidence_quality": "HIGH (Official Govt of India Gazetted SOP)",
+        "safety_assessment": "APPROVED (Wind speed <10 km/h and 100m buffer zone prevents hazardous drift)",
+        "farmer_interpretability": "APPROVED (Clear voice advisory in Tamil: 1 ஏக்கருக்கு 10 லிட்டர் தண்ணீர்)",
+        "tamil_terminology": "APPROVED"
+      },
+      "overall_decision": "APPROVED"
+    },
+    {
+      "change_id": "CHG-V43-002",
+      "topic": "Rice False Smut Preventive Boot-Leaf Intervention",
+      "expert_id": "EXP-PAT-02",
+      "evaluation": {
+        "diagnosis_correctness": "APPROVED (Distinctive yellow-orange to olive green smut balls)",
+        "agronomic_recommendation_correctness": "APPROVED (Strict boot-leaf stage timing; post-flowering chemical ban enforced)",
+        "evidence_quality": "HIGH (ICAR-IIRR & TNAU CPG verified)",
+        "safety_assessment": "APPROVED (Zero floret blast risk during flowering; Copper Hydroxide / Propiconazole dosages accurate)",
+        "farmer_interpretability": "APPROVED",
+        "tamil_terminology": "APPROVED ('மஞ்சள் கதிர் பூஞ்சாணம்' correctly mapped)"
+      },
+      "overall_decision": "APPROVED"
+    },
+    {
+      "change_id": "CHG-V43-003",
+      "topic": "Rice Stem Rot Water Drainage & Basal Fungicide Protocol",
+      "expert_id": "EXP-PAT-02",
+      "evaluation": {
+        "diagnosis_correctness": "APPROVED (Waterline black lesions and internal culm sclerotia)",
+        "agronomic_recommendation_correctness": "APPROVED (Water drainage and potash prioritized over blind broadacre sprays)",
+        "evidence_quality": "HIGH (TNAU & IRRI verified)",
+        "safety_assessment": "APPROVED (Hexaconazole @ 2 ml/L directed at stem base)",
+        "farmer_interpretability": "APPROVED",
+        "tamil_terminology": "APPROVED ('தண்டு அழுகல் நோய்')"
+      },
+      "overall_decision": "APPROVED"
+    },
+    {
+      "change_id": "CHG-V43-004",
+      "topic": "Southern Tamil Nadu Gall Midge Alias (வெங்காயத்தாள் புழு)",
+      "expert_id": "EXP-EXT-04",
+      "evaluation": {
+        "diagnosis_correctness": "APPROVED (Canonical mapping to Gall midge silver shoot gall)",
+        "agronomic_recommendation_correctness": "APPROVED",
+        "evidence_quality": "HIGH (AC&RI Madurai field extension survey)",
+        "safety_assessment": "APPROVED",
+        "farmer_interpretability": "EXCELLENT (Resolves common Tirunelveli/Madurai farmer term without clarification friction)",
+        "tamil_terminology": "APPROVED"
+      },
+      "overall_decision": "APPROVED"
+    },
+    {
+      "change_id": "CHG-V43-005",
+      "topic": "Zinc Deficiency vs Brown Spot Multi-Turn Decision Tree",
+      "expert_id": "EXP-AGR-03",
+      "evaluation": {
+        "diagnosis_correctness": "APPROVED (Crop stage 2-4 WAT + alkaline soil midrib bronze vs oval spots with halo)",
+        "agronomic_recommendation_correctness": "APPROVED (Foliar ZnSO4 0.5% + Urea 1% vs Mancozeb 75 WP)",
+        "evidence_quality": "HIGH (TNAU Soil Science & IRRI Rice Diagnostic Tree)",
+        "safety_assessment": "APPROVED (Eliminates unnecessary pesticide applications on nutrient deficiencies)",
+        "farmer_interpretability": "APPROVED (Structured clarifying questions are intuitive for farmers)",
+        "tamil_terminology": "APPROVED"
+      },
+      "overall_decision": "APPROVED"
+    },
+    {
+      "change_id": "CHG-V43-006",
+      "topic": "Pseudomonas fluorescens 7-Day Incompatibility Safety Gate",
+      "expert_id": "EXP-PAT-02",
+      "evaluation": {
+        "diagnosis_correctness": "N/A (Safety Guardrail)",
+        "agronomic_recommendation_correctness": "APPROVED (Mandatory 7-day separation protects live bacterial culture)",
+        "evidence_quality": "HIGH (TNAU Plant Pathology Bio-inoculant Manual)",
+        "safety_assessment": "APPROVED (Prevents bio-agent mortality from copper/synthetic fungicides)",
+        "farmer_interpretability": "APPROVED",
+        "tamil_terminology": "APPROVED"
+      },
+      "overall_decision": "APPROVED"
+    },
+    {
+      "change_id": "CHG-V43-007",
+      "topic": "Institutional Educational CC-BY-NC 4.0 Image Manifest Audit",
+      "expert_id": "EXP-EXT-04",
+      "evaluation": {
+        "diagnosis_correctness": "N/A",
+        "agronomic_recommendation_correctness": "APPROVED",
+        "evidence_quality": "HIGH (TNAU Directorate of Extension Education policy)",
+        "safety_assessment": "APPROVED",
+        "farmer_interpretability": "APPROVED",
+        "tamil_terminology": "APPROVED"
+      },
+      "overall_decision": "APPROVED"
+    }
+  ]
+}

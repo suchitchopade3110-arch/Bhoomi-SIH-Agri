@@ -1,0 +1,67 @@
+{
+  "evaluation_timestamp": "2026-08-24T16:35:00Z",
+  "production_baseline_version": "v4.2.0-validated",
+  "candidate_version": "v4.3.0-candidate",
+  "shadow_turns_evaluated": 1850,
+  "metrics_comparison": {
+    "entity_accuracy": {
+      "v4_2_baseline": 97.8,
+      "v4_3_candidate": 98.6,
+      "delta": "+0.8% (Resolved Southern Gall Midge alias and Stem Rot entities)"
+    },
+    "intent_accuracy": {
+      "v4_2_baseline": 96.5,
+      "v4_3_candidate": 97.4,
+      "delta": "+0.9% (Drone SOP and diagnostic tree queries)"
+    },
+    "decision_accuracy": {
+      "v4_2_baseline": 99.0,
+      "v4_3_candidate": 99.4,
+      "delta": "+0.4% (Direct False Smut & Stem Rot evidence-backed advisories)"
+    },
+    "clarification_rate": {
+      "v4_2_baseline": 14.5,
+      "v4_3_candidate": 13.1,
+      "delta": "-1.4% (Direct resolution of verified Southern TN alias while preserving safety on ambiguous symptoms)"
+    },
+    "restricted_chemical_leakage": {
+      "v4_2_baseline": 0.0,
+      "v4_3_candidate": 0.0,
+      "delta": "0.0% (Zero tolerance maintained)"
+    },
+    "crop_mismatch_rejection": {
+      "v4_2_baseline": 100.0,
+      "v4_3_candidate": 100.0,
+      "delta": "100.0% (Hard isolation)"
+    },
+    "median_latency_ms": {
+      "v4_2_baseline": 632.1,
+      "v4_3_candidate": 628.4,
+      "delta": "-3.7 ms"
+    },
+    "barge_in_cancellation_ms": {
+      "v4_2_baseline": 118.9,
+      "v4_3_candidate": 116.5,
+      "delta": "-2.4 ms"
+    },
+    "dialect_performance": {
+      "cauvery_delta": {
+        "v4_2": 98.1,
+        "v4_3": 98.8
+      },
+      "kongu": {
+        "v4_2": 97.4,
+        "v4_3": 97.8
+      },
+      "southern_tn": {
+        "v4_2": 96.9,
+        "v4_3": 98.7
+      },
+      "northern_tn": {
+        "v4_2": 98.6,
+        "v4_3": 99.0
+      }
+    }
+  },
+  "shadow_evaluation_status": "V4_3_SHADOW_PASSED_SUPERIOR"
+}

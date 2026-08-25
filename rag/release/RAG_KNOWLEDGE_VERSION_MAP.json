@@ -1,0 +1,22 @@
+{
+  "active_production": {
+    "version": "v4.2.0-validated",
+    "corpus_dir": "data/curated/Dataset_v4_validated",
+    "evidence_objects": "rag/indexes/evidence_objects_v4_2_0_validated.json",
+    "semantic_chunks": "rag/indexes/semantic_chunks_v4_2_0_validated.json",
+    "vector_index": "rag/indexes/vector_index_v4_2_0_validated.json",
+    "status": "ACTIVE_PRODUCTION_IMMUTABLE"
+  },
+  "rollback_baseline": {
+    "version": "v4.1.0-validated",
+    "status": "IMMUTABLE_FALLBACK"
+  },
+  "staging_candidate": {
+    "version": "v4.3.0-candidate",
+    "corpus_dir": "data/curated/Dataset_v4_3_candidate",
+    "evidence_objects": "rag/indexes/evidence_objects_v4_3_0_candidate.json",
+    "semantic_chunks": "rag/indexes/semantic_chunks_v4_3_0_candidate.json",
+    "vector_index": "rag/indexes/vector_index_v4_3_0_candidate.json",
+    "status": "CANARY_CANDIDATE"
+  }
+}
