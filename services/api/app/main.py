@@ -3,8 +3,10 @@
 from collections.abc import AsyncGenerator
 from contextlib import asynccontextmanager
 import logging
+from pathlib import Path
 from fastapi import FastAPI, status
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 from app.api.v1 import api_v1_router
 from app.core.config import get_settings
 from app.core.errors import register_error_handlers
@@ -56,6 +58,15 @@ register_error_handlers(app)
 
 # Mount API v1 Routers
 app.include_router(api_v1_router, prefix=settings.API_V1_STR)
+
+# Serve the local storage backend's files (STORAGE_BACKEND=local) — these
+# are the URLs LocalStorageAdapter.generate_presigned_download_url() hands
+# out (e.g. synthesized TTS audio), so they must be reachable at
+# PUBLIC_BASE_URL/static/assets/... for the Flutter app to actually play
+# or display them.
+_local_storage_path = Path(settings.LOCAL_STORAGE_PATH)
+_local_storage_path.mkdir(parents=True, exist_ok=True)
+app.mount("/static/assets", StaticFiles(directory=str(_local_storage_path)), name="local-assets")
 
 
 @app.get(

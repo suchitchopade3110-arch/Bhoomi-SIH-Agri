@@ -52,12 +52,23 @@ class Settings(BaseSettings):
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24 * 7  # 7 days
 
     # Object Storage (S3 / MinIO / Cloudflare R2)
+    # NOTE: this must be an address reachable by the *client* (Flutter app),
+    # not just from inside the backend's own network — the same host clients
+    # already use to reach the API (see PUBLIC_BASE_URL below). "localhost"
+    # only works when client and server are the same machine.
     STORAGE_ENDPOINT: str = "http://localhost:9000"
     STORAGE_BUCKET: str = "bhoomi-assets"
     STORAGE_ACCESS_KEY: str = "minioadmin"
     STORAGE_SECRET_KEY: str = "minioadmin"
     STORAGE_REGION: str = "us-east-1"
     STORAGE_SECURE: bool = False
+
+    # Public base URL clients use to reach this API — used to build absolute
+    # URLs (e.g. locally-stored asset links) that resolve from the caller's
+    # network, not just from inside the backend's own container/host. Keep
+    # this in sync with the Flutter app's API_BASE_URL — same reachable host
+    # on both sides avoids the "works on localhost, dead on-device" trap.
+    PUBLIC_BASE_URL: str = "http://localhost:8000"
 
     # LLM & Embedding Service
     LLM_PROVIDER: Literal["groq", "stub"] = Field(
@@ -181,7 +192,11 @@ class Settings(BaseSettings):
     # Storage
     STORAGE_BACKEND: str = Field(
         default="local",
-        description="Storage backend: 'local' | 's3'",
+        description=(
+            "Storage backend: 'local' (writes to LOCAL_STORAGE_PATH, served "
+            "from this API under PUBLIC_BASE_URL — zero extra infra) | "
+            "'s3' (real S3/MinIO via STORAGE_ENDPOINT and friends above)."
+        ),
     )
     LOCAL_STORAGE_PATH: str = "./storage"
 

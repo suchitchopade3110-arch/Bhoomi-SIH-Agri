@@ -26,7 +26,6 @@ from app.adapters.stubs import (
     StubLLMAdapter,
     StubOtpDeliveryAdapter,
     StubRosterAdapter,
-    StubStorageAdapter,
     StubWeatherAdapter,
 )
 from app.core.config import get_settings
@@ -143,8 +142,23 @@ def get_speech_adapter() -> AsrTtsPort:
 
 @lru_cache
 def get_storage_adapter() -> StoragePort:
-    """Return StoragePort adapter based on settings."""
-    return StubStorageAdapter()
+    """Return StoragePort adapter based on ``STORAGE_BACKEND`` setting.
+
+    ``StubStorageAdapter`` deliberately isn't selected by config here — it
+    never writes or serves real bytes, so anything relying on the returned
+    URL (e.g. gTTS/Sarvam/Bhashini voice synthesis) would 404 on every
+    playback. Real backends only, matching how ``get_speech_adapter`` treats
+    ``stub`` as a deliberate opt-out rather than a silent default.
+    """
+    settings = get_settings()
+    backend = getattr(settings, "STORAGE_BACKEND", "local").lower()
+
+    if backend == "s3":
+        from app.adapters.s3_storage import S3StorageAdapter
+        return S3StorageAdapter()
+
+    from app.adapters.local_storage import LocalStorageAdapter
+    return LocalStorageAdapter()
 
 
 @lru_cache
