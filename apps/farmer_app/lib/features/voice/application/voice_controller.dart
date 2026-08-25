@@ -139,12 +139,19 @@ class VoiceController extends StateNotifier<VoiceState> {
         isPlaying: true,
       );
 
-      await _playbackService.playUrl(response.audioUrl);
-      state = state.copyWith(isPlaying: false);
+      final played = await _playbackService.playUrl(response.audioUrl);
+      state = state.copyWith(
+        isPlaying: false,
+        // Non-fatal: the read-back text stays visible either way, this
+        // just lets the UI optionally surface "couldn't play audio"
+        // instead of the previous silent no-op.
+        errorMessage: played ? null : 'Unable to play audio right now.',
+      );
     } catch (e) {
       state = state.copyWith(
         isSynthesizing: false,
         isPlaying: false,
+        errorMessage: 'Unable to play audio right now.',
       );
       // Graceful fallback without breaking text experience
     }
