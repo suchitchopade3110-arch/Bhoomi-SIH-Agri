@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:just_audio/just_audio.dart';
 
@@ -20,12 +21,17 @@ class AudioPlaybackService {
   bool get isPlaying => _isPlaying;
   Stream<PlayerState> get playerStateStream => _player.playerStateStream;
 
-  Future<void> playUrl(String url) async {
+  /// Loads and plays [url]. Returns `true` on success, `false` if playback
+  /// couldn't start — the caller decides how (or whether) to surface that
+  /// to the user; this only guarantees the failure isn't invisible.
+  Future<bool> playUrl(String url) async {
     try {
       await _player.setUrl(url);
       await _player.play();
-    } catch (_) {
-      // Audio playback enhancement fails gracefully without crashing the UI
+      return true;
+    } catch (e) {
+      debugPrint('AudioPlaybackService: failed to play $url — $e');
+      return false;
     }
   }
 

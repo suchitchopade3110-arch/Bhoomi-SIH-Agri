@@ -11,6 +11,7 @@ import base64
 import uuid
 import httpx
 
+from app.adapters.asset_url import fallback_asset_url
 from app.core.config import get_settings
 from app.ports.asr_tts import AsrTtsPort
 
@@ -95,7 +96,7 @@ class SarvamAsrTtsAdapter:
         mock_asset_id = str(uuid.uuid4())
 
         if not self._api_key:
-            return (mock_asset_id, f"http://localhost:9000/bhoomi-assets/{mock_asset_id}.mp3")
+            return (mock_asset_id, fallback_asset_url(mock_asset_id, "mp3"))
 
         lang_code = f"{language}-IN" if len(language) == 2 else language
         payload = {
@@ -128,8 +129,8 @@ class SarvamAsrTtsAdapter:
                         base64_audio = audios[0]
                         if base64_audio:
                             _ = base64.b64decode(base64_audio)
-                        return (mock_asset_id, f"http://localhost:9000/bhoomi-assets/{mock_asset_id}.wav")
+                        return (mock_asset_id, fallback_asset_url(mock_asset_id, "wav"))
         except Exception:
             pass
 
-        return (mock_asset_id, f"http://localhost:9000/bhoomi-assets/{mock_asset_id}.mp3")
+        return (mock_asset_id, fallback_asset_url(mock_asset_id, "mp3"))

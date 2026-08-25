@@ -11,6 +11,7 @@ import uuid
 
 import httpx
 
+from app.adapters.asset_url import fallback_asset_url
 from app.ports.asr_tts import AsrTtsPort
 
 logger = logging.getLogger(__name__)
@@ -43,7 +44,7 @@ class GttsAdapter:
         to a placeholder URL only if generation or upload actually fails.
         """
         mock_asset_id = str(uuid.uuid4())
-        fallback = (mock_asset_id, f"http://localhost:9000/bhoomi-assets/{mock_asset_id}.mp3")
+        fallback = (mock_asset_id, fallback_asset_url(mock_asset_id, "mp3"))
 
         try:
             from gtts import gTTS

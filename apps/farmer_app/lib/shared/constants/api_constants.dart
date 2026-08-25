@@ -30,8 +30,11 @@ class ApiConstants {
   static const String voiceQuery = '$apiVersion/voice/query';
 
   // Land Endpoints (Phase 2)
+  // NOTE: automated cadastral lookup was deliberately cut from scope (see
+  // services/api/app/api/v1/land.py's module docstring — SIH26131 feature
+  // checklist §10.1/§13.2/§13.3: HITL survey-number submission only, no
+  // auto-lookup). Verification is always via `landVerify` + officer review.
   static const String landVerify = '$apiVersion/land/verify';
-  static const String landCadastralLookup = '$apiVersion/land/cadastral-lookup';
   static String farmLand(String farmId) => '$apiVersion/land/$farmId';
   static String landRecord(String landId) => '$apiVersion/land/$landId';
 
