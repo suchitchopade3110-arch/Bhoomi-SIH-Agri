@@ -2,9 +2,12 @@
 
 from typing import Annotated, Any
 
-from fastapi import APIRouter, Depends, status
+from fastapi import APIRouter, Depends, Request, status
 
+from app.adapters.dependencies import get_storage_adapter
+from app.core.errors import ValidationError
 from app.core.security import get_current_token_payload
+from app.ports.storage import StoragePort
 from app.schemas.assets import (
     AssetResponse,
     PresignedUploadRequest,
@@ -40,3 +43,35 @@ async def get_asset(
     _auth: Annotated[dict[str, Any], Depends(get_current_token_payload)],
 ) -> AssetResponse:
     return await service.get_asset(asset_id)
+
+
+@router.put(
+    "/local-upload/{asset_kind}/{asset_id}/{file_name}",
+    status_code=status.HTTP_204_NO_CONTENT,
+    summary="Receive raw bytes for the local ``STORAGE_BACKEND`` (mimics a presigned PUT)",
+    include_in_schema=False,
+)
+async def local_upload(
+    asset_kind: str,
+    asset_id: str,
+    file_name: str,
+    request: Request,
+    storage: Annotated[StoragePort, Depends(get_storage_adapter)],
+) -> None:
+    """Write the request body to disk under the local storage backend.
+
+    Only meaningful when ``STORAGE_BACKEND=local`` — this is the endpoint
+    ``LocalStorageAdapter.generate_presigned_upload_url`` hands back as the
+    "upload_url", standing in for a real presigned S3 PUT so the same
+    upload-then-fetch flow (used by e.g. the gTTS adapter) works with zero
+    external storage infra.
+    """
+    from app.adapters.local_storage import LocalStorageAdapter
+
+    if not isinstance(storage, LocalStorageAdapter):
+        raise ValidationError(
+            "Local upload endpoint is only available when STORAGE_BACKEND=local.",
+        )
+    body = await request.body()
+    key = f"{asset_kind}/{asset_id}/{file_name}"
+    storage.write_bytes(key, body)
