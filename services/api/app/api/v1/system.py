@@ -4,6 +4,8 @@ from typing import Any
 
 from fastapi import APIRouter
 
+from app.core.config import get_settings
+
 router = APIRouter(prefix="/system", tags=["System"])
 
 
@@ -18,13 +20,33 @@ async def system_health() -> dict[str, Any]:
     This endpoint lets the team quickly verify everything is alive and seeded
     before a demo.
     """
+    settings = get_settings()
     result: dict[str, Any] = {
         "db": "unknown",
         "pgvector": "unknown",
         "corpus_docs": 0,
         "corpus_chunks": 0,
         "demo_farm": "not_seeded",
+        # Honesty fields (fix list P2.1 / D.1): the configured provider and
+        # the threshold it resolves to, plus whether the real embedding path
+        # actually verified itself live just now — never claim bge_m3 is
+        # active without having just proven it.
+        "embedding_provider_configured": settings.EMBEDDING_PROVIDER,
+        "rag_relevance_threshold_active": settings.RAG_RELEVANCE_THRESHOLD,
+        "embedding_method_verified": "not_checked",
     }
+
+    if settings.EMBEDDING_PROVIDER == "bge_m3":
+        try:
+            from app.adapters.embeddings_real import RealEmbeddingAdapter
+
+            probe = RealEmbeddingAdapter(settings.ML_SERVICE_URL)
+            await probe.embed_text("bhoomi system health embedding probe")
+            result["embedding_method_verified"] = "bge_m3"
+        except Exception as e:
+            result["embedding_method_verified"] = f"unavailable: {type(e).__name__}"
+    else:
+        result["embedding_method_verified"] = "hash"  # stub provider — always what it says it is
 
     try:
         from sqlalchemy import text

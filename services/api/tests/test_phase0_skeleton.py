@@ -105,7 +105,6 @@ def test_config_settings():
     settings = get_settings()
     assert settings.CONFIDENCE_GATE == 0.70
     assert settings.RAG_RELEVANCE_THRESHOLD == 0.18
-    assert settings.LAND_API_MODE in ["mock", "live"]
     assert settings.DIAGNOSIS_MODEL in ["real", "stub"]
     assert settings.EMBEDDING_PROVIDER in ["bge_m3", "stub"]
 

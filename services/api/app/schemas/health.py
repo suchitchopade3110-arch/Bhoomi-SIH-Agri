@@ -3,10 +3,22 @@
 from datetime import datetime
 from typing import Any
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
 
 from app.core.enums import HealthBand, SubIndexKey
 from app.schemas.common import PaginatedResponse, SpokenResponseMixin
+
+
+class RiskChange(BaseModel):
+    """Before/after health-score movement carried by an action response
+    (follow-up check-in, case resolution) so the client doesn't have to diff
+    two full ``HealthSnapshot`` reads itself to show the number moving."""
+
+    model_config = ConfigDict(populate_by_name=True)
+
+    from_: int | None = Field(default=None, alias="from", description="Score before this action; null if unrated")
+    to: int | None = Field(default=None, description="Score after this action; null if unrated")
+    band: HealthBand = Field(..., description="Band the score falls in after this action")
 
 
 class SubIndexBreakdown(BaseModel):

@@ -142,4 +142,6 @@ class RetrievedChunk:
 class KnowledgeChunkReader(Protocol):
     """Read-only similarity search over the curated RAG corpus (PRD §5.7)."""
 
-    async def similarity_search(self, query_embedding: list[float], top_k: int) -> list[RetrievedChunk]: ...
+    async def similarity_search(
+        self, query_embedding: list[float], top_k: int, content_type: str | None = None
+    ) -> list[RetrievedChunk]: ...

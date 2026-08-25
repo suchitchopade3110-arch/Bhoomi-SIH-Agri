@@ -298,10 +298,6 @@ class TestConfig:
         from app.domain.constants import CONFIDENCE_GATE
         assert CONFIDENCE_GATE == 0.70
 
-    def test_land_api_mode_valid(self):
-        from app.config import get_settings
-        assert get_settings().LAND_API_MODE in ("mock", "live")
-
     def test_diagnosis_model_valid(self):
         from app.config import get_settings
         assert get_settings().DIAGNOSIS_MODEL in ("real", "stub")

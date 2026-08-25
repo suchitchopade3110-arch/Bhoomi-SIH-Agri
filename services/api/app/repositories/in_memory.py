@@ -8,6 +8,7 @@ import uuid
 from app.core.errors import NotFoundError
 from app.domain.alerts.models import ClusterCase
 from app.domain.geo import haversine_distance_km
+from app.domain.rag.constants import PEST_DOC_ID_PREFIX
 from app.domain.rag.similarity import cosine_similarity
 from app.repositories.interfaces import RetrievedChunk
 
@@ -230,7 +231,15 @@ class InMemoryKnowledgeChunkRepository:
     async def commit(self) -> None:
         pass  # nothing to flush — writes are already visible
 
-    async def similarity_search(self, query_embedding: list[float], top_k: int) -> list[RetrievedChunk]:
+    async def similarity_search(
+        self, query_embedding: list[float], top_k: int, content_type: str | None = None
+    ) -> list[RetrievedChunk]:
+        candidates = self._chunks
+        if content_type == "pest":
+            candidates = [c for c in candidates if c.doc_id.startswith(PEST_DOC_ID_PREFIX)]
+        elif content_type == "disease":
+            candidates = [c for c in candidates if not c.doc_id.startswith(PEST_DOC_ID_PREFIX)]
+
         scored = [
             RetrievedChunk(
                 doc_id=c.doc_id,
@@ -239,7 +248,7 @@ class InMemoryKnowledgeChunkRepository:
                 chunk_text=c.chunk_text,
                 score=cosine_similarity(query_embedding, c.embedding),
             )
-            for c in self._chunks
+            for c in candidates
         ]
         scored.sort(key=lambda c: c.score, reverse=True)
         return scored[:top_k]

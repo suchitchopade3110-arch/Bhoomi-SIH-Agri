@@ -1,35 +1,9 @@
-"""Cadastral and Land Verification schemas."""
+"""Land Verification schemas. No boundary geometry, no cadastral lookup —
+SIH26131 feature checklist §10.1/§13.2: HITL survey-number submission only."""
 
 from datetime import datetime
-from typing import Any
 from pydantic import BaseModel, Field
 from app.core.enums import LandStatus, ThinLandStatus
-
-
-class BoundaryGeoJSON(BaseModel):
-    """GeoJSON geometry polygon."""
-    type: str = "Polygon"
-    coordinates: list[list[list[float]]] = Field(..., description="Array of polygon linear ring coordinates [lon, lat]")
-
-
-class CadastralLookupRequest(BaseModel):
-    """Automated cadastral lookup query."""
-    state: str = Field(default="Tamil Nadu")
-    district: str = Field(...)
-    taluk: str = Field(...)
-    village: str = Field(...)
-    survey_number: str = Field(...)
-    subdivision: str | None = None
-
-
-class CadastralLookupResponse(BaseModel):
-    """Cadastral lookup result from government records or mock accelerator."""
-    found: bool = Field(..., description="Whether parcel was located in cadastral registry")
-    survey_number: str = Field(...)
-    owner_name: str | None = None
-    area_acres: float | None = None
-    boundary_geojson: dict[str, Any] | None = None
-    source: str = Field(default="mock_tn_edistrict", description="Source provider")
 
 
 class LandVerifyRequest(BaseModel):
@@ -37,7 +11,6 @@ class LandVerifyRequest(BaseModel):
     farm_id: str = Field(..., description="UUID string of farm")
     survey_number: str = Field(...)
     patta_passbook_asset_id: str | None = None
-    suggested_boundary: dict[str, Any] | None = None
 
 
 class LandVerifyResponse(BaseModel):

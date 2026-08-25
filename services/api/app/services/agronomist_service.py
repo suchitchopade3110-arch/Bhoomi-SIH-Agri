@@ -22,6 +22,8 @@ from app.repositories.interfaces import CaseRepository, FarmRepository
 from app.schemas.agronomist import AgronomistQueueItem, ResolveCaseRequest, ResolveCaseResponse
 from app.schemas.case import CaseSummary
 from app.schemas.case_pdf import CasePDFPayload
+from app.schemas.health import RiskChange
+from app.services.health_snapshot_mapping import snapshot_row_to_schema
 from app.services.efficacy.tracking_service import EfficacyTrackingService, get_efficacy_tracking_service
 from app.services.escalation.pdf_payload import build_case_pdf_payload
 from app.services.health_service import HealthService, get_health_service
@@ -141,6 +143,10 @@ class AgronomistService:
         if case is None:
             raise NotFoundError("Escalation not found.", details={"escalation_id": request.escalation_id})
 
+        # Captured before any mutation below, so `risk.from_` reflects the
+        # farm's state walking into this resolution, not after it.
+        previous_snapshot = await self._health.get_latest(case["farm_id"])
+
         if case.get("problem_id"):
             await self._problems.resolve_problem(case["problem_id"])
             if self._efficacy_tracking is not None:
@@ -161,7 +167,7 @@ class AgronomistService:
             },
         )
 
-        await self._health.recompute(
+        snapshot = await self._health.recompute(
             case["farm_id"],
             triggering_input=TriggeringInput(
                 type="case_resolution",
@@ -172,6 +178,11 @@ class AgronomistService:
         return ResolveCaseResponse(
             escalation_id=request.escalation_id,
             status=CaseStatus.RESOLVED,
+            risk=RiskChange(
+                from_=previous_snapshot.score,
+                to=snapshot.score,
+                band=snapshot_row_to_schema(snapshot).band,
+            ),
             resolved_at=datetime.utcnow(),
         )
 

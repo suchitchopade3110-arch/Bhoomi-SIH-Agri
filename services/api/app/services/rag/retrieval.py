@@ -21,14 +21,23 @@ class RetrievalService:
         self._reader = reader
         self._embedding_port = embedding_port
 
-    async def retrieve(self, query_text: str, top_k: int = DEFAULT_TOP_K) -> list[RetrievedChunk]:
+    async def retrieve(
+        self, query_text: str, top_k: int = DEFAULT_TOP_K, content_type: str | None = None
+    ) -> list[RetrievedChunk]:
         """Embed ``query_text`` and return the top-``k`` chunks, highest score first.
+
+        ``content_type``: ``"disease"`` | ``"pest"`` | ``None`` (whole
+        corpus) — scopes retrieval to the matching half of the corpus
+        (SIH26131 delta spec §3.1's "pest advisories use the same threshold
+        and no-fabrication guarantee as disease advisories — no separate,
+        weaker threshold", extended to mean no cross-contaminated retrieval
+        either).
 
         Returns an empty list if the corpus has nothing to offer — callers
         must treat that as zero relevance (escalate), never skip the check.
         """
         query_embedding = await self._embedding_port.embed_text(query_text)
-        return await self._reader.similarity_search(query_embedding, top_k)
+        return await self._reader.similarity_search(query_embedding, top_k, content_type=content_type)
 
     @staticmethod
     def top_relevance(chunks: list[RetrievedChunk]) -> float:

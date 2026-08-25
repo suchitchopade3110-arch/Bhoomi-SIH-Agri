@@ -59,7 +59,9 @@ class AdvisoryService:
         self._llm = llm_port
         self._settings = settings
 
-    async def answer_query(self, farm_id: str, query_text: str) -> AdvisoryQueryOutcome:
+    async def answer_query(
+        self, farm_id: str, query_text: str, target_type: str | None = None
+    ) -> AdvisoryQueryOutcome:
         """Run retrieval, the confidence gate, and (if it passes) grounded
         generation for one farmer query.
 
@@ -67,6 +69,9 @@ class AdvisoryService:
             farm_id: UUID string of the farm asking (for farm_context only —
                 no farm data is required to exist for this call to work).
             query_text: The farmer's question.
+            target_type: ``"disease"`` | ``"pest"`` | ``None`` — scopes
+                retrieval to the matching half of the corpus; ``None``
+                searches the whole corpus (SIH26131 delta spec §3.1).
 
         Returns:
             An ``AdvisoryQueryOutcome`` — either a populated, cited advisory
@@ -76,7 +81,7 @@ class AdvisoryService:
         provider = self._settings.LLM_PROVIDER
         model = self._settings.LLM_MODEL if provider != "stub" else "stub"
 
-        chunks = await self._retrieval.retrieve(query_text)
+        chunks = await self._retrieval.retrieve(query_text, content_type=target_type)
         top_relevance = RetrievalService.top_relevance(chunks)
 
         decision = decide(
