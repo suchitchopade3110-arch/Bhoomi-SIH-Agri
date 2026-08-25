@@ -17,6 +17,7 @@ from app.ports.roster import AgronomistRosterPort
 from app.repositories.dependencies import get_case_repository, get_farm_repository
 from app.repositories.interfaces import CaseRepository, FarmRepository
 from app.schemas.escalation import EscalationCreateRequest, EscalationResponse
+from app.services.health_service import HealthService, get_health_service
 from app.services.kvk_routing import route_to_next_available_agronomist
 
 # Fallback only for when the roster has no entries at all — i.e. no
@@ -27,10 +28,17 @@ DEFAULT_ASSIGNED_AGRONOMIST = DEFAULT_KVK_CENTER_ID
 class EscalationService:
     """Creates escalation Cases and compiles their CaseSummary."""
 
-    def __init__(self, case_repo: CaseRepository, farm_repo: FarmRepository, roster: AgronomistRosterPort) -> None:
+    def __init__(
+        self,
+        case_repo: CaseRepository,
+        farm_repo: FarmRepository,
+        roster: AgronomistRosterPort,
+        health_service: HealthService | None = None,
+    ) -> None:
         self._cases = case_repo
         self._farms = farm_repo
         self._roster = roster
+        self._health = health_service
 
     async def _compile_and_save(
         self,
@@ -66,22 +74,26 @@ class EscalationService:
 
         farm_info = {
             "id": farm_id,
-            # SIH26131's simplified onboarding leaves farm_name/village/
-            # district NULL (not absent) — dict.get's default only fires on
-            # a missing key, so `or` is required here to actually catch None.
-            "farmer_name": farm.get("farm_name") or "Unknown",
+            "farmer_name": farm.get("farm_name"),
             "village": farm.get("village") or "",
             "district": farm.get("district") or farm.get("region") or "",
             "primary_crop": farm.get("primary_crop") or "",
             "growth_stage": farm.get("growth_stage"),
             "land_status": farm.get("land_status"),
         }
+
+        current_health_score: float | None = None
+        if self._health is not None:
+            snapshot = await self._health.get_latest(farm_id)
+            if snapshot and snapshot.score is not None:
+                current_health_score = float(snapshot.score)
+
         summary = build_case_summary(
             case_id=saved["id"],
             farm_info=farm_info,
             recent_events=[],
-            current_health_score=0.0,
-            problem_details={"label": problem_label or "unspecified", "severity": severity},
+            current_health_score=current_health_score,
+            problem_details={"label": problem_label, "severity": severity},
             assigned_officer_or_kvk=assigned_to,
             status=CaseStatus.ESCALATED,
         )
@@ -124,18 +136,25 @@ class EscalationService:
         farm = await self._farms.get_by_id(case["farm_id"])
         farm_info = {
             "id": case["farm_id"],
-            "farmer_name": (farm or {}).get("farm_name") or "Unknown",
+            "farmer_name": (farm or {}).get("farm_name"),
             "village": (farm or {}).get("village") or "",
             "district": (farm or {}).get("district") or (farm or {}).get("region") or "",
             "primary_crop": (farm or {}).get("primary_crop") or "",
             "growth_stage": (farm or {}).get("growth_stage"),
             "land_status": (farm or {}).get("land_status"),
         }
+
+        current_health_score: float | None = None
+        if self._health is not None:
+            snapshot = await self._health.get_latest(case["farm_id"])
+            if snapshot and snapshot.score is not None:
+                current_health_score = float(snapshot.score)
+
         summary = build_case_summary(
             case_id=case["id"],
             farm_info=farm_info,
             recent_events=[],
-            current_health_score=0.0,
+            current_health_score=current_health_score,
             problem_details={"severity": ProblemSeverity(case["severity"])},
             assigned_officer_or_kvk=case.get("assigned_to"),
             status=CaseStatus(case["status"]),
@@ -173,5 +192,6 @@ def get_escalation_service(
     case_repo: Annotated[CaseRepository, Depends(get_case_repository)],
     farm_repo: Annotated[FarmRepository, Depends(get_farm_repository)],
     roster: Annotated[AgronomistRosterPort, Depends(get_roster_adapter)],
+    health_service: Annotated[HealthService, Depends(get_health_service)] = None,
 ) -> EscalationService:
-    return EscalationService(case_repo, farm_repo, roster)
+    return EscalationService(case_repo, farm_repo, roster, health_service=health_service)

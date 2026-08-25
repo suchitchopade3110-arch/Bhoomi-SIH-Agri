@@ -59,18 +59,19 @@ def build_case_summary(
     Returns:
         A populated ``CaseSummary`` domain model.
     """
-    health_score = (
-        current_health.get("score", 0.0) if isinstance(current_health, dict) else float(current_health or 0.0)
-    )
-    if health_score is None:
-        health_score = 0.0
+    health_score: float | None = None
+    if isinstance(current_health, dict):
+        score_val = current_health.get("score")
+        health_score = float(score_val) if score_val is not None else None
+    elif current_health is not None:
+        health_score = float(current_health)
 
     problem_details = {
         "problem_id": problem_id,
         "severity": severity,
         "images": images,
         "treatments_tried": treatments_tried,
-        "trend": followup_trend or "unknown",
+        "trend": followup_trend,
     }
 
     # Ensure farm_info has farm_id
@@ -82,7 +83,7 @@ def build_case_summary(
         case_id=problem_id,
         farm_info=info,
         recent_events=recent_events,
-        current_health_score=float(health_score),
+        current_health_score=health_score,
         problem_details=problem_details,
         assigned_officer_or_kvk=assigned_to,
         status=status if isinstance(status, CaseStatus) else CaseStatus(status),

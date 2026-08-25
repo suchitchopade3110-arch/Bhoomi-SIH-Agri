@@ -39,7 +39,7 @@ class CaseSummary(SpokenResponseMixin):
     district: str = Field(..., description="District name")
     crop: str = Field(..., description="Active crop variety")
     growth_stage: str = Field(..., description="Current crop growth stage")
-    health_score: float = Field(..., ge=0.0, le=100.0, description="Current transparent health score")
+    health_score: float | None = Field(default=None, ge=0.0, le=100.0, description="Current transparent health score, or None if unrated")
     problem_summary: str = Field(..., description="Concise multi-factor summary of crop condition and issue")
     severity: ProblemSeverity = Field(..., description="Assessed problem severity")
     status: CaseStatus = Field(..., description="Current case status")
