@@ -1,6 +1,13 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../data/escalation_repository.dart';
+import '../data/models/case_pdf_payload_model.dart';
 import '../data/models/escalation_models.dart';
+
+final casePdfPayloadProvider =
+    FutureProvider.family<CasePDFPayloadModel, String>((ref, escalationId) async {
+  final repository = ref.watch(escalationRepositoryProvider);
+  return await repository.getCasePdfPayload(escalationId);
+});
 
 class EscalationState {
   final String reason;

@@ -4,6 +4,7 @@ import '../../../core/api/api_exception.dart';
 import '../../../shared/constants/api_constants.dart';
 import 'models/create_farm_request.dart';
 import 'models/create_farm_response.dart';
+import 'models/farm_update_models.dart';
 
 final farmApiServiceProvider = Provider<FarmApiService>((ref) {
   return FarmApiService(ApiClient());
@@ -36,5 +37,29 @@ class FarmApiService {
       }
       rethrow;
     }
+  }
+
+  Future<Map<String, dynamic>> updateFarm(String farmId, FarmUpdateRequest request) async {
+    final response = await _apiClient.put(
+      ApiConstants.updateFarm(farmId),
+      data: request.toJson(),
+    );
+
+    if (response.data is Map<String, dynamic>) {
+      return response.data as Map<String, dynamic>;
+    }
+    throw Exception('Unexpected response format from farm update API.');
+  }
+
+  Future<ThinLandSubmissionResponse> submitFarmLand(String farmId, ThinLandSubmissionRequest request) async {
+    final response = await _apiClient.post(
+      ApiConstants.farmLandLink(farmId),
+      data: request.toJson(),
+    );
+
+    if (response.data is Map<String, dynamic>) {
+      return ThinLandSubmissionResponse.fromJson(response.data as Map<String, dynamic>);
+    }
+    throw Exception('Unexpected response format from farm land submission API.');
   }
 }

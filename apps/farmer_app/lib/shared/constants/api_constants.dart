@@ -14,11 +14,17 @@ class ApiConstants {
   // Auth Endpoints
   static const String authLogin = '$apiVersion/auth/login';
   static const String authRegister = '$apiVersion/auth/register';
+  static const String authMe = '$apiVersion/auth/me';
+  static const String authOtpRequest = '$apiVersion/auth/otp/request';
+  static const String authOtpVerify = '$apiVersion/auth/otp/verify';
 
   // Farm Endpoints (Phase 1)
   static const String farms = '$apiVersion/farms';
   static String farmDetail(String id) => '$apiVersion/farms/$id';
+  static String updateFarm(String id) => '$apiVersion/farms/$id';
   static String farmSummary(String id) => '$apiVersion/farms/$id/summary';
+  static String farmLandLink(String farmId) => '$apiVersion/farms/$farmId/land';
+  static String farmScopedSchemes(String farmId) => '$apiVersion/farms/$farmId/schemes';
 
   // Asset Presigned Upload (Phase 2 & 3)
   static const String assetsPresign = '$apiVersion/assets/presigned-url';
@@ -26,6 +32,7 @@ class ApiConstants {
 
   // Voice Endpoints (Phase 2 & 3)
   static const String voiceTranscribe = '$apiVersion/voice/transcribe';
+  static const String voiceConfirm = '$apiVersion/voice/confirm';
   static const String voiceSynthesize = '$apiVersion/voice/synthesize';
   static const String voiceQuery = '$apiVersion/voice/query';
 
@@ -48,9 +55,7 @@ class ApiConstants {
   static const String weatherEt0 = '$apiVersion/weather/et0';
   static String farmWeather(String farmId) => '$apiVersion/farms/$farmId/summary';
 
-  // Health Endpoints (Phase 2 & Contract §4) — backend exposes these under
-  // "risk" (see services/api/app/api/v1/health.py); path kept in sync with
-  // the live contract, not the "health" naming used in this constant's name.
+  // Health Endpoints (Phase 2 & Contract §4)
   static String farmHealth(String farmId) => '$apiVersion/farms/$farmId/risk';
   static String farmHealthHistory(String farmId) => '$apiVersion/farms/$farmId/risk/history';
   static String farmHealthRecompute(String farmId) => '$apiVersion/farms/$farmId/risk/recompute';
@@ -59,6 +64,16 @@ class ApiConstants {
   static String farmDiagnose(String farmId) => '$apiVersion/farms/$farmId/diagnose';
   static const String advisoryQuery = '$apiVersion/advisory/query';
 
+  // Guidance Endpoints (Phase 4)
+  static const String guidanceList = '$apiVersion/guidance';
+  static String cropGuidance(String crop) => '$apiVersion/guidance/$crop';
+
+  // Alert Endpoints (Phase 3)
+  static String farmAlerts(String farmId) => '$apiVersion/farms/$farmId/alerts';
+  static String alertAcknowledge(String alertId) => '$apiVersion/alerts/$alertId/acknowledge';
+
+  // Treatment Efficacy Endpoints
+  static String treatmentEfficacy(String treatmentId) => '$apiVersion/treatments/$treatmentId/efficacy';
 
   // Timeline / Farm Journey Endpoints (Phase 3)
   static String farmTimeline(String farmId) => '$apiVersion/timeline/$farmId';
@@ -76,6 +91,7 @@ class ApiConstants {
   // KVK Agronomist Endpoints (Phase 3)
   static const String kvkCases = '$apiVersion/agronomist/queue';
   static String kvkCaseDetail(String caseId) => '$apiVersion/agronomist/case/$caseId';
+  static String agronomistCasePdfPayload(String escalationId) => '$apiVersion/agronomist/case/$escalationId/pdf-payload';
   static const String kvkResolveCase = '$apiVersion/agronomist/resolve';
 
   // Officer Endpoints (HITL Land Boundary Verification)
@@ -94,6 +110,9 @@ class ApiConstants {
 
   // Proactive Farm Updates Endpoints (Phase 4)
   static String farmUpdates(String farmId) => '$apiVersion/timeline/$farmId';
+
+  // System Endpoints
+  static const String systemHealth = '$apiVersion/system/health';
 
   // Request Timeouts
   static const Duration connectTimeout = Duration(seconds: 4);

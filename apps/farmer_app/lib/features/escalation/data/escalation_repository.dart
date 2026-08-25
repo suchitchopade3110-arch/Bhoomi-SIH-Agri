@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'escalation_api_service.dart';
+import 'models/case_pdf_payload_model.dart';
 import 'models/escalation_models.dart';
 
 final escalationRepositoryProvider = Provider<EscalationRepository>((ref) {
@@ -21,5 +22,9 @@ class EscalationRepository {
 
   Future<EscalationResponse> getEscalationStatus(String caseId) async {
     return await _apiService.getEscalationStatus(caseId);
+  }
+
+  Future<CasePDFPayloadModel> getCasePdfPayload(String escalationId) async {
+    return await _apiService.getCasePdfPayload(escalationId);
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'models/confirm_field_models.dart';
 import 'models/synthesize_request.dart';
 import 'models/synthesize_response.dart';
 import 'models/transcribe_request.dart';
@@ -19,6 +20,10 @@ class VoiceRepository {
     return await _apiService.transcribe(
       TranscribeRequest(assetId: assetId, lang: lang),
     );
+  }
+
+  Future<ConfirmFieldResponse> confirmField(ConfirmFieldRequest request) async {
+    return await _apiService.confirmField(request);
   }
 
   Future<SynthesizeResponse> synthesize(String text, {String lang = 'en-IN'}) async {
