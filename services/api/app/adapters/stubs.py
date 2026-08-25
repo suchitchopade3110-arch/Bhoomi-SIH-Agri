@@ -7,6 +7,7 @@ import re
 from typing import Any
 import uuid
 
+from app.adapters.asset_url import fallback_asset_url
 from app.domain.kvk_directory import KVK_CENTERS
 
 
@@ -220,7 +221,7 @@ class StubAsrTtsAdapter:
 
     async def synthesize_speech(self, text: str, language: str = "ta", gender: str = "female") -> tuple[str, str]:
         mock_asset_id = str(uuid.uuid4())
-        return (mock_asset_id, f"http://localhost:9000/bhoomi-assets/{mock_asset_id}.mp3")
+        return (mock_asset_id, fallback_asset_url(mock_asset_id, "mp3"))
 
 
 class StubStorageAdapter:

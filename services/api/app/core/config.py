@@ -164,13 +164,19 @@ class Settings(BaseSettings):
     WEIGHTS_VERSION: str = "v1.0.0"
 
     # Voice / ASR / TTS
+    # ASR stays 'stub' by default — there's no credential-free real speech
+    # recognition option here (bhashini/sarvam both need API keys). TTS
+    # defaults to 'gtts' instead of 'stub': gTTS needs no credentials and,
+    # combined with a real StoragePort backend, produces audio the app can
+    # actually play out of the box — 'stub' never generates or stores any
+    # audio at all, so voice synthesis would silently do nothing.
     ASR_PROVIDER: str = Field(
         default="stub",
         description="ASR provider: 'bhashini' | 'sarvam' | 'stub'",
     )
     TTS_PROVIDER: str = Field(
-        default="stub",
-        description="TTS provider: 'bhashini' | 'gtts' | 'stub'",
+        default="gtts",
+        description="TTS provider: 'bhashini' | 'sarvam' | 'gtts' | 'stub'",
     )
     CONFIRMATION_CONFIDENCE_FLOOR: float = Field(
         default=0.85,
