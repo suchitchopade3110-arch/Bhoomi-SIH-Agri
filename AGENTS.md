@@ -92,8 +92,15 @@ Both rules live in `services/`, in code a reviewer can point at — not in an LL
 ## Config constants
 
 ```python
-CONFIDENCE_GATE = 0.70          # image-diagnosis confidence floor
-RAG_RELEVANCE_THRESHOLD = 0.60  # cosine-similarity floor; tuned in Phase 3
+CONFIDENCE_GATE = 0.70  # image-diagnosis confidence floor
+
+# RAG_RELEVANCE_THRESHOLD is NOT a flat value — it's a computed_field on
+# Settings (app/core/config.py) that depends on EMBEDDING_PROVIDER:
+#   EMBEDDING_PROVIDER=stub (the default)  -> 0.18 (token-hashing vectors)
+#   EMBEDDING_PROVIDER=bge_m3              -> 0.60 (real dense embeddings)
+# Reading this as a flat 0.60 is wrong for the default config — check
+# settings.RAG_RELEVANCE_THRESHOLD (or GET /system/health) for the live
+# value, never assume one number.
 ```
 
 ## Domain terminology

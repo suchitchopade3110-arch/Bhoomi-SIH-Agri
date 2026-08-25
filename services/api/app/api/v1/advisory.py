@@ -47,5 +47,5 @@ async def query_advisory(
     """PRD §5.7, §5.8 / contract §2.11. Retrieves only from the curated
     corpus; if nothing relevant is found (or the model can't ground an
     answer), returns ``retrieved: false`` rather than fabricating advice."""
-    outcome = await service.answer_query(request.farm_id, request.query_text)
+    outcome = await service.answer_query(request.farm_id, request.query_text, target_type=request.target_type)
     return _to_schema(outcome)

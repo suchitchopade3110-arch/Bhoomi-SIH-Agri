@@ -1,7 +1,6 @@
 """External adapter ports and implementations."""
 
 from app.adapters.image_diagnosis_real import RealImageDiagnosisAdapter
-from app.adapters.land_registry import LandRegistryPort, LiveLandRegistryAdapter, MockLandRegistryAdapter
 from app.adapters.ports import (
     AsrTtsPort,
     EmbeddingPort,
@@ -21,7 +20,6 @@ from app.adapters.stubs import (
 from app.adapters.dependencies import (
     get_embedding_adapter,
     get_image_diagnosis_adapter,
-    get_land_registry_adapter,
     get_llm_adapter,
     get_speech_adapter,
     get_storage_adapter,
@@ -35,7 +33,6 @@ __all__ = [
     "ImageDiagnosisPort",
     "AsrTtsPort",
     "StoragePort",
-    "LandRegistryPort",
     "StubWeatherAdapter",
     "StubLLMAdapter",
     "StubEmbeddingAdapter",
@@ -43,13 +40,10 @@ __all__ = [
     "StubAsrTtsAdapter",
     "StubStorageAdapter",
     "RealImageDiagnosisAdapter",
-    "MockLandRegistryAdapter",
-    "LiveLandRegistryAdapter",
     "get_weather_adapter",
     "get_llm_adapter",
     "get_embedding_adapter",
     "get_image_diagnosis_adapter",
     "get_speech_adapter",
     "get_storage_adapter",
-    "get_land_registry_adapter",
 ]

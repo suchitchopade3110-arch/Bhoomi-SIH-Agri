@@ -74,10 +74,6 @@ class Settings(BaseSettings):
             "SIH26131 (Pest/Alert/Efficacy). See docs/specs/api_contract_sih26131_delta.md."
         ),
     )
-    LAND_API_MODE: Literal["mock", "live"] = Field(
-        default="mock",
-        description="Cadastral land API mode: 'mock' uses canned surveyor data, 'live' calls state portal",
-    )
     DIAGNOSIS_MODEL: Literal["real", "stub"] = Field(
         default="stub",
         description="Crop disease diagnosis mode: 'real' runs PyTorch model, 'stub' returns settable confidence",

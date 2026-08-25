@@ -66,12 +66,29 @@ STUB_ALTERNATIVES_MAP: dict[str, list[str]] = {
     "sheath_blight": ["blast", "brown_spot"],
 }
 
+# Same fixed-stub-pair fallback for pest, keyed on SUPPORTED_LABELS["pest"]
+# (app/domain/gate/constants.py) — checklist §3.4's documented fallback
+# applies equally to disease and pest; there is no reason the gate object
+# should be structurally incomplete for half of ``target_type``.
+STUB_PEST_ALTERNATIVES_MAP: dict[str, list[str]] = {
+    "stem_borer": ["gall_midge", "leaf_folder"],
+    "brown_planthopper": ["green_leafhopper", "whitefly"],
+    "gall_midge": ["stem_borer", "leaf_folder"],
+    "leaf_folder": ["stem_borer", "gall_midge"],
+    "green_leafhopper": ["brown_planthopper", "whitefly"],
+    "fall_armyworm": ["stem_borer", "leaf_folder"],
+    "whitefly": ["brown_planthopper", "green_leafhopper"],
+    "aphid": ["whitefly", "green_leafhopper"],
+}
 
-def _get_stub_alternatives(label: str | None) -> list[str]:
+
+def _get_stub_alternatives(label: str | None, is_pest: bool = False) -> list[str]:
     """Stubbed top-k candidate alternatives paired with image model (marked as _stub)."""
-    if label and label in STUB_ALTERNATIVES_MAP:
-        return STUB_ALTERNATIVES_MAP[label]
-    return ["bacterial_leaf_blight", "blast"]  # _stub: true fixed 2-item fallback
+    alt_map = STUB_PEST_ALTERNATIVES_MAP if is_pest else STUB_ALTERNATIVES_MAP
+    if label and label in alt_map:
+        return alt_map[label]
+    # _stub: true fixed 2-item fallback, same shape either target_type
+    return ["stem_borer", "brown_planthopper"] if is_pest else ["bacterial_leaf_blight", "blast"]
 
 
 @dataclass(frozen=True)
@@ -178,7 +195,7 @@ class DiagnosisService:
         in_scope = label in supported_labels
 
         query = f"{label.replace('_', ' ')} {description_text or ''}".strip()
-        chunks = await self._retrieval.retrieve(query)
+        chunks = await self._retrieval.retrieve(query, content_type=target_type)
         top_relevance = RetrievalService.top_relevance(chunks)
 
         decision = decide(
@@ -189,7 +206,7 @@ class DiagnosisService:
             relevance_threshold=self._settings.RAG_RELEVANCE_THRESHOLD,
         )
 
-        alternatives = [] if is_pest else _get_stub_alternatives(label)
+        alternatives = _get_stub_alternatives(label, is_pest=is_pest)
 
         if decision.should_escalate:
             escalation = await self._create_escalation(farm_id, decision.reason)

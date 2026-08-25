@@ -73,6 +73,29 @@ class RateLimitedError(AppError):
         super().__init__(code="RATE_LIMITED", message=message, details=details, status_code=status.HTTP_429_TOO_MANY_REQUESTS)
 
 
+class EmbeddingProviderUnavailableError(AppError):
+    """Raised when ``EMBEDDING_PROVIDER=bge_m3`` was explicitly configured but
+    ``services/ml``'s ``/embed`` reports it silently fell back to hash
+    vectors (model unavailable) — fail loud rather than let RAG relevance
+    scores be computed against the wrong embedding space with no signal to
+    the caller (fix list P2.1: never demo real-threshold RAG against
+    hash-vector retrieval, or vice versa, without knowing it)."""
+
+    def __init__(
+        self,
+        message: str = "EMBEDDING_PROVIDER=bge_m3 is configured but the real model is unavailable "
+        "(services/ml reported method=hash). Refusing to silently retrieve against hash vectors "
+        "while claiming bge_m3 — either make the real model available or set EMBEDDING_PROVIDER=stub.",
+        details: dict[str, Any] | None = None,
+    ) -> None:
+        super().__init__(
+            code="EMBEDDING_PROVIDER_UNAVAILABLE",
+            message=message,
+            details=details,
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+        )
+
+
 def build_error_response(code: str, message: str, details: dict[str, Any], status_code: int) -> JSONResponse:
     """Build standardized JSON error envelope."""
     return JSONResponse(

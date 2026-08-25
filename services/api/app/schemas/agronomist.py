@@ -4,6 +4,7 @@ from datetime import datetime
 from pydantic import BaseModel, Field
 from app.core.enums import CaseStatus, ProblemSeverity
 from app.schemas.case import CaseSummary
+from app.schemas.health import RiskChange
 
 
 class AgronomistQueueItem(BaseModel):
@@ -36,5 +37,6 @@ class ResolveCaseResponse(BaseModel):
     """Response confirming case resolution."""
     escalation_id: str = Field(...)
     status: CaseStatus = Field(default=CaseStatus.RESOLVED)
+    risk: RiskChange = Field(..., description="Health score before/after this resolution, plus the resulting band")
     resolved_at: datetime = Field(default_factory=datetime.utcnow)
     message: str = "Case successfully resolved and dispatched to farmer."

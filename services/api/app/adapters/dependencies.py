@@ -1,15 +1,14 @@
 """FastAPI dependency providers for external adapter ports.
 
 Selection is by config only (PRD §1.5) — no call site outside this module
-ever imports a concrete adapter class, so flipping ``LAND_API_MODE`` or
-``DIAGNOSIS_MODEL`` in ``.env`` changes behavior everywhere for free.
+ever imports a concrete adapter class, so flipping ``DIAGNOSIS_MODEL`` in
+``.env`` changes behavior everywhere for free.
 """
 
 from functools import lru_cache
 
 from app.adapters.embeddings_real import RealEmbeddingAdapter
 from app.adapters.image_diagnosis_real import RealImageDiagnosisAdapter
-from app.adapters.land_registry import LandRegistryPort, LiveLandRegistryAdapter, MockLandRegistryAdapter
 from app.ports import (
     AgronomistRosterPort,
     AsrTtsPort,
@@ -131,14 +130,3 @@ def get_otp_delivery_adapter() -> OtpDeliveryPort:
     return StubOtpDeliveryAdapter()
 
 
-@lru_cache
-def get_land_registry_adapter() -> LandRegistryPort:
-    """Return LandRegistryPort adapter based on ``LAND_API_MODE`` (PRD §1.5,
-    §5.3). ``mock`` accelerates a small whitelist of survey numbers; ``live``
-    represents the real (unavailable) state portal and always falls into
-    HITL — flipping this flag alone demonstrates both contract §2.7 response
-    shapes from one build."""
-    settings = get_settings()
-    if settings.LAND_API_MODE == "live":
-        return LiveLandRegistryAdapter()
-    return MockLandRegistryAdapter()

@@ -12,6 +12,12 @@ Repo: `suchitchopade3110-arch/bhoomi-sih-agri`, branch `claude/feature-checklist
 
 `constants.py` is not a single file in this repo — thresholds live in `services/api/app/domain/constants.py`, `.../domain/gate/constants.py`, `.../domain/health/constants.py`, `.../domain/rag/constants.py`. All four were read and are cited below by exact path.
 
+## Correction (post-publication): §6.1 and §7.6 paths are from a superseded contract doc, not invented
+
+The `Bhoomi_API_Contract_SIH26131.txt` §10/§11 that the supplied checklist was built from does specify `POST /followups/{id}/respond` and `POST /cases/{id}/resolve` — so those path names were not fabricated by the checklist. But that `.txt` contract is superseded by `docs/specs/api_contract_sih26131_delta.md`, which is what's actually in this repo, and **`docs/API_CONTRACT.md:395-409` already contains a decision log entry resolving this exact question**: `/followups/{id}/respond` "appears nowhere in this repo... Backend, docs, and frontend already agree on `POST /api/v1/followup/checkin` — decision: keep it, no alias route added." `docs/FRONTEND_API_ALIGNMENT.md:57` similarly marks `POST /api/v1/agronomist/resolve` as **LIVE VERIFIED** against the KVK portal client, and `:81` records `/kvk/cases/{id}/resolve` as a dead fallback route the frontend team already removed.
+
+**Net effect on the verdicts below: §6.1 and §7.6 stand as FAILED against the literal checklist text (those exact paths genuinely don't exist in this repo), but the checklist's claim itself is sourced from a stale, out-of-repo contract doc, not the repo's own canonical spec.** `/followup/checkin` and `/agronomist/resolve` are the correct, current, live-verified routes — no route change was made as a result of this finding. What *was* fixed (see the follow-up section at the end of this report): `FollowupCheckinResponse` and `ResolveCaseResponse` were missing `severity_change`/`risk` fields entirely, independent of which path shape is correct — that gap was real and has been closed.
+
 ## Checklist item count vs. blocks produced
 
 The supplied checklist has **86** `- [ ]` lines across §0–§15 (§0: 5, §1: 5, §2: 5, §3: 6, §4: 7, §5: 6, §6: 4, §7: 8, §8: 2, §9: 4, §10: 5, §11: 2, §12: 4, §13: 9, §14: 6, §15: 8). This report produces **86** verdict blocks — one per line. Counted by hand against the supplied file; no automated line-count tool was run.
@@ -554,5 +560,218 @@ None of the §0 hard invariants themselves were FAILED — §0.1–§0.4 are VER
 - [x] Every line in the supplied checklist has exactly one verdict block. Checklist: 86 `- [ ]` lines (counted by hand, §0:5 §1:5 §2:5 §3:6 §4:7 §5:6 §6:4 §7:8 §8:2 §9:4 §10:5 §11:2 §12:4 §13:9 §14:6 §15:8 = 86). Blocks produced: 86.
 - [x] Every number in the report is quoted from a file with path and line, or from a command's real output pasted above (git log author counts, pytest pass/fail counts). No number was recalled from memory.
 - [x] `pytest -q` output pasted verbatim above, including all 19 failures with their specific test names and the confirmed root cause (Postgres connection refused, not a code defect).
-- [x] No file outside `docs/audits/` was created or modified: `git status` after all work (including `uv sync --extra dev`, run to make `pytest` runnable) shows only `docs/audits/` as untracked — `services/api/uv.lock` and everything else in the tree is unchanged. `services/api/.venv/` was created by `uv sync` but is gitignored/not tracked, so it does not appear in `git status` and is not part of the repo.
+- [x] At time of original publication, no file outside `docs/audits/` was created or modified — see the follow-up fix log below for what changed afterward, at explicit user request, as a separate step outside the audit itself.
 - [x] Nothing was marked `VERIFIED` on the basis of a filename, a docstring alone, or a test that mocks its own subject — every VERIFIED item above cites either a structural code trace (e.g. the gate's early-return before the LLM call) or a passing test that calls the real domain function (`compute_health`, not a mock of it). Items where only a docstring or file existed without a corresponding logic trace were marked PARTIAL or UNVERIFIABLE, not VERIFIED (e.g. §5.3, §5.5, §7.4, §7.5, §8.1).
+
+---
+
+## 7. Follow-up fix log (post-audit, applied at user request — working tree only, not committed)
+
+After this report was reviewed, the user asked for the `severity_change`/`risk:{from,to,band}` gap in §6.4/§7.6 to be closed (the uncontested part of those findings — independent of the §6.1/§7.6 path-naming question, resolved above as "checklist sourced from a superseded contract doc"). Applied as **uncommitted working-tree changes only**, per explicit instruction not to commit:
+
+- `services/api/app/schemas/health.py` — added `RiskChange` model (`from_`/`to`/`band`, `populate_by_name=True`, alias `"from"`), placed here rather than in `schemas/common.py` because `schemas/common.py` loads first in `app/schemas/__init__.py` and importing `app.core.enums` from it re-enters a `domain → schemas.case → schemas.common` circular-import chain that already exists in this codebase (confirmed by reproducing the `ImportError: cannot import name 'SpokenResponseMixin' from partially initialized module` failure before relocating the model).
+- `services/api/app/schemas/followup.py` — added `SeverityChange` model (`from_`/`to`, `to=None` meaning resolved-outright) and added `severity_change: SeverityChange` + `risk: RiskChange` (both required) to `FollowupCheckinResponse`.
+- `services/api/app/services/followup_service.py::checkin()` — captures `previous_snapshot = await self._health.get_latest(request.farm_id)` before any mutation (so `risk.from_` is the pre-check-in score); tracks the actual resulting severity (`new_severity`, `None` on resolve) through the got_worse/improved/no_change branches instead of discarding it; populates both new fields on return.
+- `services/api/app/schemas/agronomist.py` — added `risk: RiskChange` (required) to `ResolveCaseResponse`.
+- `services/api/app/services/agronomist_service.py::resolve_case()` — **fixed a real, separate bug found while doing this**: the health-score recompute call's return value was being discarded entirely (`await self._health.recompute(...)` with no assignment) — the 91 was computed and persisted server-side but never returned in the resolve response at all, to any client, regardless of field names. Now captures it (`snapshot = await self._health.recompute(...)`), plus `previous_snapshot` captured before mutation, and both feed the new `risk` field.
+
+**Verification performed (no live DB in this sandbox, so these are the checks available without one):**
+- `uv run python -c "from app.main import app"` — full app import succeeds, 7 route groups registered, no import errors.
+- `uv run pytest -q` — **485 passed, 19 failed**, identical pass/fail count and identical failing test names to the pre-fix run pasted in §3 above; all 19 are still `ConnectionRefusedError` to `127.0.0.1:5433` (no Postgres in this sandbox). No new failures were introduced.
+- `grep -rn "FollowupCheckinResponse(\|ResolveCaseResponse(" --include=*.py .` — confirmed exactly one construction site for each (the two edited service methods), so no other call site was left passing incomplete required fields.
+- Model field introspection (`FollowupCheckinResponse.model_fields.keys()`, `ResolveCaseResponse.model_fields.keys()`) confirms both new fields are present on the response schemas.
+
+**Update: since verified against a real Postgres.** See §8 below — a real local Postgres 16 + pgvector instance was stood up in this sandbox (docker wasn't available, so via the system package manager) and the full suite, including `tests/e2e/test_runbook.py`, was re-run against it. Everything in this section held up; §8 has the details and the several additional findings that surfaced only once real DB integration was exercised.
+
+**State: uncommitted.** All work in this session (this fix plus everything in §8) remains in the working tree — nothing has been staged or committed, per instruction. See §8's own state note for the full uncommitted file list.
+
+---
+
+## 8. Fix log — Bhoomi Fix List (post-audit), P0–P3 and D.1
+
+Applied at explicit user request, in response to a separate "Bhoomi — Fix List (post-audit, SIH26131)" document the user supplied after reviewing this report and the four re-verified findings. **All of this remains uncommitted working-tree changes — nothing was pushed or committed, per explicit instruction ("handover it as zip files to push manually").** Ordered to match the fix list's own P0–P5 structure; items not reached are listed at the end with the reason.
+
+### P0.1 — Identify the 19 failing tests
+
+The 19 failures pasted in §3 above were re-investigated with a **real Postgres 16 + pgvector** instance (docker was unavailable in this sandbox — `dial unix /var/run/docker.sock: connect: no such file or directory` — so `postgresql-16` + `postgresql-16-pgvector` were installed via `apt-get` instead, migrations applied with `alembic upgrade head`, corpus ingested with `python -m app.services.rag.ingest`). Command: `DATABASE_URL="postgresql+asyncpg://postgres:postgres@localhost:5432/bhoomi" uv run pytest -q --tb=short`.
+
+**Finding: all but 2 of the 19 were caused by this session's own empty test database, not app bugs.** Before the corpus was ingested, `test_pest_diagnosis.py` (1 test) and `test_treatment_efficacy.py` (3 tests) failed with `"relevance 0.00 < threshold 0.18"` / `"No open problem to check in on for this farm"` — a real, empty `knowledge_chunks` table producing genuine zero-relevance retrieval, not a code defect. After running `python -m app.services.rag.ingest` (67 chunks from 25 documents), all 4 passed. Combined with the 13 that were pure `ConnectionRefusedError` (no DB at all — see original §3), that leaves exactly **2 real failures**, both in `tests/e2e/test_runbook.py`.
+
+**Bigger finding than anything on the fix list:** both remaining failures trace to the same root cause — `test_runbook.py` is itself stale SIH25076-era code. Its own module docstring says the walk is `baseline health 82 -> diagnose day 22 above gate -> 68 -> follow-up got_worse -> auto-escalate -> agronomist resolves -> 86` (the *old* PRD §7.4 numbers), and `test_full_runbook_walks_82_68_86`'s literal function name confirms it. It posts old-shape farm-creation fields (`primary_crop`, `soil_type`, `total_area_acres`) that the current `FarmCreateRequest` (crop/growth_stage/region only) rejects with a 422 before the test gets anywhere near a diagnose or follow-up call.
+
+**Consequence at the time this was written: there was no test anywhere in this repo that had ever proven 82→73→57→91 travels over real HTTP.** The only proof of that sequence was `test_sih26131_reconciliation` in `tests/domain/test_health_score.py`, which calls `compute_health()` directly — domain layer only. Flagged to the user as the single most consequential open item rather than fixed silently inside this pass. **Since fixed, at explicit user request — see §9 below.**
+
+### P0.2 — Run `tests/e2e/test_runbook.py` against real Postgres
+
+Done — see P0.1. One genuinely new e2e test was added in its place to at least cover the P3 land-flow change end-to-end (see P3 below): `test_land_verify_always_queues_for_officer_review`, which uses the correct SIH26131 3-field farm payload and passes.
+
+**A second real, previously-hidden bug surfaced only because of this real-DB run**, unrelated to anything on the fix list: `land_parcels.district` is `NOT NULL` in the schema, but SIH26131's simplified onboarding never collects `district` (only `region`) — so `POST /land/verify` would have crashed with `NotNullViolationError` for *every* SIH26131-onboarded farm against a real database. Fixed in `services/api/app/services/land_service.py::submit_for_verification`: `"district": farm.get("district") or farm.get("region") or "Unknown"`. This is exactly the class of bug `pytest` against a fake/absent DB can never catch — it only surfaced once a real Postgres actually enforced its constraints.
+
+### P0.3 — Commit the working-tree changes
+
+**Not done — the user's final instruction for this pass explicitly countermanded this fix-list item**: "dont push or commit anything handover it as zip files to push manually." Everything stays as uncommitted working-tree changes, packaged separately as instructed.
+
+### P1.1 — "What to avoid" reordered to genuinely first
+
+Changed in three places so the fix is real end-to-end, not just in one layer: `services/api/app/domain/rag/constants.py` (`FIVE_POINT_FIELDS` tuple — `what_to_avoid` now first), `services/api/app/domain/rag/prompt.py` (unchanged — it already derives the LLM instruction list from `FIVE_POINT_FIELDS`, so it picked up the fix automatically), `services/api/app/domain/rag/advisory.py` (`FivePointAdvisory` dataclass field order), `services/api/app/schemas/advisory.py` (`FivePointAdvisory` Pydantic model field order — this is what actually controls JSON serialization order, verified directly: `FivePointAdvisory(...).model_dump().keys()` returns `what_to_avoid` first regardless of the order fields were passed as kwargs). Updated `tests/test_confidence_gate.py::test_five_point_advisory_field_order`, which previously only asserted `what_to_avoid` was ahead of `what_to_do_next` (3rd of 5) — that was itself a stale, too-weak test relative to the checklist's actual "ordered first" requirement; it now asserts index 0 and re-verifies through actual `model_dump()` serialization, not just declared field order.
+
+### P1.2 — Pest `alternatives[]` no longer structurally empty
+
+`services/api/app/services/diagnosis_service.py`: was `alternatives = [] if is_pest else _get_stub_alternatives(label)` — pest diagnoses always got an empty list, disease diagnoses got a real stub pair. Added `STUB_PEST_ALTERNATIVES_MAP` (keyed on the 8 labels in `SUPPORTED_LABELS["pest"]`, `domain/gate/constants.py`) mirroring the existing disease map, and `_get_stub_alternatives(label, is_pest=False)` now branches on the map rather than hardcoding pest to `[]`.
+
+### P1.3 — `/advisory/query` now honors `target_type`, and retrieval is corpus-scoped
+
+Bigger than "wire the parameter through" — traced the actual DB schema (`alembic/versions/0002_knowledge_chunks.py`, `0004_advisory_and_kb_document.py`) and confirmed **`knowledge_chunks` has no `content_type`/`crop` column at all**; that metadata filter the checklist names doesn't exist as data. Used the corpus's own existing `doc_id` convention instead (every pest doc is `kb_p3xx`, confirmed in `services/rag/corpus_data.py`'s own docstring) as a real, zero-migration content-type filter:
+- `domain/rag/constants.py`: added `PEST_DOC_ID_PREFIX = "kb_p"`, documented as the reason no migration was needed.
+- `repositories/interfaces.py`, `repositories/knowledge_chunk_repository.py` (real, SQL `WHERE doc_id LIKE 'kb_p%'` / `NOT LIKE`), `repositories/in_memory.py` (parity fake) — `similarity_search()` gained an optional `content_type` param.
+- `services/rag/retrieval.py::retrieve()` — passes it through.
+- `schemas/advisory.py` — `AdvisoryQueryRequest.target_type: Literal["disease","pest"] | None` added.
+- `services/rag/advisory_service.py::answer_query()` and `api/v1/advisory.py` — wired through.
+- `services/diagnosis_service.py` — also applied to `/diagnose`'s own retrieval call (same underlying gap, same fix), since `target_type` was already known there but wasn't scoping retrieval either.
+
+**Verified functionally, not just "tests still pass":** ran a real query against the real ingested corpus with the stub embedder — an unfiltered "stem borer damage identification" query returned `['kb_p301', 'kb_p301', 'kb_p304', 'kb_219', 'kb_p305']` (one disease doc, `kb_219`, leaking into a pest query's top-5); the pest-filtered version returned `['kb_p301', 'kb_p301', 'kb_p304', 'kb_p305', 'kb_p304']` — the leak is gone. Command and full output are reproducible via the inline Python snippet used during this session (not saved as a script).
+
+### P2.1 — Silent embedding fallback fixed, and actually verified against a running `services/ml`
+
+This was the fix list's own P2.1, done in full, then verified beyond what was asked — not just made to compile, but exercised against a genuinely running `services/ml` instance to confirm the exact failure mode it targets:
+
+- `core/errors.py`: new `EmbeddingProviderUnavailableError` (503, code `EMBEDDING_PROVIDER_UNAVAILABLE`).
+- `adapters/embeddings_real.py::RealEmbeddingAdapter`: now reads `payload["method"]` from `services/ml`'s `/embed` response (that field already existed there — `services/ml/app/main.py:108` — but was being discarded) and **raises** `EmbeddingProviderUnavailableError` if it isn't exactly `"bge_m3"`. This adapter is only ever selected when `EMBEDDING_PROVIDER=bge_m3` is explicitly configured (`adapters/dependencies.py`), so reaching this code at all means bge_m3 was requested — a `hash` response at that point means "silently degraded," which is now impossible to observe silently.
+- `api/v1/system.py::/system/health`: added `embedding_provider_configured`, `rag_relevance_threshold_active`, and `embedding_method_verified` fields — the last one does a **live probe** (`RealEmbeddingAdapter.embed_text(...)`) when `EMBEDDING_PROVIDER=bge_m3`, not a config-file assumption.
+
+**Verified live, not just unit-tested:** stood up `services/ml` for real (`uv venv` + `uv pip install -r requirements.txt`, `uvicorn app.main:app --port 8001` — no torch/sentence-transformers installed, matching the honest state this codebase has always been in). With `EMBEDDING_PROVIDER=bge_m3` and the real ML service reachable, `GET /system/health` returned `"embedding_method_verified": "unavailable: EmbeddingProviderUnavailableError"` — i.e. the exact silent-hash-under-bge_m3-label scenario the fix list called the demo-breaking risk now surfaces as an explicit, named error instead of a wrong-but-plausible-looking number. Confirmed the normal `stub` path is unaffected: `"embedding_provider_configured": "stub", "rag_relevance_threshold_active": 0.18, "embedding_method_verified": "hash"` (correct — stub is what it says it is, no probe needed). services/ml was stopped after this check; nothing was left running.
+
+### P2.2 / P2.3 — Whether BGE-m3 works on the demo box
+
+**Not applicable to this sandbox and not attempted** — the fix list itself says "sandbox reachability is moot — only the Windows machine matters," and this session has no access to that machine. What *is* now true regardless of which way that check goes: §P2.1's fix means the system will *tell you* which way it went (`GET /system/health`) instead of silently computing wrong relevance scores. P2.3's fallback position (demo on stub/0.18, don't claim BGE-m3 in the pitch) requires no code change and wasn't otherwise touched.
+
+### P3 — Cut features still live
+
+**Stopped once, asked for direction, then implemented the two options the user chose** (P3 land/officer: "let claude decide" → took the smaller-blast-radius option; P3.3 FAO-56: "if needed then let it be" → confirmed it's needed for `sih25076` and left it).
+
+Traced the actual data dependency before touching anything: the officer review queue (`OfficerService.get_queue()`) reads from `land_parcels`, a table populated **only** by the cadastral flow this fix list wants turned off. Naively unmounting `land_router` would have permanently emptied the officer review queue — breaking checklist §10.2 (officer review is a required SIH26131 feature) as a side effect of fixing §13.2/§13.3. Also confirmed `apps/officer_portal` (React) is genuinely built against `parcel_id` and the boundary GeoJSON fields (`officer_api.ts`, `approval_dialog.tsx`, `land_detail_panel.tsx`) — a full rewire to farm-based IDs would break that live frontend's contract.
+
+**Implemented: strip the auto-lookup and boundary geometry, keep the `parcel_id`-shaped officer contract intact** (no frontend break):
+- `services/land_service.py::submit_for_verification` — no longer calls the registry lookup at all; every submission unconditionally queues to the officer (`PENDING_REVIEW`). Also fixed the `district` NOT NULL bug found via this change (see P0.2).
+- `api/v1/land.py` — deleted the `POST /land/cadastral-lookup` route entirely; `/land/verify` now always returns `202` (never `200` auto-verified).
+- `schemas/land.py` — deleted `BoundaryGeoJSON`, `CadastralLookupRequest`, `CadastralLookupResponse`; removed `suggested_boundary` from `LandVerifyRequest`.
+- `schemas/officer.py` — removed `cadastral_boundary` from `OfficerReviewDetail`, `confirmed_boundary_geojson` from `OfficerActionRequest` (also dropped `confirmed_area_acres`, which was already fully unused dead code — not referenced anywhere, including the frontend).
+- `services/officer_service.py` — updated to match (no boundary in/out).
+- **Deleted `adapters/land_registry.py` entirely** (`LandRegistryPort`, `MockLandRegistryAdapter`, `LiveLandRegistryAdapter`) and the now-dead `LAND_API_MODE` setting (`core/config.py`, both `.env.example` files, `main.py` startup log line, `adapters/dependencies.py::get_land_registry_adapter`, `adapters/__init__.py` exports) — once nothing calls the registry lookup, keeping the mock/live adapter selectable-but-unused would have been exactly the "flags off is not enough, dead code that reads as un-cut scope" problem the fix list called out for FAO-56, just relocated to a different subsystem.
+- `tests/e2e/test_runbook.py::test_land_api_mode_flag_demos_both_paths` — this test existed specifically to demonstrate the mock-vs-live flag being removed; replaced it with `test_land_verify_always_queues_for_officer_review`, which asserts the new always-202-pending behavior (and is one of the two "was failing, now genuinely passes" results from this session). `tests/unit/test_smoke.py` and `tests/test_phase0_skeleton.py` had trivial `LAND_API_MODE in (...)` assertions removed to match.
+- **FAO-56 (P3.3): left as-is.** Confirmed via `api/v1/__init__.py`'s routing that `resource_plan_router`/`domain/fao56.py` are already unreachable under the default `PROBLEM_STATEMENT=sih26131` (only mounted for `sih25076`), and that `sih25076` is a currently-working, explicitly-still-supported mode of this monorepo (confirmed via `AGENTS.md` and the routing itself) — not dead legacy. Per the user's own rule ("if needed then let it be"): it's needed for that mode, so it stays. Not deleted.
+
+**Verified:** full suite re-run after all P3 changes — `502 passed, 1 failed` (only the pre-existing, already-flagged `test_full_runbook_walks_82_68_86`), up from `502 passed, 2 failed` before P3 (the land-flag test now genuinely passes under its new name rather than being removed to hide a failure).
+
+### D.1 — Doc fixes so this doesn't regenerate
+
+- `AGENTS.md` — replaced the flat `RAG_RELEVANCE_THRESHOLD = 0.60` with an explanation that it's a computed value keyed on `EMBEDDING_PROVIDER`, stating both numbers and which is the default.
+- `services/api/app/domain/constants.py` module docstring — same fix, plus corrected the stale "six sub-index weights" text (the actual `WEIGHTS` dict has always had four, per the original audit's §5.1 finding) to "four sub-index weights (SIH26131)".
+
+### D.2 / D.3
+
+D.2 (stale `.txt` contract doc) — the user is fixing this on their side, per their own message. D.3 (checklist §6/§7 path correction) — already added to this report in the "Correction (post-publication)" section above, before this fix-log section.
+
+### Not reached
+
+- **P1.1/1.2/1.3 aside, nothing in P4 (untraced items: pgvector index filters — overlaps and is now partially answered by P1.3's doc_id-prefix approach; scheme staleness flag; timeline query scoping; land→officer→scheme unlock chain end to end) or P5 (veteran/novice persistence, voice-on-stub labeling, case summary field naming, case PDF share button, escalation ETA visibility, interim guidance cards) were attempted** — not because they're hard, but because P0–P3 plus the several bugs that surfaced along the way consumed the available pass. Flagging rather than silently leaving them looking done.
+- ~~`test_full_runbook_walks_82_68_86` was not rewritten~~ — **done, at explicit follow-up request. See §9 below.**
+
+### Final state (as of this section — superseded by §9's own final state)
+
+`git status --short` at the end of this pass (36 files modified, 1 deleted, nothing staged or committed):
+
+```
+ M .env.example
+ M AGENTS.md
+ M docs/audits/checklist_audit_2026-08-25.md
+ M services/api/.env.example
+ M services/api/app/adapters/__init__.py
+ M services/api/app/adapters/dependencies.py
+ M services/api/app/adapters/embeddings_real.py
+ D services/api/app/adapters/land_registry.py
+ M services/api/app/api/v1/advisory.py
+ M services/api/app/api/v1/land.py
+ M services/api/app/api/v1/officer.py
+ M services/api/app/api/v1/system.py
+ M services/api/app/core/config.py
+ M services/api/app/core/errors.py
+ M services/api/app/deps.py
+ M services/api/app/domain/constants.py
+ M services/api/app/domain/rag/advisory.py
+ M services/api/app/domain/rag/constants.py
+ M services/api/app/main.py
+ M services/api/app/repositories/in_memory.py
+ M services/api/app/repositories/interfaces.py
+ M services/api/app/repositories/knowledge_chunk_repository.py
+ M services/api/app/schemas/__init__.py
+ M services/api/app/schemas/advisory.py
+ M services/api/app/schemas/agronomist.py
+ M services/api/app/schemas/followup.py
+ M services/api/app/schemas/health.py
+ M services/api/app/schemas/land.py
+ M services/api/app/schemas/officer.py
+ M services/api/app/services/agronomist_service.py
+ M services/api/app/services/diagnosis_service.py
+ M services/api/app/services/followup_service.py
+ M services/api/app/services/land_service.py
+ M services/api/app/services/officer_service.py
+ M services/api/app/services/rag/advisory_service.py
+ M services/api/app/services/rag/retrieval.py
+ M services/api/tests/e2e/test_runbook.py
+ M services/api/tests/test_confidence_gate.py
+ M services/api/tests/test_phase0_skeleton.py
+ M services/api/tests/unit/test_smoke.py
+```
+
+Final full-suite result at end of §8: `DATABASE_URL="postgresql+asyncpg://postgres:postgres@localhost:5432/bhoomi" uv run pytest -q --tb=line` → **502 passed, 1 failed** (`test_full_runbook_walks_82_68_86`, pre-existing and separately flagged, not touched).
+
+---
+
+## 9. Follow-up: rewriting `test_full_runbook_walks_82_68_86` to the SIH26131 shape
+
+Done, at explicit user follow-up request ("rewrite the stale e2e test to SIH26131 shape"), as a continuation of the same uncommitted working-tree session.
+
+### Why this was harder than "swap the field names"
+
+Getting the *exact* 82→73→57→91 sequence over real HTTP — not just *some* real numbers — required tracing every input each of the four domain sub-index calculators (`domain/health/subindices.py`) actually receives from the real orchestration layer, not just the request bodies:
+
+- **`environmental_risk` was the blocker.** The reconciliation fixture (`test_health_score.py`) uses `weather=None` throughout, which resolves to the neutral `ENVIRONMENTAL_RISK_DEFAULT=70`. But the real `HealthService._build_inputs` always calls the configured `WeatherPort` once a `Farm` row exists (`PostgresFarmHealthContextReader.get_context` returns a context for any existing farm, regardless of whether `latitude`/`longitude` are set) — and the default `StubWeatherAdapter` always returns a fixed `temp_c=30.0, relative_humidity_pct=75.0` reading. Checked against SIH26131's `DEFAULT_CROP_IDEAL` band (`temp 25–35°C, humidity 60–80%`, `domain/farm_reference_data.py`), that fixed reading falls entirely inside the ideal band — zero penalty — so `environmental_risk` would resolve to **100**, not 70. Baseline would compute to 90 (40 + 25 + 10.5 + 14 = 89.5, rounds to 90 per Python's round-half-to-even), not 82. This is real, correct behavior of the real code — just not the specific canonical walk the checklist and spec name.
+  Fix: the test now overrides the `get_weather_adapter` FastAPI dependency with a small `_WeatherUnavailableAdapter` that returns `{}` — triggering `HealthService._get_weather_or_fallback`'s existing, documented "weather unavailable" branch (`if not current: return None`), which is a real PRD §1.4 degraded-mode code path, not a test hack that bypasses application logic.
+- **`monitoring_recency` and `active_problem_severity` already matched, and turned out to have been deliberately pre-tuned.** `diagnosis_service.py::_register_problem_and_recompute` hardcodes `days_since_last_scan: 2` on diagnosis, and `agronomist_service.py::resolve_case` hardcodes `days_since_last_scan: 1` on resolution — both exact matches to the domain fixture's inputs, and `INITIAL_PROBLEM_SEVERITY = ProblemSeverity.EARLY` plus the followup service's severity-promotion logic (`_promote`) naturally reproduce EARLY→MODERATE on a `got_worse` report. Someone had already aligned these constants to the SIH26131 numbers; only the test itself (and, as it turned out, one more real bug — below) stood between those constants and a passing end-to-end proof.
+
+### A second and third real bug found only by actually running this test against a real Postgres
+
+1. **`OfficerQueueItem`/`OfficerReviewDetail` crashed with a Pydantic validation error for every SIH26131-onboarded farm.** `officer_service.py::get_queue`/`get_parcel_detail` used `(farm or {}).get("farm_name", "Unknown")` — but SIH26131's 3-field onboarding leaves `farm_name`/`village`/`taluk` present-but-`NULL` on the `farms` row, not absent, and `dict.get(key, default)`'s default only fires on a missing key, never on an explicit `None` value. Every call to `GET /officer/queue` or `GET /officer/review/{id}` for a SIH26131 farm therefore 500'd. This is the exact same bug class a comment elsewhere in this codebase (`agronomist_service.py::get_case_detail`) had already been patched for — just not applied here. **Fixed**: changed to `(farm or {}).get("farm_name") or "Unknown"` (and the equivalent for `village`/`taluk`), matching the existing pattern.
+2. **(Documented in §8, re-confirmed here)** `land_parcels.district` NOT NULL — already fixed in §8's P0.2, re-verified as part of this same real-DB run.
+
+Both were invisible to every test in this suite until this specific test actually exercised the real officer-queue endpoint against a real Postgres row shaped like a genuine SIH26131 farm — no unit test or mock-backed test had ever done that combination.
+
+### What the rewritten test covers
+
+`tests/e2e/test_runbook.py::test_full_runbook_walks_82_73_57_91` (renamed from `test_full_runbook_walks_82_68_86`), driving the real FastAPI app over ASGI transport against real Postgres, real gate, and real RAG retrieval:
+
+1. Onboard via the 3-field `POST /farms` (crop/growth_stage/region) — checklist §1.
+2. `POST /land/verify` — always 202/pending_review, no auto-lookup — checklist §10.1/§13.
+3. Officer approves via `POST /officer/action` with no boundary field — checklist §10.2.
+4. `GET /farms/{id}/risk` == **82**, band `good`.
+5. `POST /farms/{id}/diagnose` — above gate, cited, `what_to_avoid` first in the advisory (checklist §4's never-cut ordering, asserted via `list(diagnosis["advisory"].keys())[0]`), `health_delta == {"from": 82, "to": 73}`.
+6. `GET /farms/{id}/risk` == **73**, band `watch`.
+7. `POST /followup/checkin` with `got_worse` — `auto_escalated is True`, `severity_change == {"from": "early", "to": "moderate"}`, `risk == {"from": 73, "to": 57, "band": "poor"}` (the fields added in this session's earlier fix-list pass, now proven live over HTTP for the first time), `updated_health_snapshot.score == 57`.
+8. Agronomist resolves via `POST /agronomist/resolve` — `risk == {"from": 57, "to": 91, "band": "excellent"}` (same note — this field was previously untested end-to-end).
+9. `GET /farms/{id}/risk` == **91**, band `excellent`.
+10. `POST /schemes/match` — matches the seeded dated scheme, `last_verified` present.
+
+### Verification
+
+- `DATABASE_URL=... uv run pytest -q tests/e2e/test_runbook.py::test_full_runbook_walks_82_73_57_91` → **1 passed** on first run after the officer-service fix.
+- Re-run **3 additional times** back to back against the same live database to check for flakiness (the test uses randomized phone numbers per run, so this also incidentally checks for unique-constraint issues across repeated runs) — passed all 3 times, `2 passed` each time (this test plus the land-flow test added in §8).
+- Full suite re-run: `DATABASE_URL=... uv run pytest -q --tb=line` → **503 passed, 0 failed.** This is the first fully-green run of the entire suite against a real Postgres anywhere in this session's work.
+
+### Final state (supersedes §8's)
+
+Same file set as §8's list, plus `services/api/app/services/officer_service.py` (already listed there — no new files were added, only further edited) and the `test_runbook.py` rewrite (already listed). **Still entirely uncommitted** — nothing staged, nothing committed, per the same "don't commit" instruction that has applied throughout this session.
+
+`git status --short`: 36 files modified, 1 deleted (`services/api/app/adapters/land_registry.py`) — identical file list to §8, since this follow-up only further modified files already in that set.
+
+**Full-suite result: 503 passed, 0 failed.**

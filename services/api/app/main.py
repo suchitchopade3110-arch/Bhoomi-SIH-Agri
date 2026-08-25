@@ -21,7 +21,6 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     """Lifespan context manager for startup and shutdown events."""
     logger.info("Starting Bhoomi Advisory API...")
     logger.info(f"Feature Flag - PROBLEM_STATEMENT: {settings.PROBLEM_STATEMENT}")
-    logger.info(f"Feature Flag - LAND_API_MODE: {settings.LAND_API_MODE}")
     logger.info(f"Feature Flag - DIAGNOSIS_MODEL: {settings.DIAGNOSIS_MODEL}")
     logger.info(f"Confidence Gate Threshold: {settings.CONFIDENCE_GATE}")
     logger.info(f"RAG Relevance Cutoff: {settings.RAG_RELEVANCE_THRESHOLD}")

@@ -1,7 +1,7 @@
-"""Extension Officer portal schemas for HITL Land Boundary Verification."""
+"""Extension Officer portal schemas for HITL Land Verification. No boundary
+geometry — SIH26131 feature checklist §10.2: "No boundary correction UI"."""
 
 from datetime import datetime
-from typing import Any
 from pydantic import BaseModel, Field
 from app.core.enums import LandStatus
 
@@ -19,7 +19,7 @@ class OfficerQueueItem(BaseModel):
 
 
 class OfficerReviewDetail(BaseModel):
-    """Detailed parcel review payload for map editing."""
+    """Detailed parcel review payload."""
     parcel_id: str = Field(...)
     farm_id: str = Field(...)
     farmer_name: str = Field(...)
@@ -27,16 +27,13 @@ class OfficerReviewDetail(BaseModel):
     village: str = Field(...)
     taluk: str = Field(...)
     survey_number: str = Field(...)
-    cadastral_boundary: dict[str, Any] | None = None
-    satellite_overlay_url: str | None = None
 
 
 class OfficerActionRequest(BaseModel):
-    """Officer decision on a land boundary."""
+    """Officer decision on a land parcel — approve/reject + reason only,
+    no boundary correction."""
     parcel_id: str = Field(...)
     action: LandStatus = Field(..., description="'verified' or 'rejected'")
-    confirmed_boundary_geojson: dict[str, Any] | None = Field(default=None, description="Officer-edited GeoJSON polygon")
-    confirmed_area_acres: float | None = None
     officer_notes: str | None = None
 
 

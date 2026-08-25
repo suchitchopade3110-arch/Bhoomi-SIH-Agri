@@ -29,8 +29,13 @@ class OfficerService:
                 OfficerQueueItem(
                     parcel_id=p["id"],
                     farm_id=p["farm_id"],
-                    farmer_name=(farm or {}).get("farm_name", "Unknown"),
-                    village=(farm or {}).get("village", ""),
+                    # dict.get's default only fires on a missing key, not a
+                    # NULL value — SIH26131's simplified onboarding leaves
+                    # farm_name/village NULL (not absent), so `or` is
+                    # required here to actually catch None (same pattern as
+                    # agronomist_service.py's get_case_detail).
+                    farmer_name=(farm or {}).get("farm_name") or "Unknown",
+                    village=(farm or {}).get("village") or "",
                     survey_number=p["survey_number"],
                     submitted_at=p["submitted_at"],
                     status=LandStatus(p["status"]),
@@ -47,13 +52,11 @@ class OfficerService:
         return OfficerReviewDetail(
             parcel_id=parcel["id"],
             farm_id=parcel["farm_id"],
-            farmer_name=(farm or {}).get("farm_name", "Unknown"),
+            farmer_name=(farm or {}).get("farm_name") or "Unknown",
             farmer_phone="",
-            village=(farm or {}).get("village", ""),
-            taluk=(farm or {}).get("taluk", ""),
+            village=(farm or {}).get("village") or "",
+            taluk=(farm or {}).get("taluk") or "",
             survey_number=parcel["survey_number"],
-            cadastral_boundary=parcel.get("suggested_boundary"),
-            satellite_overlay_url=None,
         )
 
     async def process_action(self, request: OfficerActionRequest) -> OfficerActionResponse:
@@ -61,9 +64,7 @@ class OfficerService:
         if parcel is None:
             raise NotFoundError("Land parcel not found.", details={"parcel_id": request.parcel_id})
 
-        updated = await self._land.update_status(
-            request.parcel_id, request.action.value, boundary=request.confirmed_boundary_geojson
-        )
+        updated = await self._land.update_status(request.parcel_id, request.action.value)
         await self._farms.update(parcel["farm_id"], {"land_status": request.action.value})
 
         return OfficerActionResponse(parcel_id=updated["id"], status=LandStatus(updated["status"]))
