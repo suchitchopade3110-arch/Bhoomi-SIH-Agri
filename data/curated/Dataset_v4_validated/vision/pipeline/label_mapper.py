@@ -52,7 +52,9 @@ LABEL_RULES = [
 # Non-target / Out of Domain patterns
 REJECTED_PATTERNS = [
     r"\b(apple|tomato|potato|corn|grape|pepper|peach|cherry|strawberry|soybean|squash|citrus|orange)\b",
-    r"\b(healthy|normal|background|weed|unidentified)\b"
+    r"\b(healthy|normal|background|weed|unidentified|unlabeled[_\s-]*test)\b",
+    r"\b(bacterial[_\s-]*panicle[_\s-]*blight|panicle[_\s-]*blight)\b",
+    r"\b(downy[_\s-]*mildew|hispa|rice[_\s-]*hispa|bakanae|sheath[_\s-]*smut|kernel[_\s-]*smut)\b"
 ]
 
 

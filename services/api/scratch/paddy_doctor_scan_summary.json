@@ -1,0 +1,41 @@
+{
+  "scan_timestamp": "2026-08-25T04:57:33Z",
+  "source_directory": "C:\\Users\\Tharun BL\\Downloads\\paddy-disease-classification",
+  "total_files": 13878,
+  "total_dirs": 12,
+  "file_extensions": {
+    ".csv": 2,
+    ".jpg": 13876
+  },
+  "total_images": 13876,
+  "valid_images": 13876,
+  "corrupt_files": [],
+  "zero_byte_files": [],
+  "unique_sha256_hashes": 13745,
+  "internal_exact_duplicates_count": 123,
+  "cross_duplicates_with_repo": 0,
+  "top_dir_counts": {
+    "test_images": 3469,
+    "train_images": 10407
+  },
+  "train_class_counts": {
+    "bacterial_leaf_blight": 479,
+    "bacterial_leaf_streak": 380,
+    "bacterial_panicle_blight": 337,
+    "blast": 1738,
+    "brown_spot": 965,
+    "dead_heart": 1442,
+    "downy_mildew": 620,
+    "hispa": 1594,
+    "normal": 1764,
+    "tungro": 1088
+  },
+  "dimensions_distribution": {
+    "480x640": 13870,
+    "640x480": 6
+  },
+  "csv_files": {
+    "train.csv": 10407,
+    "sample_submission.csv": 3469
+  }
+}

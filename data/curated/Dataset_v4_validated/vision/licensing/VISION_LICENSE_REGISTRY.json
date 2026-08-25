@@ -1,7 +1,7 @@
 {
   "registry_version": "1.0.0",
   "policy_standard": "BHOOMI Vision Dataset Legal Compliance & IP Governance",
-  "date_audited": "2026-08-24",
+  "date_audited": "2026-08-25",
   "licensing_categories": {
     "APPROVED_FOR_TRAINING": [
       {
@@ -27,6 +27,18 @@
         "dataset_name": "Roboflow Universe Rice Pests",
         "license": "CC-BY 4.0 / CC0",
         "permission_summary": "Open public community computer vision dataset; model training permitted."
+      },
+      {
+        "source_id": "SRC-DS-07",
+        "dataset_name": "Mendeley Data Rice Dataset",
+        "license": "CC-BY 4.0",
+        "permission_summary": "Unrestricted commercial and derivative model training permitted."
+      },
+      {
+        "source_id": "SRC-DS-08",
+        "dataset_name": "Zenodo Rice Pathology",
+        "license": "CC-BY 4.0",
+        "permission_summary": "Open academic and commercial model training permitted."
       }
     ],
     "TRAINING_USE_RESTRICTED": [

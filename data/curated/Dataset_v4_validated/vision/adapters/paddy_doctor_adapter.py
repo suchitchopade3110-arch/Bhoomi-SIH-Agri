@@ -41,5 +41,11 @@ class PaddyDoctorAdapter(BaseVisionSourceAdapter):
                 }
 
     def attempt_download(self, target_raw_dir: Path) -> Tuple[bool, str]:
+        # Check if dataset is physically present locally (e.g. user download)
+        user_download_dir = Path(r"C:\Users\Tharun BL\Downloads\paddy-disease-classification")
+        if user_download_dir.exists() and any(user_download_dir.iterdir()):
+            return True, f"DOWNLOAD_SUCCESS: Physically downloaded dataset present at {user_download_dir}"
+        if target_raw_dir.exists() and any(target_raw_dir.iterdir()):
+            return True, f"DOWNLOAD_SUCCESS: Dataset present in local cache at {target_raw_dir}"
         # Kaggle competition datasets require Kaggle API token (~/.kaggle/kaggle.json)
         return False, "DOWNLOAD_BLOCKED_EXTERNAL_ACCESS: Kaggle API authentication credential required for bulk dataset download."

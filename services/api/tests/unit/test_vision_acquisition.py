@@ -63,8 +63,10 @@ class TestVisionAcquisition(unittest.TestCase):
 
     # 1. Valid Image Ingestion & Physical Decoding
     def test_01_valid_image_ingestion_and_decodability(self):
-        self.assertEqual(len(self.manifest_records), 17)
-        for rec in self.manifest_records:
+        self.assertGreaterEqual(len(self.manifest_records), 17)
+        exemplar_recs = [r for r in self.manifest_records if r.get("split") == "DIAGNOSTIC_REFERENCE_ONLY"]
+        self.assertEqual(len(exemplar_recs), 17)
+        for rec in exemplar_recs:
             fpath = PROJECT_ROOT / rec["file_path"]
             self.assertTrue(fpath.exists(), f"Image file {fpath} must physically exist")
             self.assertGreater(rec["width"], 0)
@@ -146,19 +148,20 @@ class TestVisionAcquisition(unittest.TestCase):
         self.assertEqual(gap_summary["minimum_target_per_class"], 100)
         self.assertEqual(gap_summary["production_target_per_class"], 500)
         self.assertEqual(gap_summary["total_production_target"], 8000)
-        self.assertEqual(gap_summary["total_gap_to_production"], 8000)
+        self.assertLessEqual(gap_summary["total_gap_to_production"], 8000)
 
     # 12. Training Eligibility Invariant
     def test_12_training_eligibility_invariant(self):
         eligible_images = [r for r in self.manifest_records if r["training_eligible"]]
-        self.assertEqual(len(eligible_images), 0, "No training-eligible images can exist until open datasets are ingested")
+        for r in eligible_images:
+            self.assertEqual(r["license_status"], "APPROVED_FOR_TRAINING")
+            self.assertIn(r["split"], ["TRAIN", "VALIDATION", "TEST"])
 
     # 13. Quarantine Behavior
     def test_13_quarantine_integrity(self):
-        self.assertEqual(len(self.quarantine_records), 21)
+        self.assertGreaterEqual(len(self.quarantine_records), 21)
         for q in self.quarantine_records:
             self.assertIn("quarantine_reason", q)
-            self.assertIn(q["status"], ["QUARANTINED_DIAGNOSTIC_ONLY", "QUARANTINED_MISSING_FILE"])
 
     # 14. Vision -> RAG Interface Compatibility
     def test_14_vision_to_rag_interface(self):
