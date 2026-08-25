@@ -114,7 +114,7 @@ class AgronomistService:
 
         problem_id = case.get("problem_id")
         problem_label = None
-        if self._problems is not None:
+        if self._problems is not None and hasattr(self._problems, "get_open_problems"):
             open_problems = await self._problems.get_open_problems(case["farm_id"])
             if problem_id:
                 for p in open_problems:
