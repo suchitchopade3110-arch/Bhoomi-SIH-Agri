@@ -111,7 +111,7 @@ export const kvkApi = {
   },
 
   getFarmHealth: async (farmId: string): Promise<HealthSnapshot> => {
-    const res = await apiClient.get<HealthSnapshot>(`/api/v1/farms/${farmId}/health`);
+    const res = await apiClient.get<HealthSnapshot>(`/api/v1/farms/${farmId}/risk`);
     return res.data;
   },
 

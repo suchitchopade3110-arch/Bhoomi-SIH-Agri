@@ -5,9 +5,12 @@ docs/specs/api_contract_sih26131_delta.md:
 
 - ``sih25076`` (default): cadastral/resource routers (``land``, ``officer``,
   ``resource_plan``, ``schemes``) mount alongside core intelligence.
-- ``sih26131``: ``resource_plan`` unmounts (404); ``land``/``officer``/
-  ``schemes`` stay mounted in both modes (see README.md §5); ``alerts`` and
-  ``efficacy`` mount additionally.
+- ``sih26131``: ``land``/``officer``/``resource_plan``/``schemes`` all stay
+  mounted in both modes (see README.md §5 — the original plan to unmount
+  ``land``/``officer``/``schemes`` under ``sih26131`` was superseded, and
+  ``resource_plan`` follows the same "keep it mounted" precedent since
+  ``apps/farmer_app``'s Today's Plan screen depends on it live); ``alerts``
+  and ``efficacy`` mount additionally.
 - Core intelligence routers (auth, farms, health, diagnose, followup,
   agronomist, voice, assets, timeline, weather, system) mount in both modes.
 """
@@ -53,17 +56,13 @@ api_v1_router.include_router(agronomist_router)
 api_v1_router.include_router(weather_router)
 api_v1_router.include_router(system_router)
 
-if get_settings().PROBLEM_STATEMENT == "sih25076":
-    api_v1_router.include_router(land_router)
-    api_v1_router.include_router(officer_router)
-    api_v1_router.include_router(resource_plan_router)
-    api_v1_router.include_router(schemes_router)
-else:
-    # sih26131: resource_plan stays unmounted (404); land, officer, schemes,
-    # alerts, efficacy mount.
-    api_v1_router.include_router(land_router)
-    api_v1_router.include_router(officer_router)
-    api_v1_router.include_router(schemes_router)
+api_v1_router.include_router(land_router)
+api_v1_router.include_router(officer_router)
+api_v1_router.include_router(resource_plan_router)
+api_v1_router.include_router(schemes_router)
+
+if get_settings().PROBLEM_STATEMENT != "sih25076":
+    # sih26131: alerts, efficacy mount additionally.
     api_v1_router.include_router(alerts_router)
     api_v1_router.include_router(efficacy_router)
 
