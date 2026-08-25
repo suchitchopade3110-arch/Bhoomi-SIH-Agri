@@ -18,4 +18,4 @@ pytest-asyncio>=0.23.5
 gTTS>=2.5.0
 pyyaml>=6.0
 aiofiles>=23.2.0
-
+numpy>=1.26.0
