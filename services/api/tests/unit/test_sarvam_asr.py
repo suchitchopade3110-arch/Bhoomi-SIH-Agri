@@ -124,7 +124,59 @@ class TestSarvamAsrTtsAdapter:
 
     @pytest.mark.asyncio
     async def test_synthesize_mock_success_response(self):
-        """synthesize_speech() with successful 200 response parses base64 audio and returns URL."""
+        """synthesize_speech() with successful 200 response decodes the real
+        audio bytes and pushes them through StoragePort — it must not just
+        fabricate a plausible-looking URL for audio nothing actually stored.
+        """
+        adapter = SarvamAsrTtsAdapter(api_key="test-sarvam-key")
+        dummy_audio_bytes = b"RIFFdummywavdata"
+        dummy_audio_b64 = base64.b64encode(dummy_audio_bytes).decode("utf-8")
+        mock_response = httpx.Response(
+            status_code=200,
+            json={"audios": [dummy_audio_b64]},
+            request=httpx.Request("POST", "https://api.sarvam.ai/text-to-speech"),
+        )
+        mock_upload_response = httpx.Response(
+            status_code=200,
+            request=httpx.Request("PUT", "http://testserver/upload"),
+        )
+
+        mock_storage = AsyncMock()
+        mock_storage.generate_presigned_upload_url.return_value = {
+            "upload_url": "http://testserver/upload",
+            "fields": {"key": "voice_synthesis/asset/clip.wav"},
+        }
+        mock_storage.generate_presigned_download_url.return_value = "http://testserver/static/assets/clip.wav"
+
+        with (
+            patch("httpx.AsyncClient.post", new_callable=AsyncMock) as mock_post,
+            patch("httpx.AsyncClient.put", new_callable=AsyncMock) as mock_put,
+            patch("app.adapters.dependencies.get_storage_adapter", return_value=mock_storage),
+        ):
+            mock_post.return_value = mock_response
+            mock_put.return_value = mock_upload_response
+            asset_id, audio_url = await adapter.synthesize_speech("வணக்கம்", language="ta", gender="female")
+
+            assert isinstance(asset_id, str)
+            assert audio_url == "http://testserver/static/assets/clip.wav"
+            mock_post.assert_called_once()
+            call_kwargs = mock_post.call_args.kwargs
+            assert call_kwargs["headers"]["api-subscription-key"] == "test-sarvam-key"
+            assert call_kwargs["json"]["model"] == "bulbul:v3"
+            assert call_kwargs["json"]["target_language_code"] == "ta-IN"
+
+            # The real decoded audio bytes are what actually got uploaded —
+            # not just a URL shaped like one.
+            put_call_kwargs = mock_put.call_args.kwargs
+            assert put_call_kwargs["content"] == dummy_audio_bytes
+            mock_storage.generate_presigned_download_url.assert_called_once_with(f"{asset_id}.wav")
+
+    @pytest.mark.asyncio
+    async def test_synthesize_falls_back_when_storage_upload_fails(self):
+        """If the real synthesis succeeds but the storage upload fails,
+        synthesize_speech() falls back to the placeholder URL rather than
+        claiming a download link for audio that was never actually stored.
+        """
         adapter = SarvamAsrTtsAdapter(api_key="test-sarvam-key")
         dummy_audio_b64 = base64.b64encode(b"RIFFdummywavdata").decode("utf-8")
         mock_response = httpx.Response(
@@ -133,18 +185,19 @@ class TestSarvamAsrTtsAdapter:
             request=httpx.Request("POST", "https://api.sarvam.ai/text-to-speech"),
         )
 
-        with patch("httpx.AsyncClient.post", new_callable=AsyncMock) as mock_post:
+        mock_storage = AsyncMock()
+        mock_storage.generate_presigned_upload_url.side_effect = RuntimeError("storage unreachable")
+
+        with (
+            patch("httpx.AsyncClient.post", new_callable=AsyncMock) as mock_post,
+            patch("app.adapters.dependencies.get_storage_adapter", return_value=mock_storage),
+        ):
             mock_post.return_value = mock_response
-            asset_id, audio_url = await adapter.synthesize_speech("வணக்கம்", language="ta", gender="female")
+            asset_id, audio_url = await adapter.synthesize_speech("வணக்கம்", language="ta")
 
             assert isinstance(asset_id, str)
             assert audio_url.startswith("http")
-            assert audio_url.endswith(".wav")
-            mock_post.assert_called_once()
-            call_kwargs = mock_post.call_args.kwargs
-            assert call_kwargs["headers"]["api-subscription-key"] == "test-sarvam-key"
-            assert call_kwargs["json"]["model"] == "bulbul:v3"
-            assert call_kwargs["json"]["target_language_code"] == "ta-IN"
+            assert audio_url.endswith(".mp3")
 
     @pytest.mark.asyncio
     async def test_transcribe_mock_http_error_falls_back_gracefully(self):
