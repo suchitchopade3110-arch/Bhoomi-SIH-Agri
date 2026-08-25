@@ -1,0 +1,213 @@
+{
+  "statistics_version": "1.1.0",
+  "audit_date": "2026-08-24",
+  "dataset_summary": {
+    "total_manifest_records": 17,
+    "total_physical_exemplars": 17,
+    "total_valid_training_images": 0,
+    "total_quarantined": 21,
+    "total_exact_duplicates_detected": 0,
+    "total_corrupt_files_detected": 0
+  },
+  "source_acquisition_status": {
+    "SRC-DS-01": {
+      "status": "DOWNLOAD_BLOCKED_EXTERNAL_ACCESS: Kaggle API authentication credential required for bulk dataset download."
+    },
+    "SRC-DS-02": {
+      "status": "DOWNLOAD_BLOCKED_EXTERNAL_ACCESS: Main PlantVillage GitHub repository does not contain native Oryza sativa sub-trees."
+    },
+    "SRC-DS-03": {
+      "status": "DOWNLOAD_BLOCKED_EXTERNAL_ACCESS: Official PlantDoc master release does not contain Oryza sativa classes."
+    },
+    "SRC-DS-04": {
+      "status": "DOWNLOAD_BLOCKED_EXTERNAL_ACCESS: Roboflow API key required for bulk zip export download."
+    }
+  },
+  "target_gap_summary": {
+    "total_training_eligible": 0,
+    "minimum_target_per_class": 100,
+    "total_minimum_target": 1600,
+    "total_gap_to_minimum": 1600,
+    "production_target_per_class": 500,
+    "total_production_target": 8000,
+    "total_gap_to_production": 8000
+  },
+  "classes": [
+    {
+      "canonical_id": "PEST_001",
+      "canonical_name": "Stem Borer",
+      "current_count": 0,
+      "exemplar_count": 3,
+      "minimum_target": 100,
+      "production_target": 500,
+      "gap_to_minimum": 100,
+      "gap_to_production": 500,
+      "status": "EXEMPLARS_AVAILABLE_TRAINING_BLOCKED"
+    },
+    {
+      "canonical_id": "PEST_002",
+      "canonical_name": "Brown Planthopper",
+      "current_count": 0,
+      "exemplar_count": 3,
+      "minimum_target": 100,
+      "production_target": 500,
+      "gap_to_minimum": 100,
+      "gap_to_production": 500,
+      "status": "EXEMPLARS_AVAILABLE_TRAINING_BLOCKED"
+    },
+    {
+      "canonical_id": "PEST_003",
+      "canonical_name": "Leaf Folder",
+      "current_count": 0,
+      "exemplar_count": 3,
+      "minimum_target": 100,
+      "production_target": 500,
+      "gap_to_minimum": 100,
+      "gap_to_production": 500,
+      "status": "EXEMPLARS_AVAILABLE_TRAINING_BLOCKED"
+    },
+    {
+      "canonical_id": "PEST_004",
+      "canonical_name": "Green Leafhopper",
+      "current_count": 0,
+      "exemplar_count": 2,
+      "minimum_target": 100,
+      "production_target": 500,
+      "gap_to_minimum": 100,
+      "gap_to_production": 500,
+      "status": "EXEMPLARS_AVAILABLE_TRAINING_BLOCKED"
+    },
+    {
+      "canonical_id": "PEST_005",
+      "canonical_name": "Gall Midge",
+      "current_count": 0,
+      "exemplar_count": 2,
+      "minimum_target": 100,
+      "production_target": 500,
+      "gap_to_minimum": 100,
+      "gap_to_production": 500,
+      "status": "EXEMPLARS_AVAILABLE_TRAINING_BLOCKED"
+    },
+    {
+      "canonical_id": "PEST_006",
+      "canonical_name": "Thrips",
+      "current_count": 0,
+      "exemplar_count": 2,
+      "minimum_target": 100,
+      "production_target": 500,
+      "gap_to_minimum": 100,
+      "gap_to_production": 500,
+      "status": "EXEMPLARS_AVAILABLE_TRAINING_BLOCKED"
+    },
+    {
+      "canonical_id": "PEST_007",
+      "canonical_name": "Whorl Maggot",
+      "current_count": 0,
+      "exemplar_count": 0,
+      "minimum_target": 100,
+      "production_target": 500,
+      "gap_to_minimum": 100,
+      "gap_to_production": 500,
+      "status": "NO_VERIFIED_SOURCE_AVAILABLE"
+    },
+    {
+      "canonical_id": "PEST_008",
+      "canonical_name": "Earhead Bug",
+      "current_count": 0,
+      "exemplar_count": 2,
+      "minimum_target": 100,
+      "production_target": 500,
+      "gap_to_minimum": 100,
+      "gap_to_production": 500,
+      "status": "EXEMPLARS_AVAILABLE_TRAINING_BLOCKED"
+    },
+    {
+      "canonical_id": "DISEASE_001",
+      "canonical_name": "Bacterial Leaf Blight",
+      "current_count": 0,
+      "exemplar_count": 0,
+      "minimum_target": 100,
+      "production_target": 500,
+      "gap_to_minimum": 100,
+      "gap_to_production": 500,
+      "status": "PIPELINE_TARGET_ACQUISITION_PENDING"
+    },
+    {
+      "canonical_id": "DISEASE_002",
+      "canonical_name": "Bacterial Leaf Streak",
+      "current_count": 0,
+      "exemplar_count": 0,
+      "minimum_target": 100,
+      "production_target": 500,
+      "gap_to_minimum": 100,
+      "gap_to_production": 500,
+      "status": "PIPELINE_TARGET_ACQUISITION_PENDING"
+    },
+    {
+      "canonical_id": "DISEASE_003",
+      "canonical_name": "Rice Blast",
+      "current_count": 0,
+      "exemplar_count": 0,
+      "minimum_target": 100,
+      "production_target": 500,
+      "gap_to_minimum": 100,
+      "gap_to_production": 500,
+      "status": "PIPELINE_TARGET_ACQUISITION_PENDING"
+    },
+    {
+      "canonical_id": "DISEASE_004",
+      "canonical_name": "Brown Spot",
+      "current_count": 0,
+      "exemplar_count": 0,
+      "minimum_target": 100,
+      "production_target": 500,
+      "gap_to_minimum": 100,
+      "gap_to_production": 500,
+      "status": "PIPELINE_TARGET_ACQUISITION_PENDING"
+    },
+    {
+      "canonical_id": "DISEASE_005",
+      "canonical_name": "False Smut",
+      "current_count": 0,
+      "exemplar_count": 0,
+      "minimum_target": 100,
+      "production_target": 500,
+      "gap_to_minimum": 100,
+      "gap_to_production": 500,
+      "status": "PIPELINE_TARGET_ACQUISITION_PENDING"
+    },
+    {
+      "canonical_id": "DISEASE_006",
+      "canonical_name": "Sheath Blight",
+      "current_count": 0,
+      "exemplar_count": 0,
+      "minimum_target": 100,
+      "production_target": 500,
+      "gap_to_minimum": 100,
+      "gap_to_production": 500,
+      "status": "PIPELINE_TARGET_ACQUISITION_PENDING"
+    },
+    {
+      "canonical_id": "DISEASE_007",
+      "canonical_name": "Sheath Rot",
+      "current_count": 0,
+      "exemplar_count": 0,
+      "minimum_target": 100,
+      "production_target": 500,
+      "gap_to_minimum": 100,
+      "gap_to_production": 500,
+      "status": "PIPELINE_TARGET_ACQUISITION_PENDING"
+    },
+    {
+      "canonical_id": "DISEASE_008",
+      "canonical_name": "Tungro Virus",
+      "current_count": 0,
+      "exemplar_count": 0,
+      "minimum_target": 100,
+      "production_target": 500,
+      "gap_to_minimum": 100,
+      "gap_to_production": 500,
+      "status": "PIPELINE_TARGET_ACQUISITION_PENDING"
+    }
+  ]
+}

@@ -1,0 +1,152 @@
+{
+  "report_title": "BHOOMI Pest Severity & Decision Threshold Validation Report",
+  "total_pests_expected": 8,
+  "total_pests_validated": 8,
+  "overall_status": "READY_WITH_WARNINGS",
+  "results": [
+    {
+      "pest_id": "PEST_001",
+      "pest_name": "Stem borer",
+      "severity_complete": true,
+      "early_status": "SOURCE_SUPPORTED",
+      "moderate_status": "SOURCE_SUPPORTED",
+      "severe_status": "SOURCE_SUPPORTED",
+      "etl_status": "NUMERIC_ETL",
+      "evidence_count": 8,
+      "quantitative_thresholds_present": true,
+      "unsupported_claims": [],
+      "project_derived_rules": [
+        "Penalty mapping (Early: 30, Mod: 55, Sev: 80) is a PROJECT_DERIVED_RULE for Active Problem Load computation."
+      ],
+      "regulatory_warnings": [
+        "Carbofuran 3G (RESTRICTED)"
+      ],
+      "status": "READY_WITH_WARNINGS"
+    },
+    {
+      "pest_id": "PEST_002",
+      "pest_name": "Brown planthopper",
+      "severity_complete": true,
+      "early_status": "SOURCE_SUPPORTED",
+      "moderate_status": "SOURCE_SUPPORTED_WITH_CONTEXT",
+      "severe_status": "SOURCE_SUPPORTED",
+      "etl_status": "NUMERIC_ETL",
+      "evidence_count": 9,
+      "quantitative_thresholds_present": true,
+      "unsupported_claims": [],
+      "project_derived_rules": [
+        "Penalty mapping (Early: 30, Mod: 55, Sev: 80) is a PROJECT_DERIVED_RULE for Active Problem Load computation."
+      ],
+      "regulatory_warnings": [],
+      "status": "READY"
+    },
+    {
+      "pest_id": "PEST_003",
+      "pest_name": "Leaf folder",
+      "severity_complete": true,
+      "early_status": "SOURCE_SUPPORTED",
+      "moderate_status": "SOURCE_SUPPORTED_WITH_CONTEXT",
+      "severe_status": "SOURCE_SUPPORTED",
+      "etl_status": "NUMERIC_ETL",
+      "evidence_count": 8,
+      "quantitative_thresholds_present": true,
+      "unsupported_claims": [],
+      "project_derived_rules": [
+        "Penalty mapping (Early: 30, Mod: 55, Sev: 80) is a PROJECT_DERIVED_RULE for Active Problem Load computation."
+      ],
+      "regulatory_warnings": [],
+      "status": "READY"
+    },
+    {
+      "pest_id": "PEST_004",
+      "pest_name": "Green leafhopper",
+      "severity_complete": true,
+      "early_status": "SOURCE_SUPPORTED_WITH_CONTEXT",
+      "moderate_status": "SOURCE_SUPPORTED_WITH_CONTEXT",
+      "severe_status": "SOURCE_SUPPORTED",
+      "etl_status": "NUMERIC_ETL",
+      "evidence_count": 9,
+      "quantitative_thresholds_present": true,
+      "unsupported_claims": [],
+      "project_derived_rules": [
+        "Penalty mapping (Early: 30, Mod: 55, Sev: 80) is a PROJECT_DERIVED_RULE for Active Problem Load computation."
+      ],
+      "regulatory_warnings": [],
+      "status": "READY"
+    },
+    {
+      "pest_id": "PEST_005",
+      "pest_name": "Gall midge",
+      "severity_complete": true,
+      "early_status": "SOURCE_SUPPORTED",
+      "moderate_status": "SOURCE_SUPPORTED",
+      "severe_status": "SOURCE_SUPPORTED",
+      "etl_status": "NUMERIC_ETL",
+      "evidence_count": 7,
+      "quantitative_thresholds_present": true,
+      "unsupported_claims": [],
+      "project_derived_rules": [
+        "Penalty mapping (Early: 30, Mod: 55, Sev: 80) is a PROJECT_DERIVED_RULE for Active Problem Load computation."
+      ],
+      "regulatory_warnings": [
+        "Carbofuran 3G (RESTRICTED)"
+      ],
+      "status": "READY_WITH_WARNINGS"
+    },
+    {
+      "pest_id": "PEST_006",
+      "pest_name": "Thrips",
+      "severity_complete": true,
+      "early_status": "SOURCE_SUPPORTED",
+      "moderate_status": "SOURCE_SUPPORTED",
+      "severe_status": "SOURCE_SUPPORTED",
+      "etl_status": "NUMERIC_ETL",
+      "evidence_count": 8,
+      "quantitative_thresholds_present": true,
+      "unsupported_claims": [],
+      "project_derived_rules": [
+        "Penalty mapping (Early: 30, Mod: 55, Sev: 80) is a PROJECT_DERIVED_RULE for Active Problem Load computation."
+      ],
+      "regulatory_warnings": [],
+      "status": "READY"
+    },
+    {
+      "pest_id": "PEST_007",
+      "pest_name": "Whorl maggot",
+      "severity_complete": true,
+      "early_status": "SOURCE_SUPPORTED",
+      "moderate_status": "SOURCE_SUPPORTED",
+      "severe_status": "SOURCE_SUPPORTED",
+      "etl_status": "NUMERIC_ETL",
+      "evidence_count": 8,
+      "quantitative_thresholds_present": true,
+      "unsupported_claims": [],
+      "project_derived_rules": [
+        "Penalty mapping (Early: 30, Mod: 55, Sev: 80) is a PROJECT_DERIVED_RULE for Active Problem Load computation."
+      ],
+      "regulatory_warnings": [
+        "Carbofuran 3G (RESTRICTED)"
+      ],
+      "status": "READY_WITH_WARNINGS"
+    },
+    {
+      "pest_id": "PEST_008",
+      "pest_name": "Earhead bug",
+      "severity_complete": true,
+      "early_status": "SOURCE_SUPPORTED",
+      "moderate_status": "SOURCE_SUPPORTED_WITH_CONTEXT",
+      "severe_status": "SOURCE_SUPPORTED",
+      "etl_status": "NUMERIC_ETL",
+      "evidence_count": 8,
+      "quantitative_thresholds_present": true,
+      "unsupported_claims": [],
+      "project_derived_rules": [
+        "Penalty mapping (Early: 30, Mod: 55, Sev: 80) is a PROJECT_DERIVED_RULE for Active Problem Load computation."
+      ],
+      "regulatory_warnings": [
+        "Malathion 50 EC (RESTRICTED_PHI_MANDATORY)"
+      ],
+      "status": "READY_WITH_WARNINGS"
+    }
+  ]
+}

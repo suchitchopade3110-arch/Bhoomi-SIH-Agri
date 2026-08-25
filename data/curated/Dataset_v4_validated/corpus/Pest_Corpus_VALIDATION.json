@@ -1,0 +1,250 @@
+{
+  "report_title": "BHOOMI Pest RAG Corpus Production Validation Report",
+  "corpus_directory": "data/curated/Dataset_v4_validated/corpus/pests/",
+  "total_pests_expected": 8,
+  "total_pests_validated": 8,
+  "overall_status": "PASS_WITH_WARNINGS",
+  "results": [
+    {
+      "pest_file": "stem_borer.md",
+      "pest": "Stem borer",
+      "scientific_name": "Scirpophaga incertulas",
+      "tamil_name": "தண்டு துளைப்பான்",
+      "fields_present": [
+        "pest_name",
+        "crop",
+        "scientific_name",
+        "category",
+        "tamil_name",
+        "aliases",
+        "source_organization",
+        "source_title",
+        "source_url",
+        "review_date",
+        "authority_level"
+      ],
+      "fields_missing": [],
+      "missing_sections": [],
+      "citations_verified": [
+        "Org: TNAU / IRRI / ICAR-IIRR",
+        "URL: https://agritech.tnau.ac.in/crop_protection/rice_pest.html",
+        "Title: TNAU Rice Pest Management Guide — Stem Borer"
+      ],
+      "unsupported_claims": [],
+      "regulatory_warnings": [
+        "Contains RESTRICTED chemical (Carbofuran/Malathion) properly flagged with explicit regulatory warning."
+      ],
+      "status": "PASS_WITH_WARNINGS"
+    },
+    {
+      "pest_file": "brown_planthopper.md",
+      "pest": "Brown planthopper",
+      "scientific_name": "Nilaparvata lugens",
+      "tamil_name": "புகையான்",
+      "fields_present": [
+        "pest_name",
+        "crop",
+        "scientific_name",
+        "category",
+        "tamil_name",
+        "aliases",
+        "source_organization",
+        "source_title",
+        "source_url",
+        "review_date",
+        "authority_level"
+      ],
+      "fields_missing": [],
+      "missing_sections": [],
+      "citations_verified": [
+        "Org: ICAR-IRRI / TNAU",
+        "URL: https://www.knowledgebank.irri.org/training/fact-sheets/pest-management/insect-pests/item/brown-planthopper",
+        "Title: IRRI Rice Knowledge Bank — Brown Planthopper Management"
+      ],
+      "unsupported_claims": [],
+      "regulatory_warnings": [],
+      "status": "PASS"
+    },
+    {
+      "pest_file": "leaf_folder.md",
+      "pest": "Leaf folder",
+      "scientific_name": "Cnaphalocrocis medinalis",
+      "tamil_name": "இலை சுருட்டு புழு",
+      "fields_present": [
+        "pest_name",
+        "crop",
+        "scientific_name",
+        "category",
+        "tamil_name",
+        "aliases",
+        "source_organization",
+        "source_title",
+        "source_url",
+        "review_date",
+        "authority_level"
+      ],
+      "fields_missing": [],
+      "missing_sections": [],
+      "citations_verified": [
+        "Org: TNAU / IRRI / ICAR",
+        "URL: https://agritech.tnau.ac.in/crop_protection/rice_pest.html",
+        "Title: TNAU Rice Pest Management Guide — Leaf Folder"
+      ],
+      "unsupported_claims": [],
+      "regulatory_warnings": [],
+      "status": "PASS"
+    },
+    {
+      "pest_file": "green_leafhopper.md",
+      "pest": "Green leafhopper",
+      "scientific_name": "Nephotettix virescens",
+      "tamil_name": "பச்சை தத்துப்பூச்சி",
+      "fields_present": [
+        "pest_name",
+        "crop",
+        "scientific_name",
+        "category",
+        "tamil_name",
+        "aliases",
+        "source_organization",
+        "source_title",
+        "source_url",
+        "review_date",
+        "authority_level"
+      ],
+      "fields_missing": [],
+      "missing_sections": [],
+      "citations_verified": [
+        "Org: ICAR-IIRR / TNAU",
+        "URL: https://iirr.icar.gov.in/",
+        "Title: ICAR Rice Production Manual — Green Leafhopper"
+      ],
+      "unsupported_claims": [],
+      "regulatory_warnings": [],
+      "status": "PASS"
+    },
+    {
+      "pest_file": "gall_midge.md",
+      "pest": "Gall midge",
+      "scientific_name": "Orseolia oryzae",
+      "tamil_name": "ஆணைக்கொம்பன்",
+      "fields_present": [
+        "pest_name",
+        "crop",
+        "scientific_name",
+        "category",
+        "tamil_name",
+        "aliases",
+        "source_organization",
+        "source_title",
+        "source_url",
+        "review_date",
+        "authority_level"
+      ],
+      "fields_missing": [],
+      "missing_sections": [],
+      "citations_verified": [
+        "Org: TNAU / ICAR-IIRR",
+        "URL: https://agritech.tnau.ac.in/crop_protection/rice_pest.html",
+        "Title: TNAU Gall Midge Management in Rice"
+      ],
+      "unsupported_claims": [],
+      "regulatory_warnings": [
+        "Contains RESTRICTED chemical (Carbofuran/Malathion) properly flagged with explicit regulatory warning."
+      ],
+      "status": "PASS_WITH_WARNINGS"
+    },
+    {
+      "pest_file": "thrips.md",
+      "pest": "Thrips",
+      "scientific_name": "Stenchaetothrips biformis",
+      "tamil_name": "இலைப்பேன்",
+      "fields_present": [
+        "pest_name",
+        "crop",
+        "scientific_name",
+        "category",
+        "tamil_name",
+        "aliases",
+        "source_organization",
+        "source_title",
+        "source_url",
+        "review_date",
+        "authority_level"
+      ],
+      "fields_missing": [],
+      "missing_sections": [],
+      "citations_verified": [
+        "Org: KVK / TNAU",
+        "URL: https://kvk.icar.gov.in/",
+        "Title: KVK Rice Nursery Management — Thrips Control"
+      ],
+      "unsupported_claims": [],
+      "regulatory_warnings": [],
+      "status": "PASS"
+    },
+    {
+      "pest_file": "whorl_maggot.md",
+      "pest": "Whorl maggot",
+      "scientific_name": "Hydrellia philippina",
+      "tamil_name": "குருத்து ஈ",
+      "fields_present": [
+        "pest_name",
+        "crop",
+        "scientific_name",
+        "category",
+        "tamil_name",
+        "aliases",
+        "source_organization",
+        "source_title",
+        "source_url",
+        "review_date",
+        "authority_level"
+      ],
+      "fields_missing": [],
+      "missing_sections": [],
+      "citations_verified": [
+        "Org: TNAU / ICAR-IIRR",
+        "URL: https://agritech.tnau.ac.in/crop_protection/rice_pest.html",
+        "Title: TNAU Whorl Maggot Management in Rice"
+      ],
+      "unsupported_claims": [],
+      "regulatory_warnings": [
+        "Contains RESTRICTED chemical (Carbofuran/Malathion) properly flagged with explicit regulatory warning."
+      ],
+      "status": "PASS_WITH_WARNINGS"
+    },
+    {
+      "pest_file": "earhead_bug.md",
+      "pest": "Earhead bug",
+      "scientific_name": "Leptocorisa acuta",
+      "tamil_name": "கதிர் நாவாய்ப்பூச்சி",
+      "fields_present": [
+        "pest_name",
+        "crop",
+        "scientific_name",
+        "category",
+        "tamil_name",
+        "aliases",
+        "source_organization",
+        "source_title",
+        "source_url",
+        "review_date",
+        "authority_level"
+      ],
+      "fields_missing": [],
+      "missing_sections": [],
+      "citations_verified": [
+        "Org: ICAR-IIRR / TNAU",
+        "URL: https://iirr.icar.gov.in/",
+        "Title: ICAR Rice Insect Pest Management — Earhead Bug"
+      ],
+      "unsupported_claims": [],
+      "regulatory_warnings": [
+        "Contains RESTRICTED chemical (Carbofuran/Malathion) properly flagged with explicit regulatory warning.",
+        "Contains grain-stage organophosphate (Malathion) properly flagged with mandatory Pre-Harvest Interval (PHI) restriction."
+      ],
+      "status": "PASS_WITH_WARNINGS"
+    }
+  ]
+}

@@ -1,0 +1,475 @@
+{
+  "dataset_version": "v4.2.0-validated",
+  "crop": "Rice (Oryza sativa)",
+  "standard_evaluation_framework": "IRRI/ICAR Standard Evaluation System for Rice (SES, 5th Ed.)",
+  "pest_severity_records": [
+    {
+      "pest_id": "PEST_001",
+      "pest_name": "Stem borer",
+      "scientific_name": "Scirpophaga incertulas",
+      "early": {
+        "observable_cues": [
+          "Scattered yellowing leaves with isolated dead heart shoots",
+          "Tiller pulls out easily with chewed frass at severed base",
+          "Minimal egg mass activity on leaf tips"
+        ],
+        "quantitative_thresholds": [
+          "<5% dead hearts in vegetative phase",
+          "<1% white ears in reproductive phase"
+        ],
+        "threshold_status": "SOURCE_SUPPORTED",
+        "evidence": ["SEV-PEST-001", "DOC-PEST-001"]
+      },
+      "moderate": {
+        "observable_cues": [
+          "Noticeable dead hearts across multiple tillers per hill",
+          "Initial white earhead formation at panicle emergence",
+          "Larvae boring inside lower stem culm"
+        ],
+        "quantitative_thresholds": [
+          "6%-10% dead hearts in vegetative phase",
+          "1%-5% white ears in reproductive phase"
+        ],
+        "threshold_status": "SOURCE_SUPPORTED",
+        "evidence": ["SEV-PEST-001", "DOC-PEST-001"]
+      },
+      "severe": {
+        "observable_cues": [
+          "Widespread tiller mortality across field canopy",
+          "Prominent erect bleached-white panicles devoid of grain",
+          "Substantial yield reduction underway"
+        ],
+        "quantitative_thresholds": [
+          "11%-25% dead hearts in vegetative phase",
+          "6%-15% white ears in reproductive phase"
+        ],
+        "threshold_status": "SOURCE_SUPPORTED",
+        "evidence": ["SEV-PEST-001", "DOC-PEST-001"]
+      },
+      "etl": {
+        "classification": "NUMERIC_ETL",
+        "thresholds": [
+          ">= 1 egg mass/m2 or 10% dead hearts (vegetative)",
+          ">= 1 egg mass/m2 or 5% white ears (reproductive)"
+        ],
+        "status": "SOURCE_SUPPORTED",
+        "evidence": ["ETL-001", "ETL-002"]
+      },
+      "penalty": {
+        "early": 30,
+        "moderate": 55,
+        "severe": 80,
+        "rule_type": "PROJECT_DERIVED_RULE",
+        "subindex_target": "ACTIVE_PROBLEM_LOAD"
+      }
+    },
+    {
+      "pest_id": "PEST_002",
+      "pest_name": "Brown planthopper",
+      "scientific_name": "Nilaparvata lugens",
+      "early": {
+        "observable_cues": [
+          "Initial nymph colonization at base of tillers near waterline",
+          "Slight yellowing of lowest older leaves",
+          "No lodging or drying patches"
+        ],
+        "quantitative_thresholds": [
+          "1-5 nymphs/hill in vegetative phase"
+        ],
+        "threshold_status": "SOURCE_SUPPORTED",
+        "evidence": ["SEV-PEST-002", "DOC-PEST-002"]
+      },
+      "moderate": {
+        "observable_cues": [
+          "Noticeable yellowing extending up tiller canopy",
+          "Visible honeydew excretion and sooty mold at tiller base",
+          "Active feeding colonies on lower stems"
+        ],
+        "quantitative_thresholds": [
+          "6-15 nymphs/hill in vegetative phase",
+          "10-20 nymphs/hill in reproductive phase"
+        ],
+        "threshold_status": "SOURCE_SUPPORTED_WITH_CONTEXT",
+        "evidence": ["SEV-PEST-002", "DOC-PEST-002"]
+      },
+      "severe": {
+        "observable_cues": [
+          "Severe sap depletion and localized circular drying patches (early hopper burn)",
+          "Tillers wilting and becoming brittle",
+          "Rapid lateral expansion of scorched patches"
+        ],
+        "quantitative_thresholds": [
+          "16-30 nymphs/hill"
+        ],
+        "threshold_status": "SOURCE_SUPPORTED",
+        "evidence": ["SEV-PEST-002", "DOC-PEST-002"]
+      },
+      "etl": {
+        "classification": "NUMERIC_ETL",
+        "thresholds": [
+          "1-2 nymphs/hill (seedling)",
+          "5-10 nymphs/hill (vegetative; 10-15 with mirid predators >=1/hill)",
+          "10-20 nymphs/hill (reproductive; 20 with natural biological buffer)"
+        ],
+        "status": "SOURCE_SUPPORTED_WITH_CONTEXT",
+        "evidence": ["ETL-003", "ETL-004", "ETL-005"]
+      },
+      "penalty": {
+        "early": 30,
+        "moderate": 55,
+        "severe": 80,
+        "rule_type": "PROJECT_DERIVED_RULE",
+        "subindex_target": "ACTIVE_PROBLEM_LOAD"
+      }
+    },
+    {
+      "pest_id": "PEST_003",
+      "pest_name": "Leaf folder",
+      "scientific_name": "Cnaphalocrocis medinalis",
+      "early": {
+        "observable_cues": [
+          "Isolated folded leaves with fine white scraped longitudinal streaks",
+          "Plant vigor and tillering unaffected",
+          "Low moth flight activity"
+        ],
+        "quantitative_thresholds": [
+          "<5% folded leaves",
+          "<1 larva/2-3 hills"
+        ],
+        "threshold_status": "SOURCE_SUPPORTED",
+        "evidence": ["SEV-PEST-003", "DOC-PEST-003"]
+      },
+      "moderate": {
+        "observable_cues": [
+          "Multiple folded leaves per hill across the canopy",
+          "Larvae actively scraping chlorophyll from inside rolls",
+          "Initial flag leaf damage during booting"
+        ],
+        "quantitative_thresholds": [
+          "6%-15% folded leaves (vegetative)",
+          "5%-10% damaged flag leaves (booting)"
+        ],
+        "threshold_status": "SOURCE_SUPPORTED_WITH_CONTEXT",
+        "evidence": ["SEV-PEST-003", "DOC-PEST-003"]
+      },
+      "severe": {
+        "observable_cues": [
+          "Severe leaf rolling across canopy with substantial photosynthesis reduction",
+          "White papery appearance on upper third of crop",
+          "Extensive flag leaf destruction"
+        ],
+        "quantitative_thresholds": [
+          "16%-30% folded leaves"
+        ],
+        "threshold_status": "SOURCE_SUPPORTED",
+        "evidence": ["SEV-PEST-003", "DOC-PEST-003"]
+      },
+      "etl": {
+        "classification": "NUMERIC_ETL",
+        "thresholds": [
+          "1 larva/hill or 10% folded leaves (vegetative)",
+          "2 larvae/hill or 20% folded leaves (reproductive)",
+          "5%-10% damaged flag leaves (booting stage modifier)"
+        ],
+        "status": "SOURCE_SUPPORTED_WITH_CONTEXT",
+        "evidence": ["ETL-006", "ETL-007"]
+      },
+      "penalty": {
+        "early": 30,
+        "moderate": 55,
+        "severe": 80,
+        "rule_type": "PROJECT_DERIVED_RULE",
+        "subindex_target": "ACTIVE_PROBLEM_LOAD"
+      }
+    },
+    {
+      "pest_id": "PEST_004",
+      "pest_name": "Green leafhopper",
+      "scientific_name": "Nephotettix virescens",
+      "early": {
+        "observable_cues": [
+          "Low adult hopper activity on upper leaf canopy",
+          "Slight leaf tip yellowing",
+          "No virus transmission or stunting"
+        ],
+        "quantitative_thresholds": [
+          "<5 hoppers/hill (non-endemic)",
+          "<1 hopper/hill (Tungro endemic area)"
+        ],
+        "threshold_status": "SOURCE_SUPPORTED_WITH_CONTEXT",
+        "evidence": ["SEV-PEST-004", "DOC-PEST-004"]
+      },
+      "moderate": {
+        "observable_cues": [
+          "Active hopper jumping in canopy when disturbed",
+          "Marginal chlorosis on middle leaves",
+          "Localized vector build-up"
+        ],
+        "quantitative_thresholds": [
+          "6-15 hoppers/hill (vegetative)",
+          "1-2 hoppers/hill (Tungro endemic)"
+        ],
+        "threshold_status": "SOURCE_SUPPORTED_WITH_CONTEXT",
+        "evidence": ["SEV-PEST-004", "DOC-PEST-004"]
+      },
+      "severe": {
+        "observable_cues": [
+          "Heavy sap drainage and widespread yellow-orange leaf discoloration",
+          "Stunted tiller vigor",
+          "Secondary virus transmission underway"
+        ],
+        "quantitative_thresholds": [
+          "16-30 hoppers/hill"
+        ],
+        "threshold_status": "SOURCE_SUPPORTED",
+        "evidence": ["SEV-PEST-004", "DOC-PEST-004"]
+      },
+      "etl": {
+        "classification": "NUMERIC_ETL",
+        "thresholds": [
+          "5 hoppers/hill (seedling; 1-2 in Tungro zone)",
+          "10-15 hoppers/hill (vegetative; 2 in Tungro vicinity)",
+          "20 hoppers/hill (reproductive direct feeding)"
+        ],
+        "status": "SOURCE_SUPPORTED_WITH_CONTEXT",
+        "evidence": ["ETL-008", "ETL-009", "ETL-010"]
+      },
+      "penalty": {
+        "early": 30,
+        "moderate": 55,
+        "severe": 80,
+        "rule_type": "PROJECT_DERIVED_RULE",
+        "subindex_target": "ACTIVE_PROBLEM_LOAD"
+      }
+    },
+    {
+      "pest_id": "PEST_005",
+      "pest_name": "Gall midge",
+      "scientific_name": "Orseolia oryzae",
+      "early": {
+        "observable_cues": [
+          "Occasional silver shoots (onion galls) visible at tiller base",
+          "Plant vegetative compensation still possible",
+          "Minimal adult midge night flight"
+        ],
+        "quantitative_thresholds": [
+          "1%-4% silver shoots at tillering"
+        ],
+        "threshold_status": "SOURCE_SUPPORTED",
+        "evidence": ["SEV-PEST-005", "DOC-PEST-005"]
+      },
+      "moderate": {
+        "observable_cues": [
+          "Prominent silver shoots causing sterile tiller loss in 5-10% of shoots",
+          "Initial bushing effect with weak secondary tillers",
+          "Pupal exuviae protruding from gall tips"
+        ],
+        "quantitative_thresholds": [
+          "5%-10% silver shoots"
+        ],
+        "threshold_status": "SOURCE_SUPPORTED",
+        "evidence": ["SEV-PEST-005", "DOC-PEST-005"]
+      },
+      "severe": {
+        "observable_cues": [
+          "Extensive tiller galling with high proportion of sterile shoots",
+          "Severe plant stunting and dense unproductive bushy clumps",
+          "Major yield loss underway"
+        ],
+        "quantitative_thresholds": [
+          "11%-25% silver shoots"
+        ],
+        "threshold_status": "SOURCE_SUPPORTED",
+        "evidence": ["SEV-PEST-005", "DOC-PEST-005"]
+      },
+      "etl": {
+        "classification": "NUMERIC_ETL",
+        "thresholds": [
+          "5% silver shoots or 1 adult/100 sweeps (vegetative tillering)"
+        ],
+        "status": "SOURCE_SUPPORTED",
+        "evidence": ["ETL-011"]
+      },
+      "penalty": {
+        "early": 30,
+        "moderate": 55,
+        "severe": 80,
+        "rule_type": "PROJECT_DERIVED_RULE",
+        "subindex_target": "ACTIVE_PROBLEM_LOAD"
+      }
+    },
+    {
+      "pest_id": "PEST_006",
+      "pest_name": "Thrips",
+      "scientific_name": "Stenchaetothrips biformis",
+      "early": {
+        "observable_cues": [
+          "Minute silvery spots on upper leaf surfaces",
+          "Mild inward rolling of leaf tips",
+          "Nursery seedling vigor largely maintained"
+        ],
+        "quantitative_thresholds": [
+          "1-4 thrips/seedling in nursery"
+        ],
+        "threshold_status": "SOURCE_SUPPORTED",
+        "evidence": ["SEV-PEST-006", "DOC-PEST-006"]
+      },
+      "moderate": {
+        "observable_cues": [
+          "Conspicuous needle-like leaf rolling",
+          "Leaf tips drying, yellowing, and curling into corkscrews",
+          "Growth stunting in nursery beds"
+        ],
+        "quantitative_thresholds": [
+          "5-10 thrips/seedling (nursery)",
+          "10-25 thrips/hill (tillering)"
+        ],
+        "threshold_status": "SOURCE_SUPPORTED",
+        "evidence": ["SEV-PEST-006", "DOC-PEST-006"]
+      },
+      "severe": {
+        "observable_cues": [
+          "Extensive leaf curling and drying across seedling bed",
+          "Scorched, burnt appearance of nursery plots",
+          "Severe seedling mortality under water stress"
+        ],
+        "quantitative_thresholds": [
+          ">25 thrips/hill",
+          ">50% rolled leaves"
+        ],
+        "threshold_status": "SOURCE_SUPPORTED",
+        "evidence": ["SEV-PEST-006", "DOC-PEST-006"]
+      },
+      "etl": {
+        "classification": "NUMERIC_ETL",
+        "thresholds": [
+          "5 thrips/seedling (nursery)",
+          "25 thrips/hill (tillering)"
+        ],
+        "status": "SOURCE_SUPPORTED",
+        "evidence": ["ETL-012", "ETL-013"]
+      },
+      "penalty": {
+        "early": 30,
+        "moderate": 55,
+        "severe": 80,
+        "rule_type": "PROJECT_DERIVED_RULE",
+        "subindex_target": "ACTIVE_PROBLEM_LOAD"
+      }
+    },
+    {
+      "pest_id": "PEST_007",
+      "pest_name": "Whorl maggot",
+      "scientific_name": "Hydrellia philippina",
+      "early": {
+        "observable_cues": [
+          "Small yellowish feeding streaks on newly expanded central leaves",
+          "Seedling vigor unaffected",
+          "Occasional adult flies skimming on water surface"
+        ],
+        "quantitative_thresholds": [
+          "<5% damaged leaves within 30 DAT"
+        ],
+        "threshold_status": "SOURCE_SUPPORTED",
+        "evidence": ["SEV-PEST-007", "DOC-PEST-007"]
+      },
+      "moderate": {
+        "observable_cues": [
+          "Ragged, serrated leaf margins visible on multiple expanding leaves per hill",
+          "Pinholes and yellow streaks on central whorl",
+          "Delayed early tillering"
+        ],
+        "quantitative_thresholds": [
+          "6%-15% damaged leaves"
+        ],
+        "threshold_status": "SOURCE_SUPPORTED",
+        "evidence": ["SEV-PEST-007", "DOC-PEST-007"]
+      },
+      "severe": {
+        "observable_cues": [
+          "Conspicuous broken serrated leaf blades and distorted central whorls across plot",
+          "Severe seedling stunting and retarded vegetative canopy establishment",
+          "High maggot activity in unexpanded whorls"
+        ],
+        "quantitative_thresholds": [
+          "16%-30% damaged leaves"
+        ],
+        "threshold_status": "SOURCE_SUPPORTED",
+        "evidence": ["SEV-PEST-007", "DOC-PEST-007"]
+      },
+      "etl": {
+        "classification": "NUMERIC_ETL",
+        "thresholds": [
+          "1-2 maggots/seedling (nursery)",
+          "10% damaged leaves within 30 DAT (vegetative)"
+        ],
+        "status": "SOURCE_SUPPORTED",
+        "evidence": ["ETL-014", "ETL-015"]
+      },
+      "penalty": {
+        "early": 30,
+        "moderate": 55,
+        "severe": 80,
+        "rule_type": "PROJECT_DERIVED_RULE",
+        "subindex_target": "ACTIVE_PROBLEM_LOAD"
+      }
+    },
+    {
+      "pest_id": "PEST_008",
+      "pest_name": "Earhead bug",
+      "scientific_name": "Leptocorisa acuta",
+      "early": {
+        "observable_cues": [
+          "Isolated adult bugs feeding on flowering panicles during morning hours",
+          "Rare localized brownish puncture spots on glumes",
+          "Low offensive odor"
+        ],
+        "quantitative_thresholds": [
+          "1-4 bugs/100 panicles (<1 bug/hill)"
+        ],
+        "threshold_status": "SOURCE_SUPPORTED",
+        "evidence": ["SEV-PEST-008", "DOC-PEST-008"]
+      },
+      "moderate": {
+        "observable_cues": [
+          "Milky grains actively pierced by nymphs and adults",
+          "Pungent foul odor noticeable upon entering field",
+          "Brown spots and exuded starch on maturing spikelets"
+        ],
+        "quantitative_thresholds": [
+          "5-10 bugs/100 panicles (1-2 bugs/hill)"
+        ],
+        "threshold_status": "SOURCE_SUPPORTED_WITH_CONTEXT",
+        "evidence": ["SEV-PEST-008", "DOC-PEST-008"]
+      },
+      "severe": {
+        "observable_cues": [
+          "Numerous damaged, shriveled, partially filled grains with blackened feeding punctures",
+          "Strong pungent bedbug-like odor pervading field",
+          "Over 20% grain sterility and pecky rice development"
+        ],
+        "quantitative_thresholds": [
+          "11-25 bugs/100 panicles (2-4 bugs/hill)"
+        ],
+        "threshold_status": "SOURCE_SUPPORTED",
+        "evidence": ["SEV-PEST-008", "DOC-PEST-008"]
+      },
+      "etl": {
+        "classification": "NUMERIC_ETL",
+        "thresholds": [
+          "5 bugs/100 panicles (flowering)",
+          "10 bugs/100 panicles or 1-2 bugs/hill (milking)"
+        ],
+        "status": "SOURCE_SUPPORTED_WITH_CONTEXT",
+        "evidence": ["ETL-016", "ETL-017"]
+      },
+      "penalty": {
+        "early": 30,
+        "moderate": 55,
+        "severe": 80,
+        "rule_type": "PROJECT_DERIVED_RULE",
+        "subindex_target": "ACTIVE_PROBLEM_LOAD"
+      }
+    }
+  ]
+}

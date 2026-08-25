@@ -84,9 +84,19 @@ class QueryParser:
             "validamycin", "வாலிடமைசின்", "வேலிடமைசின்",
             "propiconazole", "புரோபிகோனசோல்",
             "streptocycline", "ஸ்ட்ரெப்டோமைசின்",
+            "cypermethrin", "சைபர்மெத்ரின்",
+            "deltamethrin", "டெல்டாமெத்ரின்",
+            "lambda-cyhalothrin", "லாம்டா",
+            "fipronil", "பிப்ரோனில்",
+            "flubendiamide", "ப்ளூபெண்டமைடு",
+            "pymetrozine", "பைமெட்ரோசின்",
+            "azadirachtin", "வேப்பெண்ணெய்", "வேப்பங்கொட்டை",
+            "kasugamycin", "காசுகாமைசின்",
+            "mancozeb", "மேன்கோசெப்",
+            "carbendazim", "கார்பெண்டாசிம்",
+            "thifluzamide", "தைபுளூசமைடு",
             "pseudomonas", "சுடோமோனாஸ்", "சூடோமோனாஸ்",
             "மயில் துத்தம்", "அண்ணாமலை கலவை",
-            "mancozeb", "மேன்கோசெப்",
             "சிவப்பு லேபிள்", "red label", "banned"
         ]
 

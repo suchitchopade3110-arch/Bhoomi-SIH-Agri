@@ -1,0 +1,57 @@
+{
+  "registry_version": "1.0.0",
+  "policy_standard": "BHOOMI Vision Dataset Legal Compliance & IP Governance",
+  "date_audited": "2026-08-24",
+  "licensing_categories": {
+    "APPROVED_FOR_TRAINING": [
+      {
+        "source_id": "SRC-DS-01",
+        "dataset_name": "Paddy Doctor",
+        "license": "CC-BY 4.0",
+        "permission_summary": "Unrestricted commercial/derivative model training permitted with standard academic attribution."
+      },
+      {
+        "source_id": "SRC-DS-02",
+        "dataset_name": "PlantVillage",
+        "license": "CC-BY-NC-SA 4.0",
+        "permission_summary": "Non-commercial educational and research derivative model training permitted."
+      },
+      {
+        "source_id": "SRC-DS-03",
+        "dataset_name": "PlantDoc",
+        "license": "MIT / CC-BY 4.0 Compatible",
+        "permission_summary": "Permissive open-source academic/commercial reuse and model training permitted."
+      },
+      {
+        "source_id": "SRC-DS-04",
+        "dataset_name": "Roboflow Universe Rice Pests",
+        "license": "CC-BY 4.0 / CC0",
+        "permission_summary": "Open public community computer vision dataset; model training permitted."
+      }
+    ],
+    "TRAINING_USE_RESTRICTED": [
+      {
+        "source_id": "SRC-DS-05",
+        "dataset_name": "ICAR-IIRR Digital Repository",
+        "license": "Government Open Data / Fair Use Research",
+        "permission_summary": "Internal prototype evaluation permitted; commercial/public API deployment requires formal ICAR data sharing agreement."
+      }
+    ],
+    "TRAINING_USE_BLOCKED": [
+      {
+        "source_id": "SRC-DS-06",
+        "dataset_name": "TNAU Agritech Web Exemplars",
+        "license": "LICENSE_UNKNOWN (No explicit open license)",
+        "permission_summary": "BLOCKED from training datasets. Preserved strictly as internal diagnostic references."
+      }
+    ],
+    "LICENSE_UNKNOWN": [
+      {
+        "source_id": "SRC-DS-UNRESOLVED",
+        "description": "Any scraped internet images, unverified blog photos, or watermarked commercial stock photos without verifiable creative commons licensing.",
+        "permission_summary": "STRICTLY BLOCKED AND QUARANTINED."
+      }
+    ]
+  },
+  "training_eligibility_rule": "Only assets belonging to APPROVED_FOR_TRAINING with mapping_confidence IN ('EXACT', 'STRONG') may be copied to canonical/ or assigned to training splits."
+}
