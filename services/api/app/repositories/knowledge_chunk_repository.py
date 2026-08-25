@@ -3,7 +3,8 @@
 from sqlalchemy import delete, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.domain.rag.constants import PEST_DOC_ID_PREFIX
+from app.domain.rag.constants import DISEASE_DOC_ID_PREFIX, PEST_DOC_ID_PREFIX
+from app.domain.rag.scoping import get_target_type_prefix
 from app.models.knowledge_chunk import KnowledgeChunk
 from app.repositories.interfaces import RetrievedChunk
 
@@ -57,10 +58,14 @@ class KnowledgeChunkRepository:
         """
         distance = KnowledgeChunk.embedding.cosine_distance(query_embedding)
         stmt = select(KnowledgeChunk, distance.label("distance"))
+        prefix = get_target_type_prefix(content_type)
         if content_type == "pest":
-            stmt = stmt.where(KnowledgeChunk.doc_id.startswith(PEST_DOC_ID_PREFIX))
+            stmt = stmt.where(KnowledgeChunk.doc_id.startswith(prefix or PEST_DOC_ID_PREFIX))
         elif content_type == "disease":
-            stmt = stmt.where(~KnowledgeChunk.doc_id.startswith(PEST_DOC_ID_PREFIX))
+            stmt = stmt.where(
+                KnowledgeChunk.doc_id.startswith(DISEASE_DOC_ID_PREFIX)
+                | ~KnowledgeChunk.doc_id.startswith(PEST_DOC_ID_PREFIX)
+            )
         stmt = stmt.order_by(distance).limit(top_k)
         result = await self._session.execute(stmt)
 

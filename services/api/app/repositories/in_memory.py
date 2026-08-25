@@ -8,7 +8,8 @@ import uuid
 from app.core.errors import NotFoundError
 from app.domain.alerts.models import ClusterCase
 from app.domain.geo import haversine_distance_km
-from app.domain.rag.constants import PEST_DOC_ID_PREFIX
+from app.domain.rag.constants import DISEASE_DOC_ID_PREFIX, PEST_DOC_ID_PREFIX
+from app.domain.rag.scoping import get_target_type_prefix
 from app.domain.rag.similarity import cosine_similarity
 from app.repositories.interfaces import RetrievedChunk
 
@@ -238,7 +239,11 @@ class InMemoryKnowledgeChunkRepository:
         if content_type == "pest":
             candidates = [c for c in candidates if c.doc_id.startswith(PEST_DOC_ID_PREFIX)]
         elif content_type == "disease":
-            candidates = [c for c in candidates if not c.doc_id.startswith(PEST_DOC_ID_PREFIX)]
+            candidates = [
+                c
+                for c in candidates
+                if c.doc_id.startswith(DISEASE_DOC_ID_PREFIX) or not c.doc_id.startswith(PEST_DOC_ID_PREFIX)
+            ]
 
         scored = [
             RetrievedChunk(

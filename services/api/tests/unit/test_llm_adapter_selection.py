@@ -8,7 +8,7 @@ from app.adapters.stubs import StubLLMAdapter
 
 
 def test_default_provider_is_stub(monkeypatch):
-    monkeypatch.delenv("LLM_PROVIDER", raising=False)
+    monkeypatch.setenv("LLM_PROVIDER", "stub")
     from app.core.config import get_settings
     import app.adapters.dependencies as deps_module
 
@@ -18,6 +18,7 @@ def test_default_provider_is_stub(monkeypatch):
         adapter = deps_module.get_llm_adapter()
         assert isinstance(adapter, StubLLMAdapter)
     finally:
+        monkeypatch.delenv("LLM_PROVIDER", raising=False)
         get_settings.cache_clear()
         deps_module.get_llm_adapter.cache_clear()
 

@@ -2,8 +2,12 @@
 
 from functools import lru_cache
 from typing import Literal
+from pathlib import Path
 from pydantic import Field, computed_field, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
+
+
+_ENV_FILE = Path(__file__).resolve().parents[2] / ".env"
 
 
 from app.domain.constants import (
@@ -18,7 +22,7 @@ class Settings(BaseSettings):
     """Application settings and feature flags loaded from environment / .env file."""
 
     model_config = SettingsConfigDict(
-        env_file=".env",
+        env_file=_ENV_FILE,
         env_file_encoding="utf-8",
         extra="ignore",
         case_sensitive=True,

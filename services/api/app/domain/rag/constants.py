@@ -42,3 +42,4 @@ DEFAULT_TOP_K = 5
 # corpus entry is "kb_p3xx" (see services/rag/corpus_data.py's "--- Pest
 # entries (kb_p3xx) ---" section); everything else is disease/general.
 PEST_DOC_ID_PREFIX = "kb_p"
+DISEASE_DOC_ID_PREFIX = "kb_d"
