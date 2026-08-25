@@ -6,6 +6,18 @@ import 'app_typography.dart';
 class AppTheme {
   AppTheme._();
 
+  static const List<String> fontFallbacks = [
+    'Noto Sans Tamil',
+    'Noto Sans Devanagari',
+    'Noto Sans Telugu',
+    'Noto Sans Kannada',
+    'Noto Sans Malayalam',
+    'Noto Sans Gurmukhi',
+    'Plus Jakarta Sans',
+    'Roboto',
+    'sans-serif',
+  ];
+
   static ThemeData get lightTheme {
     return ThemeData(
       useMaterial3: true,
@@ -21,6 +33,7 @@ class AppTheme {
         onSurface: AppColors.textPrimary,
       ),
       fontFamily: 'Roboto',
+      fontFamilyFallback: fontFallbacks,
       textTheme: const TextTheme(
         displayLarge: AppTypography.displayLarge,
         displayMedium: AppTypography.displayMedium,

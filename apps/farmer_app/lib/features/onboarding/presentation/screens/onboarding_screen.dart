@@ -6,14 +6,13 @@ import '../../../../app/theme/app_spacing.dart';
 import '../../../../app/theme/app_typography.dart';
 import '../../../../core/connectivity/connectivity_service.dart';
 import '../../../../core/localization/bhoomi_localizations.dart';
-import '../../../../core/localization/language_provider.dart';
 import '../../../../core/widgets/bhoomi_primary_button.dart';
 import '../../../../core/widgets/bhoomi_secondary_button.dart';
 import '../../../../core/widgets/degraded_network_banner.dart';
 import '../../application/onboarding_controller.dart';
 import '../../application/onboarding_state.dart';
-import '../../voice/application/voice_controller.dart';
-import '../../voice/presentation/widgets/voice_confirmation_sheet.dart';
+import '../../../voice/application/voice_controller.dart';
+import '../../../voice/presentation/widgets/voice_confirmation_sheet.dart';
 import '../widgets/farm_field_card.dart';
 import '../widgets/onboarding_progress.dart';
 import '../widgets/voice_input_button.dart';
@@ -45,7 +44,11 @@ class OnboardingScreen extends ConsumerWidget {
                 icon: const Icon(Icons.close_rounded),
                 onPressed: () {
                   controller.stopListening();
-                  context.pop();
+                  if (context.canPop()) {
+                    context.pop();
+                  } else {
+                    context.go('/welcome');
+                  }
                 },
               ),
       ),

@@ -1,11 +1,13 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../app/theme/app_colors.dart';
 import '../../../../app/theme/app_spacing.dart';
+import '../../../../core/localization/bhoomi_localizations.dart';
 import '../../../../core/widgets/bhoomi_card.dart';
 import '../../data/models/health_snapshot.dart';
 
-class HealthScoreCard extends StatelessWidget {
+class HealthScoreCard extends ConsumerWidget {
   final HealthSnapshot snapshot;
 
   const HealthScoreCard({
@@ -31,7 +33,8 @@ class HealthScoreCard extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final strings = ref.watch(bhoomiStringsProvider);
     final isRated = snapshot.isRated && snapshot.score != null;
     final bandColor = _getBandColor(snapshot.band);
 
@@ -42,9 +45,9 @@ class HealthScoreCard extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text(
-                'Overall Farm Health',
-                style: TextStyle(
+              Text(
+                strings.text('overall_farm_health'),
+                style: const TextStyle(
                   fontSize: 18.0,
                   fontWeight: FontWeight.w800,
                   color: AppColors.textPrimary,
@@ -58,7 +61,7 @@ class HealthScoreCard extends StatelessWidget {
                   border: Border.all(color: bandColor.withValues(alpha: 0.4)),
                 ),
                 child: Text(
-                  isRated ? snapshot.band.toUpperCase() : 'UNRATED',
+                  isRated ? strings.translateHealthBand(snapshot.band).toUpperCase() : strings.text('health_unrated').toUpperCase(),
                   style: TextStyle(
                     color: bandColor,
                     fontWeight: FontWeight.w800,
@@ -86,7 +89,7 @@ class HealthScoreCard extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
-                        snapshot.band.toUpperCase(),
+                        strings.translateHealthBand(snapshot.band).toUpperCase(),
                         style: TextStyle(
                           color: bandColor,
                           fontSize: 12.0,
@@ -144,18 +147,18 @@ class HealthScoreCard extends StatelessWidget {
                     child: const Icon(Icons.hourglass_empty_rounded, color: AppColors.healthUnrated, size: 32.0),
                   ),
                   const SizedBox(height: AppSpacing.sm),
-                  const Text(
-                    'Unrated',
-                    style: TextStyle(
+                  Text(
+                    strings.text('health_unrated'),
+                    style: const TextStyle(
                       fontSize: 18.0,
                       fontWeight: FontWeight.w800,
                       color: AppColors.healthUnrated,
                     ),
                   ),
                   const SizedBox(height: 4.0),
-                  const Text(
-                    'Not enough data yet',
-                    style: TextStyle(
+                  Text(
+                    strings.text('health_unrated_desc'),
+                    style: const TextStyle(
                       fontSize: 14.0,
                       fontWeight: FontWeight.w600,
                       color: AppColors.textPrimary,

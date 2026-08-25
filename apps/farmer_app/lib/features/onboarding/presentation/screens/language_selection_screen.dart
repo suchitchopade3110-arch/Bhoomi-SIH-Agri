@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import '../../../../app/theme/app_branding.dart';
 import '../../../../app/theme/app_colors.dart';
 import '../../../../app/theme/app_spacing.dart';
 import '../../../../app/theme/app_typography.dart';
 import '../../../../core/localization/bhoomi_localizations.dart';
-import '../../../../core/localization/language_provider.dart';
 import '../../../../core/widgets/bhoomi_primary_button.dart';
 
 class LanguageSelectionScreen extends ConsumerWidget {
@@ -43,21 +43,29 @@ class LanguageSelectionScreen extends ConsumerWidget {
                     // Top emblem
                     Center(
                       child: Container(
-                        width: 68.0,
-                        height: 68.0,
+                        width: 72.0,
+                        height: 72.0,
+                        padding: const EdgeInsets.all(8.0),
                         decoration: BoxDecoration(
-                          color: AppColors.lightGreen,
+                          color: Colors.white,
                           shape: BoxShape.circle,
                           border: Border.all(
-                            color: AppColors.primaryGreen.withValues(alpha: 0.2),
+                            color: AppColors.primaryGreen.withValues(alpha: 0.15),
                             width: 1.5,
                           ),
+                          boxShadow: const [
+                            BoxShadow(
+                              color: AppColors.cardShadow,
+                              blurRadius: 8.0,
+                              offset: Offset(0, 2),
+                            ),
+                          ],
                         ),
-                        child: const Center(
-                          child: Icon(
-                            Icons.translate_rounded,
-                            color: AppColors.primaryGreen,
-                            size: 32.0,
+                        child: Center(
+                          child: AppBranding.emblemImage(
+                            width: 48.0,
+                            height: 48.0,
+                            fit: BoxFit.contain,
                           ),
                         ),
                       ),

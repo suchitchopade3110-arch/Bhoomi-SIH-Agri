@@ -168,7 +168,9 @@ class _VoiceInputButtonState extends State<VoiceInputButton>
 
         // Spoken state prompt
         Text(
-          widget.isListening ? 'Listening... speak in your language' : 'Tap and speak',
+          widget.isListening
+              ? 'Listening... speak in your language'
+              : (widget.promptText.isNotEmpty ? widget.promptText : 'Tap and speak'),
           style: AppTypography.labelLarge.copyWith(
             color: widget.isListening ? const Color(0xFFE76F51) : AppColors.primaryGreen,
             fontWeight: FontWeight.w700,

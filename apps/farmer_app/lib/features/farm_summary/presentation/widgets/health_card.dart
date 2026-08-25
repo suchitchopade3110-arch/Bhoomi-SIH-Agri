@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../app/theme/app_colors.dart';
 import '../../../../app/theme/app_spacing.dart';
 import '../../../../app/theme/app_typography.dart';
+import '../../../../core/localization/bhoomi_localizations.dart';
 import '../../../../core/widgets/bhoomi_card.dart';
 import '../../data/models/farm_summary.dart';
 
-class HealthCard extends StatelessWidget {
+class HealthCard extends ConsumerWidget {
   final FarmHealth health;
 
   const HealthCard({
@@ -30,13 +32,9 @@ class HealthCard extends StatelessWidget {
     }
   }
 
-  String _formatBand(String band) {
-    if (band.isEmpty) return 'Unrated';
-    return band[0].toUpperCase() + band.substring(1).toLowerCase();
-  }
-
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final strings = ref.watch(bhoomiStringsProvider);
     final isRated = health.isRated;
     final bandColor = _getBandColor(health.band);
 
@@ -57,9 +55,9 @@ class HealthCard extends StatelessWidget {
                       color: bandColor,
                     ),
                     const SizedBox(width: AppSpacing.sm),
-                    const Flexible(
+                    Flexible(
                       child: Text(
-                        'Farm Health Score',
+                        strings.text('farm_health_score'),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: AppTypography.titleLarge,
@@ -80,7 +78,7 @@ class HealthCard extends StatelessWidget {
                   border: Border.all(color: bandColor.withValues(alpha: 0.3)),
                 ),
                 child: Text(
-                  _formatBand(health.band),
+                  isRated ? strings.translateHealthBand(health.band) : strings.text('health_unrated'),
                   style: AppTypography.labelMedium.copyWith(
                     color: bandColor,
                     fontWeight: FontWeight.w700,
@@ -143,7 +141,7 @@ class HealthCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Unrated',
+                          strings.text('health_unrated'),
                           style: AppTypography.headlineMedium.copyWith(
                             color: AppColors.healthUnrated,
                             fontWeight: FontWeight.w700,
@@ -151,7 +149,7 @@ class HealthCard extends StatelessWidget {
                         ),
                         const SizedBox(height: 2.0),
                         Text(
-                          'Initial baseline score will compute after field observations.',
+                          strings.text('health_unrated_desc'),
                           style: AppTypography.bodyMedium.copyWith(
                             color: AppColors.textMuted,
                             fontSize: 13.0,
@@ -167,7 +165,7 @@ class HealthCard extends StatelessWidget {
           if (health.computedAt != null) ...[
             const SizedBox(height: AppSpacing.md),
             Text(
-              'Last computed: ${health.computedAt}',
+              '${strings.text('last_computed')}: ${health.computedAt}',
               style: AppTypography.labelMedium.copyWith(
                 color: AppColors.textMuted,
                 fontSize: 11.0,

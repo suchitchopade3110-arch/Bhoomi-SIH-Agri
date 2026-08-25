@@ -79,3 +79,7 @@ const List<LanguageOption> kSupportedLanguages = [
 
 /// Global provider tracking the user's selected language (defaults to en-IN before selection)
 final selectedLanguageProvider = StateProvider<String>((ref) => 'en-IN');
+
+/// Alias for languageProvider
+final languageProvider = selectedLanguageProvider;
+

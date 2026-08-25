@@ -126,6 +126,21 @@ class _VoiceRecordButtonState extends State<VoiceRecordButton>
             fontWeight: FontWeight.w700,
           ),
         ),
+        if (widget.state.errorMessage != null) ...[
+          const SizedBox(height: AppSpacing.xs),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm),
+            child: Text(
+              widget.state.errorMessage!,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                fontSize: 11.5,
+                color: Color(0xFFC62828),
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+        ],
       ],
     );
   }

@@ -1,1513 +1,1515 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'language_provider.dart';
 
-class BhoomiStrings {
-  final String languageCode;
+export 'language_provider.dart';
 
-  const BhoomiStrings(this.languageCode);
+/// Global provider for AppTranslations bound to selectedLanguageProvider
+final appTranslationsProvider = Provider<AppTranslations>((ref) {
+  final langCode = ref.watch(selectedLanguageProvider);
+  return AppTranslations(langCode);
+});
 
-  // App Bar / Branding
-  String get appTitle => 'BHOOMI';
-  String get appSubtitle => _t({
-    'en-IN': 'AI-Powered Farmer Companion',
-    'te-IN': 'రైతులకు AI మిత్రుడు',
-    'ta-IN': 'விவசாயிகளுக்கான AI தோழன்',
-    'hi-IN': 'किसानों का AI साथी',
-    'kn-IN': 'ರೈತರಿಗೆ AI ಒಡನಾಡಿ',
-    'mr-IN': 'शेतकऱ्यांचा AI मित्र',
-    'ml-IN': 'കർഷകർക്കുള്ള AI സഹായി',
-    'pa-IN': 'ਕਿਸਾਨਾਂ ਦਾ AI ਸਾਥੀ',
-  });
+/// Global alias for BhoomiStrings
+final bhoomiStringsProvider = appTranslationsProvider;
 
-  // Welcome Screen (always English base, but accessible here too)
-  String get welcomeTitle => 'BHOOMI';
-  String get welcomeSubtitle => 'AI-Powered\nFarmer Companion';
-  String get welcomeTagline => 'Your Farm.\nOur Intelligence.';
-  String get welcomeDesc =>
-      'Your trusted digital farming partner for land verification, crop health, and intelligent farm assistance.';
-  String get getStarted => 'Get Started';
-  String get joinNow => 'Join Now';
-  String get hackathonBadge => 'Smart India Hackathon SIH25076';
+class AppTranslations {
+  final String langCode;
 
-  // Navigation
-  String get navHome => _t({
-    'en-IN': 'Home',
-    'te-IN': 'హోమ్',
-    'ta-IN': 'முகப்பு',
-    'hi-IN': 'होम',
-    'kn-IN': 'ಮುಖಪುಟ',
-    'mr-IN': 'मुख्यपृष्ठ',
-    'ml-IN': 'ഹോം',
-    'pa-IN': 'ਮੁੱਖ ਪੰਨਾ',
-  });
-  String get navCompanion => _t({
-    'en-IN': 'Companion',
-    'te-IN': 'మిత్రుడు',
-    'ta-IN': 'தோழன்',
-    'hi-IN': 'साथी',
-    'kn-IN': 'ಒಡನಾಡಿ',
-    'mr-IN': 'मित्र',
-    'ml-IN': 'സഹായി',
-    'pa-IN': 'ਸਾਥੀ',
-  });
-  String get navJourney => _t({
-    'en-IN': 'Journey',
-    'te-IN': 'ప్రయాణం',
-    'ta-IN': 'பயணம்',
-    'hi-IN': 'सफ़र',
-    'kn-IN': 'ಪ್ರಯಾಣ',
-    'mr-IN': 'प्रवास',
-    'ml-IN': 'യാത്ര',
-    'pa-IN': 'ਸਫ਼ਰ',
-  });
-  String get navProfile => _t({
-    'en-IN': 'Profile',
-    'te-IN': 'ప్రొఫైల్',
-    'ta-IN': 'சுயவிவரம்',
-    'hi-IN': 'प्रोफ़ाइल',
-    'kn-IN': 'ಪ್ರೊಫೈಲ್',
-    'mr-IN': 'प्रोफाइल',
-    'ml-IN': 'പ്രൊഫൈൽ',
-    'pa-IN': 'ਪ੍ਰੋਫਾਈਲ',
-  });
+  const AppTranslations(this.langCode);
 
-  // Voice & Interaction
-  String get letsGetToKnow => _t({
-    'en-IN': "Let's get to know your farm",
-    'te-IN': 'మీ పొలం గురించి తెలుసుకుందాం',
-    'ta-IN': 'உங்கள் பண்ணையைப் பற்றி அறிவோம்',
-    'hi-IN': 'आइए आपके खेत को जानें',
-    'kn-IN': 'ನಿಮ್ಮ ಕೃಷಿ ಬಗ್ಗೆ ತಿಳಿಯೋಣ',
-    'mr-IN': 'तुमच्या शेतीबद्दल जाणून घेऊया',
-    'ml-IN': 'നിങ്ങളുടെ കൃഷിയിടത്തെ അറിയാം',
-    'pa-IN': 'ਆਓ ਤੁਹਾਡੇ ਖੇਤ ਬਾਰੇ ਜਾਣੀਏ',
-  });
-  String get youCanSpeak => _t({
-    'en-IN': 'You can speak in your language',
-    'te-IN': 'మీరు మీ భాషలోనే మాట్లాడవచ్చు',
-    'ta-IN': 'நீங்கள் உங்கள் மொழியிலேயே பேசலாம்',
-    'hi-IN': 'आप अपनी भाषा में बोल सकते हैं',
-    'kn-IN': 'ನೀವು ನಿಮ್ಮ ಭಾಷೆಯಲ್ಲಿ ಮಾತನಾಡಬಹುದು',
-    'mr-IN': 'तुम्ही तुमच्या भाषेत बोलू शकता',
-    'ml-IN': 'നിങ്ങൾക്ക് സ്വന്തം ഭാഷയിൽ സംസാരിക്കാം',
-    'pa-IN': 'ਤੁਸੀਂ ਆਪਣੀ ਭਾਸ਼ਾ ਵਿੱਚ ਬੋਲ ਸਕਦੇ ਹੋ',
-  });
-  String get tapAndSpeak => _t({
-    'en-IN': 'Tap and speak',
-    'te-IN': 'తాకి మాట్లాడండి',
-    'ta-IN': 'தட்டி பேசவும்',
-    'hi-IN': 'टैप करें और बोलें',
-    'kn-IN': 'ಟ್ಯಾಪ್ ಮಾಡಿ ಮಾತನಾಡಿ',
-    'mr-IN': 'टॅप करा आणि बोला',
-    'ml-IN': 'ടാപ്പ് ചെയ്ത് സംസാരിക്കുക',
-    'pa-IN': 'ਟੈਪ ਕਰੋ ਅਤੇ ਬੋਲੋ',
-  });
-  String get tapAndAsk => _t({
-    'en-IN': 'Tap and ask',
-    'te-IN': 'తాకి అడగండి',
-    'ta-IN': 'தட்டி கேட்கவும்',
-    'hi-IN': 'टैप करें और पूछें',
-    'kn-IN': 'ಟ್ಯಾಪ್ ಮಾಡಿ ಕೇಳಿ',
-    'mr-IN': 'टॅप करा आणि विचारा',
-    'ml-IN': 'ടാപ്പ് ചെയ്ത് ചോദിക്കുക',
-    'pa-IN': 'ਟੈਪ ਕਰੋ ਅਤੇ ਪੁੱਛੋ',
-  });
-  String get showToBhoomi => _t({
-    'en-IN': 'Show to BHOOMI',
-    'te-IN': 'భూమికి చూపించండి',
-    'ta-IN': 'பூமியிடம் காட்டுங்கள்',
-    'hi-IN': 'भूमि को दिखाएं',
-    'kn-IN': 'ಭೂಮಿಗೆ ತೋರಿಸಿ',
-    'mr-IN': 'भूमीला दाखवा',
-    'ml-IN': 'ഭൂമിയെ കാണിക്കുക',
-    'pa-IN': 'ਭੂਮੀ ਨੂੰ ਦਿਖਾਓ',
-  });
-  String get uploadOrTake => _t({
-    'en-IN': 'Upload or take a photo',
-    'te-IN': 'ఫోటో తీయండి లేదా అప్‌లోడ్ చేయండి',
-    'ta-IN': 'புகைப்படம் எடுக்கவும் அல்லது பதிவேற்றவும்',
-    'hi-IN': 'फोटो लें या अपलोड करें',
-    'kn-IN': 'ಫೋಟೋ ತೆಗೆಯಿರಿ ಅಥವಾ ಅಪ್‌ಲೋಡ್ ಮಾಡಿ',
-    'mr-IN': 'फोटो काढा किंवा अपलोड करा',
-    'ml-IN': 'ഫോട്ടോ എടുക്കുക അല്ലെങ്കിൽ അപ്‌ലോഡ് ചെയ്യുക',
-    'pa-IN': 'ਫੋਟੋ ਖਿੱਚੋ ਜਾਂ ਅੱਪਲੋਡ ਕਰੋ',
-  });
-  String get aiWillIdentify => _t({
-    'en-IN': 'AI will identify the issue and guide you.',
-    'te-IN': 'AI సమస్యను గుర్తించి మీకు మార్గనిర్దేశం చేస్తుంది.',
-    'ta-IN': 'AI சிக்கலைக் கண்டறிந்து உங்களுக்கு வழிகாட்டும்.',
-    'hi-IN': 'AI समस्या की पहचान करेगा और आपका मार्गदर्शन करेगा।',
-    'kn-IN': 'AI ಸಮಸ್ಯೆಯನ್ನು ಗುರುತಿಸಿ ನಿಮಗೆ ಮಾರ್ಗದರ್ಶನ ನೀಡುತ್ತದೆ.',
-    'mr-IN': 'AI समस्येची ओळख पटवून तुम्हाला मार्गदर्शन करेल.',
-    'ml-IN': 'AI പ്രശ്നം കണ്ടെത്തി നിങ്ങൾക്ക് വഴികാട്ടും.',
-    'pa-IN': 'AI ਸਮੱਸਿਆ ਦੀ ਪਛਾਣ ਕਰੇਗਾ ਅਤੇ ਤੁਹਾਡੀ ਅਗਵਾਈ ਕਰੇਗਾ।',
-  });
-  String get notEnoughDataYet => _t({
-    'en-IN': 'Not enough data yet',
-    'te-IN': 'ఇంకా తగినంత సమాచారం లేదు',
-    'ta-IN': 'இன்னும் போதிய தரவு இல்லை',
-    'hi-IN': 'अभी पर्याप्त डेटा नहीं है',
-    'kn-IN': 'ಇನ್ನೂ ಸಾಕಷ್ಟು ಡೇಟಾ ಇಲ್ಲ',
-    'mr-IN': 'अद्याप पुरेसा डेटा नाही',
-    'ml-IN': 'ഇതുവരെ ആവശ്യത്തിന് വിവരങ്ങൾ ഇല്ല',
-    'pa-IN': 'ਅਜੇ ਲੋੜੀਂਦਾ ਡਾਟਾ ਨਹੀਂ ਹੈ',
-  });
-  String get overallFarmHealth => _t({
-    'en-IN': 'Overall Farm Health',
-    'te-IN': 'మొత్తం పొలం ఆరోగ్యం',
-    'ta-IN': 'ஒட்டுமொத்த பண்ணை ஆரோக்கியம்',
-    'hi-IN': 'समग्र खेत स्वास्थ्य',
-    'kn-IN': 'ಒಟ್ಟಾರೆ ಕೃಷಿ ಆರೋಗ್ಯ',
-    'mr-IN': 'एकूण शेतीचे आरोग्य',
-    'ml-IN': 'മൊത്തത്തിലുള്ള കൃഷിയിട ആരോഗ്യം',
-    'pa-IN': 'ਸਮੁੱਚੀ ਖੇਤ ਦੀ ਸਿਹਤ',
-  });
+  static const Map<String, Map<String, String>> _localizedValues = {
+    'ta-IN': {
+      'acres': 'ஏக்கர்',
+      'active_problem_load': 'செயலில் உள்ள பாதிப்பு அளவு',
+      'activity_timeline': 'செயல்பாட்டு காலவரிசை',
+      'analyzing_health': 'பண்ணை ஆரோக்கியத்தை பகுப்பாய்வு செய்கிறது...',
+      'analyzing_image': 'பயிரின் புகைப்படத்தை ஆய்வு செய்கிறது...',
+      'app_title': 'பூமி',
+      'apply_scheme': 'விண்ணப்பிக்கவும்',
+      'ask_bhoomi': 'பூமியிடம் கேளுங்கள்',
+      'back': 'பின்னே செல்',
+      'banana': 'வாழை',
+      'banana_sub': 'நேந்திரன், ரோபஸ்டா வகைகள்',
+      'bhoomi_advisory': 'பூமி வேளாண் ஆலோசனை',
+      'biological_control': 'இயற்கை உயிரியல் கட்டுப்பாடு',
+      'chemical_control': 'இரசாயன கட்டுப்பாடு',
+      'choose_language': 'உங்கள் மொழியைத் தேர்ந்தெடுக்கவும்',
+      'confidence_score': 'துல்லியத்தன்மை',
+      'confirm_desc': 'உங்கள் பண்ணை விவரங்களை உறுதிப்படுத்தவும்',
+      'confirm_farm_title': 'பண்ணை விவரங்கள்',
+      'continue': 'தொடரவும்',
+      'cotton': 'பருத்தி',
+      'cotton_sub': 'நீண்ட இழை பருத்தி',
+      'crop_advisory_desc': 'பயிர் பாதுகாப்பு மற்றும் வளர்ச்சி வழிகாட்டி',
+      'crop_diagnosis_title': 'பயிர் நோய் கண்டறிதல்',
+      'crop_label': 'பயிர்',
+      'crop_stage_prog': 'பயிர் வளர்ச்சி முன்னேற்றம்',
+      'daily_companion': 'தினசரி வழிகாட்டி',
+      'diagnose_get_advice': 'பரிசோதித்து ஆலோசனை பெறுக',
+      'diagnosis_id': 'நோய் கண்டறிதல் எண்',
+      'district': 'மாவட்டம்',
+      'documents_required': 'தேவைப்படும் ஆவணங்கள்',
+      'eligibility_criteria': 'தகுதி வரம்புகள்',
+      'eligible_schemes': 'தகுதியான திட்டங்கள்',
+      'env_suitability': 'சுற்றுச்சூழல் பொருத்தம்',
+      'farm_health_score': 'பண்ணை ஆரோக்கிய மதிப்பெண்',
+      'farm_health_title': 'பண்ணை ஆரோக்கியம் & நோய் கண்டறிதல்',
+      'farm_id': 'பண்ணை எண்',
+      'farm_journey_desc': 'உங்கள் பயிர் சாகுபடி பயணம்',
+      'field_weather': 'வயல் வானிலை',
+      'flowering': 'பூக்கும் பருவம்',
+      'flowering_sub': 'பூக்கள் தோன்றும் பருவம்',
+      'get_expert_help': 'நிபுணர் உதவி பெறுக',
+      'get_started': 'தொடங்கவும்',
+      'govt_support': 'அரசு நலத்திட்டங்கள்',
+      'govt_support_desc': 'மானியங்கள் மற்றும் நிதி உதவி',
+      'govt_support_finder': 'திட்டங்கள் கண்டறிதல்',
+      'grain_filling': 'மணி பிடிக்கும் பருவம்',
+      'grain_filling_sub': 'மணிகள் பால் பிடித்து முதிரும் நிலை',
+      'growth_stage_label': 'வளர்ச்சி நிலை',
+      'harvest_ready': 'அறுவடைக்கு தயார்',
+      'harvest_ready_sub': 'முழு முதிர்ச்சி அடைந்த நிலை',
+      'health_history': 'ஆரோக்கிய வரலாறு',
+      'health_unrated': 'மதிப்பிடப்படவில்லை',
+      'health_unrated_desc': 'மதிப்பீடு செய்ய கூடுதல் தரவு தேவை',
+      'humidity': 'ஈரப்பதம்',
+      'kuruvai_paddy': 'குறுவை நெல்',
+      'kuruvai_paddy_sub': 'குறுகிய கால நெல் ரகம்',
+      'land_area_label': 'நிலப்பரப்பு',
+      'land_boundary_title': 'நில எல்லை & வரைபடம்',
+      'land_details_title': 'நில விவரங்கள்',
+      'land_status_title': 'நில சரிபார்ப்பு நிலை',
+      'land_verification_required': 'நில சரிபார்ப்பு தேவை',
+      'last_computed': 'கடைசியாக கணக்கிடப்பட்டது',
+      'latest_update': 'சமீபத்திய அறிவிப்பு',
+      'loading_journey': 'பண்ணை பயணத்தை ஏற்றுகிறது...',
+      'maize': 'மக்காச்சோளம்',
+      'maize_sub': 'வீரிய மக்காச்சோளம்',
+      'maturity': 'முதிர்ச்சி நிலை',
+      'maturity_sub': 'பயிர் முதிர்ச்சி அடையும் நிலை',
+      'monitoring_recency': 'கண்காணிப்பு அண்மை நிலை',
+      'my_farm': 'என் பண்ணை',
+      'my_farm_journey': 'என் பண்ணை பயணம்',
+      'no_timeline_events': 'இதுவரை செயல்பாடுகள் எதுவும் பதிவாகவில்லை.',
+      'no_updates': 'தற்போது புதிய அறிவிப்புகள் இல்லை',
+      'or_type_below': 'அல்லது கீழே தட்டச்சு செய்யவும்',
+      'overall_farm_health': 'ஒட்டுமொத்த பண்ணை ஆரோக்கியம்',
+      'ownership_status': 'உரிமை நிலை',
+      'patta_number': 'பட்டா எண்',
+      'possible_issue_identified': 'சாத்தியமான பாதிப்பு கண்டறியப்பட்டது',
+      'preventive_measures': 'தடுப்பு முறைகள்',
+      'primary_crop': 'முக்கிய பயிர்',
+      'provide_details': 'விவரங்களை வழங்கவும்',
+      'quick_selection': 'விரைவுத் தேர்வுகள்',
+      'rain': 'மழை',
+      'recommended_actions': 'பரிந்துரைக்கப்பட்ட நடவடிக்கைகள்',
+      'recommended_schemes': 'பரிந்துரைக்கப்பட்ட திட்டங்கள்',
+      'recompute_health': 'ஆரோக்கியத்தை மீண்டும் கணக்கிடு',
+      'refresh_status': 'நிலையை புதுப்பிக்கவும்',
+      'refresh_timeline': 'காலவரிசையை புதுப்பி',
+      'requires_verified_land': 'சரிபார்க்கப்பட்ட நிலம் தேவை',
+      'resource_adequacy': 'வள போதுமான நிலை',
+      'retry': 'மீண்டும் முயற்சிக்கவும்',
+      'samba_paddy': 'சம்பா நெல்',
+      'samba_paddy_sub': 'நீண்ட கால சம்பா பயிர்',
+      'save_my_farm': 'பண்ணையைச் சேமிக்கவும்',
+      'scheme_details': 'திட்ட விவரங்கள்',
+      'schemes_subsidies': 'திட்டங்கள் & மானியங்கள்',
+      'scientific_remedy': 'அறிவியல் தீர்வு',
+      'score_breakdown': 'விளக்கக்கூடிய மதிப்பெண் விவரம்',
+      'score_breakdown_desc': '6 முக்கிய வேளாண் அளவுகோல்களின் அடிப்படையில் கணக்கிடப்பட்டது.',
+      'select_farm_area': 'நிலப்பரப்பைத் தேர்ந்தெடுக்கவும்',
+      'select_stage': 'வளர்ச்சி நிலையைத் தேர்ந்தெடுக்கவும்',
+      'show_problem': 'படத்தை காட்டவும்',
+      'step_area_sub': 'உங்கள் பண்ணை அளவைத் தேர்ந்தெடுக்கவும்',
+      'step_area_title': 'உங்கள் நிலப்பரப்பு எவ்வளவு?',
+      'step_crop_sub': 'பட்டியலிலிருந்து பயிரைத் தேர்ந்தெடுக்கவும்',
+      'step_crop_title': 'நீங்கள் என்ன பயிரிடுகிறீர்கள்?',
+      'step_stage_sub': 'தற்போதைய பயிர் வளர்ச்சியைத் தேர்ந்தெடுக்கவும்',
+      'step_stage_title': 'பயிர் வளர்ச்சி நிலை என்ன?',
+      'subsidy_amount': 'மானியத் தொகை',
+      'sugarcane': 'கரும்பு',
+      'sugarcane_sub': 'பன்னிரண்டு மாத பணப்பயிர்',
+      'survey_number': 'சர்வே எண்',
+      'symptoms_observed': 'கண்டறியப்பட்ட அறிகுறிகள்',
+      'taluk': 'வட்டம்',
+      'tap_to_speak_area': 'நிலப்பரப்பைச் சொல்ல தட்டவும்',
+      'tap_to_speak_crop': 'உங்கள் பயிரைப் பேச தட்டவும்',
+      'tap_to_speak_stage': 'வளர்ச்சி நிலையைச் சொல்ல தட்டவும்',
+      'target_beneficiaries': 'பயனாளிகள்',
+      'tell_about_farm': 'உங்கள் பண்ணையைப் பற்றி கூறுங்கள்',
+      'timeline_header': 'பண்ணை செயல்பாட்டு பயணம்',
+      'timeline_header_desc': 'அனைத்து பண்ணை நடவடிக்கைகள், சோதனைகள் மற்றும் ஒப்புதல்களின் காலவரிசை.',
+      'timeline_title': 'என் பண்ணை பயணம்',
+      'todays_farm_brief': 'இன்றைய பண்ணை வழிகாட்டி',
+      'total_area': 'மொத்த பரப்பளவு',
+      'track_progress': 'முன்னேற்றத்தைக் கண்காணிக்கவும்',
+      'treatment_response': 'சிகிச்சை பலன்',
+      'type_problem_hint': 'எ.கா. இலைகள் மஞ்சள் நிறமாக மாறுகின்றன...',
+      'unable_load_health': 'ஆரோக்கிய தரவை ஏற்றுவதில் சிக்கல்',
+      'unable_load_timeline': 'காலவரிசையை ஏற்றுவதில் சிக்கல்',
+      'upload_crop_photo': 'பயிர் புகைப்படத்தைப் பதிவேற்றவும்',
+      'vegetative': 'பயிர் வளர்ச்சி நிலை',
+      'vegetative_sub': 'இலை மற்றும் தண்டு வளர்ச்சி நிலை',
+      'verify_land_desc': 'அரசு மானியங்களுக்கு நிலத்தை சரிபார்க்கவும்',
+      'verify_land_now': 'நிலத்தை இப்போது சரிபார்க்கவும்',
+      'view_advice': 'ஆலோசனையைக் காண்க',
+      'view_all': 'அனைத்தையும் காண்க',
+      'view_details': 'விவரங்களைக் காண்க',
+      'view_health_journey': 'ஆரோக்கிய காலவரிசையைக் காண்க',
+      'view_scheme_details': 'திட்ட விவரங்களைக் காண்க',
+      'village': 'கிராமம்',
+      'voice_assistant': 'குரல் வழிகாட்டி',
+      'what_problem_seeing': 'என்ன பிரச்சனையை எதிர்கொள்கிறீர்கள்?',
+      'what_would_you_like_to_do': 'நீங்கள் என்ன செய்ய விரும்புகிறீர்கள்?',
+      'your_farm_profile': 'உங்கள் பண்ணை விவரக்குறிப்பு',
+    },
+    'hi-IN': {
+      'acres': 'एकड़',
+      'active_problem_load': 'सक्रिय समस्या भार',
+      'activity_timeline': 'गतिविधि समयरेखा',
+      'analyzing_health': 'खेत स्वास्थ्य का विश्लेषण किया जा रहा है...',
+      'analyzing_image': 'फसल की तस्वीर का विश्लेषण...',
+      'app_title': 'भूमि',
+      'apply_scheme': 'आवेदन करें',
+      'ask_bhoomi': 'भूमि से पूछें',
+      'back': 'पीछे जाएं',
+      'banana': 'केला',
+      'banana_sub': 'ग्रैंड नैन, रोबस्टा किस्में',
+      'bhoomi_advisory': 'भूमि कृषि सलाह',
+      'biological_control': 'जैविक नियंत्रण',
+      'chemical_control': 'रासायनिक नियंत्रण',
+      'choose_language': 'अपनी भाषा चुनें',
+      'confidence_score': 'सटीकता स्कोर',
+      'confirm_desc': 'अपने खेत के विवरण की पुष्टि करें',
+      'confirm_farm_title': 'खेत का विवरण',
+      'continue': 'जारी रखें',
+      'cotton': 'कपास',
+      'cotton_sub': 'लंबे रेशे वाली कपास',
+      'crop_advisory_desc': 'फसल सुरक्षा और विकास मार्गदर्शिका',
+      'crop_diagnosis_title': 'फसल रोग निदान',
+      'crop_label': 'फसल',
+      'crop_stage_prog': 'फसल वृद्धि प्रगति',
+      'daily_companion': 'दैनिक साथी',
+      'diagnose_get_advice': 'जांचें और सलाह प्राप्त करें',
+      'diagnosis_id': 'निदान आईडी',
+      'district': 'जिला',
+      'documents_required': 'आवश्यक दस्तावेज',
+      'eligibility_criteria': 'पात्रता मानदंड',
+      'eligible_schemes': 'पात्र योजनाएं',
+      'env_suitability': 'पर्यावरणीय उपयुक्तता',
+      'farm_health_score': 'खेत स्वास्थ्य स्कोर',
+      'farm_health_title': 'खेत स्वास्थ्य और निदान',
+      'farm_id': 'खेत आईडी',
+      'farm_journey_desc': 'आपकी खेती का सफ़र',
+      'field_weather': 'खेत का मौसम',
+      'flowering': 'फूल आने की अवस्था',
+      'flowering_sub': 'फूल खिलने का समय',
+      'get_expert_help': 'विशेषज्ञ सहायता प्राप्त करें',
+      'get_started': 'शुरू करें',
+      'govt_support': 'सरकारी योजनाएं',
+      'govt_support_desc': 'सब्सिडी और वित्तीय सहायता',
+      'govt_support_finder': 'योजना खोजक',
+      'grain_filling': 'दाने भरने की अवस्था',
+      'grain_filling_sub': 'दानों में दूध भरने का समय',
+      'growth_stage_label': 'वृद्धि अवस्था',
+      'harvest_ready': 'कटाई के लिए तैयार',
+      'harvest_ready_sub': 'फसल पूरी तरह पक चुकी है',
+      'health_history': 'स्वास्थ्य इतिहास',
+      'health_unrated': 'अमूल्यांकित',
+      'health_unrated_desc': 'मूल्यांकन के लिए अधिक डेटा की आवश्यकता है',
+      'humidity': 'आर्द्रता',
+      'kuruvai_paddy': 'कुरुवई धान',
+      'kuruvai_paddy_sub': 'कम अवधि की धान किस्म',
+      'land_area_label': 'भूमि क्षेत्र',
+      'land_boundary_title': 'भूमि सीमा और मानचित्र',
+      'land_details_title': 'भूमि विवरण',
+      'land_status_title': 'भूमि सत्यापन स्थिति',
+      'land_verification_required': 'भूमि सत्यापन आवश्यक है',
+      'last_computed': 'अंतिम गणना',
+      'latest_update': 'नवीनतम अपडेट',
+      'loading_journey': 'सफ़र लोड हो रहा है...',
+      'maize': 'मक्का',
+      'maize_sub': 'संकर मक्का',
+      'maturity': 'परिपक्वता अवस्था',
+      'maturity_sub': 'फसल पकने की अवस्था',
+      'monitoring_recency': 'हालिया निगरानी',
+      'my_farm': 'मेरा खेत',
+      'my_farm_journey': 'मेरा खेत सफ़र',
+      'no_timeline_events': 'अभी तक कोई गतिविधि दर्ज नहीं की गई है।',
+      'no_updates': 'वर्तमान में कोई नया अपडेट नहीं',
+      'or_type_below': 'या नीचे टाइप करें',
+      'overall_farm_health': 'समग्र खेत स्वास्थ्य',
+      'ownership_status': 'स्वामित्व स्थिति',
+      'patta_number': 'पट्टा संख्या',
+      'possible_issue_identified': 'संभावित समस्या की पहचान की गई',
+      'preventive_measures': 'निवारक उपाय',
+      'primary_crop': 'मुख्य फसल',
+      'provide_details': 'विवरण प्रदान करें',
+      'quick_selection': 'त्वरित चयन विकल्प',
+      'rain': 'वर्षा',
+      'recommended_actions': 'अनुशंसित कार्रवाई',
+      'recommended_schemes': 'अनुशंसित योजनाएं',
+      'recompute_health': 'स्वास्थ्य पुनः गणना करें',
+      'refresh_status': 'स्थिति ताज़ा करें',
+      'refresh_timeline': 'समयरेखा ताज़ा करें',
+      'requires_verified_land': 'सत्यापित भूमि आवश्यक',
+      'resource_adequacy': 'संसाधन पर्याप्तता',
+      'retry': 'पुनः प्रयास करें',
+      'samba_paddy': 'सांभा धान (चावल)',
+      'samba_paddy_sub': 'लंबी अवधि की सांभा फसल',
+      'save_my_farm': 'मेरा खेत सहेजें',
+      'scheme_details': 'योजना विवरण',
+      'schemes_subsidies': 'योजनाएं और सब्सिडी',
+      'scientific_remedy': 'वैज्ञानिक उपचार',
+      'score_breakdown': 'विस्तृत स्कोर विवरण',
+      'score_breakdown_desc': '6 प्रमुख कृषि आयामों के आधार पर गणना की गई।',
+      'select_farm_area': 'खेत का क्षेत्रफल चुनें',
+      'select_stage': 'वृद्धि अवस्था चुनें',
+      'show_problem': 'तस्वीर दिखाएं',
+      'step_area_sub': 'अपने खेत का आकार चुनें',
+      'step_area_title': 'आपकी भूमि का क्षेत्रफल कितना है?',
+      'step_crop_sub': 'सूची से अपनी फसल चुनें',
+      'step_crop_title': 'आप क्या उगा रहे हैं?',
+      'step_stage_sub': 'फसल की वर्तमान अवस्था चुनें',
+      'step_stage_title': 'फसल की वृद्धि अवस्था क्या है?',
+      'subsidy_amount': 'सब्सिडी राशि',
+      'sugarcane': 'गन्ना',
+      'sugarcane_sub': 'बारह महीने की नकदी फसल',
+      'survey_number': 'खसरा / सर्वेक्षण संख्या',
+      'symptoms_observed': 'देखे गए लक्षण',
+      'taluk': 'तहसील',
+      'tap_to_speak_area': 'क्षेत्रफल बोलने के लिए टैप करें',
+      'tap_to_speak_crop': 'अपनी फसल बोलने के लिए टैप करें',
+      'tap_to_speak_stage': 'अवस्था बोलने के लिए टैप करें',
+      'target_beneficiaries': 'लक्षित लाभार्थी',
+      'tell_about_farm': 'अपने खेत के बारे में बताएं',
+      'timeline_header': 'खेत गतिविधि सफ़र',
+      'timeline_header_desc': 'सभी खेत गतिविधियों, परीक्षणों और अनुमोदनों की सत्यापित समयरेखा।',
+      'timeline_title': 'मेरा खेत सफ़र',
+      'todays_farm_brief': 'आज की कृषि सलाह',
+      'total_area': 'कुल क्षेत्रफल',
+      'track_progress': 'प्रगति ट्रैक करें',
+      'treatment_response': 'उपचार प्रतिक्रिया',
+      'type_problem_hint': 'उदा. धान के पत्ते पीले पड़ रहे हैं...',
+      'unable_load_health': 'स्वास्थ्य डेटा लोड करने में असमर्थ',
+      'unable_load_timeline': 'समयरेखा लोड करने में असमर्थ',
+      'upload_crop_photo': 'फसल की फोटो अपलोड करें',
+      'vegetative': 'वानस्पतिक वृद्धि',
+      'vegetative_sub': 'पत्ते और तने का विकास',
+      'verify_land_desc': 'सरकारी लाभों के लिए भूमि सत्यापित करें',
+      'verify_land_now': 'अभी भूमि सत्यापित करें',
+      'view_advice': 'सलाह देखें',
+      'view_all': 'सभी देखें',
+      'view_details': 'विवरण देखें',
+      'view_health_journey': 'स्वास्थ्य समयरेखा देखें',
+      'view_scheme_details': 'योजना विवरण देखें',
+      'village': 'गांव',
+      'voice_assistant': 'वॉयस असिस्टेंट',
+      'what_problem_seeing': 'आप क्या समस्या देख रहे हैं?',
+      'what_would_you_like_to_do': 'आप क्या करना चाहेंगे?',
+      'your_farm_profile': 'आपकी खेत प्रोफ़ाइल',
+    },
+    'en-IN': {
+      'acres': 'Acres',
+      'active_problem_load': 'Active Problem Load',
+      'activity_timeline': 'Activity Timeline',
+      'analyzing_health': 'Analyzing farm health snapshot...',
+      'analyzing_image': 'Analyzing crop photograph...',
+      'app_title': 'BHOOMI',
+      'apply_scheme': 'Apply Scheme',
+      'ask_bhoomi': 'Ask BHOOMI',
+      'back': 'Back',
+      'banana': 'Banana',
+      'banana_sub': 'Grand Naine, Robusta varieties',
+      'bhoomi_advisory': 'BHOOMI Farm Advisory',
+      'biological_control': 'Biological Control',
+      'chemical_control': 'Chemical Control',
+      'choose_language': 'Choose Your Language',
+      'confidence_score': 'Confidence Score',
+      'confirm_desc': 'Review and confirm your farm details',
+      'confirm_farm_title': 'Confirm Farm Details',
+      'continue': 'Continue',
+      'cotton': 'Cotton',
+      'cotton_sub': 'Long staple varieties',
+      'crop_advisory_desc': 'Crop protection & growth guide',
+      'crop_diagnosis_title': 'Crop Disease Diagnosis',
+      'crop_label': 'Crop',
+      'crop_stage_prog': 'Crop Stage Progression',
+      'daily_companion': 'Daily Companion',
+      'diagnose_get_advice': 'Diagnose & Get Advice',
+      'diagnosis_id': 'Diagnosis ID',
+      'district': 'District',
+      'documents_required': 'Documents Required',
+      'eligibility_criteria': 'Eligibility Criteria',
+      'eligible_schemes': 'Eligible Schemes',
+      'env_suitability': 'Environmental Suitability',
+      'farm_health_score': 'Farm Health Score',
+      'farm_health_title': 'Farm Health & Diagnosis',
+      'farm_id': 'Farm ID',
+      'farm_journey_desc': 'Your farm activity timeline',
+      'field_weather': 'Field Weather',
+      'flowering': 'Flowering Stage',
+      'flowering_sub': 'Panicle initiation & flowering',
+      'get_expert_help': 'Get Expert Help',
+      'get_started': 'Get Started',
+      'govt_support': 'Government Support',
+      'govt_support_desc': 'Subsidies & financial support',
+      'govt_support_finder': 'Govt Support Finder',
+      'grain_filling': 'Grain Filling Stage',
+      'grain_filling_sub': 'Milky to dough grain formation',
+      'growth_stage_label': 'Growth Stage',
+      'harvest_ready': 'Harvest Ready',
+      'harvest_ready_sub': 'Fully mature & ready for harvest',
+      'health_history': 'Health History',
+      'health_unrated': 'Unrated',
+      'health_unrated_desc': 'Needs more observation data',
+      'humidity': 'Humidity',
+      'kuruvai_paddy': 'Kuruvai Paddy',
+      'kuruvai_paddy_sub': 'Short duration paddy crop',
+      'land_area_label': 'Land Area',
+      'land_boundary_title': 'Land Boundary & Map',
+      'land_details_title': 'Land Details',
+      'land_status_title': 'Land Verification Status',
+      'land_verification_required': 'Land verification required',
+      'last_computed': 'Last computed',
+      'latest_update': 'Latest Update',
+      'loading_journey': 'Loading farm journey...',
+      'maize': 'Maize (Corn)',
+      'maize_sub': 'High-yield hybrid corn',
+      'maturity': 'Maturity Stage',
+      'maturity_sub': 'Golden grain maturity',
+      'monitoring_recency': 'Monitoring Recency',
+      'my_farm': 'My Farm',
+      'my_farm_journey': 'My Farm Journey',
+      'no_timeline_events': 'No timeline events recorded yet.',
+      'no_updates': 'No new updates right now',
+      'or_type_below': 'Or type below',
+      'overall_farm_health': 'Overall Farm Health',
+      'ownership_status': 'Ownership Status',
+      'patta_number': 'Patta Number',
+      'possible_issue_identified': 'Possible Issue Identified',
+      'preventive_measures': 'Preventive Measures',
+      'primary_crop': 'Primary Crop',
+      'provide_details': 'Provide Details',
+      'quick_selection': 'Quick Selection Options',
+      'rain': 'Rain',
+      'recommended_actions': 'Recommended Actions',
+      'recommended_schemes': 'Recommended Schemes',
+      'recompute_health': 'Recompute Health',
+      'refresh_status': 'Refresh Status',
+      'refresh_timeline': 'Refresh Timeline',
+      'requires_verified_land': 'Requires Verified Land',
+      'resource_adequacy': 'Resource Adequacy',
+      'retry': 'Retry',
+      'samba_paddy': 'Samba Paddy',
+      'samba_paddy_sub': 'Medium to long duration rice',
+      'save_my_farm': 'Save My Farm',
+      'scheme_details': 'Scheme Details',
+      'schemes_subsidies': 'Schemes & Subsidies',
+      'scientific_remedy': 'Scientific Remedy',
+      'score_breakdown': 'Explainable Score Breakdown',
+      'score_breakdown_desc': 'Composite health calculated across 6 key agronomic dimensions.',
+      'select_farm_area': 'Select Farm Area',
+      'select_stage': 'Select Growth Stage',
+      'show_problem': 'Show Image',
+      'step_area_sub': 'Select your cultivated land area',
+      'step_area_title': 'What is your farm size?',
+      'step_crop_sub': 'Speak clearly or select from list below',
+      'step_crop_title': 'What are you growing?',
+      'step_stage_sub': 'Select the current development stage',
+      'step_stage_title': 'What is the current growth stage?',
+      'subsidy_amount': 'Subsidy Amount',
+      'sugarcane': 'Sugarcane',
+      'sugarcane_sub': 'Annual commercial cash crop',
+      'survey_number': 'Survey Number',
+      'symptoms_observed': 'Symptoms Observed',
+      'taluk': 'Taluk',
+      'tap_to_speak_area': 'Tap to speak your farm size',
+      'tap_to_speak_crop': 'Tap to speak your crop',
+      'tap_to_speak_stage': 'Tap to speak current stage',
+      'target_beneficiaries': 'Target Beneficiaries',
+      'tell_about_farm': 'Let\'s Get to Know Your Farm',
+      'timeline_header': 'Farm Activity Journey',
+      'timeline_header_desc': 'Verified chronological timeline of all farm actions, diagnostics, and approvals.',
+      'timeline_title': 'My Farm Journey',
+      'todays_farm_brief': 'Today\'s Guidance',
+      'total_area': 'Total Area',
+      'track_progress': 'Track Progress',
+      'treatment_response': 'Treatment Response',
+      'type_problem_hint': 'e.g. Paddy leaves turning yellow with brown spots...',
+      'unable_load_health': 'Unable to Load Health Data',
+      'unable_load_timeline': 'Unable to Load Timeline',
+      'upload_crop_photo': 'Upload Crop Photo',
+      'vegetative': 'Vegetative Stage',
+      'vegetative_sub': 'Tillering & vegetative shoot growth',
+      'verify_land_desc': 'Verify your land for govt schemes',
+      'verify_land_now': 'Verify Land Now',
+      'view_advice': 'View Advice',
+      'view_all': 'View All',
+      'view_details': 'View Details',
+      'view_health_journey': 'View Health Journey Timeline',
+      'view_scheme_details': 'View Scheme Details',
+      'village': 'Village',
+      'voice_assistant': 'Voice Assistant',
+      'what_problem_seeing': 'What problem are you seeing?',
+      'what_would_you_like_to_do': 'What would you like to do?',
+      'your_farm_profile': 'Your Farm Profile',
+    },
+    'te-IN': {
+      'acres': 'ఎకరాలు',
+      'active_problem_load': 'Active Problem Load',
+      'activity_timeline': 'Activity Timeline',
+      'analyzing_health': 'Analyzing farm health snapshot...',
+      'analyzing_image': 'Analyzing crop photograph...',
+      'app_title': 'భూమి',
+      'apply_scheme': 'Apply Scheme',
+      'ask_bhoomi': 'భూమిని అడగండి',
+      'back': 'వెనుకకు',
+      'banana': 'Banana',
+      'banana_sub': 'Grand Naine, Robusta varieties',
+      'bhoomi_advisory': 'BHOOMI Farm Advisory',
+      'biological_control': 'Biological Control',
+      'chemical_control': 'Chemical Control',
+      'choose_language': 'మీ భాషను ఎంచుకోండి',
+      'confidence_score': 'Confidence Score',
+      'confirm_desc': 'Review and confirm your farm details',
+      'confirm_farm_title': 'Confirm Farm Details',
+      'continue': 'కొనసాగించండి',
+      'cotton': 'Cotton',
+      'cotton_sub': 'Long staple varieties',
+      'crop_advisory_desc': 'Crop protection & growth guide',
+      'crop_diagnosis_title': 'Crop Disease Diagnosis',
+      'crop_label': 'Crop',
+      'crop_stage_prog': 'Crop Stage Progression',
+      'daily_companion': 'Daily Companion',
+      'diagnose_get_advice': 'Diagnose & Get Advice',
+      'diagnosis_id': 'Diagnosis ID',
+      'district': 'District',
+      'documents_required': 'Documents Required',
+      'eligibility_criteria': 'Eligibility Criteria',
+      'eligible_schemes': 'Eligible Schemes',
+      'env_suitability': 'Environmental Suitability',
+      'farm_health_score': 'Farm Health Score',
+      'farm_health_title': 'వ్యవసాయ ఆరోగ్యం & రోగ నిర్ధారణ',
+      'farm_id': 'Farm ID',
+      'farm_journey_desc': 'Your farm activity timeline',
+      'field_weather': 'Field Weather',
+      'flowering': 'పూత దశ',
+      'flowering_sub': 'Panicle initiation & flowering',
+      'get_expert_help': 'Get Expert Help',
+      'get_started': 'ప్రారంభించండి',
+      'govt_support': 'ప్రభుత్వ పథకాలు',
+      'govt_support_desc': 'Subsidies & financial support',
+      'govt_support_finder': 'Govt Support Finder',
+      'grain_filling': 'గింజ పాలుపోసుకునే దశ',
+      'grain_filling_sub': 'Milky to dough grain formation',
+      'growth_stage_label': 'Growth Stage',
+      'harvest_ready': 'కోతకు సిద్ధం',
+      'harvest_ready_sub': 'Fully mature & ready for harvest',
+      'health_history': 'Health History',
+      'health_unrated': 'Unrated',
+      'health_unrated_desc': 'Needs more observation data',
+      'humidity': 'Humidity',
+      'kuruvai_paddy': 'Kuruvai Paddy',
+      'kuruvai_paddy_sub': 'Short duration paddy crop',
+      'land_area_label': 'Land Area',
+      'land_boundary_title': 'Land Boundary & Map',
+      'land_details_title': 'Land Details',
+      'land_status_title': 'Land Verification Status',
+      'land_verification_required': 'Land verification required',
+      'last_computed': 'Last computed',
+      'latest_update': 'Latest Update',
+      'loading_journey': 'Loading farm journey...',
+      'maize': 'Maize (Corn)',
+      'maize_sub': 'High-yield hybrid corn',
+      'maturity': 'పక్వత దశ',
+      'maturity_sub': 'Golden grain maturity',
+      'monitoring_recency': 'Monitoring Recency',
+      'my_farm': 'నా వ్యవసాయం',
+      'my_farm_journey': 'నా వ్యవసాయ ప్రయాణం',
+      'no_timeline_events': 'No timeline events recorded yet.',
+      'no_updates': 'No new updates right now',
+      'or_type_below': 'Or type below',
+      'overall_farm_health': 'మొత్తం వ్యవసాయ ఆరోగ్యం',
+      'ownership_status': 'Ownership Status',
+      'patta_number': 'Patta Number',
+      'possible_issue_identified': 'Possible Issue Identified',
+      'preventive_measures': 'Preventive Measures',
+      'primary_crop': 'Primary Crop',
+      'provide_details': 'Provide Details',
+      'quick_selection': 'శీఘ్ర ఎంపికలు',
+      'rain': 'Rain',
+      'recommended_actions': 'Recommended Actions',
+      'recommended_schemes': 'Recommended Schemes',
+      'recompute_health': 'Recompute Health',
+      'refresh_status': 'Refresh Status',
+      'refresh_timeline': 'Refresh Timeline',
+      'requires_verified_land': 'Requires Verified Land',
+      'resource_adequacy': 'Resource Adequacy',
+      'retry': 'Retry',
+      'samba_paddy': 'సాంబా వరి',
+      'samba_paddy_sub': 'Medium to long duration rice',
+      'save_my_farm': 'Save My Farm',
+      'scheme_details': 'Scheme Details',
+      'schemes_subsidies': 'Schemes & Subsidies',
+      'scientific_remedy': 'Scientific Remedy',
+      'score_breakdown': 'వివరణాత్మక స్కోరు విచ్ఛిన్నం',
+      'score_breakdown_desc': 'Composite health calculated across 6 key agronomic dimensions.',
+      'select_farm_area': 'Select Farm Area',
+      'select_stage': 'Select Growth Stage',
+      'show_problem': 'Show Image',
+      'step_area_sub': 'Select your cultivated land area',
+      'step_area_title': 'What is your farm size?',
+      'step_crop_sub': 'Speak clearly or select from list below',
+      'step_crop_title': 'What are you growing?',
+      'step_stage_sub': 'Select the current development stage',
+      'step_stage_title': 'What is the current growth stage?',
+      'subsidy_amount': 'Subsidy Amount',
+      'sugarcane': 'చెరకు',
+      'sugarcane_sub': 'Annual commercial cash crop',
+      'survey_number': 'Survey Number',
+      'symptoms_observed': 'Symptoms Observed',
+      'taluk': 'Taluk',
+      'tap_to_speak_area': 'Tap to speak your farm size',
+      'tap_to_speak_crop': 'Tap to speak your crop',
+      'tap_to_speak_stage': 'Tap to speak current stage',
+      'target_beneficiaries': 'Target Beneficiaries',
+      'tell_about_farm': 'మీ వ్యవసాయం గురించి చెప్పండి',
+      'timeline_header': 'Farm Activity Journey',
+      'timeline_header_desc': 'Verified chronological timeline of all farm actions, diagnostics, and approvals.',
+      'timeline_title': 'నా వ్యవసాయ ప్రయాణం',
+      'todays_farm_brief': 'నేటి మార్గదర్శి',
+      'total_area': 'Total Area',
+      'track_progress': 'Track Progress',
+      'treatment_response': 'Treatment Response',
+      'type_problem_hint': 'e.g. Paddy leaves turning yellow with brown spots...',
+      'unable_load_health': 'Unable to Load Health Data',
+      'unable_load_timeline': 'Unable to Load Timeline',
+      'upload_crop_photo': 'Upload Crop Photo',
+      'vegetative': 'శాకీయ దశ',
+      'vegetative_sub': 'Tillering & vegetative shoot growth',
+      'verify_land_desc': 'Verify your land for govt schemes',
+      'verify_land_now': 'Verify Land Now',
+      'view_advice': 'View Advice',
+      'view_all': 'View All',
+      'view_details': 'View Details',
+      'view_health_journey': 'View Health Journey Timeline',
+      'view_scheme_details': 'View Scheme Details',
+      'village': 'Village',
+      'voice_assistant': 'Voice Assistant',
+      'what_problem_seeing': 'What problem are you seeing?',
+      'what_would_you_like_to_do': 'What would you like to do?',
+      'your_farm_profile': 'Your Farm Profile',
+    },
+    'kn-IN': {
+      'acres': 'ಎಕರೆ',
+      'active_problem_load': 'Active Problem Load',
+      'activity_timeline': 'Activity Timeline',
+      'analyzing_health': 'Analyzing farm health snapshot...',
+      'analyzing_image': 'Analyzing crop photograph...',
+      'app_title': 'ಭೂಮಿ',
+      'apply_scheme': 'Apply Scheme',
+      'ask_bhoomi': 'ಭೂಮಿಯನ್ನು ಕೇಳಿ',
+      'back': 'ಹಿಂದೆ',
+      'banana': 'Banana',
+      'banana_sub': 'Grand Naine, Robusta varieties',
+      'bhoomi_advisory': 'BHOOMI Farm Advisory',
+      'biological_control': 'Biological Control',
+      'chemical_control': 'Chemical Control',
+      'choose_language': 'ನಿಮ್ಮ ಭಾಷೆಯನ್ನು ಆಯ್ಕೆಮಾಡಿ',
+      'confidence_score': 'Confidence Score',
+      'confirm_desc': 'Review and confirm your farm details',
+      'confirm_farm_title': 'Confirm Farm Details',
+      'continue': 'ಮುಂದುವರಿಯಿರಿ',
+      'cotton': 'Cotton',
+      'cotton_sub': 'Long staple varieties',
+      'crop_advisory_desc': 'Crop protection & growth guide',
+      'crop_diagnosis_title': 'Crop Disease Diagnosis',
+      'crop_label': 'Crop',
+      'crop_stage_prog': 'Crop Stage Progression',
+      'daily_companion': 'Daily Companion',
+      'diagnose_get_advice': 'Diagnose & Get Advice',
+      'diagnosis_id': 'Diagnosis ID',
+      'district': 'District',
+      'documents_required': 'Documents Required',
+      'eligibility_criteria': 'Eligibility Criteria',
+      'eligible_schemes': 'Eligible Schemes',
+      'env_suitability': 'Environmental Suitability',
+      'farm_health_score': 'Farm Health Score',
+      'farm_health_title': 'ಕೃಷಿ ಆರೋಗ್ಯ & ರೋಗನಿರ್ಣಯ',
+      'farm_id': 'Farm ID',
+      'farm_journey_desc': 'Your farm activity timeline',
+      'field_weather': 'Field Weather',
+      'flowering': 'ಹೂಬಿಡುವ ಹಂತ',
+      'flowering_sub': 'Panicle initiation & flowering',
+      'get_expert_help': 'Get Expert Help',
+      'get_started': 'ಪ್ರಾರಂಭಿಸಿ',
+      'govt_support': 'ಸರ್ಕಾರಿ ಯೋಜನೆಗಳು',
+      'govt_support_desc': 'Subsidies & financial support',
+      'govt_support_finder': 'Govt Support Finder',
+      'grain_filling': 'ಕಾಳು ಕಟ್ಟುವ ಹಂತ',
+      'grain_filling_sub': 'Milky to dough grain formation',
+      'growth_stage_label': 'Growth Stage',
+      'harvest_ready': 'ಕೊಯ್ಲಿಗೆ ಸಿದ್ಧ',
+      'harvest_ready_sub': 'Fully mature & ready for harvest',
+      'health_history': 'Health History',
+      'health_unrated': 'Unrated',
+      'health_unrated_desc': 'Needs more observation data',
+      'humidity': 'Humidity',
+      'kuruvai_paddy': 'Kuruvai Paddy',
+      'kuruvai_paddy_sub': 'Short duration paddy crop',
+      'land_area_label': 'Land Area',
+      'land_boundary_title': 'Land Boundary & Map',
+      'land_details_title': 'Land Details',
+      'land_status_title': 'Land Verification Status',
+      'land_verification_required': 'Land verification required',
+      'last_computed': 'Last computed',
+      'latest_update': 'Latest Update',
+      'loading_journey': 'Loading farm journey...',
+      'maize': 'Maize (Corn)',
+      'maize_sub': 'High-yield hybrid corn',
+      'maturity': 'ಪಕ್ವತೆ ಹಂತ',
+      'maturity_sub': 'Golden grain maturity',
+      'monitoring_recency': 'Monitoring Recency',
+      'my_farm': 'ನನ್ನ ಹೊಲ',
+      'my_farm_journey': 'ನನ್ನ ಕೃಷಿ ಪಯಣ',
+      'no_timeline_events': 'No timeline events recorded yet.',
+      'no_updates': 'No new updates right now',
+      'or_type_below': 'Or type below',
+      'overall_farm_health': 'ಒಟ್ಟಾರೆ ಕೃಷಿ ಆರೋಗ್ಯ',
+      'ownership_status': 'Ownership Status',
+      'patta_number': 'Patta Number',
+      'possible_issue_identified': 'Possible Issue Identified',
+      'preventive_measures': 'Preventive Measures',
+      'primary_crop': 'Primary Crop',
+      'provide_details': 'Provide Details',
+      'quick_selection': 'ತ್ವರಿತ ಆಯ್ಕೆಗಳು',
+      'rain': 'Rain',
+      'recommended_actions': 'Recommended Actions',
+      'recommended_schemes': 'Recommended Schemes',
+      'recompute_health': 'Recompute Health',
+      'refresh_status': 'Refresh Status',
+      'refresh_timeline': 'Refresh Timeline',
+      'requires_verified_land': 'Requires Verified Land',
+      'resource_adequacy': 'Resource Adequacy',
+      'retry': 'Retry',
+      'samba_paddy': 'ಸಾಂಬಾ ಭತ್ತ',
+      'samba_paddy_sub': 'Medium to long duration rice',
+      'save_my_farm': 'Save My Farm',
+      'scheme_details': 'Scheme Details',
+      'schemes_subsidies': 'Schemes & Subsidies',
+      'scientific_remedy': 'Scientific Remedy',
+      'score_breakdown': 'ವಿವರಣಾತ್ಮಕ ಅಂಕಗಳ ವಿವರಣೆ',
+      'score_breakdown_desc': 'Composite health calculated across 6 key agronomic dimensions.',
+      'select_farm_area': 'Select Farm Area',
+      'select_stage': 'Select Growth Stage',
+      'show_problem': 'Show Image',
+      'step_area_sub': 'Select your cultivated land area',
+      'step_area_title': 'What is your farm size?',
+      'step_crop_sub': 'Speak clearly or select from list below',
+      'step_crop_title': 'What are you growing?',
+      'step_stage_sub': 'Select the current development stage',
+      'step_stage_title': 'What is the current growth stage?',
+      'subsidy_amount': 'Subsidy Amount',
+      'sugarcane': 'ಕಬ್ಬು',
+      'sugarcane_sub': 'Annual commercial cash crop',
+      'survey_number': 'Survey Number',
+      'symptoms_observed': 'Symptoms Observed',
+      'taluk': 'Taluk',
+      'tap_to_speak_area': 'Tap to speak your farm size',
+      'tap_to_speak_crop': 'Tap to speak your crop',
+      'tap_to_speak_stage': 'Tap to speak current stage',
+      'target_beneficiaries': 'Target Beneficiaries',
+      'tell_about_farm': 'ನಿಮ್ಮ ಕೃಷಿ ಬಗ್ಗೆ ತಿಳಿಸಿ',
+      'timeline_header': 'Farm Activity Journey',
+      'timeline_header_desc': 'Verified chronological timeline of all farm actions, diagnostics, and approvals.',
+      'timeline_title': 'ನನ್ನ ಕೃಷಿ ಪಯಣ',
+      'todays_farm_brief': 'ಇಂದಿನ ಮಾರ್ಗದರ್ಶಿ',
+      'total_area': 'Total Area',
+      'track_progress': 'Track Progress',
+      'treatment_response': 'Treatment Response',
+      'type_problem_hint': 'e.g. Paddy leaves turning yellow with brown spots...',
+      'unable_load_health': 'Unable to Load Health Data',
+      'unable_load_timeline': 'Unable to Load Timeline',
+      'upload_crop_photo': 'Upload Crop Photo',
+      'vegetative': 'ಸಸ್ಯಕ ಹಂತ',
+      'vegetative_sub': 'Tillering & vegetative shoot growth',
+      'verify_land_desc': 'Verify your land for govt schemes',
+      'verify_land_now': 'Verify Land Now',
+      'view_advice': 'View Advice',
+      'view_all': 'View All',
+      'view_details': 'View Details',
+      'view_health_journey': 'View Health Journey Timeline',
+      'view_scheme_details': 'View Scheme Details',
+      'village': 'Village',
+      'voice_assistant': 'Voice Assistant',
+      'what_problem_seeing': 'What problem are you seeing?',
+      'what_would_you_like_to_do': 'What would you like to do?',
+      'your_farm_profile': 'Your Farm Profile',
+    },
+    'mr-IN': {
+      'acres': 'एकर',
+      'active_problem_load': 'Active Problem Load',
+      'activity_timeline': 'Activity Timeline',
+      'analyzing_health': 'Analyzing farm health snapshot...',
+      'analyzing_image': 'Analyzing crop photograph...',
+      'app_title': 'भूमी',
+      'apply_scheme': 'Apply Scheme',
+      'ask_bhoomi': 'भूमीला विचारा',
+      'back': 'मागे जा',
+      'banana': 'Banana',
+      'banana_sub': 'Grand Naine, Robusta varieties',
+      'bhoomi_advisory': 'BHOOMI Farm Advisory',
+      'biological_control': 'Biological Control',
+      'chemical_control': 'Chemical Control',
+      'choose_language': 'तुमची भाषा निवडा',
+      'confidence_score': 'Confidence Score',
+      'confirm_desc': 'Review and confirm your farm details',
+      'confirm_farm_title': 'Confirm Farm Details',
+      'continue': 'पुढे सुरू ठेवा',
+      'cotton': 'Cotton',
+      'cotton_sub': 'Long staple varieties',
+      'crop_advisory_desc': 'Crop protection & growth guide',
+      'crop_diagnosis_title': 'Crop Disease Diagnosis',
+      'crop_label': 'Crop',
+      'crop_stage_prog': 'Crop Stage Progression',
+      'daily_companion': 'Daily Companion',
+      'diagnose_get_advice': 'Diagnose & Get Advice',
+      'diagnosis_id': 'Diagnosis ID',
+      'district': 'District',
+      'documents_required': 'Documents Required',
+      'eligibility_criteria': 'Eligibility Criteria',
+      'eligible_schemes': 'Eligible Schemes',
+      'env_suitability': 'Environmental Suitability',
+      'farm_health_score': 'Farm Health Score',
+      'farm_health_title': 'शेत आरोग्य आणि निदान',
+      'farm_id': 'Farm ID',
+      'farm_journey_desc': 'Your farm activity timeline',
+      'field_weather': 'Field Weather',
+      'flowering': 'फुलोरा अवस्था',
+      'flowering_sub': 'Panicle initiation & flowering',
+      'get_expert_help': 'Get Expert Help',
+      'get_started': 'सुरू करा',
+      'govt_support': 'सरकारी योजना',
+      'govt_support_desc': 'Subsidies & financial support',
+      'govt_support_finder': 'Govt Support Finder',
+      'grain_filling': 'दाणे भरण्याची अवस्था',
+      'grain_filling_sub': 'Milky to dough grain formation',
+      'growth_stage_label': 'Growth Stage',
+      'harvest_ready': 'कापणीसाठी तयार',
+      'harvest_ready_sub': 'Fully mature & ready for harvest',
+      'health_history': 'Health History',
+      'health_unrated': 'Unrated',
+      'health_unrated_desc': 'Needs more observation data',
+      'humidity': 'Humidity',
+      'kuruvai_paddy': 'Kuruvai Paddy',
+      'kuruvai_paddy_sub': 'Short duration paddy crop',
+      'land_area_label': 'Land Area',
+      'land_boundary_title': 'Land Boundary & Map',
+      'land_details_title': 'Land Details',
+      'land_status_title': 'Land Verification Status',
+      'land_verification_required': 'Land verification required',
+      'last_computed': 'Last computed',
+      'latest_update': 'Latest Update',
+      'loading_journey': 'Loading farm journey...',
+      'maize': 'Maize (Corn)',
+      'maize_sub': 'High-yield hybrid corn',
+      'maturity': 'परिपक्वता अवस्था',
+      'maturity_sub': 'Golden grain maturity',
+      'monitoring_recency': 'Monitoring Recency',
+      'my_farm': 'माझे शेत',
+      'my_farm_journey': 'माझा शेती प्रवास',
+      'no_timeline_events': 'No timeline events recorded yet.',
+      'no_updates': 'No new updates right now',
+      'or_type_below': 'Or type below',
+      'overall_farm_health': 'एकूण शेत आरोग्य',
+      'ownership_status': 'Ownership Status',
+      'patta_number': 'Patta Number',
+      'possible_issue_identified': 'Possible Issue Identified',
+      'preventive_measures': 'Preventive Measures',
+      'primary_crop': 'Primary Crop',
+      'provide_details': 'Provide Details',
+      'quick_selection': 'द्रुत निवड पर्याय',
+      'rain': 'Rain',
+      'recommended_actions': 'Recommended Actions',
+      'recommended_schemes': 'Recommended Schemes',
+      'recompute_health': 'Recompute Health',
+      'refresh_status': 'Refresh Status',
+      'refresh_timeline': 'Refresh Timeline',
+      'requires_verified_land': 'Requires Verified Land',
+      'resource_adequacy': 'Resource Adequacy',
+      'retry': 'Retry',
+      'samba_paddy': 'सांभा भात (तांदूळ)',
+      'samba_paddy_sub': 'Medium to long duration rice',
+      'save_my_farm': 'Save My Farm',
+      'scheme_details': 'Scheme Details',
+      'schemes_subsidies': 'Schemes & Subsidies',
+      'scientific_remedy': 'Scientific Remedy',
+      'score_breakdown': 'तपशीलवार स्कोअर विश्लेषण',
+      'score_breakdown_desc': 'Composite health calculated across 6 key agronomic dimensions.',
+      'select_farm_area': 'Select Farm Area',
+      'select_stage': 'Select Growth Stage',
+      'show_problem': 'Show Image',
+      'step_area_sub': 'Select your cultivated land area',
+      'step_area_title': 'What is your farm size?',
+      'step_crop_sub': 'Speak clearly or select from list below',
+      'step_crop_title': 'What are you growing?',
+      'step_stage_sub': 'Select the current development stage',
+      'step_stage_title': 'What is the current growth stage?',
+      'subsidy_amount': 'Subsidy Amount',
+      'sugarcane': 'ऊस',
+      'sugarcane_sub': 'Annual commercial cash crop',
+      'survey_number': 'Survey Number',
+      'symptoms_observed': 'Symptoms Observed',
+      'taluk': 'Taluk',
+      'tap_to_speak_area': 'Tap to speak your farm size',
+      'tap_to_speak_crop': 'Tap to speak your crop',
+      'tap_to_speak_stage': 'Tap to speak current stage',
+      'target_beneficiaries': 'Target Beneficiaries',
+      'tell_about_farm': 'तुमच्या शेताबद्दल सांगा',
+      'timeline_header': 'Farm Activity Journey',
+      'timeline_header_desc': 'Verified chronological timeline of all farm actions, diagnostics, and approvals.',
+      'timeline_title': 'माझा शेती प्रवास',
+      'todays_farm_brief': 'आजचे मार्गदर्शन',
+      'total_area': 'Total Area',
+      'track_progress': 'Track Progress',
+      'treatment_response': 'Treatment Response',
+      'type_problem_hint': 'e.g. Paddy leaves turning yellow with brown spots...',
+      'unable_load_health': 'Unable to Load Health Data',
+      'unable_load_timeline': 'Unable to Load Timeline',
+      'upload_crop_photo': 'Upload Crop Photo',
+      'vegetative': 'शाकीय वाढीची अवस्था',
+      'vegetative_sub': 'Tillering & vegetative shoot growth',
+      'verify_land_desc': 'Verify your land for govt schemes',
+      'verify_land_now': 'Verify Land Now',
+      'view_advice': 'View Advice',
+      'view_all': 'View All',
+      'view_details': 'View Details',
+      'view_health_journey': 'View Health Journey Timeline',
+      'view_scheme_details': 'View Scheme Details',
+      'village': 'Village',
+      'voice_assistant': 'Voice Assistant',
+      'what_problem_seeing': 'What problem are you seeing?',
+      'what_would_you_like_to_do': 'What would you like to do?',
+      'your_farm_profile': 'Your Farm Profile',
+    },
+    'ml-IN': {
+      'acres': 'ഏക്കർ',
+      'active_problem_load': 'Active Problem Load',
+      'activity_timeline': 'Activity Timeline',
+      'analyzing_health': 'Analyzing farm health snapshot...',
+      'analyzing_image': 'Analyzing crop photograph...',
+      'app_title': 'ഭൂമി',
+      'apply_scheme': 'Apply Scheme',
+      'ask_bhoomi': 'ഭൂമിയോട് ചോദിക്കുക',
+      'back': 'പിന്നോട്ട്',
+      'banana': 'Banana',
+      'banana_sub': 'Grand Naine, Robusta varieties',
+      'bhoomi_advisory': 'BHOOMI Farm Advisory',
+      'biological_control': 'Biological Control',
+      'chemical_control': 'Chemical Control',
+      'choose_language': 'നിങ്ങളുടെ ഭാഷ തിരഞ്ഞെടുക്കുക',
+      'confidence_score': 'Confidence Score',
+      'confirm_desc': 'Review and confirm your farm details',
+      'confirm_farm_title': 'Confirm Farm Details',
+      'continue': 'തുടരുക',
+      'cotton': 'Cotton',
+      'cotton_sub': 'Long staple varieties',
+      'crop_advisory_desc': 'Crop protection & growth guide',
+      'crop_diagnosis_title': 'Crop Disease Diagnosis',
+      'crop_label': 'Crop',
+      'crop_stage_prog': 'Crop Stage Progression',
+      'daily_companion': 'Daily Companion',
+      'diagnose_get_advice': 'Diagnose & Get Advice',
+      'diagnosis_id': 'Diagnosis ID',
+      'district': 'District',
+      'documents_required': 'Documents Required',
+      'eligibility_criteria': 'Eligibility Criteria',
+      'eligible_schemes': 'Eligible Schemes',
+      'env_suitability': 'Environmental Suitability',
+      'farm_health_score': 'Farm Health Score',
+      'farm_health_title': 'കൃഷി ആരോഗ്യവും രോഗനിർണയവും',
+      'farm_id': 'Farm ID',
+      'farm_journey_desc': 'Your farm activity timeline',
+      'field_weather': 'Field Weather',
+      'flowering': 'പൂവിടൽ ഘട്ടം',
+      'flowering_sub': 'Panicle initiation & flowering',
+      'get_expert_help': 'Get Expert Help',
+      'get_started': 'ആരംഭിക്കുക',
+      'govt_support': 'സർക്കാർ പദ്ധതികൾ',
+      'govt_support_desc': 'Subsidies & financial support',
+      'govt_support_finder': 'Govt Support Finder',
+      'grain_filling': 'മണി നിറയുന്ന ഘട്ടം',
+      'grain_filling_sub': 'Milky to dough grain formation',
+      'growth_stage_label': 'Growth Stage',
+      'harvest_ready': 'വിളവെടുപ്പിന് തയ്യാർ',
+      'harvest_ready_sub': 'Fully mature & ready for harvest',
+      'health_history': 'Health History',
+      'health_unrated': 'Unrated',
+      'health_unrated_desc': 'Needs more observation data',
+      'humidity': 'Humidity',
+      'kuruvai_paddy': 'Kuruvai Paddy',
+      'kuruvai_paddy_sub': 'Short duration paddy crop',
+      'land_area_label': 'Land Area',
+      'land_boundary_title': 'Land Boundary & Map',
+      'land_details_title': 'Land Details',
+      'land_status_title': 'Land Verification Status',
+      'land_verification_required': 'Land verification required',
+      'last_computed': 'Last computed',
+      'latest_update': 'Latest Update',
+      'loading_journey': 'Loading farm journey...',
+      'maize': 'Maize (Corn)',
+      'maize_sub': 'High-yield hybrid corn',
+      'maturity': 'വിളവെത്തൽ ഘട്ടം',
+      'maturity_sub': 'Golden grain maturity',
+      'monitoring_recency': 'Monitoring Recency',
+      'my_farm': 'എന്റെ കൃഷി',
+      'my_farm_journey': 'എന്റെ കൃഷി യാത്ര',
+      'no_timeline_events': 'No timeline events recorded yet.',
+      'no_updates': 'No new updates right now',
+      'or_type_below': 'Or type below',
+      'overall_farm_health': 'ആകെ കൃഷി ആരോഗ്യം',
+      'ownership_status': 'Ownership Status',
+      'patta_number': 'Patta Number',
+      'possible_issue_identified': 'Possible Issue Identified',
+      'preventive_measures': 'Preventive Measures',
+      'primary_crop': 'Primary Crop',
+      'provide_details': 'Provide Details',
+      'quick_selection': 'പെട്ടെന്നുള്ള തിരഞ്ഞെടുപ്പുകൾ',
+      'rain': 'Rain',
+      'recommended_actions': 'Recommended Actions',
+      'recommended_schemes': 'Recommended Schemes',
+      'recompute_health': 'Recompute Health',
+      'refresh_status': 'Refresh Status',
+      'refresh_timeline': 'Refresh Timeline',
+      'requires_verified_land': 'Requires Verified Land',
+      'resource_adequacy': 'Resource Adequacy',
+      'retry': 'Retry',
+      'samba_paddy': 'സാംബാ നെല്ല്',
+      'samba_paddy_sub': 'Medium to long duration rice',
+      'save_my_farm': 'Save My Farm',
+      'scheme_details': 'Scheme Details',
+      'schemes_subsidies': 'Schemes & Subsidies',
+      'scientific_remedy': 'Scientific Remedy',
+      'score_breakdown': 'വിശദമായ സ്കോർ വിശകലനം',
+      'score_breakdown_desc': 'Composite health calculated across 6 key agronomic dimensions.',
+      'select_farm_area': 'Select Farm Area',
+      'select_stage': 'Select Growth Stage',
+      'show_problem': 'Show Image',
+      'step_area_sub': 'Select your cultivated land area',
+      'step_area_title': 'What is your farm size?',
+      'step_crop_sub': 'Speak clearly or select from list below',
+      'step_crop_title': 'What are you growing?',
+      'step_stage_sub': 'Select the current development stage',
+      'step_stage_title': 'What is the current growth stage?',
+      'subsidy_amount': 'Subsidy Amount',
+      'sugarcane': 'കരിമ്പ്',
+      'sugarcane_sub': 'Annual commercial cash crop',
+      'survey_number': 'Survey Number',
+      'symptoms_observed': 'Symptoms Observed',
+      'taluk': 'Taluk',
+      'tap_to_speak_area': 'Tap to speak your farm size',
+      'tap_to_speak_crop': 'Tap to speak your crop',
+      'tap_to_speak_stage': 'Tap to speak current stage',
+      'target_beneficiaries': 'Target Beneficiaries',
+      'tell_about_farm': 'നിങ്ങളുടെ കൃഷിയെക്കുറിച്ച് പറയുക',
+      'timeline_header': 'Farm Activity Journey',
+      'timeline_header_desc': 'Verified chronological timeline of all farm actions, diagnostics, and approvals.',
+      'timeline_title': 'എന്റെ കൃഷി യാത്ര',
+      'todays_farm_brief': 'ഇന്നത്തെ കൃഷി ഉപദേശം',
+      'total_area': 'Total Area',
+      'track_progress': 'Track Progress',
+      'treatment_response': 'Treatment Response',
+      'type_problem_hint': 'e.g. Paddy leaves turning yellow with brown spots...',
+      'unable_load_health': 'Unable to Load Health Data',
+      'unable_load_timeline': 'Unable to Load Timeline',
+      'upload_crop_photo': 'Upload Crop Photo',
+      'vegetative': 'കായിക വളർച്ച ഘട്ടം',
+      'vegetative_sub': 'Tillering & vegetative shoot growth',
+      'verify_land_desc': 'Verify your land for govt schemes',
+      'verify_land_now': 'Verify Land Now',
+      'view_advice': 'View Advice',
+      'view_all': 'View All',
+      'view_details': 'View Details',
+      'view_health_journey': 'View Health Journey Timeline',
+      'view_scheme_details': 'View Scheme Details',
+      'village': 'Village',
+      'voice_assistant': 'Voice Assistant',
+      'what_problem_seeing': 'What problem are you seeing?',
+      'what_would_you_like_to_do': 'What would you like to do?',
+      'your_farm_profile': 'Your Farm Profile',
+    },
+    'pa-IN': {
+      'acres': 'ਏਕੜ',
+      'active_problem_load': 'Active Problem Load',
+      'activity_timeline': 'Activity Timeline',
+      'analyzing_health': 'Analyzing farm health snapshot...',
+      'analyzing_image': 'Analyzing crop photograph...',
+      'app_title': 'ਭੂਮੀ',
+      'apply_scheme': 'Apply Scheme',
+      'ask_bhoomi': 'ਭੂਮੀ ਨੂੰ ਪੁੱਛੋ',
+      'back': 'ਪਿੱਛੇ',
+      'banana': 'Banana',
+      'banana_sub': 'Grand Naine, Robusta varieties',
+      'bhoomi_advisory': 'BHOOMI Farm Advisory',
+      'biological_control': 'Biological Control',
+      'chemical_control': 'Chemical Control',
+      'choose_language': 'ਆਪਣੀ ਭਾਸ਼ਾ ਚੁਣੋ',
+      'confidence_score': 'Confidence Score',
+      'confirm_desc': 'Review and confirm your farm details',
+      'confirm_farm_title': 'Confirm Farm Details',
+      'continue': 'ਜਾਰੀ ਰੱਖੋ',
+      'cotton': 'Cotton',
+      'cotton_sub': 'Long staple varieties',
+      'crop_advisory_desc': 'Crop protection & growth guide',
+      'crop_diagnosis_title': 'Crop Disease Diagnosis',
+      'crop_label': 'Crop',
+      'crop_stage_prog': 'Crop Stage Progression',
+      'daily_companion': 'Daily Companion',
+      'diagnose_get_advice': 'Diagnose & Get Advice',
+      'diagnosis_id': 'Diagnosis ID',
+      'district': 'District',
+      'documents_required': 'Documents Required',
+      'eligibility_criteria': 'Eligibility Criteria',
+      'eligible_schemes': 'Eligible Schemes',
+      'env_suitability': 'Environmental Suitability',
+      'farm_health_score': 'Farm Health Score',
+      'farm_health_title': 'ਖੇਤ ਦੀ ਸਿਹਤ ਅਤੇ ਜਾਂਚ',
+      'farm_id': 'Farm ID',
+      'farm_journey_desc': 'Your farm activity timeline',
+      'field_weather': 'Field Weather',
+      'flowering': 'ਫੁੱਲ ਪੈਣ ਦਾ ਸਮਾਂ',
+      'flowering_sub': 'Panicle initiation & flowering',
+      'get_expert_help': 'Get Expert Help',
+      'get_started': 'ਸ਼ੁਰੂ ਕਰੋ',
+      'govt_support': 'ਸਰਕਾਰੀ ਸਕੀਮਾਂ',
+      'govt_support_desc': 'Subsidies & financial support',
+      'govt_support_finder': 'Govt Support Finder',
+      'grain_filling': 'ਦਾਣਾ ਭਰਨ ਦਾ ਸਮਾਂ',
+      'grain_filling_sub': 'Milky to dough grain formation',
+      'growth_stage_label': 'Growth Stage',
+      'harvest_ready': 'ਵਾਢੀ ਲਈ ਤਿਆਰ',
+      'harvest_ready_sub': 'Fully mature & ready for harvest',
+      'health_history': 'Health History',
+      'health_unrated': 'Unrated',
+      'health_unrated_desc': 'Needs more observation data',
+      'humidity': 'Humidity',
+      'kuruvai_paddy': 'Kuruvai Paddy',
+      'kuruvai_paddy_sub': 'Short duration paddy crop',
+      'land_area_label': 'Land Area',
+      'land_boundary_title': 'Land Boundary & Map',
+      'land_details_title': 'Land Details',
+      'land_status_title': 'Land Verification Status',
+      'land_verification_required': 'Land verification required',
+      'last_computed': 'Last computed',
+      'latest_update': 'Latest Update',
+      'loading_journey': 'Loading farm journey...',
+      'maize': 'Maize (Corn)',
+      'maize_sub': 'High-yield hybrid corn',
+      'maturity': 'ਪੱਕਣ ਦਾ ਸਮਾਂ',
+      'maturity_sub': 'Golden grain maturity',
+      'monitoring_recency': 'Monitoring Recency',
+      'my_farm': 'ਮੇਰਾ ਖੇਤ',
+      'my_farm_journey': 'ਮੇਰਾ ਖੇਤੀ ਸਫ਼ਰ',
+      'no_timeline_events': 'No timeline events recorded yet.',
+      'no_updates': 'No new updates right now',
+      'or_type_below': 'Or type below',
+      'overall_farm_health': 'ਕੁੱਲ ਖੇਤ ਸਿਹਤ',
+      'ownership_status': 'Ownership Status',
+      'patta_number': 'Patta Number',
+      'possible_issue_identified': 'Possible Issue Identified',
+      'preventive_measures': 'Preventive Measures',
+      'primary_crop': 'Primary Crop',
+      'provide_details': 'Provide Details',
+      'quick_selection': 'ਤੇਜ਼ ਚੋਣ ਵਿਕਲਪ',
+      'rain': 'Rain',
+      'recommended_actions': 'Recommended Actions',
+      'recommended_schemes': 'Recommended Schemes',
+      'recompute_health': 'Recompute Health',
+      'refresh_status': 'Refresh Status',
+      'refresh_timeline': 'Refresh Timeline',
+      'requires_verified_land': 'Requires Verified Land',
+      'resource_adequacy': 'Resource Adequacy',
+      'retry': 'Retry',
+      'samba_paddy': 'ਸਾਂਭਾ ਝੋਨਾ (ਚੌਲ)',
+      'samba_paddy_sub': 'Medium to long duration rice',
+      'save_my_farm': 'Save My Farm',
+      'scheme_details': 'Scheme Details',
+      'schemes_subsidies': 'Schemes & Subsidies',
+      'scientific_remedy': 'Scientific Remedy',
+      'score_breakdown': 'ਵਿਸਤ੍ਰਿਤ ਸਕੋਰ ਵੇਰਵਾ',
+      'score_breakdown_desc': 'Composite health calculated across 6 key agronomic dimensions.',
+      'select_farm_area': 'Select Farm Area',
+      'select_stage': 'Select Growth Stage',
+      'show_problem': 'Show Image',
+      'step_area_sub': 'Select your cultivated land area',
+      'step_area_title': 'What is your farm size?',
+      'step_crop_sub': 'Speak clearly or select from list below',
+      'step_crop_title': 'What are you growing?',
+      'step_stage_sub': 'Select the current development stage',
+      'step_stage_title': 'What is the current growth stage?',
+      'subsidy_amount': 'Subsidy Amount',
+      'sugarcane': 'ਗੰਨਾ',
+      'sugarcane_sub': 'Annual commercial cash crop',
+      'survey_number': 'Survey Number',
+      'symptoms_observed': 'Symptoms Observed',
+      'taluk': 'Taluk',
+      'tap_to_speak_area': 'Tap to speak your farm size',
+      'tap_to_speak_crop': 'Tap to speak your crop',
+      'tap_to_speak_stage': 'Tap to speak current stage',
+      'target_beneficiaries': 'Target Beneficiaries',
+      'tell_about_farm': 'ਆਪਣੇ ਖੇਤ ਬਾਰੇ ਦੱਸੋ',
+      'timeline_header': 'Farm Activity Journey',
+      'timeline_header_desc': 'Verified chronological timeline of all farm actions, diagnostics, and approvals.',
+      'timeline_title': 'ਮੇਰਾ ਖੇਤੀ ਸਫ਼ਰ',
+      'todays_farm_brief': 'ਅੱਜ ਦੀ ਸਲਾਹ',
+      'total_area': 'Total Area',
+      'track_progress': 'Track Progress',
+      'treatment_response': 'Treatment Response',
+      'type_problem_hint': 'e.g. Paddy leaves turning yellow with brown spots...',
+      'unable_load_health': 'Unable to Load Health Data',
+      'unable_load_timeline': 'Unable to Load Timeline',
+      'upload_crop_photo': 'Upload Crop Photo',
+      'vegetative': 'ਬਨਸਪਤੀ ਵਾਧਾ',
+      'vegetative_sub': 'Tillering & vegetative shoot growth',
+      'verify_land_desc': 'Verify your land for govt schemes',
+      'verify_land_now': 'Verify Land Now',
+      'view_advice': 'View Advice',
+      'view_all': 'View All',
+      'view_details': 'View Details',
+      'view_health_journey': 'View Health Journey Timeline',
+      'view_scheme_details': 'View Scheme Details',
+      'village': 'Village',
+      'voice_assistant': 'Voice Assistant',
+      'what_problem_seeing': 'What problem are you seeing?',
+      'what_would_you_like_to_do': 'What would you like to do?',
+      'your_farm_profile': 'Your Farm Profile',
+    },
+  };
 
-  // Language Selection Screen
-  String get chooseLanguageTitle => _t({
-    'en-IN': 'Choose Your Language',
-    'te-IN': 'మీ భాషను ఎంచుకోండి',
-    'ta-IN': 'உங்கள் மொழியைத் தேர்ந்தெடுக்கவும்',
-    'hi-IN': 'अपनी भाषा चुनें',
-    'kn-IN': 'ನಿಮ್ಮ ಭಾಷೆಯನ್ನು ಆಯ್ಕೆಮಾಡಿ',
-    'mr-IN': 'तुमची भाषा निवडा',
-    'ml-IN': 'നിങ്ങളുടെ ഭാഷ തിരഞ്ഞെടുക്കുക',
-    'pa-IN': 'ਆਪਣੀ ਭਾਸ਼ਾ ਚੁਣੋ',
-  });
-  String get chooseLanguageDesc => _t({
-    'en-IN': 'BHOOMI will speak, listen, and provide intelligent farm advisories in your preferred language.',
-    'te-IN': 'భూమి మీ ప్రాధాన్య భాషలోనే మాట్లాడుతుంది, వింటుంది మరియు తెలివైన వ్యవసాయ సలహాలను అందిస్తుంది.',
-    'ta-IN': 'பூமி உங்கள் விருப்ப மொழியிலேயே பேசும், கேட்கும் மற்றும் நுண்ணறிவு பண்ணை ஆலோசனைகளை வழங்கும்.',
-    'hi-IN': 'भूमि आपकी पसंदीदा भाषा में बोलेगी, सुनेगी और सटीक कृषि सलाह प्रदान करेगी।',
-    'kn-IN': 'ಭೂಮಿ ನಿಮ್ಮ ಆದ್ಯತೆಯ ಭಾಷೆಯಲ್ಲಿ ಮಾತನಾಡುತ್ತದೆ, ಕೇಳುತ್ತದೆ ಮತ್ತು ಕೃಷಿ ಸಲಹೆಗಳನ್ನು ನೀಡುತ್ತದೆ.',
-    'mr-IN': 'भूमी तुमच्या पसंतीच्या भाषेत बोलेल, ऐकेल आणि अचूक शेतीविषयक सल्ला देईल.',
-    'ml-IN': 'ഭൂമി നിങ്ങളുടെ ഇഷ്ട ഭാഷയിൽ സംസാരിക്കുകയും കേൾക്കുകയും കൃഷി ഉപദേശങ്ങൾ നൽകുകയും ചെയ്യും.',
-    'pa-IN': 'ਭੂਮੀ ਤੁਹਾਡੀ ਪਸੰਦੀਦਾ ਭਾਸ਼ਾ ਵਿੱਚ ਬੋਲੇਗੀ, ਸੁਣੇਗੀ ਅਤੇ ਖੇਤੀ ਸਲਾਹ ਪ੍ਰਦਾਨ ਕਰੇਗੀ।',
-  });
+  /// Returns translated string by key with english fallback
+  String text(String key) {
+    final langDict = _localizedValues[langCode] ?? _localizedValues['en-IN']!;
+    if (langDict.containsKey(key)) {
+      return langDict[key]!;
+    }
+    final enDict = _localizedValues['en-IN']!;
+    return enDict[key] ?? key;
+  }
 
-  // Onboarding Screen
-  String get onboardingTitle => _t({
-    'en-IN': 'Tell us about your farm',
-    'te-IN': 'మీ పొలం వివరాలు తెలియజేయండి',
-    'ta-IN': 'உங்கள் பண்ணை விவரங்களை தெரிவியுங்கள்',
-    'hi-IN': 'अपने खेत के बारे में बताएं',
-    'kn-IN': 'ನಿಮ್ಮ ಕೃಷಿ ವಿವರಗಳನ್ನು ತಿಳಿಸಿ',
-    'mr-IN': 'तुमच्या शेतीबद्दल सांगा',
-    'ml-IN': 'നിങ്ങളുടെ കൃഷിയിടത്തെക്കുറിച്ച് പറയുക',
-    'pa-IN': 'ਆਪਣੇ ਖੇਤ ਬਾਰੇ ਦੱਸੋ',
-  });
+  /// Alias for text(key)
+  String get(String key) => text(key);
+  String operator [](String key) => text(key);
 
-  // Step 1: Crop
-  String get cropStepTitle => _t({
-    'en-IN': 'What crop are you growing?',
-    'te-IN': 'మీరు ఏ పంట పండిస్తున్నారు?',
-    'ta-IN': 'நீங்கள் என்ன பயிர் செய்கிறீர்கள்?',
-    'hi-IN': 'आप कौन सी फसल उगा रहे हैं?',
-    'kn-IN': 'ನೀವು ಯಾವ ಬೆಳೆ ಬೆಳೆಯುತ್ತಿದ್ದೀರಿ?',
-    'mr-IN': 'तुम्ही कोणते पीक घेत आहात?',
-    'ml-IN': 'നിങ്ങൾ ഏത് വിളയാണ് വളർത്തുന്നത്?',
-    'pa-IN': 'ਤੁਸੀਂ ਕਿਹੜੀ ਫਸਲ ਉਗਾ ਰਹੇ ਹੋ?',
-  });
-  String get cropStepSub => _t({
-    'en-IN': 'Speak clearly or select your crop from the list below',
-    'te-IN': 'స్పష్టంగా మాట్లాడండి లేదా క్రింది జాబితా నుండి మీ పంటను ఎంచుకోండి',
-    'ta-IN': 'தெளிவாகப் பேசவும் அல்லது கீழேயுள்ள பட்டியலிலிருந்து தேர்ந்தெடுக்கவும்',
-    'hi-IN': 'स्पष्ट बोलें या नीचे दी गई सूची से अपनी फसल चुनें',
-    'kn-IN': 'ಸ್ಪಷ್ಟವಾಗಿ ಮಾತನಾಡಿ ಅಥವಾ ಕೆಳಗಿನ ಪಟ್ಟಿಯಿಂದ ನಿಮ್ಮ ಬೆಳೆಯನ್ನು ಆಯ್ಕೆಮಾಡಿ',
-    'mr-IN': 'स्पष्ट बोला किंवा खालील यादीतून तुमचे पीक निवडा',
-    'ml-IN': 'വ്യക്തമായി സംസാരിക്കുക അല്ലെങ്കിൽ താഴെയുള്ള പട്ടികയിൽ നിന്ന് തിരഞ്ഞെടുക്കുക',
-    'pa-IN': 'ਸਪੱਸ਼ਟ ਬੋਲੋ ਜਾਂ ਹੇਠਾਂ ਦਿੱਤੀ ਸੂਚੀ ਵਿੱਚੋਂ ਆਪਣੀ ਫਸਲ ਚੁਣੋ',
-  });
-  String get cropVoicePrompt => _t({
-    'en-IN': 'Tap to speak your crop',
-    'te-IN': 'మీ పంట పేరు చెప్పడానికి తాకండి',
-    'ta-IN': 'உங்கள் பயிரைப் பேச தட்டவும்',
-    'hi-IN': 'अपनी फसल बोलने के लिए टैप करें',
-    'kn-IN': 'ನಿಮ್ಮ ಬೆಳೆ ಹೆಸರು ಹೇಳಲು ಟ್ಯಾಪ್ ಮಾಡಿ',
-    'mr-IN': 'तुमचे पीक सांगण्यासाठी टॅप करा',
-    'ml-IN': 'വിളയുടെ പേര് പറയാൻ ടാപ്പ് ചെയ്യുക',
-    'pa-IN': 'ਆਪਣੀ ਫਸਲ ਬੋਲਣ ਲਈ ਟੈਪ ਕਰੋ',
-  });
-  String get quickSelectOptions => _t({
-    'en-IN': 'Quick Selection Options',
-    'te-IN': 'శీఘ్ర ఎంపికలు',
-    'ta-IN': 'விரைவுத் தேர்வுகள்',
-    'hi-IN': 'त्वरित चयन विकल्प',
-    'kn-IN': 'ತ್ವರಿತ ಆಯ್ಕೆಗಳು',
-    'mr-IN': 'द्रुत निवड पर्याय',
-    'ml-IN': 'പെട്ടെന്നുള്ള തിരഞ്ഞെടുപ്പുകൾ',
-    'pa-IN': 'ਤੁਰੰਤ ਚੋਣ ਵਿਕਲਪ',
-  });
-
-  // Crops Names
-  String cropName(String cropId) {
-    switch (cropId) {
+  /// Helper translation methods
+  String translateCrop(String cropId) {
+    switch (cropId.toLowerCase()) {
       case 'samba_paddy':
-        return _t({
-          'en-IN': 'Samba Paddy',
-          'te-IN': 'సాంబ వరి',
-          'ta-IN': 'சம்பா நெல்',
-          'hi-IN': 'सांबा धान',
-          'kn-IN': 'ಸಾಂಬಾ ಭತ್ತ',
-          'mr-IN': 'सांबा भात',
-          'ml-IN': 'സാമ്പ നെല്ല്',
-          'pa-IN': 'ਸਾਂਬਾ ਝੋਨਾ',
-        });
+        return text('samba_paddy');
       case 'kuruvai_paddy':
-        return _t({
-          'en-IN': 'Kuruvai Paddy',
-          'te-IN': 'కురువై వరి',
-          'ta-IN': 'குறுவை நெல்',
-          'hi-IN': 'कुरुवई धान',
-          'kn-IN': 'ಕುರುವೈ ಭತ್ತ',
-          'mr-IN': 'कुरुवई भात',
-          'ml-IN': 'കുറുവായ് നെല്ല്',
-          'pa-IN': 'ਕੁਰੂਵਈ ਝੋਨਾ',
-        });
+        return text('kuruvai_paddy');
       case 'sugarcane':
-        return _t({
-          'en-IN': 'Sugarcane',
-          'te-IN': 'చెరకు',
-          'ta-IN': 'கரும்பு',
-          'hi-IN': 'गन्ना',
-          'kn-IN': 'ಕಬ್ಬು',
-          'mr-IN': 'ऊस',
-          'ml-IN': 'കരിമ്പ്',
-          'pa-IN': 'ਗੰਨਾ',
-        });
+        return text('sugarcane');
       case 'cotton':
-        return _t({
-          'en-IN': 'Cotton',
-          'te-IN': 'పత్తి',
-          'ta-IN': 'பருத்தி',
-          'hi-IN': 'कपास',
-          'kn-IN': 'ಹತ್ತಿ',
-          'mr-IN': 'कापूस',
-          'ml-IN': 'പരുത്തി',
-          'pa-IN': 'ਕਪਾਹ',
-        });
+        return text('cotton');
       case 'banana':
-        return _t({
-          'en-IN': 'Banana',
-          'te-IN': 'అరటి',
-          'ta-IN': 'வாழை',
-          'hi-IN': 'केला',
-          'kn-IN': 'ಬಾಳೆ',
-          'mr-IN': 'केळी',
-          'ml-IN': 'വാഴ',
-          'pa-IN': 'ਕੇਲਾ',
-        });
+        return text('banana');
       case 'maize':
-        return _t({
-          'en-IN': 'Maize (Corn)',
-          'te-IN': 'మొక్కజొన్న',
-          'ta-IN': 'மக்காச்சோளம்',
-          'hi-IN': 'मक्का',
-          'kn-IN': 'ಮೆಕ್ಕೆಜೋಳ',
-          'mr-IN': 'मका',
-          'ml-IN': 'ചോളം',
-          'pa-IN': 'ਮੱਕੀ',
-        });
+        return text('maize');
       default:
-        return cropId.replaceAll('_', ' ').toUpperCase();
+        return cropId;
     }
   }
 
+  String translateStage(String stageId) {
+    switch (stageId.toLowerCase()) {
+      case 'vegetative':
+        return text('vegetative');
+      case 'flowering':
+        return text('flowering');
+      case 'grain_filling':
+        return text('grain_filling');
+      case 'maturity':
+        return text('maturity');
+      case 'harvest_ready':
+        return text('harvest_ready');
+      default:
+        return stageId;
+    }
+  }
+
+  String translateHealthBand(String band) {
+    switch (band.toLowerCase()) {
+      case 'good':
+      case 'excellent':
+        return langCode.startsWith('ta') ? 'நல்ல ஆரோக்கியம்' : langCode.startsWith('hi') ? 'अच्छा स्वास्थ्य' : 'Good Health';
+      case 'moderate':
+      case 'fair':
+        return langCode.startsWith('ta') ? 'மிதமான ஆரோக்கியம்' : langCode.startsWith('hi') ? 'मध्यम स्वास्थ्य' : 'Moderate Health';
+      case 'poor':
+      case 'critical':
+        return langCode.startsWith('ta') ? 'கவனம் தேவை' : langCode.startsWith('hi') ? 'ध्यान आवश्यक' : 'Needs Attention';
+      case 'unrated':
+      default:
+        return text('health_unrated');
+    }
+  }
+
+  String translateLandStatus(String status) {
+    switch (status.toLowerCase()) {
+      case 'verified':
+        return langCode.startsWith('ta') ? 'சரிபார்க்கப்பட்ட நிலம்' : langCode.startsWith('hi') ? 'सत्यापित भूमि' : 'Verified Land';
+      case 'pending':
+        return langCode.startsWith('ta') ? 'சரிபார்ப்பு நிலுவையில்' : langCode.startsWith('hi') ? 'सत्यापन लंबित' : 'Pending Verification';
+      case 'unverified':
+      default:
+        return langCode.startsWith('ta') ? 'சரிபார்க்கப்படாத நிலம்' : langCode.startsWith('hi') ? 'असत्यापित भूमि' : 'Unverified Land';
+    }
+  }
+
+  String translateSubIndex(String name) {
+    switch (name.toLowerCase()) {
+      case 'environmental suitability':
+      case 'environmentalsuitability':
+        return text('env_suitability');
+      case 'resource adequacy':
+      case 'resourceadequacy':
+        return text('resource_adequacy');
+      case 'crop stage progression':
+      case 'cropstageprogression':
+        return text('crop_stage_prog');
+      case 'active problem load':
+      case 'activeproblemload':
+        return text('active_problem_load');
+      case 'monitoring recency':
+      case 'monitoringrecency':
+        return text('monitoring_recency');
+      case 'treatment response':
+      case 'treatmentresponse':
+        return text('treatment_response');
+      default:
+        return name;
+    }
+  }
+
+  String translateTimelineTitle(String title) {
+    final lower = title.toLowerCase();
+    if (lower.contains('profile created') || lower.contains('farm profile')) {
+      return langCode.startsWith('ta') ? 'பண்ணை விவரக்குறிப்பு உருவாக்கப்பட்டது' : langCode.startsWith('hi') ? 'खेत प्रोफ़ाइल बनाई गई' : 'Farm Profile Created';
+    }
+    if (lower.contains('boundary verified') || lower.contains('cadastral')) {
+      return langCode.startsWith('ta') ? 'நில எல்லை சரிபார்க்கப்பட்டது' : langCode.startsWith('hi') ? 'भूमि सीमा सत्यापित' : 'Cadastral Boundary Verified';
+    }
+    if (lower.contains('blight') || lower.contains('bacterial') || lower.contains('disease') || lower.contains('advisory')) {
+      return langCode.startsWith('ta') ? 'பயிர்ப் பாதுகாப்பு & நோய் ஆலோசனை' : langCode.startsWith('hi') ? 'फसल सुरक्षा एवं रोग सलाह' : title;
+    }
+    return title;
+  }
+
+  String translateTimelineSummary(String summary) {
+    final lower = summary.toLowerCase();
+    if (lower.contains('registered') && lower.contains('samba')) {
+      return langCode.startsWith('ta') ? 'ஈரோடு மாவட்டத்தில் 2.0 ஏக்கர் சம்பா நெல் பதிவு செய்யப்பட்டது.' : langCode.startsWith('hi') ? 'इरोड जिले में 2.0 एकड़ सांभा धान पंजीकृत।' : summary;
+    }
+    if (lower.contains('fmb') || lower.contains('revenue parcel')) {
+      return langCode.startsWith('ta') ? 'அரசு நில வருவாய் வரைபடம் FMB 2.0 ஏக்கருடன் ஒத்துப்போனது.' : langCode.startsWith('hi') ? 'आधिकारिक राजस्व पार्सल FMB 2.0 एकड़ से मेल खाता है।' : summary;
+    }
+    if (lower.contains('bio-control') || lower.contains('drainage')) {
+      return langCode.startsWith('ta') ? 'உயிரியல் கட்டுப்பாட்டு சிகிச்சை மற்றும் வடிகால் வழிகாட்டுதல் வழங்கப்பட்டது.' : langCode.startsWith('hi') ? 'जैव-नियंत्रण उपचार और जल निकासी सलाह जारी की गई।' : summary;
+    }
+    return summary;
+  }
+
+  String translateSoilType(String soilType) {
+    switch (soilType.toLowerCase()) {
+      case 'clay_loam':
+        return langCode.startsWith('ta') ? 'களிமண் படிவு' : 'Clay Loam';
+      case 'alluvial':
+        return langCode.startsWith('ta') ? 'வண்டல் மண்' : 'Alluvial Soil';
+      case 'black_cotton':
+        return langCode.startsWith('ta') ? 'கரிசல் மண்' : 'Black Soil';
+      case 'red_loam':
+        return langCode.startsWith('ta') ? 'செம்மண்' : 'Red Loam';
+      default:
+        return soilType;
+    }
+  }
+
+  String translateIrrigation(String irrigation) {
+    switch (irrigation.toLowerCase()) {
+      case 'canal':
+        return langCode.startsWith('ta') ? 'கால்வாய் பாசனம்' : 'Canal Water';
+      case 'borewell':
+        return langCode.startsWith('ta') ? 'ஆழ்துளை கிணறு' : 'Borewell';
+      case 'drip':
+        return langCode.startsWith('ta') ? 'சொட்டு நீர்' : 'Drip Irrigation';
+      case 'rainfed':
+        return langCode.startsWith('ta') ? 'மானாவாரி' : 'Rainfed';
+      default:
+        return irrigation;
+    }
+  }
+
+  String translateSeason(String season) {
+    switch (season.toLowerCase()) {
+      case 'samba':
+        return langCode.startsWith('ta') ? 'சம்பா பருவம்' : 'Samba Season';
+      case 'kuruvai':
+        return langCode.startsWith('ta') ? 'குறுவை பருவம்' : 'Kuruvai Season';
+      case 'thaladi':
+        return langCode.startsWith('ta') ? 'தாளடி பருவம்' : 'Thaladi Season';
+      case 'kharif':
+        return langCode.startsWith('hi') ? 'खरीफ' : 'Kharif';
+      case 'rabi':
+        return langCode.startsWith('hi') ? 'रबी' : 'Rabi';
+      default:
+        return season;
+    }
+  }
+
+  // Common getters
+  String get appTitle => text('app_title');
+  String get appSubtitle => langCode.startsWith('ta') ? 'விவசாயிகளுக்கான AI தோழன்' : langCode.startsWith('hi') ? 'किसानों का AI साथी' : 'AI-Powered Farmer Companion';
+  String get getStarted => text('get_started');
+  String get welcomeDesc => text('brand_desc');
+  String get welcomeTagline => 'Your Farm.\nOur Intelligence.';
+  String get chooseLanguageTitle => text('choose_language');
+  String get chooseLanguageDesc => langCode.startsWith('ta') ? 'பூமி உங்கள் மொழியில் பேசி, வழிகாட்டும்.' : langCode.startsWith('hi') ? 'भूमि आपकी भाषा में बात करेगी और मार्गदर्शन करेगी।' : 'BHOOMI will speak and advise in your language.';
+  String get onboardingTitle => text('your_farm_profile');
+  String get letsGetToKnow => text('tell_about_farm');
+  String get youCanSpeak => langCode.startsWith('ta') ? 'உங்கள் மொழியில் பேசலாம்' : langCode.startsWith('hi') ? 'आप अपनी भाषा में बोल सकते हैं' : 'You can speak in your language';
+  String get cropVoicePrompt => text('tap_to_speak_crop');
+  String get areaVoicePrompt => text('tap_to_speak_area');
+  String get growthVoicePrompt => text('tap_to_speak_stage');
+  String get quickSelectOptions => text('quick_selection');
+  String get selectFarmAreaTitle => text('select_farm_area');
+  String get selectGrowthStageTitle => text('select_stage');
+  String get nextStep => text('continue');
+  String get back => text('back');
+  String get save => text('save');
+  String get cancel => text('cancel');
+  String get edit => text('edit');
+  String get retry => text('retry');
+  String get reviewProfile => text('confirm_farm_title');
+  String get whatWouldYouLikeToDo => text('what_would_you_like_to_do');
+  String get askBhoomi => text('ask_bhoomi');
+  String get voiceAssistant => text('voice_assistant');
+  String get uploadCropPhoto => text('upload_crop_photo');
+  String get myFarmJourney => text('my_farm_journey');
+  String get activityTimeline => text('activity_timeline');
+  String get govSupport => text('govt_support');
+  String get schemesAndSubsidies => text('schemes_subsidies');
+  String get requiresVerifiedLand => text('requires_verified_land');
+  String get cropLabel => text('crop_label');
+  String get growthStageLabel => text('growth_stage_label');
+  String get landAreaLabel => text('land_area_label');
+  String get continueButton => text('continue');
+  String get hackathonBadge => 'Smart India Hackathon SIH25076';
+  String get changeLanguage => langCode.startsWith('ta') ? 'மொழி மாற்று' : langCode.startsWith('hi') ? 'भाषा बदलें' : 'Change Language';
+  String get latestUpdates => text('latest_update');
+  String get navHome => langCode.startsWith('ta') ? 'முகப்பு' : langCode.startsWith('hi') ? 'होम' : 'Home';
+  String get navCompanion => langCode.startsWith('ta') ? 'தோழன்' : langCode.startsWith('hi') ? 'साथी' : 'Companion';
+  String get navJourney => langCode.startsWith('ta') ? 'பயணம்' : langCode.startsWith('hi') ? 'सफ़र' : 'Journey';
+  String get navProfile => langCode.startsWith('ta') ? 'விவரக்குறிப்பு' : langCode.startsWith('hi') ? 'प्रोफ़ाइल' : 'Profile';
+  String get dailyCompanion => text('daily_companion');
+  String get myFarm => text('my_farm');
+  String get primaryCropLabel => text('primary_crop');
+  String get todaysFarmBrief => text('todays_farm_brief');
+  String get viewFullBrief => text('view_details');
+  String get viewAllUpdates => text('view_all');
+  String get yourFarmProfile => text('your_farm_profile');
+  String get areaStepTitle => text('step_area_title');
+  String get areaStepSub => text('step_area_sub');
+  String get growthStepTitle => text('step_stage_title');
+  String get growthStepSub => text('step_stage_sub');
+
+  String cropName(String cropId) => translateCrop(cropId);
   String cropSubtitle(String cropId) {
-    switch (cropId) {
+    switch (cropId.toLowerCase()) {
       case 'samba_paddy':
-        return _t({
-          'en-IN': 'Traditional long-duration rice',
-          'te-IN': 'సాంప్రదాయ దీర్ఘకాలిక వరి పంట',
-          'ta-IN': 'பாரம்பரிய நீண்ட கால நெல்',
-          'hi-IN': 'पारंपरिक लंबी अवधि का धान',
-          'kn-IN': 'ಸಾಂಪ್ರದಾಯಿಕ ದೀರ್ಘಾವಧಿ ಭತ್ತ',
-          'mr-IN': 'पारंपारिक दीर्घ मुदतीचा भात',
-          'ml-IN': 'പരമ്പരാഗത ദീർഘകാല നെല്ല്',
-          'pa-IN': 'ਰਵਾਇਤੀ ਲੰਬੇ ਸਮੇਂ ਦਾ ਝੋਨਾ',
-        });
+        return text('samba_paddy_sub');
       case 'kuruvai_paddy':
-        return _t({
-          'en-IN': 'Short-duration summer crop',
-          'te-IN': 'స్వల్పకాలిక వేసవి వరి పంట',
-          'ta-IN': 'குறுகிய கால கோடைப் பயிர்',
-          'hi-IN': 'अल्पकालिक ग्रीष्मकालीन फसल',
-          'kn-IN': 'ಅಲ್ಪಾವಧಿ ಬೇಸಿಗೆ ಬೆಳೆ',
-          'mr-IN': 'अल्पकालीन उन्हाळी पीक',
-          'ml-IN': 'ഹ്രസ്വകാല വേനൽക്കാല വിള',
-          'pa-IN': 'ਥੋੜ੍ਹੇ ਸਮੇਂ ਦੀ ਗਰਮੀਆਂ ਦੀ ਫਸਲ',
-        });
+        return text('kuruvai_paddy_sub');
       case 'sugarcane':
-        return _t({
-          'en-IN': 'Commercial perennial crop',
-          'te-IN': 'వాణిజ్య బహువార్షిక పంట',
-          'ta-IN': 'வணிக பல்லாண்டுப் பயிர்',
-          'hi-IN': 'व्यावसायिक बारहमासी फसल',
-          'kn-IN': 'ವಾಣಿಜ್ಯ ದೀರ್ಘಕಾಲೀನ ಬೆಳೆ',
-          'mr-IN': 'व्यावसायिक बारमाही पीक',
-          'ml-IN': 'വാണിജ്യ ബഹുവർഷ വിള',
-          'pa-IN': 'ਵਪਾਰਕ ਸਾਲਾਨਾ ਫਸਲ',
-        });
+        return text('sugarcane_sub');
       case 'cotton':
-        return _t({
-          'en-IN': 'Cash fiber crop',
-          'te-IN': 'వాణిజ్య నూలు పంట',
-          'ta-IN': 'பணப்பயிர் இழை',
-          'hi-IN': 'नकदी रेशा फसल',
-          'kn-IN': 'ವಾಣಿಜ್ಯ ನಾರು ಬೆಳೆ',
-          'mr-IN': 'नगदी फायबर पीक',
-          'ml-IN': 'നാണ്യ ഫൈബർ വിള',
-          'pa-IN': 'ਨਕਦੀ ਫਾਈਬਰ ਫਸਲ',
-        });
+        return text('cotton_sub');
       case 'banana':
-        return _t({
-          'en-IN': 'Fruit plantation',
-          'te-IN': 'పండ్ల తోట పంట',
-          'ta-IN': 'பழத்தோட்டம்',
-          'hi-IN': 'फल बागान',
-          'kn-IN': 'ಹಣ್ಣಿನ ತೋಟ',
-          'mr-IN': 'फळबाग लागवड',
-          'ml-IN': 'ഫലവൃക്ഷ തോട്ടം',
-          'pa-IN': 'ਫਲਾਂ ਦਾ ਬਾਗ',
-        });
+        return text('banana_sub');
       case 'maize':
-        return _t({
-          'en-IN': 'Nutrient-rich grain',
-          'te-IN': 'పోషకాలు కలిగిన ధాన్యం',
-          'ta-IN': 'சத்து நிறைந்த தானியம்',
-          'hi-IN': 'पोषक तत्वों से भरपूर अनाज',
-          'kn-IN': 'ಪೌಷ್ಟಿಕ ಧಾನ್ಯ',
-          'mr-IN': 'पौष्टिक धान्य',
-          'ml-IN': 'പോഷക സമ്പുഷ്ടമായ ധാന്യം',
-          'pa-IN': 'ਪੌਸ਼ਟਿਕ ਅਨਾਜ',
-        });
+        return text('maize_sub');
       default:
         return '';
     }
   }
 
-  // Step 2: Land Area
-  String get areaStepTitle => _t({
-    'en-IN': 'How much land are you farming?',
-    'te-IN': 'మీ సాగు విస్తీర్ణం ఎంత?',
-    'ta-IN': 'எவ்வளவு நிலத்தில் விவசாயம் செய்கிறீர்கள்?',
-    'hi-IN': 'आपकी खेती की भूमि कितनी है?',
-    'kn-IN': 'ನಿಮ್ಮ ಕೃಷಿ ಭೂಮಿ ಎಷ್ಟು?',
-    'mr-IN': 'तुमची शेती किती एकर आहे?',
-    'ml-IN': 'എത്രത്തോളം സ്ഥലത്താണ് കൃഷി ചെയ്യുന്നത്?',
-    'pa-IN': 'ਤੁਹਾਡੀ ਕਿੰਨੀ ਜ਼ਮੀਨ ਹੈ?',
-  });
-  String get areaStepSub => _t({
-    'en-IN': 'Self-reported area in acres for official verification',
-    'te-IN': 'అధికారిక ధృవీకరణ కోసం ఎకరాలలో విస్తీర్ణం',
-    'ta-IN': 'அதிகாரப்பூர்வ சரிபார்ப்பிற்கான பரப்பளவு (ஏக்கர்)',
-    'hi-IN': 'आधिकारिक सत्यापन के लिए एकड़ में क्षेत्र',
-    'kn-IN': 'ಅಧಿಕೃತ ಪರಿಶೀಲನೆಗಾಗಿ ಎಕರೆಗಳಲ್ಲಿ ವಿಸ್ತೀರ್ಣ',
-    'mr-IN': 'अधिकृत पडताळणीसाठी एकर क्षेत्र',
-    'ml-IN': 'ഔദ്യോഗിക പരിശോധനയ്ക്കായി ഏക്കർ കണക്ക്',
-    'pa-IN': 'ਅਧਿਕਾਰਤ ਪੁਸ਼ਟੀ ਲਈ ਏਕੜ ਰਕਬਾ',
-  });
-  String get areaVoicePrompt => _t({
-    'en-IN': 'Tap to speak your farm size',
-    'te-IN': 'పొలం విస్తీర్ణం చెప్పడానికి తాకండి',
-    'ta-IN': 'நிலப்பரப்பைப் பேச தட்டவும்',
-    'hi-IN': 'खेत का आकार बोलने के लिए टैप करें',
-    'kn-IN': 'ಭೂಮಿಯ ವಿಸ್ತೀರ್ಣ ಹೇಳಲು ಟ್ಯಾಪ್ ಮಾಡಿ',
-    'mr-IN': 'शेताचे क्षेत्र सांगण्यासाठी टॅप करा',
-    'ml-IN': 'വലിപ്പം പറയാൻ ടാപ്പ് ചെയ്യുക',
-    'pa-IN': 'ਰਕਬਾ ਬੋਲਣ ਲਈ ਟੈਪ ਕਰੋ',
-  });
-  String get selectFarmAreaTitle => _t({
-    'en-IN': 'Select Farm Area (Acres)',
-    'te-IN': 'పొలం విస్తీర్ణాన్ని ఎంచుకోండి (ఎకరాలు)',
-    'ta-IN': 'பண்ணை பரப்பளவைத் தேர்ந்தெடுக்கவும் (ஏக்கர்)',
-    'hi-IN': 'खेत का क्षेत्रफल चुनें (एकड़)',
-    'kn-IN': 'ಕೃಷಿ ಪ್ರದೇಶ ಆಯ್ಕೆಮಾಡಿ (ಎಕರೆ)',
-    'mr-IN': 'शेतीचे क्षेत्र निवडा (एकर)',
-    'ml-IN': 'വിസ്തൃതി തിരഞ്ഞെടുക്കുക (ഏക്കർ)',
-    'pa-IN': 'ਖੇਤ ਦਾ ਰਕਬਾ ਚੁਣੋ (ਏਕੜ)',
-  });
-  String formatAcres(double acres) {
-    final acresUnit = _t({
-      'en-IN': acres == 1.0 ? 'Acre' : 'Acres',
-      'te-IN': 'ఎకరాలు',
-      'ta-IN': 'ஏக்கர்',
-      'hi-IN': 'एकड़',
-      'kn-IN': 'ಎಕರೆ',
-      'mr-IN': 'एकर',
-      'ml-IN': 'ഏക്കർ',
-      'pa-IN': 'ਏਕੜ',
-    });
-    return '$acres $acresUnit';
+  String stageName(String stageId) => translateStage(stageId);
+  String stageSubtitle(String stageId) {
+    switch (stageId.toLowerCase()) {
+      case 'vegetative':
+        return text('vegetative_sub');
+      case 'flowering':
+        return text('flowering_sub');
+      case 'grain_filling':
+        return text('grain_filling_sub');
+      case 'maturity':
+        return text('maturity_sub');
+      case 'harvest_ready':
+        return text('harvest_ready_sub');
+      default:
+        return '';
+    }
   }
 
-  // Step: Region
-  String get regionStepTitle => _t({
-    'en-IN': 'Where is your farm located?',
-    'te-IN': 'మీ పొలం ఎక్కడ ఉంది?',
-    'ta-IN': 'உங்கள் பண்ணை எங்கு அமைந்துள்ளது?',
-    'hi-IN': 'आपका खेत कहाँ स्थित है?',
-    'kn-IN': 'ನಿಮ್ಮ ಕೃಷಿ ಭೂಮಿ ಎಲ್ಲಿದೆ?',
-    'mr-IN': 'तुमचे शेत कुठे आहे?',
-    'ml-IN': 'നിങ്ങളുടെ കൃഷിയിടം എവിടെയാണ്?',
-    'pa-IN': 'ਤੁਹਾਡਾ ਖੇਤ ਕਿੱਥੇ ਹੈ?',
-  });
-  String get regionStepSub => _t({
-    'en-IN': 'Select your agro-climatic region or delta zone',
-    'te-IN': 'మీ వ్యవసాయ ప్రాంతాన్ని ఎంచుకోండి',
-    'ta-IN': 'உங்கள் விவசாய மண்டலம் அல்லது டெல்டா பகுதியைத் தேர்ந்தெடுக்கவும்',
-    'hi-IN': 'अपने कृषि क्षेत्र या डेल्टा क्षेत्र का चयन करें',
-    'kn-IN': 'ನಿಮ್ಮ ಕೃಷಿ ವಲಯವನ್ನು ಆಯ್ಕೆಮಾಡಿ',
-    'mr-IN': 'तुमचा कृषी हवामान विभाग निवडा',
-    'ml-IN': 'നിങ്ങളുടെ കാർഷിക മേഖല തിരഞ്ഞെടുക്കുക',
-    'pa-IN': 'ਆਪਣਾ ਖੇਤੀਬਾੜੀ ਖੇਤਰ ਚੁਣੋ',
-  });
-  String get regionVoicePrompt => _t({
-    'en-IN': 'Tap to speak your farm region',
-    'te-IN': 'ప్రాంతం పేరు చెప్పడానికి తాకండి',
-    'ta-IN': 'பண்ணைப் பகுதியைப் பேச தட்டவும்',
-    'hi-IN': 'खेत का क्षेत्र बोलने के लिए टैप करें',
-    'kn-IN': 'ಕೃಷಿ ಪ್ರದೇಶ ಹೇಳಲು ಟ್ಯಾಪ್ ಮಾಡಿ',
-    'mr-IN': 'शेताचा विभाग सांगण्यासाठी टॅप करा',
-    'ml-IN': 'മേഖല പറയാൻ ടാപ്പ് ചെയ്യുക',
-    'pa-IN': 'ਖੇਤਰ ਬੋਲਣ ਲਈ ਟੈਪ ਕਰੋ',
-  });
-  String get selectRegionTitle => _t({
-    'en-IN': 'Select Farm Region',
-    'te-IN': 'వ్యవసాయ ప్రాంతాన్ని ఎంచుకోండి',
-    'ta-IN': 'பண்ணைப் பகுதியைத் தேர்ந்தெடுக்கவும்',
-    'hi-IN': 'खेत का क्षेत्र चुनें',
-    'kn-IN': 'ಕೃಷಿ ವಲಯ ಆಯ್ಕೆಮಾಡಿ',
-    'mr-IN': 'शेती विभाग निवडा',
-    'ml-IN': 'മേഖല തിരഞ്ഞെടുക്കുക',
-    'pa-IN': 'ਖੇਤਰ ਚੁਣੋ',
-  });
+  String get regionStepTitle => langCode.startsWith('ta') ? 'உங்கள் மாவட்டம் எது?' : langCode.startsWith('hi') ? 'आपका जिला कौन सा है?' : 'Select Your Region';
+  String get regionStepSub => langCode.startsWith('ta') ? 'வட்டார வேளாண் வானிலை' : langCode.startsWith('hi') ? 'स्थानीय कृषि मौसम' : 'Localized agro-climatic advisories';
+  String get regionVoicePrompt => langCode.startsWith('ta') ? 'மாவட்டத்தை பேச தட்டவும்' : langCode.startsWith('hi') ? 'जिला बोलने के लिए टैप करें' : 'Tap to speak your region';
+  String get selectRegionTitle => langCode.startsWith('ta') ? 'மாவட்டத்தைத் தேர்ந்தெடுக்கவும்' : langCode.startsWith('hi') ? 'जिला चुनें' : 'Select Region / District';
 
   String regionName(String regionId) {
-    switch (regionId) {
-      case 'Cauvery Delta':
-        return _t({
-          'en-IN': 'Cauvery Delta',
-          'te-IN': 'కావేరి డెల్టా',
-          'ta-IN': 'காவிரி டெல்டா',
-          'hi-IN': 'कावेरी डेल्टा',
-          'kn-IN': 'ಕಾವೇರಿ ಡೆಲ್ಟಾ',
-          'mr-IN': 'कावेरी डेल्टा',
-          'ml-IN': 'കാവേരി ഡെൽറ്റ',
-          'pa-IN': 'ਕਾਵੇਰੀ ਡੈਲਟਾ',
-        });
-      case 'Western Zone':
-        return _t({
-          'en-IN': 'Western Zone',
-          'te-IN': 'పశ్చిమ ప్రాంతం',
-          'ta-IN': 'மேற்கு மண்டலம்',
-          'hi-IN': 'पश्चिमी क्षेत्र',
-          'kn-IN': 'ಪಶ್ಚಿಮ ವಲಯ',
-          'mr-IN': 'पश्चिम विभाग',
-          'ml-IN': 'പടിഞ്ഞാറൻ മേഖല',
-          'pa-IN': 'ਪੱਛਮੀ ਖੇਤਰ',
-        });
-      case 'Southern Zone':
-        return _t({
-          'en-IN': 'Southern Zone',
-          'te-IN': 'దక్షిణ ప్రాంతం',
-          'ta-IN': 'தெற்கு மண்டலம்',
-          'hi-IN': 'दक्षिणी क्षेत्र',
-          'kn-IN': 'ದಕ್ಷಿಣ ವಲಯ',
-          'mr-IN': 'दक्षिण विभाग',
-          'ml-IN': 'തെക്കൻ മേഖല',
-          'pa-IN': 'ਦੱਖਣੀ ਖੇਤਰ',
-        });
-      case 'North Eastern Zone':
-        return _t({
-          'en-IN': 'North Eastern Zone',
-          'te-IN': 'ఈశాన్య ప్రాంతం',
-          'ta-IN': 'வடகிழக்கு மண்டலம்',
-          'hi-IN': 'उत्तर पूर्वी क्षेत्र',
-          'kn-IN': 'ಈಶಾನ್ಯ ವಲಯ',
-          'mr-IN': 'ईशान्य विभाग',
-          'ml-IN': 'വടക്കുകിഴക്കൻ മേഖല',
-          'pa-IN': 'ਉੱਤਰ ਪੂਰਬੀ ਖੇਤਰ',
-        });
-      case 'High Rainfall Zone':
-        return _t({
-          'en-IN': 'High Rainfall Zone',
-          'te-IN': 'అధిక వర్షపాత ప్రాంతం',
-          'ta-IN': 'அதிக மழைப்பொழிவு மண்டலம்',
-          'hi-IN': 'उच्च वर्षा क्षेत्र',
-          'kn-IN': 'ಅತಿ ಹೆಚ್ಚು ಮಳೆ ವಲಯ',
-          'mr-IN': 'जास्त पावसाचा विभाग',
-          'ml-IN': 'കൂടുതൽ മഴയുള്ള മേഖല',
-          'pa-IN': 'ਵੱਧ ਬਾਰਿਸ਼ ਵਾਲਾ ਖੇਤਰ',
-        });
-      case 'North Western Zone':
-        return _t({
-          'en-IN': 'North Western Zone',
-          'te-IN': 'వాయువ్య ప్రాంతం',
-          'ta-IN': 'வடமேற்கு மண்டலம்',
-          'hi-IN': 'उत्तर पश्चिमी क्षेत्र',
-          'kn-IN': 'ವಾಯುವ್ಯ ವಲಯ',
-          'mr-IN': 'वायव्य विभाग',
-          'ml-IN': 'വടക്കുപടിഞ്ഞാറൻ മേഖല',
-          'pa-IN': 'ਉੱਤਰ ਪੱਛਮੀ ਖੇਤਰ',
-        });
+    switch (regionId.toLowerCase()) {
+      case 'coimbatore':
+      case 'tn_coimbatore':
+        return langCode.startsWith('ta') ? 'கோயம்புத்தூர்' : langCode.startsWith('hi') ? 'कोयंबटूर' : 'Coimbatore';
+      case 'thanjavur':
+      case 'tn_thanjavur':
+        return langCode.startsWith('ta') ? 'தஞ்சாவூர்' : langCode.startsWith('hi') ? 'तंजावुर' : 'Thanjavur (Cauvery Delta)';
+      case 'madurai':
+      case 'tn_madurai':
+        return langCode.startsWith('ta') ? 'மதுரை' : langCode.startsWith('hi') ? 'मदुरै' : 'Madurai';
       default:
-        return regionId;
+        return regionId.replaceAll('_', ' ');
     }
   }
 
   String regionSubtitle(String regionId) {
-    switch (regionId) {
-      case 'Cauvery Delta':
-        return _t({
-          'en-IN': 'Thanjavur, Tiruvarur, Nagapattinam, Mayiladuthurai',
-          'te-IN': 'తంజావూరు, తిరువారూర్, నాగపట్నం',
-          'ta-IN': 'தஞ்சாவூர், திருவாரூர், நாகப்பட்டினம், மயிலாடுதுறை',
-          'hi-IN': 'तंजावुर, तिरुवारूर, नागपट्टिनम',
-          'kn-IN': 'ತಂಜಾವೂರು, ತಿರುವಾರೂರ್, ನಾಗಪಟ್ಟಿನಂ',
-          'mr-IN': 'तंजावर, तिरुवरूर, नागपट्टिनम',
-          'ml-IN': 'തഞ്ചാവൂർ, തിരുവാരൂർ, നാഗപട്ടണം',
-          'pa-IN': 'ਤੰਜਾਵੁਰ, ਤਿਰੂਵਾਰੂਰ, ਨਾਗਾਪੱਟੀਨਮ',
-        });
-      case 'Western Zone':
-        return _t({
-          'en-IN': 'Coimbatore, Erode, Tirupur',
-          'te-IN': 'కోయంబత్తూరు, ఈరోడ్, తిరుపూర్',
-          'ta-IN': 'கோயம்புத்தூர், ஈரோடு, திருப்பூர்',
-          'hi-IN': 'कोयंबटूर, इरोड, तिरुपुर',
-          'kn-IN': 'ಕೊಯಮತ್ತೂರು, ಈರೋಡ್, ತಿರುಪುರ',
-          'mr-IN': 'कोइम्बतूर, इरोड, तिरुपूर',
-          'ml-IN': 'കോയമ്പത്തൂർ, ഈറോഡ്, തിരുപ്പൂർ',
-          'pa-IN': 'ਕੋਇੰਬਟੂਰ, ਈਰੋਡ, ਤਿਰੂਪੁਰ',
-        });
-      case 'Southern Zone':
-        return _t({
-          'en-IN': 'Madurai, Theni, Dindigul, Ramanathapuram',
-          'te-IN': 'మదురై, తేని, దిండిగల్',
-          'ta-IN': 'மதுரை, தேனி, திண்டுக்கல், ராமநாதபுரம்',
-          'hi-IN': 'मदुरै, थेनी, डिंडीगुल',
-          'kn-IN': 'ಮಧುರೆ, ತೇನಿ, ದಿಂಡಿಗಲ್',
-          'mr-IN': 'मदुराई, थेनी, दिंडीगुल',
-          'ml-IN': 'മധുര, തേനി, ദിണ്ടിഗൽ',
-          'pa-IN': 'ਮਦੁਰਾਈ, ਥੇਨੀ, ਡਿੰਡੀਗੁਲ',
-        });
-      case 'North Eastern Zone':
-        return _t({
-          'en-IN': 'Kanchipuram, Tiruvallur, Cuddalore, Villupuram',
-          'te-IN': 'కాంచీపురం, తిరువళ్లూరు, కడలూరు',
-          'ta-IN': 'காஞ்சிபுரம், திருவள்ளூர், கடலூர், விழுப்புரம்',
-          'hi-IN': 'कांचीपुरम, तिरुवल्लूर, कुड्डालोर',
-          'kn-IN': 'ಕಾಂಚೀಪುರಂ, ತಿರುವಲ್ಲೂರು, ಕಡಲೂರು',
-          'mr-IN': 'कांचीपुरम, तिरुवल्लूर, कुड्डालोर',
-          'ml-IN': 'കാഞ്ചീപുരം, തിരുവള്ളൂർ, കടലൂർ',
-          'pa-IN': 'ਕਾਂਚੀਪੁਰਮ, ਤਿਰੂਵੱਲੂਰ, ਕੁਡਾਲੋਰ',
-        });
-      case 'High Rainfall Zone':
-        return _t({
-          'en-IN': 'Kanyakumari, Nilgiris',
-          'te-IN': 'కన్యాకుమారి, నీలగిరి',
-          'ta-IN': 'கன்னியாகுமரி, நீலகிரி',
-          'hi-IN': 'कन्याकुमारी, नीलगिरि',
-          'kn-IN': 'ಕನ್ಯಾಕುಮಾರಿ, ನೀಲಗಿರಿ',
-          'mr-IN': 'कन्याकुमारी, निलगिरी',
-          'ml-IN': 'കന്യാകുമാരി, നീലഗിരി',
-          'pa-IN': 'ਕੰਨਿਆਕੁਮਾਰੀ, ਨੀਲਗਿਰੀ',
-        });
-      case 'North Western Zone':
-        return _t({
-          'en-IN': 'Salem, Dharmapuri, Krishnagiri, Namakkal',
-          'te-IN': 'సేలం, ధర్మపురి, కృష్ణగిరి, నమక్కల్',
-          'ta-IN': 'சேலம், தர்மபுரி, கிருஷ்ணகிரி, நாமக்கல்',
-          'hi-IN': 'सलेम, धर्मपुरी, कृष्णागिरि, नमक्कल',
-          'kn-IN': 'ಸೇಲಂ, ಧರ್ಮಪುರಿ, ಕೃಷ್ಣಗಿರಿ, ನಾಮಕ್ಕಲ್',
-          'mr-IN': 'सेलम, धर्मपुरी, कृष्णागिरी, नमक्कल',
-          'ml-IN': 'സേലം, ധർമ്മപുരി, കൃഷ്ണഗിരി, നാമക്കൽ',
-          'pa-IN': 'ਸਲੇਮ, ਧਰਮਪੁਰੀ, ਕ੍ਰਿਸ਼ਨਾਗਿਰੀ, ਨਮੱਕਲ',
-        });
+    switch (regionId.toLowerCase()) {
+      case 'coimbatore':
+      case 'tn_coimbatore':
+        return langCode.startsWith('ta') ? 'மேற்கு மண்டலம் - பருத்தி & மக்காச்சோளம்' : 'Western Agro-Zone';
+      case 'thanjavur':
+      case 'tn_thanjavur':
+        return langCode.startsWith('ta') ? 'காவிரி டெல்டா - சம்பா நெல்' : 'Cauvery Delta Basin';
+      case 'madurai':
+      case 'tn_madurai':
+        return langCode.startsWith('ta') ? 'தெற்கு மண்டலம்' : 'Southern Agro-Zone';
       default:
         return '';
     }
   }
 
-  // Step 3: Growth Stage
-  String get growthStepTitle => _t({
-    'en-IN': 'What stage is your crop in?',
-    'te-IN': 'మీ పంట ప్రస్తుతం ఏ దశలో ఉంది?',
-    'ta-IN': 'உங்கள் பயிர் எந்த நிலையில் உள்ளது?',
-    'hi-IN': 'आपकी फसल किस चरण में है?',
-    'kn-IN': 'ನಿಮ್ಮ ಬೆಳೆ ಯಾವ ಹಂತದಲ್ಲಿದೆ?',
-    'mr-IN': 'तुमचे पीक कोणत्या टप्प्यावर आहे?',
-    'ml-IN': 'നിങ്ങളുടെ വിള ഏത് ഘട്ടത്തിലാണ്?',
-    'pa-IN': 'ਤੁਹਾਡੀ ਫਸਲ ਕਿਸ ਪੜਾਅ \'ਤੇ ਹੈ?',
-  });
-  String get growthStepSub => _t({
-    'en-IN': 'Helps track growth phase and land readiness',
-    'te-IN': 'పంట పెరుగుదల దశ మరియు నీటి అవసరాలను ట్రాక్ చేయడానికి',
-    'ta-IN': 'வளர்ச்சி நிலை மற்றும் தேவைகளைக் கண்காணிக்க உதவுகிறது',
-    'hi-IN': 'विकास चरण और पानी की जरूरतों को ट्रैक करने में मदद करता है',
-    'kn-IN': 'ಬೆಳವಣಿಗೆಯ ಹಂತ ತಿಳಿಯಲು ನೆರವಾಗುತ್ತದೆ',
-    'mr-IN': 'वाढीचा टप्पा ट्रॅक करण्यास मदत करते',
-    'ml-IN': 'വളർച്ചാ ഘട്ടം നിരീക്ഷിക്കാൻ സഹായിക്കുന്നു',
-    'pa-IN': 'ਵਿਕਾਸ ਪੜਾਅ ਨੂੰ ਟਰੈਕ ਕਰਨ ਵਿੱਚ ਮਦਦ ਕਰਦਾ ਹੈ',
-  });
-  String get growthVoicePrompt => _t({
-    'en-IN': 'Tap to speak current stage',
-    'te-IN': 'ప్రస్తుత దశను చెప్పడానికి తాకండి',
-    'ta-IN': 'தற்போதைய நிலையைப் பேச தட்டவும்',
-    'hi-IN': 'वर्तमान चरण बोलने के लिए टैप करें',
-    'kn-IN': 'ಪ್ರಸ್ತುತ ಹಂತ ಹೇಳಲು ಟ್ಯಾಪ್ ಮಾಡಿ',
-    'mr-IN': 'सद्य स्थिती सांगण्यासाठी टॅप करा',
-    'ml-IN': 'നിലവിലെ ഘട്ടം പറയാൻ ടാപ്പ് ചെയ്യുക',
-    'pa-IN': 'ਮੌਜੂਦਾ ਪੜਾਅ ਬੋਲਣ ਲਈ ਟੈਪ ਕਰੋ',
-  });
-  String get selectGrowthStageTitle => _t({
-    'en-IN': 'Select Current Stage',
-    'te-IN': 'ప్రస్తుత దశను ఎంచుకోండి',
-    'ta-IN': 'தற்போதைய நிலையைத் தேர்ந்தெடுக்கவும்',
-    'hi-IN': 'वर्तमान चरण चुनें',
-    'kn-IN': 'ಪ್ರಸ್ತುತ ಹಂತ ಆಯ್ಕೆಮಾಡಿ',
-    'mr-IN': 'सद्य स्थिती निवडा',
-    'ml-IN': 'ഘട്ടം തിരഞ്ഞെടുക്കുക',
-    'pa-IN': 'ਮੌਜੂਦਾ ਪੜਾਅ ਚੁਣੋ',
-  });
-
-  String stageName(String stageId) {
-    switch (stageId) {
-      case 'vegetative':
-        return _t({
-          'en-IN': 'Vegetative',
-          'te-IN': 'శాఖీయ దశ (ఆకులు/కొమ్మలు)',
-          'ta-IN': 'பயிர் வளர்ச்சி நிலை',
-          'hi-IN': 'वानस्पतिक अवस्था',
-          'kn-IN': 'ಸಸ್ಯಕ ಬೆಳವಣಿಗೆ ಹಂತ',
-          'mr-IN': 'शाकीय वाढ अवस्था',
-          'ml-IN': 'സസ്യ വളർച്ചാ ഘട്ടം',
-          'pa-IN': 'ਬਨਸਪਤੀ ਪੜਾਅ',
-        });
-      case 'flowering':
-        return _t({
-          'en-IN': 'Flowering',
-          'te-IN': 'పూత దశ',
-          'ta-IN': 'பூக்கும் நிலை',
-          'hi-IN': 'फूल आने की अवस्था',
-          'kn-IN': 'ಹೂಬಿಡುವ ಹಂತ',
-          'mr-IN': 'फुलधारणा अवस्था',
-          'ml-IN': 'പൂവിടൽ ഘട്ടം',
-          'pa-IN': 'ਫੁੱਲ ਪੈਣ ਦਾ ਪੜਾਅ',
-        });
-      case 'grain_filling':
-        return _t({
-          'en-IN': 'Grain Filling',
-          'te-IN': 'గింజ పాలుపోసుకునే దశ',
-          'ta-IN': 'தானியம் உருவாகும் நிலை',
-          'hi-IN': 'दाना भरने की अवस्था',
-          'kn-IN': 'ಕಾಳು ಕಟ್ಟುವ ಹಂತ',
-          'mr-IN': 'दाणे भरणे अवस्था',
-          'ml-IN': 'ധാന്യ രൂപീകരണ ഘട്ടം',
-          'pa-IN': 'ਦਾਣਾ ਭਰਨ ਦਾ ਪੜਾਅ',
-        });
-      case 'maturity':
-        return _t({
-          'en-IN': 'Maturity',
-          'te-IN': 'పక్వ దశ (ముదిరిన పంట)',
-          'ta-IN': 'முதிர்ச்சி நிலை',
-          'hi-IN': 'परिपक्व अवस्था',
-          'kn-IN': 'ಪಕ್ವತೆಯ ಹಂತ',
-          'mr-IN': 'पक्वता अवस्था',
-          'ml-IN': 'വിളവെടുപ്പ് പാകം',
-          'pa-IN': 'ਪੱਕਣ ਦਾ ਪੜਾਅ',
-        });
-      case 'harvest_ready':
-        return _t({
-          'en-IN': 'Harvest Ready',
-          'te-IN': 'కోతకు సిద్ధం',
-          'ta-IN': 'அறுவடைக்கு தயார்',
-          'hi-IN': 'कटाई के लिए तैयार',
-          'kn-IN': 'ಕೊಯ್ಲಿಗೆ ಸಿದ್ಧ',
-          'mr-IN': 'काढणीस तयार',
-          'ml-IN': 'വിളവെടുക്കാൻ തയ്യാർ',
-          'pa-IN': 'ਵਾਢੀ ਲਈ ਤਿਆਰ',
-        });
-      default:
-        return stageId.replaceAll('_', ' ');
-    }
-  }
-
-  String stageSubtitle(String stageId) {
-    switch (stageId) {
-      case 'vegetative':
-        return _t({
-          'en-IN': 'Leaf & stem rapid growth stage',
-          'te-IN': 'ఆకులు మరియు కాండం వేగంగా పెరిగే దశ',
-          'ta-IN': 'இலை மற்றும் தண்டு விரைவான வளர்ச்சி',
-          'hi-IN': 'पत्ती और तने के तेजी से विकास का चरण',
-          'kn-IN': 'ಎಲೆ ಮತ್ತು ಕಾಂಡದ ವೇಗದ ಬೆಳವಣಿಗೆ',
-          'mr-IN': 'पाने आणि खोडाची जलद वाढ',
-          'ml-IN': 'ഇലകളും തണ്ടും വേഗത്തിൽ വളരുന്ന ഘട്ടം',
-          'pa-IN': 'ਪੱਤੇ ਅਤੇ ਤਣੇ ਦਾ ਤੇਜ਼ੀ ਨਾਲ ਵਿਕਾਸ',
-        });
-      case 'flowering':
-        return _t({
-          'en-IN': 'Bloom and pollination active',
-          'te-IN': 'పూత మరియు పరాగ సంపర్క దశ',
-          'ta-IN': 'மலர்ச்சி மற்றும் மகரந்தச் சேர்க்கை',
-          'hi-IN': 'फूल और परागण सक्रिय',
-          'kn-IN': 'ಹೂ ಮತ್ತು ಪರಾಗಸ್ಪರ್ಶ ಕ್ರಿಯೆ',
-          'mr-IN': 'फुले आणि परागीभवन सक्रिय',
-          'ml-IN': 'പൂക്കളും പരാഗണവും സജീവം',
-          'pa-IN': 'ਫੁੱਲ ਅਤੇ ਪਰਾਗਣ ਸਰਗਰਮ',
-        });
-      case 'grain_filling':
-        return _t({
-          'en-IN': 'Panicle & grain development',
-          'te-IN': 'కంకి మరియు గింజలు అభివృద్ధి చెందే దశ',
-          'ta-IN': 'கதிர் மற்றும் தானிய வளர்ச்சி',
-          'hi-IN': 'बाली और दाने का विकास',
-          'kn-IN': 'ತೆನೆ ಮತ್ತು ಧಾನ್ಯ ಬೆಳವಣಿಗೆ',
-          'mr-IN': 'कणीस आणि दाण्यांचा विकास',
-          'ml-IN': 'കതിരും ധാന്യവും വികസിക്കുന്നു',
-          'pa-IN': 'ਸਿੱਟਾ ਅਤੇ ਦਾਣੇ ਦਾ ਵਿਕਾਸ',
-        });
-      case 'maturity':
-        return _t({
-          'en-IN': 'Crop turning golden / ripening',
-          'te-IN': 'పంట పక్వానికి వచ్చి బంగారు రంగులోకి మారుతుంది',
-          'ta-IN': 'பயிர் பொன்னிறமாக மாறும் நிலை',
-          'hi-IN': 'फसल सुनहरी / पकने की ओर',
-          'kn-IN': 'ಬೆಳೆ ಬಂಗಾರದ ಬಣ್ಣಕ್ಕೆ ತಿರುಗುತ್ತಿದೆ',
-          'mr-IN': 'पीक पिवळे/पक्व होत आहे',
-          'ml-IN': 'വിള പാകമായി സ്വർണ്ണ നിറമാകുന്നു',
-          'pa-IN': 'ਫਸਲ ਸੁਨਹਿਰੀ / ਪੱਕ ਰਹੀ ਹੈ',
-        });
-      case 'harvest_ready':
-        return _t({
-          'en-IN': 'Ready for cutting and yield collection',
-          'te-IN': 'కోత కోసి దిగుబడిని సేకరించడానికి సిద్ధంగా ఉంది',
-          'ta-IN': 'அறுவடை மற்றும் மகசூல் சேகரிப்புக்கு தயார்',
-          'hi-IN': 'कटाई और उपज एकत्र करने के लिए तैयार',
-          'kn-IN': 'ಕಟಾವು ಮತ್ತು ಇಳುವರಿ ಸಂಗ್ರಹಕ್ಕೆ ಸಿದ್ಧ',
-          'mr-IN': 'कापणी आणि उत्पादन गोळा करण्यासाठी सज्ज',
-          'ml-IN': 'വിളവെടുപ്പിനും ശേഖരണത്തിനും തയ്യാർ',
-          'pa-IN': 'ਕਟਾਈ ਅਤੇ ਝਾੜ ਇਕੱਠਾ ਕਰਨ ਲਈ ਤਿਆਰ',
-        });
-      default:
-        return '';
-    }
-  }
-
-  // Confirm Profile Screen
-  String get confirmProfileTitle => _t({
-    'en-IN': 'Confirm Farm Profile',
-    'te-IN': 'పొలం ప్రొఫైల్ నిర్ధారించండి',
-    'ta-IN': 'பண்ணை சுயவிவரத்தை உறுதிப்படுத்தவும்',
-    'hi-IN': 'खेत प्रोफ़ाइल की पुष्टि करें',
-    'kn-IN': 'ಕೃಷಿ ಪ್ರೊಫೈಲ್ ದೃಢೀಕರಿಸಿ',
-    'mr-IN': 'शेत प्रोफाइलची पुष्टी करा',
-    'ml-IN': 'ഫാം പ്രൊഫൈൽ സ്ഥിരീകരിക്കുക',
-    'pa-IN': 'ਖੇਤ ਪ੍ਰੋਫਾਈਲ ਦੀ ਪੁਸ਼ਟੀ ਕਰੋ',
-  });
-  String get yourFarmProfile => _t({
-    'en-IN': 'Your Farm Profile',
-    'te-IN': 'మీ పొలం ప్రొఫైల్',
-    'ta-IN': 'உங்கள் பண்ணை சுயவிவரம்',
-    'hi-IN': 'आपका खेत प्रोफ़ाइल',
-    'kn-IN': 'ನಿಮ್ಮ ಕೃಷಿ ಪ್ರೊಫೈಲ್',
-    'mr-IN': 'तुमचे शेत प्रोफाइल',
-    'ml-IN': 'നിങ്ങളുടെ ഫാം പ്രൊഫൈൽ',
-    'pa-IN': 'ਤੁਹਾਡਾ ਖੇਤ ਪ੍ਰੋਫਾਈਲ',
-  });
-  String get confirmProfileReviewDesc => _t({
-    'en-IN': 'Please review your self-reported farm details before submitting for official registration.',
-    'te-IN': 'అధికారిక నమోదుకు సమర్పించే ముందు మీ పొలం వివరాలను ఒకసారి సరిచూసుకోండి.',
-    'ta-IN': 'அதிகாரப்பூர்வ பதிவுக்கு முன் உங்கள் பண்ணை விவரங்களை சரிபார்க்கவும்.',
-    'hi-IN': 'आधिकारिक पंजीकरण के लिए सबमिट करने से पहले अपने खेत के विवरण की समीक्षा करें।',
-    'kn-IN': 'ಅಧಿಕೃತ ನೋಂದಣಿಗೆ ಸಲ್ಲಿಸುವ ಮೊದಲು ನಿಮ್ಮ ಕೃಷಿ ವಿವರಗಳನ್ನು ಪರಿಶೀಲಿಸಿ.',
-    'mr-IN': 'अधिकृत नोंदणीसाठी सबमिट करण्यापूर्वी आपल्या शेताच्या तपशीलांची खात्री करा.',
-    'ml-IN': 'ഔദ്യോഗിക രജിസ്ട്രേഷനായി സമർപ്പിക്കുന്നതിന് മുമ്പ് വിവരങ്ങൾ പരിശോധിക്കുക.',
-    'pa-IN': 'ਅਧਿਕਾਰਤ ਰਜਿਸਟ੍ਰੇਸ਼ਨ ਲਈ ਜਮ੍ਹਾਂ ਕਰਨ ਤੋਂ ਪਹਿਲਾਂ ਆਪਣੇ ਵੇਰਵਿਆਂ ਦੀ ਸਮੀਖਿਆ ਕਰੋ।',
-  });
-  String get saveMyFarm => _t({
-    'en-IN': 'Save My Farm',
-    'te-IN': 'నా పొలాన్ని నమోదు చేయండి',
-    'ta-IN': 'எனது பண்ணையைச் சேமிக்கவும்',
-    'hi-IN': 'मेरा खेत सहेजें',
-    'kn-IN': 'ನನ್ನ ಕೃಷಿ ಉಳಿಸಿ',
-    'mr-IN': 'माझे शेत सेव्ह करा',
-    'ml-IN': 'എൻ്റെ ഫാം സേവ് ചെയ്യുക',
-    'pa-IN': 'ਮੇਰਾ ਖੇਤ ਸੰਭਾਲੋ',
-  });
-  String get labelCrop => _t({
-    'en-IN': 'Crop',
-    'te-IN': 'పంట',
-    'ta-IN': 'பயிர்',
-    'hi-IN': 'फसल',
-    'kn-IN': 'ಬೆಳೆ',
-    'mr-IN': 'पीक',
-    'ml-IN': 'വിള',
-    'pa-IN': 'ਫਸਲ',
-  });
-  String get labelLandArea => _t({
-    'en-IN': 'Land Area',
-    'te-IN': 'భూమి విస్తీర్ణం',
-    'ta-IN': 'நிலப்பரப்பு',
-    'hi-IN': 'भूमि क्षेत्र',
-    'kn-IN': 'ಭೂಮಿ ವಿಸ್ತೀರ್ಣ',
-    'mr-IN': 'जमीन क्षेत्र',
-    'ml-IN': 'ഭൂമി വിസ്തൃതി',
-    'pa-IN': 'ਜ਼ਮੀਨ ਦਾ ਰਕਬਾ',
-  });
-  String get labelGrowthStage => _t({
-    'en-IN': 'Growth Stage',
-    'te-IN': 'పెరుగుదల దశ',
-    'ta-IN': 'வளர்ச்சி நிலை',
-    'hi-IN': 'विकास चरण',
-    'kn-IN': 'ಬೆಳವಣಿಗೆಯ ಹಂತ',
-    'mr-IN': 'वाढीचा टप्पा',
-    'ml-IN': 'വളർച്ചാ ഘട്ടം',
-    'pa-IN': 'ਵਿਕਾਸ ਪੜਾਅ',
-  });
-
-  // Navigation / Buttons
-  String get back => _t({
-    'en-IN': 'Back',
-    'te-IN': 'వెనుకకు',
-    'ta-IN': 'பின்செல்',
-    'hi-IN': 'पीछे',
-    'kn-IN': 'ಹಿಂದೆ',
-    'mr-IN': 'मागे',
-    'ml-IN': 'പിന്നോട്ട്',
-    'pa-IN': 'ਪਿੱਛੇ',
-  });
-  String get nextStep => _t({
-    'en-IN': 'Next Step',
-    'te-IN': 'తదుపరి దశ',
-    'ta-IN': 'அடுத்த படி',
-    'hi-IN': 'अगला कदम',
-    'kn-IN': 'ಮುಂದಿನ ಹಂತ',
-    'mr-IN': 'पुढची पायरी',
-    'ml-IN': 'അടുത്ത ഘട്ടം',
-    'pa-IN': 'ਅਗਲਾ ਕਦਮ',
-  });
-  String get reviewProfile => _t({
-    'en-IN': 'Review Profile',
-    'te-IN': 'ప్రొఫైల్ పరిశీలన',
-    'ta-IN': 'சுயவிவர ஆய்வு',
-    'hi-IN': 'प्रोफ़ाइल की समीक्षा करें',
-    'kn-IN': 'ಪ್ರೊಫೈಲ್ ಪರಿಶೀಲಿಸಿ',
-    'mr-IN': 'प्रोफाइल तपासा',
-    'ml-IN': 'പ്രൊഫൈൽ പരിശോധിക്കുക',
-    'pa-IN': 'ਪ੍ਰੋਫਾਈਲ ਦੀ ਸਮੀਖਿਆ ਕਰੋ',
-  });
-  String get continueText => _t({
-    'en-IN': 'Continue',
-    'te-IN': 'కొనసాగించండి',
-    'ta-IN': 'தொடரவும்',
-    'hi-IN': 'आगे बढ़ें',
-    'kn-IN': 'ಮುಂದುವರಿಯಿರಿ',
-    'mr-IN': 'पुढे जा',
-    'ml-IN': 'തുടരുക',
-    'pa-IN': 'ਜਾਰੀ ਰੱਖੋ',
-  });
-  String get retry => _t({
-    'en-IN': 'Retry',
-    'te-IN': 'మళ్ళీ ప్రయత్నించండి',
-    'ta-IN': 'மீண்டும் முயற்சி செய்க',
-    'hi-IN': 'पुनः प्रयास करें',
-    'kn-IN': 'ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ',
-    'mr-IN': 'पुन्हा प्रयत्न करा',
-    'ml-IN': 'വീണ്ടും ശ്രമിക്കുക',
-    'pa-IN': 'ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ',
-  });
-  String get changeLanguage => _t({
-    'en-IN': 'Change Language',
-    'te-IN': 'భాషను మార్చండి',
-    'ta-IN': 'மொழியை மாற்றவும்',
-    'hi-IN': 'भाषा बदलें',
-    'kn-IN': 'ಭಾಷೆ ಬದಲಾಯಿಸಿ',
-    'mr-IN': 'भाषा बदला',
-    'ml-IN': 'ഭാഷ മാറ്റുക',
-    'pa-IN': 'ਭਾਸ਼ਾ ਬਦਲੋ',
-  });
-
-  // Farm Dashboard / Home
-  String get dailyCompanion => _t({
-    'en-IN': 'Daily Companion',
-    'te-IN': 'దైనందిన సహచరి',
-    'ta-IN': 'தினசரி துணை',
-    'hi-IN': 'दैनिक साथी',
-    'kn-IN': 'ದೈನಂದಿನ ಒಡನಾಡಿ',
-    'mr-IN': 'दैनिक साथी',
-    'ml-IN': 'പ്രതിദിന സഹായി',
-    'pa-IN': 'ਰੋਜ਼ਾਨਾ ਸਾਥੀ',
-  });
-  String get myFarm => _t({
-    'en-IN': 'My Farm',
-    'te-IN': 'నా పొలం',
-    'ta-IN': 'எனது பண்ணை',
-    'hi-IN': 'मेरा खेत',
-    'kn-IN': 'ನನ್ನ ಕೃಷಿ',
-    'mr-IN': 'माझे शेत',
-    'ml-IN': 'എൻ്റെ കൃഷിയിടം',
-    'pa-IN': 'ਮੇਰਾ ਖੇਤ',
-  });
-  String get whatWouldYouLikeToDo => _t({
-    'en-IN': 'What would you like to do?',
-    'te-IN': 'మీరు ఏమి చేయాలనుకుంటున్నారు?',
-    'ta-IN': 'நீங்கள் என்ன செய்ய விரும்புகிறீர்கள்?',
-    'hi-IN': 'आप क्या करना चाहते हैं?',
-    'kn-IN': 'ನೀವು ಏನು ಮಾಡಲು ಬಯಸುತ್ತೀರಿ?',
-    'mr-IN': 'तुम्हाला काय करायचे आहे?',
-    'ml-IN': 'നിങ്ങൾ എന്താണ് ചെയ്യാൻ ആഗ്രഹിക്കുന്നത്?',
-    'pa-IN': 'ਤੁਸੀਂ ਕੀ ਕਰਨਾ ਚਾਹੁੰਦੇ ਹੋ?',
-  });
-  String get askBhoomi => _t({
-    'en-IN': 'Ask BHOOMI',
-    'te-IN': 'భూమిని అడగండి',
-    'ta-IN': 'பூமியிடம் கேளுங்கள்',
-    'hi-IN': 'भूमि से पूछें',
-    'kn-IN': 'ಭೂಮಿಯನ್ನು ಕೇಳಿ',
-    'mr-IN': 'भूमीला विचारा',
-    'ml-IN': 'ഭൂമിയോട് ചോദിക്കുക',
-    'pa-IN': 'ਭੂਮੀ ਨੂੰ ਪੁੱਛੋ',
-  });
-  String get voiceAssistant => _t({
-    'en-IN': 'Voice Assistant',
-    'te-IN': 'వాయిస్ అసిస్టెంట్',
-    'ta-IN': 'குரல் உதவியாளர்',
-    'hi-IN': 'वॉयस असिस्टेंट',
-    'kn-IN': 'ಧ್ವನಿ ಸಹಾಯಕ',
-    'mr-IN': 'व्हॉइस असिस्टंट',
-    'ml-IN': 'വോയ്‌സ് അസിസ്റ്റന്റ്',
-    'pa-IN': 'ਆਵਾਜ਼ ਸਹਾਇਕ',
-  });
-  String get showProblem => _t({
-    'en-IN': 'Show Problem',
-    'te-IN': 'సమస్యను చూపించండి',
-    'ta-IN': 'சிக்கலைக் காட்டுங்கள்',
-    'hi-IN': 'समस्या दिखाएं',
-    'kn-IN': 'ಸಮಸ್ಯೆ ತೋರಿಸಿ',
-    'mr-IN': 'समस्या दाखवा',
-    'ml-IN': 'പ്രശ്നം കാണിക്കുക',
-    'pa-IN': 'ਸਮੱਸਿਆ ਦਿਖਾਓ',
-  });
-  String get uploadCropPhoto => _t({
-    'en-IN': 'Upload Crop Photo',
-    'te-IN': 'పంట ఫోటో తీయండి',
-    'ta-IN': 'பயிர் புகைப்படம் பதிவேற்றவும்',
-    'hi-IN': 'फसल की फोटो अपलोड करें',
-    'kn-IN': 'ಬೆಳೆಯ ಫೋಟೋ ಅಪ್‌ಲೋಡ್ ಮಾಡಿ',
-    'mr-IN': 'पिकाचा फोटो अपलोड करा',
-    'ml-IN': 'വിള ഫോട്ടോ എടുക്കുക',
-    'pa-IN': 'ਫਸਲ ਦੀ ਫੋਟੋ ਅੱਪਲੋਡ ਕਰੋ',
-  });
-  String get govSupport => _t({
-    'en-IN': 'Government Support',
-    'te-IN': 'ప్రభుత్వ పథకాలు',
-    'ta-IN': 'அரசு உதவி',
-    'hi-IN': 'सरकारी सहायता',
-    'kn-IN': 'ಸರ್ಕಾರಿ ನೆರವು',
-    'mr-IN': 'शासकीय मदत',
-    'ml-IN': 'സർക്കാർ സഹായം',
-    'pa-IN': 'ਸਰਕਾਰੀ ਸਹਾਇਤਾ',
-  });
-  String get schemesAndSubsidies => _t({
-    'en-IN': 'Schemes & Subsidies',
-    'te-IN': 'పథకాలు & సబ్సిడీలు',
-    'ta-IN': 'திட்டங்கள் & மானியங்கள்',
-    'hi-IN': 'योजनाएं और सब्सिडी',
-    'kn-IN': 'ಯೋಜನೆಗಳು ಮತ್ತು ಸಬ್ಸಿಡಿ',
-    'mr-IN': 'योजना आणि सबसिडी',
-    'ml-IN': 'പദ്ധതികളും സബ്‌സിഡികളും',
-    'pa-IN': 'ਸਕੀਮਾਂ ਅਤੇ ਸਬਸਿਡੀ',
-  });
-  String get requiresVerifiedLand => _t({
-    'en-IN': 'Requires Verified Land',
-    'te-IN': 'భూమి ధృవీకరణ అవసరం',
-    'ta-IN': 'சரிபார்க்கப்பட்ட நிலம் தேவை',
-    'hi-IN': 'सत्यापित भूमि आवश्यक',
-    'kn-IN': 'ಪರಿಶೀಲಿಸಿದ ಭೂಮಿ ಅಗತ್ಯವಿದೆ',
-    'mr-IN': 'पडताळणी झालेली जमीन आवश्यक',
-    'ml-IN': 'സ്ഥിരീകരിച്ച ഭൂമി ആവശ്യമാണ്',
-    'pa-IN': 'ਪ੍ਰਮਾਣਿਤ ਜ਼ਮੀਨ ਦੀ ਲੋੜ ਹੈ',
-  });
-  String get myFarmJourney => _t({
-    'en-IN': 'My Farm Journey',
-    'te-IN': 'నా వ్యవసాయ ప్రయాణం',
-    'ta-IN': 'எனது பண்ணைப் பயணம்',
-    'hi-IN': 'मेरी कृषि यात्रा',
-    'kn-IN': 'ನನ್ನ ಕೃಷಿ ಪಯಣ',
-    'mr-IN': 'माझा शेती प्रवास',
-    'ml-IN': 'എൻ്റെ കൃഷി യാത്ര',
-    'pa-IN': 'ਮੇਰੀ ਖੇਤੀ ਯਾਤਰਾ',
-  });
-  String get activityTimeline => _t({
-    'en-IN': 'Activity Timeline',
-    'te-IN': 'కార్యకలాపాల కాలక్రమం',
-    'ta-IN': 'செயல்பாட்டு காலவரிசை',
-    'hi-IN': 'गतिविधि समयरेखा',
-    'kn-IN': 'ಚಟುವಟಿಕೆ ಕಾಲಮಾನ',
-    'mr-IN': 'क्रियाकलाप टाइमलाइन',
-    'ml-IN': 'പ്രവർത്തന സമയക്രമം',
-    'pa-IN': 'ਗਤੀਵਿਧੀ ਟਾਈਮਲਾਈਨ',
-  });
-  String get todaysFarmBrief => _t({
-    'en-IN': "Today's Farm Brief",
-    'te-IN': 'నేటి వ్యవసాయ సమాచారం',
-    'ta-IN': 'இன்றைய பண்ணைச் சுருக்கம்',
-    'hi-IN': 'आज का खेत सारांश',
-    'kn-IN': 'ಇಂದಿನ ಕೃಷಿ ಮಾಹಿತಿ',
-    'mr-IN': 'आजचा शेती अहवाल',
-    'ml-IN': 'ഇന്നത്തെ കൃഷി വിവരണം',
-    'pa-IN': 'ਅੱਜ ਦਾ ਖੇਤੀ ਸਾਰ',
-  });
-  String get latestUpdates => _t({
-    'en-IN': 'Latest Updates',
-    'te-IN': 'తాజా సమాచారం',
-    'ta-IN': 'சமீபத்திய அறிவிப்புகள்',
-    'hi-IN': 'नवीनतम अपडेट',
-    'kn-IN': 'ಇತ್ತೀಚಿನ ಅಪ್‌ಡೇಟ್‌ಗಳು',
-    'mr-IN': 'ताज्या घडामोडी',
-    'ml-IN': 'പുതിയ വിവരങ്ങൾ',
-    'pa-IN': 'ਤਾਜ਼ਾ ਅਪਡੇਟਾਂ',
-  });
-  String get viewFullBrief => _t({
-    'en-IN': 'View Full Brief',
-    'te-IN': 'పూర్తి సమాచారాన్ని చూడండి',
-    'ta-IN': 'முழு விவரங்களைக் காண்க',
-    'hi-IN': 'पूरा सारांश देखें',
-    'kn-IN': 'ಪೂರ್ಣ ಮಾಹಿತಿ ನೋಡಿ',
-    'mr-IN': 'पूर्ण माहिती पहा',
-    'ml-IN': 'പൂർണ്ണ വിവരണം കാണുക',
-    'pa-IN': 'ਪੂਰਾ ਸਾਰ ਦੇਖੋ',
-  });
-  String get viewAllUpdates => _t({
-    'en-IN': 'View All Updates',
-    'te-IN': 'అన్ని సమాచారాలను చూడండి',
-    'ta-IN': 'அனைத்து அறிவிப்புகளையும் காண்க',
-    'hi-IN': 'सभी अपडेट देखें',
-    'kn-IN': 'ಎಲ್ಲಾ ಅಪ್‌ಡೇಟ್‌ಗಳನ್ನು ನೋಡಿ',
-    'mr-IN': 'सर्व अपडेट्स पहा',
-    'ml-IN': 'എല്ലാ അപ്‌ഡേറ്റുകളും കാണുക',
-    'pa-IN': 'ਸਾਰੇ ਅਪਡੇਟ ਦੇਖੋ',
-  });
-  String get primaryCropLabel => _t({
-    'en-IN': 'Primary Crop',
-    'te-IN': 'ప్రధాన పంట',
-    'ta-IN': 'முக்கிய பயிர்',
-    'hi-IN': 'मुख्य फसल',
-    'kn-IN': 'ಮುಖ್ಯ ಬೆಳೆ',
-    'mr-IN': 'मुख्य पीक',
-    'ml-IN': 'പ്രധാന വിള',
-    'pa-IN': 'ਮੁੱਖ ਫਸਲ',
-  });
-
-  // Land Verification Status
-  String landStatusText(String status) {
-    switch (status.toLowerCase()) {
-      case 'verified':
-        return _t({
-          'en-IN': 'Verified Land',
-          'te-IN': 'ధృవీకరించబడిన భూమి',
-          'ta-IN': 'சரிபார்க்கப்பட்ட நிலம்',
-          'hi-IN': 'सत्यापित भूमि',
-          'kn-IN': 'ಪರಿಶೀಲಿಸಿದ ಭೂಮಿ',
-          'mr-IN': 'पडताळणी झालेली जमीन',
-          'ml-IN': 'സ്ഥിരീകരിച്ച ഭൂമി',
-          'pa-IN': 'ਪ੍ਰਮਾਣਿਤ ਜ਼ਮੀਨ',
-        });
-      case 'action_required':
-        return _t({
-          'en-IN': 'Action Required',
-          'te-IN': 'చర్య అవసరం',
-          'ta-IN': 'நடவடிக்கை தேவை',
-          'hi-IN': 'कार्रवाई आवश्यक',
-          'kn-IN': 'ಕ್ರಮ ಅಗತ್ಯವಿದೆ',
-          'mr-IN': 'कृती आवश्यक',
-          'ml-IN': 'നടപടി വേണം',
-          'pa-IN': 'ਕਾਰਵਾਈ ਦੀ ਲੋੜ',
-        });
-      default:
-        return _t({
-          'en-IN': 'Verification Pending',
-          'te-IN': 'ధృవీకరణ పెండింగ్‌లో ఉంది',
-          'ta-IN': 'சரிபார்ப்பு நிலுவையில் உள்ளது',
-          'hi-IN': 'सत्यापन लंबित',
-          'kn-IN': 'ಪರಿಶೀಲನೆ ಬಾಕಿ ಇದೆ',
-          'mr-IN': 'पडताळणी प्रलंबित',
-          'ml-IN': 'പരിശോധന ബാക്കി',
-          'pa-IN': 'ਪੁਸ਼ਟੀ ਬਾਕੀ ਹੈ',
-        });
-    }
-  }
-
-  // Phase 2: AI Processing & Intelligence Workflow
-  String get processingYourQuery => _t({
-    'en-IN': 'Processing Your Query',
-    'te-IN': 'మీ అభ్యర్థన ప్రాసెస్ చేయబడుతోంది',
-    'ta-IN': 'உங்கள் கேள்வி செயல்படுத்தப்படுகிறது',
-    'hi-IN': 'आपके प्रश्न पर काम हो रहा है',
-    'kn-IN': 'ನಿಮ್ಮ ಪ್ರಶ್ನೆಯನ್ನು ಪ್ರಕ್ರಿಯೆಗೊಳಿಸಲಾಗುತ್ತಿದೆ',
-    'mr-IN': 'तुमच्या प्रश्नावर प्रक्रिया सुरू आहे',
-    'ml-IN': 'നിങ്ങളുടെ ചോദ്യം പ്രോസസ്സ് ചെയ്യുന്നു',
-    'pa-IN': 'ਤੁਹਾਡੇ ਸਵਾਲ ਦੀ ਪ੍ਰਕਿਰਿਆ ਹੋ ਰਹੀ ਹੈ',
-  });
-  String get analyzingYourFarm => _t({
-    'en-IN': 'Analyzing your farm...',
-    'te-IN': 'మీ పొలాన్ని విశ్లేషిస్తోంది...',
-    'ta-IN': 'உங்கள் பண்ணை பகுப்பாய்வு செய்யப்படுகிறது...',
-    'hi-IN': 'आपके खेत का विश्लेषण हो रहा है...',
-    'kn-IN': 'ನಿಮ್ಮ ಕೃಷಿಯನ್ನು ವಿಶ್ಲೇಷಿಸಲಾಗುತ್ತಿದೆ...',
-    'mr-IN': 'तुमच्या शेतीचे विश्लेषण केले जात आहे...',
-    'ml-IN': 'നിങ്ങളുടെ കൃഷിയിടം വിശകലനം ചെയ്യുന്നു...',
-    'pa-IN': 'ਤੁਹਾਡੇ ਖੇਤ ਦਾ ਵਿਸ਼ਲੇਸ਼ਣ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ...',
-  });
-  String get stepUnderstandingIssue => _t({
-    'en-IN': 'Understanding your issue',
-    'te-IN': 'మీ సమస్యను అర్థం చేసుకోవడం',
-    'ta-IN': 'உங்கள் சிக்கலை புரிந்துகொள்வது',
-    'hi-IN': 'आपकी समस्या को समझना',
-    'kn-IN': 'ನಿಮ್ಮ ಸಮಸ್ಯೆಯನ್ನು ಅರ್ಥಮಾಡಿಕೊಳ್ಳುವುದು',
-    'mr-IN': 'तुमची समस्या समजून घेणे',
-    'ml-IN': 'നിങ്ങളുടെ പ്രശ്നം മനസ്സിലാക്കുന്നു',
-    'pa-IN': 'ਤੁਹਾਡੀ ਸਮੱਸਿਆ ਨੂੰ ਸਮਝਣਾ',
-  });
-  String get stepSearchingKnowledge => _t({
-    'en-IN': 'Searching agricultural knowledge',
-    'te-IN': 'వ్యవసాయ జ్ఞానాన్ని శోధించడం',
-    'ta-IN': 'விவசாய அறிவை தேடுகிறது',
-    'hi-IN': 'कृषि ज्ञान खोजना',
-    'kn-IN': 'ಕೃಷಿ ಜ್ಞಾನವನ್ನು ಹುಡುಕಲಾಗುತ್ತಿದೆ',
-    'mr-IN': 'कृषी ज्ञान शोधणे',
-    'ml-IN': 'കാർഷിക അറിവുകൾ തിരയുന്നു',
-    'pa-IN': 'ਖੇਤੀਬਾੜੀ ਗਿਆਨ ਦੀ ਖੋਜ ਕਰਨਾ',
-  });
-  String get stepCheckingIndicators => _t({
-    'en-IN': 'Checking farm indicators',
-    'te-IN': 'పొలం సూచికలను తనిఖీ చేస్తోంది',
-    'ta-IN': 'பண்ணை குறிகாட்டிகளை சரிபார்க்கிறது',
-    'hi-IN': 'खेत के संकेतकों की जांच',
-    'kn-IN': 'ಕೃಷಿ ಸೂಚಕಗಳನ್ನು ಪರಿಶೀಲಿಸಲಾಗುತ್ತಿದೆ',
-    'mr-IN': 'शेतीचे निर्देशक तपासत आहे',
-    'ml-IN': 'കൃഷിയിട സൂചകങ്ങൾ പരിശോധിക്കുന്നു',
-    'pa-IN': 'ਖੇਤ ਦੇ ਸੂਚਕਾਂ ਦੀ ਜਾਂਚ ਕਰਨਾ',
-  });
-  String get ourIntelligenceWorking => _t({
-    'en-IN': 'Our Intelligence Working',
-    'te-IN': 'మా AI మేధస్సు పనిచేస్తోంది',
-    'ta-IN': 'எங்கள் நுண்ணறிவு செயல்படுகிறது',
-    'hi-IN': 'हमारी बुद्धिमत्ता काम कर रही है',
-    'kn-IN': 'ನಮ್ಮ ಇಂಟೆಲಿಜೆನ್ಸ್ ಕಾರ್ಯನಿರ್ವಹಿಸುತ್ತಿದೆ',
-    'mr-IN': 'आमची बुद्धिमत्ता कार्यरत आहे',
-    'ml-IN': 'ഞങ്ങളുടെ ഇന്റലിജൻസ് പ്രവർത്തിക്കുന്നു',
-    'pa-IN': 'ਸਾਡੀ ਬੁੱਧੀ ਕੰਮ ਕਰ ਰਹੀ ਹੈ',
-  });
-  String get ragAdvisoryTitle => _t({
-    'en-IN': 'RAG Advisory',
-    'te-IN': 'RAG సలహా',
-    'ta-IN': 'RAG ஆலோசனை',
-    'hi-IN': 'RAG सलाह',
-    'kn-IN': 'RAG ಸಲಹೆ',
-    'mr-IN': 'RAG सल्ला',
-    'ml-IN': 'RAG ഉപദേശം',
-    'pa-IN': 'RAG ਸਲਾਹ',
-  });
-  String get ragAdvisoryDesc => _t({
-    'en-IN': 'Finding relevant agricultural knowledge',
-    'te-IN': 'సంబంధిత వ్యవసాయ జ్ఞానాన్ని కనుగొంటోంది',
-    'ta-IN': 'பொருத்தமான விவசாய அறிவை கண்டறிதல்',
-    'hi-IN': 'संबद्ध कृषि ज्ञान प्राप्त करना',
-    'kn-IN': 'ಸಂಬಂಧಿತ ಕೃಷಿ ಜ್ಞಾನವನ್ನು ಕಂಡುಹಿಡಿಯುವುದು',
-    'mr-IN': 'संबंधित कृषी ज्ञान शोधणे',
-    'ml-IN': 'പ്രസക്തമായ കാർഷിക അറിവ് കണ്ടെത്തുന്നു',
-    'pa-IN': 'ਢੁਕਵਾਂ ਖੇਤੀਬਾੜੀ ਗਿਆਨ ਲੱਭਣਾ',
-  });
-  String get faoPlannerTitle => _t({
-    'en-IN': 'FAO-56 Planner',
-    'te-IN': 'FAO-56 ప్రణాళిక',
-    'ta-IN': 'FAO-56 திட்டமிடுபவர்',
-    'hi-IN': 'FAO-56 योजनाकार',
-    'kn-IN': 'FAO-56 ಯೋಜಕ',
-    'mr-IN': 'FAO-56 प्लॅनर',
-    'ml-IN': 'FAO-56 പ്ലാനർ',
-    'pa-IN': 'FAO-56 ਯੋਜਨਾਕਾਰ',
-  });
-  String get faoPlannerDesc => _t({
-    'en-IN': 'Checking irrigation requirements',
-    'te-IN': 'నీటిపారుదల అవసరాలను తనిఖీ చేస్తోంది',
-    'ta-IN': 'நீர்ப்பாசன தேவைகளை சரிபார்க்கிறது',
-    'hi-IN': 'सिंचाई आवश्यकताओं की जांच',
-    'kn-IN': 'ನೀರಾವರಿ ಅಗತ್ಯಗಳನ್ನು ಪರಿಶೀಲಿಸಲಾಗುತ್ತಿದೆ',
-    'mr-IN': 'सिंचनाची गरज तपासणे',
-    'ml-IN': 'നനയ്ക്കൽ ആവശ്യകതകൾ പരിശോധിക്കുന്നു',
-    'pa-IN': 'ਸਿੰਚਾਈ ਦੀਆਂ ਲੋੜਾਂ ਦੀ ਜਾਂਚ ਕਰਨਾ',
-  });
-  String get healthIndicatorTitle => _t({
-    'en-IN': 'Health Indicator',
-    'te-IN': 'ఆరోగ్య సూచిక',
-    'ta-IN': 'ஆரோக்கிய குறிகாட்டி',
-    'hi-IN': 'स्वास्थ्य संकेतक',
-    'kn-IN': 'ಆರೋಗ್ಯ ಸೂಚಕ',
-    'mr-IN': 'आरोग्य निर्देशक',
-    'ml-IN': 'ആരോഗ്യ സൂചകം',
-    'pa-IN': 'ਸਿਹਤ ਸੂਚਕ',
-  });
-  String get healthIndicatorDesc => _t({
-    'en-IN': 'Analyzing farm conditions',
-    'te-IN': 'పొలం పరిస్థితులను విశ్లేషిస్తోంది',
-    'ta-IN': 'பண்ணை நிலைமைகளை பகுப்பாய்வு செய்கிறது',
-    'hi-IN': 'खेत की स्थितियों का विश्लेषण',
-    'kn-IN': 'ಕೃಷಿ ಪರಿಸ್ಥಿತಿಗಳನ್ನು ವಿಶ್ಲೇಷಿಸಲಾಗುತ್ತಿದೆ',
-    'mr-IN': 'शेतातील परिस्थितीचे विश्लेषण',
-    'ml-IN': 'കൃഷിയിട സാഹചര്യങ്ങൾ വിശകലനം ചെയ്യുന്നു',
-    'pa-IN': 'ਖੇਤ ਦੀਆਂ ਸਥਿਤੀਆਂ ਦਾ ਵਿਸ਼ਲੇਸ਼ਣ',
-  });
-
-  // Action Plan & Resources
-  String get actionPlanTitle => _t({
-    'en-IN': '5-Point Action Plan',
-    'te-IN': '5-అంశాల కార్యాచరణ ప్రణాళిక',
-    'ta-IN': '5-புள்ளி செயல் திட்டம்',
-    'hi-IN': '5-सूत्रीय कार्य योजना',
-    'kn-IN': '5-ಅಂಶಗಳ ಕ್ರಿಯಾ ಯೋಜನೆ',
-    'mr-IN': '5-मुद्द्यांची कृती योजना',
-    'ml-IN': '5-ഘട്ട കർമ്മപദ്ധതി',
-    'pa-IN': '5-ਨੁਕਾਤੀ ਕਾਰਜ ਯੋਜਨਾ',
-  });
-  String get saveAdvice => _t({
-    'en-IN': 'Save Advice',
-    'te-IN': 'సలహాను భద్రపరచండి',
-    'ta-IN': 'ஆலோசனையை சேமிக்கவும்',
-    'hi-IN': 'सलाह सहेजें',
-    'kn-IN': 'ಸಲಹೆ ಉಳಿಸಿ',
-    'mr-IN': 'सल्ला जतन करा',
-    'ml-IN': 'ഉപദേശം സേവ് ചെയ്യുക',
-    'pa-IN': 'ਸਲਾਹ ਸੰਭਾਲੋ',
-  });
-  String get shareAdvice => _t({
-    'en-IN': 'Share',
-    'te-IN': 'భాగస్వామ్యం చేయండి',
-    'ta-IN': 'பகிரவும்',
-    'hi-IN': 'शेयर करें',
-    'kn-IN': 'ಹಂಚಿಕೊಳ್ಳಿ',
-    'mr-IN': 'शेअर करा',
-    'ml-IN': 'പങ്കുവെക്കുക',
-    'pa-IN': 'ਸਾਂਝਾ ਕਰੋ',
-  });
-  String get articles => _t({
-    'en-IN': 'Articles',
-    'te-IN': 'వ్యాసాలు',
-    'ta-IN': 'கட்டுரைகள்',
-    'hi-IN': 'लेख',
-    'kn-IN': 'ಲೇಖನಗಳು',
-    'mr-IN': 'लेख',
-    'ml-IN': 'ലേഖനങ്ങൾ',
-    'pa-IN': 'ਲੇਖ',
-  });
-  String get videos => _t({
-    'en-IN': 'Videos',
-    'te-IN': 'వీడియోలు',
-    'ta-IN': 'காணொளிகள்',
-    'hi-IN': 'वीडियो',
-    'kn-IN': 'ವೀಡಿಯೊಗಳು',
-    'mr-IN': 'व्हिडिओ',
-    'ml-IN': 'വീഡിയോകൾ',
-    'pa-IN': 'ਵੀਡੀਓ',
-  });
-  String get documents => _t({
-    'en-IN': 'Documents',
-    'te-IN': 'పత్రాలు',
-    'ta-IN': 'ஆவணங்கள்',
-    'hi-IN': 'दस्तावेज़',
-    'kn-IN': 'ದಾಖಲೆಗಳು',
-    'mr-IN': 'दस्तऐवज',
-    'ml-IN': 'രേഖകൾ',
-    'pa-IN': 'ਦਸਤਾਵੇਜ਼',
-  });
-
-  // Follow-up
-  String get howIsItNow => _t({
-    'en-IN': 'How is it now?',
-    'te-IN': 'ఇప్పుడు ఎలా ఉంది?',
-    'ta-IN': 'இப்போது எப்படி உள்ளது?',
-    'hi-IN': 'अब कैसी स्थिति है?',
-    'kn-IN': 'ಈಗ ಹೇಗಿದೆ?',
-    'mr-IN': 'आता कसे आहे?',
-    'ml-IN': 'ഇപ്പോൾ എങ്ങനെയുണ്ട്?',
-    'pa-IN': 'ਹੁਣ ਕਿਵੇਂ ਹੈ?',
-  });
-  String get problemImprovedQuestion => _t({
-    'en-IN': 'Has the problem improved after following the advice?',
-    'te-IN': 'సలహాను పాటించిన తర్వాత సమస్య తగ్గిందా?',
-    'ta-IN': 'ஆலோசனையைப் பின்பற்றிய பிறகு சிக்கல் மேம்பட்டுள்ளதா?',
-    'hi-IN': 'क्या सलाह मानने के बाद समस्या में सुधार हुआ है?',
-    'kn-IN': 'ಸಲಹೆ ಪಾಲಿಸಿದ ನಂತರ ಸಮಸ್ಯೆಯಲ್ಲಿ ಸುಧಾರಣೆಯಾಗಿದೆಯೇ?',
-    'mr-IN': 'सल्ला पाळल्यानंतर समस्येत सुधारणा झाली आहे का?',
-    'ml-IN': 'ഉപദേശം സ്വീകരിച്ച ശേഷം പ്രശ്നം കുറഞ്ഞോ?',
-    'pa-IN': 'ਕੀ ਸਲਾਹ ਮੰਨਣ ਤੋਂ ਬਾਅਦ ਸਮੱਸਿਆ ਵਿੱਚ ਸੁਧਾਰ ਹੋਇਆ ਹੈ?',
-  });
-  String get outcomeImproved => _t({
-    'en-IN': 'Improved',
-    'te-IN': 'మెరుగుపడింది',
-    'ta-IN': 'மேம்பட்டுள்ளது',
-    'hi-IN': 'सुधार हुआ',
-    'kn-IN': 'ಸುಧಾರಿಸಿದೆ',
-    'mr-IN': 'सुधारणा झाली',
-    'ml-IN': 'മെച്ചപ്പെട്ടു',
-    'pa-IN': 'ਸੁਧਾਰ ਹੋਇਆ',
-  });
-  String get outcomeNoChange => _t({
-    'en-IN': 'No Change',
-    'te-IN': 'మార్పు లేదు',
-    'ta-IN': 'மாற்றமில்லை',
-    'hi-IN': 'कोई बदलाव नहीं',
-    'kn-IN': 'ಯಾವ ಬದಲಾವಣೆಯೂ ಇಲ್ಲ',
-    'mr-IN': 'काही बदल नाही',
-    'ml-IN': 'മാറ്റമില്ല',
-    'pa-IN': 'ਕੋਈ ਬਦਲਾਅ ਨਹੀਂ',
-  });
-  String get outcomeGotWorse => _t({
-    'en-IN': 'Got Worse',
-    'te-IN': 'మరింత తీవ్రమైంది',
-    'ta-IN': 'மோசமாகிவிட்டது',
-    'hi-IN': 'स्थिति बिगड़ी',
-    'kn-IN': 'ಉಲ್ಬಣಗೊಂಡಿದೆ',
-    'mr-IN': 'अधिक वाईट झाले',
-    'ml-IN': 'കൂടുതൽ വഷളായി',
-    'pa-IN': 'ਹੋਰ ਖਰਾਬ ਹੋਇਆ',
-  });
-  String get skipForNow => _t({
-    'en-IN': 'Skip for Now',
-    'te-IN': 'ఇప్పటికి దాటవేయండి',
-    'ta-IN': 'இப்போதைக்கு தவிர்க்கவும்',
-    'hi-IN': 'अभी छोड़ें',
-    'kn-IN': 'ಈಗಿಗೆ ಬಿಟ್ಟುಬಿಡಿ',
-    'mr-IN': 'आत्तासाठी वगळा',
-    'ml-IN': 'ഇപ്പൊഴത്തേക്ക് ഒഴിവാക്കുക',
-    'pa-IN': 'ਹੁਣ ਲਈ ਛੱਡੋ',
-  });
-  String get uploadNewPhoto => _t({
-    'en-IN': 'Upload new photo',
-    'te-IN': 'కొత్త ఫోటో అప్‌లోడ్ చేయండి',
-    'ta-IN': 'புதிய புகைப்படத்தை பதிவேற்றவும்',
-    'hi-IN': 'नई फोटो अपलोड करें',
-    'kn-IN': 'ಹೊಸ ಫೋಟೋ ಅಪ್‌ಲೋಡ್ ಮಾಡಿ',
-    'mr-IN': 'नवीन फोटो अपलोड करा',
-    'ml-IN': 'പുതിയ ഫോട്ടോ അപ്‌ലോഡ് ചെയ്യുക',
-    'pa-IN': 'ਨਵੀਂ ਫੋਟੋ ਅੱਪਲੋਡ ਕਰੋ',
-  });
-  String get addNote => _t({
-    'en-IN': 'Add Note',
-    'te-IN': 'గమనిక జోడించండి',
-    'ta-IN': 'குறிப்பைச் சேர்க்கவும்',
-    'hi-IN': 'टिप्पणी जोड़ें',
-    'kn-IN': 'ಟಿಪ್ಪಣಿ ಸೇರಿಸಿ',
-    'mr-IN': 'नोंद जोडा',
-    'ml-IN': 'കുറിപ്പ് ചേർക്കുക',
-    'pa-IN': 'ਨੋਟ ਸ਼ਾਮਲ ਕਰੋ',
-  });
-  String get submitUpdate => _t({
-    'en-IN': 'Submit Update',
-    'te-IN': 'తాజా వివరాలను సమర్పించండి',
-    'ta-IN': 'புதுப்பிப்பை சமர்ப்பிக்கவும்',
-    'hi-IN': 'अपडेट सबमिट करें',
-    'kn-IN': 'ಅಪ್‌ಡೇಟ್ ಸಲ್ಲಿಸಿ',
-    'mr-IN': 'अपडेट सबमिट करा',
-    'ml-IN': 'അപ്‌ഡേറ്റ് സമർപ്പിക്കുക',
-    'pa-IN': 'ਅਪਡੇਟ ਸਬਮਿਟ ਕਰੋ',
-  });
-  String get trackingProgress => _t({
-    'en-IN': 'Tracking Progress',
-    'te-IN': 'పురోగతిని ట్రాక్ చేస్తోంది',
-    'ta-IN': 'முன்னேற்றத்தை கண்காணிக்கிறது',
-    'hi-IN': 'प्रगति ट्रैक करना',
-    'kn-IN': 'ಪ್ರಗತಿಯನ್ನು ಟ್ರ್ಯಾಕ್ ಮಾಡಲಾಗುತ್ತಿದೆ',
-    'mr-IN': 'प्रगती ट्रॅक करत आहे',
-    'ml-IN': 'പുരോഗതി നിരീക്ഷിക്കുന്നു',
-    'pa-IN': 'ਪ੍ਰਗਤੀ ਨੂੰ ਟਰੈਕ ਕਰਨਾ',
-  });
-
-  // Escalation & Expert Case Summary
-  String get escalatingToExpert => _t({
-    'en-IN': 'Escalating to Expert',
-    'te-IN': 'నిపుణుడికి బదిలీ చేస్తోంది',
-    'ta-IN': 'நிபுணரிடம் ஒப்படைக்கப்படுகிறது',
-    'hi-IN': 'विशेषज्ञ को भेजा जा रहा है',
-    'kn-IN': 'ತಜ್ಞರಿಗೆ ಕಳುಹಿಸಲಾಗುತ್ತಿದೆ',
-    'mr-IN': 'तज्ज्ञांकडे हस्तांतरित करत आहे',
-    'ml-IN': 'വിദഗ്ദ്ധനിലേക്ക് കൈമാറുന്നു',
-    'pa-IN': 'ਮਾਹਿਰ ਨੂੰ ਭੇਜਿਆ ਜਾ ਰਿਹਾ ਹੈ',
-  });
-  String get expertWillReview => _t({
-    'en-IN': 'Our agricultural expert will review your case.',
-    'te-IN': 'మా వ్యవసాయ నిపుణుడు మీ కేసును సమీక్షిస్తారు.',
-    'ta-IN': 'எங்கள் விவசாய நிபுணர் உங்கள் வழக்கை மதிப்பாய்வு செய்வார்.',
-    'hi-IN': 'हमारे कृषि विशेषज्ञ आपके मामले की समीक्षा करेंगे।',
-    'kn-IN': 'ನಮ್ಮ ಕೃಷಿ ತಜ್ಞರು ನಿಮ್ಮ ಪ್ರಕರಣವನ್ನು ಪರಿಶೀಲಿಸುತ್ತಾರೆ.',
-    'mr-IN': 'आमचे कृषी तज्ज्ञ तुमच्या प्रकरणाचा आढावा घेतील.',
-    'ml-IN': 'ഞങ്ങളുടെ കാർഷിക വിദഗ്ദ്ധൻ നിങ്ങളുടെ കേസ് പരിശോധിക്കും.',
-    'pa-IN': 'ਸਾਡੇ ਖੇਤੀਬਾੜੀ ਮਾਹਿਰ ਤੁਹਾਡੇ ਕੇਸ ਦੀ ਸਮੀਖਿਆ ਕਰਨਗੇ।',
-  });
-  String get caseTransferred => _t({
-    'en-IN': 'Case transferred',
-    'te-IN': 'కేసు బదిలీ చేయబడింది',
-    'ta-IN': 'வழக்கு மாற்றப்பட்டது',
-    'hi-IN': 'मामला स्थानांतरित हुआ',
-    'kn-IN': 'ಪ್ರಕರಣ ವರ್ಗಾಯಿಸಲಾಗಿದೆ',
-    'mr-IN': 'प्रकरण हस्तांतरित झाले',
-    'ml-IN': 'കേസ് കൈമാറി',
-    'pa-IN': 'ਕੇਸ ਤਬਦੀਲ ਕੀਤਾ ਗਿਆ',
-  });
-  String get expertNotified => _t({
-    'en-IN': 'Expert notified',
-    'te-IN': 'నిపుణుడికి తెలియజేయబడింది',
-    'ta-IN': 'நிபுணருக்கு தெரிவிக்கப்பட்டது',
-    'hi-IN': 'विशेषज्ञ को सूचित किया गया',
-    'kn-IN': 'ತಜ್ಞರಿಗೆ ತಿಳಿಸಲಾಗಿದೆ',
-    'mr-IN': 'तज्ज्ञांना सूचित केले',
-    'ml-IN': 'വിദഗ്ദ്ധനെ അറിയിച്ചു',
-    'pa-IN': 'ਮਾਹਿਰ ਨੂੰ ਸੂਚਿਤ ਕੀਤਾ ਗਿਆ',
-  });
-  String get reviewInProgress => _t({
-    'en-IN': 'Review in progress',
-    'te-IN': 'సమీక్ష జరుగుతోంది',
-    'ta-IN': 'மதிப்பாய்வு நடக்கிறது',
-    'hi-IN': 'समीक्षा प्रगति पर है',
-    'kn-IN': 'ಪರಿಶೀಲನೆ ಪ್ರಗತಿಯಲ್ಲಿದೆ',
-    'mr-IN': 'पुनरावलोकन प्रगतीपथावर आहे',
-    'ml-IN': 'പരിശോധന പുരോഗമിക്കുന്നു',
-    'pa-IN': 'ਸਮੀਖਿਆ ਜਾਰੀ ਹੈ',
-  });
-  String get expertCaseSummary => _t({
-    'en-IN': 'Expert Case Summary',
-    'te-IN': 'నిపుణుల కేసు సారాంశం',
-    'ta-IN': 'நிபுணர் வழக்கு சுருக்கம்',
-    'hi-IN': 'विशेषज्ञ मामला सारांश',
-    'kn-IN': 'ತಜ್ಞರ ಪ್ರಕರಣದ ಸಾರಾಂಶ',
-    'mr-IN': 'तज्ज्ञ प्रकरण सारांश',
-    'ml-IN': 'വിദഗ്ദ്ധ കേസ് സംഗ്രഹം',
-    'pa-IN': 'ਮਾਹਿਰ ਕੇਸ ਸੰਖੇਪ',
-  });
-  String get viewFullCase => _t({
-    'en-IN': 'View Full Case',
-    'te-IN': 'పూర్తి కేసును చూడండి',
-    'ta-IN': 'முழு வழக்கையும் பார்க்கவும்',
-    'hi-IN': 'पूरा मामला देखें',
-    'kn-IN': 'ಸಂಪೂರ್ಣ ಪ್ರಕರಣವನ್ನು ವೀಕ್ಷಿಸಿ',
-    'mr-IN': 'पूर्ण प्रकरण पहा',
-    'ml-IN': 'പൂർണ്ണ കേസ് കാണുക',
-    'pa-IN': 'ਪੂਰਾ ਕੇਸ ਦੇਖੋ',
-  });
-
-  // Quick helper to fetch translation based on languageCode
-  String _t(Map<String, String> localizedMap) {
-    return localizedMap[languageCode] ??
-        localizedMap['en-IN'] ??
-        localizedMap.values.first;
+  String formatAcres(double acres) {
+    if (acres == 0.5) return '0.5 ${text('acres')}';
+    if (acres == 1.0) return '1.0 ${text('acres')}';
+    if (acres == 2.0) return '2.0 ${text('acres')}';
+    if (acres == 2.5) return '2.5 ${text('acres')}';
+    if (acres == 3.5) return '3.5 ${text('acres')}';
+    if (acres == 5.0) return '5.0 ${text('acres')}';
+    if (acres == 10.0) return '10.0 ${text('acres')}';
+    return '$acres ${text('acres')}';
   }
 }
 
-/// Global provider for Bhoomi strings dynamically bound to selectedLanguageProvider
-final bhoomiStringsProvider = Provider<BhoomiStrings>((ref) {
-  final langCode = ref.watch(selectedLanguageProvider);
-  return BhoomiStrings(langCode);
-});
+/// Alias typedef so both BhoomiStrings and AppTranslations work interchangeably
+typedef BhoomiStrings = AppTranslations;

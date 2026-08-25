@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../app/theme/app_colors.dart';
 import '../../../../app/theme/app_spacing.dart';
 import '../../../../app/theme/app_typography.dart';
+import '../../../../core/localization/bhoomi_localizations.dart';
 import '../../../../core/widgets/bhoomi_loading_view.dart';
 import '../../../../core/widgets/bhoomi_primary_button.dart';
 import '../../application/timeline_provider.dart';
@@ -19,15 +20,16 @@ class FarmJourneyScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final timelineAsync = ref.watch(farmTimelineProvider(farmId));
+    final strings = ref.watch(bhoomiStringsProvider);
 
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
-        title: const Text('My Farm Journey'),
+        title: Text(strings.text('timeline_title')),
         actions: [
           IconButton(
             icon: const Icon(Icons.refresh_rounded),
-            tooltip: 'Refresh Timeline',
+            tooltip: strings.text('refresh_timeline'),
             onPressed: () {
               ref.invalidate(farmTimelineProvider(farmId));
             },
@@ -36,7 +38,7 @@ class FarmJourneyScreen extends ConsumerWidget {
       ),
       body: SafeArea(
         child: timelineAsync.when(
-          loading: () => const BhoomiLoadingView(message: 'Loading farm journey...'),
+          loading: () => BhoomiLoadingView(message: strings.text('loading_journey')),
           error: (error, _) => Center(
             child: Padding(
               padding: const EdgeInsets.all(AppSpacing.xl),
@@ -45,12 +47,12 @@ class FarmJourneyScreen extends ConsumerWidget {
                 children: [
                   const Icon(Icons.error_outline_rounded, size: 48.0, color: Color(0xFFC62828)),
                   const SizedBox(height: AppSpacing.md),
-                  const Text('Unable to Load Timeline', style: AppTypography.headlineMedium),
+                  Text(strings.text('unable_load_timeline'), style: AppTypography.headlineMedium),
                   const SizedBox(height: AppSpacing.sm),
                   Text(error.toString(), textAlign: TextAlign.center, style: const TextStyle(color: AppColors.textMuted)),
                   const SizedBox(height: AppSpacing.lg),
                   BhoomiPrimaryButton(
-                    text: 'Retry',
+                    text: strings.retry,
                     onPressed: () => ref.invalidate(farmTimelineProvider(farmId)),
                   ),
                 ],
@@ -84,18 +86,18 @@ class FarmJourneyScreen extends ConsumerWidget {
                         child: const Icon(Icons.history_edu_rounded, color: Colors.white, size: 28.0),
                       ),
                       const SizedBox(width: AppSpacing.md),
-                      const Expanded(
+                      Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Farm Activity Journey',
-                              style: TextStyle(color: Colors.white, fontSize: 18.0, fontWeight: FontWeight.w800),
+                              strings.text('timeline_header'),
+                              style: const TextStyle(color: Colors.white, fontSize: 18.0, fontWeight: FontWeight.w800),
                             ),
-                            SizedBox(height: 2.0),
+                            const SizedBox(height: 2.0),
                             Text(
-                              'Verified chronological timeline of all farm actions, diagnostics, and approvals.',
-                              style: TextStyle(color: Colors.white70, fontSize: 12.0),
+                              strings.text('timeline_header_desc'),
+                              style: const TextStyle(color: Colors.white70, fontSize: 12.0),
                             ),
                           ],
                         ),

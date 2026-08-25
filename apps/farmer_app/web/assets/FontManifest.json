@@ -1,0 +1,13 @@
+[
+  {
+    "family": "MaterialIcons",
+    "fonts": [
+      {
+        "asset": "fonts/MaterialIcons-Regular.otf"
+      },
+      {
+        "asset": "assets/fonts/MaterialIcons-Regular.otf"
+      }
+    ]
+  }
+]

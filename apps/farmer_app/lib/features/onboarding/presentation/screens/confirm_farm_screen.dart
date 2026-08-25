@@ -22,11 +22,22 @@ class ConfirmFarmScreen extends ConsumerWidget {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        scrolledUnderElevation: 0,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: AppColors.textPrimary),
+          onPressed: () => context.pop(),
+        ),
         title: Text(
           strings.yourFarmProfile,
-          style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 18.0),
+          style: const TextStyle(
+            fontWeight: FontWeight.w800,
+            fontSize: 20.0,
+            color: AppColors.textPrimary,
+          ),
         ),
-        scrolledUnderElevation: 0,
+        centerTitle: true,
       ),
       body: SafeArea(
         child: Column(
@@ -35,11 +46,14 @@ class ConfirmFarmScreen extends ConsumerWidget {
 
             Expanded(
               child: SingleChildScrollView(
-                padding: const EdgeInsets.all(AppSpacing.lg),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: AppSpacing.lg,
+                  vertical: AppSpacing.md,
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    // Farmer Identity Card
+                    // 1. Farmer Identity Card
                     Container(
                       padding: const EdgeInsets.all(AppSpacing.lg),
                       decoration: BoxDecoration(
@@ -51,30 +65,29 @@ class ConfirmFarmScreen extends ConsumerWidget {
                             Color(0xFF165428),
                           ],
                         ),
-                        borderRadius: BorderRadius.circular(AppSpacing.radiusXl),
-                        boxShadow: const [
+                        borderRadius: BorderRadius.circular(24.0),
+                        boxShadow: [
                           BoxShadow(
-                            color: AppColors.cardShadowHover,
+                            color: AppColors.primaryDeepGreen.withValues(alpha: 0.2),
                             blurRadius: 16.0,
-                            offset: Offset(0, 6),
+                            offset: const Offset(0, 6),
                           ),
                         ],
                       ),
                       child: Row(
                         children: [
                           Container(
-                            width: 56.0,
-                            height: 56.0,
+                            width: 54.0,
+                            height: 54.0,
                             decoration: BoxDecoration(
-                              color: Colors.white.withValues(alpha: 0.15),
+                              color: Colors.white.withValues(alpha: 0.18),
                               shape: BoxShape.circle,
-                              border: Border.all(color: Colors.white.withValues(alpha: 0.3), width: 1.5),
                             ),
                             child: const Center(
                               child: Icon(
-                                Icons.person_rounded,
+                                Icons.person,
                                 color: Colors.white,
-                                size: 32.0,
+                                size: 30.0,
                               ),
                             ),
                           ),
@@ -93,31 +106,32 @@ class ConfirmFarmScreen extends ConsumerWidget {
                                         fontWeight: FontWeight.w800,
                                       ),
                                     ),
-                                    const SizedBox(width: AppSpacing.xs),
+                                    const SizedBox(width: AppSpacing.xs + 2),
                                     Container(
                                       padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 2.0),
                                       decoration: BoxDecoration(
-                                        color: AppColors.accentGold.withValues(alpha: 0.25),
+                                        color: Colors.transparent,
                                         borderRadius: BorderRadius.circular(AppSpacing.radiusFull),
-                                        border: Border.all(color: AppColors.accentGold, width: 1.0),
+                                        border: Border.all(color: const Color(0xFFE5A93B), width: 1.2),
                                       ),
                                       child: const Text(
                                         'Draft',
                                         style: TextStyle(
-                                          color: AppColors.accentGold,
-                                          fontSize: 10.0,
-                                          fontWeight: FontWeight.w800,
+                                          color: Color(0xFFE5A93B),
+                                          fontSize: 11.0,
+                                          fontWeight: FontWeight.w700,
                                         ),
                                       ),
                                     ),
                                   ],
                                 ),
-                                const SizedBox(height: 2.0),
+                                const SizedBox(height: 4.0),
                                 Text(
                                   'Tamil Nadu • Western Agro-Climatic Zone',
                                   style: TextStyle(
                                     color: Colors.white.withValues(alpha: 0.85),
                                     fontSize: 12.0,
+                                    fontWeight: FontWeight.w500,
                                   ),
                                 ),
                               ],
@@ -127,7 +141,7 @@ class ConfirmFarmScreen extends ConsumerWidget {
                       ),
                     ),
 
-                    const SizedBox(height: AppSpacing.lg),
+                    const SizedBox(height: AppSpacing.xl),
 
                     // Error Message Banner if any
                     if (state.errorMessage != null) ...[
@@ -161,6 +175,7 @@ class ConfirmFarmScreen extends ConsumerWidget {
                     // Section Title: My Farm
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
                           strings.myFarm,
@@ -172,20 +187,25 @@ class ConfirmFarmScreen extends ConsumerWidget {
                         ),
                         const Text(
                           'Tap item to edit',
-                          style: TextStyle(fontSize: 12.0, color: AppColors.textMuted),
+                          style: TextStyle(
+                            fontSize: 12.5,
+                            color: AppColors.textMuted,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
                       ],
                     ),
+
                     const SizedBox(height: AppSpacing.md),
 
-                    // Information Grid
+                    // 2x3 Grid of Cards matching reference image
                     GridView.count(
                       crossAxisCount: 2,
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
                       crossAxisSpacing: AppSpacing.md,
                       mainAxisSpacing: AppSpacing.md,
-                      childAspectRatio: 1.25,
+                      childAspectRatio: 1.12,
                       children: [
                         _buildGridCard(
                           icon: Icons.grass_rounded,
@@ -217,13 +237,13 @@ class ConfirmFarmScreen extends ConsumerWidget {
                         _buildGridCard(
                           icon: Icons.water_drop_outlined,
                           label: 'Irrigation',
-                          value: 'Canal & Borewell',
+                          value: 'Canal & Borew...',
                           onTap: null,
                         ),
                         _buildGridCard(
                           icon: Icons.landscape_outlined,
                           label: 'Soil Type',
-                          value: 'Clay Loam (Auto)',
+                          value: 'Clay Loam (Au...',
                           onTap: null,
                         ),
                         _buildGridCard(
@@ -235,7 +255,7 @@ class ConfirmFarmScreen extends ConsumerWidget {
                       ],
                     ),
 
-                    const SizedBox(height: AppSpacing.xl),
+                    const SizedBox(height: AppSpacing.lg),
                   ],
                 ),
               ),
@@ -243,11 +263,14 @@ class ConfirmFarmScreen extends ConsumerWidget {
 
             // Submit Button Area: Save & Continue
             Container(
-              padding: const EdgeInsets.all(AppSpacing.lg),
-              decoration: const BoxDecoration(
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppSpacing.lg,
+                vertical: AppSpacing.md,
+              ),
+              decoration: BoxDecoration(
                 color: AppColors.surface,
                 border: Border(
-                  top: BorderSide(color: AppColors.border, width: 1.0),
+                  top: BorderSide(color: AppColors.border.withValues(alpha: 0.6), width: 1.0),
                 ),
               ),
               child: BhoomiPrimaryButton(
@@ -276,18 +299,18 @@ class ConfirmFarmScreen extends ConsumerWidget {
   }) {
     return InkWell(
       onTap: onTap,
-      borderRadius: BorderRadius.circular(AppSpacing.radiusLg),
+      borderRadius: BorderRadius.circular(20.0),
       child: Container(
         padding: const EdgeInsets.all(AppSpacing.md),
         decoration: BoxDecoration(
           color: AppColors.surface,
-          borderRadius: BorderRadius.circular(AppSpacing.radiusLg),
-          border: Border.all(color: AppColors.border),
-          boxShadow: const [
+          borderRadius: BorderRadius.circular(20.0),
+          border: Border.all(color: AppColors.border.withValues(alpha: 0.7)),
+          boxShadow: [
             BoxShadow(
-              color: AppColors.cardShadow,
-              blurRadius: 6.0,
-              offset: Offset(0, 2),
+              color: Colors.black.withValues(alpha: 0.03),
+              blurRadius: 10.0,
+              offset: const Offset(0, 3),
             ),
           ],
         ),
@@ -299,7 +322,7 @@ class ConfirmFarmScreen extends ConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Container(
-                  padding: const EdgeInsets.all(AppSpacing.xs + 2),
+                  padding: const EdgeInsets.all(8.0),
                   decoration: const BoxDecoration(
                     color: AppColors.lightGreen,
                     shape: BoxShape.circle,
@@ -307,7 +330,7 @@ class ConfirmFarmScreen extends ConsumerWidget {
                   child: Icon(icon, size: 18.0, color: AppColors.primaryGreen),
                 ),
                 if (onTap != null)
-                  const Icon(Icons.edit_outlined, size: 14.0, color: AppColors.textMuted),
+                  const Icon(Icons.edit_outlined, size: 16.0, color: AppColors.textMuted),
               ],
             ),
             Column(
@@ -316,18 +339,18 @@ class ConfirmFarmScreen extends ConsumerWidget {
                 Text(
                   label,
                   style: const TextStyle(
-                    fontSize: 11.0,
+                    fontSize: 11.5,
                     fontWeight: FontWeight.w500,
                     color: AppColors.textMuted,
                   ),
                 ),
-                const SizedBox(height: 2.0),
+                const SizedBox(height: 3.0),
                 Text(
                   value,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
-                    fontSize: 14.0,
+                    fontSize: 14.5,
                     fontWeight: FontWeight.w800,
                     color: AppColors.textPrimary,
                   ),

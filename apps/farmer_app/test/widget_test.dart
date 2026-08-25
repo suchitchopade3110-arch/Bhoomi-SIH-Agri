@@ -5,6 +5,7 @@ import 'package:farmer_app/features/health/data/models/health_snapshot.dart';
 import 'package:farmer_app/features/diagnosis/data/models/diagnosis_response.dart';
 import 'package:farmer_app/features/timeline/data/models/timeline_event.dart';
 import 'package:farmer_app/features/schemes/data/models/scheme_summary.dart';
+import 'package:farmer_app/core/localization/app_translations.dart';
 import 'package:farmer_app/features/daily_brief/data/models/daily_brief_response.dart';
 import 'package:farmer_app/features/updates/data/models/farm_update.dart';
 
@@ -218,7 +219,37 @@ void main() {
       expect(response.caution, contains('nitrogen'));
       expect(response.sources.first.title, contains('TNAU'));
     });
+
+    test('Phase 5 Localization: AppTranslations translates across all 8 Indian agrarian languages', () {
+      final languages = ['ta-IN', 'hi-IN', 'te-IN', 'kn-IN', 'mr-IN', 'ml-IN', 'pa-IN', 'en-IN'];
+
+      for (final lang in languages) {
+        final tr = AppTranslations(lang);
+        expect(tr.text('app_title').isNotEmpty, isTrue);
+        expect(tr.text('get_started').isNotEmpty, isTrue);
+        expect(tr.text('tell_about_farm').isNotEmpty, isTrue);
+        expect(tr.text('ask_bhoomi').isNotEmpty, isTrue);
+        expect(tr.text('govt_support').isNotEmpty, isTrue);
+        expect(tr.translateCrop('samba_paddy').isNotEmpty, isTrue);
+        expect(tr.translateStage('vegetative').isNotEmpty, isTrue);
+        expect(tr.translateHealthBand('good').isNotEmpty, isTrue);
+        expect(tr.translateLandStatus('verified').isNotEmpty, isTrue);
+      }
+
+      // Explicit Tamil check
+      const tamilTr = AppTranslations('ta-IN');
+      expect(tamilTr.text('get_started'), equals('தொடங்கவும்'));
+      expect(tamilTr.translateCrop('samba_paddy'), equals('சம்பா நெல்'));
+      expect(tamilTr.translateLandStatus('verified'), equals('சரிபார்க்கப்பட்ட நிலம்'));
+
+      // Explicit Hindi check
+      const hindiTr = AppTranslations('hi-IN');
+      expect(hindiTr.text('get_started'), equals('शुरू करें'));
+      expect(hindiTr.translateCrop('samba_paddy'), equals('सांभा धान (चावल)'));
+      expect(hindiTr.translateLandStatus('verified'), equals('सत्यापित भूमि'));
+    });
   });
 }
+
 
 

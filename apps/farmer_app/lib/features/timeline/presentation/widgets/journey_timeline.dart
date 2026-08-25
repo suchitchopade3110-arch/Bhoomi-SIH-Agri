@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../app/theme/app_colors.dart';
 import '../../../../app/theme/app_spacing.dart';
 import '../../../../app/theme/app_typography.dart';
+import '../../../../core/localization/bhoomi_localizations.dart';
 import '../../../../core/widgets/bhoomi_card.dart';
 import '../../data/models/timeline_event.dart';
 
-class JourneyTimelineWidget extends StatelessWidget {
+class JourneyTimelineWidget extends ConsumerWidget {
   final List<TimelineEvent> events;
 
   const JourneyTimelineWidget({
@@ -47,13 +49,15 @@ class JourneyTimelineWidget extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final strings = ref.watch(bhoomiStringsProvider);
+
     if (events.isEmpty) {
-      return const BhoomiCard(
+      return BhoomiCard(
         child: Center(
           child: Padding(
-            padding: EdgeInsets.all(AppSpacing.lg),
-            child: Text('No timeline events recorded yet.', style: TextStyle(color: AppColors.textMuted)),
+            padding: const EdgeInsets.all(AppSpacing.lg),
+            child: Text(strings.text('no_timeline_events'), style: const TextStyle(color: AppColors.textMuted)),
           ),
         ),
       );
@@ -102,7 +106,7 @@ class JourneyTimelineWidget extends StatelessWidget {
                         children: [
                           Expanded(
                             child: Text(
-                              event.title,
+                              strings.translateTimelineTitle(event.title),
                               style: const TextStyle(
                                 fontSize: 14.5,
                                 fontWeight: FontWeight.w800,
@@ -125,7 +129,7 @@ class JourneyTimelineWidget extends StatelessWidget {
                       ),
                       const SizedBox(height: 4.0),
                       Text(
-                        event.summary,
+                        strings.translateTimelineSummary(event.summary),
                         style: AppTypography.bodyMedium.copyWith(
                           fontSize: 12.5,
                           color: AppColors.textSecondary,

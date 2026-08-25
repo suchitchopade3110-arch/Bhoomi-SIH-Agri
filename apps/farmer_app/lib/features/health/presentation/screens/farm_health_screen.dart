@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import '../../../../app/theme/app_colors.dart';
 import '../../../../app/theme/app_spacing.dart';
 import '../../../../app/theme/app_typography.dart';
+import '../../../../core/localization/bhoomi_localizations.dart';
 import '../../../../core/widgets/bhoomi_loading_view.dart';
 import '../../../../core/widgets/bhoomi_primary_button.dart';
 import '../../application/health_provider.dart';
@@ -21,22 +22,23 @@ class FarmHealthScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final healthAsync = ref.watch(farmHealthProvider(farmId));
+    final strings = ref.watch(bhoomiStringsProvider);
 
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
-        title: const Text('Farm Health & Diagnosis'),
+        title: Text(strings.text('farm_health_title')),
         actions: [
           IconButton(
             icon: const Icon(Icons.history_rounded),
-            tooltip: 'Health History',
+            tooltip: strings.text('health_history'),
             onPressed: () {
               context.push('/health/$farmId/history');
             },
           ),
           IconButton(
             icon: const Icon(Icons.refresh_rounded),
-            tooltip: 'Recompute Health',
+            tooltip: strings.text('recompute_health'),
             onPressed: () {
               ref.invalidate(farmHealthProvider(farmId));
             },
@@ -45,7 +47,7 @@ class FarmHealthScreen extends ConsumerWidget {
       ),
       body: SafeArea(
         child: healthAsync.when(
-          loading: () => const BhoomiLoadingView(message: 'Analyzing farm health snapshot...'),
+          loading: () => BhoomiLoadingView(message: strings.text('analyzing_health')),
           error: (error, _) => Center(
             child: Padding(
               padding: const EdgeInsets.all(AppSpacing.xl),
@@ -54,12 +56,12 @@ class FarmHealthScreen extends ConsumerWidget {
                 children: [
                   const Icon(Icons.error_outline, size: 48.0, color: Color(0xFFC62828)),
                   const SizedBox(height: AppSpacing.md),
-                  const Text('Unable to Load Health Data', style: AppTypography.headlineMedium),
+                  Text(strings.text('unable_load_health'), style: AppTypography.headlineMedium),
                   const SizedBox(height: AppSpacing.sm),
                   Text(error.toString(), textAlign: TextAlign.center, style: const TextStyle(color: AppColors.textMuted)),
                   const SizedBox(height: AppSpacing.lg),
                   BhoomiPrimaryButton(
-                    text: 'Retry',
+                    text: strings.retry,
                     onPressed: () => ref.invalidate(farmHealthProvider(farmId)),
                   ),
                 ],
@@ -82,7 +84,7 @@ class FarmHealthScreen extends ConsumerWidget {
 
                 // Navigate to Health Journey
                 BhoomiPrimaryButton(
-                  text: 'View Health Journey Timeline',
+                  text: strings.text('view_health_journey'),
                   icon: Icons.timeline_rounded,
                   onPressed: () {
                     context.push('/health/$farmId/history');
