@@ -19,6 +19,7 @@ from app.repositories.dependencies import get_farm_repository, get_followup_writ
 from app.repositories.health_context import FollowUpWriter, ProblemWriter
 from app.repositories.interfaces import FarmRepository
 from app.schemas.followup import FollowupCheckinRequest, FollowupCheckinResponse
+from app.services.efficacy.tracking_service import EfficacyTrackingService, get_efficacy_tracking_service
 from app.services.escalation_service import EscalationService, get_escalation_service
 from app.services.health_service import HealthService, get_health_service
 from app.services.health_snapshot_mapping import snapshot_row_to_schema
@@ -53,12 +54,14 @@ class FollowupService:
         farm_repo: FarmRepository,
         health_service: HealthService,
         escalation_service: EscalationService,
+        efficacy_tracking: EfficacyTrackingService | None = None,
     ) -> None:
         self._problems = problem_writer
         self._followups = followup_writer
         self._farms = farm_repo
         self._health = health_service
         self._escalation = escalation_service
+        self._efficacy_tracking = efficacy_tracking
 
     async def checkin(self, request: FollowupCheckinRequest) -> FollowupCheckinResponse:
         problem_id = request.problem_id
@@ -105,6 +108,9 @@ class FollowupService:
             if farm is not None:
                 await self._farms.update(request.farm_id, {"days_since_last_scan": FOLLOWUP_RESETS_DAYS_SINCE_LAST_SCAN})
 
+        if self._efficacy_tracking is not None:
+            await self._efficacy_tracking.attribute_followup(problem_id=problem_id, response=request.response)
+
         snapshot = await self._health.recompute(
             request.farm_id,
             triggering_input=TriggeringInput(
@@ -139,5 +145,8 @@ def get_followup_service(
     farm_repo: Annotated[FarmRepository, Depends(get_farm_repository)],
     health_service: Annotated[HealthService, Depends(get_health_service)],
     escalation_service: Annotated[EscalationService, Depends(get_escalation_service)],
+    efficacy_tracking: Annotated[EfficacyTrackingService, Depends(get_efficacy_tracking_service)],
 ) -> FollowupService:
-    return FollowupService(problem_writer, followup_writer, farm_repo, health_service, escalation_service)
+    return FollowupService(
+        problem_writer, followup_writer, farm_repo, health_service, escalation_service, efficacy_tracking
+    )

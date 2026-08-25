@@ -351,3 +351,57 @@ class InMemoryAlertRepository:
         alert["dismissed_at"] = as_of
         alert["dismiss_reason"] = reason
         return alert
+
+
+class InMemoryTreatmentApplicationRepository:
+    """Settable in-memory ``TreatmentApplicationRepository`` (SPEC-EFFICACY-001)
+    for demo/dev/tests — same dict-in/dict-out shape as
+    ``PostgresTreatmentApplicationRepository``."""
+
+    def __init__(self) -> None:
+        self._applications: dict[str, dict[str, Any]] = {}
+
+    async def open_application(self, application: dict[str, Any]) -> dict[str, Any]:
+        application_id = application.get("id") or str(uuid.uuid4())
+        application["id"] = application_id
+        application.setdefault("final_outcome", None)
+        application.setdefault("followups_to_resolution", None)
+        application.setdefault("days_to_resolution", None)
+        application.setdefault("failed_on_got_worse", False)
+        application.setdefault("escalated_for_expert", False)
+        self._applications[application_id] = application
+        return application
+
+    async def get_latest_open_for_problem(self, problem_id: str) -> dict[str, Any] | None:
+        open_apps = [
+            a for a in self._applications.values() if a["problem_id"] == problem_id and a.get("final_outcome") is None
+        ]
+        if not open_apps:
+            return None
+        return max(open_apps, key=lambda a: a["applied_on"])
+
+    async def close_application(self, application_id: str, updates: dict[str, Any]) -> dict[str, Any] | None:
+        application = self._applications.get(application_id)
+        if application is None:
+            return None
+        application.update(updates)
+        return application
+
+    async def increment_followups(self, application_id: str) -> dict[str, Any] | None:
+        application = self._applications.get(application_id)
+        if application is None:
+            return None
+        application["followups_to_resolution"] = (application.get("followups_to_resolution") or 0) + 1
+        return application
+
+    async def list_for_aggregation(
+        self, pathogen_type: str, treatment_name: str, crop: str, district: str
+    ) -> list[dict[str, Any]]:
+        return [
+            a
+            for a in self._applications.values()
+            if a["pathogen_type"] == pathogen_type
+            and a["treatment_name"] == treatment_name
+            and a["crop"] == crop
+            and a["district"] == district
+        ]

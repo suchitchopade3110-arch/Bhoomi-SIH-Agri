@@ -22,6 +22,7 @@ from app.repositories.interfaces import CaseRepository, FarmRepository
 from app.schemas.agronomist import AgronomistQueueItem, ResolveCaseRequest, ResolveCaseResponse
 from app.schemas.case import CaseSummary
 from app.schemas.case_pdf import CasePDFPayload
+from app.services.efficacy.tracking_service import EfficacyTrackingService, get_efficacy_tracking_service
 from app.services.escalation.pdf_payload import build_case_pdf_payload
 from app.services.health_service import HealthService, get_health_service
 
@@ -44,11 +45,13 @@ class AgronomistService:
         farm_repo: FarmRepository,
         problem_writer: ProblemWriter,
         health_service: HealthService,
+        efficacy_tracking: EfficacyTrackingService | None = None,
     ) -> None:
         self._cases = case_repo
         self._farms = farm_repo
         self._problems = problem_writer
         self._health = health_service
+        self._efficacy_tracking = efficacy_tracking
 
     async def get_queue(self, agronomist_jurisdiction: str | None = None) -> list[AgronomistQueueItem]:
         cases = await self._cases.get_agronomist_queue()
@@ -134,6 +137,8 @@ class AgronomistService:
 
         if case.get("problem_id"):
             await self._problems.resolve_problem(case["problem_id"])
+            if self._efficacy_tracking is not None:
+                await self._efficacy_tracking.close_for_expert_resolution(problem_id=case["problem_id"])
 
         farm = await self._farms.get_by_id(case["farm_id"])
         if farm is not None:
@@ -170,5 +175,6 @@ def get_agronomist_service(
     farm_repo: Annotated[FarmRepository, Depends(get_farm_repository)],
     problem_writer: Annotated[ProblemWriter, Depends(get_problem_writer)],
     health_service: Annotated[HealthService, Depends(get_health_service)],
+    efficacy_tracking: Annotated[EfficacyTrackingService, Depends(get_efficacy_tracking_service)],
 ) -> AgronomistService:
-    return AgronomistService(case_repo, farm_repo, problem_writer, health_service)
+    return AgronomistService(case_repo, farm_repo, problem_writer, health_service, efficacy_tracking)

@@ -31,6 +31,7 @@ from app.models.health_snapshot import HealthSnapshot
 from app.repositories.dependencies import get_case_repository, get_farm_repository, get_problem_writer
 from app.repositories.health_context import OpenProblemRecord, ProblemWriter
 from app.repositories.interfaces import CaseRepository, FarmRepository, RetrievedChunk
+from app.services.efficacy.tracking_service import EfficacyTrackingService, get_efficacy_tracking_service
 from app.services.gate_service import SUPPORTED_DIAGNOSIS_LABELS
 from app.services.health_service import HealthService, get_health_service
 from app.services.kvk_routing import route_to_next_available_agronomist
@@ -126,6 +127,7 @@ class DiagnosisService:
         farm_repo: FarmRepository,
         settings: Settings,
         roster: AgronomistRosterPort,
+        efficacy_tracking: EfficacyTrackingService | None = None,
     ) -> None:
         self._image_port = image_port
         self._retrieval = retrieval
@@ -136,6 +138,7 @@ class DiagnosisService:
         self._farms = farm_repo
         self._settings = settings
         self._roster = roster
+        self._efficacy_tracking = efficacy_tracking
 
     async def diagnose(
         self,
@@ -262,6 +265,14 @@ class DiagnosisService:
         farm = await self._farms.get_by_id(farm_id)
         if farm is not None:
             await self._farms.update(farm_id, {"days_since_last_scan": 2})
+            if self._efficacy_tracking is not None:
+                await self._efficacy_tracking.open_for_diagnosis(
+                    problem_id=problem_id,
+                    farm_id=farm_id,
+                    label=label,
+                    crop=farm.get("primary_crop", ""),
+                    district=farm.get("district", ""),
+                )
 
         after_snapshot = await self._health.recompute(
             farm_id,
@@ -298,8 +309,18 @@ def get_diagnosis_service(
     farm_repo: Annotated[FarmRepository, Depends(get_farm_repository)],
     settings: Annotated[Settings, Depends(get_settings)],
     roster: Annotated[AgronomistRosterPort, Depends(get_roster_adapter)],
+    efficacy_tracking: Annotated[EfficacyTrackingService, Depends(get_efficacy_tracking_service)],
 ) -> DiagnosisService:
     """FastAPI dependency provider assembling ``DiagnosisService`` from its ports."""
     return DiagnosisService(
-        image_port, retrieval, llm_port, health_service, problem_writer, case_repo, farm_repo, settings, roster
+        image_port,
+        retrieval,
+        llm_port,
+        health_service,
+        problem_writer,
+        case_repo,
+        farm_repo,
+        settings,
+        roster,
+        efficacy_tracking,
     )

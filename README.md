@@ -155,7 +155,7 @@ Defaults live in `app/domain/constants.py` and `app/core/config.py`; override in
 
 | Setting | Values | Default | What it does |
 |---|---|---|---|
-| `PROBLEM_STATEMENT` | `sih25076` \| `sih26131` | `sih25076` | Switches which routers mount |
+| `PROBLEM_STATEMENT` | `sih25076` \| `sih26131` | `sih26131` | Switches which routers mount |
 | `LAND_API_MODE` | `mock` \| `live` | `mock` | Cadastral lookup adapter |
 | `DIAGNOSIS_MODEL` | `stub` \| `real` | `stub` | `real` calls `ML_SERVICE_URL` |
 | `EMBEDDING_PROVIDER` | `stub` \| `bge_m3` | `stub` | Also selects the matching RAG threshold |
@@ -166,7 +166,7 @@ Defaults live in `app/domain/constants.py` and `app/core/config.py`; override in
 
 The RAG threshold is computed rather than fixed for a reason worth understanding: relevance scores from token-hashing stub vectors and from real BGE-m3 dense embeddings live on completely different scales. A single hardcoded number would be either far too strict or effectively disabled depending on which adapter is active, so the threshold follows `EMBEDDING_PROVIDER` automatically.
 
-**The problem-statement switch.** The project was written for SIH25076 (broad farm advisory) and realigned toward SIH26131 (crop disease and pest management), where land registry, irrigation planning, and scheme discovery are out of scope. Rather than deleting that work, `api/v1/__init__.py` gates it: `sih26131` unmounts `land`, `officer`, `resource_plan`, and `schemes` — they return 404 — and mounts `alerts` instead. 40 paths become 33.
+**The problem-statement switch.** The project was written for SIH25076 (broad farm advisory) and realigned toward SIH26131 (crop disease and pest management). Land registry and revenue-officer review stayed mounted in both modes (they're useful trust-building context regardless of problem statement); only **irrigation resource planning** is truly SIH25076-exclusive — `sih26131` unmounts `resource_plan` (404) and mounts `alerts` instead. Net effect: 45 paths under `sih25076`, 46 under `sih26131` (alerts adds 2, resource_plan removes 2, everything else is shared). `default=sih26131` in `core/config.py` is the live default; the SIH25076 mode exists for the demo-day fallback walkthrough. Note `docs/specs/api_contract_sih26131_delta.md` (§2.1/§2.3) is a stale early draft that describes unmounting `land`/`officer`/`schemes` too — the team superseded that plan (see `tests/unit/test_problem_statement_gating.py`, the authoritative contract test) without updating the doc.
 
 ---
 
@@ -236,7 +236,7 @@ Base path `/api/v1`. Bearer JWT, with the role claim gating portal routes.
 | Weather | `GET /weather/current` · `/weather/forecast` · `/weather/et0` |
 | System | `GET /system/health` |
 | SIH25076 only | `/land/*` · `/officer/*` · `/resource-plan/{farm_id}` · `/schemes/*` |
-| SIH26131 only | `GET /farms/{id}/alerts` · `POST /alerts/{id}/acknowledge` |
+| SIH26131 only | `GET /farms/{id}/alerts` · `POST /alerts/{id}/acknowledge` · `GET /treatments/{id}/efficacy` |
 
 Two conventions that recur: large media never passes through the API (presigned upload straight to object storage, then only the small `asset_id` travels in JSON), and every consequential response carries a `spoken_summary` the client can read aloud locally — both concessions to thin rural bandwidth.
 
@@ -260,7 +260,7 @@ Written down so nobody rediscovers them at hour 30.
 
 **`services/ml/` is a heuristic, not a trained model.** It's a real, running FastAPI microservice — `DIAGNOSIS_MODEL=real` genuinely calls it over HTTP end-to-end (color-histogram analysis when given real image bytes, a deterministic asset-id hash otherwise) — but there is no labeled crop-disease dataset or trained weights checked into this repo, so its predictions shouldn't be trusted as diagnostic. It also exposes `/embed`, `/transcribe`, and `/synthesize`; only `/diagnose` is wired from `services/api` today (`adapters/dependencies.py` never routes `EmbeddingPort`/`AsrTtsPort` at `ML_SERVICE_URL`).
 
-**Treatment-efficacy endpoints don't exist.** Specced in `docs/specs/treatment_efficacy_spec.md`, not mounted in either mode.
+~~Treatment-efficacy endpoints don't exist.~~ **Built.** `GET /api/v1/treatments/{treatment_id}/efficacy` (sih26131-only), with the full write-side lifecycle wired into diagnose/followup/agronomist-resolve (`services/efficacy/`). Scoped to the 3 diseases (`bacterial_leaf_blight`, `blast`, `brown_spot`) the ingested corpus documents a first-line treatment for — see `app/domain/efficacy/default_treatments.py`.
 
 **`RAG_RELEVANCE_THRESHOLD=0.18` is calibrated against stub embeddings only.** The `0.60` production figure is a target for a real dense embedding model (e.g. BGE-m3), not a measured value — `EMBEDDING_PROVIDER=bge_m3` is accepted by config but `adapters/dependencies.get_embedding_adapter` always returns the stub regardless; there's no real embedding adapter wired yet. Re-tune when one lands.
 
