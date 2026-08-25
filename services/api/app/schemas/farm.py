@@ -10,10 +10,13 @@ from app.schemas.common import SpokenResponseMixin
 class FarmCreateRequest(BaseModel):
     """Payload to register a farm profile (SIH26131 simplified onboarding)."""
 
-    farmer_id: str = Field(..., description="UUID string of the farmer")
+    farmer_id: str | None = Field(default=None, description="UUID string of the farmer")
     crop: str = Field(..., description="Main active crop (e.g. samba_paddy, cotton)")
     growth_stage: str = Field(..., description="Current growth stage: initial, vegetative, reproductive, ripening")
     region: str = Field(..., description="Regional jurisdiction / agro-climatic zone")
+    soil_type: str | None = None
+    irrigation_access: str | None = None
+    season: str | None = None
 
 
 class FarmUpdateRequest(BaseModel):

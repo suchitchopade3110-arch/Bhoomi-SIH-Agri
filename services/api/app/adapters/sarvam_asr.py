@@ -65,8 +65,9 @@ class SarvamAsrTtsAdapter:
                     # Sarvam STT response does not provide per-utterance confidence;
                     # using fixed 0.90 placeholder matching codebase conventions.
                     return (transcript, 0.90)
-        except Exception:
-            pass
+        except Exception as e:
+            import logging
+            logging.getLogger("bhoomi.sarvam").exception(f"Failed to transcribe audio: {e}")
 
         # Graceful fallback on network/API failure
         return ("வணக்கம், பயிர் நிலைமை பற்றிய தகவல்.", 0.85)

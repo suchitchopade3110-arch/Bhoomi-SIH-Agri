@@ -118,13 +118,24 @@ class VoiceService:
                 "final_value": value,
                 "message": "மதிப்பு வெற்றிகரமாக சேமிக்கப்பட்டது.",  # "Value successfully saved"
             }
-        else:
-            return {
-                "status": "retry_prompt",
-                "field": field,
-                "final_value": None,
-                "message": "தயவுசெய்து சரியான மதிப்பை மீண்டும் சொல்லவும்.",  # "Please state the correct value again"
-            }
+
+        # If correction_text is provided, attempt to extract the corrected value
+        if correction_text:
+            corrected_value = self._intent_parser.parse_field(correction_text, field)
+            if corrected_value is not None:
+                return {
+                    "status": "committed",
+                    "field": field,
+                    "final_value": corrected_value,
+                    "message": "மதிப்பு வெற்றிகரமாக திருத்தப்பட்டு சேமிக்கப்பட்டது.",  # "Value successfully corrected and saved"
+                }
+
+        return {
+            "status": "retry_prompt",
+            "field": field,
+            "final_value": None,
+            "message": "தயவுசெய்து சரியான மதிப்பை மீண்டும் சொல்லவும்.",  # "Please state the correct value again"
+        }
 
 
 def get_voice_service(

@@ -227,3 +227,19 @@ class IntentParser:
     def _parse_followup(self, text: str) -> Optional[ParsedIntent]:
         """Extract followup response from transcript."""
         return _match_keywords(text, _FOLLOWUP_KEYWORDS, "followup_response")
+
+    def parse_field(self, text: str, field: str) -> Optional[Any]:
+        """Extract a single field's value specifically from a correction text."""
+        if field == "crop":
+            res = _match_keywords(text, _CROP_KEYWORDS, "crop")
+            return res.value if res else None
+        elif field == "region":
+            res = _match_keywords(text, _REGION_KEYWORDS, "region")
+            return res.value if res else None
+        elif field == "growth_stage":
+            res = _match_keywords(text, _GROWTH_STAGE_KEYWORDS, "growth_stage")
+            return res.value if res else None
+        elif field == "land_area":
+            res = _extract_land_area(text)
+            return res.value if res else None
+        return None

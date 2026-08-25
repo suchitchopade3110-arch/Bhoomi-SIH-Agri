@@ -11,6 +11,10 @@ class ApiConstants {
 
   static const String apiVersion = '/api/v1';
 
+  // Auth Endpoints
+  static const String authLogin = '$apiVersion/auth/login';
+  static const String authRegister = '$apiVersion/auth/register';
+
   // Farm Endpoints (Phase 1)
   static const String farms = '$apiVersion/farms';
   static String farmDetail(String id) => '$apiVersion/farms/$id';

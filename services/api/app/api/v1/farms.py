@@ -35,8 +35,10 @@ router = APIRouter(prefix="/farms", tags=["Farms"])
 async def create_farm(
     request: FarmCreateRequest,
     service: Annotated[FarmService, Depends(get_farm_service)],
-    _auth: Annotated[dict[str, Any], Depends(get_current_token_payload)],
+    auth: Annotated[dict[str, Any], Depends(get_current_token_payload)],
 ) -> FarmResponse:
+    if not request.farmer_id:
+        request.farmer_id = auth.get("sub", "")
     return await service.create_farm(request)
 
 
