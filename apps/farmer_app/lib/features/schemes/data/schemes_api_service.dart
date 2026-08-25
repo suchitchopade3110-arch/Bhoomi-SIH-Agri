@@ -108,7 +108,7 @@ class SchemesApiService {
     try {
       final response = await _apiClient.post(
         ApiConstants.schemeRequirements(farmId, schemeId),
-        data: {'additional_data': additionalData},
+        data: {'farm_id': farmId, 'additional_data': additionalData},
       );
 
       if (response.data is Map<String, dynamic>) {

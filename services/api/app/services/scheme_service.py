@@ -8,7 +8,12 @@ from app.core.enums import LandStatus, SchemeStatus
 from app.core.errors import LandNotVerifiedError, NotFoundError
 from app.repositories.dependencies import get_farm_repository, get_scheme_repository
 from app.repositories.interfaces import FarmRepository, SchemeRepository
-from app.schemas.schemes import SchemeListResponse, SchemeMatchRequest, SchemeResponse
+from app.schemas.schemes import (
+    SchemeListResponse,
+    SchemeMatchRequest,
+    SchemeRequirementsRequest,
+    SchemeResponse,
+)
 
 
 class SchemeService:
@@ -41,6 +46,28 @@ class SchemeService:
         )
 
     async def get_scheme_by_id(self, scheme_id: str) -> SchemeResponse:
+        row = await self._schemes.get_by_id(scheme_id)
+        if row is None:
+            raise NotFoundError("Scheme not found.", details={"scheme_id": scheme_id})
+        return _to_scheme_response(row)
+
+    async def submit_scheme_requirements(
+        self, scheme_id: str, request: SchemeRequirementsRequest
+    ) -> SchemeResponse:
+        """Verify a farm's land status against a specific scheme's requirements.
+
+        ``additional_data`` isn't persisted (no scheme-application table
+        exists) — this checks the same verified-land gate ``match_schemes_for_farm``
+        does, confirms the scheme exists, and hands back its real details.
+        """
+        farm = await self._farms.get_by_id(request.farm_id)
+        if farm is None:
+            raise NotFoundError("Farm not found.", details={"farm_id": request.farm_id})
+
+        land_status = farm.get("land_status")
+        if land_status != "verified" and land_status != LandStatus.VERIFIED.value:
+            raise LandNotVerifiedError(details={"land_status": land_status or "unverified"})
+
         row = await self._schemes.get_by_id(scheme_id)
         if row is None:
             raise NotFoundError("Scheme not found.", details={"scheme_id": scheme_id})

@@ -8,6 +8,7 @@ from app.core.security import get_current_token_payload
 from app.schemas.schemes import (
     SchemeListResponse,
     SchemeMatchRequest,
+    SchemeRequirementsRequest,
     SchemeResponse,
 )
 from app.services.scheme_service import SchemeService, get_scheme_service
@@ -42,3 +43,21 @@ async def get_scheme(
     _auth: Annotated[dict[str, Any], Depends(get_current_token_payload)],
 ) -> SchemeResponse:
     return await service.get_scheme_by_id(scheme_id)
+
+
+@router.post(
+    "/{scheme_id}",
+    response_model=SchemeResponse,
+    summary="Submit farmer-provided eligibility details for a scheme (LAND_NOT_VERIFIED if not yet verified)",
+)
+async def submit_scheme_requirements(
+    scheme_id: str,
+    request: SchemeRequirementsRequest,
+    service: Annotated[SchemeService, Depends(get_scheme_service)],
+    _auth: Annotated[dict[str, Any], Depends(get_current_token_payload)],
+) -> SchemeResponse:
+    """Same verified-land gate as ``POST /match`` — ``additional_data`` is
+    not persisted (no scheme-application table exists yet); this confirms
+    the farm's land is verified and the scheme is real, returning its
+    details rather than fabricating a stored application record."""
+    return await service.submit_scheme_requirements(scheme_id, request)

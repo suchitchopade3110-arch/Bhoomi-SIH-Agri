@@ -1,6 +1,7 @@
 """Government scheme and subsidy discovery schemas."""
 
 from datetime import date, datetime
+from typing import Any
 from pydantic import BaseModel, Field
 from app.core.enums import SchemeStatus
 from app.schemas.common import SpokenResponseMixin
@@ -32,3 +33,22 @@ class SchemeListResponse(SpokenResponseMixin):
     farm_id: str = Field(...)
     matched_schemes: list[SchemeResponse] = Field(default_factory=list)
     match_count: int = 0
+
+
+class SchemeRequirementsRequest(BaseModel):
+    """Farmer-submitted eligibility details for a specific scheme.
+
+    ``farm_id`` gates this the same way ``SchemeMatchRequest`` does — never
+    confirm eligibility against unverified land. ``additional_data`` (e.g.
+    ``category``, ``annual_income_bracket``) is accepted for eligibility
+    display purposes only; there is no per-farmer scheme-application table
+    in this schema (PRD §2.2 non-goal: no live government integration), so
+    it is not persisted anywhere yet — this endpoint verifies the farm's
+    land status and returns the scheme's real details, it does not fabricate
+    a stored "application" record.
+    """
+    farm_id: str = Field(..., description="UUID string of farm — used to gate on verified land status")
+    additional_data: dict[str, Any] = Field(
+        default_factory=dict,
+        description="Farmer-provided details (e.g. category, annual_income_bracket) — display-only, not persisted",
+    )
