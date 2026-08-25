@@ -76,7 +76,7 @@ class StubLLMAdapter:
         return {
             "possible_issue": f"Based on \"{top['title']}\", this likely matches: {excerpt}",
             "what_to_check": f"Compare the symptoms described in your query against the guidance in \"{top['title']}\".",
-            "what_to_do_next": "Follow the cultural and chemical control steps described in the cited source(s) below.",
+            "what_to_do_next": "Follow the control steps described in the cited source(s) below.",
             "what_to_avoid": "Do not apply treatments that aren't covered by the cited guidance.",
             "expert_triggers": "If symptoms spread or persist after following the cited guidance, escalate to an agronomist.",
             "citations": [
