@@ -23,7 +23,7 @@ from app.adapters.dependencies import get_image_diagnosis_adapter, get_llm_adapt
 from app.ports import AgronomistRosterPort, ImageDiagnosisPort, LLMPort
 from app.core.config import Settings, get_settings
 from app.core.enums import ProblemSeverity
-from app.domain.gate import decide
+from app.domain.gate import SUPPORTED_LABELS, decide
 from app.domain.health.inputs import TriggeringInput
 from app.domain.kvk_directory import DEFAULT_KVK_CENTER_ID
 from app.domain.rag import FivePointAdvisory, GroundedCitation, parse_advisory_output
@@ -94,6 +94,7 @@ class DiagnoseOutcome:
     label: str | None = None
     stage: str | None = None
     confidence: float | None = None
+    target_type: str = "disease"
     advisory: FivePointAdvisory | None = None
     citations: list[GroundedCitation] = field(default_factory=list)
     health_delta_from: int | None = None
@@ -145,22 +146,36 @@ class DiagnosisService:
         farm_id: str,
         image_asset_id: str,
         description_text: str | None = None,
+        target_type: str = "disease",
     ) -> DiagnoseOutcome:
         """Run the full gated diagnosis flow for one photo (+ optional text).
 
         Args:
             farm_id: UUID string of the farm.
-            image_asset_id: The uploaded disease photo's asset reference.
+            image_asset_id: The uploaded disease/pest photo's asset reference.
             description_text: Optional farmer-provided symptom text (from a
                 prior voice transcription or typed note) to enrich the
                 retrieval query.
+            target_type: ``"disease"`` (default) or ``"pest"`` — selects
+                which scope list and confidence gate apply (SIH26131 delta
+                spec §3.1). The image port itself isn't target-type-aware
+                (see module docstring); this only changes which threshold
+                and label set the same returned label is checked against.
 
         Returns:
             A ``DiagnoseOutcome``: either a composed, cited advisory with
-            its health_delta, or an honest escalation. Never both.
+            its health_delta, or an honest escalation. Never both. A pest
+            diagnosis composes only if the corpus has grounded pest content
+            for the identified label — today it doesn't (see README §9), so
+            an in-scope, above-gate pest diagnosis still honestly escalates
+            on ``NO_RELEVANT_SOURCE`` rather than fabricate pest advice.
         """
+        is_pest = target_type == "pest"
+        confidence_gate = self._settings.PEST_CONFIDENCE_GATE if is_pest else self._settings.CONFIDENCE_GATE
+        supported_labels = SUPPORTED_LABELS["pest"] if is_pest else SUPPORTED_DIAGNOSIS_LABELS
+
         label, confidence, _meta = await self._image_port.diagnose_crop_image(image_asset_id)
-        in_scope = label in SUPPORTED_DIAGNOSIS_LABELS
+        in_scope = label in supported_labels
 
         query = f"{label.replace('_', ' ')} {description_text or ''}".strip()
         chunks = await self._retrieval.retrieve(query)
@@ -170,24 +185,25 @@ class DiagnosisService:
             image_confidence=confidence,
             in_scope=in_scope,
             retrieval_relevance=top_relevance,
-            confidence_gate=self._settings.CONFIDENCE_GATE,
+            confidence_gate=confidence_gate,
             relevance_threshold=self._settings.RAG_RELEVANCE_THRESHOLD,
         )
 
-        alternatives = _get_stub_alternatives(label)
+        alternatives = [] if is_pest else _get_stub_alternatives(label)
 
         if decision.should_escalate:
             escalation = await self._create_escalation(farm_id, decision.reason)
             return DiagnoseOutcome(
                 above_gate=False,
                 gate_confidence=confidence if confidence is not None else 0.0,
-                gate_threshold=self._settings.CONFIDENCE_GATE,
+                gate_threshold=confidence_gate,
                 gate_reason_code=decision.error_code,
                 gate_alternatives=alternatives,
                 problem_id=None,
                 label=None,
                 stage=None,
                 confidence=None,
+                target_type=target_type,
                 advisory=None,
                 citations=[],
                 health_delta_from=None,
@@ -211,13 +227,14 @@ class DiagnosisService:
             return DiagnoseOutcome(
                 above_gate=False,
                 gate_confidence=confidence if confidence is not None else 0.0,
-                gate_threshold=self._settings.CONFIDENCE_GATE,
+                gate_threshold=confidence_gate,
                 gate_reason_code="NO_RELEVANT_SOURCE",
                 gate_alternatives=alternatives,
                 problem_id=None,
                 label=None,
                 stage=None,
                 confidence=None,
+                target_type=target_type,
                 advisory=None,
                 citations=[],
                 health_delta_from=None,
@@ -233,13 +250,14 @@ class DiagnosisService:
         return DiagnoseOutcome(
             above_gate=True,
             gate_confidence=confidence if confidence is not None else 1.0,
-            gate_threshold=self._settings.CONFIDENCE_GATE,
+            gate_threshold=confidence_gate,
             gate_reason_code=None,
             gate_alternatives=alternatives,
             problem_id=problem_id,
             label=label,
             stage=INITIAL_PROBLEM_SEVERITY.value,
             confidence=confidence,
+            target_type=target_type,
             advisory=parsed.advisory,
             citations=parsed.citations,
             health_delta_from=before,

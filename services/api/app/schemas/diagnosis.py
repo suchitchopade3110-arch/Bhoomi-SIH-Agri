@@ -1,4 +1,13 @@
-"""Gated image+voice diagnosis schemas — mirror contract §2.10 exactly."""
+"""Gated image+voice diagnosis schemas — mirror contract §2.10 exactly.
+
+``target_type``/pest fields extend contract §2.10 per the SIH26131 delta
+spec §3.1 — see ``diagnosis_service.py``'s module docstring for what's
+implemented vs. still an honest placeholder (no ``pest_count_estimate``:
+the delta spec itself calls that "pending Tharun's pest classification
+schema", which never arrived, so it isn't fabricated here).
+"""
+
+from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field
 
@@ -15,6 +24,13 @@ class DiagnoseRequest(BaseModel):
     description_text: str | None = Field(
         default=None, description="Optional text, e.g. from a prior transcription"
     )
+    target_type: Literal["disease", "pest"] = Field(
+        default="disease",
+        description="Whether the photo is a disease or pest diagnosis attempt (SIH26131 delta spec §3.1)",
+    )
+    pest_type_hint: str | None = Field(
+        default=None, description="Farmer-stated pest guess, if any (enriches the retrieval query only)"
+    )
 
 
 class DiagnosisResult(BaseModel):
@@ -23,6 +39,7 @@ class DiagnosisResult(BaseModel):
     label: str
     stage: str
     confidence: float = Field(..., ge=0.0, le=1.0)
+    target_type: Literal["disease", "pest"] = "disease"
 
 
 class HealthDelta(BaseModel):
