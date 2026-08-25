@@ -234,19 +234,30 @@ class StubStorageAdapter:
         asset_kind: str,
         expires_in: int = 3600,
     ) -> dict[str, Any]:
+        # upload_url must target the SAME key advertised in fields["key"]
+        # (and later persisted as storage_key) — a client PUTting straight
+        # to upload_url (no real S3 multipart-form flow here) needs the
+        # bytes to land where generate_presigned_download_url will later
+        # look for them.
+        key = f"{asset_kind}/{asset_id}/{file_name}"
         return {
             "asset_id": asset_id,
-            "upload_url": f"http://localhost:9000/bhoomi-assets/{asset_id}?upload=true",
+            "upload_url": f"http://localhost:9000/bhoomi-assets/{key}?upload=true",
             "expires_in": expires_in,
-            "fields": {"key": f"{asset_kind}/{asset_id}/{file_name}"},
+            "fields": {"key": key},
         }
 
     async def generate_presigned_download_url(
         self,
         asset_id: str,
+        storage_key: str | None = None,
         expires_in: int = 3600,
     ) -> str:
-        return f"http://localhost:9000/bhoomi-assets/{asset_id}"
+        # storage_key is the real object path (asset_kind/asset_id/file_name)
+        # written at upload time — falls back to bare asset_id only when a
+        # caller doesn't have the row (keeps back-compat for older callers).
+        key = storage_key if storage_key else asset_id
+        return f"http://localhost:9000/bhoomi-assets/{key}"
 
 
 class StubRosterAdapter:
