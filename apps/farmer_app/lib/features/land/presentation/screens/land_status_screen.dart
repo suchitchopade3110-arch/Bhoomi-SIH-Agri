@@ -4,8 +4,10 @@ import 'package:go_router/go_router.dart';
 import '../../../../app/theme/app_colors.dart';
 import '../../../../app/theme/app_spacing.dart';
 import '../../../../app/theme/app_typography.dart';
+import '../../../../core/localization/bhoomi_localizations.dart';
 import '../../../../core/widgets/bhoomi_card.dart';
 import '../../../../core/widgets/bhoomi_primary_button.dart';
+import '../../../../core/widgets/bhoomi_secondary_button.dart';
 import '../../application/land_controller.dart';
 import '../widgets/land_status_badge.dart';
 import '../widgets/verification_timeline.dart';
@@ -35,11 +37,12 @@ class _LandStatusScreenState extends ConsumerState<LandStatusScreen> {
   Widget build(BuildContext context) {
     final state = ref.watch(landControllerProvider);
     final record = state.currentRecord;
+    final strings = ref.watch(bhoomiStringsProvider);
 
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
-        title: const Text('Land Verification Status'),
+        title: Text(strings.text('land_status_title')),
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -60,7 +63,7 @@ class _LandStatusScreenState extends ConsumerState<LandStatusScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Survey No.',
+                                strings.text('survey_number'),
                                 style: AppTypography.labelMedium.copyWith(color: AppColors.textMuted),
                               ),
                               Text(
@@ -92,29 +95,40 @@ class _LandStatusScreenState extends ConsumerState<LandStatusScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text('Verification Lifecycle', style: AppTypography.titleLarge),
+                    Text(strings.text('activity_timeline'), style: AppTypography.titleLarge),
                     const SizedBox(height: AppSpacing.lg),
                     VerificationTimeline(
                       status: record?.status ?? 'pending_verification',
                       submittedAt: record?.submittedAt,
                       verifiedAt: record?.verifiedAt,
-                      verifier: record?.verifier,
                       rejectionReason: record?.rejectionReason,
                     ),
                   ],
                 ),
               ),
 
-              const SizedBox(height: AppSpacing.xl),
+              const SizedBox(height: AppSpacing.lg),
 
-              // Back to Home
+              // Actions
               BhoomiPrimaryButton(
-                text: 'Return to Farm Home',
-                icon: Icons.home_rounded,
+                text: strings.text('land_boundary_title'),
+                icon: Icons.map_rounded,
                 onPressed: () {
-                  context.go('/home/${record?.farmId ?? "f_1"}');
+                  context.push('/land/${widget.farmId}/boundary');
                 },
               ),
+
+              const SizedBox(height: AppSpacing.md),
+
+              BhoomiSecondaryButton(
+                text: strings.text('land_details_title'),
+                icon: Icons.description_rounded,
+                onPressed: () {
+                  context.push('/land/${widget.farmId}/details');
+                },
+              ),
+
+              const SizedBox(height: AppSpacing.xl),
             ],
           ),
         ),

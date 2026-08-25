@@ -35,7 +35,7 @@ class OnboardingScreen extends ConsumerWidget {
               )
             : IconButton(
                 icon: const Icon(Icons.close_rounded),
-                onPressed: () => context.pop(),
+                onPressed: () => context.canPop() ? context.pop() : context.go('/welcome'),
               ),
       ),
       body: SafeArea(

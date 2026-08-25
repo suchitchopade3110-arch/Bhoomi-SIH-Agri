@@ -37,49 +37,57 @@ class AssetUploadService {
   AssetUploadService(this._apiClient, [Dio? uploadDio])
       : _uploadDio = uploadDio ?? Dio();
 
-  /// Requests presigned URL from API and uploads raw bytes directly to storage
   Future<String> uploadAsset({
     required Uint8List bytes,
     required String contentType,
     String assetType = 'audio',
     void Function(double progress)? onProgress,
   }) async {
-    // 1. Request presigned URL from backend
-    final fileName = '${assetType}_${DateTime.now().millisecondsSinceEpoch}.${contentType.contains('jpeg') ? 'jpg' : contentType.contains('png') ? 'png' : contentType.contains('wav') ? 'wav' : 'bin'}';
-    final presignResponse = await _apiClient.post(
-      ApiConstants.assetsPresign,
-      data: {
-        'file_name': fileName,
-        'content_type': contentType,
-        'asset_kind': assetType == 'image' ? 'image' : assetType == 'document' ? 'document' : 'audio',
-        'asset_type': assetType,
-        'size_bytes': bytes.lengthInBytes,
-      },
-    );
-
-    final presignedData = PresignedAssetResult.fromJson(
-      presignResponse.data as Map<String, dynamic>,
-    );
-
-    // 2. Direct binary upload to presigned URL
-    await _uploadDio.put(
-      presignedData.uploadUrl,
-      data: Stream.fromIterable([bytes]),
-      options: Options(
-        headers: {
-          'Content-Type': contentType,
-          'Content-Length': bytes.lengthInBytes.toString(),
-          ...presignedData.uploadHeaders,
+    try {
+      // 1. Request presigned URL from backend
+      final fileName = '${assetType}_${DateTime.now().millisecondsSinceEpoch}.${contentType.contains('jpeg') ? 'jpg' : contentType.contains('png') ? 'png' : contentType.contains('wav') ? 'wav' : 'bin'}';
+      final presignResponse = await _apiClient.post(
+        ApiConstants.assetsPresign,
+        data: {
+          'file_name': fileName,
+          'content_type': contentType,
+          'asset_kind': assetType == 'image' ? 'image' : assetType == 'document' ? 'document' : 'audio',
+          'asset_type': assetType,
+          'size_bytes': bytes.lengthInBytes,
         },
-      ),
-      onSendProgress: (sent, total) {
-        if (total > 0 && onProgress != null) {
-          onProgress(sent / total);
-        }
-      },
-    );
+      );
 
-    // 3. Return the verified asset ID for subsequent API requests
-    return presignedData.assetId;
+      final presignedData = PresignedAssetResult.fromJson(
+        presignResponse.data as Map<String, dynamic>,
+      );
+
+      // 2. Direct binary upload to presigned URL
+      if (presignedData.uploadUrl.isNotEmpty) {
+        await _uploadDio.put(
+          presignedData.uploadUrl,
+          data: Stream.fromIterable([bytes]),
+          options: Options(
+            headers: {
+              'Content-Type': contentType,
+              'Content-Length': bytes.lengthInBytes.toString(),
+              ...presignedData.uploadHeaders,
+            },
+          ),
+          onSendProgress: (sent, total) {
+            if (total > 0 && onProgress != null) {
+              onProgress(sent / total);
+            }
+          },
+        );
+      }
+
+      // 3. Return the verified asset ID for subsequent API requests
+      return presignedData.assetId;
+    } catch (e) {
+      if (ApiConstants.enableMockFallback) {
+        return 'mock_asset_${DateTime.now().millisecondsSinceEpoch}';
+      }
+      rethrow;
+    }
   }
 }

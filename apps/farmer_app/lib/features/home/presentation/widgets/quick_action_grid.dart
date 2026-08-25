@@ -40,9 +40,9 @@ class QuickActionGrid extends ConsumerWidget {
           crossAxisCount: 2,
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
-          crossAxisSpacing: AppSpacing.md,
-          mainAxisSpacing: AppSpacing.md,
-          childAspectRatio: 1.25,
+          crossAxisSpacing: AppSpacing.sm + 2,
+          mainAxisSpacing: AppSpacing.sm + 2,
+          childAspectRatio: 1.02,
           children: [
             // 1. Ask BHOOMI (Voice)
             _buildActionTile(
@@ -114,7 +114,7 @@ class QuickActionGrid extends ConsumerWidget {
       onTap: onTap,
       borderRadius: BorderRadius.circular(AppSpacing.radiusLg),
       child: Container(
-        padding: const EdgeInsets.all(AppSpacing.md),
+        padding: const EdgeInsets.all(AppSpacing.sm + 4),
         decoration: BoxDecoration(
           color: AppColors.surface,
           borderRadius: BorderRadius.circular(AppSpacing.radiusLg),
@@ -129,41 +129,38 @@ class QuickActionGrid extends ConsumerWidget {
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Container(
-              padding: const EdgeInsets.all(AppSpacing.sm),
+              padding: const EdgeInsets.all(AppSpacing.xs + 2),
               decoration: BoxDecoration(
                 color: color.withValues(alpha: 0.12),
                 shape: BoxShape.circle,
               ),
-              child: Icon(icon, color: color, size: 22.0),
+              child: Icon(icon, color: color, size: 20.0),
             ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                    fontSize: 13.5,
-                    fontWeight: FontWeight.w800,
-                    color: AppColors.textPrimary,
-                  ),
-                ),
-                const SizedBox(height: 2.0),
-                Text(
-                  subtitle,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                    fontSize: 10.5,
-                    color: AppColors.textMuted,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ],
+            const Spacer(),
+            Text(
+              title,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(
+                fontSize: 13.0,
+                fontWeight: FontWeight.w800,
+                color: AppColors.textPrimary,
+                height: 1.2,
+              ),
+            ),
+            const SizedBox(height: 2.0),
+            Text(
+              subtitle,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(
+                fontSize: 10.0,
+                color: AppColors.textMuted,
+                fontWeight: FontWeight.w500,
+                height: 1.15,
+              ),
             ),
           ],
         ),

@@ -62,7 +62,30 @@ class OnboardingController extends StateNotifier<OnboardingState> {
 
 
   void toggleListening() {
-    state = state.copyWith(isListening: !state.isListening);
+    if (state.isListening) {
+      stopListening();
+      return;
+    }
+
+    state = state.copyWith(isListening: true, errorMessage: null);
+
+    // Gracefully simulate speech-to-intent recognition for the active step
+    Future.delayed(const Duration(milliseconds: 1400), () {
+      if (!state.isListening) return;
+
+      switch (state.currentStep) {
+        case 0:
+          setCrop(state.crop.isNotEmpty ? state.crop : 'samba_paddy');
+          break;
+        case 1:
+          setAreaAcres(state.areaAcresSelfReported > 0 ? state.areaAcresSelfReported : 2.5);
+          break;
+        case 2:
+          setGrowthStage(state.growthStage.isNotEmpty ? state.growthStage : 'flowering');
+          break;
+      }
+      stopListening();
+    });
   }
 
   void stopListening() {

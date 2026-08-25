@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../app/theme/app_colors.dart';
 import '../../../../app/theme/app_spacing.dart';
 import '../../../../app/theme/app_typography.dart';
+import '../../../../core/localization/bhoomi_localizations.dart';
 import '../../../../core/widgets/bhoomi_card.dart';
 import '../../data/models/health_snapshot.dart';
 
-class HealthBreakdownCard extends StatelessWidget {
+class HealthBreakdownCard extends ConsumerWidget {
   final HealthSubIndices subIndices;
 
   const HealthBreakdownCard({
@@ -14,37 +16,39 @@ class HealthBreakdownCard extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final strings = ref.watch(bhoomiStringsProvider);
+
     return BhoomiCard(
       padding: const EdgeInsets.all(AppSpacing.lg),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Row(
+          Row(
             children: [
-              Icon(Icons.analytics_outlined, size: 20.0, color: AppColors.primaryGreen),
-              SizedBox(width: AppSpacing.sm),
-              Text('Explainable Score Breakdown', style: AppTypography.titleLarge),
+              const Icon(Icons.analytics_outlined, size: 20.0, color: AppColors.primaryGreen),
+              const SizedBox(width: AppSpacing.sm),
+              Text(strings.text('score_breakdown'), style: AppTypography.titleLarge),
             ],
           ),
           const SizedBox(height: AppSpacing.xs),
           Text(
-            'Composite health calculated across 6 key agronomic dimensions.',
+            strings.text('score_breakdown_desc'),
             style: AppTypography.bodyMedium.copyWith(fontSize: 12.0, color: AppColors.textMuted),
           ),
           const Divider(color: AppColors.divider, height: AppSpacing.lg),
 
-          _buildMetricRow('Environmental Suitability', subIndices.environmentalSuitability),
+          _buildMetricRow(strings.text('env_suitability'), subIndices.environmentalSuitability),
           const SizedBox(height: AppSpacing.md),
-          _buildMetricRow('Resource Adequacy', subIndices.resourceAdequacy),
+          _buildMetricRow(strings.text('resource_adequacy'), subIndices.resourceAdequacy),
           const SizedBox(height: AppSpacing.md),
-          _buildMetricRow('Crop Stage Progression', subIndices.cropStageProgression),
+          _buildMetricRow(strings.text('crop_stage_prog'), subIndices.cropStageProgression),
           const SizedBox(height: AppSpacing.md),
-          _buildMetricRow('Active Problem Load', subIndices.activeProblemLoad),
+          _buildMetricRow(strings.text('active_problem_load'), subIndices.activeProblemLoad),
           const SizedBox(height: AppSpacing.md),
-          _buildMetricRow('Monitoring Recency', subIndices.monitoringRecency),
+          _buildMetricRow(strings.text('monitoring_recency'), subIndices.monitoringRecency),
           const SizedBox(height: AppSpacing.md),
-          _buildMetricRow('Treatment Response', subIndices.treatmentResponse),
+          _buildMetricRow(strings.text('treatment_response'), subIndices.treatmentResponse),
         ],
       ),
     );

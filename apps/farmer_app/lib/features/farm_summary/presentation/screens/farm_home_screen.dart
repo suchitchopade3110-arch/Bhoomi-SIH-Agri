@@ -6,7 +6,6 @@ import '../../../../app/theme/app_spacing.dart';
 import '../../../../app/theme/app_typography.dart';
 import '../../../../core/connectivity/connectivity_service.dart';
 import '../../../../core/localization/bhoomi_localizations.dart';
-import '../../../../core/localization/language_provider.dart';
 import '../../../../core/widgets/bhoomi_loading_view.dart';
 import '../../../../core/widgets/bhoomi_primary_button.dart';
 import '../../../../core/widgets/degraded_network_banner.dart';
