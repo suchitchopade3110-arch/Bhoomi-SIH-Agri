@@ -7,6 +7,15 @@ singleton's ``set_label``/``set_confidence`` — the same pattern
 StubImageDiagnosisAdapter's own docstring names for exercising the
 out-of-scope branch. Always restored in a ``finally`` so other tests in
 the suite keep seeing the default disease label.
+
+The corpus (``app/services/rag/corpus_data.py``) carries non-chemical
+pest content (identification, ETL, cultural/biological control — see its
+module docstring) for stem_borer/brown_planthopper/leaf_folder/
+green_leafhopper/gall_midge, deliberately stripping the chemical-control
+and regulatory-status sections of the source dataset since those doses
+are unverified. fall_armyworm/whitefly/aphid are in-scope pest labels
+with no corpus content at all, so they demonstrate the escalate side of
+the same "never fabricate" gate.
 """
 
 import uuid
@@ -51,11 +60,11 @@ async def _create_farm(client: httpx.AsyncClient, headers: dict[str, str]) -> st
 
 
 @pytest.mark.asyncio(loop_scope="session")
-async def test_in_scope_pest_above_gate_escalates_on_no_corpus_never_fabricates():
-    """stem_borer is a valid pest label and 0.85 clears PEST_CONFIDENCE_GATE
-    (0.70 default) — but the ingested corpus has zero pest documents, so
-    this must still honestly escalate (NO_RELEVANT_SOURCE), never compose
-    fabricated pest advice."""
+async def test_in_scope_pest_above_gate_composes_from_non_chemical_corpus():
+    """stem_borer is a valid pest label, 0.85 clears PEST_CONFIDENCE_GATE
+    (0.70 default), and the corpus now carries stem_borer identification/
+    ETL/cultural-control content (kb_p301) — so this composes a grounded
+    advisory rather than escalating, citing that doc."""
     import app.main as main_module
 
     adapter = get_image_diagnosis_adapter()
@@ -72,6 +81,48 @@ async def test_in_scope_pest_above_gate_escalates_on_no_corpus_never_fabricates(
                 f"/farms/{farm_id}/diagnose",
                 headers=headers,
                 json={"image_asset_id": "pest-photo-1", "target_type": "pest"},
+            )
+            assert res.status_code == 200, res.text
+            body = res.json()
+            assert body["above_gate"] is True
+            assert body["diagnosis"]["label"] == "stem_borer"
+            assert body["advisory"] is not None
+            cited_doc_ids = {c["doc_id"] for c in body["citations"]}
+            assert "kb_p301" in cited_doc_ids
+            # Never surface chemical-specific advice: no chemical product name
+            # from the source dataset's stripped sections should appear anywhere
+            # in the composed advisory text.
+            advisory_text = " ".join(body["advisory"].values())
+            for banned in ("Carbofuran", "Chlorantraniliprole", "Buprofezin"):
+                assert banned not in advisory_text
+    finally:
+        adapter.set_label(original_label)
+        adapter.set_confidence(original_confidence)
+
+
+@pytest.mark.asyncio(loop_scope="session")
+async def test_in_scope_pest_with_no_corpus_content_escalates_never_fabricates():
+    """whitefly is a valid pest label and 0.85 clears PEST_CONFIDENCE_GATE,
+    but the corpus has no whitefly content (only 5 of the 8 in-scope pest
+    labels are backed — see corpus_data.py's pest-entries docstring) — this
+    must honestly escalate (NO_RELEVANT_SOURCE), demonstrating the escalate
+    side of the same gate the previous test shows composing."""
+    import app.main as main_module
+
+    adapter = get_image_diagnosis_adapter()
+    original_label, original_confidence = adapter.label, adapter.confidence
+    adapter.set_label("whitefly")
+    adapter.set_confidence(0.85)
+    try:
+        transport = httpx.ASGITransport(app=main_module.app)
+        async with httpx.AsyncClient(transport=transport, base_url="http://test/api/v1") as client:
+            headers = await _register_and_login(client)
+            farm_id = await _create_farm(client, headers)
+
+            res = await client.post(
+                f"/farms/{farm_id}/diagnose",
+                headers=headers,
+                json={"image_asset_id": "pest-photo-1b", "target_type": "pest"},
             )
             assert res.status_code == 200, res.text
             body = res.json()
