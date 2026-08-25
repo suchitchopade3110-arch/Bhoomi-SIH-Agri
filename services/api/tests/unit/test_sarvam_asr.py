@@ -88,7 +88,15 @@ class TestSarvamAsrTtsAdapter:
 
     @pytest.mark.asyncio
     async def test_transcribe_resolves_asset_id_via_storage(self):
-        """transcribe_audio() resolves non-URL asset ID via storage endpoint and bucket."""
+        """Adapter's own bare-id -> URL guess (last-resort fallback only).
+
+        In the real flow, ``VoiceService`` now resolves the actual
+        storage-key-based download URL via ``StorageService`` before ever
+        calling this adapter (see test_storage_resolution_fix.py) — this
+        guess only fires if a caller hands the adapter a bare id directly
+        (e.g. asset lookup failed upstream). It won't match a real object
+        key, so it's a fallback path, not the primary one.
+        """
         adapter = SarvamAsrTtsAdapter(api_key="test-sarvam-key")
         fake_audio_bytes = b"RIFFfakeaudiobytes12345"
         mock_get_response = httpx.Response(
