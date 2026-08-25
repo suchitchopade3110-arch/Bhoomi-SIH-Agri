@@ -7,11 +7,6 @@ import '../../../../app/theme/app_typography.dart';
 import '../../../../core/widgets/bhoomi_primary_button.dart';
 
 /// BHOOMI Onboarding Landing Screen
-///
-/// Implements the agricultural hero design:
-/// 1. Upper screen: Background agricultural farmer illustration with soft overlay
-/// 2. Top: Elevated BHOOMI Brand Glass Badge
-/// 3. Bottom: Smooth curved white panel with headline, Join Now & Already a User
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
 
@@ -61,12 +56,13 @@ class WelcomeScreen extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.only(top: AppSpacing.sm),
                 child: Container(
+                  constraints: BoxConstraints(maxWidth: size.width * 0.9),
                   padding: const EdgeInsets.symmetric(
-                    horizontal: AppSpacing.lg,
+                    horizontal: AppSpacing.md + 2,
                     vertical: AppSpacing.sm,
                   ),
                   decoration: BoxDecoration(
-                    color: Colors.white.withValues(alpha: 0.94),
+                    color: Colors.white.withValues(alpha: 0.95),
                     borderRadius: BorderRadius.circular(AppSpacing.radiusXl),
                     boxShadow: [
                       BoxShadow(
@@ -80,36 +76,42 @@ class WelcomeScreen extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       AppBranding.emblemImage(
-                        height: 38.0,
-                        width: 38.0,
+                        height: 36.0,
+                        width: 36.0,
                         fit: BoxFit.contain,
                       ),
                       const SizedBox(width: AppSpacing.sm),
-                      const Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(
-                            'BHOOMI',
-                            style: TextStyle(
-                              fontSize: 18.0,
-                              fontWeight: FontWeight.w900,
-                              letterSpacing: 1.5,
-                              color: AppColors.primaryDeepGreen,
-                              height: 1.0,
+                      const Flexible(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              'BHOOMI',
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                fontSize: 17.0,
+                                fontWeight: FontWeight.w900,
+                                letterSpacing: 1.5,
+                                color: AppColors.primaryDeepGreen,
+                                height: 1.0,
+                              ),
                             ),
-                          ),
-                          SizedBox(height: 2.0),
-                          Text(
-                            'AI-Powered Farmer Companion',
-                            style: TextStyle(
-                              fontSize: 10.5,
-                              fontWeight: FontWeight.w700,
-                              color: AppColors.secondaryGreen,
-                              height: 1.0,
+                            SizedBox(height: 2.0),
+                            Text(
+                              'AI-Powered Farmer Companion',
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                fontSize: 10.0,
+                                fontWeight: FontWeight.w700,
+                                color: AppColors.secondaryGreen,
+                                height: 1.0,
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ],
                   ),
@@ -207,6 +209,7 @@ class WelcomeScreen extends StatelessWidget {
                       // SIH Hackathon trust badge
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
                         children: [
                           const Icon(
                             Icons.verified_user_rounded,
@@ -214,12 +217,16 @@ class WelcomeScreen extends StatelessWidget {
                             color: AppColors.textMuted,
                           ),
                           const SizedBox(width: AppSpacing.xs),
-                          Text(
-                            'Smart India Hackathon SIH25076',
-                            style: AppTypography.labelMedium.copyWith(
-                              color: AppColors.textMuted,
-                              fontSize: 11.0,
-                              fontWeight: FontWeight.w500,
+                          Flexible(
+                            child: Text(
+                              'Smart India Hackathon SIH25076',
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: AppTypography.labelMedium.copyWith(
+                                color: AppColors.textMuted,
+                                fontSize: 11.0,
+                                fontWeight: FontWeight.w500,
+                              ),
                             ),
                           ),
                         ],
