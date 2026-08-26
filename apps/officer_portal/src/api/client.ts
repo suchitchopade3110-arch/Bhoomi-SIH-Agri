@@ -89,15 +89,15 @@ apiClient.interceptors.request.use((config: InternalAxiosRequestConfig) => {
   return config;
 });
 
-// Resilient Fallback interceptor when backend is offline in standalone demo environment
+// Resilient Fallback interceptor when backend is offline or unauthenticated in demo environment
 apiClient.interceptors.response.use(
   (response) => response,
   async (error) => {
-    if (env.enableMockFallback && (!error.response || error.code === 'ERR_NETWORK')) {
+    if (env.enableMockFallback) {
       const { url, method } = error.config || {};
 
-      // GET /api/v1/officer/queue
-      if (url?.includes('/api/v1/officer/queue') && method?.toLowerCase() === 'get') {
+      // GET /api/v1/officer/queue or /api/v1/officer/land-queue
+      if ((url?.includes('/officer/queue') || url?.includes('/officer/land-queue')) && method?.toLowerCase() === 'get') {
         return Promise.resolve({
           data: [...mockQueueStore],
           status: 200,
@@ -108,7 +108,7 @@ apiClient.interceptors.response.use(
       }
 
       // POST /api/v1/officer/action
-      if (url?.includes('/api/v1/officer/action') && method?.toLowerCase() === 'post') {
+      if (url?.includes('/officer/action') && method?.toLowerCase() === 'post') {
         const payload = typeof error.config?.data === 'string' ? JSON.parse(error.config?.data || '{}') : (error.config?.data || {});
         const landId = payload.parcel_id || 'l_1';
         const isVerified = payload.action === 'verify' || payload.decision === 'verified';

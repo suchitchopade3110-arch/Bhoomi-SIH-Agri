@@ -21,6 +21,11 @@ router = APIRouter(prefix="/officer", tags=["Officer Portal"])
     response_model=list[OfficerQueueItem],
     summary="Get pending land verification queue for officer jurisdiction",
 )
+@router.get(
+    "/land-queue",
+    response_model=list[OfficerQueueItem],
+    include_in_schema=False,
+)
 async def get_queue(
     service: Annotated[OfficerService, Depends(get_officer_service)],
     _auth: Annotated[dict[str, Any], Depends(get_current_token_payload)],
