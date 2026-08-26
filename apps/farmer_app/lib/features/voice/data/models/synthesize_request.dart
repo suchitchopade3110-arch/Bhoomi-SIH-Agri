@@ -4,11 +4,15 @@ class SynthesizeRequest {
 
   const SynthesizeRequest({
     required this.text,
-    this.lang = 'en-IN',
+    this.lang = 'ta',
   });
 
+  // "language" (not "lang") to match VoiceSynthesizeRequest in
+  // services/api/app/schemas/voice.py — since that field has a server-side
+  // default, sending the wrong key didn't 422, it silently always
+  // synthesized in the default language regardless of what was requested.
   Map<String, dynamic> toJson() => {
         'text': text,
-        'lang': lang,
+        'language': lang,
       };
 }

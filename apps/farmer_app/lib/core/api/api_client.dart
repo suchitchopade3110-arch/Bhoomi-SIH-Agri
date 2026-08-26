@@ -26,7 +26,15 @@ class ApiClient {
     _dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (options, handler) async {
-          if (!options.path.contains('/auth/')) {
+          // Only the truly public auth endpoints (no token to send yet)
+          // skip attaching a Bearer token — /auth/me needs one, so a bare
+          // "/auth/" substring match was wrongly excluding it too, making
+          // every GET /auth/me 401 with "Missing or invalid Authorization
+          // header" regardless of a valid stored session.
+          final isPublicAuthEndpoint = options.path.contains('/auth/login') ||
+              options.path.contains('/auth/register') ||
+              options.path.contains('/auth/otp/');
+          if (!isPublicAuthEndpoint) {
             final token = await _storageService.getAuthToken();
             if (token != null && token.isNotEmpty) {
               options.headers[ApiConstants.authorizationHeader] = 'Bearer $token';
