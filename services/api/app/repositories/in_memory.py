@@ -199,6 +199,7 @@ class _StoredChunk:
     embedding: list[float]
     content_type: str | None = None
     crop: str | None = None
+    distinguishing_cues: str | None = None
 
 
 class InMemoryKnowledgeChunkRepository:
@@ -226,6 +227,7 @@ class InMemoryKnowledgeChunkRepository:
         embedding: list[float],
         content_type: str | None = None,
         crop: str | None = None,
+        distinguishing_cues: str | None = None,
     ) -> None:
         self._chunks.append(
             _StoredChunk(
@@ -236,6 +238,7 @@ class InMemoryKnowledgeChunkRepository:
                 embedding=embedding,
                 content_type=content_type,
                 crop=crop,
+                distinguishing_cues=distinguishing_cues,
             )
         )
 

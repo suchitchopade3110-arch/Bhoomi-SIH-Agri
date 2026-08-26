@@ -52,14 +52,20 @@ def _cluster_case_count(cluster_summary: list[ClusterCase], pathogen_id: str) ->
     return sum(c.case_count for c in cluster_summary if c.label == pathogen_id)
 
 
-def _classify_severity(weather_favorable: bool, cluster_triggered: bool) -> AlertSeverity | None:
-    """Spec §2.2's decision matrix."""
+def _classify_severity(
+    weather_favorable: bool,
+    cluster_triggered: bool,
+    seasonal_triggered: bool = False,
+) -> AlertSeverity | None:
+    """Spec §2.2's decision matrix with 4th seasonal susceptibility trigger tier."""
     if cluster_triggered and weather_favorable:
         return AlertSeverity.EMERGENCY
     if cluster_triggered:
         return AlertSeverity.WARNING
     if weather_favorable:
         return AlertSeverity.ADVISORY
+    if seasonal_triggered:
+        return AlertSeverity.INFO
     return None
 
 
@@ -81,12 +87,13 @@ def evaluate_alert(
     cluster_summary: list[ClusterCase],
     threshold: PathogenRiskThreshold,
     evaluated_at: datetime,
+    seasonal_triggered: bool = False,
 ) -> AlertDraft | None:
     """Evaluate one pathogen's hybrid trigger for one farm (or district
     broadcast, when ``farm_id`` is ``None``) at ``evaluated_at``.
 
-    Returns ``None`` when the crop/stage isn't susceptible or neither the
-    weather nor the cluster tier fires — no alert, not a suppressed one
+    Returns ``None`` when the crop/stage isn't susceptible or none of the
+    weather, cluster, or seasonal tiers fire — no alert, not a suppressed one
     (cooldown suppression is a separate, service-level concern, spec §4.2).
     """
     if crop != threshold.target_crop or growth_stage not in threshold.susceptible_stages:
@@ -96,7 +103,7 @@ def evaluate_alert(
     cluster_case_count = _cluster_case_count(cluster_summary, threshold.pathogen_id)
     cluster_triggered = cluster_case_count >= threshold.cluster_count_threshold
 
-    severity = _classify_severity(weather_favorable, cluster_triggered)
+    severity = _classify_severity(weather_favorable, cluster_triggered, seasonal_triggered)
     if severity is None:
         return None
 
@@ -111,6 +118,10 @@ def evaluate_alert(
         reason_parts.append(
             f"{cluster_case_count} confirmed case(s) within {threshold.cluster_radius_km:.0f}km "
             f"over the past 7 days"
+        )
+    if not reason_parts and seasonal_triggered:
+        reason_parts.append(
+            f"Seasonal susceptibility window: {crop} in '{growth_stage}' stage is entering high-risk window for {threshold.pathogen_name}"
         )
     trigger_reason = " + ".join(reason_parts)
 

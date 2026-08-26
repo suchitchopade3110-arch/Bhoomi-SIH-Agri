@@ -66,9 +66,7 @@ async def local_upload(
     upload-then-fetch flow (used by e.g. the gTTS adapter) works with zero
     external storage infra.
     """
-    from app.adapters.local_storage import LocalStorageAdapter
-
-    if not isinstance(storage, LocalStorageAdapter):
+    if not hasattr(storage, "write_bytes"):
         raise ValidationError(
             "Local upload endpoint is only available when STORAGE_BACKEND=local.",
         )

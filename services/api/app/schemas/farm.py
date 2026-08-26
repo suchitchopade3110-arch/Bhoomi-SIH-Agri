@@ -26,8 +26,7 @@ class FarmUpdateRequest(BaseModel):
     growth_stage: str | None = None
     region: str | None = None
     sowing_date: date | None = None
-    soil_type: str | None = None
-    irrigation_source: str | None = None
+    soil_type: str | None = None  # Retained for SIH25076 FAO-56 irrigation planning (app/services/resource_plan_service.py)
     ui_mode: UiMode | None = Field(
         default=None, description="Veteran/novice UI density toggle (checklist §1.5)"
     )
@@ -44,14 +43,13 @@ class FarmResponse(BaseModel):
     state: str = "Tamil Nadu"
     latitude: float | None = None
     longitude: float | None = None
-    total_area_acres: float | None = None
+    total_area_acres: float | None = None  # Retained for scheme matching (app/services/scheme_service.py) and SIH25076 FAO-56 resource planning
     survey_number: str | None = None
     land_status: LandStatus = Field(default=LandStatus.UNVERIFIED)
     primary_crop: str = Field(...)
     growth_stage: str | None = None
     region: str | None = None
-    soil_type: str | None = None
-    irrigation_source: str | None = None
+    soil_type: str | None = None  # Retained for SIH25076 FAO-56 irrigation planning (app/services/resource_plan_service.py)
     ui_mode: UiMode = Field(
         default=UiMode.NOVICE, description="Veteran/novice UI density toggle (checklist §1.5)"
     )

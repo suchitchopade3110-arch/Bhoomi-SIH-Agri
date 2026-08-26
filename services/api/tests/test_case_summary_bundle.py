@@ -21,6 +21,7 @@ EXPECTED_BUNDLE_KEYS = {
     "treatments_tried",
     "followup_trend",
     "current_advisory",
+    "diagnosis",
 }
 
 FORBIDDEN_LAND_SOIL_KEYS = {

@@ -40,6 +40,23 @@ def test_no_weather_no_cluster_returns_none():
     assert _evaluate(UNFAVORABLE_WEATHER, NO_CLUSTER) is None
 
 
+def test_seasonal_trigger_yields_info():
+    draft = evaluate_alert(
+        farm_id="f_123",
+        district="Erode",
+        crop="samba_paddy",
+        growth_stage="vegetative",
+        weather=UNFAVORABLE_WEATHER,
+        cluster_summary=NO_CLUSTER,
+        threshold=BLB,
+        evaluated_at=NOW,
+        seasonal_triggered=True,
+    )
+    assert draft is not None
+    assert draft.severity == AlertSeverity.INFO
+    assert "Seasonal susceptibility window" in draft.trigger_reason
+
+
 def test_weather_only_yields_advisory():
     draft = _evaluate(FAVORABLE_WEATHER, NO_CLUSTER)
     assert draft is not None

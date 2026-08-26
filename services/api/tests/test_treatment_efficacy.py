@@ -73,16 +73,29 @@ async def _create_farm(client: httpx.AsyncClient, headers: dict[str, str], regio
     return res.json()["id"]
 
 
+async def _presign_asset(client: httpx.AsyncClient, headers: dict[str, str], farm_id: str) -> str:
+    """diagnose() verifies image_asset_id was actually created via the
+    presign flow (checklist §2.5) — a bare literal never goes through it."""
+    res = await client.post(
+        "/assets/presigned-url",
+        headers=headers,
+        json={"file_name": "leaf.jpg", "content_type": "image/jpeg", "asset_kind": "disease_photo", "farm_id": farm_id},
+    )
+    assert res.status_code == 201, res.text
+    return res.json()["asset_id"]
+
+
 async def _diagnose_and_resolve_via_followup(client: httpx.AsyncClient, headers: dict[str, str], farm_id: str) -> None:
     """One full above-gate diagnosis -> 'improved' check-in cycle. With the
     stub image adapter's fixed label (bacterial_leaf_blight, confidence
     0.85) and the ingested BLB corpus doc, this always composes (never
     escalates) — so it always opens then closes exactly one
     TreatmentApplication."""
+    image_asset_id = await _presign_asset(client, headers, farm_id)
     diagnose_res = await client.post(
         f"/farms/{farm_id}/diagnose",
         headers=headers,
-        json={"image_asset_id": f"leaf-photo-{uuid.uuid4().hex[:8]}"},
+        json={"image_asset_id": image_asset_id},
     )
     assert diagnose_res.status_code == 200, diagnose_res.text
     body = diagnose_res.json()
@@ -179,11 +192,12 @@ async def test_got_worse_followup_closes_application_as_failed():
         headers = await _register_and_login(client)
         district = f"District-{uuid.uuid4().hex[:8]}"
         farm_id = await _create_farm(client, headers, region=district)
+        image_asset_id = await _presign_asset(client, headers, farm_id)
 
         diagnose_res = await client.post(
             f"/farms/{farm_id}/diagnose",
             headers=headers,
-            json={"image_asset_id": f"leaf-photo-{uuid.uuid4().hex[:8]}"},
+            json={"image_asset_id": image_asset_id},
         )
         assert diagnose_res.status_code == 200
         problem_id = diagnose_res.json()["problem_id"]
