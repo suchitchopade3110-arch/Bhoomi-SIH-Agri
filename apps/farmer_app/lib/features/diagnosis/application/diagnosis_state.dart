@@ -7,6 +7,10 @@ enum ImageUploadStatus {
   uploading,
   uploaded,
   failed,
+  // Offline upload queue (checklist §12.4): the image couldn't reach the
+  // server right now but is queued locally and will upload automatically
+  // once connectivity returns.
+  queued,
 }
 
 class DiagnosisState {

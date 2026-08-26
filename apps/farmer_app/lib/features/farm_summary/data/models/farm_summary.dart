@@ -2,11 +2,13 @@ class FarmIdentity {
   final String id;
   final String crop;
   final String landStatus;
+  final String uiMode;
 
   const FarmIdentity({
     required this.id,
     required this.crop,
     required this.landStatus,
+    this.uiMode = 'novice',
   });
 
   factory FarmIdentity.fromJson(Map<String, dynamic> json) {
@@ -14,6 +16,7 @@ class FarmIdentity {
       id: json['id'] as String? ?? '',
       crop: json['primary_crop'] as String? ?? json['crop'] as String? ?? '',
       landStatus: json['land_status'] as String? ?? 'pending_verification',
+      uiMode: json['ui_mode'] as String? ?? 'novice',
     );
   }
 
@@ -22,6 +25,7 @@ class FarmIdentity {
       'id': id,
       'crop': crop,
       'land_status': landStatus,
+      'ui_mode': uiMode,
     };
   }
 }

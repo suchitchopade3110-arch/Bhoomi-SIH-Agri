@@ -5,7 +5,7 @@ from datetime import date
 from sqlalchemy import Date, Float, Integer, String
 from sqlalchemy.orm import Mapped, mapped_column
 
-from app.core.enums import LandStatus
+from app.core.enums import LandStatus, UiMode
 from app.models.base import Base
 
 
@@ -42,6 +42,9 @@ class Farm(Base):
     sowing_date: Mapped[date | None] = mapped_column(Date, nullable=True)
     soil_type: Mapped[str] = mapped_column(String(50), nullable=False, default="Clay Loam")
     irrigation_source: Mapped[str] = mapped_column(String(50), nullable=False, default="Borewell")
+    # Veteran/novice UI density toggle (checklist §1.5) — persisted on the
+    # profile so it survives sessions/devices, not just client-local state.
+    ui_mode: Mapped[str] = mapped_column(String(20), nullable=False, default=UiMode.NOVICE.value)
 
     # -- Health-engine monitoring state (PRD §7.2) -------------------------
     soil_moisture_pct: Mapped[float | None] = mapped_column(Float, nullable=True)

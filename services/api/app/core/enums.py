@@ -109,3 +109,11 @@ class GateOutcome(str, Enum):
     """
     COMPOSE = "compose"
     ESCALATE = "escalate"
+
+
+class UiMode(str, Enum):
+    """Veteran/novice UI density toggle (checklist §1.5), persisted on the
+    farm profile so it survives across sessions and devices, not just
+    client-local state."""
+    VETERAN = "veteran"
+    NOVICE = "novice"
