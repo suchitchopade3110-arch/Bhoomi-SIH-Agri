@@ -59,6 +59,7 @@ async def ingest_corpus(
                 embedding=embedding,
                 content_type=doc["content_type"],
                 crop=doc["crop"],
+                distinguishing_cues=doc.get("distinguishing_cues"),
             )
             total_chunks += 1
 

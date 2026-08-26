@@ -15,9 +15,18 @@ docker compose -f infra/docker-compose.yml up -d
 # 2. Replay Migrations + Corpus Ingest + Demo Seed (Services/API)
 cd services/api
 python -m alembic upgrade head
-python -m scripts.load_corpus --corpus-dir corpus/
-python -m scripts.seed
+python -m scripts.reset_demo
 ```
+
+(`scripts.reset_demo` does the corpus ingest + demo seed in one step —
+equivalent to running `python -m app.services.rag.ingest` then
+`python -m scripts.seed` separately. Do **not** use
+`scripts.load_corpus --corpus-dir corpus/` here: that's a separate,
+disconnected ingestion path over a different 8-document markdown corpus
+with zero pest docs — it does not populate the corpus this app's
+retrieval, tests, and every other demo path actually run against, and a
+diagnosis above the gate will fail to find a citation and escalate
+instead of composing advice.)
 
 | Service | Host Port | Internal Port | Health / Role |
 | :--- | :--- | :--- | :--- |

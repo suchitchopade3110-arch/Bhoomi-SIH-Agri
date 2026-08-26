@@ -223,6 +223,7 @@ async def test_full_sih26131_core_loop_end_to_end():
         "treatments_tried",
         "followup_trend",
         "current_advisory",
+        "diagnosis",  # structured {label, confidence} — checklist §7.2
     }
     assert set(bundle_dict.keys()) == expected_keys
     # Strict drift guard: 0 land/soil keys

@@ -6,6 +6,7 @@ from fastapi import Depends
 
 from app.core.enums import LandStatus, SchemeStatus
 from app.core.errors import LandNotVerifiedError, NotFoundError
+from app.domain.schemes import compute_scheme_status
 from app.repositories.dependencies import get_farm_repository, get_scheme_repository
 from app.repositories.interfaces import FarmRepository, SchemeRepository
 from app.schemas.schemes import (
@@ -75,6 +76,12 @@ class SchemeService:
 
 
 def _to_scheme_response(row: dict) -> SchemeResponse:
+    last_verified = row["last_verified"]
+    # Never trust a stored status column to still be accurate — it's
+    # recomputed from last_verified on every read (domain/schemes.py),
+    # so an expiring/expired scheme can't silently keep reading "active"
+    # just because nobody remembered to update the row (checklist §10.4).
+    status = compute_scheme_status(last_verified, SchemeStatus(row["status"]))
     return SchemeResponse(
         id=row["id"],
         name=row["name"],
@@ -85,8 +92,10 @@ def _to_scheme_response(row: dict) -> SchemeResponse:
         subsidy_percentage=row.get("subsidy_percentage"),
         max_amount_inr=row.get("max_amount_inr"),
         portal_url=row.get("portal_url"),
-        status=SchemeStatus(row["status"]),
-        last_verified=row["last_verified"],
+        status=status,
+        last_verified=last_verified,
+        is_expiring=status == SchemeStatus.EXPIRING,
+        is_expired=status == SchemeStatus.EXPIRED,
     )
 
 

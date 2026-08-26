@@ -33,10 +33,10 @@ README.md §9 for the product decision behind this split.
 """
 
 from datetime import date
-from typing import TypedDict
+from typing import NotRequired, TypedDict
 
 
-class CorpusDoc(TypedDict):
+class CorpusDoc(TypedDict, total=False):
     doc_id: str
     content_type: str  # "disease" | "pest" — real retrieval-scoping metadata (checklist §4.1),
     # not inferred from doc_id naming; see knowledge_chunks.content_type / crop.
@@ -44,6 +44,7 @@ class CorpusDoc(TypedDict):
     title: str
     reviewed_on: date
     body: str
+    distinguishing_cues: NotRequired[str]
 
 
 CORPUS_DOCS: list[CorpusDoc] = [
@@ -53,6 +54,10 @@ CORPUS_DOCS: list[CorpusDoc] = [
         "crop": "paddy",
         "title": "ICAR PoP: Rice — Bacterial Leaf Blight",
         "reviewed_on": date(2025, 11, 2),
+        "distinguishing_cues": (
+            "Early morning milky bacterial ooze on lesion surfaces with characteristic wavy margin, "
+            "diagnostic for BLB and distinguishing it from fungal leaf diseases; distinct 'Kresek' wilting in seedlings."
+        ),
         "body": (
             "Bacterial Leaf Blight (BLB) is one of the most destructive bacterial diseases of paddy "
             "(rice), caused by the bacterium Xanthomonas oryzae pv. oryzae. It is most damaging during "
@@ -251,6 +256,10 @@ CORPUS_DOCS: list[CorpusDoc] = [
         "crop": "paddy",
         "title": "ICAR PoP: Rice — Blast Disease (Magnaporthe oryzae)",
         "reviewed_on": date(2025, 4, 18),
+        "distinguishing_cues": (
+            "Spindle-shaped leaf lesions with gray-white center and reddish-brown margin, distinct from vein-following BLB lesions; "
+            "neck blast attacks panicle base causing completely empty, chaffy grain."
+        ),
         "body": (
             "Rice blast, caused by the fungus Magnaporthe oryzae, produces distinct spindle-shaped "
             "lesions with a gray-white center and reddish-brown margin on leaves, unlike the water-soaked "
@@ -269,6 +278,10 @@ CORPUS_DOCS: list[CorpusDoc] = [
         "crop": "paddy",
         "title": "ICAR PoP: Rice — Sheath Blight (Rhizoctonia solani)",
         "reviewed_on": date(2025, 4, 18),
+        "distinguishing_cues": (
+            "Irregular greenish-gray lesions with straw-colored center on leaf sheath near waterline climbing upward, "
+            "distinct from leaf-blade lesions of BLB and blast."
+        ),
         "body": (
             "Sheath blight, caused by the soil-borne fungus Rhizoctonia solani, produces irregular, "
             "greenish-gray lesions with a straw-colored center on the leaf sheath near the waterline, "
@@ -286,6 +299,10 @@ CORPUS_DOCS: list[CorpusDoc] = [
         "crop": "paddy",
         "title": "ICAR PoP: Rice — Brown Spot Disease",
         "reviewed_on": date(2025, 3, 5),
+        "distinguishing_cues": (
+            "Small, oval, brown lesions scattered across leaf blade, typically associated with potassium/soil "
+            "nutrient deficiencies rather than nitrogen excess."
+        ),
         "body": (
             "Brown spot, caused by the fungus Bipolaris oryzae, produces small, oval, brown lesions "
             "scattered across the leaf blade, often associated with nutrient-deficient soils — "
@@ -377,6 +394,10 @@ CORPUS_DOCS: list[CorpusDoc] = [
         "crop": "paddy",
         "title": "TNAU Rice Pest Management Guide — Stem Borer (Identification & Non-Chemical Control)",
         "reviewed_on": date(2026, 8, 24),
+        "distinguishing_cues": (
+            "Egg masses with buff-colored hairs on tender leaf tips; brown-headed larvae boring lower stem; "
+            "central shoot 'dead hearts' pulling out easily; erect white chaffy earheads at reproductive stage."
+        ),
         "body": (
             "Stem borer (Scirpophaga incertulas) is one of the major insect pests of paddy across Tamil "
             "Nadu and South India, attacking rice at all growth stages. During the vegetative stage, "
@@ -404,6 +425,10 @@ CORPUS_DOCS: list[CorpusDoc] = [
         "crop": "paddy",
         "title": "IRRI Rice Knowledge Bank — Brown Planthopper (Identification & Non-Chemical Control)",
         "reviewed_on": date(2026, 8, 24),
+        "distinguishing_cues": (
+            "Small brownish insects with distinct white mid-dorsal abdominal band near waterline; circular scorched "
+            "hopper-burn patches; copious sticky honeydew with black sooty mold at plant base."
+        ),
         "body": (
             "Brown planthopper (Nilaparvata lugens) is a destructive sap-sucking pest affecting rice "
             "across Tamil Nadu and South India, infesting crops at all growth stages with damage peaking "
@@ -433,6 +458,10 @@ CORPUS_DOCS: list[CorpusDoc] = [
         "crop": "paddy",
         "title": "TNAU Rice Pest Management Guide — Leaf Folder (Identification & Non-Chemical Control)",
         "reviewed_on": date(2026, 8, 24),
+        "distinguishing_cues": (
+            "Leaves folded lengthwise with fine silken threads and green caterpillar inside; longitudinal white papery "
+            "streaks where mesophyll is scraped; whitish scorched canopy appearance from a distance."
+        ),
         "body": (
             "Rice leaf folder (Cnaphalocrocis medinalis) is a widespread foliage feeder of paddy across "
             "Tamil Nadu, damaging crops primarily from the vegetative stage through boot leaf and panicle "
@@ -460,6 +489,10 @@ CORPUS_DOCS: list[CorpusDoc] = [
         "crop": "paddy",
         "title": "ICAR Rice Production Manual — Green Leafhopper (Identification & Non-Chemical Control)",
         "reviewed_on": date(2026, 8, 24),
+        "distinguishing_cues": (
+            "Slender bright-green wedge-shaped insect with black markings on head and forewings; agile jumping/flying; "
+            "foliage yellowing extending downward from tips; stunting with orange-yellow discoloration from Rice Tungro Virus."
+        ),
         "body": (
             "Green leafhopper (Nephotettix virescens) infests paddy across all growth stages. Direct "
             "feeding causes foliage yellowing, but its primary economic significance is as the active "
@@ -487,6 +520,10 @@ CORPUS_DOCS: list[CorpusDoc] = [
         "crop": "paddy",
         "title": "TNAU Gall Midge Management in Rice (Identification & Non-Chemical Control)",
         "reviewed_on": date(2026, 8, 24),
+        "distinguishing_cues": (
+            "Tubular 'silver shoots' or 'onion shoots' at tiller base; stunted tillers with reddish-brown pupal cases "
+            "protruding from gall tips; small mosquito-like fly."
+        ),
         "body": (
             "Rice gall midge (Orseolia oryzae) is an internal feeder causing severe damage primarily "
             "during the tillering stage, endemic in the Cauvery delta and coastal districts of Tamil Nadu. "
@@ -511,6 +548,10 @@ CORPUS_DOCS: list[CorpusDoc] = [
         "crop": "paddy",
         "title": "KVK Rice Nursery Management — Thrips (Identification & Non-Chemical Control)",
         "reviewed_on": date(2026, 8, 24),
+        "distinguishing_cues": (
+            "Minute slender dark insects (1 to 2 mm) with narrow fringed wings; yellow to orange discoloration on upper leaf surfaces; "
+            "inward needle-like leaf tip curling and withered scorched appearance."
+        ),
         "body": (
             "Rice thrips (Stenchaetothrips biformis) is a common nursery and early vegetative pest of "
             "paddy across Tamil Nadu, causing severe foliage rolling and seedling stunting, particularly "
@@ -535,6 +576,10 @@ CORPUS_DOCS: list[CorpusDoc] = [
         "crop": "paddy",
         "title": "TNAU Whorl Maggot Management in Rice (Identification & Non-Chemical Control)",
         "reviewed_on": date(2026, 8, 24),
+        "distinguishing_cues": (
+            "Yellowish-white feeding streaks and ragged, serrated margins on newly unfolding leaves; translucent whitish-yellow "
+            "maggots inside unexpanded central leaf whorl."
+        ),
         "body": (
             "Rice whorl maggot (Hydrellia philippina) attacks seedlings in nursery beds and newly "
             "transplanted rice up to 30 days after transplanting. The maggot enters the unexpanded central "
@@ -560,6 +605,10 @@ CORPUS_DOCS: list[CorpusDoc] = [
         "crop": "paddy",
         "title": "ICAR Rice Insect Pest Management — Earhead Bug (Identification & Non-Chemical Control)",
         "reviewed_on": date(2026, 8, 24),
+        "distinguishing_cues": (
+            "Slender greenish-brown bug (15-20 mm) emitting strong pungent odor; punctured, brownish-spotted, shriveled hulls "
+            "and empty chaffy panicles during milking/soft-dough stage."
+        ),
         "body": (
             "Rice earhead bug or gundhi bug (Leptocorisa acuta) attacks paddy specifically during the "
             "flowering, milking, and soft-dough stages of grain development. Both adults and nymphs "

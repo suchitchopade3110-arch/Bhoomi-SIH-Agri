@@ -1,5 +1,8 @@
 services:
-  # Single unified database: PostgreSQL 16 + PostGIS + pgvector
+  # Single unified database: PostgreSQL 16 + pgvector. No PostGIS — the
+  # image below doesn't carry it; spatial queries (alert clusters) use
+  # plain lat/lon columns + a bounding-box prefilter + Python haversine
+  # instead (see app/domain/geo.py's module docstring for the decision).
   postgres:
     image: pgvector/pgvector:pg16
     container_name: bhoomi-postgres

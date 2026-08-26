@@ -42,6 +42,7 @@ class KnowledgeChunk(Base):
     reviewed_on: Mapped[date] = mapped_column(Date, nullable=False)
     chunk_index: Mapped[int] = mapped_column(Integer, nullable=False)
     chunk_text: Mapped[str] = mapped_column(Text, nullable=False)
+    distinguishing_cues: Mapped[str | None] = mapped_column(Text, nullable=True)
     embedding: Mapped[list[float]] = mapped_column(Vector(EMBEDDING_DIM), nullable=False)
 
 

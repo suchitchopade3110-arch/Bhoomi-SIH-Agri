@@ -59,6 +59,18 @@ async def _create_farm(client: httpx.AsyncClient, headers: dict[str, str]) -> st
     return res.json()["id"]
 
 
+async def _presign_asset(client: httpx.AsyncClient, headers: dict[str, str], farm_id: str) -> str:
+    """diagnose() verifies image_asset_id was actually created via the
+    presign flow (checklist §2.5) — a bare literal never goes through it."""
+    res = await client.post(
+        "/assets/presigned-url",
+        headers=headers,
+        json={"file_name": "leaf.jpg", "content_type": "image/jpeg", "asset_kind": "disease_photo", "farm_id": farm_id},
+    )
+    assert res.status_code == 201, res.text
+    return res.json()["asset_id"]
+
+
 @pytest.mark.asyncio(loop_scope="session")
 async def test_in_scope_pest_above_gate_composes_from_non_chemical_corpus():
     """stem_borer is a valid pest label, 0.85 clears PEST_CONFIDENCE_GATE
@@ -76,11 +88,12 @@ async def test_in_scope_pest_above_gate_composes_from_non_chemical_corpus():
         async with httpx.AsyncClient(transport=transport, base_url="http://test/api/v1") as client:
             headers = await _register_and_login(client)
             farm_id = await _create_farm(client, headers)
+            image_asset_id = await _presign_asset(client, headers, farm_id)
 
             res = await client.post(
                 f"/farms/{farm_id}/diagnose",
                 headers=headers,
-                json={"image_asset_id": "pest-photo-1", "target_type": "pest"},
+                json={"image_asset_id": image_asset_id, "target_type": "pest"},
             )
             assert res.status_code == 200, res.text
             body = res.json()
@@ -118,11 +131,12 @@ async def test_in_scope_pest_with_no_corpus_content_escalates_never_fabricates()
         async with httpx.AsyncClient(transport=transport, base_url="http://test/api/v1") as client:
             headers = await _register_and_login(client)
             farm_id = await _create_farm(client, headers)
+            image_asset_id = await _presign_asset(client, headers, farm_id)
 
             res = await client.post(
                 f"/farms/{farm_id}/diagnose",
                 headers=headers,
-                json={"image_asset_id": "pest-photo-1b", "target_type": "pest"},
+                json={"image_asset_id": image_asset_id, "target_type": "pest"},
             )
             assert res.status_code == 200, res.text
             body = res.json()
@@ -151,11 +165,12 @@ async def test_pest_label_out_of_scope_for_disease_target_type():
         async with httpx.AsyncClient(transport=transport, base_url="http://test/api/v1") as client:
             headers = await _register_and_login(client)
             farm_id = await _create_farm(client, headers)
+            image_asset_id = await _presign_asset(client, headers, farm_id)
 
             res = await client.post(
                 f"/farms/{farm_id}/diagnose",
                 headers=headers,
-                json={"image_asset_id": "pest-photo-2", "target_type": "disease"},
+                json={"image_asset_id": image_asset_id, "target_type": "disease"},
             )
             assert res.status_code == 200, res.text
             body = res.json()
@@ -175,11 +190,12 @@ async def test_disease_label_out_of_scope_for_pest_target_type():
     async with httpx.AsyncClient(transport=transport, base_url="http://test/api/v1") as client:
         headers = await _register_and_login(client)
         farm_id = await _create_farm(client, headers)
+        image_asset_id = await _presign_asset(client, headers, farm_id)
 
         res = await client.post(
             f"/farms/{farm_id}/diagnose",
             headers=headers,
-            json={"image_asset_id": "pest-photo-3", "target_type": "pest"},
+            json={"image_asset_id": image_asset_id, "target_type": "pest"},
         )
         assert res.status_code == 200, res.text
         body = res.json()
@@ -205,11 +221,12 @@ async def test_pest_below_confidence_gate_uses_pest_threshold():
         async with httpx.AsyncClient(transport=transport, base_url="http://test/api/v1") as client:
             headers = await _register_and_login(client)
             farm_id = await _create_farm(client, headers)
+            image_asset_id = await _presign_asset(client, headers, farm_id)
 
             res = await client.post(
                 f"/farms/{farm_id}/diagnose",
                 headers=headers,
-                json={"image_asset_id": "pest-photo-4", "target_type": "pest"},
+                json={"image_asset_id": image_asset_id, "target_type": "pest"},
             )
             assert res.status_code == 200, res.text
             body = res.json()

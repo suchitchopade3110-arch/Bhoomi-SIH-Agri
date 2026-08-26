@@ -27,6 +27,7 @@ class KnowledgeChunkRepository:
         embedding: list[float],
         content_type: str | None = None,
         crop: str | None = None,
+        distinguishing_cues: str | None = None,
     ) -> None:
         self._session.add(
             KnowledgeChunk(
@@ -38,6 +39,7 @@ class KnowledgeChunkRepository:
                 embedding=embedding,
                 content_type=content_type,
                 crop=crop,
+                distinguishing_cues=distinguishing_cues,
             )
         )
 
