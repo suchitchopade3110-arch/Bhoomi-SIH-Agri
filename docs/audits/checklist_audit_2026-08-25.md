@@ -775,3 +775,18 @@ Same file set as §8's list, plus `services/api/app/services/officer_service.py`
 `git status --short`: 36 files modified, 1 deleted (`services/api/app/adapters/land_registry.py`) — identical file list to §8, since this follow-up only further modified files already in that set.
 
 **Full-suite result: 503 passed, 0 failed.**
+
+---
+
+## 10. Gaps filed as GitHub issues (2026-08-26)
+
+The working-tree fixes described in §7–§9 above were never committed to `main` in the original audit session ("handover as zip files"), but a re-check on 2026-08-26 found most of them present on `main` regardless (P1.1 `what_to_avoid` ordering, P1.2 pest alternatives, P1.3 `target_type` scoping, P3 land-router cleanup, `severity_change`/`risk` fields) — so they must have been applied by some other route after this report was written. Re-verifying every item fresh against current `main` turned up five gaps still genuinely open (some newly introduced by the P1.3 workaround itself, not carried over from the original audit). Filed as tracked issues rather than left as prose in this report:
+
+- [#62](https://github.com/suchitchopade3110-arch/Bhoomi-SIH-Agri/issues/62) — §1.5: `ui_mode` veteran/novice toggle has no persistence anywhere, backend or app.
+- [#63](https://github.com/suchitchopade3110-arch/Bhoomi-SIH-Agri/issues/63) — §4.1: `knowledge_chunks` still has no `content_type`/`crop` columns; retrieval scoping relies on a `doc_id` prefix convention introduced by P1.3.
+- [#64](https://github.com/suchitchopade3110-arch/Bhoomi-SIH-Agri/issues/64) — §10.4: scheme responses show `last_verified` but never flag expiring/expired.
+- [#65](https://github.com/suchitchopade3110-arch/Bhoomi-SIH-Agri/issues/65) — §12.2: `spoken_summary` missing from `AgronomistQueueItem`, `ResolveCaseResponse`, `AlertAcknowledgeResponse`.
+- [#66](https://github.com/suchitchopade3110-arch/Bhoomi-SIH-Agri/issues/66) — §12.4: offline upload queue doesn't exist in `apps/farmer_app`; needs an explicit keep/cut decision.
+
+Items re-verified as **resolved** on current `main` during this pass and not re-filed: §5.3 (subindices/triggering_input persisted — `health_service.py:152-161`), §6.2/§6.3 (`_promote`/`_demote` implemented in `followup_service.py`), §7.4 (`EscalationResponse.eta`/`queue_position` present), §7.5 (real per-crop guidance card content in `domain/guidance/cards.py`), §8.1 (timeline query scoped to `Problem`/`FollowUp`/`Case`/`HealthSnapshot` only), §15.7 (full land→officer→schemes chain exercised in `test_full_runbook_walks_82_73_57_91`).
+
