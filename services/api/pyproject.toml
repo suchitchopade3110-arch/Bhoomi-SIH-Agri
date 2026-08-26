@@ -1,5 +1,10 @@
 [build-system]
-requires = ["setuptools>=68", "wheel"]
+# Upper-bounded: setuptools >=81 restructured its internal legacy
+# build_editable path into a setuptools.backends.legacy module that isn't
+# actually shipped, breaking `uv sync`/`pip install -e .` with
+# ModuleNotFoundError: No module named 'setuptools.backends' on a fresh
+# environment that resolves the newest setuptools at build time.
+requires = ["setuptools>=68,<81", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]

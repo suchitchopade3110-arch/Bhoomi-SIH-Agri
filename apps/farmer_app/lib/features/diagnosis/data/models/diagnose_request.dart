@@ -9,13 +9,21 @@ class DiagnoseRequest {
     this.audioAssetId,
   });
 
-  Map<String, dynamic> toJson() => {
-        'image_asset_id': imageAssetId ?? 'asset_default',
-        'description_text': problemDescription,
-        'problem_description': problemDescription,
-        if (audioAssetId != null) 'description_asset_id': audioAssetId,
-        if (audioAssetId != null) 'audio_asset_id': audioAssetId,
-      };
+  Map<String, dynamic> toJson() {
+    assert(
+      imageAssetId != null,
+      'DiagnoseRequest requires a real presigned imageAssetId — the backend '
+      'has no text-only diagnosis path (see DiagnosisState.isValid, which '
+      'gates submission on this before toJson() is ever called).',
+    );
+    return {
+      'image_asset_id': imageAssetId,
+      'description_text': problemDescription,
+      'problem_description': problemDescription,
+      if (audioAssetId != null) 'description_asset_id': audioAssetId,
+      if (audioAssetId != null) 'audio_asset_id': audioAssetId,
+    };
+  }
 
   factory DiagnoseRequest.fromJson(Map<String, dynamic> json) {
     return DiagnoseRequest(

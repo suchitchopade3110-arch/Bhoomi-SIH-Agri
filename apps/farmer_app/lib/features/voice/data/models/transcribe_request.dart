@@ -4,11 +4,15 @@ class TranscribeRequest {
 
   const TranscribeRequest({
     required this.assetId,
-    this.lang = 'en-IN',
+    this.lang = 'ta',
   });
 
+  // Field names must match VoiceTranscribeRequest in
+  // services/api/app/schemas/voice.py exactly — audio_asset_id is a
+  // required field there, so sending "asset_id" instead left it missing
+  // and every transcribe call 422'd (checklist: voice pipeline gap).
   Map<String, dynamic> toJson() => {
-        'asset_id': assetId,
-        'lang': lang,
+        'audio_asset_id': assetId,
+        'language': lang,
       };
 }
