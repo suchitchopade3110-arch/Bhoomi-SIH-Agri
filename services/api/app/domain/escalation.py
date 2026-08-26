@@ -28,13 +28,18 @@ def compile_case_summary_bundle(
     treatments_tried: list[str] | None = None,
     followup_trend: str | None = None,
     current_advisory: str | None = None,
+    diagnosis: dict[str, Any] | None = None,
 ) -> CaseSummaryBundle:
-    """Compile the standardized 8-key CaseSummaryBundle (SIH26131).
+    """Compile the standardized CaseSummaryBundle (SIH26131).
 
-    Strictly:
+    Keys:
       crop, region, growth_stage, problem_history, images,
-      treatments_tried, followup_trend, current_advisory
-    No land/soil fields (e.g. area_acres_verified, soil_type) are present.
+      treatments_tried, followup_trend, current_advisory, diagnosis
+
+    Note on environmental_context:
+      Environmental/weather data is queried on-demand by live advisory services
+      via WeatherPort, rather than gathered into static offline case escalation bundles.
+      No environmental telemetry is currently captured at escalation compile-time.
     """
     clean_growth = growth_stage if growth_stage and growth_stage.lower() != "unknown" else "Stage unrecorded"
     clean_region = region if region and region.lower() != "unknown" else "Region unrecorded"
@@ -49,6 +54,7 @@ def compile_case_summary_bundle(
         treatments_tried=treatments_tried or [],
         followup_trend=clean_trend,
         current_advisory=current_advisory,
+        diagnosis=diagnosis,
     )
 
 
@@ -81,7 +87,7 @@ def build_case_summary(
         current_advisory_text: Phase 2 qualitative advisory text/trend.
 
     Returns:
-        A structured ``CaseSummary`` with an 8-key ``bundle`` ready to hand to an agronomist.
+        A structured ``CaseSummary`` with an escalation ``bundle`` ready to hand to an agronomist.
     """
     severity = problem_details.get("severity", ProblemSeverity.EARLY)
     severity_val = severity.value if isinstance(severity, ProblemSeverity) else str(severity)
@@ -104,9 +110,14 @@ def build_case_summary(
     trend = problem_details.get("trend") or farm_info.get("trend")
 
     label = problem_details.get("label")
+    diagnosis_obj: dict[str, Any] | None = None
     if label and str(label).strip() and str(label).strip().lower() not in ("unspecified", "unknown", "none", "an unspecified issue"):
         clean_label = str(label).replace("_", " ")
         problem_clause = f"{crop_name} showing {clean_label} symptoms (severity: {severity_val})"
+        diagnosis_obj = {
+            "label": str(label),
+            "confidence": problem_details.get("confidence"),
+        }
     else:
         problem_clause = f"{crop_name} under observation for {severity_val} severity symptoms"
 
@@ -137,6 +148,7 @@ def build_case_summary(
         treatments_tried=treatments_tried,
         followup_trend=trend if trend and str(trend).lower() not in ("unknown", "none", "") else None,
         current_advisory=current_advisory_text or summary_text,
+        diagnosis=diagnosis_obj,
     )
 
     raw_farmer_name = farm_info.get("farmer_name")

@@ -28,6 +28,9 @@ class CaseSummaryBundle(BaseModel):
     treatments_tried: list[str] = Field(default_factory=list)
     followup_trend: str | None = None
     current_advisory: str | None = None
+    diagnosis: dict[str, Any] | None = Field(
+        default=None, description="AI diagnosis summary: {label: str, confidence: float | None}"
+    )
 
 
 class CaseSummary(SpokenResponseMixin):

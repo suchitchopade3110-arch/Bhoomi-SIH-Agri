@@ -50,6 +50,7 @@ def test_case_pdf_payload_is_strict_superset_of_bundle():
         "treatments_tried",
         "followup_trend",
         "current_advisory",
+        "diagnosis",
     }
     assert bundle_keys == expected_bundle_keys
 
