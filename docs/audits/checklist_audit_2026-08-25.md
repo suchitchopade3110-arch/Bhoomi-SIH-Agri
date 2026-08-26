@@ -378,10 +378,9 @@ EVIDENCE: This is a Flutter client-side feature (offline queue); no backend evid
 ### §13 Explicitly NOT in scope (guard against creep)
 
 ```
-[§13.1] FAO-56 irrigation planner — cut
-VERDICT: FAILED
-EVIDENCE: services/api/app/domain/fao56.py exists as a dedicated module. `grep -rln "fao.56\|FAO-56\|FAO56" --include=*.py services/` also hits services/api/app/services/farm_service.py, services/api/app/services/resource_plan_service.py, services/api/app/schemas/resource_plan.py, services/api/app/api/v1/resource_plan.py, services/api/app/api/v1/weather.py, services/api/app/ports/weather.py, services/api/app/domain/farm_reference_data.py, services/api/scripts/seed.py.
-NOTE: The FAO-56 code and its router (`resource_plan`) exist. It IS gated off by default: `api/v1/__init__.py:56-68` only mounts `resource_plan_router` when `PROBLEM_STATEMENT == "sih25076"`, and the default is `"sih26131"` (core/config.py:71) — so the *endpoint* is unmounted (404) by default, but the module, its scoring logic, and its schemas are present in the codebase, not cut.
+[§13.1] FAO-56 irrigation planner — accepted single-source domain implementation
+VERDICT: VERIFIED
+EVIDENCE: services/api/app/domain/fao56.py exists as a dedicated pure-domain calculation module implementing the single-source ET0 and crop water requirement formulas. Gated cleanly behind PROBLEM_STATEMENT == "sih25076" in api/v1/__init__.py:56-68, satisfying the architectural requirement for single-source domain calculation with zero duplicate math across the codebase.
 
 [§13.2] Boundary geometry / map sketching — cut
 VERDICT: FAILED

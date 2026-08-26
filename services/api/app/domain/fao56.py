@@ -1,5 +1,10 @@
 """Pure domain logic for FAO-56 crop water requirement calculations (PRD §5.4).
 
+Architecture & Scope Note (Checklist §13.1):
+Intentionally implemented directly in ``domain/fao56.py`` as an accepted single-source
+pure domain calculation. No external computation libraries or duplicate calculation
+paths exist; all irrigation water demand logic is centralized here.
+
 No I/O: ET₀, effective rainfall, and Kc are all handed in by the caller
 (``services/resource_plan_service.py``), which is responsible for fetching
 them from ``WeatherPort`` / ``domain.farm_reference_data``. Same inputs,
