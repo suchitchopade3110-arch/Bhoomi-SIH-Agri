@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../api/api_exception.dart';
 import '../connectivity/connectivity_service.dart';
+import '../connectivity/network_state.dart';
 import '../storage/secure_storage_service.dart';
 import 'asset_upload_service.dart';
 import 'pending_upload.dart';
