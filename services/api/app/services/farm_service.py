@@ -95,7 +95,6 @@ def _to_farm_response(row: dict[str, Any]) -> FarmResponse:
         "primary_crop": row.get("primary_crop", ""),
         "growth_stage": row.get("growth_stage"),
         "soil_type": row.get("soil_type"),
-        "irrigation_source": row.get("irrigation_source"),
         "ui_mode": UiMode(row["ui_mode"]) if row.get("ui_mode") else UiMode.NOVICE,
     }
     if row.get("created_at") is not None:
