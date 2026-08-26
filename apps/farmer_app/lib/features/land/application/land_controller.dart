@@ -1,4 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../onboarding/data/farm_repository.dart';
+import '../../onboarding/data/models/farm_update_models.dart';
 import '../data/land_repository.dart';
 import '../data/models/land_record_response.dart';
 import '../data/models/land_submission_request.dart';
@@ -48,13 +50,14 @@ class LandState {
 final landControllerProvider =
     StateNotifierProvider<LandController, LandState>((ref) {
   final repository = ref.watch(landRepositoryProvider);
-  return LandController(repository);
+  return LandController(repository, ref);
 });
 
 class LandController extends StateNotifier<LandState> {
   final LandRepository _repository;
+  final Ref _ref;
 
-  LandController(this._repository) : super(const LandState());
+  LandController(this._repository, this._ref) : super(const LandState());
 
   void setSurveyNo(String surveyNo) {
     state = state.copyWith(surveyNo: surveyNo, errorMessage: null);
@@ -84,6 +87,12 @@ class LandController extends StateNotifier<LandState> {
         farmId: farmId,
         request: request,
       );
+
+      // Link land to farm in background
+      try {
+        final farmRepo = _ref.read(farmRepositoryProvider);
+        await farmRepo.submitFarmLand(farmId, ThinLandSubmissionRequest(surveyNumber: state.surveyNo));
+      } catch (_) {}
 
       state = state.copyWith(
         isSubmitting: false,

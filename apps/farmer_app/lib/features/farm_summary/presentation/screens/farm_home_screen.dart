@@ -22,6 +22,7 @@ import '../../../updates/application/updates_controller.dart';
 import '../../application/farm_summary_provider.dart';
 import '../../data/models/farm_summary.dart';
 import '../widgets/farm_identity_card.dart';
+import '../../../auth/presentation/providers/auth_providers.dart';
 
 class FarmHomeScreen extends ConsumerWidget {
   final String farmId;
@@ -224,7 +225,7 @@ class FarmHomeScreen extends ConsumerWidget {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         // Header Greeting & Farm Identity
-                        _buildHeader(summary.farm.crop, summary.farm.landStatus, strings),
+                        _buildHeader(ref, summary.farm.crop, summary.farm.landStatus, strings),
 
                         const SizedBox(height: AppSpacing.lg),
 
@@ -319,7 +320,13 @@ class FarmHomeScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildHeader(String crop, String landStatus, BhoomiStrings strings) {
+  Widget _buildHeader(WidgetRef ref, String crop, String landStatus, BhoomiStrings strings) {
+    final userAsync = ref.watch(currentUserProvider);
+    final greetingText = userAsync.maybeWhen(
+      data: (user) => user.fullName.isNotEmpty ? 'Welcome, ${user.fullName}' : strings.dailyCompanion,
+      orElse: () => strings.dailyCompanion,
+    );
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -328,7 +335,7 @@ class FarmHomeScreen extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                strings.dailyCompanion,
+                greetingText,
                 style: AppTypography.bodyMedium.copyWith(
                   color: AppColors.textMuted,
                   fontWeight: FontWeight.w500,

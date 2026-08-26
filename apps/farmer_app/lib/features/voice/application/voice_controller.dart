@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/audio/audio_playback_service.dart';
 import '../../../core/audio/audio_recording_service.dart';
 import '../../../core/upload/asset_upload_service.dart';
+import '../data/models/confirm_field_models.dart';
 import '../data/models/transcribe_response.dart';
 import '../data/voice_repository.dart';
 import 'voice_state.dart';
@@ -160,6 +161,26 @@ class VoiceController extends StateNotifier<VoiceState> {
   void stopPlayback() {
     _playbackService.stop();
     state = state.copyWith(isPlaying: false);
+  }
+
+  Future<ConfirmFieldResponse?> confirmVoiceField({
+    required String field,
+    required dynamic confirmedValue,
+    required bool isConfirmed,
+    String? correctionText,
+  }) async {
+    try {
+      final req = ConfirmFieldRequest(
+        field: field,
+        confirmedValue: confirmedValue,
+        isConfirmed: isConfirmed,
+        correctionText: correctionText,
+      );
+      final res = await _repository.confirmField(req);
+      return res;
+    } catch (_) {
+      return null;
+    }
   }
 
   void reset() {

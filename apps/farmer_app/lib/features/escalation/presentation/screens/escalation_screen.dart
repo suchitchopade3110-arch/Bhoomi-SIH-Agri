@@ -307,6 +307,12 @@ class _EscalationScreenState extends ConsumerState<EscalationScreen> {
                 ),
                 const SizedBox(height: AppSpacing.sm),
                 BhoomiSecondaryButton(
+                  text: 'Share Case PDF Payload',
+                  icon: Icons.picture_as_pdf_rounded,
+                  onPressed: () => _shareCasePdf(context, ref, state.response!.caseId),
+                ),
+                const SizedBox(height: AppSpacing.sm),
+                BhoomiSecondaryButton(
                   text: 'Return to Farm Home',
                   icon: Icons.home_rounded,
                   onPressed: () {
@@ -318,6 +324,91 @@ class _EscalationScreenState extends ConsumerState<EscalationScreen> {
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  void _shareCasePdf(BuildContext context, WidgetRef ref, String caseId) async {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => const Center(child: CircularProgressIndicator(color: AppColors.primaryGreen)),
+    );
+
+    try {
+      final payload = await ref.read(casePdfPayloadProvider(caseId).future);
+      if (context.mounted) {
+        Navigator.pop(context); // Dismiss loading indicator
+        
+        showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppSpacing.radiusLg)),
+              title: const Row(
+                children: [
+                  Icon(Icons.picture_as_pdf_rounded, color: Color(0xFFC62828)),
+                  SizedBox(width: AppSpacing.sm),
+                  Text('Case PDF Details', style: TextStyle(fontWeight: FontWeight.w800)),
+                ],
+              ),
+              content: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Text('Below is the structured agronomist case summary payload:', style: TextStyle(fontSize: 12.0, color: AppColors.textSecondary)),
+                    const SizedBox(height: AppSpacing.md),
+                    _buildPopupDetailRow('Case Identifier', payload.caseId),
+                    _buildPopupDetailRow('Created At', payload.generatedAt),
+                    _buildPopupDetailRow('Crop', payload.bundle.crop),
+                    _buildPopupDetailRow('Region', payload.bundle.region),
+                    _buildPopupDetailRow('Growth Stage', payload.bundle.growthStage),
+                    _buildPopupDetailRow('Severity', payload.severity),
+                    _buildPopupDetailRow('Summary', payload.summaryHeadline),
+                    _buildPopupDetailRow('Recommended', payload.prescribedActionsSummary ?? 'None'),
+                    _buildPopupDetailRow('Treatments Tried', payload.bundle.treatmentsTried.join(', ')),
+                    const SizedBox(height: AppSpacing.md),
+                    const Divider(),
+                    const SizedBox(height: AppSpacing.sm),
+                    const Text('PDF Share Link:', style: TextStyle(fontSize: 12.0, fontWeight: FontWeight.bold)),
+                    const SizedBox(height: 2.0),
+                    SelectableText(
+                      payload.shareUrl ?? '',
+                      style: const TextStyle(fontSize: 11.5, color: Colors.blue, decoration: TextDecoration.underline),
+                    ),
+                  ],
+                ),
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text('Close'),
+                ),
+              ],
+            );
+          },
+        );
+      }
+    } catch (e) {
+      if (context.mounted) {
+        Navigator.pop(context); // Dismiss loading indicator
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Failed to load Case PDF: $e')),
+        );
+      }
+    }
+  }
+
+  Widget _buildPopupDetailRow(String label, String value) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: AppSpacing.xs),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(label, style: const TextStyle(fontSize: 10.0, fontWeight: FontWeight.w700, color: AppColors.textMuted)),
+          Text(value, style: const TextStyle(fontSize: 12.0, color: AppColors.textPrimary)),
+        ],
       ),
     );
   }

@@ -7,6 +7,9 @@ import '../../../../core/localization/bhoomi_localizations.dart';
 import '../../../../core/widgets/bhoomi_card.dart';
 import '../../../land/presentation/widgets/land_status_badge.dart';
 import '../../data/models/farm_summary.dart';
+import '../../../onboarding/data/farm_repository.dart';
+import '../../../onboarding/data/models/farm_update_models.dart';
+import '../../application/farm_summary_provider.dart';
 
 class FarmIdentityCard extends ConsumerWidget {
   final FarmIdentity farm;
@@ -51,7 +54,20 @@ class FarmIdentityCard extends ConsumerWidget {
                 ),
               ),
               const SizedBox(width: AppSpacing.xs),
-              LandStatusBadge(status: farm.landStatus),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  LandStatusBadge(status: farm.landStatus),
+                  const SizedBox(width: AppSpacing.xs),
+                  IconButton(
+                    icon: const Icon(Icons.edit_outlined, color: AppColors.primaryGreen, size: 20.0),
+                    tooltip: 'Edit Farm Info',
+                    constraints: const BoxConstraints(),
+                    padding: EdgeInsets.zero,
+                    onPressed: () => _showEditFarmSheet(context, ref, farm),
+                  ),
+                ],
+              ),
             ],
           ),
           const SizedBox(height: AppSpacing.md),
@@ -101,6 +117,130 @@ class FarmIdentityCard extends ConsumerWidget {
           ),
         ],
       ),
+    );
+  }
+
+  void _showEditFarmSheet(BuildContext context, WidgetRef ref, FarmIdentity farm) {
+    String crop = farm.crop;
+    String stage = 'tillering';
+
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.white,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(AppSpacing.radiusXl)),
+      ),
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return Padding(
+              padding: EdgeInsets.only(
+                left: AppSpacing.lg,
+                right: AppSpacing.lg,
+                top: AppSpacing.lg,
+                bottom: MediaQuery.of(context).viewInsets.bottom + AppSpacing.lg,
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  const Text(
+                    'Edit Farm Information',
+                    style: TextStyle(
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.w800,
+                      color: AppColors.primaryDeepGreen,
+                    ),
+                  ),
+                  const SizedBox(height: AppSpacing.md),
+                  const Divider(color: AppColors.divider),
+                  const SizedBox(height: AppSpacing.md),
+                  const Text('Primary Crop', style: TextStyle(fontSize: 12.0, fontWeight: FontWeight.w600, color: AppColors.textMuted)),
+                  const SizedBox(height: AppSpacing.xs),
+                  DropdownButtonFormField<String>(
+                    initialValue: crop,
+                    items: const [
+                      DropdownMenuItem(value: 'samba_paddy', child: Text('Paddy (Samba)')),
+                      DropdownMenuItem(value: 'kuruvai_paddy', child: Text('Paddy (Kuruvai)')),
+                      DropdownMenuItem(value: 'maize', child: Text('Maize')),
+                    ],
+                    onChanged: (val) {
+                      if (val != null) {
+                        setState(() => crop = val);
+                      }
+                    },
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: AppColors.background,
+                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(AppSpacing.radiusMd)),
+                    ),
+                  ),
+                  const SizedBox(height: AppSpacing.md),
+                  const Text('Growth Stage', style: TextStyle(fontSize: 12.0, fontWeight: FontWeight.w600, color: AppColors.textMuted)),
+                  const SizedBox(height: AppSpacing.xs),
+                  DropdownButtonFormField<String>(
+                    initialValue: stage,
+                    items: const [
+                      DropdownMenuItem(value: 'vegetative', child: Text('Vegetative Stage')),
+                      DropdownMenuItem(value: 'tillering', child: Text('Tillering Stage')),
+                      DropdownMenuItem(value: 'flowering', child: Text('Flowering Stage')),
+                      DropdownMenuItem(value: 'maturity', child: Text('Maturity Stage')),
+                    ],
+                    onChanged: (val) {
+                      if (val != null) {
+                        setState(() => stage = val);
+                      }
+                    },
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: AppColors.background,
+                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(AppSpacing.radiusMd)),
+                    ),
+                  ),
+                  const SizedBox(height: AppSpacing.xl),
+                  ElevatedButton(
+                    onPressed: () async {
+                      try {
+                        final req = FarmUpdateRequest(
+                          primaryCrop: crop,
+                          growthStage: stage,
+                          soilType: 'clay_loam',
+                          irrigationSource: 'canal',
+                        );
+                        await ref.read(farmRepositoryProvider).updateFarm(farm.id, req);
+                        ref.invalidate(farmSummaryProvider(farm.id));
+                        if (context.mounted) {
+                          Navigator.pop(context);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Farm information updated successfully.'),
+                              backgroundColor: AppColors.primaryGreen,
+                            ),
+                          );
+                        }
+                      } catch (e) {
+                        if (context.mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('Failed to update farm: $e')),
+                          );
+                        }
+                      }
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.primaryGreen,
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppSpacing.radiusMd)),
+                    ),
+                    child: const Text('Save Changes', style: TextStyle(fontWeight: FontWeight.w700)),
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+      },
     );
   }
 }
