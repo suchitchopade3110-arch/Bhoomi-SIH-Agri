@@ -6,6 +6,7 @@ import '../../../../app/theme/app_spacing.dart';
 import '../../../../app/theme/app_typography.dart';
 import '../../../../core/widgets/bhoomi_card.dart';
 import '../../../../core/widgets/bhoomi_primary_button.dart';
+import '../../../onboarding/data/farm_repository.dart';
 import '../../data/auth_repository.dart';
 import '../../data/models/auth_models.dart';
 import '../providers/auth_providers.dart';
@@ -67,8 +68,11 @@ class _OtpVerifyScreenState extends ConsumerState<OtpVerifyScreen> {
             ),
           );
 
+      // Route to the user's actual farm (there may be none yet), never a
+      // hardcoded placeholder id — see FarmRepository.firstFarmId().
+      final farmId = await ref.read(farmRepositoryProvider).firstFarmId();
       if (mounted) {
-        context.go('/home/f_1');
+        context.go(farmId != null ? '/home/$farmId' : '/onboarding');
       }
     } catch (e) {
       setState(() {

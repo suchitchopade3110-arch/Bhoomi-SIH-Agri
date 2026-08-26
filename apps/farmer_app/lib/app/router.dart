@@ -18,6 +18,7 @@ import '../features/health/presentation/screens/health_history_screen.dart';
 import '../features/land/presentation/screens/land_boundary_screen.dart';
 import '../features/land/presentation/screens/land_details_screen.dart';
 import '../features/land/presentation/screens/land_status_screen.dart';
+import '../features/onboarding/data/farm_repository.dart';
 import '../features/onboarding/presentation/screens/confirm_farm_screen.dart';
 import '../features/onboarding/presentation/screens/language_selection_screen.dart';
 import '../features/onboarding/presentation/screens/onboarding_screen.dart';
@@ -49,7 +50,7 @@ final routerProvider = Provider<GoRouter>((ref) {
   return GoRouter(
     refreshListenable: notifier,
     initialLocation: '/welcome',
-    redirect: (context, state) {
+    redirect: (context, state) async {
       final authValue = ref.read(authStateProvider);
 
       // Do not redirect while initial auth token check is in progress
@@ -76,7 +77,10 @@ final routerProvider = Provider<GoRouter>((ref) {
            state.matchedLocation == '/register' ||
            state.matchedLocation == '/welcome' ||
            state.matchedLocation == '/auth')) {
-        return '/home/f_1';
+        // Route to the user's actual farm, never a hardcoded placeholder id
+        // that may not exist server-side — see FarmRepository.firstFarmId().
+        final farmId = await ref.read(farmRepositoryProvider).firstFarmId();
+        return farmId != null ? '/home/$farmId' : '/onboarding';
       }
 
       return null;

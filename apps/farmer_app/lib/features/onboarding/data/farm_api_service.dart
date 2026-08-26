@@ -15,6 +15,17 @@ class FarmApiService {
 
   FarmApiService(this._apiClient);
 
+  /// GET /farms — every farm owned by the authenticated user. The router's
+  /// post-login/post-OTP-verify redirect uses this to find a real farm_id
+  /// instead of navigating to a hardcoded one that won't exist server-side.
+  Future<List<Map<String, dynamic>>> listMyFarms() async {
+    final response = await _apiClient.get(ApiConstants.farms);
+    if (response.data is List) {
+      return (response.data as List).cast<Map<String, dynamic>>();
+    }
+    throw Exception('Unexpected response format from farm listing API.');
+  }
+
   Future<CreateFarmResponse> createFarm(CreateFarmRequest request) async {
     try {
       final response = await _apiClient.post(
