@@ -16,6 +16,7 @@ import '../../../home/presentation/widgets/latest_update_preview.dart';
 import '../../../home/presentation/widgets/quick_action_grid.dart';
 import '../../../land/presentation/widgets/land_status_badge.dart';
 import '../../../onboarding/data/farm_api_service.dart';
+import '../../../onboarding/data/farm_repository.dart';
 import '../../../onboarding/data/models/farm_update_models.dart';
 import '../../../schemes/application/schemes_controller.dart';
 import '../../../updates/application/updates_controller.dart';
@@ -31,6 +32,75 @@ class FarmHomeScreen extends ConsumerWidget {
     super.key,
     required this.farmId,
   });
+
+  void _showFarmSwitcher(BuildContext context, WidgetRef ref) {
+    final myFarmsAsync = ref.read(myFarmsProvider);
+    myFarmsAsync.whenData((farms) {
+      if (farms.length <= 1) return;
+
+      showModalBottomSheet(
+        context: context,
+        backgroundColor: AppColors.surface,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(AppSpacing.radiusLg)),
+        ),
+        builder: (ctx) {
+          return Padding(
+            padding: const EdgeInsets.all(AppSpacing.lg),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      'Select Active Farm',
+                      style: TextStyle(fontWeight: FontWeight.w800, fontSize: 18.0),
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.close_rounded),
+                      onPressed: () => Navigator.pop(ctx),
+                    ),
+                  ],
+                ),
+                const Divider(color: AppColors.divider),
+                ...farms.map((f) {
+                  final isCurrent = f.id == farmId;
+                  return ListTile(
+                    contentPadding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm, vertical: 2.0),
+                    leading: CircleAvatar(
+                      backgroundColor: isCurrent ? AppColors.primaryGreen : AppColors.background,
+                      child: Icon(
+                        Icons.agriculture_rounded,
+                        color: isCurrent ? Colors.white : AppColors.primaryGreen,
+                        size: 20,
+                      ),
+                    ),
+                    title: Text(
+                      f.farmName,
+                      style: TextStyle(
+                        fontWeight: isCurrent ? FontWeight.w800 : FontWeight.w600,
+                        color: isCurrent ? AppColors.primaryGreen : AppColors.textPrimary,
+                      ),
+                    ),
+                    subtitle: Text('${f.primaryCrop} • ${f.village}, ${f.district}'),
+                    trailing: isCurrent ? const Icon(Icons.check_circle_rounded, color: AppColors.primaryGreen) : null,
+                    onTap: () {
+                      Navigator.pop(ctx);
+                      if (!isCurrent) {
+                        context.go('/home/${f.id}');
+                      }
+                    },
+                  );
+                }),
+              ],
+            ),
+          );
+        },
+      );
+    });
+  }
 
   void _showLanguageSwitcher(BuildContext context, WidgetRef ref) {
     showModalBottomSheet(
@@ -225,7 +295,7 @@ class FarmHomeScreen extends ConsumerWidget {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         // Header Greeting & Farm Identity
-                        _buildHeader(ref, summary.farm.crop, summary.farm.landStatus, strings),
+                        _buildHeader(context, ref, summary.farm.crop, summary.farm.landStatus, strings),
 
                         const SizedBox(height: AppSpacing.lg),
 
@@ -320,8 +390,14 @@ class FarmHomeScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildHeader(WidgetRef ref, String crop, String landStatus, BhoomiStrings strings) {
+  Widget _buildHeader(BuildContext context, WidgetRef ref, String crop, String landStatus, BhoomiStrings strings) {
     final userAsync = ref.watch(currentUserProvider);
+    final myFarmsAsync = ref.watch(myFarmsProvider);
+    final hasMultipleFarms = myFarmsAsync.maybeWhen(
+      data: (farms) => farms.length > 1,
+      orElse: () => false,
+    );
+
     final greetingText = userAsync.maybeWhen(
       data: (user) => user.fullName.isNotEmpty ? 'Welcome, ${user.fullName}' : strings.dailyCompanion,
       orElse: () => strings.dailyCompanion,
@@ -341,13 +417,26 @@ class FarmHomeScreen extends ConsumerWidget {
                   fontWeight: FontWeight.w500,
                 ),
               ),
-              Text(
-                strings.myFarm,
-                style: const TextStyle(
-                  fontSize: 26.0,
-                  fontWeight: FontWeight.w900,
-                  color: AppColors.textPrimary,
-                  letterSpacing: -0.5,
+              InkWell(
+                onTap: hasMultipleFarms ? () => _showFarmSwitcher(context, ref) : null,
+                borderRadius: BorderRadius.circular(AppSpacing.radiusSm),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      strings.myFarm,
+                      style: const TextStyle(
+                        fontSize: 26.0,
+                        fontWeight: FontWeight.w900,
+                        color: AppColors.textPrimary,
+                        letterSpacing: -0.5,
+                      ),
+                    ),
+                    if (hasMultipleFarms) ...[
+                      const SizedBox(width: 4.0),
+                      const Icon(Icons.arrow_drop_down_rounded, color: AppColors.primaryGreen, size: 28.0),
+                    ],
+                  ],
                 ),
               ),
             ],

@@ -21,7 +21,7 @@ async def reset():
     await seed_demo()
 
     print("\n2. Loading 8 ICAR/TNAU curated corpus documents into pgvector...")
-    await load_corpus(corpus_dir="corpus/", dry_run=False)
+    await load_corpus(corpus_dirs=["corpus/"], dry_run=False)
 
     print("\n3. Seeding full stage history (82 -> 68 -> 59 -> 86)...")
     await seed_stage("full")
