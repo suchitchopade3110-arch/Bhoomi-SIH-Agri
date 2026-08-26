@@ -21,7 +21,7 @@ class SchemesScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final schemesAsync = ref.watch(schemesListProvider(farmId));
+    final schemesAsync = ref.watch(farmScopedSchemesProvider(farmId));
     final strings = ref.watch(bhoomiStringsProvider);
 
     return Scaffold(
@@ -33,7 +33,7 @@ class SchemesScreen extends ConsumerWidget {
             icon: const Icon(Icons.refresh_rounded),
             tooltip: strings.text('refresh_status'),
             onPressed: () {
-              ref.invalidate(schemesListProvider(farmId));
+              ref.invalidate(farmScopedSchemesProvider(farmId));
             },
           ),
         ],
@@ -96,7 +96,7 @@ class SchemesScreen extends ConsumerWidget {
                     const SizedBox(height: AppSpacing.lg),
                     BhoomiPrimaryButton(
                       text: strings.retry,
-                      onPressed: () => ref.invalidate(schemesListProvider(farmId)),
+                      onPressed: () => ref.invalidate(farmScopedSchemesProvider(farmId)),
                     ),
                   ],
                 ),

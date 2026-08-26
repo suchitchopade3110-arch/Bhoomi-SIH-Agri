@@ -540,8 +540,22 @@ class OnboardingScreen extends ConsumerWidget {
             backgroundColor: Colors.transparent,
             builder: (ctx) => VoiceConfirmationSheet(
               transcription: transcription,
-              onConfirm: () => Navigator.of(ctx).pop(true),
-              onCancel: () => Navigator.of(ctx).pop(false),
+              onConfirm: () {
+                ref.read(voiceControllerProvider.notifier).confirmVoiceField(
+                  field: field,
+                  confirmedValue: matchedValue,
+                  isConfirmed: true,
+                );
+                Navigator.of(ctx).pop(true);
+              },
+              onCancel: () {
+                ref.read(voiceControllerProvider.notifier).confirmVoiceField(
+                  field: field,
+                  confirmedValue: matchedValue,
+                  isConfirmed: false,
+                );
+                Navigator.of(ctx).pop(false);
+              },
             ),
           );
 

@@ -8,6 +8,7 @@ import '../../../../core/widgets/bhoomi_loading_view.dart';
 import '../../../../core/widgets/bhoomi_primary_button.dart';
 import '../../../voice/application/voice_controller.dart';
 import '../../application/daily_brief_controller.dart';
+import '../../../guidance/presentation/providers/guidance_providers.dart';
 
 class TodaysFarmBriefScreen extends ConsumerStatefulWidget {
   final String farmId;
@@ -252,12 +253,149 @@ class _TodaysFarmBriefScreenState extends ConsumerState<TodaysFarmBriefScreen> {
                   );
                 }),
 
+                const SizedBox(height: AppSpacing.lg),
+                _buildInterimGuidanceSection(ref, brief.crop),
+                _buildGeneralGuidanceSection(ref),
+
                 const SizedBox(height: AppSpacing.xl),
               ],
             ),
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildGeneralGuidanceSection(WidgetRef ref) {
+    final guidanceListAsync = ref.watch(guidanceListProvider);
+
+    return guidanceListAsync.when(
+      loading: () => const SizedBox.shrink(),
+      error: (_, __) => const SizedBox.shrink(),
+      data: (cards) {
+        if (cards.isEmpty) return const SizedBox.shrink();
+
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(height: AppSpacing.lg),
+            const Text(
+              'General Field Guidance',
+              style: TextStyle(
+                fontSize: 16.0,
+                fontWeight: FontWeight.w800,
+                color: AppColors.textPrimary,
+              ),
+            ),
+            const SizedBox(height: AppSpacing.sm),
+            ...cards.map((card) => Padding(
+                  padding: const EdgeInsets.only(bottom: AppSpacing.sm),
+                  child: BhoomiCard(
+                    padding: const EdgeInsets.all(AppSpacing.md),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.all(4.0),
+                              decoration: const BoxDecoration(
+                                color: AppColors.lightGreen,
+                                shape: BoxShape.circle,
+                              ),
+                              child: const Icon(Icons.eco_rounded, size: 16.0, color: AppColors.primaryGreen),
+                            ),
+                            const SizedBox(width: AppSpacing.xs + 2),
+                            Expanded(
+                              child: Text(
+                                card.title,
+                                style: const TextStyle(
+                                  fontSize: 13.5,
+                                  fontWeight: FontWeight.w700,
+                                  color: AppColors.textPrimary,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        if (card.containmentAdvice.isNotEmpty) ...[
+                          const SizedBox(height: 4.0),
+                          Text(
+                            card.containmentAdvice,
+                            style: const TextStyle(fontSize: 12.0, color: AppColors.textSecondary, height: 1.3),
+                          ),
+                        ],
+                      ],
+                    ),
+                  ),
+                )),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget _buildInterimGuidanceSection(WidgetRef ref, String cropName) {
+    // Standardize crop name to match containment guide endpoint query format
+    final cleanCrop = cropName.toLowerCase().replaceAll(' ', '_');
+    final guidanceAsync = ref.watch(cropGuidanceProvider(CropGuidanceParams(crop: cleanCrop)));
+
+    return guidanceAsync.when(
+      loading: () => const SizedBox.shrink(),
+      error: (_, __) => const SizedBox.shrink(),
+      data: (guidance) {
+        return BhoomiCard(
+          padding: const EdgeInsets.all(AppSpacing.lg),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(AppSpacing.xs + 2),
+                    decoration: const BoxDecoration(
+                      color: AppColors.lightGreen,
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Icon(Icons.shield_outlined, size: 18.0, color: AppColors.primaryGreen),
+                  ),
+                  const SizedBox(width: AppSpacing.sm),
+                  Expanded(
+                    child: Text(
+                      guidance.title.isNotEmpty ? guidance.title : 'Crop Containment Guide',
+                      style: const TextStyle(
+                        fontSize: 15.0,
+                        fontWeight: FontWeight.w800,
+                        color: AppColors.textPrimary,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const Divider(color: AppColors.divider, height: AppSpacing.lg),
+              const Text(
+                'Containment Advice:',
+                style: TextStyle(fontSize: 12.0, fontWeight: FontWeight.w800, color: AppColors.textPrimary),
+              ),
+              const SizedBox(height: 2.0),
+              Text(
+                guidance.containmentAdvice,
+                style: const TextStyle(fontSize: 12.5, color: AppColors.textSecondary, height: 1.35),
+              ),
+              const SizedBox(height: AppSpacing.md),
+              const Text(
+                'What to Avoid:',
+                style: TextStyle(fontSize: 12.0, fontWeight: FontWeight.w800, color: Color(0xFFC62828)),
+              ),
+              const SizedBox(height: 2.0),
+              Text(
+                guidance.whatToAvoid,
+                style: const TextStyle(fontSize: 12.5, color: AppColors.textSecondary, height: 1.35),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 

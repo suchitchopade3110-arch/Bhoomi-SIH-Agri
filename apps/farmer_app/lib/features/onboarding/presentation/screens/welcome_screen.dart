@@ -176,7 +176,7 @@ class WelcomeScreen extends StatelessWidget {
                         text: 'Join Now',
                         icon: Icons.arrow_forward_rounded,
                         onPressed: () {
-                          context.push('/language-select');
+                          context.push('/register');
                         },
                       ),
 
@@ -185,7 +185,7 @@ class WelcomeScreen extends StatelessWidget {
                       // Secondary Action: I'm Already a User
                       TextButton(
                         onPressed: () {
-                          context.push('/language-select');
+                          context.push('/login');
                         },
                         style: TextButton.styleFrom(
                           foregroundColor: AppColors.primaryGreen,

@@ -121,11 +121,21 @@ class _AskBhoomiScreenState extends ConsumerState<AskBhoomiScreen> {
                             builder: (_) => VoiceConfirmationSheet(
                               transcription: transcription,
                               onConfirm: () {
+                                ref.read(voiceControllerProvider.notifier).confirmVoiceField(
+                                  field: 'problem_description',
+                                  confirmedValue: transcription.text,
+                                  isConfirmed: true,
+                                );
                                 Navigator.pop(context);
                                 _textController.text = transcription.text;
                                 diagnosisController.setProblemDescription(transcription.text);
                               },
                               onCancel: () {
+                                ref.read(voiceControllerProvider.notifier).confirmVoiceField(
+                                  field: 'problem_description',
+                                  confirmedValue: transcription.text,
+                                  isConfirmed: false,
+                                );
                                 Navigator.pop(context);
                                 voiceController.reset();
                               },

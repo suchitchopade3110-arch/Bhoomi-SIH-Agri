@@ -27,10 +27,7 @@ class ApiClient {
       InterceptorsWrapper(
         onRequest: (options, handler) async {
           if (!options.path.contains('/auth/')) {
-            var token = await _storageService.getAuthToken();
-            if (token == null || token.isEmpty) {
-              token = await _ensureFarmerSessionToken();
-            }
+            final token = await _storageService.getAuthToken();
             if (token != null && token.isNotEmpty) {
               options.headers[ApiConstants.authorizationHeader] = 'Bearer $token';
             }
@@ -42,65 +39,6 @@ class ApiClient {
         },
       ),
     );
-  }
-
-  Future<String?> _ensureFarmerSessionToken() async {
-    try {
-      final authDio = Dio(
-        BaseOptions(
-          baseUrl: ApiConstants.baseApiUrl,
-          connectTimeout: const Duration(seconds: 4),
-          receiveTimeout: const Duration(seconds: 4),
-        ),
-      );
-
-      // Attempt login with default demo farmer
-      try {
-        final loginRes = await authDio.post(
-          ApiConstants.authLogin,
-          data: {
-            'phone_number': '+919876543210',
-            'password': 'Password123!',
-          },
-        );
-        if (loginRes.statusCode == 200 && loginRes.data is Map) {
-          final token = loginRes.data['access_token']?.toString();
-          if (token != null && token.isNotEmpty) {
-            await _storageService.saveAuthToken(token);
-            return token;
-          }
-        }
-      } catch (_) {
-        // If not registered yet, register demo farmer and login
-        try {
-          await authDio.post(
-            ApiConstants.authRegister,
-            data: {
-              'phone_number': '+919876543210',
-              'full_name': 'Bhoomi Farmer',
-              'role': 'farmer',
-              'preferred_language': 'ta',
-              'password': 'Password123!',
-            },
-          );
-          final loginRes = await authDio.post(
-            ApiConstants.authLogin,
-            data: {
-              'phone_number': '+919876543210',
-              'password': 'Password123!',
-            },
-          );
-          if (loginRes.statusCode == 200 && loginRes.data is Map) {
-            final token = loginRes.data['access_token']?.toString();
-            if (token != null && token.isNotEmpty) {
-              await _storageService.saveAuthToken(token);
-              return token;
-            }
-          }
-        } catch (_) {}
-      }
-    } catch (_) {}
-    return null;
   }
 
   Future<Response<T>> get<T>(
