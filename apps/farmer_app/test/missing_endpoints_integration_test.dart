@@ -7,6 +7,7 @@ import 'package:farmer_app/features/guidance/data/models/guidance_card_model.dar
 import 'package:farmer_app/features/alerts/data/models/alert_models.dart';
 import 'package:farmer_app/features/treatments/data/models/treatment_efficacy_model.dart';
 import 'package:farmer_app/features/escalation/data/models/case_pdf_payload_model.dart';
+import 'package:farmer_app/features/onboarding/data/models/farm_model.dart';
 import 'package:farmer_app/features/system/data/models/system_health_model.dart';
 
 void main() {
@@ -210,6 +211,33 @@ void main() {
       expect(health.db, 'ok');
       expect(health.corpusDocs, 8);
       expect(health.ragRelevanceThresholdActive, 0.18);
+    });
+
+    test('9. Multi-Farm List Schemas match backend contract', () {
+      expect(ApiConstants.farms, '/api/v1/farms');
+
+      final farm = FarmModel.fromJson({
+        'id': 'f_erode_01',
+        'farm_name': 'Cauvery Delta Paddy',
+        'farmer_id': 'u123',
+        'village': 'Perundurai',
+        'taluk': 'Erode',
+        'district': 'Erode',
+        'state': 'Tamil Nadu',
+        'primary_crop': 'Samba Paddy',
+        'growth_stage': 'vegetative',
+        'soil_type': 'Clay Loam',
+        'total_area_acres': 2.5,
+        'survey_number': '104/2A',
+        'land_status': 'verified',
+      });
+
+      expect(farm.id, 'f_erode_01');
+      expect(farm.farmName, 'Cauvery Delta Paddy');
+      expect(farm.village, 'Perundurai');
+      expect(farm.district, 'Erode');
+      expect(farm.totalAreaAcres, 2.5);
+      expect(farm.landStatus, 'verified');
     });
   });
 }

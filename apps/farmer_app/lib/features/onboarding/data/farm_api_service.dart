@@ -4,6 +4,7 @@ import '../../../core/api/api_exception.dart';
 import '../../../shared/constants/api_constants.dart';
 import 'models/create_farm_request.dart';
 import 'models/create_farm_response.dart';
+import 'models/farm_model.dart';
 import 'models/farm_update_models.dart';
 
 final farmApiServiceProvider = Provider<FarmApiService>((ref) {
@@ -24,6 +25,37 @@ class FarmApiService {
       return (response.data as List).cast<Map<String, dynamic>>();
     }
     throw Exception('Unexpected response format from farm listing API.');
+  }
+
+  Future<List<FarmModel>> listFarms() async {
+    try {
+      final response = await _apiClient.get(ApiConstants.farms);
+      if (response.data is List) {
+        return (response.data as List)
+            .map((e) => FarmModel.fromJson(e as Map<String, dynamic>))
+            .toList();
+      }
+      return [];
+    } on NetworkException {
+      if (ApiConstants.enableMockFallback) {
+        return const [
+          FarmModel(
+            id: 'f_1',
+            farmName: 'My Paddy Farm',
+            village: 'Perundurai',
+            taluk: 'Erode',
+            district: 'Erode',
+            primaryCrop: 'Samba Paddy',
+            soilType: 'Clay Loam',
+            totalAreaAcres: 2.0,
+            landStatus: 'verified',
+          ),
+        ];
+      }
+      rethrow;
+    } catch (_) {
+      return [];
+    }
   }
 
   Future<CreateFarmResponse> createFarm(CreateFarmRequest request) async {
