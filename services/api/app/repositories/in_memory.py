@@ -8,8 +8,6 @@ import uuid
 from app.core.errors import NotFoundError
 from app.domain.alerts.models import ClusterCase
 from app.domain.geo import haversine_distance_km
-from app.domain.rag.constants import DISEASE_DOC_ID_PREFIX, PEST_DOC_ID_PREFIX
-from app.domain.rag.scoping import get_target_type_prefix
 from app.domain.rag.similarity import cosine_similarity
 from app.repositories.interfaces import RetrievedChunk
 
@@ -199,6 +197,8 @@ class _StoredChunk:
     reviewed_on: date
     chunk_text: str
     embedding: list[float]
+    content_type: str | None = None
+    crop: str | None = None
 
 
 class InMemoryKnowledgeChunkRepository:
@@ -224,9 +224,19 @@ class InMemoryKnowledgeChunkRepository:
         chunk_index: int,
         chunk_text: str,
         embedding: list[float],
+        content_type: str | None = None,
+        crop: str | None = None,
     ) -> None:
         self._chunks.append(
-            _StoredChunk(doc_id=doc_id, title=title, reviewed_on=reviewed_on, chunk_text=chunk_text, embedding=embedding)
+            _StoredChunk(
+                doc_id=doc_id,
+                title=title,
+                reviewed_on=reviewed_on,
+                chunk_text=chunk_text,
+                embedding=embedding,
+                content_type=content_type,
+                crop=crop,
+            )
         )
 
     async def commit(self) -> None:
@@ -236,14 +246,8 @@ class InMemoryKnowledgeChunkRepository:
         self, query_embedding: list[float], top_k: int, content_type: str | None = None
     ) -> list[RetrievedChunk]:
         candidates = self._chunks
-        if content_type == "pest":
-            candidates = [c for c in candidates if c.doc_id.startswith(PEST_DOC_ID_PREFIX)]
-        elif content_type == "disease":
-            candidates = [
-                c
-                for c in candidates
-                if c.doc_id.startswith(DISEASE_DOC_ID_PREFIX) or not c.doc_id.startswith(PEST_DOC_ID_PREFIX)
-            ]
+        if content_type is not None:
+            candidates = [c for c in candidates if c.content_type == content_type]
 
         scored = [
             RetrievedChunk(

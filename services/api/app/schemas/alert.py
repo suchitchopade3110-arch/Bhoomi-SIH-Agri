@@ -4,6 +4,7 @@ build order Step 4 — ``/acknowledge``, correcting the delta spec's earlier
 
 from datetime import datetime
 from pydantic import BaseModel, Field
+from app.schemas.common import SpokenResponseMixin
 
 
 class AlertItem(BaseModel):
@@ -31,7 +32,7 @@ class AlertAcknowledgeRequest(BaseModel):
     reason: str = Field(default="action_taken")
 
 
-class AlertAcknowledgeResponse(BaseModel):
+class AlertAcknowledgeResponse(SpokenResponseMixin):
     """Response for ``POST /api/v1/alerts/{id}/acknowledge``."""
     status: str = Field(default="acknowledged")
     alert_id: str = Field(...)

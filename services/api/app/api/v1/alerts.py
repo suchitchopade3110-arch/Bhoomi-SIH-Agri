@@ -58,4 +58,8 @@ async def acknowledge_alert(
     _auth: Annotated[dict[str, Any], Depends(get_current_token_payload)],
 ) -> AlertAcknowledgeResponse:
     await service.acknowledge(alert_id, request.farm_id, request.reason)
-    return AlertAcknowledgeResponse(status="acknowledged", alert_id=alert_id)
+    return AlertAcknowledgeResponse(
+        status="acknowledged",
+        alert_id=alert_id,
+        spoken_summary="Alert acknowledged.",
+    )

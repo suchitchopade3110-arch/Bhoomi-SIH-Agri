@@ -32,6 +32,12 @@ class KnowledgeChunk(Base):
     # Normalized FK to KBDocument — nullable for backward compat with
     # existing rows that predate the kb_documents table.
     document_id: Mapped[str | None] = mapped_column(String(36), nullable=True, index=True)
+    # Real retrieval-scoping metadata (checklist §4.1) — replaces the old
+    # doc_id-prefix convention (``kb_p*`` = pest) that similarity_search()
+    # used to filter on. Nullable only for backward compat with rows written
+    # before migration 0009; ingest.py always populates both going forward.
+    content_type: Mapped[str | None] = mapped_column(String(20), nullable=True, index=True)
+    crop: Mapped[str | None] = mapped_column(String(50), nullable=True, index=True)
     title: Mapped[str] = mapped_column(String(255), nullable=False)
     reviewed_on: Mapped[date] = mapped_column(Date, nullable=False)
     chunk_index: Mapped[int] = mapped_column(Integer, nullable=False)

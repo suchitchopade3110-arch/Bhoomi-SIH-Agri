@@ -38,6 +38,9 @@ from typing import TypedDict
 
 class CorpusDoc(TypedDict):
     doc_id: str
+    content_type: str  # "disease" | "pest" — real retrieval-scoping metadata (checklist §4.1),
+    # not inferred from doc_id naming; see knowledge_chunks.content_type / crop.
+    crop: str
     title: str
     reviewed_on: date
     body: str
@@ -46,6 +49,8 @@ class CorpusDoc(TypedDict):
 CORPUS_DOCS: list[CorpusDoc] = [
     {
         "doc_id": "kb_211",
+        "content_type": "disease",
+        "crop": "paddy",
         "title": "ICAR PoP: Rice — Bacterial Leaf Blight",
         "reviewed_on": date(2025, 11, 2),
         "body": (
@@ -66,6 +71,8 @@ CORPUS_DOCS: list[CorpusDoc] = [
     },
     {
         "doc_id": "kb_212",
+        "content_type": "disease",
+        "crop": "paddy",
         "title": "ICAR PoP: Rice — BLB Causal Agent and Disease Cycle",
         "reviewed_on": date(2025, 11, 2),
         "body": (
@@ -84,6 +91,8 @@ CORPUS_DOCS: list[CorpusDoc] = [
     },
     {
         "doc_id": "kb_213",
+        "content_type": "disease",
+        "crop": "paddy",
         "title": "ICAR PoP: Rice — BLB Favorable Environmental Conditions",
         "reviewed_on": date(2025, 10, 20),
         "body": (
@@ -103,6 +112,8 @@ CORPUS_DOCS: list[CorpusDoc] = [
     },
     {
         "doc_id": "kb_214",
+        "content_type": "disease",
+        "crop": "paddy",
         "title": "ICAR PoP: Rice — BLB Cultural Control Measures",
         "reviewed_on": date(2025, 9, 15),
         "body": (
@@ -121,6 +132,8 @@ CORPUS_DOCS: list[CorpusDoc] = [
     },
     {
         "doc_id": "kb_215",
+        "content_type": "disease",
+        "crop": "paddy",
         "title": "ICAR PoP: Rice — BLB Chemical Control",
         "reviewed_on": date(2025, 9, 15),
         "body": (
@@ -139,6 +152,8 @@ CORPUS_DOCS: list[CorpusDoc] = [
     },
     {
         "doc_id": "kb_216",
+        "content_type": "disease",
+        "crop": "paddy",
         "title": "ICAR PoP: Rice — BLB-Resistant Varieties",
         "reviewed_on": date(2025, 8, 5),
         "body": (
@@ -156,6 +171,8 @@ CORPUS_DOCS: list[CorpusDoc] = [
     },
     {
         "doc_id": "kb_217",
+        "content_type": "disease",
+        "crop": "paddy",
         "title": "ICAR PoP: Rice — Field Drainage and Water Management for Disease Control",
         "reviewed_on": date(2025, 7, 28),
         "body": (
@@ -174,6 +191,8 @@ CORPUS_DOCS: list[CorpusDoc] = [
     },
     {
         "doc_id": "kb_218",
+        "content_type": "disease",
+        "crop": "paddy",
         "title": "ICAR PoP: Rice — Nitrogen Management and Disease Susceptibility",
         "reviewed_on": date(2025, 7, 10),
         "body": (
@@ -190,6 +209,8 @@ CORPUS_DOCS: list[CorpusDoc] = [
     },
     {
         "doc_id": "kb_219",
+        "content_type": "disease",
+        "crop": "paddy",
         "title": "ICAR PoP: Rice — BLB Field Scouting and Monitoring",
         "reviewed_on": date(2025, 6, 22),
         "body": (
@@ -208,6 +229,8 @@ CORPUS_DOCS: list[CorpusDoc] = [
     },
     {
         "doc_id": "kb_220",
+        "content_type": "disease",
+        "crop": "paddy",
         "title": "ICAR PoP: Rice — Seed Treatment and Nursery-Stage BLB Prevention",
         "reviewed_on": date(2025, 5, 30),
         "body": (
@@ -224,6 +247,8 @@ CORPUS_DOCS: list[CorpusDoc] = [
     },
     {
         "doc_id": "kb_230",
+        "content_type": "disease",
+        "crop": "paddy",
         "title": "ICAR PoP: Rice — Blast Disease (Magnaporthe oryzae)",
         "reviewed_on": date(2025, 4, 18),
         "body": (
@@ -240,6 +265,8 @@ CORPUS_DOCS: list[CorpusDoc] = [
     },
     {
         "doc_id": "kb_231",
+        "content_type": "disease",
+        "crop": "paddy",
         "title": "ICAR PoP: Rice — Sheath Blight (Rhizoctonia solani)",
         "reviewed_on": date(2025, 4, 18),
         "body": (
@@ -255,6 +282,8 @@ CORPUS_DOCS: list[CorpusDoc] = [
     },
     {
         "doc_id": "kb_232",
+        "content_type": "disease",
+        "crop": "paddy",
         "title": "ICAR PoP: Rice — Brown Spot Disease",
         "reviewed_on": date(2025, 3, 5),
         "body": (
@@ -270,6 +299,8 @@ CORPUS_DOCS: list[CorpusDoc] = [
     },
     {
         "doc_id": "kb_240",
+        "content_type": "disease",
+        "crop": "paddy",
         "title": "FAO-56 / ICAR: Rice Crop Water Requirement (ET0 and Kc)",
         "reviewed_on": date(2025, 2, 12),
         "body": (
@@ -288,6 +319,8 @@ CORPUS_DOCS: list[CorpusDoc] = [
     },
     {
         "doc_id": "kb_241",
+        "content_type": "disease",
+        "crop": "paddy",
         "title": "ICAR PoP: Rice — Nutrient Management Schedule (NPK)",
         "reviewed_on": date(2025, 1, 22),
         "body": (
@@ -304,6 +337,8 @@ CORPUS_DOCS: list[CorpusDoc] = [
     },
     {
         "doc_id": "kb_250",
+        "content_type": "disease",
+        "crop": "paddy",
         "title": "ICAR PoP: Paddy Post-Harvest Handling and Storage",
         "reviewed_on": date(2024, 12, 10),
         "body": (
@@ -320,6 +355,8 @@ CORPUS_DOCS: list[CorpusDoc] = [
     },
     {
         "doc_id": "kb_260",
+        "content_type": "disease",
+        "crop": "paddy",
         "title": "TNAU Crop Calendar: Samba Season Paddy, Tamil Nadu",
         "reviewed_on": date(2025, 6, 1),
         "body": (
@@ -336,6 +373,8 @@ CORPUS_DOCS: list[CorpusDoc] = [
     },
     {
         "doc_id": "kb_p301",
+        "content_type": "pest",
+        "crop": "paddy",
         "title": "TNAU Rice Pest Management Guide — Stem Borer (Identification & Non-Chemical Control)",
         "reviewed_on": date(2026, 8, 24),
         "body": (
@@ -361,6 +400,8 @@ CORPUS_DOCS: list[CorpusDoc] = [
     },
     {
         "doc_id": "kb_p302",
+        "content_type": "pest",
+        "crop": "paddy",
         "title": "IRRI Rice Knowledge Bank — Brown Planthopper (Identification & Non-Chemical Control)",
         "reviewed_on": date(2026, 8, 24),
         "body": (
@@ -388,6 +429,8 @@ CORPUS_DOCS: list[CorpusDoc] = [
     },
     {
         "doc_id": "kb_p303",
+        "content_type": "pest",
+        "crop": "paddy",
         "title": "TNAU Rice Pest Management Guide — Leaf Folder (Identification & Non-Chemical Control)",
         "reviewed_on": date(2026, 8, 24),
         "body": (
@@ -413,6 +456,8 @@ CORPUS_DOCS: list[CorpusDoc] = [
     },
     {
         "doc_id": "kb_p304",
+        "content_type": "pest",
+        "crop": "paddy",
         "title": "ICAR Rice Production Manual — Green Leafhopper (Identification & Non-Chemical Control)",
         "reviewed_on": date(2026, 8, 24),
         "body": (
@@ -438,6 +483,8 @@ CORPUS_DOCS: list[CorpusDoc] = [
     },
     {
         "doc_id": "kb_p305",
+        "content_type": "pest",
+        "crop": "paddy",
         "title": "TNAU Gall Midge Management in Rice (Identification & Non-Chemical Control)",
         "reviewed_on": date(2026, 8, 24),
         "body": (
@@ -460,6 +507,8 @@ CORPUS_DOCS: list[CorpusDoc] = [
     },
     {
         "doc_id": "kb_p306",
+        "content_type": "pest",
+        "crop": "paddy",
         "title": "KVK Rice Nursery Management — Thrips (Identification & Non-Chemical Control)",
         "reviewed_on": date(2026, 8, 24),
         "body": (
@@ -482,6 +531,8 @@ CORPUS_DOCS: list[CorpusDoc] = [
     },
     {
         "doc_id": "kb_p307",
+        "content_type": "pest",
+        "crop": "paddy",
         "title": "TNAU Whorl Maggot Management in Rice (Identification & Non-Chemical Control)",
         "reviewed_on": date(2026, 8, 24),
         "body": (
@@ -505,6 +556,8 @@ CORPUS_DOCS: list[CorpusDoc] = [
     },
     {
         "doc_id": "kb_p308",
+        "content_type": "pest",
+        "crop": "paddy",
         "title": "ICAR Rice Insect Pest Management — Earhead Bug (Identification & Non-Chemical Control)",
         "reviewed_on": date(2026, 8, 24),
         "body": (
