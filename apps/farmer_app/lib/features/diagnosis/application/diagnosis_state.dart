@@ -38,7 +38,13 @@ class DiagnosisState {
     this.errorMessage,
   });
 
-  bool get isValid => problemDescription.trim().isNotEmpty || imageAssetId != null || audioAssetId != null;
+  // A real, presigned image is mandatory: the backend's diagnosis contract
+  // requires image_asset_id unconditionally (services/api/app/schemas/
+  // diagnosis.py — no default) and, since the §2.5 asset-provenance fix,
+  // rejects anything that isn't a real presigned asset. Text/audio alone
+  // was never actually a supported submission path server-side, even
+  // though this previously let it through with a fake placeholder id.
+  bool get isValid => imageAssetId != null;
 
   DiagnosisState copyWith({
     String? problemDescription,

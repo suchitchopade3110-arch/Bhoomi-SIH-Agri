@@ -221,7 +221,11 @@ class _AskBhoomiScreenState extends ConsumerState<AskBhoomiScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text('Describe Problem (Text fallback)', style: AppTypography.titleMedium),
+                    // A photo is required — the backend has no text-only
+                    // diagnosis path (image_asset_id is mandatory and must
+                    // be a real presigned asset). This field only adds
+                    // context to a photo submission, it can't replace one.
+                    const Text('Additional Context (optional)', style: AppTypography.titleMedium),
                     const SizedBox(height: AppSpacing.sm),
                     TextField(
                       controller: _textController,
@@ -266,18 +270,32 @@ class _AskBhoomiScreenState extends ConsumerState<AskBhoomiScreen> {
 
               const SizedBox(height: AppSpacing.xl),
 
-              // Primary CTA
+              if (diagnosisState.imageAssetId == null) ...[
+                const Padding(
+                  padding: EdgeInsets.only(bottom: AppSpacing.md),
+                  child: Text(
+                    'A photo is required — take or select one above to diagnose.',
+                    style: TextStyle(fontSize: 12.0, color: AppColors.textMuted),
+                  ),
+                ),
+              ],
+
+              // Primary CTA — disabled until a real image has finished
+              // uploading, since the backend has no text-only diagnosis
+              // path (see DiagnosisState.isValid).
               BhoomiPrimaryButton(
                 text: 'Diagnose & Get Advice',
                 isLoading: diagnosisState.isDiagnosing,
                 icon: Icons.auto_awesome_rounded,
-                onPressed: () async {
-                  diagnosisController.setProblemDescription(_textController.text);
-                  final response = await diagnosisController.submitDiagnosis(widget.farmId);
-                  if (response != null && context.mounted) {
-                    context.push('/diagnosis/result/${widget.farmId}');
-                  }
-                },
+                onPressed: diagnosisState.isValid
+                    ? () async {
+                        diagnosisController.setProblemDescription(_textController.text);
+                        final response = await diagnosisController.submitDiagnosis(widget.farmId);
+                        if (response != null && context.mounted) {
+                          context.push('/diagnosis/result/${widget.farmId}');
+                        }
+                      }
+                    : null,
               ),
 
               const SizedBox(height: AppSpacing.xl),
