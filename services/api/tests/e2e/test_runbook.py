@@ -178,10 +178,22 @@ async def test_full_runbook_walks_82_73_57_91():
             assert health["band"] == "good"
 
             # --- 5. Diagnose above gate, cited 5-point advisory -> 73 ------
+            # Real client behavior: presign the asset before referencing it —
+            # diagnose() now verifies image_asset_id was actually created via
+            # this flow (checklist §2.5), so a bare literal like "a_9" that
+            # was never presigned would 422.
+            resp = await client.post(
+                "/assets/presigned-url",
+                headers=_auth(farmer_token),
+                json={"file_name": "leaf.jpg", "content_type": "image/jpeg", "asset_kind": "disease_photo", "farm_id": farm_id},
+            )
+            assert resp.status_code == 201, resp.text
+            image_asset_id = resp.json()["asset_id"]
+
             resp = await client.post(
                 f"/farms/{farm_id}/diagnose",
                 headers=_auth(farmer_token),
-                json={"image_asset_id": "a_9", "description_text": "yellow water-soaked lesions on leaf tips"},
+                json={"image_asset_id": image_asset_id, "description_text": "yellow water-soaked lesions on leaf tips"},
             )
             assert resp.status_code == 200, resp.text
             diagnosis = resp.json()
