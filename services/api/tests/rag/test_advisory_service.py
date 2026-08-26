@@ -13,7 +13,7 @@ from app.services.rag.advisory_service import AdvisoryService, NO_RELEVANT_SOURC
 from app.services.rag.retrieval import RetrievalService
 from tests.rag._helpers import build_ingested_repo
 
-SETTINGS = Settings(CONFIDENCE_GATE=0.70, EMBEDDING_PROVIDER="stub")
+SETTINGS = Settings(CONFIDENCE_GATE=0.70, EMBEDDING_PROVIDER="stub", LLM_PROVIDER="stub")
 
 
 async def _make_service(repo=None) -> AdvisoryService:
