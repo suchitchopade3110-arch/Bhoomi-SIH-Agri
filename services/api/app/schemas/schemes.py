@@ -20,6 +20,12 @@ class SchemeResponse(BaseModel):
     portal_url: str | None = None
     status: SchemeStatus = Field(default=SchemeStatus.ACTIVE)
     last_verified: date = Field(..., description="Date eligibility rules were last verified")
+    is_expiring: bool = Field(
+        default=False, description="last_verified is stale enough to warrant re-checking soon (checklist §10.4)"
+    )
+    is_expired: bool = Field(
+        default=False, description="last_verified is stale enough that eligibility should not be trusted (checklist §10.4)"
+    )
 
 
 class SchemeMatchRequest(BaseModel):
