@@ -76,6 +76,8 @@ class AgronomistService:
             farm = await self._farms.get_by_id(c["farm_id"])
             position = positions[c["id"]]
             snapshot = await self._health.get_latest(c["farm_id"])
+            farmer_name = (farm or {}).get("farm_name") or "Unknown"
+            severity = ProblemSeverity(c["severity"])
             items.append(
                 AgronomistQueueItem(
                     escalation_id=c["id"],
@@ -83,15 +85,16 @@ class AgronomistService:
                     # See get_case_detail's comment: dict.get's default only
                     # fires on a missing key, not a NULL value, and
                     # SIH26131's simplified onboarding leaves these NULL.
-                    farmer_name=(farm or {}).get("farm_name") or "Unknown",
+                    farmer_name=farmer_name,
                     village=(farm or {}).get("village") or "",
                     crop=(farm or {}).get("primary_crop") or "",
-                    severity=ProblemSeverity(c["severity"]),
+                    severity=severity,
                     status=CaseStatus(c["status"]),
                     health_score=float(snapshot.score) if snapshot and snapshot.score is not None else 0.0,
                     escalated_at=c["created_at"],
                     queue_position=position,
                     estimated_resolution_at=estimate_eta(position, evaluated_at),
+                    spoken_summary=f"{farmer_name}, position {position} in queue, severity {severity.value}.",
                 )
             )
         return items
@@ -197,15 +200,17 @@ class AgronomistService:
             ),
         )
 
+        risk = RiskChange(
+            from_=previous_snapshot.score,
+            to=snapshot.score,
+            band=snapshot_row_to_schema(snapshot).band,
+        )
         return ResolveCaseResponse(
             escalation_id=request.escalation_id,
             status=CaseStatus.RESOLVED,
-            risk=RiskChange(
-                from_=previous_snapshot.score,
-                to=snapshot.score,
-                band=snapshot_row_to_schema(snapshot).band,
-            ),
+            risk=risk,
             resolved_at=datetime.utcnow(),
+            spoken_summary=f"Case resolved. Health score is now {risk.to}, {risk.band.value}.",
         )
 
 

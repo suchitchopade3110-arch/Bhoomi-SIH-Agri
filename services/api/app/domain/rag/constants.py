@@ -35,11 +35,9 @@ REQUIRED_CITATION_FIELDS: tuple[str, ...] = ("doc_id", "title", "reviewed_on")
 # --------------------------------------------------------------------------
 DEFAULT_TOP_K = 5
 
-# ``knowledge_chunks`` carries no ``content_type``/``crop`` column (the
-# corpus is single-crop — paddy — for this build, per corpus_data.py's own
-# docstring), so target_type-scoped retrieval is done via the existing
-# ``doc_id`` prefix convention every pest doc already follows: every pest
-# corpus entry is "kb_p3xx" (see services/rag/corpus_data.py's "--- Pest
-# entries (kb_p3xx) ---" section); everything else is disease/general.
-PEST_DOC_ID_PREFIX = "kb_p"
-DISEASE_DOC_ID_PREFIX = "kb_d"
+# ``knowledge_chunks.content_type`` values (checklist §4.1) — a real,
+# indexed column populated by ingest.py from corpus_data.CorpusDoc, queried
+# directly by KnowledgeChunkRepository.similarity_search()'s content_type
+# param. Replaces the old doc_id-prefix inference (kb_p* = pest).
+CONTENT_TYPE_DISEASE = "disease"
+CONTENT_TYPE_PEST = "pest"

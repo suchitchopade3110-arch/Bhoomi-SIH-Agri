@@ -57,6 +57,8 @@ async def ingest_corpus(
                 chunk_index=index,
                 chunk_text=chunk,
                 embedding=embedding,
+                content_type=doc["content_type"],
+                crop=doc["crop"],
             )
             total_chunks += 1
 

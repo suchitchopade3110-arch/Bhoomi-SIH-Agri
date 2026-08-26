@@ -4,10 +4,11 @@ from datetime import datetime
 from pydantic import BaseModel, Field
 from app.core.enums import CaseStatus, ProblemSeverity
 from app.schemas.case import CaseSummary
+from app.schemas.common import SpokenResponseMixin
 from app.schemas.health import RiskChange
 
 
-class AgronomistQueueItem(BaseModel):
+class AgronomistQueueItem(SpokenResponseMixin):
     """Item in KVK agronomist review queue."""
     escalation_id: str = Field(...)
     farm_id: str = Field(...)
@@ -33,7 +34,7 @@ class ResolveCaseRequest(BaseModel):
     audio_notes_asset_id: str | None = None
 
 
-class ResolveCaseResponse(BaseModel):
+class ResolveCaseResponse(SpokenResponseMixin):
     """Response confirming case resolution."""
     escalation_id: str = Field(...)
     status: CaseStatus = Field(default=CaseStatus.RESOLVED)
