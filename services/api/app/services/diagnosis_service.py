@@ -23,14 +23,20 @@ from app.adapters.dependencies import get_image_diagnosis_adapter, get_llm_adapt
 from app.ports import AgronomistRosterPort, ImageDiagnosisPort, LLMPort
 from app.core.config import Settings, get_settings
 from app.core.enums import ProblemSeverity
+from app.core.errors import ValidationError
 from app.domain.gate import SUPPORTED_LABELS, decide
 from app.domain.health.inputs import TriggeringInput
 from app.domain.kvk_directory import DEFAULT_KVK_CENTER_ID
 from app.domain.rag import FivePointAdvisory, GroundedCitation, parse_advisory_output
 from app.models.health_snapshot import HealthSnapshot
-from app.repositories.dependencies import get_case_repository, get_farm_repository, get_problem_writer
+from app.repositories.dependencies import (
+    get_asset_repository,
+    get_case_repository,
+    get_farm_repository,
+    get_problem_writer,
+)
 from app.repositories.health_context import OpenProblemRecord, ProblemWriter
-from app.repositories.interfaces import CaseRepository, FarmRepository, RetrievedChunk
+from app.repositories.interfaces import AssetRepository, CaseRepository, FarmRepository, RetrievedChunk
 from app.services.efficacy.tracking_service import EfficacyTrackingService, get_efficacy_tracking_service
 from app.services.gate_service import SUPPORTED_DIAGNOSIS_LABELS
 from app.services.health_service import HealthService, get_health_service
@@ -146,6 +152,7 @@ class DiagnosisService:
         settings: Settings,
         roster: AgronomistRosterPort,
         efficacy_tracking: EfficacyTrackingService | None = None,
+        asset_repo: AssetRepository | None = None,
     ) -> None:
         self._image_port = image_port
         self._retrieval = retrieval
@@ -157,6 +164,7 @@ class DiagnosisService:
         self._settings = settings
         self._roster = roster
         self._efficacy_tracking = efficacy_tracking
+        self._asset_repo = asset_repo
 
     async def diagnose(
         self,
@@ -181,12 +189,20 @@ class DiagnosisService:
 
         Returns:
             A ``DiagnoseOutcome``: either a composed, cited advisory with
-            its health_delta, or an honest escalation. Never both. A pest
-            diagnosis composes only if the corpus has grounded pest content
-            for the identified label — today it doesn't (see README §9), so
-            an in-scope, above-gate pest diagnosis still honestly escalates
-            on ``NO_RELEVANT_SOURCE`` rather than fabricate pest advice.
+                its health_delta, or an honest escalation. Never both. A pest
+                diagnosis composes only if the corpus has grounded pest content
+                for the identified label — today it doesn't (see README §9), so
+                an in-scope, above-gate pest diagnosis still honestly escalates
+                on ``NO_RELEVANT_SOURCE`` rather than fabricate pest advice.
         """
+        if self._asset_repo is not None:
+            asset = await self._asset_repo.get_by_id(image_asset_id)
+            if asset is None:
+                raise ValidationError(
+                    f"Asset '{image_asset_id}' not found or was not created via presigned upload flow.",
+                    details={"image_asset_id": image_asset_id},
+                )
+
         is_pest = target_type == "pest"
         confidence_gate = self._settings.PEST_CONFIDENCE_GATE if is_pest else self._settings.CONFIDENCE_GATE
         supported_labels = SUPPORTED_LABELS["pest"] if is_pest else SUPPORTED_LABELS["disease"]
@@ -354,6 +370,7 @@ def get_diagnosis_service(
     settings: Annotated[Settings, Depends(get_settings)],
     roster: Annotated[AgronomistRosterPort, Depends(get_roster_adapter)],
     efficacy_tracking: Annotated[EfficacyTrackingService, Depends(get_efficacy_tracking_service)],
+    asset_repo: Annotated[AssetRepository, Depends(get_asset_repository)],
 ) -> DiagnosisService:
     """FastAPI dependency provider assembling ``DiagnosisService`` from its ports."""
     return DiagnosisService(
@@ -367,4 +384,5 @@ def get_diagnosis_service(
         settings,
         roster,
         efficacy_tracking,
+        asset_repo,
     )

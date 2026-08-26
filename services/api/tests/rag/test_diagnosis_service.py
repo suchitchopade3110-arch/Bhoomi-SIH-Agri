@@ -7,6 +7,7 @@ import pytest
 
 from app.adapters.stubs import StubEmbeddingAdapter, StubImageDiagnosisAdapter, StubLLMAdapter, StubRosterAdapter
 from app.core.config import Settings
+from app.core.errors import ValidationError
 from app.domain.health.inputs import CropIdealConditions
 from app.repositories.health_context import (
     FarmHealthContext,
@@ -14,7 +15,7 @@ from app.repositories.health_context import (
     InMemoryProblemLoadReader,
     InMemoryTreatmentTrendReader,
 )
-from app.repositories.in_memory import InMemoryCaseRepository, InMemoryFarmRepository
+from app.repositories.in_memory import InMemoryAssetRepository, InMemoryCaseRepository, InMemoryFarmRepository
 from app.services.diagnosis_service import DiagnosisService
 from app.services.health_service import HealthService
 from app.services.rag.retrieval import RetrievalService
@@ -92,7 +93,12 @@ def _make_health_service(problem_reader: InMemoryProblemLoadReader) -> HealthSer
     )
 
 
-async def _make_service(image_confidence: float = 0.87, image_label: str = "bacterial_leaf_blight", repo=None):
+async def _make_service(
+    image_confidence: float = 0.87,
+    image_label: str = "bacterial_leaf_blight",
+    repo=None,
+    asset_repo=None,
+):
     repo = repo if repo is not None else await build_ingested_repo()
     retrieval = RetrievalService(repo, StubEmbeddingAdapter())
     image_port = StubImageDiagnosisAdapter(label=image_label, confidence=image_confidence)
@@ -101,6 +107,15 @@ async def _make_service(image_confidence: float = 0.87, image_label: str = "bact
     case_repo = InMemoryCaseRepository()
     farm_repo = InMemoryFarmRepository()
     await farm_repo.save({"id": FARM_ID, "farmer_id": "u_1", "soil_moisture_pct": 55.0})
+    if asset_repo is None:
+        asset_repo = InMemoryAssetRepository()
+        await asset_repo.save({
+            "id": "a_9",
+            "asset_kind": "crop_image",
+            "file_name": "a_9.jpg",
+            "content_type": "image/jpeg",
+            "storage_key": "crop_image/a_9/a_9.jpg",
+        })
     return DiagnosisService(
         image_port=image_port,
         retrieval=retrieval,
@@ -111,6 +126,7 @@ async def _make_service(image_confidence: float = 0.87, image_label: str = "bact
         farm_repo=farm_repo,
         settings=SETTINGS,
         roster=StubRosterAdapter(),
+        asset_repo=asset_repo,
     )
 
 
@@ -213,4 +229,14 @@ async def test_gate_object_populated_on_both_branches():
     assert out_of_scope.above_gate is False
     assert out_of_scope.gate_reason_code == "OUT_OF_SCOPE_TARGET"
     assert len(out_of_scope.gate_alternatives) == 2
+
+
+@pytest.mark.asyncio
+async def test_diagnose_rejects_unregistered_asset():
+    """Diagnose rejects asset_ids that were not created via the presigned upload flow."""
+    service = await _make_service()
+    with pytest.raises(ValidationError) as exc_info:
+        await service.diagnose(FARM_ID, "raw_unregistered_asset_id_999")
+    assert "not found or was not created via presigned upload flow" in str(exc_info.value)
+    assert exc_info.value.code == "VALIDATION_FAILED"
 
