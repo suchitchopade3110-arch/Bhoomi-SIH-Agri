@@ -38,9 +38,9 @@ async def system_health() -> dict[str, Any]:
 
     if settings.EMBEDDING_PROVIDER == "bge_m3":
         try:
-            from app.adapters.embeddings_real import RealEmbeddingAdapter
+            from app.adapters.dependencies import get_embedding_adapter
 
-            probe = RealEmbeddingAdapter(settings.ML_SERVICE_URL)
+            probe = get_embedding_adapter()
             await probe.embed_text("bhoomi system health embedding probe")
             result["embedding_method_verified"] = "bge_m3"
         except Exception as e:
