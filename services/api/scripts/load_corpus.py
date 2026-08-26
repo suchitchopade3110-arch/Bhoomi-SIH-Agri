@@ -92,6 +92,19 @@ def parse_frontmatter(filepath: Path) -> tuple[dict, str]:
     return metadata, body
 
 
+def is_pest_doc(filepath: Path, metadata: dict) -> bool:
+    """Same pest/disease namespace test ``derive_doc_id`` uses, exposed on
+    its own so callers can also derive ``content_type`` from it (checklist
+    §4.1 — every KnowledgeChunk row needs a real content_type/crop, not a
+    NULL that silently drops out of scoped retrieval)."""
+    return bool(
+        metadata.get("target_type") == "pest"
+        or metadata.get("category") == "Insect Pest"
+        or "pest_name" in metadata
+        or "pests" in filepath.parts
+    )
+
+
 def derive_doc_id(filepath: Path, metadata: dict) -> str:
     """Deterministically derive a namespaced doc_id (kb_p<NNN> or kb_d<NNN>).
 
@@ -103,14 +116,7 @@ def derive_doc_id(filepath: Path, metadata: dict) -> str:
         return str(metadata["doc_id"])
 
     stem = filepath.stem.lower()
-
-    # Determine namespace
-    is_pest = (
-        metadata.get("target_type") == "pest"
-        or metadata.get("category") == "Insect Pest"
-        or "pest_name" in metadata
-        or "pests" in filepath.parts
-    )
+    is_pest = is_pest_doc(filepath, metadata)
 
     if is_pest:
         if stem in PEST_DOC_MAP:
@@ -202,6 +208,8 @@ async def load_corpus_dir(
 
         embedding_adapter = get_embedding_adapter()
         document_id = str(uuid.uuid4())
+        content_type = "pest" if is_pest_doc(filepath, metadata) else "disease"
+        crop = metadata.get("crop", "paddy")
 
         async with AsyncSessionLocal() as session:
             # Idempotency: delete previous chunks for this doc_id before re-inserting
@@ -234,6 +242,8 @@ async def load_corpus_dir(
                     chunk_index=i,
                     chunk_text=chunk_text_content,
                     embedding=embedding,
+                    content_type=content_type,
+                    crop=crop,
                 )
                 session.add(kb_chunk)
 

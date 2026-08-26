@@ -7,7 +7,9 @@ You are building the backend intelligence layer for **Bhoomi**, a voice-first ag
 ## Stack (non-negotiable)
 
 - Python 3.11+, FastAPI, Pydantic v2, `pydantic-settings`
-- PostgreSQL with PostGIS and pgvector; SQLAlchemy 2.0 async; Alembic for migrations
+- PostgreSQL 16 with pgvector (no PostGIS — the `pgvector/pgvector:pg16` image
+  doesn't carry it; spatial queries use plain lat/lon columns + Python
+  haversine, see `app/domain/geo.py`); SQLAlchemy 2.0 async; Alembic for migrations
 - pytest for tests
 - Package manager: `pyproject.toml` at `services/api/`. Add dependencies there, never with loose `pip install` in code.
 
