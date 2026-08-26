@@ -6,6 +6,7 @@ import '../../../../app/theme/app_spacing.dart';
 import '../../../../app/theme/app_typography.dart';
 import '../../../../core/connectivity/connectivity_service.dart';
 import '../../../../core/localization/bhoomi_localizations.dart';
+import '../../../../core/upload/pending_uploads_banner.dart';
 import '../../../../core/widgets/bhoomi_loading_view.dart';
 import '../../../../core/widgets/bhoomi_primary_button.dart';
 import '../../../../core/widgets/degraded_network_banner.dart';
@@ -14,9 +15,12 @@ import '../../../home/presentation/widgets/daily_brief_preview.dart';
 import '../../../home/presentation/widgets/latest_update_preview.dart';
 import '../../../home/presentation/widgets/quick_action_grid.dart';
 import '../../../land/presentation/widgets/land_status_badge.dart';
+import '../../../onboarding/data/farm_api_service.dart';
+import '../../../onboarding/data/models/farm_update_models.dart';
 import '../../../schemes/application/schemes_controller.dart';
 import '../../../updates/application/updates_controller.dart';
 import '../../application/farm_summary_provider.dart';
+import '../../data/models/farm_summary.dart';
 import '../widgets/farm_identity_card.dart';
 
 class FarmHomeScreen extends ConsumerWidget {
@@ -109,6 +113,23 @@ class FarmHomeScreen extends ConsumerWidget {
     );
   }
 
+  /// Flips the veteran/novice UI density toggle (checklist §1.5) and
+  /// persists it on the farm profile via `PUT /farms/{id}`, so it survives
+  /// across sessions and devices rather than living only as client state.
+  Future<void> _toggleUiMode(BuildContext context, WidgetRef ref, FarmIdentity farm) async {
+    final next = farm.uiMode == 'veteran' ? UiMode.novice : UiMode.veteran;
+    try {
+      await ref.read(farmApiServiceProvider).updateFarm(farmId, FarmUpdateRequest(uiMode: next));
+      ref.invalidate(farmSummaryProvider(farmId));
+    } catch (_) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Could not update display mode. Please try again.')),
+        );
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final summaryAsync = ref.watch(farmSummaryProvider(farmId));
@@ -138,6 +159,15 @@ class FarmHomeScreen extends ConsumerWidget {
         centerTitle: false,
         scrolledUnderElevation: 0,
         actions: [
+          Builder(builder: (context) {
+            final farm = summaryAsync.valueOrNull?.farm;
+            final isVeteran = farm?.uiMode == 'veteran';
+            return IconButton(
+              icon: Icon(isVeteran ? Icons.military_tech_rounded : Icons.school_rounded),
+              tooltip: isVeteran ? 'Veteran mode — tap for Novice' : 'Novice mode — tap for Veteran',
+              onPressed: farm == null ? null : () => _toggleUiMode(context, ref, farm),
+            );
+          }),
           IconButton(
             icon: const Icon(Icons.translate_rounded),
             tooltip: strings.changeLanguage,
@@ -167,6 +197,10 @@ class FarmHomeScreen extends ConsumerWidget {
           children: [
             // Degraded Network Mode Banner
             DegradedNetworkBanner(networkState: networkState),
+
+            // Offline upload queue (checklist §12.4) — per-item state for
+            // any photo/voice note still waiting to reach the server.
+            const PendingUploadsBanner(),
 
             Expanded(
               child: summaryAsync.when(

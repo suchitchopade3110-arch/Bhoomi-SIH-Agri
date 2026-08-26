@@ -3,7 +3,7 @@
 from datetime import date, datetime
 from typing import Any
 from pydantic import BaseModel, Field
-from app.core.enums import LandStatus
+from app.core.enums import LandStatus, UiMode
 from app.schemas.common import SpokenResponseMixin
 
 
@@ -28,6 +28,9 @@ class FarmUpdateRequest(BaseModel):
     sowing_date: date | None = None
     soil_type: str | None = None
     irrigation_source: str | None = None
+    ui_mode: UiMode | None = Field(
+        default=None, description="Veteran/novice UI density toggle (checklist §1.5)"
+    )
 
 
 class FarmResponse(BaseModel):
@@ -49,6 +52,9 @@ class FarmResponse(BaseModel):
     region: str | None = None
     soil_type: str | None = None
     irrigation_source: str | None = None
+    ui_mode: UiMode = Field(
+        default=UiMode.NOVICE, description="Veteran/novice UI density toggle (checklist §1.5)"
+    )
     current_health_score: float | None = None
     created_at: datetime = Field(default_factory=datetime.utcnow)
 

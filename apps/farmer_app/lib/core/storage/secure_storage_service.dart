@@ -45,4 +45,15 @@ class SecureStorageService {
   Future<void> clearAll() async {
     await _storage.deleteAll();
   }
+
+  /// Generic raw string read/write, for features (e.g. the offline upload
+  /// queue) that persist their own small JSON blob under a dedicated key
+  /// rather than needing a bespoke getter/setter pair here.
+  Future<void> writeRaw(String key, String value) async {
+    await _storage.write(key: key, value: value);
+  }
+
+  Future<String?> readRaw(String key) async {
+    return await _storage.read(key: key);
+  }
 }

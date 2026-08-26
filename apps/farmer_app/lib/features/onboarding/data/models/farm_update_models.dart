@@ -1,3 +1,16 @@
+/// Veteran/novice UI density toggle (checklist §1.5), persisted on the farm
+/// profile via `PUT /farms/{id}` so it survives across sessions and devices
+/// instead of only living as client-local state.
+enum UiMode {
+  veteran,
+  novice;
+
+  String toJsonValue() => name;
+
+  static UiMode fromJsonValue(String? value) =>
+      value == 'veteran' ? UiMode.veteran : UiMode.novice;
+}
+
 class FarmUpdateRequest {
   final String? farmName;
   final String? primaryCrop;
@@ -6,6 +19,7 @@ class FarmUpdateRequest {
   final String? sowingDate;
   final String? soilType;
   final String? irrigationSource;
+  final UiMode? uiMode;
 
   const FarmUpdateRequest({
     this.farmName,
@@ -15,6 +29,7 @@ class FarmUpdateRequest {
     this.sowingDate,
     this.soilType,
     this.irrigationSource,
+    this.uiMode,
   });
 
   Map<String, dynamic> toJson() => {
@@ -25,6 +40,7 @@ class FarmUpdateRequest {
         if (sowingDate != null) 'sowing_date': sowingDate,
         if (soilType != null) 'soil_type': soilType,
         if (irrigationSource != null) 'irrigation_source': irrigationSource,
+        if (uiMode != null) 'ui_mode': uiMode!.toJsonValue(),
       };
 }
 

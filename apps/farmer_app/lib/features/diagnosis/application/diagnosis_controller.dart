@@ -1,6 +1,9 @@
+import 'dart:async';
+import 'dart:typed_data';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../../core/upload/asset_upload_service.dart';
+import '../../../core/upload/offline_upload_queue.dart';
 import '../data/diagnosis_repository.dart';
 import '../data/models/diagnose_request.dart';
 import '../data/models/diagnosis_response.dart';
@@ -10,15 +13,17 @@ final diagnosisControllerProvider =
     StateNotifierProvider<DiagnosisController, DiagnosisState>((ref) {
   final repository = ref.watch(diagnosisRepositoryProvider);
   final uploadService = ref.watch(assetUploadServiceProvider);
-  return DiagnosisController(repository, uploadService);
+  final uploadQueue = ref.watch(offlineUploadQueueProvider.notifier);
+  return DiagnosisController(repository, uploadService, uploadQueue);
 });
 
 class DiagnosisController extends StateNotifier<DiagnosisState> {
   final DiagnosisRepository _repository;
   final AssetUploadService _uploadService;
+  final OfflineUploadQueueNotifier _uploadQueue;
   final ImagePicker _picker = ImagePicker();
 
-  DiagnosisController(this._repository, this._uploadService)
+  DiagnosisController(this._repository, this._uploadService, this._uploadQueue)
       : super(const DiagnosisState());
 
   void setProblemDescription(String text) {
@@ -30,6 +35,7 @@ class DiagnosisController extends StateNotifier<DiagnosisState> {
   }
 
   Future<void> pickAndUploadImage(ImageSource source) async {
+    Uint8List? bytes;
     try {
       state = state.copyWith(imageUploadStatus: ImageUploadStatus.selecting);
       final XFile? file = await _picker.pickImage(
@@ -43,14 +49,24 @@ class DiagnosisController extends StateNotifier<DiagnosisState> {
         return;
       }
 
-      final bytes = await file.readAsBytes();
+      bytes = await file.readAsBytes();
       state = state.copyWith(
         selectedImageBytes: bytes,
         selectedImagePath: file.path,
         imageUploadStatus: ImageUploadStatus.uploading,
         imageUploadProgress: 0.0,
       );
+    } catch (e) {
+      // Failed before we even had image bytes (picker/permission error) —
+      // nothing to queue, just surface it.
+      state = state.copyWith(
+        imageUploadStatus: ImageUploadStatus.failed,
+        errorMessage: 'Could not access the photo. Please try again.',
+      );
+      return;
+    }
 
+    try {
       // Upload directly to presigned URL
       final assetId = await _uploadService.uploadAsset(
         bytes: bytes,
@@ -66,6 +82,26 @@ class DiagnosisController extends StateNotifier<DiagnosisState> {
         imageUploadStatus: ImageUploadStatus.uploaded,
       );
     } catch (e) {
+      // Offline upload queue (checklist §12.4): rather than dropping the
+      // photo on a connectivity failure, queue it locally — it uploads
+      // automatically once the network is back, and the farmer can still
+      // submit the rest of the diagnosis in the meantime.
+      final pendingId = _uploadQueue.enqueue(
+        bytes: bytes,
+        contentType: 'image/jpeg',
+        assetType: 'image',
+      );
+      state = state.copyWith(imageUploadStatus: ImageUploadStatus.queued);
+      unawaited(_awaitQueuedUpload(pendingId));
+    }
+  }
+
+  Future<void> _awaitQueuedUpload(String pendingId) async {
+    final result = await _uploadQueue.waitFor(pendingId);
+    if (!mounted) return;
+    if (result.isUploaded && result.assetId != null) {
+      state = state.copyWith(imageAssetId: result.assetId, imageUploadStatus: ImageUploadStatus.uploaded);
+    } else {
       state = state.copyWith(
         imageUploadStatus: ImageUploadStatus.failed,
         errorMessage: 'Crop image upload failed. You may retry or submit text.',

@@ -9,11 +9,12 @@ FAO-56 resource-plan step (``resource_plan_service.py``) — see the final
 report for why this ordering was chosen to match the runbook.
 """
 
+from enum import Enum
 from typing import Annotated, Any
 
 from fastapi import Depends
 
-from app.core.enums import LandStatus
+from app.core.enums import LandStatus, UiMode
 from app.core.errors import NotFoundError
 from app.domain.farm_reference_data import get_expected_stage_day
 from app.repositories.dependencies import get_farm_repository
@@ -57,7 +58,11 @@ class FarmService:
         return [_to_farm_response(row) for row in rows]
 
     async def update_farm(self, farm_id: str, request: FarmUpdateRequest) -> FarmResponse:
-        updates = {k: v for k, v in request.model_dump().items() if v is not None}
+        updates = {
+            k: (v.value if isinstance(v, Enum) else v)
+            for k, v in request.model_dump().items()
+            if v is not None
+        }
         row = await self._farms.update(farm_id, updates)
         if row is None:
             raise NotFoundError("Farm not found.", details={"farm_id": farm_id})
@@ -91,6 +96,7 @@ def _to_farm_response(row: dict[str, Any]) -> FarmResponse:
         "growth_stage": row.get("growth_stage"),
         "soil_type": row.get("soil_type"),
         "irrigation_source": row.get("irrigation_source"),
+        "ui_mode": UiMode(row["ui_mode"]) if row.get("ui_mode") else UiMode.NOVICE,
     }
     if row.get("created_at") is not None:
         kwargs["created_at"] = row["created_at"]
