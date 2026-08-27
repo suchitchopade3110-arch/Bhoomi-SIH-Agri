@@ -8,6 +8,7 @@ import '../../../../core/widgets/bhoomi_loading_view.dart';
 import '../../../../core/widgets/bhoomi_primary_button.dart';
 import '../../application/timeline_provider.dart';
 import '../widgets/journey_timeline.dart';
+import '../../../../shared/widgets/bhoomi_bottom_navigation.dart';
 
 class FarmJourneyScreen extends ConsumerWidget {
   final String farmId;
@@ -64,26 +65,30 @@ class FarmJourneyScreen extends ConsumerWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                // Header Banner
+                // Header Banner (Redesigned without gradients)
                 Container(
                   padding: const EdgeInsets.all(AppSpacing.lg),
                   decoration: BoxDecoration(
-                    gradient: const LinearGradient(
-                      colors: [AppColors.primaryGreen, Color(0xFF1B5E20)],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                    ),
+                    color: AppColors.surface,
                     borderRadius: BorderRadius.circular(AppSpacing.radiusLg),
+                    border: Border.all(color: AppColors.border),
+                    boxShadow: const [
+                      BoxShadow(
+                        color: AppColors.cardShadow,
+                        blurRadius: 10.0,
+                        offset: Offset(0, 4),
+                      ),
+                    ],
                   ),
                   child: Row(
                     children: [
                       Container(
                         padding: const EdgeInsets.all(AppSpacing.md),
-                        decoration: BoxDecoration(
-                          color: Colors.white.withValues(alpha: 0.2),
+                        decoration: const BoxDecoration(
+                          color: AppColors.lightGreen,
                           shape: BoxShape.circle,
                         ),
-                        child: const Icon(Icons.history_edu_rounded, color: Colors.white, size: 28.0),
+                        child: const Icon(Icons.history_edu_rounded, color: AppColors.primaryGreen, size: 28.0),
                       ),
                       const SizedBox(width: AppSpacing.md),
                       Expanded(
@@ -92,12 +97,12 @@ class FarmJourneyScreen extends ConsumerWidget {
                           children: [
                             Text(
                               strings.text('timeline_header'),
-                              style: const TextStyle(color: Colors.white, fontSize: 18.0, fontWeight: FontWeight.w800),
+                              style: const TextStyle(color: AppColors.textPrimary, fontSize: 18.0, fontWeight: FontWeight.w800),
                             ),
                             const SizedBox(height: 2.0),
                             Text(
                               strings.text('timeline_header_desc'),
-                              style: const TextStyle(color: Colors.white70, fontSize: 12.0),
+                              style: const TextStyle(color: AppColors.textSecondary, fontSize: 12.0),
                             ),
                           ],
                         ),
@@ -117,6 +122,7 @@ class FarmJourneyScreen extends ConsumerWidget {
           ),
         ),
       ),
+      bottomNavigationBar: BhoomiBottomNavigation(farmId: farmId, currentIndex: 2),
     );
   }
 }

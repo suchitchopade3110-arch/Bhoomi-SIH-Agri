@@ -10,6 +10,7 @@ import '../../../../core/widgets/bhoomi_primary_button.dart';
 import '../../application/health_provider.dart';
 import '../widgets/health_breakdown_card.dart';
 import '../widgets/health_score_card.dart';
+import '../../../../shared/widgets/bhoomi_bottom_navigation.dart';
 
 class FarmHealthScreen extends ConsumerWidget {
   final String farmId;
@@ -97,6 +98,7 @@ class FarmHealthScreen extends ConsumerWidget {
           ),
         ),
       ),
+      bottomNavigationBar: BhoomiBottomNavigation(farmId: farmId, currentIndex: 3),
     );
   }
 }

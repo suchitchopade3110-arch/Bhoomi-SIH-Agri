@@ -12,6 +12,7 @@ import '../../../voice/presentation/widgets/voice_confirmation_sheet.dart';
 import '../../../voice/presentation/widgets/voice_record_button.dart';
 import '../../application/diagnosis_controller.dart';
 import '../widgets/crop_image_picker.dart';
+import '../../../../shared/widgets/bhoomi_bottom_navigation.dart';
 
 class AskBhoomiScreen extends ConsumerStatefulWidget {
   final String farmId;
@@ -303,6 +304,7 @@ class _AskBhoomiScreenState extends ConsumerState<AskBhoomiScreen> {
           ),
         ),
       ),
+      bottomNavigationBar: BhoomiBottomNavigation(farmId: widget.farmId, currentIndex: 1),
     );
   }
 }
