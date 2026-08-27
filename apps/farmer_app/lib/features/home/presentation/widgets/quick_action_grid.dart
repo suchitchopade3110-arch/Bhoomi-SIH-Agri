@@ -55,7 +55,7 @@ class QuickActionGrid extends ConsumerWidget {
 
             // 2. Show Image / Photo Diagnosis
             _buildActionTile(
-              title: 'Show Image',
+              title: strings.showImage,
               subtitle: strings.uploadCropPhoto,
               icon: Icons.camera_alt_rounded,
               color: const Color(0xFFE76F51),
@@ -64,8 +64,8 @@ class QuickActionGrid extends ConsumerWidget {
 
             // 3. Today's Guidance
             _buildActionTile(
-              title: "Today's Guidance",
-              subtitle: 'Weather & field advice',
+              title: strings.todaysGuidance,
+              subtitle: strings.weatherFieldAdvice,
               icon: Icons.wb_sunny_rounded,
               color: const Color(0xFFD97706),
               onTap: () => context.push('/brief/$farmId'),
@@ -73,8 +73,8 @@ class QuickActionGrid extends ConsumerWidget {
 
             // 4. Farm Health
             _buildActionTile(
-              title: 'Farm Health',
-              subtitle: 'Score & diagnosis',
+              title: strings.farmHealth,
+              subtitle: strings.scoreDiagnosis,
               icon: Icons.favorite_rounded,
               color: const Color(0xFF059669),
               onTap: () => context.push('/health/$farmId'),

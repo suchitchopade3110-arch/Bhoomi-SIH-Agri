@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../app/theme/app_colors.dart';
 import '../../../../app/theme/app_spacing.dart';
 import '../../../../app/theme/app_typography.dart';
+import '../../../../core/localization/bhoomi_localizations.dart';
 import '../../../../core/widgets/bhoomi_card.dart';
 import '../../../../core/widgets/bhoomi_loading_view.dart';
 import '../../../../core/widgets/bhoomi_primary_button.dart';
@@ -27,6 +28,7 @@ class _TodaysFarmBriefScreenState extends ConsumerState<TodaysFarmBriefScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final strings = ref.watch(bhoomiStringsProvider);
     final briefAsync = ref.watch(dailyBriefProvider(widget.farmId));
     final voiceState = ref.watch(voiceControllerProvider);
     final voiceController = ref.read(voiceControllerProvider.notifier);
@@ -34,7 +36,7 @@ class _TodaysFarmBriefScreenState extends ConsumerState<TodaysFarmBriefScreen> {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
-        title: const Text("Today's Guidance", style: TextStyle(fontWeight: FontWeight.w800)),
+        title: Text(strings.todaysGuidance, style: const TextStyle(fontWeight: FontWeight.w800)),
         scrolledUnderElevation: 0,
         actions: [
           briefAsync.maybeWhen(
@@ -44,14 +46,14 @@ class _TodaysFarmBriefScreenState extends ConsumerState<TodaysFarmBriefScreen> {
                 color: AppColors.primaryGreen,
                 size: 26.0,
               ),
-              tooltip: voiceState.isPlaying ? 'Stop Audio' : 'Listen to Brief',
+              tooltip: voiceState.isPlaying ? strings.stopAudio : strings.listenToBrief,
               onPressed: () {
                 if (voiceState.isPlaying) {
                   voiceController.stopPlayback();
                 } else {
                   final speech = (brief.spokenSummary != null && brief.spokenSummary!.trim().isNotEmpty)
                       ? brief.spokenSummary!
-                      : "Today's Guidance for ${brief.crop} at ${brief.growthStage}. Important action: ${brief.importantAction ?? ''}. Farm priority: ${brief.farmPriority ?? ''}.";
+                      : "${strings.todaysGuidance} (${strings.cropName(brief.crop)}): ${brief.importantAction ?? ''}.";
                   voiceController.synthesizeAndSpeak(speech);
                 }
               },
@@ -60,7 +62,7 @@ class _TodaysFarmBriefScreenState extends ConsumerState<TodaysFarmBriefScreen> {
           ),
           IconButton(
             icon: const Icon(Icons.refresh_rounded),
-            tooltip: 'Refresh Guidance',
+            tooltip: strings.refreshGuidance,
             onPressed: () {
               ref.invalidate(dailyBriefProvider(widget.farmId));
             },
@@ -69,7 +71,7 @@ class _TodaysFarmBriefScreenState extends ConsumerState<TodaysFarmBriefScreen> {
       ),
       body: SafeArea(
         child: briefAsync.when(
-          loading: () => const BhoomiLoadingView(message: 'Generating today\'s field guidance...'),
+          loading: () => BhoomiLoadingView(message: strings.generatingGuidance),
           error: (error, _) => Center(
             child: Padding(
               padding: const EdgeInsets.all(AppSpacing.xl),
@@ -78,12 +80,12 @@ class _TodaysFarmBriefScreenState extends ConsumerState<TodaysFarmBriefScreen> {
                 children: [
                   const Icon(Icons.error_outline_rounded, size: 48.0, color: Color(0xFFC62828)),
                   const SizedBox(height: AppSpacing.md),
-                  const Text('Unable to Load Daily Guidance', style: AppTypography.headlineMedium),
+                  Text(strings.todaysGuidance, style: AppTypography.headlineMedium),
                   const SizedBox(height: AppSpacing.sm),
                   Text(error.toString(), textAlign: TextAlign.center, style: const TextStyle(color: AppColors.textMuted)),
                   const SizedBox(height: AppSpacing.lg),
                   BhoomiPrimaryButton(
-                    text: 'Retry',
+                    text: strings.retry,
                     onPressed: () => ref.invalidate(dailyBriefProvider(widget.farmId)),
                   ),
                 ],
@@ -124,7 +126,7 @@ class _TodaysFarmBriefScreenState extends ConsumerState<TodaysFarmBriefScreen> {
                               const Icon(Icons.location_on_rounded, color: AppColors.accentGold, size: 18.0),
                               const SizedBox(width: 4.0),
                               Text(
-                                '${brief.crop} Field',
+                                '${strings.cropName(brief.crop)} ${strings.myFarm}',
                                 style: const TextStyle(color: Colors.white, fontSize: 14.0, fontWeight: FontWeight.w700),
                               ),
                             ],
@@ -136,7 +138,7 @@ class _TodaysFarmBriefScreenState extends ConsumerState<TodaysFarmBriefScreen> {
                               borderRadius: BorderRadius.circular(AppSpacing.radiusFull),
                             ),
                             child: Text(
-                              brief.growthStage,
+                              strings.translateStage(brief.growthStage),
                               style: const TextStyle(color: Colors.white, fontSize: 11.0, fontWeight: FontWeight.w600),
                             ),
                           ),
@@ -183,9 +185,9 @@ class _TodaysFarmBriefScreenState extends ConsumerState<TodaysFarmBriefScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          _buildWeatherMetric(Icons.water_drop_outlined, 'Humidity', '68%'),
-                          _buildWeatherMetric(Icons.air_rounded, 'Wind', '12 km/h'),
-                          _buildWeatherMetric(Icons.umbrella_outlined, 'Rain Risk', brief.weatherContext?.rainRisk ?? 'Low'),
+                          _buildWeatherMetric(Icons.water_drop_outlined, strings.text('humidity'), '68%'),
+                          _buildWeatherMetric(Icons.air_rounded, strings.wind, '12 km/h'),
+                          _buildWeatherMetric(Icons.umbrella_outlined, strings.rainRisk, brief.weatherContext?.rainRisk ?? 'Low'),
                         ],
                       ),
                     ],
@@ -198,16 +200,16 @@ class _TodaysFarmBriefScreenState extends ConsumerState<TodaysFarmBriefScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text(
-                      "Today's Farm Tasks",
-                      style: TextStyle(
+                    Text(
+                      strings.todaysTasks,
+                      style: const TextStyle(
                         fontSize: 18.0,
                         fontWeight: FontWeight.w800,
                         color: AppColors.textPrimary,
                       ),
                     ),
                     Text(
-                      '${_completedTasks.length}/${(brief.cropWatch.length + (brief.importantAction != null ? 1 : 0) + (brief.farmPriority != null ? 1 : 0))} done',
+                      '${_completedTasks.length}/${(brief.cropWatch.length + (brief.importantAction != null ? 1 : 0) + (brief.farmPriority != null ? 1 : 0))} ${strings.taskCompleted}',
                       style: const TextStyle(fontSize: 12.0, color: AppColors.primaryGreen, fontWeight: FontWeight.w700),
                     ),
                   ],
@@ -218,8 +220,8 @@ class _TodaysFarmBriefScreenState extends ConsumerState<TodaysFarmBriefScreen> {
                 if (brief.importantAction != null) ...[
                   _buildTaskChecklistCard(
                     taskId: 0,
-                    title: 'Priority: ${brief.importantAction!}',
-                    subtitle: 'Critical action for ${brief.growthStage} stage',
+                    title: '${strings.actionPlan}: ${brief.importantAction!}',
+                    subtitle: strings.translateStage(brief.growthStage),
                     icon: Icons.priority_high_rounded,
                     tagColor: const Color(0xFFD97706),
                   ),
@@ -231,7 +233,7 @@ class _TodaysFarmBriefScreenState extends ConsumerState<TodaysFarmBriefScreen> {
                   _buildTaskChecklistCard(
                     taskId: 1,
                     title: brief.farmPriority!,
-                    subtitle: 'Scheduled irrigation & nutrient application',
+                    subtitle: strings.text('field_weather'),
                     icon: Icons.water_drop_rounded,
                     tagColor: const Color(0xFF0284C7),
                   ),
@@ -246,7 +248,7 @@ class _TodaysFarmBriefScreenState extends ConsumerState<TodaysFarmBriefScreen> {
                     child: _buildTaskChecklistCard(
                       taskId: idx,
                       title: entry.value,
-                      subtitle: 'Field surveillance & disease scouting',
+                      subtitle: strings.text('symptoms_observed'),
                       icon: Icons.search_rounded,
                       tagColor: AppColors.primaryGreen,
                     ),

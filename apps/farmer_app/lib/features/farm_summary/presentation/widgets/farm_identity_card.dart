@@ -145,9 +145,9 @@ class FarmIdentityCard extends ConsumerWidget {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  const Text(
-                    'Edit Farm Information',
-                    style: TextStyle(
+                  Text(
+                    strings.text('edit'),
+                    style: const TextStyle(
                       fontSize: 18.0,
                       fontWeight: FontWeight.w800,
                       color: AppColors.primaryDeepGreen,
@@ -156,14 +156,14 @@ class FarmIdentityCard extends ConsumerWidget {
                   const SizedBox(height: AppSpacing.md),
                   const Divider(color: AppColors.divider),
                   const SizedBox(height: AppSpacing.md),
-                  const Text('Primary Crop', style: TextStyle(fontSize: 12.0, fontWeight: FontWeight.w600, color: AppColors.textMuted)),
+                  Text(strings.primaryCropLabel, style: const TextStyle(fontSize: 12.0, fontWeight: FontWeight.w600, color: AppColors.textMuted)),
                   const SizedBox(height: AppSpacing.xs),
                   DropdownButtonFormField<String>(
                     initialValue: crop,
-                    items: const [
-                      DropdownMenuItem(value: 'samba_paddy', child: Text('Paddy (Samba)')),
-                      DropdownMenuItem(value: 'kuruvai_paddy', child: Text('Paddy (Kuruvai)')),
-                      DropdownMenuItem(value: 'maize', child: Text('Maize')),
+                    items: [
+                      DropdownMenuItem(value: 'samba_paddy', child: Text(strings.cropName('samba_paddy'))),
+                      DropdownMenuItem(value: 'kuruvai_paddy', child: Text(strings.cropName('kuruvai_paddy'))),
+                      DropdownMenuItem(value: 'maize', child: Text(strings.cropName('maize'))),
                     ],
                     onChanged: (val) {
                       if (val != null) {
@@ -177,15 +177,15 @@ class FarmIdentityCard extends ConsumerWidget {
                     ),
                   ),
                   const SizedBox(height: AppSpacing.md),
-                  const Text('Growth Stage', style: TextStyle(fontSize: 12.0, fontWeight: FontWeight.w600, color: AppColors.textMuted)),
+                  Text(strings.text('growth_stage'), style: const TextStyle(fontSize: 12.0, fontWeight: FontWeight.w600, color: AppColors.textMuted)),
                   const SizedBox(height: AppSpacing.xs),
                   DropdownButtonFormField<String>(
                     initialValue: stage,
-                    items: const [
-                      DropdownMenuItem(value: 'vegetative', child: Text('Vegetative Stage')),
-                      DropdownMenuItem(value: 'tillering', child: Text('Tillering Stage')),
-                      DropdownMenuItem(value: 'flowering', child: Text('Flowering Stage')),
-                      DropdownMenuItem(value: 'maturity', child: Text('Maturity Stage')),
+                    items: [
+                      DropdownMenuItem(value: 'vegetative', child: Text(strings.translateStage('vegetative'))),
+                      DropdownMenuItem(value: 'tillering', child: Text(strings.translateStage('tillering'))),
+                      DropdownMenuItem(value: 'flowering', child: Text(strings.translateStage('flowering'))),
+                      DropdownMenuItem(value: 'maturity', child: Text(strings.translateStage('maturity'))),
                     ],
                     onChanged: (val) {
                       if (val != null) {
@@ -213,8 +213,8 @@ class FarmIdentityCard extends ConsumerWidget {
                         if (context.mounted) {
                           Navigator.pop(context);
                           ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('Farm information updated successfully.'),
+                            SnackBar(
+                              content: Text(strings.save),
                               backgroundColor: AppColors.primaryGreen,
                             ),
                           );
@@ -222,7 +222,7 @@ class FarmIdentityCard extends ConsumerWidget {
                       } catch (e) {
                         if (context.mounted) {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('Failed to update farm: $e')),
+                            SnackBar(content: Text('Failed: $e')),
                           );
                         }
                       }
@@ -233,7 +233,7 @@ class FarmIdentityCard extends ConsumerWidget {
                       padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppSpacing.radiusMd)),
                     ),
-                    child: const Text('Save Changes', style: TextStyle(fontWeight: FontWeight.w700)),
+                    child: Text(strings.save, style: const TextStyle(fontWeight: FontWeight.w700)),
                   ),
                 ],
               ),

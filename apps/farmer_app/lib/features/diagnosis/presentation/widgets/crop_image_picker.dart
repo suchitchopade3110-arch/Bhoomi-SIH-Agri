@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../../../app/theme/app_colors.dart';
 import '../../../../app/theme/app_spacing.dart';
 import '../../../../app/theme/app_typography.dart';
+import '../../../../core/localization/bhoomi_localizations.dart';
 import '../../application/diagnosis_state.dart';
 
-class CropImagePickerWidget extends StatelessWidget {
+class CropImagePickerWidget extends ConsumerWidget {
   final DiagnosisState state;
   final void Function(ImageSource source) onPickImage;
 
@@ -16,7 +18,8 @@ class CropImagePickerWidget extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final strings = ref.watch(bhoomiStringsProvider);
     final hasImage = state.selectedImageBytes != null;
     final isUploading = state.imageUploadStatus == ImageUploadStatus.uploading;
     final isUploaded = state.imageUploadStatus == ImageUploadStatus.uploaded;
@@ -48,9 +51,9 @@ class CropImagePickerWidget extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    'Show to BHOOMI',
-                    style: TextStyle(
+                  Text(
+                    strings.showToBhoomi,
+                    style: const TextStyle(
                       fontSize: 16.0,
                       fontWeight: FontWeight.w800,
                       color: AppColors.textPrimary,
@@ -58,7 +61,7 @@ class CropImagePickerWidget extends StatelessWidget {
                   ),
                   const SizedBox(height: 2.0),
                   Text(
-                    'Upload or take a photo',
+                    strings.uploadOrTakePhoto,
                     style: AppTypography.labelMedium.copyWith(color: AppColors.textMuted),
                   ),
                 ],
@@ -71,13 +74,13 @@ class CropImagePickerWidget extends StatelessWidget {
                     borderRadius: BorderRadius.circular(AppSpacing.radiusFull),
                     border: Border.all(color: AppColors.primaryGreen.withValues(alpha: 0.3)),
                   ),
-                  child: const Row(
+                  child: Row(
                     children: [
-                      Icon(Icons.check_circle_rounded, size: 14.0, color: AppColors.primaryGreen),
-                      SizedBox(width: 4.0),
+                      const Icon(Icons.check_circle_rounded, size: 14.0, color: AppColors.primaryGreen),
+                      const SizedBox(width: 4.0),
                       Text(
-                        'Attached',
-                        style: TextStyle(fontSize: 11.0, fontWeight: FontWeight.w800, color: AppColors.primaryGreen),
+                        strings.attached,
+                        style: const TextStyle(fontSize: 11.0, fontWeight: FontWeight.w800, color: AppColors.primaryGreen),
                       ),
                     ],
                   ),
@@ -109,7 +112,7 @@ class CropImagePickerWidget extends StatelessWidget {
                               const CircularProgressIndicator(color: Colors.white, strokeWidth: 3.0),
                               const SizedBox(height: AppSpacing.sm),
                               Text(
-                                'Uploading image... ${(state.imageUploadProgress * 100).toInt()}%',
+                                '${strings.uploadingAudio} ${(state.imageUploadProgress * 100).toInt()}%',
                                 style: const TextStyle(color: Colors.white, fontSize: 13.0, fontWeight: FontWeight.w600),
                               ),
                             ],
@@ -142,9 +145,9 @@ class CropImagePickerWidget extends StatelessWidget {
                     child: const Icon(Icons.add_photo_alternate_rounded, size: 28.0, color: AppColors.primaryGreen),
                   ),
                   const SizedBox(height: AppSpacing.xs),
-                  const Text(
-                    'No image selected yet',
-                    style: TextStyle(fontSize: 12.0, color: AppColors.textMuted, fontWeight: FontWeight.w500),
+                  Text(
+                    strings.noImageSelected,
+                    style: const TextStyle(fontSize: 12.0, color: AppColors.textMuted, fontWeight: FontWeight.w500),
                   ),
                 ],
               ),
@@ -177,7 +180,7 @@ class CropImagePickerWidget extends StatelessWidget {
                 child: OutlinedButton.icon(
                   onPressed: isUploading ? null : () => onPickImage(ImageSource.camera),
                   icon: const Icon(Icons.photo_camera_rounded, size: 18.0),
-                  label: const Text('Camera'),
+                  label: Text(strings.camera),
                   style: OutlinedButton.styleFrom(
                     foregroundColor: AppColors.primaryGreen,
                     side: const BorderSide(color: AppColors.primaryGreen, width: 1.5),
@@ -191,7 +194,7 @@ class CropImagePickerWidget extends StatelessWidget {
                 child: OutlinedButton.icon(
                   onPressed: isUploading ? null : () => onPickImage(ImageSource.gallery),
                   icon: const Icon(Icons.photo_library_rounded, size: 18.0),
-                  label: const Text('Gallery'),
+                  label: Text(strings.gallery),
                   style: OutlinedButton.styleFrom(
                     foregroundColor: AppColors.textSecondary,
                     side: const BorderSide(color: AppColors.border, width: 1.5),
@@ -204,10 +207,10 @@ class CropImagePickerWidget extends StatelessWidget {
           ),
 
           const SizedBox(height: AppSpacing.sm),
-          const Center(
+          Center(
             child: Text(
-              'AI will identify the issue and guide you.',
-              style: TextStyle(
+              strings.aiCropAssistHint,
+              style: const TextStyle(
                 fontSize: 12.0,
                 color: AppColors.textMuted,
                 fontStyle: FontStyle.italic,

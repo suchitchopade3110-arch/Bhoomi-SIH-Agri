@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../../../app/theme/app_colors.dart';
 import '../../../../app/theme/app_spacing.dart';
+import '../../../../core/localization/bhoomi_localizations.dart';
 import '../../../../core/widgets/bhoomi_card.dart';
 import '../../../../core/widgets/bhoomi_primary_button.dart';
 import '../../../../core/widgets/bhoomi_secondary_button.dart';
@@ -48,13 +49,14 @@ class _FollowupScreenState extends ConsumerState<FollowupScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final strings = ref.watch(bhoomiStringsProvider);
     final state = ref.watch(followupControllerProvider);
     final controller = ref.read(followupControllerProvider.notifier);
 
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
-        title: const Text('Track Problem Progress', style: TextStyle(fontWeight: FontWeight.w800)),
+        title: Text(strings.trackProgress, style: const TextStyle(fontWeight: FontWeight.w800)),
         scrolledUnderElevation: 0,
       ),
       body: SafeArea(
@@ -78,9 +80,9 @@ class _FollowupScreenState extends ConsumerState<FollowupScreen> {
                         child: const Icon(Icons.psychology_alt_rounded, color: AppColors.primaryGreen, size: 30.0),
                       ),
                       const SizedBox(height: AppSpacing.md),
-                      const Text(
-                        'How is it now?',
-                        style: TextStyle(
+                      Text(
+                        strings.howIsItNow,
+                        style: const TextStyle(
                           fontSize: 22.0,
                           fontWeight: FontWeight.w900,
                           color: AppColors.textPrimary,
@@ -88,17 +90,17 @@ class _FollowupScreenState extends ConsumerState<FollowupScreen> {
                         textAlign: TextAlign.center,
                       ),
                       const SizedBox(height: 4.0),
-                      const Text(
-                        'Has the problem improved after following the advice?',
-                        style: TextStyle(fontSize: 13.5, color: AppColors.textSecondary, height: 1.35),
+                      Text(
+                        strings.followupQuestion,
+                        style: const TextStyle(fontSize: 13.5, color: AppColors.textSecondary, height: 1.35),
                         textAlign: TextAlign.center,
                       ),
                       const SizedBox(height: AppSpacing.lg),
 
                       // Outcome Options: Improved, No Change, Got Worse
                       _buildOutcomeOption(
-                        title: '✓ Improved',
-                        subtitle: 'Yellowing stopped, new healthy leaves emerging',
+                        title: '✓ ${strings.improved}',
+                        subtitle: strings.improvedDesc,
                         value: 'improved',
                         color: AppColors.primaryGreen,
                         isSelected: state.selectedOutcome == 'improved',
@@ -107,8 +109,8 @@ class _FollowupScreenState extends ConsumerState<FollowupScreen> {
                       const SizedBox(height: AppSpacing.sm),
 
                       _buildOutcomeOption(
-                        title: '○ No Change',
-                        subtitle: 'Symptoms remain visible at the same level',
+                        title: '○ ${strings.noChange}',
+                        subtitle: strings.noChangeDesc,
                         value: 'no_change',
                         color: const Color(0xFFD97706),
                         isSelected: state.selectedOutcome == 'no_change',
@@ -117,8 +119,8 @@ class _FollowupScreenState extends ConsumerState<FollowupScreen> {
                       const SizedBox(height: AppSpacing.sm),
 
                       _buildOutcomeOption(
-                        title: '✕ Got Worse',
-                        subtitle: 'Lesions expanding or spreading to adjacent tillers',
+                        title: '✕ ${strings.gotWorse}',
+                        subtitle: strings.gotWorseDesc,
                         value: 'got_worse',
                         color: const Color(0xFFC62828),
                         isSelected: state.selectedOutcome == 'got_worse',
@@ -136,13 +138,13 @@ class _FollowupScreenState extends ConsumerState<FollowupScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Row(
+                      Row(
                         children: [
-                          Icon(Icons.add_a_photo_outlined, size: 18.0, color: AppColors.primaryGreen),
-                          SizedBox(width: AppSpacing.sm),
+                          const Icon(Icons.add_a_photo_outlined, size: 18.0, color: AppColors.primaryGreen),
+                          const SizedBox(width: AppSpacing.sm),
                           Text(
-                            'Upload new photo (Optional)',
-                            style: TextStyle(fontSize: 14.5, fontWeight: FontWeight.w800, color: AppColors.textPrimary),
+                            strings.uploadNewPhoto,
+                            style: const TextStyle(fontSize: 14.5, fontWeight: FontWeight.w800, color: AppColors.textPrimary),
                           ),
                         ],
                       ),
@@ -186,7 +188,7 @@ class _FollowupScreenState extends ConsumerState<FollowupScreen> {
                             child: OutlinedButton.icon(
                               onPressed: () => _pickImage(ImageSource.camera),
                               icon: const Icon(Icons.camera_alt_outlined, size: 18.0),
-                              label: const Text('Camera'),
+                              label: Text(strings.camera),
                               style: OutlinedButton.styleFrom(
                                 foregroundColor: AppColors.textPrimary,
                                 side: const BorderSide(color: AppColors.border),
@@ -199,7 +201,7 @@ class _FollowupScreenState extends ConsumerState<FollowupScreen> {
                             child: OutlinedButton.icon(
                               onPressed: () => _pickImage(ImageSource.gallery),
                               icon: const Icon(Icons.photo_library_outlined, size: 18.0),
-                              label: const Text('Gallery'),
+                              label: Text(strings.gallery),
                               style: OutlinedButton.styleFrom(
                                 foregroundColor: AppColors.textPrimary,
                                 side: const BorderSide(color: AppColors.border),
@@ -214,9 +216,9 @@ class _FollowupScreenState extends ConsumerState<FollowupScreen> {
                       const Divider(color: AppColors.divider),
                       const SizedBox(height: AppSpacing.sm),
 
-                      const Text(
-                        'Add Note',
-                        style: TextStyle(fontSize: 14.5, fontWeight: FontWeight.w800, color: AppColors.textPrimary),
+                      Text(
+                        strings.additionalContextOptional,
+                        style: const TextStyle(fontSize: 14.5, fontWeight: FontWeight.w800, color: AppColors.textPrimary),
                       ),
                       const SizedBox(height: AppSpacing.xs),
                       TextField(
@@ -224,7 +226,7 @@ class _FollowupScreenState extends ConsumerState<FollowupScreen> {
                         maxLines: 2,
                         onChanged: controller.setNotes,
                         decoration: InputDecoration(
-                          hintText: 'e.g. Applied recommended copper spray 2 days ago...',
+                          hintText: strings.text('type_problem_hint'),
                           filled: true,
                           fillColor: AppColors.background,
                           border: OutlineInputBorder(
@@ -257,7 +259,7 @@ class _FollowupScreenState extends ConsumerState<FollowupScreen> {
 
                 // Action Buttons: Submit Update & Skip for Now
                 BhoomiPrimaryButton(
-                  text: 'Submit Update',
+                  text: strings.save,
                   isLoading: state.isSubmitting,
                   icon: Icons.send_rounded,
                   onPressed: state.selectedOutcome == null
@@ -270,9 +272,9 @@ class _FollowupScreenState extends ConsumerState<FollowupScreen> {
                 const SizedBox(height: AppSpacing.sm),
                 TextButton(
                   onPressed: () => context.pop(),
-                  child: const Text(
-                    'Skip for Now',
-                    style: TextStyle(
+                  child: Text(
+                    strings.cancel,
+                    style: const TextStyle(
                       fontSize: 14.0,
                       fontWeight: FontWeight.w700,
                       color: AppColors.textSecondary,

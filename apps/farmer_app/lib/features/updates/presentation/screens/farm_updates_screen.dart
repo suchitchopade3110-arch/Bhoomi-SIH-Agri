@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import '../../../../app/theme/app_colors.dart';
 import '../../../../app/theme/app_spacing.dart';
 import '../../../../app/theme/app_typography.dart';
+import '../../../../core/localization/bhoomi_localizations.dart';
 import '../../../../core/widgets/bhoomi_card.dart';
 import '../../../../core/widgets/bhoomi_loading_view.dart';
 import '../../../../core/widgets/bhoomi_primary_button.dart';
@@ -53,11 +54,12 @@ class FarmUpdatesScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final updatesAsync = ref.watch(farmUpdatesProvider(farmId));
+    final strings = ref.watch(bhoomiStringsProvider);
 
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
-        title: const Text('Farm Updates & Alerts'),
+        title: Text(strings.latestUpdates),
         actions: [
           IconButton(
             icon: const Icon(Icons.refresh_rounded),
@@ -71,7 +73,7 @@ class FarmUpdatesScreen extends ConsumerWidget {
             _buildAlertsSection(context, ref),
             Expanded(
               child: updatesAsync.when(
-                loading: () => const BhoomiLoadingView(message: 'Loading farm updates...'),
+                loading: () => BhoomiLoadingView(message: strings.text('analyzing_health')),
                 error: (error, _) => Center(
                   child: Padding(
                     padding: const EdgeInsets.all(AppSpacing.xl),
@@ -80,12 +82,12 @@ class FarmUpdatesScreen extends ConsumerWidget {
                       children: [
                         const Icon(Icons.error_outline_rounded, size: 48.0, color: Color(0xFFC62828)),
                         const SizedBox(height: AppSpacing.md),
-                        const Text('Unable to Load Updates', style: AppTypography.headlineMedium),
+                        Text(strings.latestUpdates, style: AppTypography.headlineMedium),
                         const SizedBox(height: AppSpacing.sm),
                         Text(error.toString(), textAlign: TextAlign.center, style: const TextStyle(color: AppColors.textMuted)),
                         const SizedBox(height: AppSpacing.lg),
                         BhoomiPrimaryButton(
-                          text: 'Retry',
+                          text: strings.retry,
                           onPressed: () => ref.invalidate(farmUpdatesProvider(farmId)),
                         ),
                       ],
@@ -93,8 +95,8 @@ class FarmUpdatesScreen extends ConsumerWidget {
                   ),
                 ),
                 data: (updates) => updates.isEmpty
-                    ? const Center(
-                        child: Text('No active updates for your farm.', style: TextStyle(color: AppColors.textMuted)),
+                    ? Center(
+                        child: Text(strings.text('no_updates'), style: const TextStyle(color: AppColors.textMuted)),
                       )
                     : ListView.builder(
                         padding: const EdgeInsets.all(AppSpacing.lg),

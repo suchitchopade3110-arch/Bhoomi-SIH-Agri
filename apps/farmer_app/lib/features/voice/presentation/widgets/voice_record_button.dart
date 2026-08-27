@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../app/theme/app_colors.dart';
 import '../../../../app/theme/app_spacing.dart';
 import '../../../../app/theme/app_typography.dart';
+import '../../../../core/localization/bhoomi_localizations.dart';
 import '../../application/voice_state.dart';
 
-class VoiceRecordButton extends StatefulWidget {
+class VoiceRecordButton extends ConsumerStatefulWidget {
   final VoiceState state;
   final VoidCallback onStartRecording;
   final VoidCallback onStopRecording;
@@ -17,10 +19,10 @@ class VoiceRecordButton extends StatefulWidget {
   });
 
   @override
-  State<VoiceRecordButton> createState() => _VoiceRecordButtonState();
+  ConsumerState<VoiceRecordButton> createState() => _VoiceRecordButtonState();
 }
 
-class _VoiceRecordButtonState extends State<VoiceRecordButton>
+class _VoiceRecordButtonState extends ConsumerState<VoiceRecordButton>
     with SingleTickerProviderStateMixin {
   late AnimationController _animController;
   late Animation<double> _pulse;
@@ -45,6 +47,7 @@ class _VoiceRecordButtonState extends State<VoiceRecordButton>
 
   @override
   Widget build(BuildContext context) {
+    final strings = ref.watch(bhoomiStringsProvider);
     final isRecording = widget.state.isRecording;
     final isProcessing = widget.state.isUploading || widget.state.isTranscribing;
 
@@ -113,10 +116,10 @@ class _VoiceRecordButtonState extends State<VoiceRecordButton>
         const SizedBox(height: AppSpacing.sm),
         Text(
           isRecording
-              ? 'Recording... Tap to send'
+              ? strings.recordingTapToSend
               : isProcessing
-                  ? (widget.state.isUploading ? 'Uploading audio...' : 'Transcribing speech...')
-                  : 'Tap to Ask BHOOMI',
+                  ? (widget.state.isUploading ? strings.uploadingAudio : strings.transcribingSpeech)
+                  : strings.tapToAskBhoomi,
           style: AppTypography.labelMedium.copyWith(
             color: isRecording
                 ? const Color(0xFFC62828)

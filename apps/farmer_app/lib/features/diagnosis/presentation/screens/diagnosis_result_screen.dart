@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../app/theme/app_colors.dart';
 import '../../../../app/theme/app_spacing.dart';
+import '../../../../core/localization/bhoomi_localizations.dart';
 import '../../../../core/widgets/bhoomi_card.dart';
 import '../../../../core/widgets/bhoomi_primary_button.dart';
 import '../../../../core/widgets/bhoomi_secondary_button.dart';
@@ -24,6 +25,7 @@ class DiagnosisResultScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final strings = ref.watch(bhoomiStringsProvider);
     final state = ref.watch(diagnosisControllerProvider);
     final voiceState = ref.watch(voiceControllerProvider);
     final voiceController = ref.read(voiceControllerProvider.notifier);
@@ -31,15 +33,15 @@ class DiagnosisResultScreen extends ConsumerWidget {
 
     if (response == null) {
       return Scaffold(
-        appBar: AppBar(title: const Text('Diagnosis Result')),
+        appBar: AppBar(title: Text(strings.text('crop_diagnosis_title'))),
         body: Center(
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Text('No diagnosis result available.'),
+              Text(strings.text('no_updates')),
               const SizedBox(height: AppSpacing.md),
               BhoomiPrimaryButton(
-                text: 'Ask BHOOMI',
+                text: strings.askBhoomi,
                 onPressed: () => context.go('/ask/$farmId'),
               ),
             ],
@@ -53,7 +55,7 @@ class DiagnosisResultScreen extends ConsumerWidget {
       return Scaffold(
         backgroundColor: AppColors.background,
         appBar: AppBar(
-          title: const Text('Review Required'),
+          title: Text(strings.reviewRequired),
           scrolledUnderElevation: 0,
         ),
         body: SafeArea(
@@ -92,9 +94,9 @@ class DiagnosisResultScreen extends ConsumerWidget {
                         ),
                       ),
                       const SizedBox(height: AppSpacing.md),
-                      const Text(
-                        'Expert Verification Required',
-                        style: TextStyle(
+                      Text(
+                        strings.expertVerificationRequired,
+                        style: const TextStyle(
                           fontSize: 20.0,
                           fontWeight: FontWeight.w800,
                           color: Color(0xFFC62828),
@@ -102,9 +104,9 @@ class DiagnosisResultScreen extends ConsumerWidget {
                         textAlign: TextAlign.center,
                       ),
                       const SizedBox(height: AppSpacing.sm),
-                      const Text(
-                        'The diagnosis confidence is below the safety threshold. To ensure safe and accurate guidance, this case has been prepared for expert review.',
-                        style: TextStyle(fontSize: 13.5, color: AppColors.textSecondary, height: 1.4),
+                      Text(
+                        strings.belowConfidenceGateDesc,
+                        style: const TextStyle(fontSize: 13.5, color: AppColors.textSecondary, height: 1.4),
                         textAlign: TextAlign.center,
                       ),
                       const SizedBox(height: AppSpacing.md),
@@ -115,7 +117,7 @@ class DiagnosisResultScreen extends ConsumerWidget {
                           borderRadius: BorderRadius.circular(AppSpacing.radiusSm),
                         ),
                         child: Text(
-                          'Diagnosis ID: ${response.diagnosisId}',
+                          '${strings.text('diagnosis_id')}: ${response.diagnosisId}',
                           style: const TextStyle(fontSize: 11.0, fontFamily: 'monospace', color: AppColors.textMuted),
                         ),
                       ),
@@ -126,7 +128,7 @@ class DiagnosisResultScreen extends ConsumerWidget {
                 const SizedBox(height: AppSpacing.xl),
 
                 BhoomiPrimaryButton(
-                  text: 'Escalate to KVK Agronomist',
+                  text: strings.escalateToKvk,
                   icon: Icons.send_rounded,
                   onPressed: () {
                     context.push('/escalation/$farmId/${response.diagnosisId}');
@@ -134,7 +136,7 @@ class DiagnosisResultScreen extends ConsumerWidget {
                 ),
                 const SizedBox(height: AppSpacing.md),
                 BhoomiSecondaryButton(
-                  text: 'Return to Farm Home',
+                  text: strings.returnToFarmHome,
                   icon: Icons.home_rounded,
                   onPressed: () {
                     context.go('/home/$farmId');
@@ -149,12 +151,12 @@ class DiagnosisResultScreen extends ConsumerWidget {
 
     final speechSummary = (response.spokenSummary != null && response.spokenSummary!.trim().isNotEmpty)
         ? response.spokenSummary!
-        : "Possible Issue: ${response.possibleIssue}. Key actions: ${response.actions.join(', ')}.";
+        : "${strings.possibleIssueIdentified}: ${response.possibleIssue}.";
 
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
-        title: const Text("BHOOMI's Advisory", style: TextStyle(fontWeight: FontWeight.w800)),
+        title: Text(strings.text('bhoomi_advisory'), style: const TextStyle(fontWeight: FontWeight.w800)),
         scrolledUnderElevation: 0,
         actions: [
           IconButton(
@@ -163,7 +165,7 @@ class DiagnosisResultScreen extends ConsumerWidget {
               color: AppColors.primaryGreen,
               size: 26.0,
             ),
-            tooltip: voiceState.isPlaying ? 'Stop Audio' : 'Listen to Advisory',
+            tooltip: voiceState.isPlaying ? strings.stopAudio : strings.listenToAdvisory,
             onPressed: () {
               if (voiceState.isPlaying) {
                 voiceController.stopPlayback();
@@ -197,9 +199,9 @@ class DiagnosisResultScreen extends ConsumerWidget {
                           child: const Icon(Icons.eco_rounded, color: AppColors.primaryGreen, size: 22.0),
                         ),
                         const SizedBox(width: AppSpacing.sm),
-                        const Text(
-                          'Possible Issue Identified',
-                          style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.w700, color: AppColors.textSecondary),
+                        Text(
+                          strings.possibleIssueIdentified,
+                          style: const TextStyle(fontSize: 14.0, fontWeight: FontWeight.w700, color: AppColors.textSecondary),
                         ),
                       ],
                     ),
@@ -215,7 +217,7 @@ class DiagnosisResultScreen extends ConsumerWidget {
                     ),
                     const SizedBox(height: AppSpacing.sm),
                     Text(
-                      'Diagnosis ID: ${response.diagnosisId}',
+                      '${strings.text('diagnosis_id')}: ${response.diagnosisId}',
                       style: const TextStyle(fontSize: 11.0, fontFamily: 'monospace', color: AppColors.textMuted),
                     ),
                   ],
@@ -235,7 +237,7 @@ class DiagnosisResultScreen extends ConsumerWidget {
                 const SizedBox(height: AppSpacing.lg),
               ],
 
-              // 5-Point Action Plan Card with Save/Share
+              // Action Plan Card with Save/Share
               AdvisoryActionCard(
                 actions: response.actions,
                 caution: response.caution,
@@ -258,7 +260,7 @@ class DiagnosisResultScreen extends ConsumerWidget {
                 children: [
                   Expanded(
                     child: BhoomiSecondaryButton(
-                      text: 'Track Progress',
+                      text: strings.trackProgress,
                       icon: Icons.assignment_turned_in_outlined,
                       onPressed: () {
                         context.push('/followup/$farmId/${response.diagnosisId}');
@@ -268,7 +270,7 @@ class DiagnosisResultScreen extends ConsumerWidget {
                   const SizedBox(width: AppSpacing.md),
                   Expanded(
                     child: BhoomiPrimaryButton(
-                      text: 'Get Expert Help',
+                      text: strings.getExpertHelp,
                       icon: Icons.support_agent_rounded,
                       onPressed: () {
                         context.push('/escalation/$farmId/${response.diagnosisId}');

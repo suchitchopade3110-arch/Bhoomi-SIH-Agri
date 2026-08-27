@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../app/theme/app_colors.dart';
 import '../../../../app/theme/app_spacing.dart';
+import '../../../../core/localization/bhoomi_localizations.dart';
 import '../../../../core/widgets/bhoomi_card.dart';
 import '../../../../core/widgets/bhoomi_primary_button.dart';
 import '../../../../core/widgets/bhoomi_secondary_button.dart';
@@ -34,6 +35,7 @@ class _EscalationScreenState extends ConsumerState<EscalationScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final strings = ref.watch(bhoomiStringsProvider);
     final state = ref.watch(escalationControllerProvider);
     final controller = ref.read(escalationControllerProvider.notifier);
     final diagnosisState = ref.watch(diagnosisControllerProvider);
@@ -41,7 +43,7 @@ class _EscalationScreenState extends ConsumerState<EscalationScreen> {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
-        title: const Text('KVK Expert Review', style: TextStyle(fontWeight: FontWeight.w800)),
+        title: Text(strings.text('get_expert_help'), style: const TextStyle(fontWeight: FontWeight.w800)),
         scrolledUnderElevation: 0,
       ),
       body: SafeArea(
@@ -77,9 +79,9 @@ class _EscalationScreenState extends ConsumerState<EscalationScreen> {
                         ),
                       ),
                       const SizedBox(height: AppSpacing.md),
-                      const Text(
-                        'Escalating to Expert',
-                        style: TextStyle(
+                      Text(
+                        strings.text('get_expert_help'),
+                        style: const TextStyle(
                           fontSize: 22.0,
                           fontWeight: FontWeight.w900,
                           color: AppColors.textPrimary,
@@ -87,15 +89,15 @@ class _EscalationScreenState extends ConsumerState<EscalationScreen> {
                         textAlign: TextAlign.center,
                       ),
                       const SizedBox(height: 4.0),
-                      const Text(
-                        'Our agricultural expert will review your case.',
-                        style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.w600, color: AppColors.primaryGreen),
+                      Text(
+                        strings.expertVerificationRequired,
+                        style: const TextStyle(fontSize: 14.0, fontWeight: FontWeight.w600, color: AppColors.primaryGreen),
                         textAlign: TextAlign.center,
                       ),
                       const SizedBox(height: AppSpacing.md),
-                      const Text(
-                        'Your crop photographs, field telemetry, and diagnosis history will be compiled and forwarded directly to Krishi Vigyan Kendra agronomists.',
-                        style: TextStyle(fontSize: 13.0, color: AppColors.textSecondary, height: 1.35),
+                      Text(
+                        strings.belowConfidenceGateDesc,
+                        style: const TextStyle(fontSize: 13.0, color: AppColors.textSecondary, height: 1.35),
                         textAlign: TextAlign.center,
                       ),
                       const SizedBox(height: AppSpacing.lg),
@@ -108,13 +110,13 @@ class _EscalationScreenState extends ConsumerState<EscalationScreen> {
                           borderRadius: BorderRadius.circular(AppSpacing.radiusMd),
                           border: Border.all(color: AppColors.border),
                         ),
-                        child: const Column(
+                        child: Column(
                           children: [
-                            _EscalationStepRow(label: 'Case transferred', isPending: true),
-                            SizedBox(height: AppSpacing.xs),
-                            _EscalationStepRow(label: 'Expert notified', isPending: true),
-                            SizedBox(height: AppSpacing.xs),
-                            _EscalationStepRow(label: 'Review in progress', isPending: true),
+                            _EscalationStepRow(label: strings.caseTransferred, isPending: true),
+                            const SizedBox(height: AppSpacing.xs),
+                            _EscalationStepRow(label: strings.expertNotified, isPending: true),
+                            const SizedBox(height: AppSpacing.xs),
+                            _EscalationStepRow(label: strings.reviewInProgress, isPending: true),
                           ],
                         ),
                       ),
@@ -130,9 +132,9 @@ class _EscalationScreenState extends ConsumerState<EscalationScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
-                        'Why do you need expert help? (Optional)',
-                        style: TextStyle(fontSize: 14.5, fontWeight: FontWeight.w800, color: AppColors.textPrimary),
+                      Text(
+                        strings.whyNeedExpert,
+                        style: const TextStyle(fontSize: 14.5, fontWeight: FontWeight.w800, color: AppColors.textPrimary),
                       ),
                       const SizedBox(height: AppSpacing.sm),
                       TextField(
@@ -140,7 +142,7 @@ class _EscalationScreenState extends ConsumerState<EscalationScreen> {
                         maxLines: 3,
                         onChanged: controller.setReason,
                         decoration: InputDecoration(
-                          hintText: 'e.g. Yellowing is spreading rapidly to 50% of tillers despite initial drainage...',
+                          hintText: strings.text('type_problem_hint'),
                           filled: true,
                           fillColor: AppColors.background,
                           border: OutlineInputBorder(
@@ -181,7 +183,7 @@ class _EscalationScreenState extends ConsumerState<EscalationScreen> {
 
                 // Submit Escalation
                 BhoomiPrimaryButton(
-                  text: 'Submit to KVK Agronomist',
+                  text: strings.submitToKvk,
                   isLoading: state.isSubmitting,
                   icon: Icons.send_rounded,
                   onPressed: () async {
@@ -223,10 +225,10 @@ class _EscalationScreenState extends ConsumerState<EscalationScreen> {
                             child: const Icon(Icons.check_circle_rounded, color: AppColors.primaryGreen, size: 24.0),
                           ),
                           const SizedBox(width: AppSpacing.sm),
-                          const Expanded(
+                          Expanded(
                             child: Text(
-                              'Expert Case Summary',
-                              style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w900, color: AppColors.textPrimary),
+                              strings.expertCaseSummary,
+                              style: const TextStyle(fontSize: 20.0, fontWeight: FontWeight.w900, color: AppColors.textPrimary),
                             ),
                           ),
                         ],
@@ -240,13 +242,13 @@ class _EscalationScreenState extends ConsumerState<EscalationScreen> {
                           color: AppColors.background,
                           borderRadius: BorderRadius.circular(AppSpacing.radiusMd),
                         ),
-                        child: const Column(
+                        child: Column(
                           children: [
-                            _EscalationStepRow(label: 'Case transferred', isPending: false),
-                            SizedBox(height: AppSpacing.xs),
-                            _EscalationStepRow(label: 'Expert notified', isPending: false),
-                            SizedBox(height: AppSpacing.xs),
-                            _EscalationStepRow(label: 'Review in progress', isPending: false),
+                            _EscalationStepRow(label: strings.caseTransferred, isPending: false),
+                            const SizedBox(height: AppSpacing.xs),
+                            _EscalationStepRow(label: strings.expertNotified, isPending: false),
+                            const SizedBox(height: AppSpacing.xs),
+                            _EscalationStepRow(label: strings.reviewInProgress, isPending: false),
                           ],
                         ),
                       ),
@@ -255,41 +257,41 @@ class _EscalationScreenState extends ConsumerState<EscalationScreen> {
                       const Divider(color: AppColors.divider),
                       const SizedBox(height: AppSpacing.md),
 
-                      _buildInfoRow('Farmer', 'Registered Farmer'),
+                      _buildInfoRow(strings.farmer, strings.text('primary_crop')),
                       const SizedBox(height: AppSpacing.sm),
-                      _buildInfoRow('Location', 'Coimbatore Agro Zone'),
+                      _buildInfoRow(strings.location, strings.text('village')),
                       const SizedBox(height: AppSpacing.sm),
-                      _buildInfoRow('Crop', 'Paddy (Samba)'),
+                      _buildInfoRow(strings.cropLabel, strings.cropName('samba_paddy')),
                       const SizedBox(height: AppSpacing.sm),
-                      _buildInfoRow('Case Identifier', state.response!.caseId),
+                      _buildInfoRow(strings.caseIdentifier, state.response!.caseId),
                       const SizedBox(height: AppSpacing.sm),
-                      _buildInfoRow('Assigned KVK Center', state.response!.kvkCenter),
+                      _buildInfoRow(strings.assignedKvk, state.response!.kvkCenter),
                       const SizedBox(height: AppSpacing.sm),
-                      _buildInfoRow('Estimated Review', state.response!.estimatedReview),
+                      _buildInfoRow(strings.estimatedReview, state.response!.estimatedReview),
 
                       const SizedBox(height: AppSpacing.lg),
                       const Divider(color: AppColors.divider),
                       const SizedBox(height: AppSpacing.md),
 
-                      const Text(
-                        'Summary',
-                        style: TextStyle(fontSize: 14.5, fontWeight: FontWeight.w800, color: AppColors.textPrimary),
+                      Text(
+                        strings.summary,
+                        style: const TextStyle(fontSize: 14.5, fontWeight: FontWeight.w800, color: AppColors.textPrimary),
                       ),
                       const SizedBox(height: 2.0),
-                      const Text(
-                        'Farmer reported an issue in the crop and received recommended actions. Case forwarded for agronomist review.',
-                        style: TextStyle(fontSize: 13.0, height: 1.35, color: AppColors.textSecondary),
+                      Text(
+                        strings.belowConfidenceGateDesc,
+                        style: const TextStyle(fontSize: 13.0, height: 1.35, color: AppColors.textSecondary),
                       ),
 
                       const SizedBox(height: AppSpacing.md),
 
-                      const Text(
-                        'Expert Note',
-                        style: TextStyle(fontSize: 14.5, fontWeight: FontWeight.w800, color: AppColors.primaryGreen),
+                      Text(
+                        strings.expertNote,
+                        style: const TextStyle(fontSize: 14.5, fontWeight: FontWeight.w800, color: AppColors.primaryGreen),
                       ),
                       const SizedBox(height: 2.0),
                       Text(
-                        'Case logged for agronomist review at ${state.response!.kvkCenter}. Reviewed latest information and field conditions.',
+                        '${state.response!.kvkCenter} - ${state.response!.estimatedReview}',
                         style: const TextStyle(fontSize: 13.0, height: 1.35, color: AppColors.textSecondary),
                       ),
                     ],
