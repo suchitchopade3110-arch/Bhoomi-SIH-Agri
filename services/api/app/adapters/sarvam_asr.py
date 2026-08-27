@@ -161,6 +161,12 @@ class SarvamAsrTtsAdapter:
                 headers={"Content-Type": "audio/wav"},
             )
             upload_response.raise_for_status()
-            return await storage.generate_presigned_download_url(file_name)
+            # Must pass the real storage key (asset_kind/asset_id/file_name),
+            # not the bare file_name — the local backend writes bytes under
+            # that full key, and a download URL built from file_name alone
+            # 404s (see the identical fix already applied to
+            # VoiceService.transcribe's asset resolution).
+            storage_key = presigned["fields"]["key"]
+            return await storage.generate_presigned_download_url(asset_id, storage_key=storage_key)
         except Exception:
             return None
