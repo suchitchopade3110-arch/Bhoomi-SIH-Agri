@@ -18,6 +18,21 @@ from app.domain.constants import (
 )
 
 
+# --- PROBLEM_STATEMENT feature flag: single source of truth ------------------
+# Declared here (not inline on the field) so router gating, the flag-off
+# contract in app/core/feature_flags.py, and the tests all compare against
+# one named constant instead of re-typing the string literals.
+#
+# The flag is a required-with-default field: it is ALWAYS defined. There is
+# no code path anywhere that reads it via ``getattr(..., default)`` or
+# ``os.environ`` — an unset environment resolves to
+# ``PROBLEM_STATEMENT_DEFAULT`` below, and an unrecognized value fails
+# validation at import time rather than silently gating features off.
+ProblemStatement = Literal["sih25076", "sih26131"]
+PROBLEM_STATEMENT_VALUES: tuple[str, ...] = ("sih25076", "sih26131")
+PROBLEM_STATEMENT_DEFAULT: ProblemStatement = "sih26131"
+
+
 class Settings(BaseSettings):
     """Application settings and feature flags loaded from environment / .env file."""
 
@@ -94,11 +109,16 @@ class Settings(BaseSettings):
     ML_SERVICE_URL: str = "http://localhost:8001"
 
     # Feature Flags
-    PROBLEM_STATEMENT: Literal["sih25076", "sih26131"] = Field(
-        default="sih26131",
+    PROBLEM_STATEMENT: ProblemStatement = Field(
+        default=PROBLEM_STATEMENT_DEFAULT,
         description=(
             "Switches API surface between SIH25076 (Cadastral/Resource) and "
-            "SIH26131 (Pest/Alert/Efficacy). See docs/specs/api_contract_sih26131_delta.md."
+            "SIH26131 (Pest/Alert/Efficacy). Always defined: defaults to "
+            f"'{PROBLEM_STATEMENT_DEFAULT}' when unset. Any value other than "
+            "'sih26131' puts the SIH26131-only features (alerts, treatment "
+            "efficacy) into the documented flag-off contract — see "
+            "docs/specs/problem_statement_flag_off_contract.md and "
+            "docs/specs/api_contract_sih26131_delta.md."
         ),
     )
     DIAGNOSIS_MODEL: Literal["real", "stub"] = Field(
