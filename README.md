@@ -254,7 +254,7 @@ Two conventions recur, both concessions to thin rural bandwidth. Large media nev
 
 | Setting | Values | Default | Effect |
 |---|---|---|---|
-| `PROBLEM_STATEMENT` | `sih26131` \| `sih25076` | `sih26131` | Which routers mount |
+| `PROBLEM_STATEMENT` | `sih26131` \| `sih25076` | `sih26131` | Which routers mount. Under `sih25076` the alerts/efficacy paths answer `501 FEATURE_NOT_AVAILABLE` — see [the flag-off contract](docs/specs/problem_statement_flag_off_contract.md) |
 | `DIAGNOSIS_MODEL` | `stub` \| `real` | `stub` | `real` calls `ML_SERVICE_URL` |
 | `EMBEDDING_PROVIDER` | `stub` \| `bge_m3` | `stub` | Also selects the matching RAG threshold |
 | `LLM_PROVIDER` | `stub` \| `groq` | `stub` | `groq` requires a real `LLM_API_KEY` (fails at startup otherwise) |
@@ -337,6 +337,7 @@ GitHub Actions runs two pipelines: `backend-ci.yml` (Alembic migrate + pytest ag
 | `docs/TECH_STACK.md` | Stack choices and the alternatives considered |
 | `docs/specs/suchit_module_specs_sih26131.md` | Risk engine, gate, RAG, escalation specs |
 | `docs/specs/api_contract_sih26131_delta.md` | What `PROBLEM_STATEMENT` changes (see the caveat under Configuration) |
+| `docs/specs/problem_statement_flag_off_contract.md` | Frontend-facing: exact response shape when `PROBLEM_STATEMENT != sih26131` |
 | `docs/specs/early_warning_alert_spec.md` | Alert triggers and mandatory `inspection_tasks[]` |
 | `docs/specs/treatment_efficacy_spec.md` | Efficacy metric definition |
 | `docs/FRONTEND_API_ALIGNMENT.md` | Contract-vs-client drift audit |
