@@ -89,8 +89,9 @@ class TestVoiceServiceResolvesRealUrl:
         mock_speech = AsyncMock()
         mock_speech.transcribe_audio.return_value = ("வணக்கம்", 0.9)
         mock_llm = AsyncMock()
+        mock_advisory = AsyncMock()
 
-        service = VoiceService(mock_speech, mock_llm, storage)
+        service = VoiceService(mock_speech, mock_llm, storage, mock_advisory)
         request = VoiceTranscribeRequest(audio_asset_id="asset-1", language="ta", context="general")
 
         await service.transcribe(request)
@@ -107,8 +108,9 @@ class TestVoiceServiceResolvesRealUrl:
         mock_speech = AsyncMock()
         mock_speech.transcribe_audio.return_value = ("வணக்கம்", 0.85)
         mock_llm = AsyncMock()
+        mock_advisory = AsyncMock()
 
-        service = VoiceService(mock_speech, mock_llm, storage)
+        service = VoiceService(mock_speech, mock_llm, storage, mock_advisory)
         request = VoiceTranscribeRequest(audio_asset_id="missing-asset", language="ta", context="general")
 
         await service.transcribe(request)

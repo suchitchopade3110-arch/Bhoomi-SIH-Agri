@@ -11,10 +11,16 @@ Covers the Phase 2 spec's 8 required tests:
   8. test_stub_provider_returns_valid_response
 """
 
+from unittest.mock import AsyncMock
+
 import pytest
 
-from app.services.intent_parser import IntentParser, ParsedIntent
+from app.domain.rag.advisory import FivePointAdvisory
+from app.schemas.voice import VoiceQueryRequest
 from app.services.confirmation import ConfirmationService
+from app.services.intent_parser import IntentParser, ParsedIntent
+from app.services.rag.advisory_service import AdvisoryQueryOutcome
+from app.services.voice_service import VoiceService
 
 
 # ---------------------------------------------------------------------------
@@ -224,3 +230,78 @@ class TestStubProvider:
         assert isinstance(url, str)
         assert url.startswith("http")
         assert asset_id  # non-empty
+
+
+# ---------------------------------------------------------------------------
+# End-to-end speech-to-speech (VoiceService.process_voice_query) tests
+# ---------------------------------------------------------------------------
+
+class TestProcessVoiceQuery:
+    """VoiceService.process_voice_query: transcribe -> RAG answer -> synthesize."""
+
+    def _service(self, advisory_outcome: AdvisoryQueryOutcome) -> tuple[VoiceService, AsyncMock, AsyncMock]:
+        mock_speech = AsyncMock()
+        mock_speech.transcribe_audio.return_value = ("இலை மஞ்சள் நிறமாக உள்ளது", 0.9)
+        mock_speech.synthesize_speech.return_value = ("audio-asset-1", "http://localhost:9000/bhoomi-assets/audio-asset-1")
+
+        mock_storage = AsyncMock()
+        from app.core.errors import NotFoundError
+        mock_storage.get_asset.side_effect = NotFoundError("asset", {})
+
+        mock_advisory = AsyncMock()
+        mock_advisory.answer_query.return_value = advisory_outcome
+
+        service = VoiceService(mock_speech, AsyncMock(), mock_storage, mock_advisory)
+        return service, mock_speech, mock_advisory
+
+    @pytest.mark.asyncio
+    async def test_retrieved_answer_is_transcribed_answered_and_synthesized(self):
+        outcome = AdvisoryQueryOutcome(
+            retrieved=True,
+            advisory=FivePointAdvisory(
+                what_to_avoid="Avoid excess nitrogen.",
+                possible_issue="Likely bacterial leaf blight.",
+                what_to_check="Check leaf margins for yellowing.",
+                what_to_do_next="Apply recommended copper-based spray.",
+                expert_triggers="If spreading beyond 30% of the field.",
+            ),
+            citations=[],
+            reason=None,
+            escalation_offered=None,
+            spoken_summary="Here's what I found, with sources.",
+            provider="stub",
+            model="stub",
+        )
+        service, mock_speech, mock_advisory = self._service(outcome)
+        request = VoiceQueryRequest(audio_asset_id="asset-1", farm_id="farm-1", language="ta")
+
+        response = await service.process_voice_query(request)
+
+        mock_advisory.answer_query.assert_called_once_with("farm-1", "இலை மஞ்சள் நிறமாக உள்ளது")
+        assert response.transcript == "இலை மஞ்சள் நிறமாக உள்ளது"
+        assert "Likely bacterial leaf blight." in response.answer_text
+        assert "Apply recommended copper-based spray." in response.answer_text
+        assert response.audio_response_url == "http://localhost:9000/bhoomi-assets/audio-asset-1"
+        assert response.spoken_summary == "Here's what I found, with sources."
+        mock_speech.synthesize_speech.assert_called_once_with(response.answer_text, "ta")
+
+    @pytest.mark.asyncio
+    async def test_no_retrieval_falls_back_to_escalation_summary(self):
+        outcome = AdvisoryQueryOutcome(
+            retrieved=False,
+            advisory=None,
+            citations=[],
+            reason="no_relevant_source",
+            escalation_offered=True,
+            spoken_summary="I don't have reliable information for this. Should I send it to an expert?",
+            provider="stub",
+            model="stub",
+        )
+        service, mock_speech, _mock_advisory = self._service(outcome)
+        request = VoiceQueryRequest(audio_asset_id="asset-2", farm_id="farm-1", language="ta")
+
+        response = await service.process_voice_query(request)
+
+        assert response.answer_text == outcome.spoken_summary
+        assert response.spoken_summary == outcome.spoken_summary
+        mock_speech.synthesize_speech.assert_called_once_with(outcome.spoken_summary, "ta")
