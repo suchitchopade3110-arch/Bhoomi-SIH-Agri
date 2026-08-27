@@ -154,7 +154,7 @@ class _AskBhoomiScreenState extends ConsumerState<AskBhoomiScreen> {
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Icon(Icons.record_voice_over_rounded, size: 16.0, color: AppColors.primaryGreen),
+                            const Icon(Icons.record_voice_over_rounded, size: 16.0, color: AppColors.primaryGreen),
                             const SizedBox(width: 6.0),
                             Text(
                               'Or have a spoken conversation — hear BHOOMI answer',
