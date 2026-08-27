@@ -97,24 +97,51 @@ and pointed at a `sih25076` server gets the `501` above.
 
 ## 4. Recommended client handling
 
+### 4.1 Flutter (`apps/farmer_app`) — no client change needed to classify it
+
+`ApiClient._handleDioError` (`lib/core/api/api_client.dart`) already routes
+this correctly. Its `errCode != null` branch is evaluated **before** the
+`statusCode >= 500` branch, so a `501` carrying an `error.code` becomes:
+
 ```dart
-// Flutter — pseudocode
-if (response.statusCode == 501 &&
-    body['error']?['code'] == 'FEATURE_NOT_AVAILABLE') {
-  // Hide the Alerts / Efficacy entry point for this session.
-  // Do NOT show an error toast, and do NOT retry — the answer is
-  // deployment-configuration, stable for the lifetime of the server.
-  featureRegistry.disable(body['error']['details']['feature']);
-  return;
+DomainException(
+  code: 'FEATURE_NOT_AVAILABLE',
+  message: "'early_warning_alerts' is not available under …",
+  statusCode: 501,
+  details: {'feature': …, 'endpoint': …,
+            'active_problem_statement': …, 'required_problem_statement': …},
+)
+```
+
+It is **not** mapped to `ServerException`, so it will not be presented as a
+transient "server error, please try again" — the ordering of those two
+branches is what guarantees that. Handle it where you catch `ApiException`:
+
+```dart
+on DomainException catch (e) {
+  if (e.code == 'FEATURE_NOT_AVAILABLE') {
+    // Hide the Alerts / Efficacy entry point for this session.
+    // No error toast, no retry — this is deployment configuration.
+    featureRegistry.disable(e.details?['feature'] as String?);
+    return;
+  }
+  rethrow;
 }
 ```
 
-Cache the result per app session. Retrying, backing off, or surfacing a
-"something went wrong" banner is wrong here: the response will not change
-until the server is restarted with a different `PROBLEM_STATEMENT`.
+### 4.2 Anything else
 
-To learn the active contract up front without probing a gated endpoint, call
-`GET /` — it returns `{"contract": "SIH26131"}` (or `"SIH25076"`).
+Branch on `error.code == "FEATURE_NOT_AVAILABLE"`. Cache the result per app
+session. Retrying, backing off, or surfacing a "something went wrong" banner
+is wrong here: the response will not change until the server is restarted
+with a different `PROBLEM_STATEMENT`.
+
+### 4.3 Detecting the contract up front
+
+To learn the active contract without probing a gated endpoint, call `GET /` —
+it returns `{"contract": "SIH26131"}` (or `"SIH25076"`). Preferred over
+probing, since it costs one call regardless of how many gated features the
+client uses.
 
 ## 5. Where this lives in the backend
 
