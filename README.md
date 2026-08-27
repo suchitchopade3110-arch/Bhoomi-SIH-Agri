@@ -70,7 +70,6 @@ Then open `http://localhost:8000/docs` for Swagger, `/redoc` for ReDoc, or `GET 
 
 ```bash
 cd apps/kvk_portal      && npm install && npm run dev    # :5174 — agronomist case queue
-cd apps/officer_portal  && npm install && npm run dev    # :5173 — land review
 
 cd apps/farmer_app && flutter pub get
 flutter run --dart-define=API_BASE_URL=http://10.0.2.2:8000    # 10.0.2.2 = your host, seen from an Android emulator
@@ -193,8 +192,7 @@ Shipping unvalidated chemical dosages to farmers is a real-world harm, not a dem
 Bhoomi-SIH-Agri/
 ├── apps/
 │   ├── farmer_app/            Flutter — Riverpod, go_router, dio
-│   ├── kvk_portal/            Agronomist case queue + resolve (React + Vite + Tailwind)
-│   └── officer_portal/        Land review (React + Vite + Tailwind + Leaflet)
+│   └── kvk_portal/            Agronomist case queue + resolve (React + Vite + Tailwind)
 ├── services/
 │   ├── api/                   FastAPI backend — the entire intelligence layer
 │   │   ├── app/api/v1/        Routers (HTTP in, HTTP out, no logic)
@@ -321,7 +319,7 @@ GitHub Actions runs two pipelines: `backend-ci.yml` (Alembic migrate + pytest ag
 | **Tharun** | Corpus curation, pest research, image model, ASR/TTS research |
 | **Shruthi** | Voice endpoints, DB schema and migrations |
 | **Santheesh** | `apps/farmer_app` |
-| **Thaariha** | `apps/officer_portal`, `apps/kvk_portal` |
+| **Thaariha** | `apps/kvk_portal` |
 
 ---
 

@@ -47,18 +47,8 @@ from app.schemas.farm import (
     FarmSummaryTrendResponse,
     FarmUpdateRequest,
 )
-from app.schemas.land import (
-    LandVerifyRequest,
-    LandVerifyResponse,
-    ThinLandVerification,
-)
+from app.schemas.land import ThinLandVerification
 from app.core.enums import ThinLandStatus
-from app.schemas.officer import (
-    OfficerActionRequest,
-    OfficerActionResponse,
-    OfficerQueueItem,
-    OfficerReviewDetail,
-)
 from app.schemas.resource_plan import (
     Fao56CalculateRequest,
     Fao56CalculateResponse,
@@ -131,12 +121,6 @@ __all__ = [
     "FarmUpdateRequest",
     "FarmResponse",
     "FarmSummaryResponse",
-    "LandVerifyRequest",
-    "LandVerifyResponse",
-    "OfficerQueueItem",
-    "OfficerReviewDetail",
-    "OfficerActionRequest",
-    "OfficerActionResponse",
     "Fao56CalculateRequest",
     "Fao56CalculateResponse",
     "ResourcePlanResponse",

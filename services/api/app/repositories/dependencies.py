@@ -34,7 +34,6 @@ from app.repositories.postgres import (
     PostgresAssetRepository,
     PostgresCaseRepository,
     PostgresFarmRepository,
-    PostgresLandParcelRepository,
     PostgresSchemeRepository,
     PostgresUserRepository,
 )
@@ -43,7 +42,6 @@ from app.repositories.interfaces import (
     AssetRepository,
     CaseRepository,
     FarmRepository,
-    LandParcelRepository,
     SchemeRepository,
     TreatmentApplicationRepository,
     UserRepository,
@@ -56,10 +54,6 @@ def get_user_repository(session: Annotated[AsyncSession, Depends(get_db)]) -> Us
 
 def get_farm_repository(session: Annotated[AsyncSession, Depends(get_db)]) -> FarmRepository:
     return PostgresFarmRepository(session)
-
-
-def get_land_repository(session: Annotated[AsyncSession, Depends(get_db)]) -> LandParcelRepository:
-    return PostgresLandParcelRepository(session)
 
 
 def get_case_repository(session: Annotated[AsyncSession, Depends(get_db)]) -> CaseRepository:

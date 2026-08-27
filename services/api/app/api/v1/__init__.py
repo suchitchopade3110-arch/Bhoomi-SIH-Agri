@@ -3,16 +3,21 @@
 Router mounting is gated by ``settings.PROBLEM_STATEMENT`` per
 docs/specs/api_contract_sih26131_delta.md:
 
-- ``sih25076`` (default): cadastral/resource routers (``land``, ``officer``,
-  ``resource_plan``, ``schemes``) mount alongside core intelligence.
-- ``sih26131``: ``land``/``officer``/``resource_plan``/``schemes`` all stay
-  mounted in both modes (see README.md §5 — the original plan to unmount
-  ``land``/``officer``/``schemes`` under ``sih26131`` was superseded, and
-  ``resource_plan`` follows the same "keep it mounted" precedent since
+- ``sih25076`` (default): cadastral/resource routers (``resource_plan``,
+  ``schemes``) mount alongside core intelligence.
+- ``sih26131``: ``resource_plan``/``schemes`` stay mounted in both modes
+  (``resource_plan`` per the "keep it mounted" precedent since
   ``apps/farmer_app``'s Today's Plan screen depends on it live); ``alerts``
   and ``efficacy`` mount additionally.
 - Core intelligence routers (auth, farms, health, diagnose, followup,
   agronomist, voice, assets, timeline, weather, system) mount in both modes.
+
+NOTE: The land-verification (``land``) and Officer Portal (``officer``)
+routers/services/schemas were removed — that HITL land-verification
+workflow no longer exists. ``land_status`` remains on ``Farm`` (default
+``unverified``) for backward compatibility, but nothing sets it to
+``verified`` anymore, so anything gated on it (e.g. schemes matching) is
+now permanently unreachable until a replacement mechanism is added.
 """
 
 from fastapi import APIRouter
@@ -28,8 +33,6 @@ from app.api.v1.farms import router as farms_router
 from app.api.v1.followup import router as followup_router
 from app.api.v1.guidance import router as guidance_router
 from app.api.v1.health import router as health_router
-from app.api.v1.land import router as land_router
-from app.api.v1.officer import router as officer_router
 from app.api.v1.resource_plan import router as resource_plan_router
 from app.api.v1.schemes import router as schemes_router
 from app.api.v1.timeline import router as timeline_router
@@ -56,8 +59,6 @@ api_v1_router.include_router(agronomist_router)
 api_v1_router.include_router(weather_router)
 api_v1_router.include_router(system_router)
 
-api_v1_router.include_router(land_router)
-api_v1_router.include_router(officer_router)
 api_v1_router.include_router(resource_plan_router)
 api_v1_router.include_router(schemes_router)
 

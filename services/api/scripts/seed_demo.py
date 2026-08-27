@@ -23,7 +23,6 @@ from app.core.enums import LandStatus, SchemeStatus, UserRole
 from app.core.security import get_password_hash
 from app.domain.farm_reference_data import get_expected_stage_day
 from app.models.farm import Farm
-from app.models.land_parcel import LandParcel
 from app.models.scheme import Scheme
 from app.models.user import User
 
@@ -145,23 +144,7 @@ async def seed_demo() -> dict[str, str]:
         session.add(farm)
         await session.flush()
 
-        # 3. Verified Land Record
-        land_parcel = LandParcel(
-            farm_id=farm.id,
-            survey_number="142/3B",
-            district="Erode",
-            status=LandStatus.VERIFIED.value,
-            auto_lookup_outcome="matched",
-            suggested_boundary=SAMPLE_BOUNDARY_GEOJSON,
-            confirmed_boundary=SAMPLE_BOUNDARY_GEOJSON,
-            submitted_at=datetime.utcnow() - timedelta(days=30),
-            verified_at=datetime.utcnow() - timedelta(days=28),
-            verified_by=officer.id,
-            officer_notes="Boundary verified against Erode cadastral survey map.",
-        )
-        session.add(land_parcel)
-
-        # 4. Schemes (3 dated schemes)
+        # 3. Schemes (3 dated schemes)
         today = date.today()
         schemes = [
             Scheme(
@@ -229,7 +212,6 @@ async def seed_demo() -> dict[str, str]:
             "officer_id": officer.id,
             "agronomist_id": agronomist.id,
             "farm_id": farm.id,
-            "land_parcel_id": land_parcel.id,
         }
 
 

@@ -10,7 +10,6 @@ from app.models.followup import FollowUp
 from app.models.health_snapshot import HealthSnapshot
 from app.models.kb_document import KBDocument
 from app.models.knowledge_chunk import KnowledgeChunk
-from app.models.land_parcel import LandParcel
 from app.models.problem import Problem
 from app.models.scheme import Scheme
 from app.models.treatment_application import TreatmentApplication
@@ -25,7 +24,6 @@ __all__ = [
     "KnowledgeChunk",
     "User",
     "Farm",
-    "LandParcel",
     "Problem",
     "FollowUp",
     "Case",
