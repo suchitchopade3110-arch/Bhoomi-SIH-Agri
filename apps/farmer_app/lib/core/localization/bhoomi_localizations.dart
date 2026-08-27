@@ -92,6 +92,7 @@ class AppTranslations {
       'my_farm_journey': 'என் பண்ணை பயணம்',
       'no_timeline_events': 'இதுவரை செயல்பாடுகள் எதுவும் பதிவாகவில்லை.',
       'no_updates': 'தற்போது புதிய அறிவிப்புகள் இல்லை',
+      'no_schemes_found': 'உங்கள் பயிர் மற்றும் மாவட்டத்திற்கு தற்போது புதிய திட்டங்கள் எதுவும் பொருந்தவில்லை.',
       'or_type_below': 'அல்லது கீழே தட்டச்சு செய்யவும்',
       'overall_farm_health': 'ஒட்டுமொத்த பண்ணை ஆரோக்கியம்',
       'ownership_status': 'உரிமை நிலை',
@@ -163,6 +164,78 @@ class AppTranslations {
       'what_problem_seeing': 'என்ன பிரச்சனையை எதிர்கொள்கிறீர்கள்?',
       'what_would_you_like_to_do': 'நீங்கள் என்ன செய்ய விரும்புகிறீர்கள்?',
       'your_farm_profile': 'உங்கள் பண்ணை விவரக்குறிப்பு',
+      'show_image': 'படத்தைக் காட்டு',
+      'todays_guidance': 'இன்றைய வழிகாட்டல்',
+      'weather_field_advice': 'வானிலை & வயல் ஆலோசனை',
+      'farm_health': 'பண்ணை ஆரோக்கியம்',
+      'score_diagnosis': 'மதிப்பெண் & நோய் கண்டறிதல்',
+      'ask_bhoomi_sub': 'உங்கள் மொழியில் எந்த கேள்வியையும் கேளுங்கள்',
+      'tap_to_ask_bhoomi': 'பூமியிடம் கேட்க தட்டவும்',
+      'recording_tap_to_send': 'பதிவாகிறது... அனுப்ப தட்டவும்',
+      'uploading_audio': 'ஆடியோ பதிவேற்றப்படுகிறது...',
+      'transcribing_speech': 'பேச்சு உரையாக மாற்றப்படுகிறது...',
+      'you_can_ask_about': 'நீங்கள் கேட்கக்கூடிய தலைப்புகள்:',
+      'topic_crops': 'பயிர்கள்',
+      'topic_diseases': 'நோய்கள்',
+      'topic_pests': 'பூச்சிகள்',
+      'topic_soil': 'மண்',
+      'topic_weather': 'வானிலை',
+      'topic_prices': 'சந்தை விலை',
+      'topic_schemes': 'திட்டங்கள்',
+      'show_to_bhoomi': 'பூமிக்குக் காட்டுங்கள்',
+      'upload_or_take_photo': 'புகைப்படத்தை எடுக்கவும் அல்லது பதிவேற்றவும்',
+      'attached': 'இணைக்கப்பட்டது',
+      'no_image_selected': 'புகைப்படம் எதுவும் தேர்ந்தெடுக்கப்படவில்லை',
+      'camera': 'கேமரா',
+      'gallery': 'கேலரி',
+      'ai_crop_assist_hint': 'AI பயிர் பிரச்சனையை கண்டறிந்து வழிகாட்டும்.',
+      'additional_context_optional': 'கூடுதல் விவரங்கள் (விருப்பத்திற்குரியது)',
+      'photo_required_hint': 'பயிரின் புகைப்படம் அவசியம் — மேலே படம் எடுத்து பதிவேற்றவும்.',
+      'bhoomi_intelligence': 'பூமி வேளாண் நுண்ணறிவு',
+      'processing_query': 'உங்கள் கேள்வியை ஆய்வு செய்கிறது...',
+      'analyzing_farm': 'உங்கள் பண்ணையை ஆய்வு செய்கிறது...',
+      'review_required': 'நிபுணர் ஆய்வு தேவை',
+      'expert_verification_required': 'நிபுணர் சரிபார்ப்பு தேவைப்படுகிறது',
+      'below_confidence_gate_desc': 'துல்லியத்தன்மை பாதுகாப்பு வரம்பை விட குறைவாக உள்ளது. பாதுகாப்பான ஆலோசனைக்காக இந்த வழக்கு வேளாண் நிபுணர் ஆய்வுக்கு அனுப்பப்படுகிறது.',
+      'escalate_to_kvk': 'KVK வேளாண் நிபுணரிடம் அனுப்பவும்',
+      'return_to_farm_home': 'பண்ணை முகப்பிற்குச் செல்',
+      'listen_to_advisory': 'ஆலோசனையைக் கேளுங்கள்',
+      'stop_audio': 'ஆடியோவை நிறுத்து',
+      'listen_to_brief': 'வழிகாட்டலைக் கேளுங்கள்',
+      'refresh_guidance': 'வழிகாட்டலை புதுப்பி',
+      'generating_guidance': 'இன்றைய வயல் வழிகாட்டல் தயாராகிறது...',
+      'todays_tasks': 'இன்றைய பண்ணை பணிகள்',
+      'task_completed': 'முடிந்தது',
+      'wind': 'காற்று',
+      'rain_risk': 'மழை வாய்ப்பு',
+      'action_plan': 'செயல் திட்டம்',
+      'immediate_steps': 'பரிந்துரைக்கப்பட்ட உடனடி மேலாண்மை நடவடிக்கைகள்:',
+      'why_need_expert': 'ஏன் நிபுணர் உதவி தேவைப்படுகிறது? (விருப்பத்திற்குரியது)',
+      'how_is_it_now': 'இப்போது பாதிப்பு எப்படி உள்ளது?',
+      'followup_question': 'ஆலோசனையைப் பின்பற்றிய பிறகு பிரச்சனை சீரடைந்துள்ளதா?',
+      'improved': 'சீரடைந்துள்ளது',
+      'improved_desc': 'மஞ்சள் நிறம் குறைந்து, புதிய ஆரோக்கியமான இலைகள் வளர்கின்றன',
+      'no_change': 'மாற்றமில்லை',
+      'no_change_desc': 'அறிகுறிகள் அதே நிலையில் தொடர்கின்றன',
+      'got_worse': 'அதிகரித்துள்ளது',
+      'got_worse_desc': 'பாதிப்பு மற்ற தளிர்களுக்கும் வேகமாக பரவுகிறது',
+      'upload_new_photo': 'புதிய புகைப்படத்தை பதிவேற்றவும் (விருப்பத்திற்குரியது)',
+      'submit_to_kvk': 'KVK வேளாண் நிபுணரிடம் சமர்ப்பிக்கவும்',
+      'expert_case_summary': 'நிபுணர் வழக்கு விவரம்',
+      'case_transferred': 'வழக்கு மாற்றப்பட்டது',
+      'expert_notified': 'நிபுணருக்கு அறிவிக்கப்பட்டது',
+      'review_in_progress': 'ஆய்வு நடைபெறுகிறது',
+      'assigned_kvk': 'ஒதுக்கப்பட்ட KVK மையம்',
+      'estimated_review': 'மதிப்பிடப்பட்ட ஆய்வு நேரம்',
+      'farmer': 'விவசாயி',
+      'location': 'இடம்',
+      'case_identifier': 'வழக்கு எண்',
+      'summary': 'சுருக்கம்',
+      'expert_note': 'நிபுணர் குறிப்பு',
+      'verified_by_land': 'நில ஆவணத்தால் சரிபார்க்கப்பட்டது',
+      'action_required': 'நடவடிக்கை தேவை',
+      'check_eligibility': 'தகுதியை சரிபார்க்கவும்',
+      'eligible': 'தகுதியானது',
     },
     'hi-IN': {
       'acres': 'एकड़',
@@ -238,6 +311,7 @@ class AppTranslations {
       'my_farm_journey': 'मेरा खेत सफ़र',
       'no_timeline_events': 'अभी तक कोई गतिविधि दर्ज नहीं की गई है।',
       'no_updates': 'वर्तमान में कोई नया अपडेट नहीं',
+      'no_schemes_found': 'आपकी फसल और स्थान के लिए वर्तमान में कोई सरकारी योजनाएं उपलब्ध नहीं हैं।',
       'or_type_below': 'या नीचे टाइप करें',
       'overall_farm_health': 'समग्र खेत स्वास्थ्य',
       'ownership_status': 'स्वामित्व स्थिति',
@@ -309,6 +383,78 @@ class AppTranslations {
       'what_problem_seeing': 'आप क्या समस्या देख रहे हैं?',
       'what_would_you_like_to_do': 'आप क्या करना चाहेंगे?',
       'your_farm_profile': 'आपकी खेत प्रोफ़ाइल',
+      'show_image': 'तस्वीर दिखाएं',
+      'todays_guidance': 'आज का मार्गदर्शन',
+      'weather_field_advice': 'मौसम और खेत सलाह',
+      'farm_health': 'खेत स्वास्थ्य',
+      'score_diagnosis': 'स्कोर और रोग निदान',
+      'ask_bhoomi_sub': 'अपनी भाषा में कोई भी प्रश्न पूछें',
+      'tap_to_ask_bhoomi': 'भूमि से पूछने के लिए टैप करें',
+      'recording_tap_to_send': 'रिकॉर्डिंग जारी... भेजने के लिए टैप करें',
+      'uploading_audio': 'ऑडियो अपलोड हो रहा है...',
+      'transcribing_speech': 'आवाज को टेक्स्ट में बदला जा रहा है...',
+      'you_can_ask_about': 'आप इनके बारे में पूछ सकते हैं:',
+      'topic_crops': 'फसलें',
+      'topic_diseases': 'रोग',
+      'topic_pests': 'कीट',
+      'topic_soil': 'मिट्टी',
+      'topic_weather': 'मौसम',
+      'topic_prices': 'मंडी भाव',
+      'topic_schemes': 'योजनाएं',
+      'show_to_bhoomi': 'भूमि को दिखाएं',
+      'upload_or_take_photo': 'फोटो अपलोड करें या खींचें',
+      'attached': 'संलग्न',
+      'no_image_selected': 'कोई फोटो चयनित नहीं है',
+      'camera': 'कैमरा',
+      'gallery': 'गैलरी',
+      'ai_crop_assist_hint': 'AI समस्या की पहचान कर आपका मार्गदर्शन करेगा।',
+      'additional_context_optional': 'अतिरिक्त संदर्भ (वैकल्पिक)',
+      'photo_required_hint': 'फोटो आवश्यक है — निदान के लिए ऊपर फोटो लें या चुनें।',
+      'bhoomi_intelligence': 'भूमि कृषि बुद्धिमत्ता',
+      'processing_query': 'आपके प्रश्न का विश्लेषण हो रहा है...',
+      'analyzing_farm': 'आपके खेत का विश्लेषण हो रहा है...',
+      'review_required': 'समीक्षा आवश्यक है',
+      'expert_verification_required': 'विशेषज्ञ सत्यापन आवश्यक है',
+      'below_confidence_gate_desc': 'निदान सटीकता सुरक्षा सीमा से कम है। सुरक्षित और सटीक मार्गदर्शन सुनिश्चित करने के लिए यह मामला विशेषज्ञ समीक्षा के लिए तैयार किया गया है।',
+      'escalate_to_kvk': 'केवीके कृषि विशेषज्ञ को भेजें',
+      'return_to_farm_home': 'खेत होम पर लौटें',
+      'listen_to_advisory': 'सलाह सुनें',
+      'stop_audio': 'ऑडियो रोकें',
+      'listen_to_brief': 'सलाह सुनें',
+      'refresh_guidance': 'मार्गदर्शन ताज़ा करें',
+      'generating_guidance': 'आज का खेत मार्गदर्शन तैयार हो रहा है...',
+      'todays_tasks': 'आज के खेत कार्य',
+      'task_completed': 'पूर्ण हुआ',
+      'wind': 'हवा',
+      'rain_risk': 'बारिश का जोखिम',
+      'action_plan': 'कार्य योजना',
+      'immediate_steps': 'अनुशंसित तत्काल कृषि प्रबंधन कदम:',
+      'why_need_expert': 'आपको विशेषज्ञ सहायता की आवश्यकता क्यों है? (वैकल्पिक)',
+      'how_is_it_now': 'अब स्थिति कैसी है?',
+      'followup_question': 'सलाह का पालन करने के बाद क्या समस्या में सुधार हुआ है?',
+      'improved': 'सुधार हुआ',
+      'improved_desc': 'पीलापन रुक गया है, नए स्वस्थ पत्ते निकल रहे हैं',
+      'no_change': 'कोई बदलाव नहीं',
+      'no_change_desc': 'लक्षण उसी स्तर पर दिखाई दे रहे हैं',
+      'got_worse': 'स्थिति बिगड़ी है',
+      'got_worse_desc': 'घाव बढ़ रहे हैं या आसपास के कल्लों में फैल रहे हैं',
+      'upload_new_photo': 'नई फोटो अपलोड करें (वैकल्पिक)',
+      'submit_to_kvk': 'केवीके कृषि विशेषज्ञ को सबमिट करें',
+      'expert_case_summary': 'विशेषज्ञ केस सारांश',
+      'case_transferred': 'केस स्थानांतरित',
+      'expert_notified': 'विशेषज्ञ को सूचित किया गया',
+      'review_in_progress': 'समीक्षा जारी है',
+      'assigned_kvk': 'आवंटित केवीके केंद्र',
+      'estimated_review': 'अनुमानित समीक्षा समय',
+      'farmer': 'किसान',
+      'location': 'स्थान',
+      'case_identifier': 'केस पहचानकर्ता',
+      'summary': 'सारांश',
+      'expert_note': 'विशेषज्ञ नोट',
+      'verified_by_land': 'भूमि रिकॉर्ड द्वारा सत्यापित',
+      'action_required': 'कार्रवाई आवश्यक',
+      'check_eligibility': 'पात्रता जांचें',
+      'eligible': 'पात्र',
     },
     'en-IN': {
       'acres': 'Acres',
@@ -384,6 +530,7 @@ class AppTranslations {
       'my_farm_journey': 'My Farm Journey',
       'no_timeline_events': 'No timeline events recorded yet.',
       'no_updates': 'No new updates right now',
+      'no_schemes_found': 'No government schemes currently match your specific crop and location.',
       'or_type_below': 'Or type below',
       'overall_farm_health': 'Overall Farm Health',
       'ownership_status': 'Ownership Status',
@@ -455,6 +602,78 @@ class AppTranslations {
       'what_problem_seeing': 'What problem are you seeing?',
       'what_would_you_like_to_do': 'What would you like to do?',
       'your_farm_profile': 'Your Farm Profile',
+      'show_image': 'Show Image',
+      'todays_guidance': "Today's Guidance",
+      'weather_field_advice': 'Weather & field advice',
+      'farm_health': 'Farm Health',
+      'score_diagnosis': 'Score & diagnosis',
+      'ask_bhoomi_sub': 'Tap and ask any question in your language',
+      'tap_to_ask_bhoomi': 'Tap to Ask BHOOMI',
+      'recording_tap_to_send': 'Recording... Tap to send',
+      'uploading_audio': 'Uploading audio...',
+      'transcribing_speech': 'Transcribing speech...',
+      'you_can_ask_about': 'You can ask about:',
+      'topic_crops': 'Crops',
+      'topic_diseases': 'Diseases',
+      'topic_pests': 'Pests',
+      'topic_soil': 'Soil',
+      'topic_weather': 'Weather',
+      'topic_prices': 'Prices',
+      'topic_schemes': 'Schemes',
+      'show_to_bhoomi': 'Show to BHOOMI',
+      'upload_or_take_photo': 'Upload or take a photo',
+      'attached': 'Attached',
+      'no_image_selected': 'No image selected yet',
+      'camera': 'Camera',
+      'gallery': 'Gallery',
+      'ai_crop_assist_hint': 'AI will identify the issue and guide you.',
+      'additional_context_optional': 'Additional Context (optional)',
+      'photo_required_hint': 'A photo is required — take or select one above to diagnose.',
+      'bhoomi_intelligence': 'BHOOMI Intelligence',
+      'processing_query': 'Processing Your Query',
+      'analyzing_farm': 'Analyzing your farm...',
+      'review_required': 'Review Required',
+      'expert_verification_required': 'Expert Verification Required',
+      'below_confidence_gate_desc': 'The diagnosis confidence is below the safety threshold. To ensure safe and accurate guidance, this case has been prepared for expert review.',
+      'escalate_to_kvk': 'Escalate to KVK Agronomist',
+      'return_to_farm_home': 'Return to Farm Home',
+      'listen_to_advisory': 'Listen to Advisory',
+      'stop_audio': 'Stop Audio',
+      'listen_to_brief': 'Listen to Brief',
+      'refresh_guidance': 'Refresh Guidance',
+      'generating_guidance': 'Generating today\'s field guidance...',
+      'todays_tasks': 'Today\'s Farm Tasks',
+      'task_completed': 'done',
+      'wind': 'Wind',
+      'rain_risk': 'Rain Risk',
+      'action_plan': 'Action Plan',
+      'immediate_steps': 'Recommended immediate agronomic management steps:',
+      'why_need_expert': 'Why do you need expert help? (Optional)',
+      'how_is_it_now': 'How is it now?',
+      'followup_question': 'Has the problem improved after following the advice?',
+      'improved': 'Improved',
+      'improved_desc': 'Yellowing stopped, new healthy leaves emerging',
+      'no_change': 'No Change',
+      'no_change_desc': 'Symptoms remain visible at the same level',
+      'got_worse': 'Got Worse',
+      'got_worse_desc': 'Lesions expanding or spreading to adjacent tillers',
+      'upload_new_photo': 'Upload new photo (Optional)',
+      'submit_to_kvk': 'Submit to KVK Agronomist',
+      'expert_case_summary': 'Expert Case Summary',
+      'case_transferred': 'Case transferred',
+      'expert_notified': 'Expert notified',
+      'review_in_progress': 'Review in progress',
+      'assigned_kvk': 'Assigned KVK Center',
+      'estimated_review': 'Estimated Review',
+      'farmer': 'Farmer',
+      'location': 'Location',
+      'case_identifier': 'Case Identifier',
+      'summary': 'Summary',
+      'expert_note': 'Expert Note',
+      'verified_by_land': 'Verified by Land Record',
+      'action_required': 'Action required',
+      'check_eligibility': 'Check Eligibility',
+      'eligible': 'Eligible',
     },
     'te-IN': {
       'acres': 'ఎకరాలు',
@@ -483,7 +702,6 @@ class AppTranslations {
       'crop_label': 'Crop',
       'crop_stage_prog': 'Crop Stage Progression',
       'daily_companion': 'Daily Companion',
-      'diagnose_get_advice': 'Diagnose & Get Advice',
       'diagnosis_id': 'Diagnosis ID',
       'district': 'District',
       'documents_required': 'Documents Required',
@@ -530,6 +748,7 @@ class AppTranslations {
       'my_farm_journey': 'నా వ్యవసాయ ప్రయాణం',
       'no_timeline_events': 'No timeline events recorded yet.',
       'no_updates': 'No new updates right now',
+      'no_schemes_found': 'మీ పంట మరియు ప్రాంతానికి ప్రస్తుతం ప్రభుత్వ పథకాలు అందుబాటులో లేవు.',
       'or_type_below': 'Or type below',
       'overall_farm_health': 'మొత్తం వ్యవసాయ ఆరోగ్యం',
       'ownership_status': 'Ownership Status',
@@ -599,8 +818,81 @@ class AppTranslations {
       'village': 'Village',
       'voice_assistant': 'Voice Assistant',
       'what_problem_seeing': 'What problem are you seeing?',
-      'what_would_you_like_to_do': 'What would you like to do?',
-      'your_farm_profile': 'Your Farm Profile',
+      'what_would_you_like_to_do': 'మీరు ఏమి చేయాలనుకుంటున్నారు?',
+      'your_farm_profile': 'మీ వ్యవసాయ వివరాలు',
+      'show_image': 'చిత్రాన్ని చూపించు',
+      'todays_guidance': 'నేటి మార్గదర్శకత్వం',
+      'weather_field_advice': 'వాతావరణ & పొలం సలహా',
+      'farm_health': 'వ్యవసాయ ఆరోగ్యం',
+      'score_diagnosis': 'స్కోరు & రోగ నిర్ధారణ',
+      'ask_bhoomi_sub': 'మీ భాషలో ఏదైనా ప్రశ్న అడగండి',
+      'tap_to_ask_bhoomi': 'భూమిని అడగడానికి నొక్కండి',
+      'recording_tap_to_send': 'రికార్డింగ్ అవుతోంది... పంపడానికి నొక్కండి',
+      'uploading_audio': 'ఆడియో అప్‌లోడ్ అవుతోంది...',
+      'transcribing_speech': 'మాటలను వచనంగా మారుస్తోంది...',
+      'you_can_ask_about': 'మీరు అడగగల అంశాలు:',
+      'topic_crops': 'పంటలు',
+      'topic_diseases': 'వ్యాధులు',
+      'topic_pests': 'పురుగులు',
+      'topic_soil': 'నేల',
+      'topic_weather': 'వాతావరణం',
+      'topic_prices': 'మార్కెట్ ధరలు',
+      'topic_schemes': 'పథకాలు',
+      'show_to_bhoomi': 'భూమికి చూపించండి',
+      'upload_or_take_photo': 'ఫోటో తీయండి లేదా అప్‌లోడ్ చేయండి',
+      'attached': 'జతచేయబడింది',
+      'no_image_selected': 'ఫోటో ఏదీ ఎంచుకోలేదు',
+      'camera': 'కెమెరా',
+      'gallery': 'గ్యాలరీ',
+      'ai_crop_assist_hint': 'AI సమస్యను గుర్తించి మార్గనిర్దేశం చేస్తుంది.',
+      'additional_context_optional': 'అదనపు వివరాలు (ఐచ్ఛికం)',
+      'photo_required_hint': 'పంట ఫోటో తప్పనిసరి — పైన ఫోటో తీయండి.',
+      'bhoomi_intelligence': 'భూమి వ్యవసాయ మేధస్సు',
+      'processing_query': 'మీ ప్రశ్నను విశ్లేషిస్తోంది...',
+      'analyzing_farm': 'మీ పొలాన్ని విశ్లేషిస్తోంది...',
+      'review_required': 'నిపుణుల సమీక్ష అవసరం',
+      'expert_verification_required': 'నిపుణుల ధృవీకరణ అవసరం',
+      'below_confidence_gate_desc': 'ఖచ్చితత్వ భద్రతా పరిమితి కంటే తక్కువగా ఉంది. సురక్షిత సలహా కోసం వ్యవసాయ నిపుణులకు పంపబడుతోంది.',
+      'escalate_to_kvk': 'KVK వ్యవసాయ నిపుణుడికి పంపండి',
+      'return_to_farm_home': 'వ్యవసాయ ముఖపు పేజీకి వెళ్లండి',
+      'listen_to_advisory': 'సలహాను వినండి',
+      'stop_audio': 'ఆడియో ఆపండి',
+      'listen_to_brief': 'సారాంశాన్ని వినండి',
+      'refresh_guidance': 'మార్గదర్శకత్వాన్ని రిఫ్రెష్ చేయండి',
+      'generating_guidance': 'నేటి పొలం మార్గదర్శకత్వం సిద్ధమవుతోంది...',
+      'todays_tasks': 'నేటి వ్యవసాయ పనులు',
+      'task_completed': 'పూర్తయింది',
+      'wind': 'గాలి',
+      'rain_risk': 'వర్షం ముప్పు',
+      'action_plan': 'కార్యాచరణ ప్రణాళిక',
+      'immediate_steps': 'సిఫార్సు చేసిన తక్షణ చర్యలు:',
+      'why_need_expert': 'నిపుణుల సహాయం ఎందుకు అవసరం? (ఐచ్ఛికం)',
+      'how_is_it_now': 'ఇప్పుడు పరిస్థితి ఎలా ఉంది?',
+      'followup_question': 'సలహాను పాటించిన తర్వాత సమస్య తగ్గిందా?',
+      'improved': 'మెరుగుపడింది',
+      'improved_desc': 'పసుపు రంగు తగ్గి, కొత్త ఆరోగ్యకరమైన ఆకులు వస్తున్నాయి',
+      'no_change': 'మార్పు లేదు',
+      'no_change_desc': 'లక్షణాలు అలాగే కొనసాగుతున్నాయి',
+      'got_worse': 'మరింత తీవ్రమైంది',
+      'got_worse_desc': 'నష్టం ఇతర మొక్కలకు వేగంగా విస్తరిస్తోంది',
+      'upload_new_photo': 'కొత్త ఫోటో అప్‌లోడ్ చేయండి (ఐచ్ఛికం)',
+      'submit_to_kvk': 'KVK వ్యవసాయ నిపుణుడికి సమర్పించండి',
+      'expert_case_summary': 'నిపుణుల కేసు సారాంశం',
+      'case_transferred': 'కేసు బదిలీ చేయబడింది',
+      'expert_notified': 'నిపుణుడికి తెలియజేయబడింది',
+      'review_in_progress': 'సమీక్ష జరుగుతోంది',
+      'assigned_kvk': 'కేటాయించిన KVK కేంద్రం',
+      'estimated_review': 'అంచనా వేసిన సమీక్ష సమయం',
+      'farmer': 'రైతు',
+      'location': 'ప్రాంతం',
+      'case_identifier': 'కేసు సంఖ్య',
+      'summary': 'సారాంశం',
+      'expert_note': 'నిపుణుల గమనిక',
+      'verified_by_land': 'భూ రికార్డు ద్వారా ధృవీకరించబడింది',
+      'action_required': 'చర్య అవసరం',
+      'check_eligibility': 'అర్హతను తనిఖీ చేయండి',
+      'eligible': 'అర్హులు',
+      'diagnose_get_advice': 'రోగ నిర్ధారణ చేసి సలహా పొందండి',
     },
     'kn-IN': {
       'acres': 'ಎಕರೆ',
@@ -629,7 +921,6 @@ class AppTranslations {
       'crop_label': 'Crop',
       'crop_stage_prog': 'Crop Stage Progression',
       'daily_companion': 'Daily Companion',
-      'diagnose_get_advice': 'Diagnose & Get Advice',
       'diagnosis_id': 'Diagnosis ID',
       'district': 'District',
       'documents_required': 'Documents Required',
@@ -676,6 +967,7 @@ class AppTranslations {
       'my_farm_journey': 'ನನ್ನ ಕೃಷಿ ಪಯಣ',
       'no_timeline_events': 'No timeline events recorded yet.',
       'no_updates': 'No new updates right now',
+      'no_schemes_found': 'ನಿಮ್ಮ ಬೆಳೆ ಮತ್ತು ಸ್ಥಳಕ್ಕೆ ಪ್ರಸ್ತುತ ಯಾವುದೇ ಸರ್ಕಾರಿ ಯೋಜನೆಗಳು ಲಭ್ಯವಿಲ್ಲ.',
       'or_type_below': 'Or type below',
       'overall_farm_health': 'ಒಟ್ಟಾರೆ ಕೃಷಿ ಆರೋಗ್ಯ',
       'ownership_status': 'Ownership Status',
@@ -745,8 +1037,81 @@ class AppTranslations {
       'village': 'Village',
       'voice_assistant': 'Voice Assistant',
       'what_problem_seeing': 'What problem are you seeing?',
-      'what_would_you_like_to_do': 'What would you like to do?',
-      'your_farm_profile': 'Your Farm Profile',
+      'what_would_you_like_to_do': 'ನೀವು ಏನು ಮಾಡಲು ಬಯಸುತ್ತೀರಿ?',
+      'your_farm_profile': 'ನಿಮ್ಮ ಕೃಷಿ ವಿವರ',
+      'show_image': 'ಚಿತ್ರವನ್ನು ತೋರಿಸಿ',
+      'todays_guidance': 'ಇಂದಿನ ಮಾರ್ಗದರ್ಶನ',
+      'weather_field_advice': 'ಹವಾಮಾನ ಮತ್ತು ಹೊಲದ ಸಲಹೆ',
+      'farm_health': 'ಕೃಷಿ ಆರೋಗ್ಯ',
+      'score_diagnosis': 'ಅಂಕ ಮತ್ತು ರೋಗ ನಿರ್ಣಯ',
+      'ask_bhoomi_sub': 'ನಿಮ್ಮ ಭಾಷೆಯಲ್ಲಿ ಯಾವುದೇ ಪ್ರಶ್ನೆ ಕೇಳಿ',
+      'tap_to_ask_bhoomi': 'ಭೂಮಿಯನ್ನು ಕೇಳಲು ಸ್ಪರ್ಶಿಸಿ',
+      'recording_tap_to_send': 'ರೆಕಾರ್ಡ್ ಆಗುತ್ತಿದೆ... ಕಳುಹಿಸಲು ಸ್ಪರ್ಶಿಸಿ',
+      'uploading_audio': 'ಆಡಿಯೋ ಅಪ್‌ಲೋಡ್ ಆಗುತ್ತಿದೆ...',
+      'transcribing_speech': 'ಧ್ವನಿಯನ್ನು ಪಠ್ಯಕ್ಕೆ ಪರಿವರ್ತಿಸಲಾಗುತ್ತಿದೆ...',
+      'you_can_ask_about': 'ನೀವು ಕೇಳಬಹುದಾದ ವಿಷಯಗಳು:',
+      'topic_crops': 'ಬೆಳೆಗಳು',
+      'topic_diseases': 'ರೋಗಗಳು',
+      'topic_pests': 'ಕೀಟಗಳು',
+      'topic_soil': 'ಮಣ್ಣು',
+      'topic_weather': 'ಹವಾಮಾನ',
+      'topic_prices': 'ಮಾರುಕಟ್ಟೆ ಬೆಲೆ',
+      'topic_schemes': 'ಯೋಜನೆಗಳು',
+      'show_to_bhoomi': 'ಭೂಮಿಗೆ ತೋರಿಸಿ',
+      'upload_or_take_photo': 'ಫೋಟೋ ತೆಗೆಯಿರಿ ಅಥವಾ ಅಪ್‌ಲೋಡ್ ಮಾಡಿ',
+      'attached': 'ಲಗತ್ತಿಸಲಾಗಿದೆ',
+      'no_image_selected': 'ಯಾವುದೇ ಫೋಟೋ ಆಯ್ಕೆ ಮಾಡಿಲ್ಲ',
+      'camera': 'ಕ್ಯಾಮೆರಾ',
+      'gallery': 'ಗ್ಯಾಲರಿ',
+      'ai_crop_assist_hint': 'AI ಸಮಸ್ಯೆಯನ್ನು ಗುರುತಿಸಿ ಮಾರ್ಗದರ್ಶನ ನೀಡುತ್ತದೆ.',
+      'additional_context_optional': 'ಹೆಚ್ಚುವರಿ ವಿವರಗಳು (ಐಚ್ಛಿಕ)',
+      'photo_required_hint': 'ಬೆಳೆಯ ಫೋಟೋ ಕಡ್ಡಾಯವಾಗಿದೆ — ಮೇಲೆ ಫೋಟೋ ತೆಗೆಯಿರಿ.',
+      'bhoomi_intelligence': 'ಭೂಮಿ ಕೃಷಿ ಬುದ್ಧಿಮತ್ತೆ',
+      'processing_query': 'ನಿಮ್ಮ ಪ್ರಶ್ನೆಯನ್ನು ವಿಶ್ಲೇಷಿಸಲಾಗುತ್ತಿದೆ...',
+      'analyzing_farm': 'ನಿಮ್ಮ ಜಮೀನನ್ನು ವಿಶ್ಲೇಷಿಸಲಾಗುತ್ತಿದೆ...',
+      'review_required': 'ತಜ್ಞರ ಪರಿಶೀಲನೆ ಅಗತ್ಯ',
+      'expert_verification_required': 'ತಜ್ಞರ ಪರಿಶೀಲನೆ ಅಗತ್ಯವಿದೆ',
+      'below_confidence_gate_desc': 'ನಿಖರತೆ ಸುರಕ್ಷತಾ ಮಿತಿಗಿಂತ ಕಡಿಮೆಯಾಗಿದೆ. ಸುರಕ್ಷಿತ ಸಲಹೆಗಾಗಿ ಕೃಷಿ ತಜ್ಞರಿಗೆ ಕಳುಹಿಸಲಾಗುತ್ತಿದೆ.',
+      'escalate_to_kvk': 'KVK ಕೃಷಿ ತಜ್ಞರಿಗೆ ಕಳುಹಿಸಿ',
+      'return_to_farm_home': 'ಮುಖಪುಟಕ್ಕೆ ಹಿಂತಿರುಗಿ',
+      'listen_to_advisory': 'ಸಲಹೆಯನ್ನು ಕೇಳಿ',
+      'stop_audio': 'ಆಡಿಯೋ ನಿಲ್ಲಿಸಿ',
+      'listen_to_brief': 'ಸಾರಾಂಶವನ್ನು ಕೇಳಿ',
+      'refresh_guidance': 'ಮಾರ್ಗದರ್ಶನವನ್ನು ನವೀಕರಿಸಿ',
+      'generating_guidance': 'ಇಂದಿನ ಮಾರ್ಗದರ್ಶನ ಸಿದ್ಧವಾಗುತ್ತಿದೆ...',
+      'todays_tasks': 'ಇಂದಿನ ಕೃಷಿ ಕೆಲಸಗಳು',
+      'task_completed': 'ಪೂರ್ಣಗೊಂಡಿದೆ',
+      'wind': 'ಗಾಳಿ',
+      'rain_risk': 'ಮಳೆಯ ಸಾಧ್ಯತೆ',
+      'action_plan': 'ಕಾರ್ಯ ಯೋಜನೆ',
+      'immediate_steps': 'ಶಿಫಾರಸು ಮಾಡಿದ ತುರ್ತು ಕ್ರಮಗಳು:',
+      'why_need_expert': 'ತಜ್ಞರ ಸಹಾಯ ಏಕೆ ಬೇಕು? (ಐಚ್ಛಿಕ)',
+      'how_is_it_now': 'ಈಗ ಪರಿಸ್ಥಿತಿ ಹೇಗಿದೆ?',
+      'followup_question': 'ಸಲಹೆಯನ್ನು ಪಾಲಿಸಿದ ನಂತರ ಸಮಸ್ಯೆ ಕಡಿಮೆಯಾಗಿದೆಯೇ?',
+      'improved': 'ಸುಧಾರಿಸಿದೆ',
+      'improved_desc': 'ಹಳದಿ ಬಣ್ಣ ಕಡಿಮೆಯಾಗಿ, ಹೊಸ ಆರೋಗ್ಯಕರ ಎಲೆಗಳು ಬರುತ್ತಿವೆ',
+      'no_change': 'ಬದಲಾವಣೆಯಿಲ್ಲ',
+      'no_change_desc': 'ಲಕ್ಷಣಗಳು ಹಾಗೆಯೇ ಮುಂದುವರಿದಿವೆ',
+      'got_worse': 'ಉಲ್ಬಣಗೊಂಡಿದೆ',
+      'got_worse_desc': 'ಹಾನಿ ಇತರ ಸಸ್ಯಗಳಿಗೆ ವೇಗವಾಗಿ ಹರಡುತ್ತಿದೆ',
+      'upload_new_photo': 'ಹೊಸ ಫೋಟೋ ಅಪ್‌ಲೋಡ್ ಮಾಡಿ (ಐಚ್ಛಿಕ)',
+      'submit_to_kvk': 'KVK ಕೃಷಿ ತಜ್ಞರಿಗೆ ಸಲ್ಲಿಸಿ',
+      'expert_case_summary': 'ತಜ್ಞರ ಪ್ರಕರಣದ ಸಾರಾಂಶ',
+      'case_transferred': 'ಪ್ರಕರಣ ವರ್ಗಾಯಿಸಲಾಗಿದೆ',
+      'expert_notified': 'ತಜ್ಞರಿಗೆ ತಿಳಿಸಲಾಗಿದೆ',
+      'review_in_progress': 'ಪರಿಶೀಲನೆ ಪ್ರಗತಿಯಲ್ಲಿದೆ',
+      'assigned_kvk': 'ನಿಯೋಜಿತ KVK ಕೇಂದ್ರ',
+      'estimated_review': 'ಅಂದಾಜು ಪರಿಶೀಲನಾ ಸಮಯ',
+      'farmer': 'ರೈತ',
+      'location': 'ಸ್ಥಳ',
+      'case_identifier': 'ಪ್ರಕರಣ ಸಂಖ್ಯೆ',
+      'summary': 'ಸಾರಾಂಶ',
+      'expert_note': 'ತಜ್ಞರ ಟಿಪ್ಪಣಿ',
+      'verified_by_land': 'ಭೂ ದಾಖಲೆಯ ಮೂಲಕ ಪರಿಶೀಲಿಸಲಾಗಿದೆ',
+      'action_required': 'ಕ್ರಮ ಅಗತ್ಯವಿದೆ',
+      'check_eligibility': 'ಅರ್ಹತೆಯನ್ನು ಪರಿಶೀಲಿಸಿ',
+      'eligible': 'ಅರ್ಹ',
+      'diagnose_get_advice': 'ರೋಗ ನಿರ್ಣಯಿಸಿ ಸಲಹೆ ಪಡೆಯಿರಿ',
     },
     'mr-IN': {
       'acres': 'एकर',
@@ -775,7 +1140,6 @@ class AppTranslations {
       'crop_label': 'Crop',
       'crop_stage_prog': 'Crop Stage Progression',
       'daily_companion': 'Daily Companion',
-      'diagnose_get_advice': 'Diagnose & Get Advice',
       'diagnosis_id': 'Diagnosis ID',
       'district': 'District',
       'documents_required': 'Documents Required',
@@ -822,6 +1186,7 @@ class AppTranslations {
       'my_farm_journey': 'माझा शेती प्रवास',
       'no_timeline_events': 'No timeline events recorded yet.',
       'no_updates': 'No new updates right now',
+      'no_schemes_found': 'तुमच्या पिकासाठी आणि स्थानासाठी सध्या कोणत्याही शासकीय योजना उपलब्ध नाहीत.',
       'or_type_below': 'Or type below',
       'overall_farm_health': 'एकूण शेत आरोग्य',
       'ownership_status': 'Ownership Status',
@@ -891,8 +1256,81 @@ class AppTranslations {
       'village': 'Village',
       'voice_assistant': 'Voice Assistant',
       'what_problem_seeing': 'What problem are you seeing?',
-      'what_would_you_like_to_do': 'What would you like to do?',
-      'your_farm_profile': 'Your Farm Profile',
+      'what_would_you_like_to_do': 'तुम्ही काय करू इच्छिता?',
+      'your_farm_profile': 'तुमची शेत माहिती',
+      'show_image': 'फोटो दाखवा',
+      'todays_guidance': 'आजचे मार्गदर्शन',
+      'weather_field_advice': 'हवामान आणि शेती सल्ला',
+      'farm_health': 'शेतीचे आरोग्य',
+      'score_diagnosis': 'गुण आणि रोग निदान',
+      'ask_bhoomi_sub': 'तुमच्या भाषेत कोणताही प्रश्न विचारा',
+      'tap_to_ask_bhoomi': 'भूमीला विचारण्यासाठी टॅप करा',
+      'recording_tap_to_send': 'रेकॉर्डिंग सुरू आहे... पाठवण्यासाठी टॅप करा',
+      'uploading_audio': 'ऑडिओ अपलोड होत आहे...',
+      'transcribing_speech': 'आवाजाचे मजकुरात रूपांतर होत आहे...',
+      'you_can_ask_about': 'तुम्ही या विषयांवर विचारू शकता:',
+      'topic_crops': 'पिके',
+      'topic_diseases': 'रोग',
+      'topic_pests': 'कीटक',
+      'topic_soil': 'माती',
+      'topic_weather': 'हवामान',
+      'topic_prices': 'बाजारभाव',
+      'topic_schemes': 'योजना',
+      'show_to_bhoomi': 'भूमीला दाखवा',
+      'upload_or_take_photo': 'फोटो काढा किंवा अपलोड करा',
+      'attached': 'जोडले आहे',
+      'no_image_selected': 'कोणताही फोटो निवडलेला नाही',
+      'camera': 'कॅमेरा',
+      'gallery': 'गॅलरी',
+      'ai_crop_assist_hint': 'AI समस्या ओळखून मार्गदर्शन करेल.',
+      'additional_context_optional': 'अतिरिक्त माहिती (पर्यायी)',
+      'photo_required_hint': 'पिकाचा फोटो आवश्यक आहे — कृपया फोटो काढा.',
+      'bhoomi_intelligence': 'भूमी कृषी बुद्धिमत्ता',
+      'processing_query': 'तुमच्या प्रश्नाचे विश्लेषण सुरू आहे...',
+      'analyzing_farm': 'तुमच्या शेताचे विश्लेषण सुरू आहे...',
+      'review_required': 'तज्ज्ञ पुनरावलोकन आवश्यक',
+      'expert_verification_required': 'तज्ज्ञ पडताळणी आवश्यक आहे',
+      'below_confidence_gate_desc': 'अचूकता सुरक्षा मर्यादेपेक्षा कमी आहे. सुरक्षित सल्ल्यासाठी हे कृषी तज्ज्ञांकडे पाठवले जात आहे.',
+      'escalate_to_kvk': 'KVK कृषी तज्ज्ञांकडे पाठवा',
+      'return_to_farm_home': 'मुख्यपृष्ठावर जा',
+      'listen_to_advisory': 'सल्ला ऐका',
+      'stop_audio': 'ऑडिओ थांबवा',
+      'listen_to_brief': 'सारांश ऐका',
+      'refresh_guidance': 'मार्गदर्शन रीफ्रेश करा',
+      'generating_guidance': 'आजचे मार्गदर्शन तयार होत आहे...',
+      'todays_tasks': 'आजची शेतीतील कामे',
+      'task_completed': 'पूर्ण झाले',
+      'wind': 'वारा',
+      'rain_risk': 'पावसाची शक्यता',
+      'action_plan': 'कृती योजना',
+      'immediate_steps': 'तातडीने करावयाच्या शिफारसी:',
+      'why_need_expert': 'तज्ज्ञांची मदत का हवी आहे? (पर्यायी)',
+      'how_is_it_now': 'आता परिस्थिती कशी आहे?',
+      'followup_question': 'सल्ल्याचे पालन केल्यानंतर समस्येत सुधारणा झाली का?',
+      'improved': 'सुधारणा झाली',
+      'improved_desc': 'पिवळेपणा कमी झाला, नवीन निरोगी पाने येत आहेत',
+      'no_change': 'काही बदल नाही',
+      'no_change_desc': 'लक्षणे अजूनही तशीच आहेत',
+      'got_worse': 'अधिक बिघडली',
+      'got_worse_desc': 'रोग इतर रोपांवर वेगाने पसरत आहे',
+      'upload_new_photo': 'नवीन फोटो अपलोड करा (पर्यायी)',
+      'submit_to_kvk': 'KVK कृषी तज्ज्ञांना सादर करा',
+      'expert_case_summary': 'तज्ज्ञ केस सारांश',
+      'case_transferred': 'केस हस्तांतरित केली',
+      'expert_notified': 'तज्ज्ञांना सूचित केले',
+      'review_in_progress': 'पुनरावलोकन सुरू आहे',
+      'assigned_kvk': 'नियुक्त KVK केंद्र',
+      'estimated_review': 'अंदाजे वेळ',
+      'farmer': 'शेतकरी',
+      'location': 'स्थान',
+      'case_identifier': 'केस क्रमांक',
+      'summary': 'सारांश',
+      'expert_note': 'तज्ज्ञ नोंद',
+      'verified_by_land': 'जमीन नोंदीद्वारे सत्यापित',
+      'action_required': 'कृती आवश्यक',
+      'check_eligibility': 'पात्रता तपासा',
+      'eligible': 'पात्र',
+      'diagnose_get_advice': 'निदान करा आणि सल्ला मिळवा',
     },
     'ml-IN': {
       'acres': 'ഏക്കർ',
@@ -921,7 +1359,6 @@ class AppTranslations {
       'crop_label': 'Crop',
       'crop_stage_prog': 'Crop Stage Progression',
       'daily_companion': 'Daily Companion',
-      'diagnose_get_advice': 'Diagnose & Get Advice',
       'diagnosis_id': 'Diagnosis ID',
       'district': 'District',
       'documents_required': 'Documents Required',
@@ -968,6 +1405,7 @@ class AppTranslations {
       'my_farm_journey': 'എന്റെ കൃഷി യാത്ര',
       'no_timeline_events': 'No timeline events recorded yet.',
       'no_updates': 'No new updates right now',
+      'no_schemes_found': 'നിങ്ങളുടെ വിളയ്ക്കും സ്ഥലത്തിനും അനുയോജ്യമായ സർക്കാർ പദ്ധതികൾ നിലവിൽ ലഭ്യമല്ല.',
       'or_type_below': 'Or type below',
       'overall_farm_health': 'ആകെ കൃഷി ആരോഗ്യം',
       'ownership_status': 'Ownership Status',
@@ -1037,8 +1475,81 @@ class AppTranslations {
       'village': 'Village',
       'voice_assistant': 'Voice Assistant',
       'what_problem_seeing': 'What problem are you seeing?',
-      'what_would_you_like_to_do': 'What would you like to do?',
-      'your_farm_profile': 'Your Farm Profile',
+      'what_would_you_like_to_do': 'നിങ്ങൾ എന്താണ് ചെയ്യാൻ ആഗ്രഹിക്കുന്നത്?',
+      'your_farm_profile': 'നിങ്ങളുടെ കൃഷി വിവരണം',
+      'show_image': 'ചിത്രം കാണിക്കുക',
+      'todays_guidance': 'ഇന്നത്തെ നിർദ്ദേശങ്ങൾ',
+      'weather_field_advice': 'കാലാവസ്ഥയും കൃഷി ഉപദേശവും',
+      'farm_health': 'കൃഷി ആരോഗ്യം',
+      'score_diagnosis': 'സ്കോറും രോഗനിർണയവും',
+      'ask_bhoomi_sub': 'നിങ്ങളുടെ ഭാഷയിൽ ഏത് ചോദ്യവും ചോദിക്കാം',
+      'tap_to_ask_bhoomi': 'ഭൂമിയോട് ചോദിക്കാൻ അമർത്തുക',
+      'recording_tap_to_send': 'റെക്കോർഡ് ചെയ്യുന്നു... അയക്കാൻ അമർത്തുക',
+      'uploading_audio': 'ഓഡിയോ അപ്‌ലോഡ് ചെയ്യുന്നു...',
+      'transcribing_speech': 'ശബ്ദം ടെക്‌സ്‌റ്റാക്കി മാറ്റുന്നു...',
+      'you_can_ask_about': 'നിങ്ങൾക്ക് ചോദിക്കാവുന്ന വിഷയങ്ങൾ:',
+      'topic_crops': 'വിളകൾ',
+      'topic_diseases': 'രോഗങ്ങൾ',
+      'topic_pests': 'കീടങ്ങൾ',
+      'topic_soil': 'മണ്ണ്',
+      'topic_weather': 'കാലാവസ്ഥ',
+      'topic_prices': 'വിപണി വില',
+      'topic_schemes': 'പദ്ധതികൾ',
+      'show_to_bhoomi': 'ഭൂമിയെ കാണിക്കുക',
+      'upload_or_take_photo': 'ഫോട്ടോ എടുക്കുക അല്ലെങ്കിൽ അപ്‌ലോഡ് ചെയ്യുക',
+      'attached': 'ചേർത്തു',
+      'no_image_selected': 'ഫോട്ടോ തിരഞ്ഞെടുത്തിട്ടില്ല',
+      'camera': 'ക്യാമറ',
+      'gallery': 'ഗാലറി',
+      'ai_crop_assist_hint': 'AI പ്രശ്നം കണ്ടെത്തി മാർഗ്ഗനിർദ്ദേശം നൽകും.',
+      'additional_context_optional': 'കൂടുതൽ വിവരങ്ങൾ (നിർബന്ധമില്ല)',
+      'photo_required_hint': 'വിളയുടെ ഫോട്ടോ ആവശ്യമാണ് — ദയവായി ഫോട്ടോ എടുക്കുക.',
+      'bhoomi_intelligence': 'ഭൂമി കാർഷിക ഇന്റലിജൻസ്',
+      'processing_query': 'നിങ്ങളുടെ ചോദ്യം പരിശോധിക്കുന്നു...',
+      'analyzing_farm': 'നിങ്ങളുടെ കൃഷിയിടം പരിശോധിക്കുന്നു...',
+      'review_required': 'വിദഗ്ദ്ധ പരിശോധന ആവശ്യം',
+      'expert_verification_required': 'വിദഗ്ദ്ധ പരിശോധന ആവശ്യമാണ്',
+      'below_confidence_gate_desc': 'കൃത്യത സുരക്ഷാ പരിധിയേക്കാൾ കുറവാണ്. കൃത്യമായ ഉപദേശത്തിനായി കൃഷി വിദഗ്ദ്ധർക്ക് അയക്കുന്നു.',
+      'escalate_to_kvk': 'KVK കൃഷി വിദഗ്ദ്ധർക്ക് അയക്കുക',
+      'return_to_farm_home': 'പ്രധാന പേജിലേക്ക് മടങ്ങുക',
+      'listen_to_advisory': 'ഉപദേശം കേൾക്കുക',
+      'stop_audio': 'ഓഡിയോ നിർത്തുക',
+      'listen_to_brief': 'സംഗ്രഹം കേൾക്കുക',
+      'refresh_guidance': 'നിർദ്ദേശങ്ങൾ പുതുക്കുക',
+      'generating_guidance': 'ഇന്നത്തെ നിർദ്ദേശങ്ങൾ തയ്യാറാക്കുന്നു...',
+      'todays_tasks': 'ഇന്നത്തെ കാർഷിക ജോലികൾ',
+      'task_completed': 'പൂർത്തിയായി',
+      'wind': 'കാറ്റ്',
+      'rain_risk': 'മഴ സാധ്യത',
+      'action_plan': 'കർമ്മ പദ്ധതി',
+      'immediate_steps': 'ഉടൻ ചെയ്യേണ്ട നടപടികൾ:',
+      'why_need_expert': 'എന്തുകൊണ്ട് വിദഗ്ദ്ധ സഹായം വേണം? (ഐച്ഛികം)',
+      'how_is_it_now': 'ഇപ്പോൾ അവസ്ഥ എങ്ങനെയുണ്ട്?',
+      'followup_question': 'ഉപദേശം സ്വീകരിച്ച ശേഷം പ്രശ്നം കുറഞ്ഞോ?',
+      'improved': 'മെച്ചപ്പെട്ടു',
+      'improved_desc': 'മഞ്ഞനിറം മാറി പുതിയ ആരോഗ്യമുള്ള ഇലകൾ വരുന്നു',
+      'no_change': 'മാറ്റമില്ല',
+      'no_change_desc': 'ലക്ഷണങ്ങൾ അതേപടി തുടരുന്നു',
+      'got_worse': 'കൂടുതൽ മോശമായി',
+      'got_worse_desc': 'രോഗം മറ്റ് ചെടികളിലേക്കും വേഗത്തിൽ പടരുന്നു',
+      'upload_new_photo': 'പുതിയ ഫോട്ടോ അപ്‌ലോഡ് ചെയ്യുക (ഐച്ഛികം)',
+      'submit_to_kvk': 'KVK കൃഷി വിദഗ്ദ്ധർക്ക് സമർപ്പിക്കുക',
+      'expert_case_summary': 'വിദഗ്ദ്ധ കേസ് വിവരങ്ങൾ',
+      'case_transferred': 'കേസ് കൈമാറി',
+      'expert_notified': 'വിദഗ്ദ്ധനെ അറിയിച്ചു',
+      'review_in_progress': 'പരിശോധന പുരോഗമിക്കുന്നു',
+      'assigned_kvk': 'നിയോഗിച്ച KVK കേന്ദ്രം',
+      'estimated_review': 'പ്രതീക്ഷിക്കുന്ന സമയം',
+      'farmer': 'കർഷകൻ',
+      'location': 'സ്ഥലം',
+      'case_identifier': 'കേസ് നമ്പർ',
+      'summary': 'സംഗ്രഹം',
+      'expert_note': 'വിദഗ്ദ്ധ കുറിപ്പ്',
+      'verified_by_land': 'ഭൂമി രേഖ പ്രകാരം പരിശോധിച്ചു',
+      'action_required': 'നടപടി ആവശ്യം',
+      'check_eligibility': 'അർഹത പരിശോധിക്കുക',
+      'eligible': 'അർഹതയുണ്ട്',
+      'diagnose_get_advice': 'രോഗനിർണയം നടത്തി ഉപദേശം നേടുക',
     },
     'pa-IN': {
       'acres': 'ਏਕੜ',
@@ -1067,7 +1578,6 @@ class AppTranslations {
       'crop_label': 'Crop',
       'crop_stage_prog': 'Crop Stage Progression',
       'daily_companion': 'Daily Companion',
-      'diagnose_get_advice': 'Diagnose & Get Advice',
       'diagnosis_id': 'Diagnosis ID',
       'district': 'District',
       'documents_required': 'Documents Required',
@@ -1114,6 +1624,7 @@ class AppTranslations {
       'my_farm_journey': 'ਮੇਰਾ ਖੇਤੀ ਸਫ਼ਰ',
       'no_timeline_events': 'No timeline events recorded yet.',
       'no_updates': 'No new updates right now',
+      'no_schemes_found': 'ਤੁਹਾਡੀ ਫ਼ਸਲ ਅਤੇ ਸਥਾਨ ਲਈ ਫਿਲਹਾਲ ਕੋਈ ਸਰਕਾਰੀ ਸਕੀਮਾਂ ਉਪਲਬਧ ਨਹੀਂ ਹਨ।',
       'or_type_below': 'Or type below',
       'overall_farm_health': 'ਕੁੱਲ ਖੇਤ ਸਿਹਤ',
       'ownership_status': 'Ownership Status',
@@ -1183,8 +1694,81 @@ class AppTranslations {
       'village': 'Village',
       'voice_assistant': 'Voice Assistant',
       'what_problem_seeing': 'What problem are you seeing?',
-      'what_would_you_like_to_do': 'What would you like to do?',
-      'your_farm_profile': 'Your Farm Profile',
+      'what_would_you_like_to_do': 'ਤੁਸੀਂ ਕੀ ਕਰਨਾ ਚਾਹੁੰਦੇ ਹੋ?',
+      'your_farm_profile': 'ਤੁਹਾਡਾ ਖੇਤ ਪ੍ਰੋਫਾਈਲ',
+      'show_image': 'ਤਸਵੀਰ ਦਿਖਾਓ',
+      'todays_guidance': 'ਅੱਜ ਦੀ ਸਲਾਹ',
+      'weather_field_advice': 'ਮੌਸਮ ਅਤੇ ਖੇਤੀ ਸਲਾਹ',
+      'farm_health': 'ਖੇਤ ਦੀ ਸਿਹਤ',
+      'score_diagnosis': 'ਸਕੋਰ ਅਤੇ ਰੋਗ ਨਿਦਾਨ',
+      'ask_bhoomi_sub': 'ਆਪਣੀ ਭਾਸ਼ਾ ਵਿੱਚ ਕੋਈ ਵੀ ਸਵਾਲ ਪੁੱਛੋ',
+      'tap_to_ask_bhoomi': 'ਭੂਮੀ ਨੂੰ ਪੁੱਛਣ ਲਈ ਟੈਪ ਕਰੋ',
+      'recording_tap_to_send': 'ਰਿਕਾਰਡਿੰਗ ਹੋ ਰਹੀ ਹੈ... ਭੇਜਣ ਲਈ ਟੈਪ ਕਰੋ',
+      'uploading_audio': 'ਆਡੀਓ ਅੱਪਲੋਡ ਹੋ ਰਿਹਾ ਹੈ...',
+      'transcribing_speech': 'ਬੋਲ ਨੂੰ ਲਿਖਤ ਵਿੱਚ ਬਦਲਿਆ ਜਾ ਰਿਹਾ ਹੈ...',
+      'you_can_ask_about': 'ਤੁਸੀਂ ਇਹਨਾਂ ਵਿਸ਼ਿਆਂ ਬਾਰੇ ਪੁੱਛ ਸਕਦੇ ਹੋ:',
+      'topic_crops': 'ਫ਼ਸਲਾਂ',
+      'topic_diseases': 'ਬਿਮਾਰੀਆਂ',
+      'topic_pests': 'ਕੀੜੇ',
+      'topic_soil': 'ਮਿੱਟੀ',
+      'topic_weather': 'ਮੌਸਮ',
+      'topic_prices': 'ਮੰਡੀ ਭਾਅ',
+      'topic_schemes': 'ਸਕੀਮਾਂ',
+      'show_to_bhoomi': 'ਭੂਮੀ ਨੂੰ ਦਿਖਾਓ',
+      'upload_or_take_photo': 'ਤਸਵੀਰ ਖਿੱਚੋ ਜਾਂ ਅੱਪਲੋਡ ਕਰੋ',
+      'attached': 'ਨੱਥੀ ਕੀਤੀ ਗਈ',
+      'no_image_selected': 'ਕੋਈ ਤਸਵੀਰ ਨਹੀਂ ਚੁਣੀ ਗਈ',
+      'camera': 'ਕੈਮਰਾ',
+      'gallery': 'ਗੈਲਰੀ',
+      'ai_crop_assist_hint': 'AI ਸਮੱਸਿਆ ਦੀ ਪਛਾਣ ਕਰੇਗਾ ਅਤੇ ਮਾਰਗਦਰਸ਼ਨ ਕਰੇਗਾ।',
+      'additional_context_optional': 'ਵਾਧੂ ਵੇਰਵੇ (ਵਿਕਲਪਿਕ)',
+      'photo_required_hint': 'ਫ਼ਸਲ ਦੀ ਤਸਵੀਰ ਲਾਜ਼ਮੀ ਹੈ — ਕਿਰਪਾ ਕਰਕੇ ਤਸਵੀਰ ਲਵੋ।',
+      'bhoomi_intelligence': 'ਭੂਮੀ ਖੇਤੀਬਾੜੀ ਇੰਟੈਲੀਜੈਂਸ',
+      'processing_query': 'ਤੁਹਾਡੇ ਸਵਾਲ ਦਾ ਵਿਸ਼ਲੇਸ਼ਣ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ...',
+      'analyzing_farm': 'ਤੁਹਾਡੇ ਖੇਤ ਦਾ ਵਿਸ਼ਲੇਸ਼ਣ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ...',
+      'review_required': 'ਮਾਹਰ ਸਮੀਖਿਆ ਜ਼ਰੂਰੀ',
+      'expert_verification_required': 'ਮਾਹਰ ਤਸਦੀਕ ਦੀ ਲੋੜ ਹੈ',
+      'below_confidence_gate_desc': 'ਸਟੀਕਤਾ ਸੁਰੱਖਿਆ ਸੀਮਾ ਤੋਂ ਘੱਟ ਹੈ। ਸੁਰੱਖਿਅਤ ਸਲਾਹ ਲਈ ਖੇਤੀਬਾੜੀ ਮਾਹਰ ਨੂੰ ਭੇਜਿਆ ਜਾ ਰਿਹਾ ਹੈ।',
+      'escalate_to_kvk': 'KVK ਖੇਤੀਬਾੜੀ ਮਾਹਰ ਨੂੰ ਭੇਜੋ',
+      'return_to_farm_home': 'ਮੁੱਖ ਪੰਨੇ ਤੇ ਵਾਪਸ ਜਾਓ',
+      'listen_to_advisory': 'ਸਲਾਹ ਸੁਣੋ',
+      'stop_audio': 'ਆਡੀਓ ਰੋਕੋ',
+      'listen_to_brief': 'ਸੰਖੇਪ ਸੁਣੋ',
+      'refresh_guidance': 'ਸਲਾਹ ਤਾਜ਼ਾ ਕਰੋ',
+      'generating_guidance': 'ਅੱਜ ਦੀ ਸਲਾਹ ਤਿਆਰ ਹੋ ਰਹੀ ਹੈ...',
+      'todays_tasks': 'ਅੱਜ ਦੇ ਖੇਤ ਕਾਰਜ',
+      'task_completed': 'ਮੁਕੰਮਲ',
+      'wind': 'ਹਵਾ',
+      'rain_risk': 'ਮੀਂਹ ਦਾ ਖ਼ਤਰਾ',
+      'action_plan': 'ਕਾਰਜ ਯੋਜਨਾ',
+      'immediate_steps': 'ਸਿਫ਼ਾਰਸ਼ ਕੀਤੇ ਤੁਰੰਤ ਕਦਮ:',
+      'why_need_expert': 'ਮਾਹਰ ਦੀ ਮਦਦ ਕਿਉਂ ਚਾਹੀਦੀ ਹੈ? (ਵਿਕਲਪਿਕ)',
+      'how_is_it_now': 'ਹੁਣ ਹਾਲਤ ਕਿਵੇਂ ਹੈ?',
+      'followup_question': 'ਸਲਾਹ ਮੰਨਣ ਤੋਂ ਬਾਅਦ ਸਮੱਸਿਆ ਵਿੱਚ ਸੁਧਾਰ ਹੋਇਆ ਹੈ?',
+      'improved': 'ਸੁਧਾਰ ਹੋਇਆ',
+      'improved_desc': 'ਪੀਲਾਪਣ ਘਟਿਆ, ਨਵੇਂ ਸਿਹਤਮੰਦ ਪੱਤੇ ਆ ਰਹੇ ਹਨ',
+      'no_change': 'ਕੋਈ ਬਦਲਾਅ ਨਹੀਂ',
+      'no_change_desc': 'ਲੱਛਣ ਅਜੇ ਵੀ ਓਸੇ ਤਰ੍ਹਾਂ ਹਨ',
+      'got_worse': 'ਹੋਰ ਵਿਗੜ ਗਿਆ',
+      'got_worse_desc': 'ਨੁਕਸਾਨ ਹੋਰ ਬੂਟਿਆਂ ਤੱਕ ਤੇਜ਼ੀ ਨਾਲ ਫੈਲ ਰਿਹਾ ਹੈ',
+      'upload_new_photo': 'ਨਵੀਂ ਤਸਵੀਰ ਅੱਪਲੋਡ ਕਰੋ (ਵਿਕਲਪਿਕ)',
+      'submit_to_kvk': 'KVK ਖੇਤੀਬਾੜੀ ਮਾਹਰ ਨੂੰ ਸੌਂਪੋ',
+      'expert_case_summary': 'ਮਾਹਰ ਕੇਸ ਸੰਖੇਪ',
+      'case_transferred': 'ਕੇਸ ਤਬਦੀਲ ਕੀਤਾ ਗਿਆ',
+      'expert_notified': 'ਮਾਹਰ ਨੂੰ ਸੂਚਿਤ ਕੀਤਾ ਗਿਆ',
+      'review_in_progress': 'ਸਮੀਖਿਆ ਜਾਰੀ ਹੈ',
+      'assigned_kvk': 'ਨਿਰਧਾਰਤ KVK ਕੇਂਦਰ',
+      'estimated_review': 'ਅੰਦਾਜ਼ਨ ਸਮਾਂ',
+      'farmer': 'ਕਿਸਾਨ',
+      'location': 'ਸਥਾਨ',
+      'case_identifier': 'ਕੇਸ ਨੰਬਰ',
+      'summary': 'ਸੰਖੇਪ',
+      'expert_note': 'ਮਾਹਰ ਨੋਟ',
+      'verified_by_land': 'ਜ਼ਮੀਨ ਰਿਕਾਰਡ ਦੁਆਰਾ ਤਸਦੀਕਸ਼ੁਦਾ',
+      'action_required': 'ਕਾਰਵਾਈ ਲੋੜੀਂਦੀ',
+      'check_eligibility': 'ਯੋਗਤਾ ਦੀ ਜਾਂਚ ਕਰੋ',
+      'eligible': 'ਯੋਗ',
+      'diagnose_get_advice': 'ਰੋਗ ਪਛਾਣੋ ਅਤੇ ਸਲਾਹ ਲਵੋ',
     },
   };
 
@@ -1368,6 +1952,121 @@ class AppTranslations {
     }
   }
 
+  String translateHealthExplanation(String band, String? explanation) {
+    if (explanation != null && explanation.isNotEmpty && !explanation.contains('Farm parameters are in healthy range') && !explanation.contains('Complete onboarding')) {
+      final lower = explanation.toLowerCase();
+      if (lower.contains('healthy range') || lower.contains('parameters are in healthy')) {
+        return langCode.startsWith('ta')
+            ? 'பண்ணை அளவுகோல்கள் ஆரோக்கியமான வரம்பில் உள்ளன.'
+            : langCode.startsWith('hi')
+                ? 'खेत के सभी पैरामीटर स्वस्थ सीमा में हैं।'
+                : explanation;
+      }
+      if (lower.contains('onboarding') || lower.contains('upload farm photos')) {
+        return langCode.startsWith('ta')
+            ? 'தொடக்க நிலையை முடித்து, முதல் மதிப்பெண்ணைப் பெற பயிர் புகைப்படங்களைப் பதிவேற்றவும்.'
+            : langCode.startsWith('hi')
+                ? 'प्रारंभिक स्कोर की गणना के लिए खेत की तस्वीरें अपलोड करें।'
+                : explanation;
+      }
+    }
+    switch (band.toLowerCase()) {
+      case 'good':
+      case 'excellent':
+        return langCode.startsWith('ta')
+            ? 'பண்ணை அளவுகோல்கள் ஆரோக்கியமான வரம்பில் உள்ளன.'
+            : langCode.startsWith('hi')
+                ? 'खेत के सभी पैरामीटर स्वस्थ सीमा में हैं।'
+                : 'Farm parameters are in healthy range.';
+      case 'moderate':
+      case 'fair':
+        return langCode.startsWith('ta')
+            ? 'சில வேளாண் காரணிகளுக்கு தொடர் கண்காணிப்பு தேவைப்படுகிறது.'
+            : langCode.startsWith('hi')
+                ? 'कुछ कृषि मापदंडों पर निरंतर निगरानी की आवश्यकता है।'
+                : 'Some agronomic parameters require regular monitoring.';
+      case 'poor':
+      case 'critical':
+        return langCode.startsWith('ta')
+            ? 'பயிர் பாதுகாப்புக்கு உடனடி மேலாண்மை தலையீடு தேவைப்படுகிறது.'
+            : langCode.startsWith('hi')
+                ? 'फसल सुरक्षा के लिए तत्काल प्रबंधन हस्तक्षेप आवश्यक है।'
+                : 'Immediate agronomic management required for crop recovery.';
+      case 'unrated':
+      default:
+        return langCode.startsWith('ta')
+            ? 'முதல் மதிப்பெண்ணைப் பெற பயிர் புகைப்படங்களைப் பதிவேற்றவும்.'
+            : langCode.startsWith('hi')
+                ? 'प्रारंभिक स्कोर की गणना के लिए खेत की तस्वीरें अपलोड करें।'
+                : 'Complete onboarding and upload farm photos to compute initial score.';
+    }
+  }
+
+  String translateBriefSummary(String summary) {
+    final lower = summary.toLowerCase();
+    if (lower.contains('moisture management') || lower.contains('field scouting') || lower.contains('favorable')) {
+      return langCode.startsWith('ta')
+          ? 'இன்றைய வானிலை பாசன மேலாண்மை மற்றும் வயல் ஆய்வுக்கு உகந்ததாக உள்ளது.'
+          : langCode.startsWith('hi')
+              ? 'आज का मौसम सिंचाई प्रबंधन और खेत निरीक्षण के लिए अनुकूल है।'
+              : summary;
+    }
+    if (lower.contains('rain') || lower.contains('spray window')) {
+      return langCode.startsWith('ta')
+          ? 'வானிலை நிலவரப்படி உரம் மற்றும் பூச்சிக்கொல்லி தெளிப்புக்கு உகந்த நேரம்.'
+          : langCode.startsWith('hi')
+              ? 'मौसम की स्थिति उर्वरक और कीटनाशक छिड़काव के लिए उपयुक्त है।'
+              : summary;
+    }
+    return summary;
+  }
+
+  String translateBriefAction(String? action) {
+    if (action == null || action.isEmpty) return '';
+    final lower = action.toLowerCase();
+    if (lower.contains('irrigation') || lower.contains('2,200') || lower.contains('2200')) {
+      return langCode.startsWith('ta')
+          ? 'அதிகாலை வேளையில் பரிந்துரைக்கப்பட்ட 2,200 லிட்டர் பாசனத்தை வழங்கவும்.'
+          : langCode.startsWith('hi')
+              ? 'सुबह के समय अनुशंसित 2,200 लीटर सिंचाई लागू करें।'
+              : action;
+    }
+    if (lower.contains('drainage') || lower.contains('standing water')) {
+      return langCode.startsWith('ta')
+          ? 'வயலில் தேங்கியுள்ள உபரி நீரை உடனடியாக வடிய வைக்கவும்.'
+          : langCode.startsWith('hi')
+              ? 'खेत में जमा अतिरिक्त पानी को तुरंत बाहर निकालें।'
+              : action;
+    }
+    return action;
+  }
+
+  String translateWeatherSummary(String weatherSummary) {
+    final lower = weatherSummary.toLowerCase();
+    if (lower.contains('partly sunny') && lower.contains('spray window')) {
+      return langCode.startsWith('ta')
+          ? 'பகுதி வெயில் • மருந்து தெளிக்க உகந்த நேரம்'
+          : langCode.startsWith('hi')
+              ? 'हल्की धूप • छिड़काव के लिए अच्छा समय'
+              : weatherSummary;
+    }
+    if (lower.contains('sunny') || lower.contains('clear')) {
+      return langCode.startsWith('ta')
+          ? 'வெயில் நிறைந்த வானிலை'
+          : langCode.startsWith('hi')
+              ? 'धूप वाला मौसम'
+              : weatherSummary;
+    }
+    if (lower.contains('rain') || lower.contains('cloudy')) {
+      return langCode.startsWith('ta')
+          ? 'மேகமூட்டம் • மழை வாய்ப்பு'
+          : langCode.startsWith('hi')
+              ? 'बादल छाए रहेंगे • बारिश की संभावना'
+              : weatherSummary;
+    }
+    return weatherSummary;
+  }
+
   // Common getters
   String get appTitle => text('app_title');
   String get appSubtitle => langCode.startsWith('ta') ? 'விவசாயிகளுக்கான AI தோழன்' : langCode.startsWith('hi') ? 'किसानों का AI साथी' : 'AI-Powered Farmer Companion';
@@ -1423,6 +2122,81 @@ class AppTranslations {
   String get areaStepSub => text('step_area_sub');
   String get growthStepTitle => text('step_stage_title');
   String get growthStepSub => text('step_stage_sub');
+  String get showImage => text('show_image');
+  String get todaysGuidance => text('todays_guidance');
+  String get weatherFieldAdvice => text('weather_field_advice');
+  String get farmHealth => text('farm_health');
+  String get scoreDiagnosis => text('score_diagnosis');
+  String get askBhoomiSub => text('ask_bhoomi_sub');
+  String get tapToAskBhoomi => text('tap_to_ask_bhoomi');
+  String get recordingTapToSend => text('recording_tap_to_send');
+  String get uploadingAudio => text('uploading_audio');
+  String get transcribingSpeech => text('transcribing_speech');
+  String get youCanAskAbout => text('you_can_ask_about');
+  String get topicCrops => text('topic_crops');
+  String get topicDiseases => text('topic_diseases');
+  String get topicPests => text('topic_pests');
+  String get topicSoil => text('topic_soil');
+  String get topicWeather => text('topic_weather');
+  String get topicPrices => text('topic_prices');
+  String get topicSchemes => text('topic_schemes');
+  String get showToBhoomi => text('show_to_bhoomi');
+  String get uploadOrTakePhoto => text('upload_or_take_photo');
+  String get attached => text('attached');
+  String get noImageSelected => text('no_image_selected');
+  String get camera => text('camera');
+  String get gallery => text('gallery');
+  String get aiCropAssistHint => text('ai_crop_assist_hint');
+  String get additionalContextOptional => text('additional_context_optional');
+  String get photoRequiredHint => text('photo_required_hint');
+  String get bhoomiIntelligence => text('bhoomi_intelligence');
+  String get processingQuery => text('processing_query');
+  String get analyzingFarm => text('analyzing_farm');
+  String get reviewRequired => text('review_required');
+  String get expertVerificationRequired => text('expert_verification_required');
+  String get belowConfidenceGateDesc => text('below_confidence_gate_desc');
+  String get escalateToKvk => text('escalate_to_kvk');
+  String get returnToFarmHome => text('return_to_farm_home');
+  String get listenToAdvisory => text('listen_to_advisory');
+  String get stopAudio => text('stop_audio');
+  String get listenToBrief => text('listen_to_brief');
+  String get refreshGuidance => text('refresh_guidance');
+  String get generatingGuidance => text('generating_guidance');
+  String get todaysTasks => text('todays_tasks');
+  String get taskCompleted => text('task_completed');
+  String get wind => text('wind');
+  String get rainRisk => text('rain_risk');
+  String get actionPlan => text('action_plan');
+  String get immediateSteps => text('immediate_steps');
+  String get whyNeedExpert => text('why_need_expert');
+  String get howIsItNow => text('how_is_it_now');
+  String get followupQuestion => text('followup_question');
+  String get improved => text('improved');
+  String get improvedDesc => text('improved_desc');
+  String get noChange => text('no_change');
+  String get noChangeDesc => text('no_change_desc');
+  String get gotWorse => text('got_worse');
+  String get gotWorseDesc => text('got_worse_desc');
+  String get uploadNewPhoto => text('upload_new_photo');
+  String get submitToKvk => text('submit_to_kvk');
+  String get expertCaseSummary => text('expert_case_summary');
+  String get caseTransferred => text('case_transferred');
+  String get expertNotified => text('expert_notified');
+  String get reviewInProgress => text('review_in_progress');
+  String get assignedKvk => text('assigned_kvk');
+  String get estimatedReview => text('estimated_review');
+  String get farmer => text('farmer');
+  String get location => text('location');
+  String get caseIdentifier => text('case_identifier');
+  String get summary => text('summary');
+  String get expertNote => text('expert_note');
+  String get verifiedByLand => text('verified_by_land');
+  String get actionRequired => text('action_required');
+  String get checkEligibility => text('check_eligibility');
+  String get eligible => text('eligible');
+  String get possibleIssueIdentified => text('possible_issue_identified');
+  String get trackProgress => text('track_progress');
+  String get getExpertHelp => text('get_expert_help');
 
   String cropName(String cropId) => translateCrop(cropId);
   String cropSubtitle(String cropId) {

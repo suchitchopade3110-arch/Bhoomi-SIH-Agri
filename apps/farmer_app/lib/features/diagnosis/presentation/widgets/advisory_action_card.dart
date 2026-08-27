@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../app/theme/app_colors.dart';
 import '../../../../app/theme/app_spacing.dart';
 import '../../../../app/theme/app_typography.dart';
+import '../../../../core/localization/bhoomi_localizations.dart';
 import '../../../../core/widgets/bhoomi_card.dart';
 import '../../../treatments/presentation/providers/treatments_providers.dart';
 
@@ -26,8 +27,9 @@ class AdvisoryActionCard extends ConsumerWidget {
       return const SizedBox.shrink();
     }
 
+    final strings = ref.watch(bhoomiStringsProvider);
     final actionCount = actions.length;
-    final planTitle = actionCount == 5 ? '5-Point Action Plan' : '$actionCount-Step Action Plan';
+    final planTitle = '$actionCount ${strings.actionPlan}';
 
     return BhoomiCard(
       padding: const EdgeInsets.all(AppSpacing.lg),
@@ -62,7 +64,7 @@ class AdvisoryActionCard extends ConsumerWidget {
           ),
           const SizedBox(height: 4.0),
           Text(
-            'Recommended immediate agronomic management steps:',
+            strings.immediateSteps,
             style: AppTypography.bodyMedium.copyWith(fontSize: 12.0, color: AppColors.textMuted),
           ),
           const Divider(color: AppColors.divider, height: AppSpacing.lg),
@@ -135,9 +137,9 @@ class AdvisoryActionCard extends ConsumerWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
-                          'Important Caution',
-                          style: TextStyle(fontWeight: FontWeight.w800, fontSize: 12.0, color: Color(0xFF92400E)),
+                        Text(
+                          strings.text('preventive_measures'),
+                          style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 12.0, color: Color(0xFF92400E)),
                         ),
                         const SizedBox(height: 2.0),
                         Text(
@@ -166,15 +168,15 @@ class AdvisoryActionCard extends ConsumerWidget {
                       onSave!();
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Advice saved to your farm records!'),
+                        SnackBar(
+                          content: Text(strings.save),
                           backgroundColor: AppColors.primaryGreen,
                         ),
                       );
                     }
                   },
                   icon: const Icon(Icons.bookmark_border_rounded, size: 18.0),
-                  label: const Text('Save Advice'),
+                  label: Text(strings.save),
                   style: OutlinedButton.styleFrom(
                     foregroundColor: AppColors.primaryGreen,
                     side: const BorderSide(color: AppColors.primaryGreen, width: 1.5),
@@ -192,7 +194,7 @@ class AdvisoryActionCard extends ConsumerWidget {
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
-                          content: Text('Advisory link copied to clipboard!'),
+                          content: Text('Link copied to clipboard!'),
                           backgroundColor: AppColors.primaryGreen,
                         ),
                       );

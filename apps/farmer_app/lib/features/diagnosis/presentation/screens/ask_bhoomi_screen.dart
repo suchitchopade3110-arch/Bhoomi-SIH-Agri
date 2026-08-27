@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import '../../../../app/theme/app_colors.dart';
 import '../../../../app/theme/app_spacing.dart';
 import '../../../../app/theme/app_typography.dart';
+import '../../../../core/localization/bhoomi_localizations.dart';
 import '../../../../core/widgets/ai_processing_view.dart';
 import '../../../../core/widgets/bhoomi_card.dart';
 import '../../../../core/widgets/bhoomi_primary_button.dart';
@@ -12,6 +13,7 @@ import '../../../voice/presentation/widgets/voice_confirmation_sheet.dart';
 import '../../../voice/presentation/widgets/voice_record_button.dart';
 import '../../application/diagnosis_controller.dart';
 import '../widgets/crop_image_picker.dart';
+import '../../../../shared/widgets/bhoomi_bottom_navigation.dart';
 
 class AskBhoomiScreen extends ConsumerStatefulWidget {
   final String farmId;
@@ -29,13 +31,13 @@ class _AskBhoomiScreenState extends ConsumerState<AskBhoomiScreen> {
   late TextEditingController _textController;
 
   final List<Map<String, dynamic>> _topics = const [
-    {'label': 'Crops', 'icon': Icons.grass_rounded},
-    {'label': 'Diseases', 'icon': Icons.coronavirus_rounded},
-    {'label': 'Pests', 'icon': Icons.pest_control_rounded},
-    {'label': 'Soil', 'icon': Icons.landscape_rounded},
-    {'label': 'Weather', 'icon': Icons.cloud_queue_rounded},
-    {'label': 'Prices', 'icon': Icons.currency_rupee_rounded},
-    {'label': 'Schemes', 'icon': Icons.account_balance_rounded},
+    {'key': 'topic_crops', 'icon': Icons.grass_rounded},
+    {'key': 'topic_diseases', 'icon': Icons.coronavirus_rounded},
+    {'key': 'topic_pests', 'icon': Icons.pest_control_rounded},
+    {'key': 'topic_soil', 'icon': Icons.landscape_rounded},
+    {'key': 'topic_weather', 'icon': Icons.cloud_queue_rounded},
+    {'key': 'topic_prices', 'icon': Icons.currency_rupee_rounded},
+    {'key': 'topic_schemes', 'icon': Icons.account_balance_rounded},
   ];
 
   @override
@@ -53,6 +55,7 @@ class _AskBhoomiScreenState extends ConsumerState<AskBhoomiScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final strings = ref.watch(bhoomiStringsProvider);
     final diagnosisState = ref.watch(diagnosisControllerProvider);
     final diagnosisController = ref.read(diagnosisControllerProvider.notifier);
     final voiceState = ref.watch(voiceControllerProvider);
@@ -63,13 +66,13 @@ class _AskBhoomiScreenState extends ConsumerState<AskBhoomiScreen> {
       return Scaffold(
         backgroundColor: AppColors.background,
         appBar: AppBar(
-          title: const Text('BHOOMI Intelligence', style: TextStyle(fontWeight: FontWeight.w800)),
+          title: Text(strings.bhoomiIntelligence, style: const TextStyle(fontWeight: FontWeight.w800)),
           scrolledUnderElevation: 0,
         ),
-        body: const SafeArea(
+        body: SafeArea(
           child: AiProcessingView(
-            title: 'Processing Your Query',
-            subtitle: 'Analyzing your farm...',
+            title: strings.processingQuery,
+            subtitle: strings.analyzingFarm,
             showIntelligenceModules: true,
           ),
         ),
@@ -79,7 +82,7 @@ class _AskBhoomiScreenState extends ConsumerState<AskBhoomiScreen> {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
-        title: const Text('Ask BHOOMI', style: TextStyle(fontWeight: FontWeight.w800)),
+        title: Text(strings.askBhoomi, style: const TextStyle(fontWeight: FontWeight.w800)),
         scrolledUnderElevation: 0,
       ),
       body: SafeArea(
@@ -93,18 +96,19 @@ class _AskBhoomiScreenState extends ConsumerState<AskBhoomiScreen> {
                 padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.xl),
                 child: Column(
                   children: [
-                    const Text(
-                      'Ask BHOOMI',
-                      style: TextStyle(
+                    Text(
+                      strings.askBhoomi,
+                      style: const TextStyle(
                         fontSize: 22.0,
                         fontWeight: FontWeight.w800,
                         color: AppColors.textPrimary,
                       ),
                     ),
                     const SizedBox(height: 4.0),
-                    const Text(
-                      'Tap and ask any question in your language',
-                      style: TextStyle(fontSize: 13.0, color: AppColors.textSecondary),
+                    Text(
+                      strings.askBhoomiSub,
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(fontSize: 13.0, color: AppColors.textSecondary),
                     ),
                     const SizedBox(height: AppSpacing.lg),
 
@@ -177,7 +181,7 @@ class _AskBhoomiScreenState extends ConsumerState<AskBhoomiScreen> {
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        'You can ask about:',
+                        strings.youCanAskAbout,
                         style: AppTypography.labelMedium.copyWith(
                           fontWeight: FontWeight.w700,
                           color: AppColors.textSecondary,
@@ -189,13 +193,13 @@ class _AskBhoomiScreenState extends ConsumerState<AskBhoomiScreen> {
                       spacing: AppSpacing.xs + 2,
                       runSpacing: AppSpacing.xs + 2,
                       children: _topics.map((t) {
+                        final topicName = strings.text(t['key'] as String);
                         return InkWell(
                           onTap: () {
-                            final topic = t['label'] as String;
                             if (_textController.text.isEmpty) {
-                              _textController.text = 'Tell me about $topic for my crop';
+                              _textController.text = topicName;
                             } else {
-                              _textController.text += ' $topic';
+                              _textController.text += ' $topicName';
                             }
                             diagnosisController.setProblemDescription(_textController.text);
                           },
@@ -213,7 +217,7 @@ class _AskBhoomiScreenState extends ConsumerState<AskBhoomiScreen> {
                                 Icon(t['icon'] as IconData, size: 14.0, color: AppColors.primaryGreen),
                                 const SizedBox(width: 4.0),
                                 Text(
-                                  t['label'] as String,
+                                  topicName,
                                   style: const TextStyle(
                                     fontSize: 11.5,
                                     fontWeight: FontWeight.w700,
@@ -249,15 +253,15 @@ class _AskBhoomiScreenState extends ConsumerState<AskBhoomiScreen> {
                     // diagnosis path (image_asset_id is mandatory and must
                     // be a real presigned asset). This field only adds
                     // context to a photo submission, it can't replace one.
-                    const Text('Additional Context (optional)', style: AppTypography.titleMedium),
+                    Text(strings.additionalContextOptional, style: AppTypography.titleMedium),
                     const SizedBox(height: AppSpacing.sm),
                     TextField(
                       controller: _textController,
                       maxLines: 3,
                       onChanged: diagnosisController.setProblemDescription,
-                      decoration: const InputDecoration(
-                        hintText: 'e.g. Paddy leaves turning yellow with brown spots...',
-                        hintStyle: TextStyle(fontSize: 13.0, color: AppColors.textMuted),
+                      decoration: InputDecoration(
+                        hintText: strings.text('type_problem_hint'),
+                        hintStyle: const TextStyle(fontSize: 13.0, color: AppColors.textMuted),
                       ),
                     ),
                   ],
@@ -295,11 +299,11 @@ class _AskBhoomiScreenState extends ConsumerState<AskBhoomiScreen> {
               const SizedBox(height: AppSpacing.xl),
 
               if (diagnosisState.imageAssetId == null) ...[
-                const Padding(
-                  padding: EdgeInsets.only(bottom: AppSpacing.md),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: AppSpacing.md),
                   child: Text(
-                    'A photo is required — take or select one above to diagnose.',
-                    style: TextStyle(fontSize: 12.0, color: AppColors.textMuted),
+                    strings.photoRequiredHint,
+                    style: const TextStyle(fontSize: 12.0, color: AppColors.textMuted),
                   ),
                 ),
               ],
@@ -308,7 +312,7 @@ class _AskBhoomiScreenState extends ConsumerState<AskBhoomiScreen> {
               // uploading, since the backend has no text-only diagnosis
               // path (see DiagnosisState.isValid).
               BhoomiPrimaryButton(
-                text: 'Diagnose & Get Advice',
+                text: strings.text('diagnose_get_advice'),
                 isLoading: diagnosisState.isDiagnosing,
                 icon: Icons.auto_awesome_rounded,
                 onPressed: diagnosisState.isValid
@@ -327,6 +331,7 @@ class _AskBhoomiScreenState extends ConsumerState<AskBhoomiScreen> {
           ),
         ),
       ),
+      bottomNavigationBar: BhoomiBottomNavigation(farmId: widget.farmId, currentIndex: 1),
     );
   }
 }

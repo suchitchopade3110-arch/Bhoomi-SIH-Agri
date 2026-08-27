@@ -45,14 +45,17 @@ class HealthScoreCard extends ConsumerWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                strings.text('overall_farm_health'),
-                style: const TextStyle(
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.w800,
-                  color: AppColors.textPrimary,
+              Expanded(
+                child: Text(
+                  strings.text('overall_farm_health'),
+                  style: const TextStyle(
+                    fontSize: 17.0,
+                    fontWeight: FontWeight.w800,
+                    color: AppColors.textPrimary,
+                  ),
                 ),
               ),
+              const SizedBox(width: AppSpacing.sm),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 3.0),
                 decoration: BoxDecoration(
@@ -122,7 +125,7 @@ class HealthScoreCard extends ConsumerWidget {
             ),
             const SizedBox(height: AppSpacing.lg),
             Text(
-              snapshot.explanation ?? 'Farm parameters are in healthy range.',
+              strings.translateHealthExplanation(snapshot.band, snapshot.explanation),
               textAlign: TextAlign.center,
               style: const TextStyle(fontSize: 13.0, color: AppColors.textSecondary),
             ),
@@ -166,7 +169,7 @@ class HealthScoreCard extends ConsumerWidget {
                   ),
                   const SizedBox(height: 4.0),
                   Text(
-                    snapshot.explanation ?? 'Complete onboarding and upload farm photos to compute initial score.',
+                    strings.translateHealthExplanation('unrated', snapshot.explanation),
                     textAlign: TextAlign.center,
                     style: const TextStyle(fontSize: 12.0, color: AppColors.textMuted),
                   ),

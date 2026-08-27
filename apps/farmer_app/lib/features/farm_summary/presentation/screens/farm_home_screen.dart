@@ -24,6 +24,7 @@ import '../../application/farm_summary_provider.dart';
 import '../../data/models/farm_summary.dart';
 import '../widgets/farm_identity_card.dart';
 import '../../../auth/presentation/providers/auth_providers.dart';
+import '../../../../shared/widgets/bhoomi_bottom_navigation.dart';
 
 class FarmHomeScreen extends ConsumerWidget {
   final String farmId;
@@ -330,63 +331,7 @@ class FarmHomeScreen extends ConsumerWidget {
           ],
         ),
       ),
-      bottomNavigationBar: Container(
-        decoration: const BoxDecoration(
-          color: AppColors.surface,
-          border: Border(top: BorderSide(color: AppColors.border, width: 1.0)),
-          boxShadow: [
-            BoxShadow(
-              color: AppColors.cardShadow,
-              blurRadius: 10.0,
-              offset: Offset(0, -2),
-            ),
-          ],
-        ),
-        child: BottomNavigationBar(
-          currentIndex: 0,
-          elevation: 0,
-          backgroundColor: Colors.transparent,
-          selectedItemColor: AppColors.primaryGreen,
-          unselectedItemColor: AppColors.textMuted,
-          selectedLabelStyle: const TextStyle(fontWeight: FontWeight.w700, fontSize: 12.0),
-          unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.w500, fontSize: 11.0),
-          type: BottomNavigationBarType.fixed,
-          onTap: (index) {
-            switch (index) {
-              case 0:
-                // Already on Home
-                break;
-              case 1:
-                context.push('/ask/$farmId');
-                break;
-              case 2:
-                context.push('/timeline/$farmId');
-                break;
-              case 3:
-                context.push('/health/$farmId');
-                break;
-            }
-          },
-          items: [
-            BottomNavigationBarItem(
-              icon: const Icon(Icons.home_filled),
-              label: strings.navHome,
-            ),
-            BottomNavigationBarItem(
-              icon: const Icon(Icons.mic_rounded),
-              label: strings.navCompanion,
-            ),
-            BottomNavigationBarItem(
-              icon: const Icon(Icons.timeline_rounded),
-              label: strings.navJourney,
-            ),
-            BottomNavigationBarItem(
-              icon: const Icon(Icons.favorite_rounded),
-              label: strings.navProfile,
-            ),
-          ],
-        ),
-      ),
+      bottomNavigationBar: BhoomiBottomNavigation(farmId: farmId, currentIndex: 0),
     );
   }
 

@@ -113,12 +113,10 @@ class SchemesScreen extends ConsumerWidget {
                     children: [
                       const Icon(Icons.account_balance_rounded, size: 48.0, color: AppColors.textMuted),
                       const SizedBox(height: AppSpacing.md),
-                      Text(strings.text('no_updates'), style: AppTypography.headlineMedium),
-                      const SizedBox(height: AppSpacing.sm),
-                      const Text(
-                        'No government schemes currently match your specific crop and location.',
+                      Text(
+                        strings.text('no_schemes_found'),
                         textAlign: TextAlign.center,
-                        style: TextStyle(color: AppColors.textMuted),
+                        style: const TextStyle(color: AppColors.textMuted),
                       ),
                     ],
                   ),
@@ -134,22 +132,26 @@ class SchemesScreen extends ConsumerWidget {
                   Container(
                     padding: const EdgeInsets.all(AppSpacing.lg),
                     decoration: BoxDecoration(
-                      gradient: const LinearGradient(
-                        colors: [Color(0xFF0284C7), Color(0xFF0369A1)],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                      ),
+                      color: AppColors.surface,
                       borderRadius: BorderRadius.circular(AppSpacing.radiusLg),
+                      border: Border.all(color: AppColors.border),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: AppColors.cardShadow,
+                          blurRadius: 10.0,
+                          offset: Offset(0, 4),
+                        ),
+                      ],
                     ),
                     child: Row(
                       children: [
                         Container(
                           padding: const EdgeInsets.all(AppSpacing.md),
                           decoration: BoxDecoration(
-                            color: Colors.white.withValues(alpha: 0.2),
+                            color: const Color(0xFF0284C7).withValues(alpha: 0.12),
                             shape: BoxShape.circle,
                           ),
-                          child: const Icon(Icons.account_balance_rounded, color: Colors.white, size: 28.0),
+                          child: const Icon(Icons.account_balance_rounded, color: Color(0xFF0284C7), size: 28.0),
                         ),
                         const SizedBox(width: AppSpacing.md),
                         Expanded(
@@ -158,12 +160,12 @@ class SchemesScreen extends ConsumerWidget {
                             children: [
                               Text(
                                 strings.text('eligible_schemes'),
-                                style: const TextStyle(color: Colors.white, fontSize: 18.0, fontWeight: FontWeight.w800),
+                                style: const TextStyle(color: AppColors.textPrimary, fontSize: 18.0, fontWeight: FontWeight.w800),
                               ),
                               const SizedBox(height: 2.0),
                               Text(
                                 strings.text('govt_support_desc'),
-                                style: const TextStyle(color: Colors.white70, fontSize: 12.0),
+                                style: const TextStyle(color: AppColors.textSecondary, fontSize: 12.0),
                               ),
                             ],
                           ),

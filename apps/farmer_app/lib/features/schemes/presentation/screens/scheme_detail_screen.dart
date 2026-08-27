@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../app/theme/app_colors.dart';
 import '../../../../app/theme/app_spacing.dart';
 import '../../../../app/theme/app_typography.dart';
+import '../../../../core/localization/bhoomi_localizations.dart';
 import '../../../../core/widgets/bhoomi_card.dart';
 import '../../../../core/widgets/bhoomi_loading_view.dart';
 import '../../../../core/widgets/bhoomi_primary_button.dart';
@@ -19,15 +20,16 @@ class SchemeDetailScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final detailAsync = ref.watch(schemeDetailProvider(schemeId));
+    final strings = ref.watch(bhoomiStringsProvider);
 
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
-        title: const Text('Scheme Details'),
+        title: Text(strings.text('govt_support')),
       ),
       body: SafeArea(
         child: detailAsync.when(
-          loading: () => const BhoomiLoadingView(message: 'Loading scheme guidelines...'),
+          loading: () => BhoomiLoadingView(message: strings.text('analyzing_health')),
           error: (error, _) => Center(
             child: Padding(
               padding: const EdgeInsets.all(AppSpacing.xl),
@@ -36,12 +38,12 @@ class SchemeDetailScreen extends ConsumerWidget {
                 children: [
                   const Icon(Icons.error_outline_rounded, size: 48.0, color: Color(0xFFC62828)),
                   const SizedBox(height: AppSpacing.md),
-                  const Text('Unable to Load Scheme', style: AppTypography.headlineMedium),
+                  Text(strings.text('govt_support'), style: AppTypography.headlineMedium),
                   const SizedBox(height: AppSpacing.sm),
                   Text(error.toString(), textAlign: TextAlign.center, style: const TextStyle(color: AppColors.textMuted)),
                   const SizedBox(height: AppSpacing.lg),
                   BhoomiPrimaryButton(
-                    text: 'Retry',
+                    text: strings.retry,
                     onPressed: () => ref.invalidate(schemeDetailProvider(schemeId)),
                   ),
                 ],
