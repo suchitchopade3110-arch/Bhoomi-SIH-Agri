@@ -55,40 +55,6 @@ class InMemoryFarmRepository:
         return None
 
 
-class InMemoryLandParcelRepository:
-    def __init__(self) -> None:
-        self._parcels: dict[str, dict[str, Any]] = {}
-
-    async def get_by_id(self, parcel_id: str) -> dict[str, Any] | None:
-        return self._parcels.get(parcel_id)
-
-    async def get_by_farm_id(self, farm_id: str) -> dict[str, Any] | None:
-        for p in self._parcels.values():
-            if p.get("farm_id") == farm_id:
-                return p
-        return None
-
-    async def get_pending_queue(self, district: str | None = None) -> list[dict[str, Any]]:
-        results = [p for p in self._parcels.values() if p.get("status") == "pending_review"]
-        if district:
-            results = [p for p in results if p.get("district") == district]
-        return results
-
-    async def save(self, parcel_data: dict[str, Any]) -> dict[str, Any]:
-        parcel_id = parcel_data.get("id") or str(uuid.uuid4())
-        parcel_data["id"] = parcel_id
-        self._parcels[parcel_id] = parcel_data
-        return parcel_data
-
-    async def update_status(self, parcel_id: str, status: str, boundary: dict[str, Any] | None = None) -> dict[str, Any] | None:
-        if parcel_id in self._parcels:
-            self._parcels[parcel_id]["status"] = status
-            if boundary:
-                self._parcels[parcel_id]["confirmed_boundary"] = boundary
-            return self._parcels[parcel_id]
-        return None
-
-
 class InMemoryCaseRepository:
     def __init__(self) -> None:
         self._cases: dict[str, dict[str, Any]] = {}

@@ -56,34 +56,9 @@ async def test_flow():
         print(f"POST Diagnose Route Code: {diagnose_res.status_code}")
         print("Diagnose body:", diagnose_res.json())
 
-        # 3. GET /land/{farm_id}
-        # First we need to submit land verification
-        verify_res = await client.post(f"{url}/land/verify", headers=headers, json={
-            "farm_id": farm_id,
-            "survey_number": "142/3B",
-            "patta_passbook_asset_id": "test_patta_uuid",
-            "suggested_boundary": {
-                "type": "Polygon",
-                "coordinates": [
-                    [
-                        [77.7214, 11.3412],
-                        [77.7289, 11.3415],
-                        [77.7285, 11.3478],
-                        [77.7211, 11.3475],
-                        [77.7214, 11.3412]
-                    ]
-                ]
-            }
-        })
-        print(f"POST Land Verify Code: {verify_res.status_code}")
-        
-        land_res = await client.get(f"{url}/land/{farm_id}", headers=headers)
-        print(f"GET Land Status Code: {land_res.status_code}")
-        print("Land status body:", land_res.json())
-
-        # 4. GET /officer/queue
-        officer_res = await client.get(f"{url}/officer/queue", headers=headers)
-        print(f"GET Officer Queue Code: {officer_res.status_code}")
+        # NOTE: the /land/verify, /land/{farm_id}, and /officer/queue smoke
+        # checks that used to run here were removed along with the Officer
+        # Portal and its HITL land-verification endpoints.
 
         # 5. GET /agronomist/queue
         agronomist_res = await client.get(f"{url}/agronomist/queue", headers=headers)

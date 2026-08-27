@@ -24,7 +24,6 @@ from app.repositories import (
     InMemoryCaseRepository,
     InMemoryFarmRepository,
     InMemoryHealthRepository,
-    InMemoryLandParcelRepository,
     InMemorySchemeRepository,
     InMemoryUserRepository,
 )
@@ -72,8 +71,6 @@ def test_openapi_schema_generation(client):
         "/api/v1/assets/presigned-url",
         "/api/v1/voice/transcribe",
         "/api/v1/farms",
-        "/api/v1/land/verify",
-        "/api/v1/officer/queue",
         "/api/v1/farms/{farm_id}/risk",
         "/api/v1/farms/{farm_id}/risk/history",
         "/api/v1/farms/{farm_id}/risk/recompute",
@@ -94,7 +91,7 @@ def test_stubs_and_error_envelope(client):
     # Phase 5: every route is wired to a real service now — an
     # unauthenticated call to a protected route returns the error envelope
     # with UNAUTHENTICATED rather than the old Phase-0 NOT_IMPLEMENTED stub.
-    response = client.get("/api/v1/officer/queue")
+    response = client.get("/api/v1/agronomist/queue")
     assert response.status_code == 401
     data = response.json()
     assert "error" in data

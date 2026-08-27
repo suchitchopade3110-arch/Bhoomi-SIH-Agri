@@ -40,7 +40,6 @@ from app.models.case import Case
 from app.models.farm import Farm
 from app.models.followup import FollowUp
 from app.models.health_snapshot import HealthSnapshot
-from app.models.land_parcel import LandParcel
 from app.models.problem import Problem
 from app.models.scheme import Scheme
 from app.models.user import User
@@ -105,7 +104,6 @@ async def seed_stage(stage: str = "full") -> dict:
                 await session.execute(delete(Case).where(Case.farm_id == f.id))
                 await session.execute(delete(FollowUp).where(FollowUp.farm_id == f.id))
                 await session.execute(delete(Problem).where(Problem.farm_id == f.id))
-                await session.execute(delete(LandParcel).where(LandParcel.farm_id == f.id))
                 await session.delete(f)
             await session.delete(u)
         await session.execute(delete(Scheme).where(Scheme.name.in_(["TN Crop Protection Subsidy", "PM-KISAN Samman Nidhi"])))
@@ -146,21 +144,6 @@ async def seed_stage(stage: str = "full") -> dict:
             irrigation_required_mm=25.0,
         )
         session.add(farm)
-
-        # Land parcel
-        parcel = LandParcel(
-            id=str(uuid.uuid4()),
-            farm_id=farm_id,
-            survey_number="142/3B",
-            district="Erode",
-            status=LandStatus.VERIFIED.value,
-            auto_lookup_outcome="matched",
-            suggested_boundary=SAMPLE_BOUNDARY_GEOJSON,
-            confirmed_boundary=SAMPLE_BOUNDARY_GEOJSON,
-            verified_by=officer.id,
-            verified_at=datetime.utcnow() - timedelta(days=28),
-        )
-        session.add(parcel)
 
         now = datetime.utcnow()
 

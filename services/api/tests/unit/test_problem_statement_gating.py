@@ -1,10 +1,14 @@
 """Phase 1: PROBLEM_STATEMENT flag gates SIH25076-only routers.
 
 Verifies docs/specs/api_contract_sih26131_delta.md §1:
-- sih25076 (default): land/officer/resource_plan/schemes mount.
-- sih26131: land/officer/resource_plan/schemes stay mounted too (see
-  README.md §5 — the original deprecation plan was superseded); alerts and
-  efficacy mount additionally.
+- sih25076 (default): resource_plan/schemes mount.
+- sih26131: resource_plan/schemes stay mounted too (see README.md §5 — the
+  original deprecation plan was superseded); alerts and efficacy mount
+  additionally.
+
+NOTE: the ``land``/``officer`` routers this test used to assert on were
+removed along with the Officer Portal and its HITL land-verification
+workflow.
 """
 
 import importlib
@@ -46,8 +50,6 @@ def test_sih25076_mounts_legacy_routers(monkeypatch):
     openapi = client.get("/api/v1/openapi.json").json()
     paths = openapi["paths"]
 
-    assert "/api/v1/land/verify" in paths
-    assert "/api/v1/officer/queue" in paths
     assert "/api/v1/resource-plan/{farm_id}" in paths
     assert "/api/v1/schemes/match" in paths
 
@@ -64,10 +66,8 @@ def test_sih26131_unmounts_legacy_routers_and_keeps_core(monkeypatch):
     openapi = client.get("/api/v1/openapi.json").json()
     paths = openapi["paths"]
 
-    # SIH26131: land, officer, resource_plan, schemes, alerts, efficacy all mount.
+    # SIH26131: resource_plan, schemes, alerts, efficacy all mount.
     assert "/api/v1/resource-plan/{farm_id}" in paths
-    assert "/api/v1/land/verify" in paths
-    assert "/api/v1/officer/queue" in paths
     assert "/api/v1/schemes/match" in paths
     assert "/api/v1/farms/{farm_id}/alerts" in paths
     assert "/api/v1/alerts/{alert_id}/acknowledge" in paths

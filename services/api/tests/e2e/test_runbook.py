@@ -9,11 +9,17 @@ engine. Requires migrations applied and the RAG corpus ingested first (see
 
 Runbook, in order (SIH26131 feature checklist §15 / docs/specs/suchit_module_specs_sih26131.md §1.5):
 
-    onboard (3-field: crop/growth_stage/region) -> land queues for HITL
-    (no auto-lookup) -> officer verifies -> baseline health 82 -> diagnose
-    above gate, cited -> 73 -> follow-up got_worse -> severity promotes,
-    auto-escalate -> 57 -> agronomist resolves -> 91 -> verified profile
-    matches a dated scheme.
+    onboard (3-field: crop/growth_stage/region) -> baseline health 82 ->
+    diagnose above gate, cited -> 73 -> follow-up got_worse -> severity
+    promotes, auto-escalate -> 57 -> agronomist resolves -> 91.
+
+    NOTE: the original walk also included a HITL land-verification step
+    (farmer submits survey number -> officer approves) between onboarding
+    and baseline health, which then unlocked scheme matching. The Officer
+    Portal and the ``/land`` and ``/officer`` endpoints backing that step
+    have been removed, so land can no longer be marked ``verified`` and
+    scheme matching (step 8 below) is asserted as permanently gated
+    instead of asserted as succeeding.
 
     This is the same reconciliation walk domain-level-verified by
     tests/domain/test_health_score.py::test_sih26131_reconciliation, driven
@@ -57,10 +63,6 @@ class _WeatherUnavailableAdapter:
     async def get_current_weather(self, latitude: float | None, longitude: float | None) -> dict[str, Any]:
         return {}
 DEMO_PASSWORD = "e2e-test-pass-1234"
-
-# Not on MockLandRegistryAdapter's whitelist (app/adapters/land_registry.py)
-# -> auto-lookup fails -> HITL, the common path per contract §2.7.
-UNLISTED_SURVEY_NUMBER = "142/3B"
 
 
 async def _ensure_matching_scheme_exists() -> None:
@@ -129,7 +131,6 @@ async def test_full_runbook_walks_82_73_57_91():
         transport = httpx.ASGITransport(app=app)
         async with httpx.AsyncClient(transport=transport, base_url=BASE_URL) as client:
             farmer_token = await _register_and_login(client, _unique_phone("9"), "Ramesh", "farmer")
-            officer_token = await _register_and_login(client, _unique_phone("8"), "Officer Kumar", "officer")
             agronomist_token = await _register_and_login(client, _unique_phone("7"), "Dr. Lakshmi", "agronomist")
 
             # --- 1. Onboard: 3-field SIH26131 onboarding (checklist §1) ---
@@ -143,33 +144,6 @@ async def test_full_runbook_walks_82_73_57_91():
             farm_id = farm["id"]
             assert farm["land_status"] == "unverified"
             assert farm["primary_crop"] == "samba_paddy"
-
-            # --- 2. Land submission -> always queues to officer (checklist §10.1/§13) ---
-            resp = await client.post(
-                "/land/verify",
-                headers=_auth(farmer_token),
-                json={"farm_id": farm_id, "survey_number": UNLISTED_SURVEY_NUMBER},
-            )
-            assert resp.status_code == 202, resp.text
-            assert resp.json()["status"] == "pending_review"
-
-            # --- 3. Officer verifies — approve/reject + reason only, no boundary (checklist §10.2) ---
-            resp = await client.get("/officer/queue", headers=_auth(officer_token))
-            assert resp.status_code == 200
-            queue_items = [item for item in resp.json() if item["farm_id"] == farm_id]
-            assert len(queue_items) == 1
-            parcel_id = queue_items[0]["parcel_id"]
-
-            resp = await client.post(
-                "/officer/action",
-                headers=_auth(officer_token),
-                json={"parcel_id": parcel_id, "action": "verified", "officer_notes": "Survey number confirmed."},
-            )
-            assert resp.status_code == 200
-            assert resp.json()["status"] == "verified"
-
-            resp = await client.get(f"/farms/{farm_id}", headers=_auth(farmer_token))
-            assert resp.json()["land_status"] == "verified"
 
             # --- 4. Baseline risk == 82 / good (SIH26131 spec §1.5) --------
             resp = await client.get(f"/farms/{farm_id}/risk", headers=_auth(farmer_token))
@@ -266,41 +240,14 @@ async def test_full_runbook_walks_82_73_57_91():
                 and health["score"] == 91
             )
 
-            # --- 8. Verified profile matches a dated scheme -----------------
+            # --- 8. Scheme matching stays gated — land can never reach
+            # "verified" now that the officer-review workflow is gone -----
             resp = await client.post(
                 "/schemes/match",
                 headers=_auth(farmer_token),
                 json={"farm_id": farm_id},
             )
-            assert resp.status_code == 200, resp.text
-            schemes = resp.json()
-            assert schemes["match_count"] >= 1
-            for scheme in schemes["matched_schemes"]:
-                assert scheme["last_verified"] is not None
+            assert resp.status_code == 409, resp.text
+            assert resp.json()["error"]["code"] == "LAND_NOT_VERIFIED"
     finally:
         app.dependency_overrides.pop(get_weather_adapter, None)
-
-
-@pytest.mark.asyncio(loop_scope="session")
-async def test_land_verify_always_queues_for_officer_review():
-    """SIH26131 feature checklist §10.1/§13.2/§13.3: no automated cadastral
-    lookup, no auto-verify — every /land/verify submission queues to the
-    officer (202, pending_review), regardless of survey number."""
-    transport = httpx.ASGITransport(app=app)
-    async with httpx.AsyncClient(transport=transport, base_url=BASE_URL) as client:
-        farmer_token = await _register_and_login(client, _unique_phone("6"), "Flag Test Farmer", "farmer")
-
-        resp = await client.post(
-            "/farms",
-            headers=_auth(farmer_token),
-            json={"farmer_id": "placeholder", "crop": "samba_paddy", "growth_stage": "vegetative", "region": "Erode"},
-        )
-        farm_id = resp.json()["id"]
-
-        resp = await client.post(
-            "/land/verify",
-            headers=_auth(farmer_token),
-            json={"farm_id": farm_id, "survey_number": "88/2A"},
-        )
-        assert resp.status_code == 202, resp.text
-        assert resp.json()["status"] == "pending_review"

@@ -24,7 +24,6 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.models.asset import Asset
 from app.models.case import Case
 from app.models.farm import Farm
-from app.models.land_parcel import LandParcel
 from app.models.scheme import Scheme
 from app.models.user import User
 
@@ -108,54 +107,6 @@ class PostgresFarmRepository:
         await self._session.refresh(row)
         return _row_to_dict(row)
 
-
-class PostgresLandParcelRepository:
-    """Real ``LandParcelRepository`` backed by the ``land_parcels`` table."""
-
-    def __init__(self, session: AsyncSession) -> None:
-        self._session = session
-
-    async def get_by_id(self, parcel_id: str) -> dict[str, Any] | None:
-        row = await self._session.get(LandParcel, parcel_id)
-        return _row_to_dict(row) if row else None
-
-    async def get_by_farm_id(self, farm_id: str) -> dict[str, Any] | None:
-        stmt = select(LandParcel).where(LandParcel.farm_id == farm_id).order_by(LandParcel.created_at.desc())
-        result = await self._session.execute(stmt)
-        row = result.scalars().first()
-        return _row_to_dict(row) if row else None
-
-    async def get_pending_queue(self, district: str | None = None) -> list[dict[str, Any]]:
-        stmt = select(LandParcel).where(LandParcel.status == "pending_review")
-        if district:
-            stmt = stmt.where(LandParcel.district == district)
-        stmt = stmt.order_by(LandParcel.submitted_at.asc())
-        result = await self._session.execute(stmt)
-        return [_row_to_dict(r) for r in result.scalars().all()]
-
-    async def save(self, parcel_data: dict[str, Any]) -> dict[str, Any]:
-        parcel_id = parcel_data.get("id") or str(uuid.uuid4())
-        parcel_data["id"] = parcel_id
-        row = LandParcel(**{k: v for k, v in parcel_data.items() if hasattr(LandParcel, k)})
-        self._session.add(row)
-        await self._session.commit()
-        await self._session.refresh(row)
-        return _row_to_dict(row)
-
-    async def update_status(
-        self, parcel_id: str, status: str, boundary: dict[str, Any] | None = None
-    ) -> dict[str, Any] | None:
-        row = await self._session.get(LandParcel, parcel_id)
-        if row is None:
-            return None
-        row.status = status
-        if boundary:
-            row.confirmed_boundary = boundary
-        if status == "verified":
-            row.verified_at = datetime.utcnow()
-        await self._session.commit()
-        await self._session.refresh(row)
-        return _row_to_dict(row)
 
 
 class PostgresCaseRepository:

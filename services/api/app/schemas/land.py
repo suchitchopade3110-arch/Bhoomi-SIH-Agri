@@ -1,25 +1,12 @@
-"""Land Verification schemas. No boundary geometry, no cadastral lookup —
-SIH26131 feature checklist §10.1/§13.2: HITL survey-number submission only."""
+"""Thin cadastral land-submission schemas (trust side-feature on the Farm
+profile). The officer-reviewed HITL land-verification workflow (survey
+submission -> officer approve/reject) has been removed; this is the
+separate, standalone "submit a survey number" endpoint on
+``POST /farms/{farm_id}/land`` and is unaffected by that removal."""
 
 from datetime import datetime
 from pydantic import BaseModel, Field
-from app.core.enums import LandStatus, ThinLandStatus
-
-
-class LandVerifyRequest(BaseModel):
-    """Submission of land parcel for officer verification."""
-    farm_id: str = Field(..., description="UUID string of farm")
-    survey_number: str = Field(...)
-    patta_passbook_asset_id: str | None = None
-
-
-class LandVerifyResponse(BaseModel):
-    """Land verification status response."""
-    parcel_id: str = Field(..., description="UUID string of parcel record")
-    farm_id: str = Field(...)
-    status: LandStatus = Field(...)
-    submitted_at: datetime = Field(default_factory=datetime.utcnow)
-    officer_notes: str | None = None
+from app.core.enums import ThinLandStatus
 
 
 class ThinLandVerification(BaseModel):
@@ -39,4 +26,3 @@ class ThinLandSubmissionResponse(BaseModel):
     farm_id: str = Field(..., description="UUID string of farm")
     survey_number: str = Field(..., description="Cadastral survey number")
     status: str = Field(default="pending_verification", description="Verification status")
-
