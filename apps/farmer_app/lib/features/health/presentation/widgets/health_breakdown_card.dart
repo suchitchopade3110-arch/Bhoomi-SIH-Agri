@@ -28,7 +28,9 @@ class HealthBreakdownCard extends ConsumerWidget {
             children: [
               const Icon(Icons.analytics_outlined, size: 20.0, color: AppColors.primaryGreen),
               const SizedBox(width: AppSpacing.sm),
-              Text(strings.text('score_breakdown'), style: AppTypography.titleLarge),
+              Expanded(
+                child: Text(strings.text('score_breakdown'), style: AppTypography.titleLarge),
+              ),
             ],
           ),
           const SizedBox(height: AppSpacing.xs),

@@ -160,7 +160,7 @@ class _TodaysFarmBriefScreenState extends ConsumerState<TodaysFarmBriefScreen> {
                                 ),
                               ),
                               Text(
-                                brief.weatherContext?.summary ?? 'Partly Sunny • Good Spray Window',
+                                strings.translateWeatherSummary(brief.weatherContext?.summary ?? 'Partly Sunny • Good Spray Window'),
                                 style: TextStyle(
                                   color: Colors.white.withValues(alpha: 0.9),
                                   fontSize: 13.0,
@@ -220,7 +220,7 @@ class _TodaysFarmBriefScreenState extends ConsumerState<TodaysFarmBriefScreen> {
                 if (brief.importantAction != null) ...[
                   _buildTaskChecklistCard(
                     taskId: 0,
-                    title: '${strings.actionPlan}: ${brief.importantAction!}',
+                    title: '${strings.actionPlan}: ${strings.translateBriefAction(brief.importantAction!)}',
                     subtitle: strings.translateStage(brief.growthStage),
                     icon: Icons.priority_high_rounded,
                     tagColor: const Color(0xFFD97706),
@@ -232,7 +232,7 @@ class _TodaysFarmBriefScreenState extends ConsumerState<TodaysFarmBriefScreen> {
                 if (brief.farmPriority != null) ...[
                   _buildTaskChecklistCard(
                     taskId: 1,
-                    title: brief.farmPriority!,
+                    title: strings.translateBriefAction(brief.farmPriority!),
                     subtitle: strings.text('field_weather'),
                     icon: Icons.water_drop_rounded,
                     tagColor: const Color(0xFF0284C7),
@@ -247,7 +247,7 @@ class _TodaysFarmBriefScreenState extends ConsumerState<TodaysFarmBriefScreen> {
                     padding: const EdgeInsets.only(bottom: AppSpacing.sm),
                     child: _buildTaskChecklistCard(
                       taskId: idx,
-                      title: entry.value,
+                      title: strings.translateBriefAction(entry.value),
                       subtitle: strings.text('symptoms_observed'),
                       icon: Icons.search_rounded,
                       tagColor: AppColors.primaryGreen,

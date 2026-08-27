@@ -28,7 +28,8 @@ class FarmHealthScreen extends ConsumerWidget {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
-        title: Text(strings.text('farm_health_title')),
+        title: Text(strings.farmHealth, style: const TextStyle(fontWeight: FontWeight.w800)),
+        scrolledUnderElevation: 0,
         actions: [
           IconButton(
             icon: const Icon(Icons.history_rounded),

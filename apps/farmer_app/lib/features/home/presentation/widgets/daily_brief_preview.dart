@@ -62,7 +62,7 @@ class DailyBriefPreview extends ConsumerWidget {
             ),
             const SizedBox(height: AppSpacing.xs),
             Text(
-              brief.advisorySummary,
+              strings.translateBriefSummary(brief.advisorySummary),
               style: const TextStyle(fontSize: 13.0, color: AppColors.textSecondary, height: 1.35),
             ),
             if (brief.importantAction != null) ...[
@@ -79,7 +79,7 @@ class DailyBriefPreview extends ConsumerWidget {
                     const SizedBox(width: AppSpacing.xs),
                     Expanded(
                       child: Text(
-                        brief.importantAction!,
+                        strings.translateBriefAction(brief.importantAction),
                         style: const TextStyle(fontSize: 11.0, fontWeight: FontWeight.w700, color: AppColors.textPrimary),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,

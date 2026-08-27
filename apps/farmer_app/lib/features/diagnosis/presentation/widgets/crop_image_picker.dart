@@ -112,7 +112,7 @@ class CropImagePickerWidget extends ConsumerWidget {
                               const CircularProgressIndicator(color: Colors.white, strokeWidth: 3.0),
                               const SizedBox(height: AppSpacing.sm),
                               Text(
-                                '${strings.uploadingAudio} ${(state.imageUploadProgress * 100).toInt()}%',
+                                '${strings.text('analyzing_image')} ${(state.imageUploadProgress * 100).toInt()}%',
                                 style: const TextStyle(color: Colors.white, fontSize: 13.0, fontWeight: FontWeight.w600),
                               ),
                             ],
@@ -162,11 +162,16 @@ class CropImagePickerWidget extends ConsumerWidget {
                 color: const Color(0xFFFFEBEE),
                 borderRadius: BorderRadius.circular(AppSpacing.radiusSm),
               ),
-              child: const Row(
+              child: Row(
                 children: [
-                  Icon(Icons.error_outline, size: 16.0, color: Color(0xFFC62828)),
-                  SizedBox(width: AppSpacing.xs),
-                  Text('Upload failed. Tap to re-select.', style: TextStyle(fontSize: 11.0, color: Color(0xFFC62828))),
+                  const Icon(Icons.error_outline, size: 16.0, color: Color(0xFFC62828)),
+                  const SizedBox(width: AppSpacing.xs),
+                  Expanded(
+                    child: Text(
+                      '${strings.text('upload_crop_photo')} - ${strings.retry}',
+                      style: const TextStyle(fontSize: 11.0, color: Color(0xFFC62828)),
+                    ),
+                  ),
                 ],
               ),
             ),

@@ -113,12 +113,10 @@ class SchemesScreen extends ConsumerWidget {
                     children: [
                       const Icon(Icons.account_balance_rounded, size: 48.0, color: AppColors.textMuted),
                       const SizedBox(height: AppSpacing.md),
-                      Text(strings.text('no_updates'), style: AppTypography.headlineMedium),
-                      const SizedBox(height: AppSpacing.sm),
-                      const Text(
-                        'No government schemes currently match your specific crop and location.',
+                      Text(
+                        strings.text('no_schemes_found'),
                         textAlign: TextAlign.center,
-                        style: TextStyle(color: AppColors.textMuted),
+                        style: const TextStyle(color: AppColors.textMuted),
                       ),
                     ],
                   ),
