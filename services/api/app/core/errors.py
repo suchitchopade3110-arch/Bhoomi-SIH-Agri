@@ -68,6 +68,30 @@ class NotImplementedAPIError(AppError):
         super().__init__(code="NOT_IMPLEMENTED", message=message, details=details, status_code=status.HTTP_501_NOT_IMPLEMENTED)
 
 
+class FeatureNotAvailableError(AppError):
+    """Raised when a caller hits an endpoint that belongs to a feature set the
+    active ``PROBLEM_STATEMENT`` does not include.
+
+    Deliberately NOT an empty ``200`` (a client cannot tell "no alerts" from
+    "alerts don't exist here") and NOT a ``500`` (nothing is broken — the
+    deployment is configured for a different contract). ``501 Not
+    Implemented`` says exactly that: this server does not implement this
+    functionality. See docs/specs/problem_statement_flag_off_contract.md.
+    """
+
+    def __init__(
+        self,
+        message: str = "This feature is not available under the active problem statement.",
+        details: dict[str, Any] | None = None,
+    ) -> None:
+        super().__init__(
+            code="FEATURE_NOT_AVAILABLE",
+            message=message,
+            details=details,
+            status_code=status.HTTP_501_NOT_IMPLEMENTED,
+        )
+
+
 class RateLimitedError(AppError):
     def __init__(self, message: str = "Too many attempts. Please wait before trying again.", details: dict[str, Any] | None = None) -> None:
         super().__init__(code="RATE_LIMITED", message=message, details=details, status_code=status.HTTP_429_TOO_MANY_REQUESTS)

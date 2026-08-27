@@ -12,6 +12,12 @@ docs/specs/api_contract_sih26131_delta.md:
 - Core intelligence routers (auth, farms, health, diagnose, followup,
   agronomist, voice, assets, timeline, weather, system) mount in both modes.
 
+When ``PROBLEM_STATEMENT`` is not ``sih26131``, the ``alerts``/``efficacy``
+routers are replaced (not merely dropped) by ``feature_unavailable``, which
+answers every SIH26131-only path with the documented
+``501 FEATURE_NOT_AVAILABLE`` envelope instead of a bare framework ``404``.
+See docs/specs/problem_statement_flag_off_contract.md.
+
 NOTE: The land-verification (``land``) and Officer Portal (``officer``)
 routers/services/schemas were removed — that HITL land-verification
 workflow no longer exists. ``land_status`` remains on ``Farm`` (default
@@ -29,6 +35,7 @@ from app.api.v1.auth import router as auth_router
 from app.api.v1.diagnose import router as diagnose_router
 from app.api.v1.efficacy import router as efficacy_router
 from app.api.v1.escalation import router as escalation_router
+from app.api.v1.feature_unavailable import router as feature_unavailable_router
 from app.api.v1.farms import router as farms_router
 from app.api.v1.followup import router as followup_router
 from app.api.v1.guidance import router as guidance_router
@@ -39,7 +46,7 @@ from app.api.v1.timeline import router as timeline_router
 from app.api.v1.voice import router as voice_router
 from app.api.v1.weather import router as weather_router
 from app.api.v1.system import router as system_router
-from app.core.config import get_settings
+from app.core.feature_flags import is_sih26131
 
 api_v1_router = APIRouter()
 
@@ -62,9 +69,15 @@ api_v1_router.include_router(system_router)
 api_v1_router.include_router(resource_plan_router)
 api_v1_router.include_router(schemes_router)
 
-if get_settings().PROBLEM_STATEMENT != "sih25076":
+if is_sih26131():
     # sih26131: alerts, efficacy mount additionally.
     api_v1_router.include_router(alerts_router)
     api_v1_router.include_router(efficacy_router)
+else:
+    # Every other PROBLEM_STATEMENT: the same paths answer with the stable,
+    # documented flag-off contract rather than a bare 404 from an unmounted
+    # route. Hidden from OpenAPI so the schema still describes only what this
+    # deployment actually serves.
+    api_v1_router.include_router(feature_unavailable_router)
 
 __all__ = ["api_v1_router"]
