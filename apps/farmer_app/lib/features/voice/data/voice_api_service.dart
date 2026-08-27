@@ -7,6 +7,8 @@ import 'models/synthesize_request.dart';
 import 'models/synthesize_response.dart';
 import 'models/transcribe_request.dart';
 import 'models/transcribe_response.dart';
+import 'models/voice_query_request.dart';
+import 'models/voice_query_response.dart';
 
 final voiceApiServiceProvider = Provider<VoiceApiService>((ref) {
   return VoiceApiService(ApiClient());
@@ -81,6 +83,34 @@ class VoiceApiService {
         return const SynthesizeResponse(
           audioUrl: '',
           durationSeconds: 3.5,
+        );
+      }
+      rethrow;
+    }
+  }
+
+  /// End-to-end speech-to-speech: audio in, spoken answer out
+  /// (`POST /api/v1/voice/query`).
+  Future<VoiceQueryResponse> query(VoiceQueryRequest request) async {
+    try {
+      final response = await _apiClient.post(
+        ApiConstants.voiceQuery,
+        data: request.toJson(),
+      );
+
+      if (response.data is Map<String, dynamic>) {
+        return VoiceQueryResponse.fromJson(response.data as Map<String, dynamic>);
+      }
+      throw Exception('Invalid voice query response format.');
+    } on NetworkException {
+      if (ApiConstants.enableMockFallback) {
+        return const VoiceQueryResponse(
+          transcript: 'Why are my paddy leaves turning yellow?',
+          answerText:
+              "I don't have reliable information for this right now. Should I send it to an expert?",
+          audioResponseUrl: '',
+          spokenSummary:
+              "I don't have reliable information for this. Should I send it to an expert?",
         );
       }
       rethrow;

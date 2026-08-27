@@ -29,6 +29,7 @@ import '../features/schemes/presentation/screens/scheme_information_screen.dart'
 import '../features/schemes/presentation/screens/schemes_screen.dart';
 import '../features/timeline/presentation/screens/farm_journey_screen.dart';
 import '../features/updates/presentation/screens/farm_updates_screen.dart';
+import '../features/voice/presentation/screens/voice_qa_screen.dart';
 
 class RouterNotifier extends ChangeNotifier {
   final Ref _ref;
@@ -189,6 +190,13 @@ final routerProvider = Provider<GoRouter>((ref) {
         builder: (context, state) {
           final farmId = state.pathParameters['farmId'] ?? 'f_1';
           return AskBhoomiScreen(farmId: farmId);
+        },
+      ),
+      GoRoute(
+        path: '/voice-qa/:farmId',
+        builder: (context, state) {
+          final farmId = state.pathParameters['farmId'] ?? 'f_1';
+          return VoiceQaScreen(farmId: farmId);
         },
       ),
       GoRoute(
