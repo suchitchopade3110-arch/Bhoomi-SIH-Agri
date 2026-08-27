@@ -145,6 +145,30 @@ class _AskBhoomiScreenState extends ConsumerState<AskBhoomiScreen> {
                       },
                     ),
 
+                    const SizedBox(height: AppSpacing.md),
+                    InkWell(
+                      onTap: () => context.push('/voice-qa/${widget.farmId}'),
+                      borderRadius: BorderRadius.circular(AppSpacing.radiusFull),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 4.0),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Icon(Icons.record_voice_over_rounded, size: 16.0, color: AppColors.primaryGreen),
+                            const SizedBox(width: 6.0),
+                            Text(
+                              'Or have a spoken conversation — hear BHOOMI answer',
+                              style: AppTypography.labelMedium.copyWith(
+                                color: AppColors.primaryGreen,
+                                fontWeight: FontWeight.w700,
+                                decoration: TextDecoration.underline,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+
                     const SizedBox(height: AppSpacing.lg),
                     const Divider(color: AppColors.divider),
                     const SizedBox(height: AppSpacing.sm),
