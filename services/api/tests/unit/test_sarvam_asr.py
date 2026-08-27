@@ -169,7 +169,12 @@ class TestSarvamAsrTtsAdapter:
             # not just a URL shaped like one.
             put_call_kwargs = mock_put.call_args.kwargs
             assert put_call_kwargs["content"] == dummy_audio_bytes
-            mock_storage.generate_presigned_download_url.assert_called_once_with(f"{asset_id}.wav")
+            # Must resolve using the real storage key the upload was written
+            # under (voice_synthesis/asset/clip.wav), not the bare file_name
+            # — a download URL built from file_name alone 404s in practice.
+            mock_storage.generate_presigned_download_url.assert_called_once_with(
+                asset_id, storage_key="voice_synthesis/asset/clip.wav"
+            )
 
     @pytest.mark.asyncio
     async def test_synthesize_falls_back_when_storage_upload_fails(self):
