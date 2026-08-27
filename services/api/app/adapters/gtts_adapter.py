@@ -75,7 +75,13 @@ class GttsAdapter:
                 )
                 response.raise_for_status()
 
-            download_url = await storage.generate_presigned_download_url(asset_file_name)
+            # Must pass the real storage key (asset_kind/asset_id/file_name),
+            # not the bare file_name — the local backend writes bytes under
+            # that full key, and a download URL built from file_name alone
+            # 404s (see the identical fix already applied to
+            # VoiceService.transcribe's asset resolution).
+            storage_key = presigned["fields"]["key"]
+            download_url = await storage.generate_presigned_download_url(mock_asset_id, storage_key=storage_key)
             return (mock_asset_id, download_url)
         except Exception:
             logger.warning("gTTS synthesis or upload failed; returning placeholder URL", exc_info=True)
