@@ -1711,6 +1711,9 @@ class AppTranslations {
   String get actionRequired => text('action_required');
   String get checkEligibility => text('check_eligibility');
   String get eligible => text('eligible');
+  String get possibleIssueIdentified => text('possible_issue_identified');
+  String get trackProgress => text('track_progress');
+  String get getExpertHelp => text('get_expert_help');
 
   String cropName(String cropId) => translateCrop(cropId);
   String cropSubtitle(String cropId) {

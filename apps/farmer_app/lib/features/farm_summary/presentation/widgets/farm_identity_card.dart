@@ -121,6 +121,7 @@ class FarmIdentityCard extends ConsumerWidget {
   }
 
   void _showEditFarmSheet(BuildContext context, WidgetRef ref, FarmIdentity farm) {
+    final strings = ref.read(bhoomiStringsProvider);
     String crop = farm.crop;
     String stage = 'tillering';
 
