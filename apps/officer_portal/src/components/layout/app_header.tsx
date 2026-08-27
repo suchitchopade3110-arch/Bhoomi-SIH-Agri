@@ -76,13 +76,13 @@ export const AppHeader: React.FC = () => {
       prev.map((n) => (n.id === item.id ? { ...n, read: true } : n))
     );
     setIsOpen(false);
-    navigate('/');
+    navigate('/queue');
   };
 
   return (
     <header className="sticky top-0 z-40 flex h-16 w-full items-center justify-between border-b border-slate-200/80 bg-white px-6 shadow-xs">
       {/* Brand & Emblem */}
-      <div className="flex items-center gap-3">
+      <Link to="/" className="flex items-center gap-3 group hover:opacity-95 transition-opacity">
         <img
           src={bhoomiLogo}
           alt="BHOOMI Logo"
@@ -104,7 +104,7 @@ export const AppHeader: React.FC = () => {
             Smart Land Verification System &bull; SIH25076
           </p>
         </div>
-      </div>
+      </Link>
 
       {/* Right Side: Notifications & Officer Profile */}
       <div className="flex items-center gap-4">
@@ -205,7 +205,7 @@ export const AppHeader: React.FC = () => {
               {/* Footer */}
               <div className="border-t border-slate-100 p-2.5 bg-slate-50 text-center">
                 <Link
-                  to="/"
+                  to="/queue"
                   onClick={() => setIsOpen(false)}
                   className="inline-flex items-center gap-1 text-xs font-bold text-[#2E7D32] hover:text-[#1B5E20] transition-colors"
                 >

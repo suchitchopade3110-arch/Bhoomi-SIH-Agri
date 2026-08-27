@@ -322,7 +322,7 @@ export const TreatmentEfficacyPage: React.FC = () => {
                         <Button
                           size="sm"
                           variant="outline"
-                          onClick={() => navigate(`/?case=${item.case_id}`)}
+                          onClick={() => navigate(`/queue?case=${item.case_id}`)}
                           className="gap-1 h-7 text-[11px]"
                         >
                           <span>Review</span>

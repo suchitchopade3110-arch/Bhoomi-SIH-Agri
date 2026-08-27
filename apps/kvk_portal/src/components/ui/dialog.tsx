@@ -27,9 +27,9 @@ export function Dialog({ isOpen, onClose, title, description, children }: Dialog
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
       <div className="fixed inset-0 bg-slate-950/40 backdrop-blur-xs transition-opacity" onClick={onClose} />
-      <div className="relative z-50 w-full max-w-lg rounded-2xl border border-slate-200 bg-white p-6 shadow-xl transition-all">
+      <div className="relative z-[10000] w-full max-w-lg rounded-2xl border border-slate-200 bg-white p-6 shadow-xl transition-all">
         <div className="flex items-start justify-between">
           <div>
             <h3 className="text-lg font-bold text-slate-900">{title}</h3>
