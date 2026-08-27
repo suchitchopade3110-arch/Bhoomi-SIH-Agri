@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import {
   Layers,
   Archive,
@@ -7,6 +7,7 @@ import {
   Settings,
   HelpCircle,
   FileCheck2,
+  Compass,
 } from 'lucide-react';
 
 interface AppSidebarProps {
@@ -14,9 +15,11 @@ interface AppSidebarProps {
 }
 
 export const AppSidebar: React.FC<AppSidebarProps> = ({ pendingCount = 0 }) => {
+  const location = useLocation();
+
   const operationsNav = [
     {
-      to: '/',
+      to: '/queue',
       label: 'Land Queue',
       icon: FileCheck2,
       badge: pendingCount > 0 ? pendingCount.toString() : undefined,
@@ -46,6 +49,17 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({ pendingCount = 0 }) => {
     },
   ];
 
+  const isItemActive = (path: string) => {
+    if (path === '/queue') {
+      return (
+        location.pathname === '/queue' ||
+        location.pathname === '/land' ||
+        location.pathname === '/dashboard'
+      );
+    }
+    return location.pathname === path;
+  };
+
   return (
     <aside className="hidden lg:flex w-64 flex-col justify-between border-r border-slate-200/80 bg-white p-4">
       {/* Navigation Links */}
@@ -55,36 +69,40 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({ pendingCount = 0 }) => {
             Operations
           </div>
           <nav className="mt-2 space-y-1">
-            {operationsNav.map((item) => (
-              <NavLink
-                key={item.to}
-                to={item.to}
-                end={item.to === '/'}
-                className={({ isActive }) =>
-                  `flex items-center justify-between rounded-xl px-3 py-2.5 text-xs font-bold transition-all ${
-                    isActive
+            {operationsNav.map((item) => {
+              const active = isItemActive(item.to);
+              return (
+                <NavLink
+                  key={item.to}
+                  to={item.to}
+                  className={`flex items-center justify-between rounded-xl px-3 py-2.5 text-xs font-bold transition-all ${
+                    active
                       ? 'bg-[#2E7D32] text-white shadow-xs'
                       : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'
-                  }`
-                }
-              >
-                <div className="flex items-center gap-3">
-                  <item.icon className="h-4 w-4" />
-                  <span>{item.label}</span>
-                </div>
-                {item.badge && (
-                  <span className="rounded-full bg-white/20 px-2 py-0.5 text-[11px] font-bold text-white shadow-xs">
-                    {item.badge}
-                  </span>
-                )}
-              </NavLink>
-            ))}
+                  }`}
+                >
+                  <div className="flex items-center gap-3">
+                    <item.icon className="h-4 w-4" />
+                    <span>{item.label}</span>
+                  </div>
+                  {item.badge && (
+                    <span
+                      className={`rounded-full px-2 py-0.5 text-[11px] font-bold shadow-xs ${
+                        active ? 'bg-white/20 text-white' : 'bg-slate-100 text-slate-600'
+                      }`}
+                    >
+                      {item.badge}
+                    </span>
+                  )}
+                </NavLink>
+              );
+            })}
           </nav>
         </div>
 
         <div>
           <div className="px-3 text-[11px] font-bold uppercase tracking-wider text-slate-400">
-            System
+            System & Overview
           </div>
           <nav className="mt-2 space-y-1">
             {systemNav.map((item) => (
@@ -103,6 +121,14 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({ pendingCount = 0 }) => {
                 <span>{item.label}</span>
               </NavLink>
             ))}
+
+            <NavLink
+              to="/"
+              className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-xs font-bold text-slate-500 hover:bg-slate-50 hover:text-emerald-700 transition-all"
+            >
+              <Compass className="h-4 w-4" />
+              <span>Portal Landing Page</span>
+            </NavLink>
           </nav>
         </div>
       </div>
@@ -120,3 +146,4 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({ pendingCount = 0 }) => {
     </aside>
   );
 };
+

@@ -8,8 +8,9 @@ import { DistrictAnalyticsPage } from '../features/land_review/pages/district_an
 import { SettingsPage } from '../features/land_review/pages/settings_page';
 import { HelpGuidelinesPage } from '../features/land_review/pages/help_guidelines_page';
 import { useLandQueue } from '../features/land_review/hooks/use_land_queue';
+import { OfficerLandingPage } from '../features/landing/pages/officer_landing_page';
 
-const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { data: queueItems = [] } = useLandQueue();
   const pendingCount = queueItems.filter((i) => i.status === 'pending_verification').length;
 
@@ -27,16 +28,74 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 export const AppRouter: React.FC = () => {
   return (
     <BrowserRouter>
-      <Layout>
-        <Routes>
-          <Route path="/" element={<LandQueuePage />} />
-          <Route path="/archive" element={<VerifiedArchivePage />} />
-          <Route path="/analytics" element={<DistrictAnalyticsPage />} />
-          <Route path="/settings" element={<SettingsPage />} />
-          <Route path="/help" element={<HelpGuidelinesPage />} />
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-      </Layout>
+      <Routes>
+        {/* Public Officer Landing Experience */}
+        <Route path="/" element={<OfficerLandingPage />} />
+        <Route path="/landing" element={<OfficerLandingPage />} />
+        <Route path="/welcome" element={<OfficerLandingPage />} />
+
+        {/* Operational Officer Workspace Routes */}
+        <Route
+          path="/queue"
+          element={
+            <DashboardLayout>
+              <LandQueuePage />
+            </DashboardLayout>
+          }
+        />
+        <Route
+          path="/land"
+          element={
+            <DashboardLayout>
+              <LandQueuePage />
+            </DashboardLayout>
+          }
+        />
+        <Route
+          path="/dashboard"
+          element={
+            <DashboardLayout>
+              <LandQueuePage />
+            </DashboardLayout>
+          }
+        />
+        <Route
+          path="/archive"
+          element={
+            <DashboardLayout>
+              <VerifiedArchivePage />
+            </DashboardLayout>
+          }
+        />
+        <Route
+          path="/analytics"
+          element={
+            <DashboardLayout>
+              <DistrictAnalyticsPage />
+            </DashboardLayout>
+          }
+        />
+        <Route
+          path="/settings"
+          element={
+            <DashboardLayout>
+              <SettingsPage />
+            </DashboardLayout>
+          }
+        />
+        <Route
+          path="/help"
+          element={
+            <DashboardLayout>
+              <HelpGuidelinesPage />
+            </DashboardLayout>
+          }
+        />
+
+        {/* Wildcard Fallback */}
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
     </BrowserRouter>
   );
 };
+

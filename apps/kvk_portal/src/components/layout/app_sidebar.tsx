@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import {
   Inbox,
   CheckCircle2,
@@ -8,11 +8,14 @@ import {
   HelpCircle,
   Activity,
   Settings,
+  Compass,
 } from 'lucide-react';
 
 export const AppSidebar: React.FC = () => {
+  const location = useLocation();
+
   const navItems = [
-    { label: 'Escalated Cases', path: '/', icon: Inbox, badge: '3' },
+    { label: 'Escalated Cases', path: '/queue', icon: Inbox, badge: '3' },
     { label: 'Under Review', path: '/review', icon: AlertTriangle },
     { label: 'Resolved History', path: '/history', icon: CheckCircle2 },
     { label: 'Treatment Efficacy', path: '/efficacy', icon: Activity },
@@ -23,6 +26,17 @@ export const AppSidebar: React.FC = () => {
     { label: 'Settings', path: '/settings', icon: Settings },
   ];
 
+  const isQueueActive = (path: string) => {
+    if (path === '/queue') {
+      return (
+        location.pathname === '/queue' ||
+        location.pathname === '/cases' ||
+        location.pathname === '/dashboard'
+      );
+    }
+    return location.pathname === path;
+  };
+
   return (
     <aside className="flex h-[calc(100vh-4rem)] w-64 flex-col justify-between border-r border-slate-200 bg-white p-4">
       <div className="space-y-6">
@@ -31,41 +45,42 @@ export const AppSidebar: React.FC = () => {
             Case Management
           </div>
           <nav className="mt-2 space-y-1">
-            {navItems.map((item) => (
-              <NavLink
-                key={item.path}
-                to={item.path}
-                className={({ isActive }) =>
-                  `flex items-center justify-between rounded-xl px-3 py-2.5 text-xs font-bold transition-all ${
-                    isActive
+            {navItems.map((item) => {
+              const active = isQueueActive(item.path);
+              return (
+                <NavLink
+                  key={item.path}
+                  to={item.path}
+                  className={`flex items-center justify-between rounded-xl px-3 py-2.5 text-xs font-bold transition-all ${
+                    active
                       ? 'bg-[#2E7D32] text-white shadow-xs'
                       : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'
-                  }`
-                }
-              >
-                <div className="flex items-center gap-3">
-                  <item.icon className="h-4 w-4" />
-                  <span>{item.label}</span>
-                </div>
-                {item.badge && (
-                  <span
-                    className={`rounded-full px-2 py-0.5 text-[10px] font-extrabold ${
-                      item.path === '/'
-                        ? 'bg-white/20 text-white'
-                        : 'bg-slate-100 text-slate-600'
-                    }`}
-                  >
-                    {item.badge}
-                  </span>
-                )}
-              </NavLink>
-            ))}
+                  }`}
+                >
+                  <div className="flex items-center gap-3">
+                    <item.icon className="h-4 w-4" />
+                    <span>{item.label}</span>
+                  </div>
+                  {item.badge && (
+                    <span
+                      className={`rounded-full px-2 py-0.5 text-[10px] font-extrabold ${
+                        active
+                          ? 'bg-white/20 text-white'
+                          : 'bg-slate-100 text-slate-600'
+                      }`}
+                    >
+                      {item.badge}
+                    </span>
+                  )}
+                </NavLink>
+              );
+            })}
           </nav>
         </div>
 
         <div>
           <div className="px-3 text-[11px] font-bold uppercase tracking-wider text-slate-400">
-            System
+            System & Overview
           </div>
           <nav className="mt-2 space-y-1">
             {systemItems.map((item) => (
@@ -84,6 +99,14 @@ export const AppSidebar: React.FC = () => {
                 <span>{item.label}</span>
               </NavLink>
             ))}
+
+            <NavLink
+              to="/"
+              className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-xs font-bold text-slate-500 hover:bg-slate-50 hover:text-emerald-700 transition-all"
+            >
+              <Compass className="h-4 w-4" />
+              <span>Portal Landing Page</span>
+            </NavLink>
           </nav>
         </div>
       </div>
@@ -101,3 +124,4 @@ export const AppSidebar: React.FC = () => {
     </aside>
   );
 };
+

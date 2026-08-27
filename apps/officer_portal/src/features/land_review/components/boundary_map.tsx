@@ -43,12 +43,12 @@ export const BoundaryMap: React.FC<BoundaryMapProps> = ({
   const centerPosition: [number, number] = [centerLat, centerLng];
 
   return (
-    <div className="relative h-72 w-full overflow-hidden rounded-xl border border-slate-200 shadow-sm">
+    <div className="relative isolate h-72 w-full overflow-hidden rounded-xl border border-slate-200 shadow-sm z-0">
       <MapContainer
         center={centerPosition}
         zoom={15}
         scrollWheelZoom={false}
-        className="h-full w-full"
+        className="h-full w-full z-0"
       >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -79,7 +79,7 @@ export const BoundaryMap: React.FC<BoundaryMapProps> = ({
       </MapContainer>
 
       {/* Map Header Floating Overlay */}
-      <div className="absolute top-3 left-3 z-[1000] rounded-lg bg-white/90 px-2.5 py-1 text-[11px] font-bold text-slate-800 shadow-sm backdrop-blur-xs border border-slate-200">
+      <div className="absolute top-3 left-3 z-10 rounded-lg bg-white/90 px-2.5 py-1 text-[11px] font-bold text-slate-800 shadow-sm backdrop-blur-xs border border-slate-200 pointer-events-none">
         <span>Survey No: {surveyNo} &bull; {areaAcres} Acres</span>
       </div>
     </div>
